@@ -1,0 +1,665 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolIII/Brandt/{SymPower,Coefficients,Forms,Hecke,HeckeLocal,Pairing,Trace,Brandt,BrandtInstances}.lean,
+% lean/GL2TF/Common/HeckeModule.lean (area X.hmod).
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note (Q3: MAIN, docs/sprints/Q3-plan.md).
+% Q3 W1 (A author, MAIN): statements of docs/sprints/Q3-plan.md v1.0 §1.2 with \uses per §1.4 and complete proofs (plan §2.4 routes).
+% B-only items (III.qform.def:linear-substitution, III.qform.def:sym-power-exponent, III.qform.def:standard-splitting-basis,
+% III.qform.def:class-of; W3: III.brandt.lem:finite-adele-idempotents, III.brandt.lem:eichler-local-eq-maximal) are not items of A;
+% their content is stated inline (the substitution, the coefficient v_s, the matrices of the standard splitting, the class [x]) or in the proofs.
+
+\chapter{Quaternionic forms, Hecke operators and Brandt matrices}\label{ch:ch-iii-08-brandt}
+
+\noindent\emph{Scope:} areas \texttt{qform}, \texttt{brandt}, \texttt{hmod}; milestone Q3. \emph{Sources:} \cite[§§1--2, pp.~169--173]{Shz};
+\cite[Def.~2.13, p.~353; Lemma~2.18, p.~356; Prop.~2.22, p.~358]{Piz}; \cite[Ch.~41]{Voi}.
+
+\noindent\emph{Overview.} Let $a,b\in\Z$, $\Bq=\Bq(a,b)$ and $\Oord$ an order of $\Bq$ (Ch.~III.6--III.7). §1 introduces the coefficient
+modules: $V_m(K)$, the homogeneous polynomials of degree $m$ over a field $K$, with the substitution action $\rho_m$ of $\Mat_2(K)$, its trace
+$\tr\rho_m(A)=P_{m+2}(\tr A,\det A)$, and an invariant pairing; a \emph{splitting} $s\colon\Bq\to\Mat_2(K)$ turns $V_{k-2}(K)$ into a
+representation $\rho_k^s$ of $\Bq^\times$. §2 defines the quaternionic forms $M_k(\Oord;s)$ on $\Bhat^\times$, identifies them with
+$\prod_cV^{\Gamma_c}$ over the class set, computes dimensions, and introduces the norm-weighted pairing (the weights $\nu(x_c)^{k-2}$ correct row
+N9 of the conventions for $k>2$). §3 lets the Hecke algebra $\mathcal H(\Bhat^\times,\Ohat^\times)$ act on forms, defines
+$T_n=\mathbf 1_{\Ohat_n}$ for every order and every $n$, proves multiplicativity, and, for Eichler orders and $n$ prime to $DM$, the coset
+count $\sigma_1(n)$, the recursion and commutativity (the first exit, \cref{III.brandt.thm:hecke-commutative}) through a one-place embedding of
+the local spherical Hecke algebra of Vol.~I; it also proves the fixed-point trace formula (the starting point of Ch.~III.9), self-adjointness
+for the weighted pairing and the Eisenstein line. §4 defines Brandt matrices adelically, proves $T_n=\Brandt n$ in weight $2$ together with the
+ideal form (the second exit, \cref{III.brandt.thm:brandt-eq-hecke}), row sums, weighted symmetry and the Hecke relations. §5 checks the
+Hurwitz order and Pizer's order for $D=11$.
+
+\noindent\emph{Hypotheses.} No item of this chapter uses a hypothesis.
+
+\noindent\emph{Conventions.} As in Ch.~III.7: $\Bq^\times$ acts on $\Bhat^\times$ on the left (through $\iota$) and $\Ohat^\times$ on the right;
+$L_x=\iota^{-1}(x\Ohat)$, $\Oord_x=\iota^{-1}(x\Ohat x^{-1})$, $\Gamma_x=\Oord_x^\times$, $[x]\in X(\Oord)$ the class of $x$. ``Eichler data'' means:
+$D,M\in\N$ with $M\ge1$ and $\operatorname{RamEx}(a,b,D)$ (so $a,b<0$), a maximal order $\Oord_0$, a level structure $\phi$ of level $M$ on
+$\Oord_0$, and $\Oord=\Oord_0(M;\phi)$. The coefficient module carries \emph{no} determinant twist (row N3, \cite{Shz} twists by
+$\abs N^{k/2}$ instead): $\rho_k^s(p)=p^{k-2}$, so the Hecke recursion has the constant $p^{k-1}$. Weights run over $k\in\N$, and $k-2$ means
+$\max(k-2,0)$ (\cref{III.qform.def:splitting-representation}); so for $k<2$ every object of this chapter (coefficient module, forms, pairing,
+Hecke operators) is that of weight $2$, and all statements remain true for these weights. The Brandt matrix acts on column vectors and
+counts cosets $y\Ohat^\times$ with $[x_cy]=c'$; \cite{Piz} uses left ideals and the transposed matrix (Remark~\ref{rem:brandt-dictionary}).
+$U=\Ohat^\times$ throughout; $\sum_{yU\subseteq S}$ is the sum over the cosets $yU$ contained in a right $U$-stable set $S$. For $x\in\Bhat^\times$
+write $x_p$ for its image in $\Bq_{\Qp}$; then $x\in\Ohat$ iff $x_p\in\Oord_p$ for every prime $p$, and $x\in\Ohat^\times$ iff $x_p\in\Oord_p^\times$
+for every $p$ (the local description of $\Ohat$ in the proof of \cref{III.qcls.thm:class-set-right-ideals}). We use
+$\Af^\times=\Q_{>0}\cdot\Zhat^\times$ (every finite idele is $\prod_pp^{v_p}$ times a unit, with almost all $v_p=0$) and
+$\Q_{>0}\cap\Zhat^\times=\{1\}$.
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Coefficient modules}\label{sec:qform-coefficients}
+
+\begin{definition}[Hecke polynomials over a ring]
+\tfstmt{III.qform.def:hecke-polynomial-ring}
+\uses{III.ef.def:hecke-polynomial}
+\end{definition}
+
+\begin{definition}[the module $V_m$]
+\tfstmt{III.qform.def:sym-power-module}
+\end{definition}
+
+\begin{definition}[the substitution action]
+\tfstmt{III.qform.def:sym-power-action}
+\uses{III.qform.def:sym-power-module}
+\end{definition}
+\noindent The substitution maps homogeneous polynomials of degree $m$ to homogeneous polynomials of degree $m$, because the substituted linear
+forms are homogeneous of degree $1$. In terms of the row vector $(x,y)$, $\rho_m(A)P=P\bigl((x,y)A\bigr)$. This is the column convention of the
+conventions table (row N3, no determinant twist): $u_0=x^m\mapsto(A_{11}x+A_{21}y)^m$.
+
+\begin{lemma}[basic properties of $\rho_m$]
+\tfstmt{III.qform.lem:sym-power-basic}
+\uses{III.qform.def:sym-power-action}
+\end{lemma}
+\begin{proof}
+\uses{III.qform.def:sym-power-action, III.qform.def:sym-power-module}
+(a) A homogeneous polynomial of degree $m$ is a $K$-linear combination of the monomials $x^iy^j$ with $i+j=m$, i.e.\ of the $u_t$, and distinct
+monomials are linearly independent in $K[x,y]$. (b) Write $\sigma_A(P)=P((x,y)A)$, a $K$-algebra endomorphism of $K[x,y]$. Then
+$\sigma_A(\sigma_B(P))=\sigma_B(P)\bigl((x,y)A\bigr)=P\bigl((x,y)AB\bigr)=\sigma_{AB}(P)$; equivalently, both sides are algebra maps and agree on
+$x,y$: $\sigma_A(\sigma_B(x))=\sigma_A(B_{11}x+B_{21}y)=B_{11}(A_{11}x+A_{21}y)+B_{21}(A_{12}x+A_{22}y)=(AB)_{11}x+(AB)_{21}y$, and similarly for
+$y$. Restricting to $V_m$ gives $\rho_m(AB)=\rho_m(A)\rho_m(B)$; $\sigma_1$ is the identity. (c) $\rho_m(c\cdot1)P=P(cx,cy)=c^mP$ for $P$
+homogeneous of degree $m$. (d) is (c) with $c=-1$.
+\end{proof}
+
+\begin{theorem}[the trace of $\rho_m$]
+\tfstmt{III.qform.thm:sym-power-trace}
+\uses{III.qform.lem:sym-power-basic, III.qform.def:hecke-polynomial-ring, III.ef.def:hecke-polynomial}
+\end{theorem}
+\begin{proof}
+\uses{III.qform.lem:sym-power-basic, III.qform.def:hecke-polynomial-ring, III.ef.def:hecke-polynomial, III.ef.lem:hecke-polynomial-roots}
+(b) Both sides satisfy the same recursion in $k$ with the same initial values $0,0,1$, and $\Z\to K$ is a ring homomorphism; induction on $k$.
+
+(a) Let $L$ be an algebraic closure of $K$. In the basis $(u_t)$ the matrix of $\rho_m(A)$ has entries that are integral polynomials in the
+entries of $A$, the same over $K$ and over $L$; so $\tr\rho_m(A)$ may be computed over $L$, and we may assume $K=L$ algebraically closed. Let
+$\alpha$ be an eigenvalue of $A$ and $g\in\GL_2(K)$ with $g^{-1}Ag=T=\begin{psmallmatrix}\alpha&\tau\\0&\delta\end{psmallmatrix}$. By
+\cref{III.qform.lem:sym-power-basic}(b), $\rho_m(T)=\rho_m(g)^{-1}\rho_m(A)\rho_m(g)$, so $\tr\rho_m(A)=\tr\rho_m(T)$, while $\tr T=\tr A$ and
+$\det T=\det A$. Now $\rho_m(T)$ substitutes $x\mapsto\alpha x$, $y\mapsto\tau x+\delta y$, hence
+\[
+  \rho_m(T)u_t=\alpha^{m-t}x^{m-t}(\tau x+\delta y)^t=\alpha^{m-t}\delta^t\,u_t+\sum_{s<t}(\ast)\,u_s,
+\]
+a triangular matrix with diagonal entries $\alpha^{m-t}\delta^t$. Hence $\tr\rho_m(T)=h_m:=\sum_{t=0}^m\alpha^{m-t}\delta^t$. Finally
+$h_0=1=P_2$, $h_1=\alpha+\delta=P_3(\alpha+\delta,\alpha\delta)$ and $h_{m+1}=(\alpha+\delta)h_m-\alpha\delta\,h_{m-1}$ (expand), which is the recursion of
+$P_{m+3}$; so $h_m=P_{m+2}(\alpha+\delta,\alpha\delta)=P_{m+2}(\tr A,\det A)$. (When $\alpha\ne\delta$, this is also
+\cref{III.ef.lem:hecke-polynomial-roots}: $(\alpha-\delta)h_m=\alpha^{m+1}-\delta^{m+1}$.)
+\end{proof}
+
+\begin{definition}[the pairing $\beta_m$]
+\tfstmt{III.qform.def:sym-power-pairing}
+\uses{III.qform.def:sym-power-module}
+\end{definition}
+
+\begin{lemma}[adjointness of $\beta_m$]
+\tfstmt{III.qform.lem:sym-power-pairing-adjoint}
+\uses{III.qform.def:sym-power-pairing, III.qform.def:sym-power-action}
+\end{lemma}
+\begin{proof}
+\uses{III.qform.def:sym-power-pairing, III.qform.def:sym-power-action, III.qform.lem:sym-power-basic}
+For a linear form $\ell=ex+fy$ write $\vec\ell=(e,f)^{\mathsf T}$ and $[\ell_1,\ell_2]=\det(\vec\ell_1,\vec\ell_2)=e_1f_2-f_1e_2$. Expanding with the
+binomial theorem,
+\[
+  \beta_m(\ell_1^m,\ell_2^m)=\sum_{s=0}^m\frac{(-1)^s}{\binom ms}\binom ms e_1^{m-s}f_1^s\binom m{m-s}e_2^{s}f_2^{m-s}
+  =\sum_{s=0}^m\binom ms(e_1f_2)^{m-s}(-f_1e_2)^s=[\ell_1,\ell_2]^m.
+\]
+The powers $\ell^m$ span $V_m(K)$: the $m+1$ polynomials $(x+\lambda_iy)^m$ with distinct $\lambda_0,\dots,\lambda_m\in K$ ($K$ is infinite) have
+coefficient matrix $\bigl(\binom mt\lambda_i^t\bigr)_{i,t}$, a Vandermonde matrix times an invertible diagonal matrix (characteristic $0$). Next,
+$\rho_m(A)\ell^m=(\ell\circ\sigma_A)^m$ with $\overrightarrow{\ell\circ\sigma_A}=A\vec\ell$ (as $\ell((x,y)A)=(x,y)A\vec\ell$). For $2\times2$ matrices
+$\det(Av,w)=\det(v,\operatorname{adj}(A)w)$ (a direct check: both sides are bilinear in $v,w$ and agree on the standard basis) and
+$\det(Av,Aw)=\det A\det(v,w)$. Hence
+$\beta_m(\rho_m(A)\ell_1^m,\ell_2^m)=[A\vec\ell_1,\vec\ell_2]^m=[\vec\ell_1,\operatorname{adj}(A)\vec\ell_2]^m=\beta_m(\ell_1^m,\rho_m(\operatorname{adj}A)\ell_2^m)$ and
+$\beta_m(\rho_m(A)\ell_1^m,\rho_m(A)\ell_2^m)=\det(A)^m[\ell_1,\ell_2]^m$; by bilinearity and spanning, (a) and (d) follow. (b) The Gram matrix of
+$\beta_m$ in the basis $(u_t)$ is anti-diagonal with entries $(-1)^s/\binom ms\ne0$. (c) For $m$ even, $\beta_m(u_s,u_{m-s})=(-1)^s/\binom ms$ and
+$\beta_m(u_{m-s},u_s)=(-1)^{m-s}/\binom m{m-s}$ agree.
+\end{proof}
+
+\begin{definition}[splittings]
+\tfstmt{III.qform.def:splitting}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+
+\begin{definition}[the coefficient representation]
+\tfstmt{III.qform.def:splitting-representation}
+\uses{III.qform.def:splitting, III.qform.def:sym-power-action}
+\end{definition}
+\noindent By \cref{III.qform.lem:sym-power-basic}(b), $\rho_k^s(\gamma\gamma')=\rho_k^s(\gamma)\rho_k^s(\gamma')$ and $\rho_k^s(1)=1$; by (c),
+$\rho_k^s(q)=q^{k-2}$ for $q\in\Q$ (as $s(q)=q\cdot1$).
+
+\begin{lemma}[norm and trace under a splitting]
+\tfstmt{III.qform.lem:splitting-norm-trace}
+\uses{III.qform.def:splitting, III.qalg.def:reduced-norm, III.qalg.def:reduced-trace}
+\end{lemma}
+\begin{proof}
+\uses{III.qform.def:splitting, III.qalg.lem:reduced-norm-basic}
+Since $a,b\ne0$, $\Bq$ is a central simple $\Q$-algebra (\cite[§2.1 and Thm.~7.1.1]{Voi}); the kernel of $s$ is a two-sided ideal not containing
+$1$, hence $0$, so $s$ is injective, and $s(x)$ is a scalar matrix only for $x$ in the centre $\Q$ (a scalar $s(x)$ commutes with $s(\Bq)$, so $x$
+commutes with $\Bq$). For $x=q\in\Q$: $s(q)=q\cdot1$, $\det=q^2=\nrd(q)$, $\tr=2q=\trd(q)$, $\operatorname{adj}(q\cdot1)=q\cdot1=s(\bar q)$. For
+$x\notin\Q$: by \cref{III.qalg.lem:reduced-norm-basic}, $x^2-\trd(x)x+\nrd(x)=0$, so $s(x)$ is a root of $X^2-\trd(x)X+\nrd(x)$; by Cayley--Hamilton
+it is a root of $X^2-\tr s(x)X+\det s(x)$; $s(x)$ is not scalar, so $1,s(x)$ are linearly independent and the two polynomials coincide. Finally
+$\bar x=\trd(x)-x$ and $\operatorname{adj}(A)=\tr(A)\cdot1-A$ for $2\times2$ matrices give $s(\bar x)=\operatorname{adj}s(x)$.
+\end{proof}
+
+\begin{definition}[the standard splitting]
+\tfstmt{III.qform.def:standard-splitting}
+\uses{III.qform.def:splitting}
+\end{definition}
+\begin{proof}[Proof of the claim]
+\uses{III.qform.def:splitting, III.qalg.def:quaternion-algebra}
+Write $I,J,K'$ for the three matrices. Then $I^2=s_0^2\cdot1=a$, $J^2=b$, $IJ=K'$ and $JI=\begin{psmallmatrix}0&-bs_0\\s_0&0\end{psmallmatrix}=-K'$;
+these are the defining relations of $\Bq(a,b)$, so $1,i,j,k\mapsto1,I,J,K'$ extends ($\Q$-linearly) to a $\Q$-algebra homomorphism.
+\end{proof}
+
+\begin{definition}[the $\ell$-adic splitting]
+\tfstmt{III.qform.def:ell-adic-splitting}
+\uses{III.qform.def:splitting, III.qalg.thm:maximal-order-local-split}
+\end{definition}
+\noindent $s_\ell(\Oord)\subseteq\iota_\ell(\Oord_\ell)=\Mat_2(\Z_\ell)$; this is the model of row N3 used by the companion computations
+(conventions, P05 M5 (a)). Every statement below holds for every splitting, so this model is a special case.
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Quaternionic forms and the weighted pairing}\label{sec:qform-forms}
+
+\begin{definition}[equivariant functions]
+\tfstmt{X.hmod.def:equivariant-functions}
+\end{definition}
+\noindent That $\mathcal F(\iota,U,\rho)$ is a submodule uses only that each $\rho(\gamma)$ is $R$-linear.
+
+\begin{definition}[quaternionic forms]
+\tfstmt{III.qform.def:quaternionic-forms}
+\uses{X.hmod.def:equivariant-functions, III.qform.def:splitting-representation, III.qcls.def:order-completion, III.qcls.def:finite-adelic-algebra}
+\end{definition}
+\noindent Thus $M_k(\Oord;s)=\mathcal F(\iota,\Ohat^\times,\rho_k^s)$. This is \cite[§2.2, p.~172]{Shz} with the sides exchanged ($f(uxa)=\chi(u)f(x)$
+there), and P05's $C^0=\bigoplus_iV^{\Gamma_i}$ after \cref{III.qform.thm:forms-class-decomposition}.
+
+\begin{theorem}[decomposition over the class set]
+\tfstmt{III.qform.thm:forms-class-decomposition}
+\uses{III.qform.def:quaternionic-forms, III.qcls.def:class-set, III.qcls.def:stabilizer}
+\end{theorem}
+\begin{proof}
+\uses{III.qform.def:quaternionic-forms, III.qcls.def:stabilizer, III.qform.lem:sym-power-basic}
+For $f\in M_k(\Oord;s)$ and $\gamma\in\Gamma_{x_c}$ write $\iota(\gamma)=x_cux_c^{-1}$ with $u\in\Ohat^\times$; then
+$\rho_k^s(\gamma)f(x_c)=f(\iota(\gamma)x_c)=f(x_cu)=f(\iota(1)x_cu)=f(x_c)$, so $f(x_c)\in V^{\Gamma_{x_c}}$, and the map is $K$-linear. It is injective:
+every $x\in\Bhat^\times$ is $\iota(\gamma)x_cu$ for $c=[x]$, and $f(x)=\rho_k^s(\gamma)f(x_c)$. It is surjective: given $v_c\in V^{\Gamma_{x_c}}$, put
+$f(\iota(\gamma)x_cu)=\rho_k^s(\gamma)v_c$. This is well defined: if $\iota(\gamma)x_cu=\iota(\gamma')x_cu'$, then
+$\iota(\gamma^{-1}\gamma')=x_cuu'^{-1}x_c^{-1}$, so $\gamma^{-1}\gamma'\in\Gamma_{x_c}$ and $\rho_k^s(\gamma')v_c=\rho_k^s(\gamma)\rho_k^s(\gamma^{-1}\gamma')v_c=\rho_k^s(\gamma)v_c$
+(multiplicativity of $\rho_k^s$). By construction $f(\iota(\delta)\iota(\gamma)x_cuu'')=\rho_k^s(\delta)f(\iota(\gamma)x_cu)$, so $f\in M_k(\Oord;s)$, and
+$f(x_c)=v_c$.
+\end{proof}
+
+\begin{corollary}[dimensions]
+\tfstmt{III.qform.cor:forms-dimension}
+\uses{III.qform.thm:forms-class-decomposition, III.qform.thm:sym-power-trace, III.qform.lem:splitting-norm-trace, III.qcls.thm:class-set-finite}
+\end{corollary}
+\begin{proof}
+\uses{III.qform.thm:forms-class-decomposition, III.qform.thm:sym-power-trace, III.qform.lem:splitting-norm-trace, III.qcls.thm:class-set-finite, III.qform.lem:sym-power-basic}
+(a) $X(\Oord)$ is finite (\cref{III.qcls.thm:class-set-finite}) and each $V^{\Gamma}$ is finite-dimensional
+(\cref{III.qform.lem:sym-power-basic}(a)); apply \cref{III.qform.thm:forms-class-decomposition}. (b) $\gamma\mapsto\rho_k^s(\gamma)$ restricted to $\Gamma$ is a
+homomorphism into $\GL(V_{k-2}(K))$, so $\Pi=\abs\Gamma^{-1}\sum_{\gamma\in\Gamma}\rho_k^s(\gamma)$ (characteristic $0$) satisfies $\rho_k^s(\delta)\Pi=\Pi$
+for $\delta\in\Gamma$; hence $\Pi$ is an idempotent with image $V^\Gamma$, and $\Pi=1$ on $V^\Gamma$. The trace of an idempotent is its rank, so
+$\dim V^\Gamma=\tr\Pi=\abs\Gamma^{-1}\sum_\gamma\tr\rho_{k-2}(s(\gamma))=\abs\Gamma^{-1}\sum_\gamma P_k(\tr s(\gamma),\det s(\gamma))$ by
+\cref{III.qform.thm:sym-power-trace}, and $\tr s(\gamma)=\trd\gamma$, $\det s(\gamma)=\nrd\gamma=1$ by \cref{III.qform.lem:splitting-norm-trace}
+($a,b<0$). (c) For $k=2$, $V_0(K)=K$ and $\rho_2^s=1$, so every $V^{\Gamma_{x_c}}=K$.
+\end{proof}
+
+\begin{definition}[the constant form]
+\tfstmt{III.qform.def:constant-form}
+\uses{III.qform.def:quaternionic-forms}
+\end{definition}
+
+\begin{definition}[the norm weight]
+\tfstmt{III.qform.def:norm-weight}
+\uses{III.qcls.def:finite-adelic-algebra, III.qalg.def:reduced-norm, I.adele.def:idele-norm}
+\end{definition}
+\noindent For $x\in\Bhat^\times$, $\nrd x\in\Af^\times$, so $\nrd(x)_p\in\Zp^\times$ for almost all $p$. If $L_x$ is the lattice of $x$, then
+$\nu(x)^{-1}$ is its \emph{norm} $N(L_x)$ (for $L_x\subseteq\Oord$, $[\Oord:L_x]=N(L_x)^2$; proof of \cref{III.brandt.thm:hecke-neighbour-form}(a)).
+
+\begin{lemma}[transformation of the norm weight]
+\tfstmt{III.qform.lem:norm-weight-transform}
+\uses{III.qform.def:norm-weight, III.qcls.def:order-completion, III.qalg.lem:reduced-norm-definite}
+\end{lemma}
+\begin{proof}
+\uses{III.qform.def:norm-weight, I.adele.thm:product-formula, III.qalg.lem:reduced-norm-definite, III.qalg.lem:unit-iff-reduced-norm-unit}
+Each $\abs{\cdot}_p$ is multiplicative and positive on $\Qp^\times$, and $\nrd$ is multiplicative. For $u\in\Ohat^\times$, $\nrd u$ and
+$\nrd u^{-1}$ lie in $\Zhat$ ($\nrd$ of an element of $\Ohat$ is integral: write it as a $\Zhat$-combination of elements of $\iota(\Oord)$ and use
+\cref{III.qord.lem:order-integral} together with the bilinear form $\trd(x\bar y)$), so $\nrd(u)_p\in\Zp^\times$ and $\nu(u)=1$. For $\gamma\in\Bq^\times$,
+$\nu(\iota(\gamma))=\prod_p\abs{\nrd\gamma}_p=\abs{\nrd\gamma}_\infty^{-1}$ by the product formula, and $\nrd\gamma>0$ for $a,b<0$
+(\cref{III.qalg.lem:reduced-norm-definite}).
+\end{proof}
+
+\begin{definition}[the norm-weighted pairing]
+\tfstmt{III.qform.def:weighted-pairing}
+\uses{III.qform.def:norm-weight, III.qform.def:sym-power-pairing, III.qcls.def:class-set, III.qcls.def:stabilizer}
+\end{definition}
+
+\begin{lemma}[the pairing is well defined]
+\tfstmt{III.qform.lem:weighted-pairing-well-defined}
+\uses{III.qform.def:weighted-pairing, III.qform.def:quaternionic-forms}
+\end{lemma}
+\begin{proof}
+\uses{III.qform.def:weighted-pairing, III.qform.lem:sym-power-pairing-adjoint, III.qform.lem:norm-weight-transform, III.qform.lem:splitting-norm-trace, III.qcls.lem:stabilizer-units, III.qform.thm:forms-class-decomposition, III.qord.thm:units-finite}
+(a) Let $y_c=\iota(\gamma)x_cu$. Then $f(y_c)=\rho_k^s(\gamma)f(x_c)$, so by \cref{III.qform.lem:sym-power-pairing-adjoint}(d) and
+\cref{III.qform.lem:splitting-norm-trace}, $\beta_{k-2}(f(y_c),g(y_c))=\nrd(\gamma)^{k-2}\beta_{k-2}(f(x_c),g(x_c))$; by
+\cref{III.qform.lem:norm-weight-transform}, $\nu(y_c)^{k-2}=\nrd(\gamma)^{-(k-2)}\nu(x_c)^{k-2}$; and $\abs{\Gamma_{y_c}}=\abs{\gamma\Gamma_{x_c}\gamma^{-1}}$
+(\cref{III.qcls.lem:stabilizer-units}(b)). The summands agree. (b) $\beta_{k-2}$ is symmetric for $k$ even. (c) Let $f\ne0$, say $v=f(x_c)\ne0$. The
+elements of $\Gamma=\Gamma_{x_c}$ have $\nrd=1$ (\cref{III.qord.thm:units-finite}), so $\bar\gamma=\gamma^{-1}$ and, by
+\cref{III.qform.lem:sym-power-pairing-adjoint}(a) and \cref{III.qform.lem:splitting-norm-trace}, $\beta(v,\rho_k^s(\gamma)w)=\beta(\rho_k^s(\gamma^{-1})v,w)=\beta(v,w)$.
+With $\Pi$ as in the proof of \cref{III.qform.cor:forms-dimension}, $\beta(v,\Pi w)=\beta(v,w)$. Choose $w$ with $\beta(v,w)\ne0$
+(\cref{III.qform.lem:sym-power-pairing-adjoint}(b)) and let $g\in M_k(\Oord;s)$ correspond to $\Pi w$ at $c$ and $0$ elsewhere
+(\cref{III.qform.thm:forms-class-decomposition}). Then $\langle f,g\rangle=\abs{\Gamma}^{-1}\nu(x_c)^{k-2}\beta(v,w)\ne0$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Hecke operators}\label{sec:brandt-hecke}
+
+\begin{definition}[the action of the Hecke algebra]
+\tfstmt{X.hmod.def:hecke-module-action}
+\end{definition}
+
+\begin{theorem}[module laws]
+\tfstmt{X.hmod.thm:hecke-module-action}
+\uses{X.hmod.def:hecke-module-action, X.hmod.def:equivariant-functions}
+\end{theorem}
+\begin{proof}
+\uses{X.hmod.def:hecke-module-action, X.hmod.def:equivariant-functions}
+For $f\in\mathcal F$, $f(xu)=f(\iota(1)xu)=\rho(1)f(x)=f(x)$ for $u\in U$. Hence for a Hecke function $\varphi$ the term $\varphi(y)f(xy)$ depends only on
+$yU$ ($\varphi$ is right $U$-invariant), and only the finitely many cosets in the image of $\operatorname{supp}\varphi$ contribute, so
+$(\varphi\cdot f)(x)=\sum_{yU}\varphi(y)f(xy)$ is a finite sum, independent of the representatives. (a) For $\gamma\in\Gamma$, $u\in U$:
+$(\varphi\cdot f)(\iota(\gamma)xu)=\sum_{yU}\varphi(y)f(\iota(\gamma)xuy)$; the substitution $yU\mapsto u^{-1}yU$ is a bijection of $G/U$ and
+$\varphi(uy')=\varphi(y')$, so this is $\sum_{yU}\varphi(y)f(\iota(\gamma)xy)=\sum_{yU}\varphi(y)\rho(\gamma)f(xy)=\rho(\gamma)(\varphi\cdot f)(x)$, using that $\rho(\gamma)$
+is additive and commutes with $R_0$. (b) $\mathbf 1_U$ is supported on the coset $U$, so $(\mathbf 1_U\cdot f)(x)=f(xu_0)=f(x)$ with $u_0\in U$.
+(c) The convolution of $\mathcal H(G,U;R_0)$ is $(\varphi_1*\varphi_2)(y)=\sum_{zU}\varphi_1(z)\varphi_2(z^{-1}y)$ (the coset-sum convolution, i.e.\ for the Haar measure with $\operatorname{vol}(U)=1$), so
+\[
+  ((\varphi_1*\varphi_2)\cdot f)(x)=\sum_{yU}\sum_{zU}\varphi_1(z)\varphi_2(z^{-1}y)f(xy)=\sum_{zU}\varphi_1(z)\sum_{wU}\varphi_2(w)f(xzw)=(\varphi_1\cdot(\varphi_2\cdot f))(x),
+\]
+with $y=zw$ ($wU\mapsto zwU$ is a bijection of $G/U$ for fixed $z$; all sums are finite). (d), (e): linearity of finite sums.
+\end{proof}
+
+\begin{definition}[elements of norm $n$]
+\tfstmt{III.brandt.def:norm-n-set}
+\uses{III.qcls.def:order-completion, III.qalg.def:reduced-norm, I.adele.def:zhat}
+\end{definition}
+
+\begin{lemma}[basic properties of $\Ohat_n$]
+\tfstmt{III.brandt.lem:norm-n-set-basic}
+\uses{III.brandt.def:norm-n-set}
+\end{lemma}
+\begin{proof}
+\uses{III.brandt.def:norm-n-set, III.qord.lem:order-integral, III.qcls.thm:lattice-local-global, III.qalg.lem:reduced-norm-basic}
+For $y\in\Ohat$, $\trd y,\nrd y\in\Zhat$ ($\trd$ is $\Zhat$-linear and integral on $\iota(\Oord)$, \cref{III.qord.lem:order-integral}; for $\nrd$
+use $\nrd(y)=y\bar y$ and the local description: $y_p\in\Oord_p$ is integral over $\Zp$). (a) $\Ohat$ is a ring, and
+$\nrd(uyv)=\nrd(u)\nrd(y)\nrd(v)\in n\Zhat^\times$ as $\nrd u,\nrd v\in\Zhat^\times$. (b) $\bar y=\trd(y)-y\in\Ohat$, $\nrd\bar y=\nrd y$, and $\bar y$ is
+invertible. (c) If $y\in\Ohat_1$, then $y^{-1}=\nrd(y)^{-1}\bar y\in\Ohat$, so $y\in\Ohat^\times$; conversely for $u\in\Ohat^\times$, $\nrd u$ and
+$\nrd u^{-1}$ lie in $\Zhat$, so $\nrd u\in\Zhat^\times$. (d) For $y\in\Ohat_n$, $ny^{-1}=(n/\nrd y)\bar y\in\Zhat^\times\Ohat=\Ohat$, so
+$n\Ohat\subseteq y\Ohat\subseteq\Ohat$. If $y\Ohat=y'\Ohat$ then $y^{-1}y'$ and $y'^{-1}y$ lie in $\Ohat$, so $y\Ohat^\times=y'\Ohat^\times$. Thus
+$y\Ohat^\times\mapsto y\Ohat$ injects $\Ohat_n/\Ohat^\times$ into the set of $\Zhat$-submodules between $n\Ohat$ and $\Ohat$, which correspond to subgroups
+of $\Ohat/n\Ohat\cong(\Zhat/n\Zhat)^4\cong(\Z/n)^4$ (a $\Z$-basis of $\Oord$ is a $\Zhat$-basis of $\Ohat$), a finite set. (e) By (a),
+$\mathbf 1_{\Ohat_n}$ is bi-$\Ohat^\times$-invariant, and its support meets finitely many cosets by (d).
+\end{proof}
+
+\begin{definition}[Hecke operators]
+\tfstmt{III.brandt.def:hecke-operator}
+\uses{III.brandt.def:norm-n-set, X.hmod.def:hecke-module-action}
+\end{definition}
+\noindent This is Shimizu's $T(q)$, the sum of the double cosets $U\xi U$ whose right ideal $\xi\Ohat$ is integral of norm $q$
+\cite[§1, p.~169]{Shz}. No splitting, no local data and no choice of a matrix $\alpha_n$ enter the definition. By
+\cref{III.brandt.lem:norm-n-set-basic}(e) and \cref{X.hmod.thm:hecke-module-action}(a), $T_n$ maps $M_k(\Oord;s)$ to itself, $K$-linearly;
+$T_1=1$ by \cref{III.brandt.lem:norm-n-set-basic}(c) and \cref{X.hmod.thm:hecke-module-action}(b); and $T_0=0$ ($\Ohat_0=\emptyset$, since
+$\nrd y$ is a unit of $\Af$).
+
+\begin{lemma}[matrix formula]
+\tfstmt{III.brandt.lem:hecke-matrix-formula}
+\uses{III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms, III.qcls.def:stabilizer}
+\end{lemma}
+\begin{proof}
+\uses{III.brandt.def:hecke-operator, III.brandt.lem:norm-n-set-basic, III.qform.lem:norm-weight-transform, III.qcls.thm:class-set-finite, III.qcls.thm:lattice-local-global, III.qalg.lem:reduced-norm-definite, III.qform.thm:forms-class-decomposition}
+\emph{Finiteness.} Choose $N\ge1$ with $Nx_c\Ohat\subseteq\Ohat$ and $N\Ohat x_{c'}^{-1}\subseteq\Ohat$ (proof of \cref{III.qcls.lem:stabilizer-units}(a)). For
+$\gamma\in S_{cc'}(n)$, $N^2\iota(\gamma)\in N^2x_c\Ohat x_{c'}^{-1}\subseteq\Ohat$, so $\gamma\in N^{-2}\Oord$ by \cref{III.qcls.thm:lattice-local-global}(a);
+and $\nu(x_c^{-1}\iota(\gamma)x_{c'})=n^{-1}$ forces $\nrd\gamma=n\nu(x_{c'})/\nu(x_c)$ (\cref{III.qform.lem:norm-weight-transform}). The coordinates of the
+elements of $N^{-2}\Oord$ lie in $(N^2N')^{-1}\Z$ for a fixed $N'$, and $\nrd x\ge\sum_ix_i^2$ (\cref{III.qalg.lem:reduced-norm-definite}); so only finitely
+many $\gamma$ qualify. \emph{Stability.} For $\delta\in\Gamma_{x_{c'}}$, $x_{c'}^{-1}\iota(\delta)x_{c'}\in\Ohat^\times$, so
+$x_c^{-1}\iota(\gamma\delta)x_{c'}=(x_c^{-1}\iota(\gamma)x_{c'})(x_{c'}^{-1}\iota(\delta)x_{c'})\in\Ohat_n$ by \cref{III.brandt.lem:norm-n-set-basic}(a).
+
+\emph{Formula.} Consider $\Psi\colon\bigsqcup_{c'}S_{cc'}(n)\to\{yU\subseteq\Ohat_n\}$, $\gamma\mapsto x_c^{-1}\iota(\gamma)x_{c'}U$ ($\gamma\in S_{cc'}(n)$). It is onto:
+for $yU\subseteq\Ohat_n$ let $c'=[x_cy]$ and write $x_cy=\iota(\gamma)x_{c'}u$; then $x_c^{-1}\iota(\gamma)x_{c'}=yu^{-1}\in\Ohat_n$ and $\Psi(\gamma)=yU$. Images of
+different $c'$ are different, since $[x_c\Psi(\gamma)]=c'$. For $\gamma,\gamma'\in S_{cc'}(n)$, $\Psi(\gamma)=\Psi(\gamma')$ iff
+$x_{c'}^{-1}\iota(\gamma^{-1}\gamma')x_{c'}\in U$ iff $\gamma^{-1}\gamma'\in\Gamma_{x_{c'}}$. So the fibres are the right $\Gamma_{x_{c'}}$-cosets, each of size
+$\abs{\Gamma_{x_{c'}}}$. For $\gamma\in S_{cc'}(n)$ and $y$ with $yU=\Psi(\gamma)$, $f(x_cy)=f(\iota(\gamma)x_{c'}u)=\rho_k^s(\gamma)f(x_{c'})$, and
+$\rho_k^s(\gamma\delta)f(x_{c'})=\rho_k^s(\gamma)f(x_{c'})$ for $\delta\in\Gamma_{x_{c'}}$ (proof of \cref{III.qform.thm:forms-class-decomposition}). Summing over
+the fibres, $(T_nf)(x_c)=\sum_{yU\subseteq\Ohat_n}f(x_cy)=\sum_{c'}\abs{\Gamma_{x_{c'}}}^{-1}\sum_{\gamma\in S_{cc'}(n)}\rho_k^s(\gamma)f(x_{c'})$; all sums
+are finite ($X(\Oord)$ is finite, \cref{III.qcls.thm:class-set-finite}).
+\end{proof}
+
+\begin{lemma}[factorisation of $\Ohat_{mn}$]
+\tfstmt{III.brandt.lem:norm-n-set-product}
+\uses{III.brandt.def:norm-n-set}
+\end{lemma}
+\begin{proof}
+\uses{III.brandt.def:norm-n-set, III.brandt.lem:norm-n-set-basic, I.adele.def:zhat}
+Let $S$ be the set of primes dividing $m$ and $e\in\Zhat$ the idempotent with $e_p=1$ for $p\in S$ and $e_p=0$ otherwise; it is central in $\Bhat$.
+For $w\in\Bhat$ put $w^{(S)}=ew+(1-e)$ and $w^{(S')}=(1-e)w+e$ (the element equal to $w$ at the primes in $S$, resp.\ outside $S$, and to $1$
+elsewhere). Then $w=w^{(S)}w^{(S')}=w^{(S')}w^{(S)}$, $(ww')^{(S)}=w^{(S)}w'^{(S)}$, and $w^{(S)}\in\Ohat$ if $w\in\Ohat$; also
+$\nrd(w^{(S)})_p=\nrd(w)_p$ for $p\in S$ and $=1$ otherwise. Since $n$ is a unit at $p\in S$ and $m$ is a unit at $p\notin S$:
+for $w\in\Ohat_{mn}$, $w^{(S)}\in\Ohat_m$ and $w^{(S')}\in\Ohat_n$; for $y\in\Ohat_m$, $y^{(S')}\in\Ohat_1=\Ohat^\times$; for $z\in\Ohat_n$,
+$z^{(S)}\in\Ohat^\times$. Clearly $\Ohat_m\Ohat_n\subseteq\Ohat_{mn}$ ($\nrd$ is multiplicative), and $w=w^{(S)}w^{(S')}$ is the required
+factorisation. If $yzU=y'z'U$, say $y'z'=yzu$ with $u\in U$, apply $(\cdot)^{(S)}$: $y'^{(S)}z'^{(S)}=y^{(S)}z^{(S)}u^{(S)}$ with
+$u^{(S)},z^{(S)},z'^{(S)}\in U$, so $y^{(S)}U=y'^{(S)}U$; since $y=y^{(S)}y^{(S')}$ with $y^{(S')}\in U$ (and likewise for $y'$), $yU=y'U$. (The
+second factor is \emph{not} determined: for $m=1$, $n=p$, $u\in U$ and $z\in\Ohat_p$ we have $u\cdot z=1\cdot(uz)$, but $zU\ne uzU$ in general.)
+
+For the count, note first that $yU=y^{(S)}U$ for $y\in\Ohat_m$ and $zU=z^{(S')}U$ for $z\in\Ohat_n$. Consider
+$\Phi\colon\Ohat_{mn}/U\to\Ohat_m/U\times\Ohat_n/U$, $wU\mapsto(w^{(S)}U,w^{(S')}U)$. It is well defined, since $(wu)^{(S)}=w^{(S)}u^{(S)}$ with
+$u^{(S)}\in U$, and likewise for $S'$. It is onto: for $y\in\Ohat_m$, $z\in\Ohat_n$ the element $w=y^{(S)}z^{(S')}$ lies in $\Ohat_{mn}$ (its
+components are those of $y$ at $p\in S$ and of $z$ at $p\notin S$), and $w^{(S)}=y^{(S)}$, $w^{(S')}=z^{(S')}$. It is injective: if
+$w'^{(S)}=w^{(S)}u$ and $w'^{(S')}=w^{(S')}v$ with $u,v\in U$, then applying $(\cdot)^{(S)}$, resp.\ $(\cdot)^{(S')}$, we may replace $u$ by
+$u^{(S)}$ and $v$ by $v^{(S')}$; as $u^{(S)}$ and $w^{(S')}$ commute (their components at each prime are $1$ for one of them),
+$w'=w^{(S)}u^{(S)}w^{(S')}v^{(S')}=w\,u^{(S)}v^{(S')}\in wU$. Hence $\abs{\Ohat_{mn}/U}=\abs{\Ohat_m/U}\abs{\Ohat_n/U}$ (all three finite by
+\cref{III.brandt.lem:norm-n-set-basic}).
+\end{proof}
+
+\begin{theorem}[multiplicativity]
+\tfstmt{III.brandt.thm:hecke-multiplicative}
+\uses{III.brandt.lem:norm-n-set-product, III.brandt.def:hecke-operator, X.hmod.thm:hecke-module-action}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.lem:norm-n-set-product, III.brandt.lem:norm-n-set-basic, X.hmod.thm:hecke-module-action, III.qform.lem:sym-power-basic}
+$(\mathbf 1_{\Ohat_m}*\mathbf 1_{\Ohat_n})(w)=\#\{yU\subseteq\Ohat_m:y^{-1}w\in\Ohat_n\}$. If this set is non-empty, $w\in\Ohat_m\Ohat_n\subseteq\Ohat_{mn}$. For
+$w\in\Ohat_{mn}$ it is non-empty, since $w=yz$ with $y\in\Ohat_m$, $z\in\Ohat_n$ (second clause of \cref{III.brandt.lem:norm-n-set-product}),
+so $yU$ belongs to it. If $yU$ and $y'U$ belong to it, then $y(y^{-1}w)=y'(y'^{-1}w)$ with $y^{-1}w,y'^{-1}w\in\Ohat_n$, so $yU=y'U$ by the third
+clause of \cref{III.brandt.lem:norm-n-set-product} (only the first factor's coset is used). Hence the convolution is $\mathbf 1_{\Ohat_{mn}}$, and likewise $\mathbf 1_{\Ohat_n}*\mathbf 1_{\Ohat_m}=\mathbf 1_{\Ohat_{nm}}$.
+On $M_k(\Oord;s)=\mathcal F(\iota,U,\rho_k^s)$, with $\rho_k^s(1)=1$ and $\rho_k^s(\gamma)$ additive, \cref{X.hmod.thm:hecke-module-action}(c) gives
+$T_mT_nf=(\mathbf 1_{\Ohat_m}*\mathbf 1_{\Ohat_n})\cdot f=T_{mn}f$, and symmetrically. \emph{Source:} \cite[Prop.~1.1]{Shz}.
+\end{proof}
+
+\begin{definition}[the one-place embedding]
+\tfstmt{III.brandt.def:local-hecke-embedding}
+\uses{III.qalg.thm:maximal-order-local-split, III.qord.def:eichler-order, III.qalg.def:local-order, I.satake.def:spherical-hecke-algebra}
+\end{definition}
+
+\begin{theorem}[$\Theta_p$ is a homomorphism]
+\tfstmt{III.brandt.thm:local-hecke-embedding-hom}
+\uses{III.brandt.def:local-hecke-embedding, I.satake.def:spherical-hecke-algebra, I.satake.def:hecke-basis, III.brandt.def:norm-n-set}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.def:local-hecke-embedding, I.satake.def:hecke-basis, I.cartan.thm:cartan-decomposition, I.cartan.lem:cartan-invariants, III.qalg.lem:local-order-basic, III.qord.lem:eichler-order-index, III.qform.lem:splitting-norm-trace}
+\emph{Step 0: $\Oord_p=\Oord_{0,p}$.} $[\Oord_0:\Oord]=M$ (\cref{III.qord.lem:eichler-order-index}) and $p\nmid M$, so $\Oord_p=\Oord_{0,p}$ by
+\cref{III.qalg.lem:local-order-basic}(c); hence $\iota_p(\Oord_p)=\Mat_2(\Zp)$ and $\iota_p(\Oord_p^\times)=K_p$. Moreover $\det\iota_p(z)=\nrd z$ for
+$z\in\Bq_{\Qp}$ (as in \cref{III.qform.lem:splitting-norm-trace}, over $\Qp$, $\Bq_{\Qp}\cong\Mat_2(\Qp)$ being central simple).
+
+\emph{Step 1: the group $G_p$.} Let $G_p=\{x\in\Bhat^\times:x_q\in\Oord_q^\times\text{ for all }q\ne p\}$, a subgroup containing $U$, and
+$\pi_p\colon G_p\to\GL_2(\Qp)$, $x\mapsto\iota_p(x_p)$, a homomorphism. It is onto: for $g\in\GL_2(\Qp)$ the element with $p$-component $\iota_p^{-1}(g)$ and
+$q$-components $1$ lies in $G_p$ (its coordinates are adeles). And $\pi_p^{-1}(K_p)=U$ by Step~0 and the local description of $U$. Hence
+$\pi_p$ induces a bijection $G_p/U\to\GL_2(\Qp)/K_p$, and $\Theta_p(\Phi)=\Phi\circ\pi_p$ on $G_p$, $0$ off $G_p$.
+
+(a) For $u\in U$: $ux\in G_p\iff x\in G_p$ and $\Phi(\pi_p(ux))=\Phi(\pi_p(u)\pi_p(x))=\Phi(\pi_p(x))$ as $\pi_p(u)\in K_p$; similarly on the right. The cosets
+$xU$ in the support correspond under the bijection to the cosets $gK_p$ in $\operatorname{supp}\Phi$, finitely many. (b) $\Theta_p(\mathbf 1_{K_p})$ is the
+indicator of $\pi_p^{-1}(K_p)=U$. For $x\notin G_p$ every term of $(\Theta_p\Phi_1*\Theta_p\Phi_2)(x)=\sum_{yU}\Theta_p\Phi_1(y)\Theta_p\Phi_2(y^{-1}x)$ vanishes
+(both $y,y^{-1}x\in G_p$ would force $x\in G_p$). For $x\in G_p$ only $yU\subseteq G_p$ contribute, and via $G_p/U\cong\GL_2(\Qp)/K_p$ the sum is
+$\sum_{gK_p}\Phi_1(g)\Phi_2(g^{-1}\pi_p(x))=(\Phi_1*\Phi_2)(\pi_p(x))$. (c) By the Cartan decomposition and \cref{I.cartan.lem:cartan-invariants}, $g\in
+K_pt_{a,b}K_p$ ($a\ge b$) has entries in $\Zp$ iff $b\ge0$, and $v_p(\det g)=a+b$; so
+$\bigsqcup_{a+b=r,\,a\ge b\ge0}K_pt_{a,b}K_p=\{g\in\GL_2(\Qp)\cap\Mat_2(\Zp):\det g\in p^r\Zp^\times\}$. Thus $\Theta_p(\sum c_{a,b})(x)=1$ iff $x\in G_p$,
+$x_p\in\Oord_p$ and $\nrd(x_p)\in p^r\Zp^\times$, iff $x_q\in\Oord_q$ with $\nrd(x)_q\in p^r\Z_q^\times$ for all $q$ (for $q\ne p$: $x_q\in\Oord_q$ with
+$\nrd x_q\in\Z_q^\times$ iff $x_q\in\Oord_q^\times$), iff $x\in\Ohat_{p^r}$. (d) $c_{1,1}$ is the indicator of $K_p(p\cdot1)K_p=pK_p$, and $\pi_p(x)\in pK_p$ with $x\in G_p$
+iff $x\in\iota(p)U$ (the $q$-component $p$ of $\iota(p)$ is a unit of $\Oord_q$ for $q\ne p$).
+\end{proof}
+
+\begin{lemma}[the central translation]
+\tfstmt{III.brandt.lem:central-translation}
+\uses{III.qform.def:quaternionic-forms, X.hmod.def:hecke-module-action}
+\end{lemma}
+\begin{proof}
+\uses{III.qform.def:quaternionic-forms, III.qform.lem:sym-power-basic}
+The indicator is supported on the single coset $\iota(p)U$, so $(\mathbf 1_{\iota(p)U}\cdot f)(x)=f(x\iota(p)u_0)=f(x\iota(p))=f(\iota(p)x)$ ($\iota(p)$ is
+central), and $f(\iota(p)x)=\rho_{k-2}(s(p))f(x)=\rho_{k-2}(p\cdot1)f(x)=p^{k-2}f(x)$ by \cref{III.qform.lem:sym-power-basic}(c).
+\end{proof}
+
+\begin{theorem}[the coset count]
+\tfstmt{III.brandt.thm:hecke-coset-count}
+\uses{III.brandt.def:norm-n-set, III.qord.def:eichler-order}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.lem:norm-n-set-product, III.brandt.thm:local-hecke-embedding-hom, I.satake.lem:left-coset-representatives, I.cartan.thm:double-coset-index}
+By the last clause of \cref{III.brandt.lem:norm-n-set-product}, $\abs{\Ohat_{mn}/U}=\abs{\Ohat_m/U}\abs{\Ohat_n/U}$ for coprime $m,n$, so it suffices to treat $n=p^r$ with
+$p\nmid DM$; also $\sigma_1$ is multiplicative. By Steps~0--1 and (c) of the proof of \cref{III.brandt.thm:local-hecke-embedding-hom}, $\Ohat_{p^r}\subseteq G_p$
+and $\pi_p$ maps $\Ohat_{p^r}/U$ bijectively onto the set of cosets $gK_p$ with $g\in\Mat_2(\Zp)$, $\det g\in p^r\Zp^\times$. By
+\cref{I.satake.lem:left-coset-representatives} each coset $gK_p$ contains exactly one $\begin{psmallmatrix}p^i&x\\0&p^j\end{psmallmatrix}$ with $x$ in a set of
+representatives of $\Qp/p^i\Zp$, and it has integral entries with determinant in $p^r\Zp^\times$ iff $i,j\ge0$, $i+j=r$ and $x\in\Zp$. There are
+$\sum_{i=0}^rp^i=\sigma_1(p^r)$ of them. (Equivalently, by \cref{I.cartan.thm:double-coset-index}:
+$\sum_{a+b=r,\,a>b\ge0}(p+1)p^{a-b-1}+[2\mid r]=\sigma_1(p^r)$.)
+\end{proof}
+
+\begin{theorem}[the Hecke recursion]
+\tfstmt{III.brandt.thm:hecke-recursion}
+\uses{III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.thm:local-hecke-embedding-hom, III.brandt.lem:central-translation, I.satake.thm:hecke-recursion, I.satake.thm:hecke-central-shift, X.hmod.thm:hecke-module-action}
+In $\mathcal H(\GL_2(\Qp),K_p)$ put $S_r=\sum_{a+b=r,\,a\ge b\ge0}c_{a,b}$, $T=c_{1,0}=S_1$ and $R=c_{1,1}$. We claim $T*S_r=S_{r+1}+p\,R*S_{r-1}$ for $r\ge1$. By
+\cref{I.satake.thm:hecke-recursion} ($q=p$) and \cref{I.satake.thm:hecke-central-shift} ($R*c_{a,b}=c_{a+1,b+1}$): if $r=2t$, the terms $c_{r-j,j}$ with
+$j<t$ give $c_{r+1-j,j}+p\,c_{r-j,j+1}$ and $c_{t,t}$ gives $c_{t+1,t}$; the first parts sum to $S_{r+1}$, the second to $p\sum_{j<t}c_{r-j,j+1}=pR*S_{r-1}$. If
+$r=2t+1$, the terms with $j<t$ behave in the same way and $c_{t+1,t}$ gives $c_{t+2,t}+(p+1)c_{t+1,t+1}$; now $S_{r+1}$ contains $c_{t+1,t+1}$ once and
+$pR*S_{r-1}$ contains $p\,c_{t+1,t+1}$ (from $c_{t,t}$). Applying the ring homomorphism $\Theta_p$ of \cref{III.brandt.thm:local-hecke-embedding-hom}:
+$\mathbf 1_{\Ohat_p}*\mathbf 1_{\Ohat_{p^r}}=\mathbf 1_{\Ohat_{p^{r+1}}}+p\,\mathbf 1_{\iota(p)U}*\mathbf 1_{\Ohat_{p^{r-1}}}$ in $\mathcal H(\Bhat^\times,U;\C)$. All
+functions involved are $\Z$-valued and $\Z\to\C$ is injective and compatible with convolution, so the identity holds in $\mathcal H(\Bhat^\times,U;\Z)$. Acting
+on $f\in M_k(\Oord;s)$ (\cref{X.hmod.thm:hecke-module-action}(c),(d)) and using \cref{III.brandt.lem:central-translation} for $T_{p^{r-1}}f\in M_k(\Oord;s)$:
+$T_pT_{p^r}f=T_{p^{r+1}}f+p\cdot p^{k-2}T_{p^{r-1}}f$.
+\end{proof}
+
+\begin{theorem}[commutativity]
+\tfstmt{III.brandt.thm:hecke-commutative}
+\uses{III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms, III.qord.def:eichler-order}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.thm:hecke-multiplicative, III.brandt.thm:hecke-recursion}
+On $M_k(\Oord;s)$ the $T_n$ are endomorphisms. If $m=0$ or $n=0$, then $DM=1$ and $T_0=0$ commutes with everything. Otherwise write
+$m=\prod_pp^{r_p}$, $n=\prod_pp^{s_p}$ with $p\nmid DM$. By \cref{III.brandt.thm:hecke-multiplicative}, $T_m=\prod_pT_{p^{r_p}}$ and $T_n=\prod_pT_{p^{s_p}}$,
+and $T_{p^r}T_{q^s}=T_{p^rq^s}=T_{q^s}T_{p^r}$ for distinct primes. For a fixed prime $p$, \cref{III.brandt.thm:hecke-recursion} gives inductively that every
+$T_{p^r}$ is a polynomial in $T_p$ with integer coefficients ($T_1=1$, $T_{p^{r+1}}=T_pT_{p^r}-p^{k-1}T_{p^{r-1}}$), so the $T_{p^r}$, $r\ge0$, commute.
+Hence all factors commute and $T_mT_n=T_nT_m$. Gelfand's trick is not used: it fails at primes dividing $M$ (conventions row N1b).
+\end{proof}
+
+\begin{theorem}[fixed-point trace formula]
+\tfstmt{III.brandt.thm:hecke-trace-fixed-point}
+\uses{III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms, III.qform.def:hecke-polynomial-ring, III.qcls.lem:stabilizer-units}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.lem:hecke-matrix-formula, III.qform.thm:forms-class-decomposition, III.qform.thm:sym-power-trace, III.qform.lem:splitting-norm-trace, III.brandt.lem:norm-n-set-basic, X.hmod.thm:hecke-module-action, III.qform.lem:norm-weight-transform}
+$T_n$ restricts to $M_k(\Oord;s)$ by \cref{III.brandt.lem:norm-n-set-basic}(e) and \cref{X.hmod.thm:hecke-module-action}(a), $K$-linearly. Transport it along
+the isomorphism of \cref{III.qform.thm:forms-class-decomposition}; the trace is the sum of the traces of the diagonal blocks. By
+\cref{III.brandt.lem:hecke-matrix-formula}, the $(c,c)$ block is the restriction to $V^{\Gamma_c}$ ($\Gamma_c=\Gamma_{x_c}$) of
+$E_c=\abs{\Gamma_c}^{-1}\sum_{\gamma\in S_{cc}(n)}\rho_k^s(\gamma)\in\End(V)$. Since $S_{cc}(n)\Gamma_c=S_{cc}(n)=\Gamma_cS_{cc}(n)$, $E_c\Pi_c=E_c=\Pi_cE_c$
+with $\Pi_c$ the projector onto $V^{\Gamma_c}$; so $E_c$ vanishes on $\ker\Pi_c$, has image in $V^{\Gamma_c}$, and $\tr(E_c|V^{\Gamma_c})=\tr E_c$. By
+\cref{III.qform.thm:sym-power-trace} and \cref{III.qform.lem:splitting-norm-trace}, $\tr\rho_k^s(\gamma)=P_k(\trd\gamma,\nrd\gamma)$. Finally
+$S_{cc}(n)=\{\gamma\in\Oord_{x_c}:\nrd\gamma=n\}$: $x_c^{-1}\iota(\gamma)x_c\in\Ohat$ iff $\gamma\in\Oord_{x_c}$, and $\nrd(x_c^{-1}\iota(\gamma)x_c)=\nrd\gamma\in\Q_{>0}$
+lies in $n\Zhat^\times$ iff $\nrd\gamma=n$; such $\gamma$ are units of $\Bq$. \emph{Source:} \cite[(2.8), p.~359]{Piz} for $k=2$; this is the form
+consumed by Ch.~III.9.
+\end{proof}
+
+\begin{theorem}[self-adjointness]
+\tfstmt{III.brandt.thm:hecke-self-adjoint}
+\uses{III.brandt.def:hecke-operator, III.qform.def:weighted-pairing, III.qform.def:quaternionic-forms}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.lem:hecke-matrix-formula, III.qform.lem:sym-power-pairing-adjoint, III.qform.lem:splitting-norm-trace, III.qform.lem:norm-weight-transform, III.brandt.lem:norm-n-set-basic, III.qform.lem:sym-power-basic, I.adele.thm:product-formula}
+Let $x_c$ be the chosen representatives, $f_c=f(x_c)$, $g_c=g(x_c)$, $\nu_c=\nu(x_c)$. For $c,c'$ choose $q=q_{cc'}\in\Q_{>0}$ with
+$\nrd(x_{c'})\nrd(x_c)^{-1}\in q\Zhat^\times$; then $\nu_{c'}/\nu_c=\nu(\nrd(x_{c'})/\nrd(x_c))=q^{-1}$, i.e.\ $q=\nu_c/\nu_{c'}$, and $q_{c'c}=q^{-1}$.
+\emph{Claim: $\gamma\mapsto q\bar\gamma$ is a bijection $S_{cc'}(n)\to S_{c'c}(n)$.} For $x\in\Bhat^\times$, $\bar x=\nrd(x)x^{-1}$. If
+$y=x_c^{-1}\iota(\gamma)x_{c'}\in\Ohat_n$, then $\bar y\in\Ohat_n$ (\cref{III.brandt.lem:norm-n-set-basic}(b)) and
+$\bar y=\bar x_{c'}\iota(\bar\gamma)\overline{x_c^{-1}}=\nrd(x_{c'})\nrd(x_c)^{-1}x_{c'}^{-1}\iota(\bar\gamma)x_c=u\,x_{c'}^{-1}\iota(q\bar\gamma)x_c$ with $u\in\Zhat^\times\subseteq U$
+central; so $x_{c'}^{-1}\iota(q\bar\gamma)x_c\in\Ohat_n$. The inverse map is $\delta\mapsto q^{-1}\bar\delta$. \emph{Computation.} By
+\cref{III.qform.lem:sym-power-pairing-adjoint}(a), \cref{III.qform.lem:splitting-norm-trace} and \cref{III.qform.lem:sym-power-basic}(b,c), for
+$\delta=q\bar\gamma$: $\beta(\rho_k^s(\gamma)v,w)=\beta(v,\rho_k^s(\bar\gamma)w)=q^{-(k-2)}\beta(v,\rho_k^s(\delta)w)$. Hence by
+\cref{III.brandt.lem:hecke-matrix-formula}
+\begin{align*}
+  \langle T_nf,g\rangle&=\sum_{c,c'}\frac{\nu_c^{k-2}}{\abs{\Gamma_{x_c}}\abs{\Gamma_{x_{c'}}}}\sum_{\gamma\in S_{cc'}(n)}\beta(\rho_k^s(\gamma)f_{c'},g_c)
+  =\sum_{c,c'}\frac{\nu_c^{k-2}q_{cc'}^{-(k-2)}}{\abs{\Gamma_{x_c}}\abs{\Gamma_{x_{c'}}}}\sum_{\delta\in S_{c'c}(n)}\beta(f_{c'},\rho_k^s(\delta)g_c)\\
+  &=\sum_{c'}\frac{\nu_{c'}^{k-2}}{\abs{\Gamma_{x_{c'}}}}\beta\Bigl(f_{c'},\sum_c\frac1{\abs{\Gamma_{x_c}}}\sum_{\delta\in S_{c'c}(n)}\rho_k^s(\delta)g_c\Bigr)=\langle f,T_ng\rangle.
+\end{align*}
+The weight $\nu_c^{k-2}$ is exactly what absorbs $q^{-(k-2)}$; without it (row N9 as first written) the identity fails for $k\ge4$. The argument uses
+neither the Eichler structure nor $\gcd(n,DM)=1$. \emph{Source:} \cite[Lemma~2.2, p.~173]{Shz} (with the twisted coefficient system). A
+nondegenerate invariant form does not by itself give semisimplicity of the $T_n$ (conventions, minor m4).
+\end{proof}
+
+\begin{theorem}[the Eisenstein line]
+\tfstmt{III.brandt.thm:eisenstein-line}
+\uses{III.brandt.def:hecke-operator, III.qform.def:constant-form, III.qform.def:weighted-pairing, III.qord.def:eichler-order}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.thm:hecke-coset-count, III.brandt.thm:hecke-self-adjoint, III.qcls.def:mass, III.qcls.thm:class-set-finite}
+(a) $(T_n\mathbf 1)(x)=\sum_{yU\subseteq\Ohat_n}1=\abs{\Ohat_n/U}=\sigma_1(n)$ (\cref{III.brandt.thm:hecke-coset-count}). (b) By
+\cref{III.brandt.thm:hecke-self-adjoint} and (a), $\langle T_nf,\mathbf 1\rangle=\langle f,T_n\mathbf 1\rangle=\sigma_1(n)\langle f,\mathbf 1\rangle=0$. (c) $\langle\cdot,\mathbf 1\rangle$ is
+$K$-linear, and $\langle\mathbf 1,\mathbf 1\rangle=\sum_c\abs{\Gamma_{x_c}}^{-1}=\Mass(\Oord)$ is a positive rational, hence non-zero in $K$; so
+$c=\langle f,\mathbf 1\rangle/\langle\mathbf 1,\mathbf 1\rangle$ is the unique solution.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Brandt matrices}\label{sec:brandt-brandt}
+
+\begin{theorem}[the neighbour form]
+\tfstmt{III.brandt.thm:hecke-neighbour-form}
+\uses{III.brandt.def:norm-n-set, III.qcls.thm:class-set-right-ideals, III.qform.def:quaternionic-forms, III.qalg.def:local-order}
+\end{theorem}
+\begin{proof}
+\uses{III.qcls.thm:lattice-local-global, III.qcls.thm:class-set-right-ideals, III.qalg.lem:left-multiplication-det, III.qalg.lem:local-order-basic, III.brandt.lem:norm-n-set-basic, III.qform.lem:norm-weight-transform}
+We use: for lattices $L,L'$, $L\subseteq L'$ iff $\Lhat\subseteq\widehat{L'}$, and then $[L':L]=[\widehat{L'}:\Lhat]=\prod_p[L'_p:L_p]$
+(\cref{III.qcls.thm:lattice-local-global}; $L'/L$ is finite and $\Zhat\otimes L'/L=L'/L$); and $\widehat{L_x}=x\Ohat$. (a) $y\Ohat\subseteq\Ohat$ gives
+$xy\Ohat\subseteq x\Ohat$, i.e.\ $L_{xy}\subseteq L_x$, and $[L_x:L_{xy}]=[x\Ohat:xy\Ohat]=[\Ohat:y\Ohat]=\prod_p[\Oord_p:y_p\Oord_p]$. Left multiplication by
+$y_p$ on $\Bq_{\Qp}$ has determinant $\nrd(y_p)^2$ (\cref{III.qalg.lem:left-multiplication-det}), so $[\Oord_p:y_p\Oord_p]=\abs{\nrd y_p}_p^{-2}$, and the product
+is $\nu(y)^{-2}=n^2$. (b) $L_{xy}=L_{xy'}$ iff $xy\Ohat=xy'\Ohat$ iff $y^{-1}y',y'^{-1}y\in\Ohat$ iff $yU=y'U$. (c) By
+\cref{III.qalg.lem:local-order-basic}(c), $J_p=(L_x)_p=x_p\Oord_p$ for $p\nmid n$, and $x_p\in\Oord_p^\times$ for almost all $p$; so $J_p=\Oord_p$ outside a
+finite set $S$. By \cref{III.qcls.thm:class-set-right-ideals}(d), $J=L_w$ with $w_p=\beta_p$ ($p\in S$), $w_p=1$ otherwise. Put $y=x^{-1}w$; then
+$J=L_{xy}$, and $J\subseteq L_x$ gives $w\Ohat\subseteq x\Ohat$, i.e.\ $y\in\Ohat$. As in (a), $n^2=[L_x:J]=\nu(y)^{-2}$; with $\nrd y\in\Zhat\cap\Af^\times$,
+$\nrd y=q u$ ($q\in\Q_{>0}$, $u\in\Zhat^\times$) and $\nu(y)=q^{-1}$, so $q=n$ and $y\in\Ohat_n$. (d) $L_z=\gamma L_{x'}=L_{\iota(\gamma)x'}$
+(\cref{III.qcls.thm:class-set-right-ideals}(b)) gives $z\Ohat=\iota(\gamma)x'\Ohat$, so $z=\iota(\gamma)x'u$ with $u\in U$, and $f(z)=\rho_k^s(\gamma)f(x')$.
+
+Consequently, for $x=x_c$: the cosets $yU\subseteq\Ohat_n$ correspond to the lattices $J$ of (c) (the $n$-neighbours of $L_{x_c}$), and writing
+$J=\gamma_JL_{x_{c(J)}}$ (possible by \cref{III.qcls.thm:class-set-right-ideals}(b), with $c(J)=[x_cy]$), $(T_nf)(x_c)=\sum_Jf(x_cy_J)=\sum_J\rho_k^s(\gamma_J)f(x_{c(J)})$ by
+(d). This is P05's $(T_qf)_i=\sum_Jx_J\cdot f_{j(J)}$, with $\rho(\gamma_J)$, no inverse and no transpose.
+\end{proof}
+
+\begin{definition}[Brandt matrices]
+\tfstmt{III.brandt.def:brandt-matrix}
+\uses{III.brandt.def:norm-n-set, III.qcls.def:class-set}
+\end{definition}
+\noindent The entries are finite for $n\ge1$ by \cref{III.brandt.lem:norm-n-set-basic}(d), and $[x_cyu]=[x_cy]$ for $u\in U$, so the condition depends only on
+the coset $yU$.
+
+\begin{theorem}[Brandt matrices are Hecke operators]
+\tfstmt{III.brandt.thm:brandt-eq-hecke}
+\uses{III.brandt.def:brandt-matrix, III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms, III.qform.def:norm-weight, III.qcls.thm:class-set-right-ideals}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.lem:hecke-matrix-formula, III.brandt.lem:norm-n-set-basic, III.qcls.thm:lattice-local-global, III.qcls.thm:class-set-right-ideals, III.qform.lem:norm-weight-transform, III.qcls.thm:class-set-finite}
+(a) For $k=2$, $\rho_2^s=1$, so $f(x_cy)=f(x_{c'})$ when $[x_cy]=c'$; grouping the cosets $yU\subseteq\Ohat_n$ by $c'=[x_cy]$ gives the formula (a finite sum,
+\cref{III.qcls.thm:class-set-finite}). (b) In the proof of \cref{III.brandt.lem:hecke-matrix-formula}, $\Psi$ maps $S_{cc'}(n)$ onto
+$\{yU\subseteq\Ohat_n:[x_cy]=c'\}$ with fibres of size $\abs{\Gamma_{x_{c'}}}$; so $\abs{S_{cc'}(n)}=\abs{\Gamma_{x_{c'}}}\Brandt n_{cc'}$. Now
+$x_c^{-1}\iota(\gamma)x_{c'}\in\Ohat$ iff $\iota(\gamma)x_{c'}\Ohat\subseteq x_c\Ohat$ iff $L_{\iota(\gamma)x_{c'}}=\gamma L_{x_{c'}}\subseteq L_{x_c}$
+(\cref{III.qcls.thm:lattice-local-global,III.qcls.thm:class-set-right-ideals}); and for $y=x_c^{-1}\iota(\gamma)x_{c'}\in\Ohat$, $\nrd y\in n\Zhat^\times$ iff
+$\nu(y)=n^{-1}$ (as in the proof of \cref{III.brandt.thm:hecke-neighbour-form}(c)) iff $\nu(x_c)^{-1}\nrd(\gamma)^{-1}\nu(x_{c'})=n^{-1}$
+(\cref{III.qform.lem:norm-weight-transform}). (c) If $x=\iota(\gamma_0)x_cu_0$, then $[xy]=[x_cu_0y]$, and $yU\mapsto u_0yU$ is a bijection of
+$\Ohat_n/U$ (\cref{III.brandt.lem:norm-n-set-basic}(a)).
+\end{proof}
+
+\begin{remark}[dictionary]\label{rem:brandt-dictionary}
+With $N(L_x)=\nu(x)^{-1}$, (b) reads $\Brandt n_{cc'}=\abs{\Gamma_{x_{c'}}}^{-1}\#\{\gamma:\gamma L_{c'}\subseteq L_c,\ \nrd\gamma=nN(L_c)/N(L_{c'})\}$, the colon form of
+P05 M7 and conventions row N6 (for invertible lattices $\gamma L_{c'}\subseteq L_c$ iff $\gamma\in L_cL_{c'}^{-1}$). \cite[Def.~2.13]{Piz} uses left ideals
+$I_i$ and $\alpha\in I_j^{-1}I_i$; under $I\mapsto\bar I$ his $b_{ij}(n)$ is our $\Brandt n_{ji}$. Traces do not see the orientation; row sums and
+\cref{III.brandt.thm:brandt-weighted-symmetry} do.
+\end{remark}
+
+\begin{theorem}[row sums]
+\tfstmt{III.brandt.thm:brandt-row-sums}
+\uses{III.brandt.def:brandt-matrix, III.qord.def:eichler-order}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.thm:hecke-coset-count}
+$\sum_{c'}\Brandt n_{cc'}$ counts all cosets $yU\subseteq\Ohat_n$; apply \cref{III.brandt.thm:hecke-coset-count}.
+\end{proof}
+
+\begin{theorem}[weighted symmetry]
+\tfstmt{III.brandt.thm:brandt-weighted-symmetry}
+\uses{III.brandt.def:brandt-matrix, III.qcls.def:stabilizer}
+\end{theorem}
+\begin{proof}
+\uses{III.brandt.thm:brandt-eq-hecke, III.brandt.thm:hecke-self-adjoint}
+By \cref{III.brandt.thm:brandt-eq-hecke}(b) (whose proof does not use $k$), $\abs{\Gamma_{x_{c'}}}\Brandt n_{cc'}=\abs{S_{cc'}(n)}$, and
+$\gamma\mapsto q_{cc'}\bar\gamma$ is a bijection $S_{cc'}(n)\to S_{c'c}(n)$ (proof of \cref{III.brandt.thm:hecke-self-adjoint}). \emph{Source:}
+\cite[Lemma~2.18]{Piz} ($e_jb_{ij}=e_ib_{ji}$).
+\end{proof}
+
+\begin{corollary}[relations]
+\tfstmt{III.brandt.cor:brandt-relations}
+\uses{III.brandt.def:brandt-matrix, III.qord.def:eichler-order}
+\end{corollary}
+\begin{proof}
+\uses{III.brandt.thm:brandt-eq-hecke, III.brandt.thm:hecke-multiplicative, III.brandt.thm:hecke-recursion, III.brandt.thm:hecke-commutative, X.hmod.thm:hecke-module-action, III.brandt.thm:hecke-trace-fixed-point}
+Let $\mathcal F_0=\mathcal F(\iota,U,1)$ with $V=\Q$ (functions on $X(\Oord)$); $f\mapsto(f(x_c))_c$ identifies it with $\Q^{X(\Oord)}$, and by the argument of
+\cref{III.brandt.thm:brandt-eq-hecke}(a), $\mathbf 1_{\Ohat_n}$ acts on it by the matrix $\Brandt n$. The proofs of \cref{III.brandt.thm:hecke-multiplicative},
+\cref{III.brandt.thm:hecke-recursion} (with $\rho=1$, so $\mathbf 1_{\iota(p)U}$ acts by $1$) and \cref{III.brandt.thm:hecke-commutative} are identities in
+$\mathcal H(\Bhat^\times,U;\Z)$ and in the algebra it generates on $\mathcal F_0$; applied to the basis functions $\delta_{c'}$ they give (a)--(c) as identities of integer
+matrices. (d) By (b) of \cref{III.brandt.thm:brandt-eq-hecke} with $c=c'$, $\abs{\Gamma_{x_c}}\Brandt n_{cc}=\abs{S_{cc}(n)}=\#\{\gamma\in\Oord_{x_c}:\nrd\gamma=n\}$
+(proof of \cref{III.brandt.thm:hecke-trace-fixed-point}). \emph{Source:} \cite[Prop.~2.22]{Piz}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Instances}\label{sec:brandt-instances}
+
+\begin{example}[splittings and dimensions]
+\tfstmt{III.qform.ex:splitting-instances}
+\uses{III.qform.def:standard-splitting, III.qform.def:quaternionic-forms, III.qcls.ex:hurwitz-order-mass, III.qcls.ex:eichler-mass-instance-d11}
+\end{example}
+\begin{proof}
+\uses{III.qform.cor:forms-dimension, III.qcls.ex:hurwitz-order-mass, III.qcls.ex:eichler-mass-instance-d11, III.qform.def:standard-splitting}
+$s_0=i$ satisfies $s_0^2=-1=a$. For $\Oord_H$: $\abs{X(\Oord_H)}=1$ with $\Gamma_1=\Oord_H^\times$ of order $24$ (\cref{III.qcls.ex:hurwitz-order-mass}): $\pm1$
+($\trd=\pm2$), $\pm i,\pm j,\pm k$ ($\trd=0$) and the $16$ elements $\frac{\pm1\pm i\pm j\pm k}2$ ($\trd=\pm1$, eight of each sign). For even $k$:
+$P_k(\pm2,1)=k-1$, $P_k(0,1)=(-1)^{(k-2)/2}$, and $P_k(\pm1,1)=1,0,-1$ for $k\equiv2,4,0\pmod6$ (the recursions have period $4$ and $6$). By
+\cref{III.qform.cor:forms-dimension}(b),
+$\dim M_k(\Oord_H;s_H)=\frac1{24}\bigl(2(k-1)+6(-1)^{(k-2)/2}+16P_k(1,1)\bigr)$, which is $\frac{24}{24},\frac0{24},\frac0{24},\frac{24}{24},\frac{24}{24},\frac0{24}$ for
+$k=2,\dots,12$. For $\Oord_{11}$, $\abs{X(\Oord_{11})}=2$ (\cref{III.qcls.ex:eichler-mass-instance-d11}) and \cref{III.qform.cor:forms-dimension}(c).
+\end{proof}
+
+\begin{example}[the Hurwitz order in weight $2$]
+\tfstmt{III.brandt.ex:hurwitz-eisenstein}
+\uses{III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms, III.qcls.ex:hurwitz-order-mass}
+\end{example}
+\begin{proof}
+\uses{III.brandt.thm:brandt-eq-hecke, III.brandt.thm:brandt-row-sums, III.qcls.ex:hurwitz-order-mass}
+$\abs{X(\Oord_H)}=1$, so by \cref{III.brandt.thm:brandt-eq-hecke}(a), $T_nf=\Brandt n_{11}f$, and $\Brandt n_{11}$ is the row sum. $\Oord_H$ is maximal with
+$\operatorname{RamEx}(-1,-1,2)$ (\cref{III.qcls.ex:hurwitz-order-mass}); with the level structure of level $1$ ($\Oord_H(1;\phi)=\Oord_H$) and $n$ odd,
+\cref{III.brandt.thm:brandt-row-sums} gives $\sigma_1(n)$.
+\end{proof}
+
+\begin{example}[Brandt matrices for $D=11$]
+\tfstmt{III.brandt.ex:brandt-d11}
+\uses{III.brandt.def:brandt-matrix, III.qcls.ex:eichler-mass-instance-d11, III.qcls.def:stabilizer}
+\end{example}
+\begin{proof}
+\uses{III.brandt.thm:brandt-eq-hecke, III.brandt.thm:brandt-row-sums, III.brandt.thm:brandt-weighted-symmetry, III.qcls.ex:eichler-mass-instance-d11}
+The two classes and their stabilizer orders are \cref{III.qcls.ex:eichler-mass-instance-d11}; $c_1=[1]$ ($L=\Oord_{11}$) and $c_2$ with a representative lattice of
+norm $2$. $\Brandt1=1$ since $\Ohat_1=U$. By \cref{III.brandt.thm:brandt-eq-hecke}(b), $\Brandt n_{cc'}$ is computed by enumerating the
+finite sets $\{\gamma:\gamma L_{c'}\subseteq L_c,\ \nrd\gamma=n\,N(L_c)/N(L_{c'})\}$, finite boxes by $\nrd x\ge\sum x_i^2$; the certificates
+(element lists) are those of \texttt{q3\_numcheck} (Q3-INST). Consistency: the rows of $\Brandt2$ sum to $\sigma_1(2)=3$ and $6\cdot2=4\cdot3$
+(\cref{III.brandt.thm:brandt-row-sums,III.brandt.thm:brandt-weighted-symmetry}); for $\Brandt3$ the row sums $4$, the symmetry and the trace $3$ force
+$\Brandt3=\begin{psmallmatrix}2&2\\3&1\end{psmallmatrix}$, determinant $-4$.
+\end{proof}
+
+\begin{example}[weight $4$ for $D=11$ (stretch)]
+\tfstmt{III.brandt.ex:hecke-d11-weight4}
+\uses{III.brandt.def:hecke-operator, III.qform.def:quaternionic-forms, III.qform.def:standard-splitting, III.qcls.ex:eichler-mass-instance-d11}
+\end{example}
+\begin{proof}
+\uses{III.qform.cor:forms-dimension, III.brandt.thm:hecke-trace-fixed-point, III.qcls.ex:eichler-mass-instance-d11}
+By \cref{III.qform.cor:forms-dimension}(b) with $\abs{\Gamma_{c_1}}=4$, $\abs{\Gamma_{c_2}}=6$ (elements of trace $\pm2$, $0$ and $\pm1$) each $V_2^{\Gamma_c}$ is
+one-dimensional, so $\dim M_4=2$. By \cref{III.brandt.thm:hecke-trace-fixed-point} with $n=2$ and $n=4$ (and $T_2^2=T_4+8$,
+\cref{III.brandt.thm:hecke-recursion}): $\tr T_2=2$ and $\tr T_2^2=8$, so $\det T_2=\frac12((\tr T_2)^2-\tr T_2^2)=-2$. The element counts are the
+Q3-INST certificates. The result agrees with $T_2$ on $S_4(\Gamma_0(11))$ (numerics, Q3-CHARPOLY).
+\end{proof}

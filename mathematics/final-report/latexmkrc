@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: CC-BY-4.0
+# Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+# latexmk configuration for the final report (run from this directory: latexmk -pdf final-report.tex).
+# mathematics/preamble.tex adds references.bib by its bare name; BIBINPUTS lets biber find it in mathematics/.
+$pdf_mode = 1;
+$ENV{'BIBINPUTS'} = '..:' . ($ENV{'BIBINPUTS'} // '');

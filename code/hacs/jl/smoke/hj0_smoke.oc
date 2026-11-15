@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+# SPDX-License-Identifier: LGPL-3.0-only WITH LicenseRef-CUDA-exception
+# hj0_smoke.oc -- HJ-0 smoke script: every verb of plan/hacs/HACS-JL-PLAN.md section 1.1 called once on small inputs.
+# Run:  hacs --script hj0_smoke.oc     (exit code 0 expected, well under 60 s; no env hooks are needed or set)
+# Each verb prints one `@@VERB <json>` line; a verb that fails aborts the script with a nonzero exit code.
+
+# --- level 1: model, local system, cohomology ---------------------------------------------------------------
+M = sl2z_model();
+print("@@sl2z_model " + json(M.name));
+L = symmetric_power(M, 10, 7);
+H = cohomology(L);
+print("@@symmetric_power_cohomology " + json(H.dims));
+
+# --- level N, U_p with p | N, nebentypus ----------------------------------------------------------------------
+A = level_n(11, 0, 7, [2, 3, 11]);
+print("@@level_n " + json([A.h0, A.h1, A.index, A.cusps, A.dim_cusp_forms]));
+print("@@level_n_ops " + json(A.ops));
+B = nebentypus(7, 2, 2, 13);
+print("@@nebentypus " + json([B.order, B.parity_ok, B.h0, B.h1]));
+
+# --- mod-ell toolkit on small hand matrices over F_7 ---------------------------------------------------------
+N3 = matrix(7, [[0, 1, 0], [0, 0, 1], [0, 0, 0]]);
+S3 = matrix(7, [[2, 0, 0], [0, 2, 0], [0, 0, 2]]);
+alg = algebra([N3, S3]);
+print("@@algebra " + json([alg.dim, alg.ambient_dim]));
+print("@@commutant " + json(commutant([N3]).dim));
+inv = algebra_invariants(alg);
+print("@@algebra_invariants " + json(inv));
+print("@@is_local " + json(is_local(alg)));
+print("@@socle " + json(socle(alg)));
+print("@@tangent_space " + json(tangent_space(alg)));
+print("@@loewy " + json(loewy(alg)));
+print("@@radical " + json(radical(alg)));
+print("@@charpoly " + json(coeffs(charpoly(N3))));
+print("@@minpoly " + json(coeffs(minpoly(N3))));
+print("@@jordan_type " + json(jordan_type(N3)));
+K = kernel(N3);
+print("@@kernel " + json([K.rows, K.cols]));
+U = columns(identity(7, 3), [0, 1]);
+V = columns(identity(7, 3), [1, 2]);
+print("@@intersect " + json(intersect(U, V).cols));
+
+# --- Hida theory, tame level 1 -----------------------------------------------------------------------------
+T = hida_tower(10, 11, 2);
+print("@@hida_tower " + json([T.h, T.e_max, T.K]));
+G = hida_lambda(11, 12, 3, [2, 3]);
+print("@@hida_lambda " + json([G.dim_S, G.rank_S, G.ops]));
+
+# --- integral side (coefficient_ring = Z): descent, hecke_structure -----------------------------------------
+set coefficient_ring = "Z";
+D = descent(11, 0, [2, 3]);
+print("@@descent_status " + json(D.status));
+# charpoly[i].exact is high -> low (strings), unlike coeffs(...) and the level_n / hida lists (low -> high)
+for c in D.charpoly { print("@@descent_charpoly " + json([c.p, c.exact, c.determined])); }
+# the export H^1 (x) Z/ell^K with T_p (does not force the record; module_Z() is NOT called: owner-gated question Q4)
+Mo = D.module(5, 2);
+print("@@descent_module " + json([Mo.status, Mo.route, Mo.K_max, Mo.free_rank, Mo.torsion, Mo.invariant_factors]));
+for o in Mo.ops { print("@@descent_module_op " + json([o.p, o.matrix, o.charpoly_free])); }
+E = hecke_structure(11, 0, "anemic");
+print("@@hecke_structure " + json([E.status, E.C_T]));

@@ -1,0 +1,19 @@
+# ATTRIBUTION: vendored files, upstream notices
+
+Vendored from https://github.com/AxiomMath/Stacks at rev `c496df0d9beea9deaeabcea8492605f9a0a2313b` (`main`,
+2026-11-11), `StacksCore/` only. License: Apache-2.0, see `LICENSE` (the upstream file at that rev, verbatim).
+There is no `NOTICE` file upstream and none is added here.
+
+| File (under Vendor/AxiomStacks/) | Upstream | Copyright and authors (verbatim from upstream) |
+|---|---|---|
+| `StacksCore/RingTheory/SkolemNoether.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/RingTheory/SkolemNoether.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/RingTheory/Morita/SimpleRing.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/RingTheory/Morita/SimpleRing.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/RingTheory/SimpleRing/DivisionRing.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/RingTheory/SimpleRing/DivisionRing.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/RingTheory/SimpleRing/TensorProduct.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/RingTheory/SimpleRing/TensorProduct.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/RingTheory/TwoSidedIdeal/Operations.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/RingTheory/TwoSidedIdeal/Operations.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/RingTheory/TwoSidedIdeal/SpanAsSum.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/RingTheory/TwoSidedIdeal/SpanAsSum.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/Algebra/Category/ModuleCat/Basic.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/Algebra/Category/ModuleCat/Basic.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `StacksCore/LinearAlgebra/Dimension/Finite.lean` | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `StacksCore/LinearAlgebra/Dimension/Finite.lean` | no per-file header upstream; Copyright AxiomMath (Axiom Math, https://axiommath.ai/), Apache-2.0; authors per upstream formalization.yaml: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver) |
+| `LICENSE` (repo root, copied as `LICENSE`) | https://github.com/AxiomMath/Stacks @ `c496df0d9bee`, `LICENSE` | Standard Apache-2.0 text (Apache License, Version 2.0, January 2004), applied by AxiomMath to its repository; the text is not authored by AxiomMath. |
+
+Statements follow the Stacks Project (GFDL); only Lean code and tag numbers are copied.

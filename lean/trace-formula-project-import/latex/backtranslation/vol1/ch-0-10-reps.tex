@@ -1,0 +1,106 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-10-reps (parent commit 84818d0); kept items only.
+\chapter{\texorpdfstring{Representations: smooth, admissible, unitary, $(\mathfrak{g},K)$}{Representations: smooth, admissible, unitary, (𝔤,K)}}\label{ch:ch-0-10-reps}
+
+\noindent\emph{Sources:} \cite[§§2--3]{Cas-p}; \cite{Bern}; \cite[§§1, 5]{JL}; \cite{Corv-ptII-3}.
+
+\section{Smooth and admissible representations}
+\begin{definition}[fixed vectors]
+\tfstmt{I.rep.def:fixed-vectors}
+\bonly
+\lean{GL2TF.fixedVectors}
+\end{definition}
+\begin{tfformal}{I.rep.def:fixed-vectors}
+\tfsem{I.rep.def:fixed-vectors}{055c5ac86f7d62ea94f30216c1998881071d5fd143e2ea78f33352061a83175b}
+\tfhyps{I.rep.def:fixed-vectors}{}
+\tfbinder{I.rep.def:fixed-vectors}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:fixed-vectors}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:fixed-vectors}{2}{d0c93987}{the underlying type of $V$}
+\tfbinder{I.rep.def:fixed-vectors}{3}{9ed00181}{the additive group structure of $V$}
+\tfbinder{I.rep.def:fixed-vectors}{4}{bf6f9324}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:fixed-vectors}{5}{66197941}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.def:fixed-vectors}{6}{c8f4fc03}{the subgroup $K'\subseteq G$}
+\end{tfformal}
+
+
+\begin{definition}[smooth representations]
+\tfstmt{I.rep.def:smooth-rep}
+\lean{GL2TF.IsSmoothRep}
+\end{definition}
+\begin{tfformal}{I.rep.def:smooth-rep}
+\tfsem{I.rep.def:smooth-rep}{5a6785cd082f3ef998293f6d204e1c283014f267cd794d70eb95056c179b47fc}
+\tfhyps{I.rep.def:smooth-rep}{}
+\tfbinder{I.rep.def:smooth-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:smooth-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:smooth-rep}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:smooth-rep}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:smooth-rep}{4}{53dcf958}{the additive group structure of $V$}
+\tfbinder{I.rep.def:smooth-rep}{5}{253edab4}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:smooth-rep}{6}{6029824f}{the representation $\pi$ of $G$ on $V$}
+\end{tfformal}
+
+\begin{definition}[admissible representations]
+\tfstmt{I.rep.def:admissible-rep}
+\lean{GL2TF.IsAdmissibleRep}
+\uses{I.rep.def:smooth-rep,I.rep.def:fixed-vectors}
+\end{definition}
+\begin{tfformal}{I.rep.def:admissible-rep}
+\tfsem{I.rep.def:admissible-rep}{b42a6ce29254f5dddea8085a9caad6d6f294da52dc9b204ec824329399471eb9}
+\tfhyps{I.rep.def:admissible-rep}{}
+\tfbinder{I.rep.def:admissible-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:admissible-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:admissible-rep}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:admissible-rep}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:admissible-rep}{4}{53dcf958}{the additive group structure of $V$}
+\tfbinder{I.rep.def:admissible-rep}{5}{253edab4}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:admissible-rep}{6}{6029824f}{the representation $\pi$ of $G$ on $V$}
+\end{tfformal}
+
+\section{\texorpdfstring{$(\mathfrak{g},K)$-modules}{(𝔤,K)-modules}}
+\begin{definition}[the matrix space as a product type]
+\tfstmt{I.mcalc.def:matrix-pi}
+\bonly
+\lean{GL2TF.MatPi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:matrix-pi}
+\tfsem{I.mcalc.def:matrix-pi}{38f97813fc36fb54716d987cb5f5a80555aee28f5cc72a0314f93d6929b6aff1}
+\tfhyps{I.mcalc.def:matrix-pi}{}
+\end{tfformal}
+
+
+\begin{definition}[transport to the product type]
+\tfstmt{I.mcalc.def:to-pi}
+\bonly
+\lean{GL2TF.matToPi}
+\uses{I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:to-pi}
+\tfsem{I.mcalc.def:to-pi}{d78fed15506b1368df14cca837efc94478646101de152c3eca4b376364ab725d}
+\tfhyps{I.mcalc.def:to-pi}{}
+\end{tfformal}
+
+
+\begin{definition}[the open set $\det\neq0$]
+\tfstmt{I.mcalc.def:det-ne-zero-set}
+\bonly
+\lean{GL2TF.detNeZeroSet}
+\uses{I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:det-ne-zero-set}
+\tfsem{I.mcalc.def:det-ne-zero-set}{9ab5926c527c218e9c00fd434eded6523534648319720c9f8f966bd225c7ecd7}
+\tfhyps{I.mcalc.def:det-ne-zero-set}{}
+\end{tfformal}
+
+
+\begin{definition}[extension by zero]
+\tfstmt{I.mcalc.def:gl-extension}
+\bonly
+\lean{GL2TF.glExt}
+\uses{I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:gl-extension}
+\tfsem{I.mcalc.def:gl-extension}{b5c447475cbb5376957f9068e966ba05973bda474f0cc4cef00ef825487e4599}
+\tfhyps{I.mcalc.def:gl-extension}{}
+\tfbinder{I.mcalc.def:gl-extension}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.mcalc.def:gl-extension}{1}{ecc9dfd8}{the matrix $X\in\Mat_2^{\pi}$ (\cref{I.mcalc.def:matrix-pi})}
+\end{tfformal}
+

@@ -1,0 +1,9 @@
+For a word $w=(X_1,\dots,X_m)$ in $\{H,R,L,Z\}$ (\texttt{I.gk.def:lie-basis}) and a smooth $\varphi\colon G(\A)^1\to\C$ (\texttt{I.autf.def:smooth-norm-one}) write
+$X_w\varphi=X_1(X_2(\cdots(X_m\varphi)))$, with the action of \texttt{I.autf.def:lie-action-adelic} ($X_w\varphi=\varphi$ for the empty word). Let $K'\subseteq\Kf$ be an open
+subgroup and $N,N_0\in\R$. There are finitely many words $w_1,\dots,w_r$ such that for every $T\in\aB$ with $\alpha(T)\ge0$ there is $C\in\R$ with the following property.
+Let $\varphi\colon G(\A)^1\to\C$ be smooth, left $G(\Q)$-invariant and right invariant under $\{(1,k):k\in K'\}$, and let $b_1,\dots,b_r\ge0$ satisfy
+$\abs{X_{w_i}\varphi(y)}\le b_i\,e^{N_0\operatorname{ht}(y)}$ for all $y\in G(\A)^1$ and all $i$. Then
+\[
+  \abs{\Lambda^T\varphi(x)}\le C\,e^{-N\operatorname{ht}(x)}\sum_{i=1}^rb_i\qquad\text{for all }x\in G(\A)^1,
+\]
+with $\Lambda^T$ as in \cref{II.trunc.def:truncation} and $\operatorname{ht}$ as in \texttt{I.red.def:height-primitive}.

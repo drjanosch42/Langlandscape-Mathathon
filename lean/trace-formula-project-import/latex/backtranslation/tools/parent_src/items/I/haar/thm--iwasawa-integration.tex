@@ -1,0 +1,13 @@
+Let $\dd g=\dd g_\infty\otimes\bigotimes'_p\mu_p$ be as in \cref{I.haar.def:haar-adelic} with $\mu_\infty=\dd g_\infty$,
+let $\lambda$ be a Haar measure on $\A$, $\nu$ a Haar measure on $\A^\times$, and $\dd k$ the Haar probability measure
+of $K$. Put
+\[
+  c=\frac{\pi\prod_p\mu_p(K_p)}{\lambda\bigl([0,1)\times\Zhat\bigr)\,\kappa(\nu)^2},
+\]
+with $\kappa(\nu)=\nu([1,e)\times\Zhat^\times)$ (the constant of \cref{I.adele.def:idele-haar}). Then for every Borel
+function $f\colon G(\A)\to[0,\infty]$ and for every $\dd g$-integrable $f\colon G(\A)\to\C$,
+\[
+  \int_{G(\A)}f\,\dd g=c\int_\A\int_{\A^\times}\int_{\A^\times}\int_K
+  f\bigl(n(x)\diag(t_1,t_2)k\bigr)\,\abs{t_1/t_2}_\A^{-1}\,\dd k\,\dd\nu(t_1)\,\dd\nu(t_2)\,\dd\lambda(x).
+\]
+For the standard measures ($\mu_p=\dd g_p$, $\lambda=\dd x$, $\nu=\dtimes x$) the constant is $c=\pi$.

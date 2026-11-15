@@ -1,0 +1,14 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S06-FD: caveats of the agentic process (minor). Included by main.tex via \IfFileExists.
+\begin{frame}[shrink=8]{K3: caveats}
+  \small
+  \begin{itemize}
+    \item Lean builds are accepted only in the integration rounds; each slide states its status (\emph{proved}, \emph{formalized}, \emph{computed}, \emph{cited}).
+    \item Minor: we identified a literature correction (a sign error in [Hs] as we read it: $\mathrm{JL}(U_q)=-U_q$ should be $+U_q$; erratum, \emph{proved modulo cited} inputs for trivial central character, a sketch otherwise; checked on 144/144 eigenlines; to be communicated to the author).
+    \item \textbf{$q\equiv-1\bmod p$} (with $\bar\rho$ unramified at $q$): covered for $M=1$ and for squarefree $M$ with $\bar\rho$ unramified at all $\ell\mid M$, i.e.\ $N(\bar\rho)=1$ (cases F0, F1, F1$'$); \emph{open} for $N(\bar\rho)>1$. Status: \emph{proved} modulo cited results; for some $\ell\equiv-1\bmod p$ it rests on our own reading of Kim--Ota Thm~3.14 (prop.\ s06-levM, rem.\ s06-minus1).
+    \item \textbf{Numerical evidence, honestly:} the cross-account H3 supplement (\texttt{code/results/s06-xcheck/H3.json}) found $\mathrm{ord}\,\mathfrak c_q(f)=t^{\mathrm{an}}_f(q)$ in 5 non-vacuous cases with $t=2$, all with $N(\bar\rho)>1$: \emph{computed} evidence in the open region, not a test of the proved case $M=1$ (numerically untested).
+    \item \textbf{Trivial primes} ($q\equiv1\bmod p$, $\bar\rho(\mathrm{Frob}_q)=\pm1$): the quaternionic Hecke algebra is neither a complete intersection nor Gorenstein (\emph{cited}: Böckle--Khare--Manning, Thm~1.2), so $\mathfrak c_q$ is not principal; excluded from the theorem (rem.\ s06-open(iii)).
+    \item \textbf{Lean:} thm.\ s06-defect is \emph{formalized modulo registered hypotheses, including the Galois half} (\texttt{Hyp.FreeRankTwo}; given \texttt{Hyp.ResidualBurnside} it is equivalent to the conclusion $\mathfrak t_q\subseteq\mathfrak c_q$, \texttt{Defect.freeRankTwo\_iff\_le}).
+  \end{itemize}
+\end{frame}

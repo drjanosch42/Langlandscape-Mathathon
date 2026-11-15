@@ -1,0 +1,172 @@
+{
+ "data": {
+  "checks": {
+   "charpoly": true,
+   "commute": true,
+   "fnv": true,
+   "row_sums": null,
+   "square": true,
+   "symmetry": null,
+   "symn_charpoly": true
+  },
+  "free_block_z": {
+   "D": 5,
+   "F": [
+    [
+     [
+      "-4"
+     ]
+    ],
+    [
+     [
+      "2"
+     ]
+    ],
+    [
+     [
+      "6"
+     ]
+    ],
+    [
+     [
+      "32"
+     ]
+    ],
+    [
+     [
+      "-38"
+     ]
+    ],
+    [
+     [
+      "26"
+     ]
+    ],
+    [
+     [
+      "100"
+     ]
+    ]
+   ],
+   "F_fnv": [
+    "0x07d00e07b497d644",
+    "0xaf63af4c8601a015",
+    "0xaf63ab4c86019949",
+    "0x07ff7c07b4c001f0",
+    "0xde5acd17ddfe5b2b",
+    "0x08030207b4c31b79",
+    "0x4568b718181c937c"
+   ],
+   "M": 1,
+   "N": 5,
+   "basis_in_Q_coords": [
+    [
+     "1"
+    ]
+   ],
+   "basis_rule": "brandt_symn_int_canonical/v2: Lambda = Z[T_p : p in ops] . Z^d (the Hecke-stable hull: the smallest Hecke-stable lattice containing Z^d), Z^d = the Q-coordinates of symn.SymBrandt's rational model (+)_c V_Q^{Gamma_c} (V_Q = V^phi, Q-basis and Gamma_c-invariant bases as in symn.py) with the class blocks in the k = 2 canonical order (classes sorted ascending by (|Gamma_c|, (r_c(1),...,r_c(20))), r_c(m) = #{x in O_r(I_c) : nrd x = m} (x, -x both counted); ties listed in order_ties, order within a tie unspecified); basis = the columns of the lower-triangular HNF of Lambda; depends on the ops list and on symn.py's class representatives (canonical: false)",
+   "bits_F": [
+    3,
+    2,
+    3,
+    6,
+    6,
+    5,
+    7
+   ],
+   "bound_basis": "-",
+   "canonical": false,
+   "charpoly_Z": [
+    [
+     "4",
+     "1"
+    ],
+    [
+     "-2",
+     "1"
+    ],
+    [
+     "-6",
+     "1"
+    ],
+    [
+     "-32",
+     "1"
+    ],
+    [
+     "38",
+     "1"
+    ],
+    [
+     "-26",
+     "1"
+    ],
+    [
+     "-100",
+     "1"
+    ]
+   ],
+   "convention": "column: T_p b_j = sum_i F[i][j] b_i; b_j = the j-th column of basis_in_Q_coords (a basis of the Hecke-stable hull Lambda); no row-sum identity (no Eisenstein system at k > 2)",
+   "d_algebra": 1,
+   "e_eis": 0,
+   "gammas": [
+    6
+   ],
+   "k": 4,
+   "lattice": "functions",
+   "n": 2,
+   "ops": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17,
+    19
+   ],
+   "order_ties": [],
+   "origin": "jl:symn.py+integral_basis",
+   "phi_fnv": "-",
+   "proof": [
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model"
+   ],
+   "q0_key": "-",
+   "rank": 1,
+   "saturation": "exact_basis",
+   "schema": "langlandscape_brandt/v2",
+   "status": "ok",
+   "tag": "computed"
+  },
+  "schema": "langlandscape_brandt/v2",
+  "writer": "python:brandt_export@b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty"
+ },
+ "provenance": {
+  "commit": "b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty",
+  "date": "2026-11-15T01:28:28+00:00",
+  "notes": "HJ-B0; format plan/hacs/freeblockz-export-format.md (v2); computed",
+  "params": {
+   "D": 5,
+   "M": 1,
+   "k": 4,
+   "ops": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17,
+    19
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 3.858705303995521,
+  "script": "code/python/langlandscape/hacs_bridge/brandt_export.py"
+ }
+}

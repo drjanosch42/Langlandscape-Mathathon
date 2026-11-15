@@ -1,0 +1,132 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction), part 3: the precise setup. Restates the chapters' definitions in their notation; no new claims.
+% No \input; reusable in the report.
+\section{The setup}\label{ss:s00-setup}
+This section collects the definitions in the notation of the chapters, with a pointer to the place where each is made. It
+introduces nothing new. Where a definition here is abbreviated, the chapter's version is authoritative.
+
+\subsection{The quaternion algebra, orders and levels}\label{ss:s00-algebra}
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[The algebra] (Def.~\ref{def:s01-B}). $D>1$ is squarefree with an odd number $\omega(D)$ of prime factors, and $B=\Bd$ is the
+  quaternion algebra over $\Q$ ramified exactly at $\infty$ and at the primes $\ell\mid D$; it is unique up to isomorphism
+  (\stknown, \cite{Vo}). It is \emph{definite}: $B\otimes\R$ is Hamilton's quaternions, and $\Nrd(B^\times)=\Q_{>0}$. $D$ is its
+  (reduced) discriminant. In stages~05 and~06, $D=q$ is a prime and $B=B_q$ is ramified exactly at $\{q,\infty\}$. For $\ell\mid D$,
+  $\cO_\ell$ is the unique maximal order of the division algebra $B_\ell$, with a uniformiser $\Pi_\ell$, $\Pi_\ell^2\in\ell\cO_\ell^\times$;
+  for $\ell\nmid D$ we fix $\iota_\ell:\cO_\ell\xrightarrow\sim M_2(\Z_\ell)$. We write $\hat B=B\otimes\hat\Q$ and $\hat\cO=\prod_\ell\cO_\ell$.
+\item[Orders and levels] (Def.~\ref{def:s01-levels}, Prop.~\ref{prop:s01-eichler}). $\cO\subset B$ is a maximal order. For $N\ge1$
+  with $(N,D)=1$, $\Uzero N\subseteq\hat\cO^\times$ and $\Uone N\subseteq\Uzero N$ are the local conditions $c\equiv0$, resp.\ $c\equiv0$, $d\equiv1$
+  modulo $\ell^{v_\ell(N)}$ (lower row $\equiv(0,1)$). $\Uzero N=\hat\cO(N)^\times$ for the Eichler order $\cO(N)$ of level $N$
+  (\stknown). The level $M$ is the tame level; $(M,D)=1$, and $(M,pq)=1$ wherever $p$ and $q$ occur.
+\item[The tower] (Def.~\ref{def:s01-levels}). For a prime $p\nmid D$ and $s\ge0$: $U_s:=\Uone{Mp^s}$, $S_s:=\XB{U_s}$, and
+  $\Delta_s=(1+p\Zp)/(1+p^s\Zp)$ ($s\ge1$), which acts freely on $S_s$ by adelic diamonds for $p\ge5$ (Lemma~\ref{lem:s01-stab}(b), \stproved).
+  For a prime $q\nmid D$ and a level $U$ with $U_q=\cO_q^\times$, $U_0(q)U:=U\cap\Uzero q$. On the $\GL_2$ side the matching tower
+  is $\Gamma_s=\Gamma_1(Mp^s)\cap\Gamma_0(q)$ (stage~05, \S\ref{ss:s05-sign}).
+\item[Class sets] (Def.~\ref{def:s01-classset}, Prop.~\ref{prop:s01-finite}). For compact open $U\subseteq\hat\cO^\times$,
+  $\XB U=B^\times\backslash\hat B^\times/U$, $\Gamma_x=B^\times\cap xUx^{-1}$, $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$. $\XB U$ is finite and
+  $|\Gamma_x|$ divides $24$ (\stknown, \stformal). For $p\ge5$, $p\nmid w_x$ (Lemma~\ref{lem:s01-stab}(c)), and all $\Gamma_x$ are trivial
+  at levels contained in $\Uone p$ at $p$ (Lemma~\ref{lem:s01-stab}(b)). The Eichler mass formula is Thm.~\ref{thm:s01-mass}.
+\end{description}
+
+\subsection{Brandt modules, weights and Hecke operators}\label{ss:s00-brandt}
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[Weights] (stage~01, before Def.~\ref{def:s01-brandt}). For $k\ge2$, $V_k=\Sym^{k-2}(\Zp^2)$, homogeneous polynomials of degree $k-2$ with the left action
+  $(g\cdot P)(X,Y)=P((X,Y)g)$ of the monoid $M_2(\Zp)\cap\GL_2(\Qp)$ (eq.~\eqref{eq:s01-Vk}); $k=2$ is the trivial coefficient system.
+\item[Brandt modules] (Def.~\ref{def:s01-brandt}). $\Brandt UV=\{f:\hat B^\times\to V:\ f(\gamma xu)=u_p^{-1}f(x)\}\cong\bigoplus_{[x]}V^{x_p^{-1}\Gamma_xx_p}$:
+  the degree-$0$ cohomology of the finite groupoid $\coprod_{[x]}B\Gamma_x$ (Def.~\ref{def:s05-stages}(i)). For trivial $V=\Z$:
+  $\Z^X$ (functions), $\Z[X]$ (formal sums, the homological module) and $\Z[X]^0=\ker(\deg)$. The Brandt pairing is
+  $\langle[x],[y]\rangle=w_x\delta_{xy}$, and the norm map $\nu:\Z[X]\to\Z^X$ is an isomorphism over $\Zp$ for $p\ge5$
+  (Def.~\ref{def:s01-pairing}, \stproved, \stformal).
+\item[Hecke operators] (Def.~\ref{def:s01-hecke}, Def.~\ref{def:s01-NUp}, Def.~\ref{def:s01-T}). $T_\ell,S_\ell$ for $\ell\nmid DMpq$, $U_\ell$
+  for $\ell\mid M$, the adelic diamonds $\langle d\rangle$, $\Pi_\ell$ for $\ell\mid D$ (right translation by the uniformiser), and $U_p$
+  with the normalisation $\NUp$: $U_p=\sum_{j=0}^{p-1}\varpi_j$, $\varpi_j=\iota_p^{-1}\left(\begin{smallmatrix}p&j\\0&1\end{smallmatrix}\right)$, which
+  is integral on $V_k$ and needs no power of $p$. $\T_B(U;V)$ is the $\Zp$-algebra they generate; it is commutative and finite free
+  over $\Zp$ (\stproved). The adelic diamonds are inverse to the classical ones (Remark~\ref{rem:s01-diamond}), which is why the
+  $\Lambda$-adic JL sends the classical $\langle d\rangle$ to the adelic $\langle d\rangle^{-1}$ (Thm.~\ref{thm:s01-lambdaJL}).
+\item[Trivial character] The classical comparison is stated at $\Gamma_0$-level for even $k$ (Thm.~\ref{thm:s01-JLclassical}), and
+  stage~06 works with Hida's ordinary Hecke algebra of tame level $\Gamma_0(N)$ and arithmetic points of trivial character
+  (Hyp.~\ref{hyp:s06-H}, (H1), (P)); $S_q\in\Lambda^\times$ with $P_k(S_q)=q^{k-2}$ is the trivial-character specialisation
+  (\S\ref{ss:s06-setting}). Stages~04 and~05 also carry the $\Gamma_1$-tower, where the nebentypus varies.
+\end{description}
+
+\subsection{The tree, graphs and their homology}\label{ss:s00-tree}
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[Tree prime] In stages~02--04, $q\nmid D$ is an auxiliary prime at which $B$ is \emph{split}, $B_q\cong M_2(\Qq)$. $\cT_q$ is the
+  Bruhat--Tits tree: vertices are the homothety classes of $\Zq$-lattices in $\Qq^2$ (Def.~\ref{def:s02-tree}; \cite[II.1.1]{Se}).
+  It is $(q+1)$-regular and connected (\stcited). A level $U$ is \emph{$q$-admissible} if
+  $U=\iota_q^{-1}\GL_2(\Zq)\times U^{(q)}$ and $\Nrd U=\Zhat^\times$; then $\GU=\cO_U[\frac1q]^1$ is the norm-one $\{q\}$-arithmetic
+  group acting on $\cT_q$ (Def.~\ref{def:s02-GU}).
+\item[Brandt graph] (Def.~\ref{def:s02-BG}). $\BG(U,q)$ is the finite bipartite graph with two copies of $\XB U$ as vertices and
+  $\XB{\Uzero qU}$ as edges, the two ends of an edge being given by the two degeneracy maps $s_0,s_1$. If it is connected,
+  $\GU\backslash\cT_q\cong\BG(U,q)$ (Prop.~\ref{prop:s02-BG}, \stproved; the connectedness of $\cT_q$, \stcited, enters only in one
+  direction). The connectedness of $\BG(U,q)$ is condition (iii) of Prop.~\ref{prop:s02-BG}, a finite check at each level. It
+  follows from strong approximation (Thm.~\ref{thm:s02-SA}, \stcited), Hasse--Schilling and the connectedness of $\cT_q$
+  (Prop.~\ref{prop:s02-quot}); several results below are stated \emph{given} (iii), and in Lean it is an explicit argument.
+\item[Weighted graphs] (Def.~\ref{def:s03-graph}). For a finite weighted graph $\G$: $X(\G)=H_1(\G)=\ker\partial$,
+  $\langle e,e'\rangle_w=w_e\delta_{ee'}$ and $\Phicomb(\G)=\coker(X(\G)\to\Hom(X(\G),\Z))$. For $B=B_q$, the DR graph $\GDR_q(U)$ has
+  two vertices and edge set $\XBq U$ (Def.~\ref{def:s03-DR}), and $X(\GDR_q(U))=\Xcomb_q(U)=\Z[\XBq U]^0$ (Prop.~\ref{prop:s03-phi}). For a
+  semistable curve with this dual graph, $X$ is the character group of the toric part, $\langle,\rangle_w$ the monodromy pairing and
+  $\Phicomb$ the component group (Remark~\ref{rem:s03-grothendieck}, \stcited).
+\end{description}
+
+\subsection{Ordinary parts and \texorpdfstring{$\Lambda$}{Lambda}-adic objects}\label{ss:s00-ord}
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[Coefficients] (\S\ref{ss:s04-notation}). $\cO=\cOE$ is the ring of integers of a finite extension $E/\Qp$ with uniformiser
+  $\varpi$, and $\Lam=\cOE[[1+p\Zp]]$.
+\item[Ordinary projector] (Def.~\ref{def:s04-e}). $e=\lim_nU_p^{n!}$ for $U_p=\NUp$; it exists on every finite free $\Zp$-module
+  (Def.~\ref{def:s01-NUp}, \stproved). It kills the degree, vertex and component terms (Lemma~\ref{lem:s04-ekills}, \stproved).
+\item[$\Lambda$-adic Brandt module] (Def.~\ref{def:s04-Mord}). $\Mord(U)=\varprojlim_{s\ge1}e\,\cOE[X_s(U)]$ along $\pi_*$, with $\Lam$ acting
+  through the adelic diamonds. The weight-$k$ point in these conventions is $P^{\rm ad}_k=\ker([u]\mapsto u^{2-k})$; the classical
+  one is $P_k=\ker([u]\mapsto u^{k-2})$ (Def.~\ref{def:s04-Pk}).
+\end{description}
+
+\subsection{The \texorpdfstring{$\GL_2$}{GL2} side and the comparison hypothesis}\label{ss:s00-gl2}
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[Curves and character groups] (\S\ref{ss:s05-sign}). $X_s$ is the compactified modular curve of $\Gamma_s=\Gamma_1(Mp^s)\cap\Gamma_0(q)$
+  over $\Q$ in the $\mu_N$-model, $J_s=\Jac X_s$ with Picard functoriality (decision FD1), and $\Xq(J_s)$ is the character group of the
+  torus of the special fibre at $q$ of its N\'eron model. $\theta_s:\cH_s\to\End\Z[S_s]^0$ is the dictionary of Def.~\ref{def:s05-theta}
+  ($\langle d\rangle\mapsto\langle d\rangle^{-1}$, $U_p\mapsto\NUp$, $U_q\mapsto+\Pi_q$).
+\item[$\HypX$] (Hyp.~\ref{hyp:s05-X}, \sthyp). A family of isomorphisms $\varphi_s:\Xq(J_s)\xrightarrow\sim\Z[S_s]^0$ compatible with the
+  Hecke operators through $\theta_s$ (X1), with the monodromy and Brandt pairings (X2), with the tower (X3), and with the
+  monodromy filtration of $T_pJ_s$ as a Galois and Hecke module (X4). $\HypXchar$ is (X1)--(X3). At $\Gamma_0$-type level the
+  ingredients are \stcited{} (Thm.~\ref{thm:s05-G}); at $\Gamma_1(Mp^s)$-level with $U_p$ we found no reference (\S\ref{ss:s05-status}).
+\end{description}
+
+\subsection{Hecke algebras, the maximal ideal and the standing hypotheses of stage 06}\label{ss:s00-H}
+Here $D=q$, $N=qM$, $p\ge5$, $q\ne p$, $(M,pq)=1$ (\S\ref{ss:s06-setting}). The standing hypotheses are those of
+Hyp.~\ref{hyp:s06-H} (\sthyp); in brief:
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[(H0)] $p\ge5$, $q\ne p$, $(M,pq)=1$, $p\nmid\varphi(N)$; in particular $q\not\equiv1\bmod p$.
+\item[(H0$^-$) or (Lev)] $q\not\equiv-1\bmod p$ or $\bar\rho_\m$ ramified at $q$; alternatively (Lev), the cases (F0) $M=1$, (F1), (F1$'$)
+  of Prop.~\ref{prop:s06-levM}.
+\item[(H1)] $\T$ is Hida's full ordinary cuspidal Hecke algebra of tame level $\Gamma_0(N)$ over $\Lam$ in a fixed weight component,
+  generated by all $T_\ell$ ($\ell\nmid Np$) and $U_\ell$ ($\ell\mid Np$), localised at a \emph{non-Eisenstein} maximal ideal $\m$; $F$ is
+  a primitive ordinary $q$-new branch with $\lambda_F:\T\to I_F$, $I_F$ a normal local domain finite over $\Lam$. (The notion
+  ``Eisenstein'' is that of \cite{DT}, recalled in Conj.~\ref{conj:s03-iharaGL2}.)
+\item[(H2)] $\bar\rho_\m$ is absolutely irreducible on $G_{\Q(\sqrt{p^*})}$ and $p$-distinguished.
+\item[(Im), (P)] (Im) $p\mid\#\bar\rho(G_\Q)$, kept but used by none of the cited theorems; (P) the existence of a Kim--Ota point of
+  weight $k_P\in[3,p-1]$ with trivial character, or the weight-two variant (P2).
+\end{description}
+\noindent With $\T'$, $\T''$ the $q$-new and $q$-old quotients, $\fa=\ker(\T\to\T')$, $\fb=\ker(\T\to\T'')$, $R=\T\otimes_\Lam I_F$ and
+$\lambda:R\to I_F$ (Def.~\ref{def:s06-rings}):
+\[\eta_F=\eta(R,\lambda),\qquad \eta^B_F=\eta(R',\lambda'),\qquad (h_F)=\eta_F(\eta^B_F)^{-1},\]
+where $\eta(S,\mu)=\mu(\Ann_S\ker\mu)$ is the congruence ideal (Def.~\ref{def:s06-gor}); $\cc_q(F)=\lambda(\fb)$ is the old/new
+congruence ideal (Def.~\ref{def:s06-ctam}), and $\tq_q(F)$ is the ideal generated by the entries of $\rho_F(\sigma)-1$, $\sigma\in I_q$,
+the Tamagawa ideal (Def.~\ref{def:s06-tam}).
+
+\subsection{The primes \texorpdfstring{$p$}{p} and \texorpdfstring{$q$}{q}}\label{ss:s00-primes}
+The conditions are those of the chapters; we list where each is imposed.
+\begin{center}\small
+\begin{tabular}{@{}p{0.17\textwidth}p{0.77\textwidth}@{}}\toprule
+where & condition and its role\\\midrule
+stage 01 & $p$ prime with $(Mp,D)=1$ for the tower; $p\ge5$ for $p\nmid w_x$ and for $\nu$ to be an isomorphism over $\Zp$ (Def.~\ref{def:s01-pairing}, Lemma~\ref{lem:s01-stab})\\
+stage 02 & $q\nmid D$ (tree prime, $B_q$ split); $p\ge5$ so that $H_1(\GU,\Z)\otimes\Zp=H_1(\BG(U,q),\Z)\otimes\Zp$ (the torsion of $H_1(\GU,\Z)$ is killed by $24$; Remark~\ref{rem:s02-torsion})\\
+stage 03 & $q\nmid D$; $\ell\nmid qM$ for the Eisenstein property; $p\ge5$ for the coefficient versions (Thm.~\ref{thm:s03-ribet}(b), Thm.~\ref{thm:s03-iharaH0}); $l=p>k$ for the amalgam range (\S\ref{ss:s03-amalgam})\\
+stage 04 & $p\ge5$, $p\nmid D$ throughout (\S\ref{ss:s04-notation}); $q\nmid Dp$ for the $\Lambda$-adic Ribet sequence (Thm.~\ref{thm:s04-lambdaribet}); $p\nmid\varphi(M)$ for the integral form of control at weights (Thm.~\ref{thm:s04-control}(b))\\
+stage 05 & $D=q$, $p\ge5$, $q\ne p$, $(M,pq)=1$ (Hyp.~\ref{hyp:s05-X})\\
+stage 06 & $D=q$, (H0): $p\ge5$, $q\ne p$, $(M,pq)=1$, $p\nmid\varphi(qM)$, and (H0$^-$) or (Lev) (Hyp.~\ref{hyp:s06-H})\\\bottomrule
+\end{tabular}
+\end{center}
+The restriction $p\ge5$ is where torsion is excluded: for $p\in\{2,3\}$ the stabilisers $\Gamma_x$ (of order dividing $24$) and the
+elliptic points contribute $p$-torsion, as in the example $D=2$, $q=3$, where $H_1(\GU,\Z)=\Z/3$ although the graph has $H_1=0$
+(Remark~\ref{rem:s02-torsion}; \stcomp, \pathtt{code/results/s02/torsion.json}).

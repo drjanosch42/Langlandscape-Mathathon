@@ -1,0 +1,27 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Conclusion: status per stage. Sources: plan/implementation/outbox/*milestone-closure-s0{1..6}.md, plan/implementation/runs/s0*.md,
+% mathematics/chapters/s0{1..6}.tex, plan/hacs/outbox/20261115T0137Z_laneA-closure.md, plan/hacs/outbox/20261115T0150Z_laneB-closure.md.
+\begin{frame}[shrink=5]{Summary: six stages, one consistent state}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{0.9}
+  \begin{tabular}{@{}l >{\raggedright\arraybackslash}p{6.3cm} >{\raggedright\arraybackslash}p{6.2cm}@{}}\toprule
+    & mathematics & Lean / computations\\\midrule
+    S01 & class sets, mass formula, Brandt $T_\ell$; JL \emph{cited} & formalized; Brandt data \emph{computed} vs PARI\\
+    S02 & quotient $\Leftrightarrow$ connectivity of $\mathrm{BG}(U,q)$ \emph{proved} (SA-free); SA \emph{cited} & formalized given connectivity; \texttt{Hyp.SA}, \texttt{Hyp.HS}\\
+    S03 & Ribet sequence, Ihara (i),(ii) \emph{proved} (given connectivity); Mazur check, Ihara (iii) \emph{proved mod.\ cited} & (i),(ii) formalized; \texttt{Hyp.IharaH0}; $\Phi^{\mathrm{comb}}$ \emph{computed}\\
+    S04 & $e$ kills the Eisenstein part; control (a) \emph{proved}; $\Lambda$-adic Ribet \emph{proved given connectivity} (from cited SA, HS) & partly formalized ($\Lambda$-adic half mod \texttt{Hyp.MordLambdaFree}); ranks \emph{computed}\\
+    S05 & Hyp.X: a \emph{hypothesis}; $U_q\mapsto+\Pi_q$ \emph{proved mod.\ cited} ($\Gamma_0$, wt 2) & Hyp.X registered, not proved; sign $144/144$ \emph{computed}\\
+    S06 & Thm~E \emph{proved}; defect formula \emph{proved mod.\ cited} & Thm~E (i)--(iv) formalized (abstract; not normal localisation, Hecke case); \texttt{defect\_formula} formalized mod Hyp (Galois half \texttt{Hyp.FreeRankTwo})\\
+    HACS & Mazur congruence module through an integral engine & \emph{computed}: $q\le 600$ ($\ell\ge5$), exact for $q\le 409$ (capped); $37$ at $(13,8)$\\\bottomrule
+  \end{tabular}
+
+  \vspace{-3mm}
+  \begin{block}{Lean (final gate 2323a252, from scratch; cross-checked on a second node)}
+    $\GateAudited/\GateAudited$ \texttt{\#print axioms} rows within $\{$\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}$\}$;
+    $0$ \texttt{sorry} in our code (build: $1$, in the frozen import; a $2$nd in a never-built import module; none in the audited axiom lists); $\NumHypRegistered$ registered hypotheses, each an explicit argument, none called known.
+  \end{block}
+  \vfill
+  {\tiny Sources: milestone closures S01--S06 (\texttt{plan/implementation/outbox/}); chapters \texttt{mathematics/chapters/s0\{1..6\}.tex}; HACS lane closures (\texttt{plan/hacs/outbox/}).
+  Open: Hyp.X, (c2) of prop.\ s05-Xlambda, $N(\bar\rho)>1$ at $q\equiv-1$, trivial primes.}
+\end{frame}

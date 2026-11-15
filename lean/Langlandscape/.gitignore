@@ -1,0 +1,4 @@
+# Lake: packages/<pkg> -> frozen farm, GL2TF -> built import (symlinks; never follow, never rm -rf), build/, config/
+.lake/
+# node-local override of tools/deps.conf (never commit)
+tools/deps.local.conf

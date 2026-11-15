@@ -1,0 +1,5624 @@
+{
+ "provenance": {
+  "script": "code/python/langlandscape/hacs_bridge/jl_defect.py",
+  "commit": "13bd624b5f07cb0019997ff739140c6f2fa58948",
+  "dirty": false,
+  "params": {
+   "triples": [
+    [
+     13,
+     18,
+     19
+    ],
+    [
+     5,
+     18,
+     23
+    ],
+    [
+     5,
+     16,
+     31
+    ],
+    [
+     13,
+     12,
+     31
+    ],
+    [
+     3,
+     18,
+     53
+    ],
+    [
+     3,
+     18,
+     61
+    ],
+    [
+     13,
+     16,
+     101
+    ]
+   ],
+   "weights": [
+    "k",
+    "k+p-1"
+   ],
+   "threads": 8,
+   "seed": 1,
+   "hacs_caps": {
+    "max_prime": 97,
+    "batch": 6,
+    "sum": 100,
+    "n": 60
+   }
+  },
+  "date": "2026-11-15T08:28:33+00:00",
+  "runtime_s": 3965.81,
+  "python": "3.10.12",
+  "pari_version": "2.15.4",
+  "notes": "HJ-8a: T5 on the GL_2 side through HACS. eta^B at weight k from S06-C5 (Python, s06/T5_def.json) and, independently, worker C's native BrandtSym file (equal on all 7); at k+(p-1) from the native file's ring-theoretic eta^B of the weight-k m. Native annotation and acceptance were recomputed at 28961d73 (t5-splice); HACS was not rerun.",
+  "hacs_version": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+  "hacs_sha256": "a6acb500287841893fe82962f8cc1d49a33bc49714aa3244fec5f7c61b4c9158",
+  "hacs_binary": "laneB/final/hacs",
+  "hz_settings": {
+   "default_fp": "0x8ffc29730c4f9672",
+   "hz_theta_order": "lex",
+   "source": "reported: hecke_structure(11,0,'anemic').settings_fingerprint; theta order inferred from the fingerprint"
+  },
+  "spliced_rows": {
+   "rows": [
+    "5,18,23"
+   ],
+   "provenance": {
+    "script": "code/python/langlandscape/hacs_bridge/jl_defect.py",
+    "commit": "28961d73e8f99580d9e7e01bf7dd3729da8318d5",
+    "dirty": false,
+    "params": {
+     "triples": [
+      [
+       5,
+       18,
+       23
+      ]
+     ],
+     "weights": [
+      "k",
+      "k+p-1"
+     ],
+     "threads": 8,
+     "seed": 1,
+     "local_precision_E": 40,
+     "hacs_caps": {
+      "max_prime": 97,
+      "batch": 6,
+      "sum": 100,
+      "n": 60
+     }
+    },
+    "date": "2026-11-15T08:31:28+00:00",
+    "runtime_s": 79.85,
+    "python": "3.10.12",
+    "pari_version": "2.15.4",
+    "notes": "HJ-8: T5 on the GL_2 side through HACS; eta^B: S06-C5 (Python) at k, native BrandtSym (worker C) at k and k+(p-1)",
+    "hacs_version": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+    "hacs_sha256": "a6acb500287841893fe82962f8cc1d49a33bc49714aa3244fec5f7c61b4c9158",
+    "hacs_binary": "laneB/final/hacs",
+    "hz_settings": {
+     "default_fp": "0x8ffc29730c4f9672",
+     "hz_theta_order": "lex",
+     "source": "reported: hecke_structure(11,0,'anemic').settings_fingerprint; theta order inferred from the fingerprint"
+    }
+   },
+   "reason": "rerun after the ramified-place fix of the local route (13bd624b+)"
+  },
+  "native_definite_side": {
+   "file": "code/results/laneC/hj8_def_native.json",
+   "commit": "ffceac5437daee4fffbdeb9ea04b806b06a506f3"
+  },
+  "notes_regenerated": {
+   "date": "2026-11-15T08:37:19+00:00",
+   "commit": "1647d0b5",
+   "what": "provenance.notes and data.conventions text only (HJ-8a review m4, m5); no number changed",
+   "previous_notes": "HJ-8a: T5 on the GL_2 side through HACS; eta^B from S06-C5 (Python oracle)"
+  }
+ },
+ "data": {
+  "triples": {
+   "13,18,19": {
+    "k": {
+     "weight": 18,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 3,
+     "a_q_sign": -1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 3
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x73b261f538769538",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_5,U_13",
+       "G0.status": "final",
+       "G1.reduced_Q": "undecided",
+       "G1.C1.status": "open(cap)",
+       "G1.theta": "open(cap)",
+       "G1.theta_ops": "T_2,T_3,T_5,U_13",
+       "G1.components": "not_run",
+       "G1.C2_status": "partial(unfactored)",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_13].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       7
+      ],
+      "p_in_S_cand": false,
+      "p_in_record_G2": false,
+      "wall_s": 3.58
+     },
+     "gl2": {
+      "q": 13,
+      "k": 18,
+      "p": 19,
+      "weight": 18,
+      "hecke_generators": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       17,
+       19,
+       13
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 40,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x67b9e0ce07b05ba1",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          17
+         ],
+         [
+          19
+         ]
+        ],
+        "wall_s": 24.8
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xb978a543424bea3f",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          17,
+          19
+         ]
+        ],
+        "wall_s": 1.45
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": 6,
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "5": 28,
+       "7": 26
+      },
+      "dims": {
+       "L_q": 40,
+       "new": 17,
+       "old_level1": 1,
+       "full": 19
+      },
+      "U_q_signs": {
+       "n_plus": 9,
+       "n_minus": 8,
+       "ells": [
+        5,
+        11
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 19,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           15
+          ],
+          "T3": [
+           1,
+           9
+          ],
+          "T5": [
+           1,
+           2
+          ],
+          "T7": [
+           1,
+           18
+          ],
+          "T11": [
+           1,
+           5
+          ],
+          "T17": [
+           1,
+           9
+          ],
+          "T19": [
+           1,
+           13
+          ],
+          "T13": [
+           1,
+           16
+          ]
+         },
+         "values": {
+          "T2": 4,
+          "T3": 10,
+          "T5": 17,
+          "T7": 1,
+          "T11": 14,
+          "T17": 10,
+          "T19": 6,
+          "T13": 3
+         }
+        },
+        "T_p_residue": 6,
+        "ordinary": true,
+        "U_q_residue": 3,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 8,
+          "a_q_sign": -1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 19,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           15
+          ],
+          "T3": [
+           1,
+           9
+          ],
+          "T5": [
+           1,
+           2
+          ],
+          "T7": [
+           1,
+           18
+          ],
+          "T11": [
+           1,
+           5
+          ],
+          "T17": [
+           1,
+           9
+          ],
+          "T19": [
+           1,
+           13
+          ],
+          "T13": [
+           1,
+           18
+          ]
+         },
+         "values": {
+          "T2": 4,
+          "T3": 10,
+          "T5": 17,
+          "T7": 1,
+          "T11": 14,
+          "T17": 10,
+          "T19": 6,
+          "T13": 1
+         }
+        },
+        "T_p_residue": 6,
+        "ordinary": true,
+        "U_q_residue": 1,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       8
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 26.58,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x73b261f538769538",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_5,U_13",
+        "G0.status": "final",
+        "G1.reduced_Q": "undecided",
+        "G1.C1.status": "open(cap)",
+        "G1.theta": "open(cap)",
+        "G1.theta_ops": "T_2,T_3,T_5,U_13",
+        "G1.components": "not_run",
+        "G1.C2_status": "partial(unfactored)",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_13].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        7
+       ],
+       "p_in_S_cand": false,
+       "p_in_record_G2": false,
+       "wall_s": 3.58
+      }
+     },
+     "wall_s": 30.22,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 36,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 3,
+     "a_q_sign": 1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": null,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_status": "computed",
+     "status": "computed",
+     "oracle_S06_C4": {
+      "status": "not computed",
+      "reason": "not computed within the runtime budget: the exact HNF closure of the Hecke algebra (S06-C1 toolkit, hecke_alg._closure) at level 13 and weight 36 raised a PARI stack error with 4 GiB and was still running after 13 min (8 GiB resident) with 12 GiB (measured at (13, 36); weight 36 is at least as large)"
+     },
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0xdf9de4feb9f76320",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_5,U_13",
+       "G0.status": "final",
+       "G1.reduced_Q": "undecided",
+       "G1.C1.status": "open(cap)",
+       "G1.theta": "open(cap)",
+       "G1.theta_ops": "T_2,T_3,T_5,U_13",
+       "G1.components": "not_run",
+       "G1.C2_status": "partial(unfactored)",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_13].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3
+      ],
+      "p_in_S_cand": false,
+      "p_in_record_G2": false,
+      "wall_s": 319.24
+     },
+     "gl2": {
+      "q": 13,
+      "k": 18,
+      "p": 19,
+      "weight": 36,
+      "hecke_generators": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       17,
+       19,
+       23,
+       29,
+       31,
+       37,
+       41,
+       43,
+       13
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 84,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x46ffb2e2cde85216",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          17
+         ],
+         [
+          19,
+          23,
+          29
+         ],
+         [
+          31,
+          37
+         ],
+         [
+          41,
+          43
+         ]
+        ],
+        "wall_s": 735.57
+       },
+       "L_1": {
+        "rank": 7,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x4f5c365b4dc3e31e",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          17,
+          19,
+          23,
+          29
+         ],
+         [
+          31,
+          37
+         ],
+         [
+          41,
+          43
+         ]
+        ],
+        "wall_s": 19.51
+       }
+      },
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "5": 28,
+       "7": 26
+      },
+      "dims": {
+       "L_q": 84,
+       "new": 35,
+       "old_level1": 3,
+       "full": 41
+      },
+      "U_q_signs": {
+       "n_plus": 17,
+       "n_minus": 18,
+       "ells": [
+        5,
+        7
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1,
+         1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 19,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           15
+          ],
+          "T3": [
+           1,
+           9
+          ],
+          "T5": [
+           1,
+           2
+          ],
+          "T7": [
+           1,
+           18
+          ],
+          "T11": [
+           1,
+           5
+          ],
+          "T17": [
+           1,
+           9
+          ],
+          "T19": [
+           1,
+           13
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T29": [
+           1,
+           8
+          ],
+          "T31": [
+           1,
+           7
+          ],
+          "T37": [
+           1,
+           3
+          ],
+          "T41": [
+           1,
+           5
+          ],
+          "T43": [
+           1,
+           1
+          ],
+          "T13": [
+           1,
+           16
+          ]
+         },
+         "values": {
+          "T2": 4,
+          "T3": 10,
+          "T5": 17,
+          "T7": 1,
+          "T11": 14,
+          "T17": 10,
+          "T19": 6,
+          "T23": 15,
+          "T29": 11,
+          "T31": 12,
+          "T37": 16,
+          "T41": 14,
+          "T43": 18,
+          "T13": 3
+         }
+        },
+        "T_p_residue": 6,
+        "ordinary": true,
+        "U_q_residue": 3,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 17,
+          "a_q_sign": 1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 19,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           15
+          ],
+          "T3": [
+           1,
+           9
+          ],
+          "T5": [
+           1,
+           2
+          ],
+          "T7": [
+           1,
+           18
+          ],
+          "T11": [
+           1,
+           5
+          ],
+          "T17": [
+           1,
+           9
+          ],
+          "T19": [
+           1,
+           13
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T29": [
+           1,
+           8
+          ],
+          "T31": [
+           1,
+           7
+          ],
+          "T37": [
+           1,
+           3
+          ],
+          "T41": [
+           1,
+           5
+          ],
+          "T43": [
+           1,
+           1
+          ],
+          "T13": [
+           1,
+           18
+          ]
+         },
+         "values": {
+          "T2": 4,
+          "T3": 10,
+          "T5": 17,
+          "T7": 1,
+          "T11": 14,
+          "T17": 10,
+          "T19": 6,
+          "T23": 15,
+          "T29": 11,
+          "T31": 12,
+          "T37": 16,
+          "T41": 14,
+          "T43": 18,
+          "T13": 1
+         }
+        },
+        "T_p_residue": 6,
+        "ordinary": true,
+        "U_q_residue": 1,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       18,
+       17
+      ],
+      "old_factor_degrees": [
+       3
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 861.64,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0xdf9de4feb9f76320",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_5,U_13",
+        "G0.status": "final",
+        "G1.reduced_Q": "undecided",
+        "G1.C1.status": "open(cap)",
+        "G1.theta": "open(cap)",
+        "G1.theta_ops": "T_2,T_3,T_5,U_13",
+        "G1.components": "not_run",
+        "G1.C2_status": "partial(unfactored)",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_13].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3
+       ],
+       "p_in_S_cand": false,
+       "p_in_record_G2": false,
+       "wall_s": 319.24
+      }
+     },
+     "wall_s": 1180.88,
+     "etaB_source": "code/results/laneC/hj8_def_native.json m_from_weight_k.etaB_ring (ring-theoretic; rank-1 block)",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "ranks_agree": true
+    }
+   },
+   "5,18,23": {
+    "k": {
+     "weight": 18,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 7,
+     "a_q_sign": -1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 7
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x7e88b3d5b7ff1342",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_7,T_11,T_13,T_19,T_23,T_31,T_59,T_61,T_101,T_131,T_139,T_191,T_263,T_307,T_349,T_409,T_829,T_859,T_2531,T_3919,T_5167,U_5",
+       "G0.status": "final",
+       "G1.reduced_Q": "true",
+       "G1.C1.status": "certified",
+       "G1.theta": "0,0,1,1",
+       "G1.theta_ops": "T_2,T_3,T_7,U_5",
+       "G1.components": "certified",
+       "G1.components[0].type": "eis",
+       "G1.components[0].degree": "1",
+       "G1.components[0].mult": "1",
+       "G1.components[0].p0": "T_2",
+       "G1.components[0].minpoly": "[-0x20001,0x1]",
+       "G1.components[0].lambda_theta": "0xd39383266e89",
+       "G1.components[0].U_5": "0x1",
+       "G1.components[1].type": "eis",
+       "G1.components[1].degree": "1",
+       "G1.components[1].mult": "1",
+       "G1.components[1].p0": "T_2",
+       "G1.components[1].minpoly": "[-0x20001,0x1]",
+       "G1.components[1].lambda_theta": "0xd44525e29d4d",
+       "G1.components[1].U_5": "0xb1a2bc2ec5",
+       "G1.components[2].type": "cusp",
+       "G1.components[2].degree": "7",
+       "G1.components[2].mult": "2",
+       "G1.components[2].p0": "theta",
+       "G1.components[2].minpoly": "[0x149f7f246465b17363e5aba6ed4e5c3e5bb8342f,0xbdfe476ad7deef9ceed6b449af9b69897,-0xd09d80954d3bc45a9599cec241735,0x52ec796670587ba978aab743,-0x5f2ee6737e33ddbf33,-0x11724713a7e9b,0xe2d0f9,0x1]",
+       "G1.components[2].irreducible": "open(cap)",
+       "G1.C2_status": "partial(unfactored)",
+       "G2.ell=23.theory": "H",
+       "G2.ell=23.generation.status": "certified",
+       "G2.ell=23.generation.route": "saturation",
+       "G2.ell=23.generation.dim_A1": "9",
+       "G2.ell=23.t_ell": "added",
+       "G2.ell=23.maximal_ideals": "certified",
+       "G2.ell=23.decomposed_by": "theta=(0 0 1 1)",
+       "G2.ell=23.m[0].residue_degree": "1",
+       "G2.ell=23.m[0].residue_poly": "[2,1]",
+       "G2.ell=23.m[0].support": "free",
+       "G2.ell=23.m[0].local_type.kind": "etale",
+       "G2.ell=23.m[0].local_type.rank": "1",
+       "G2.ell=23.m[0].local_type.embdim": "0",
+       "G2.ell=23.m[0].local_type.gorenstein": "true",
+       "G2.ell=23.m[0].local_type.length_mod_l": "1",
+       "G2.ell=23.m[0].local_type.hilbert": "1",
+       "G2.ell=23.m[0].local_type.loewy": "1",
+       "G2.ell=23.m[0].components_through.0": "certified",
+       "G2.ell=23.m[0].components_through.1": "not_run",
+       "G2.ell=23.m[0].components_through.2": "not_run",
+       "G2.ell=23.m[1].residue_degree": "1",
+       "G2.ell=23.m[1].residue_poly": "[4,1]",
+       "G2.ell=23.m[1].support": "free",
+       "G2.ell=23.m[1].local_type.kind": "monogenic",
+       "G2.ell=23.m[1].local_type.rank": "2",
+       "G2.ell=23.m[1].local_type.embdim": "1",
+       "G2.ell=23.m[1].local_type.gorenstein": "true",
+       "G2.ell=23.m[1].local_type.length_mod_l": "2",
+       "G2.ell=23.m[1].local_type.hilbert": "1,1",
+       "G2.ell=23.m[1].local_type.loewy": "2",
+       "G2.ell=23.m[1].components_through.0": "not_run",
+       "G2.ell=23.m[1].components_through.1": "not_run",
+       "G2.ell=23.m[1].components_through.2": "certified",
+       "G2.ell=23.m[2].residue_degree": "1",
+       "G2.ell=23.m[2].residue_poly": "[11,1]",
+       "G2.ell=23.m[2].support": "free",
+       "G2.ell=23.m[2].local_type.kind": "etale",
+       "G2.ell=23.m[2].local_type.rank": "1",
+       "G2.ell=23.m[2].local_type.embdim": "0",
+       "G2.ell=23.m[2].local_type.gorenstein": "true",
+       "G2.ell=23.m[2].local_type.length_mod_l": "1",
+       "G2.ell=23.m[2].local_type.hilbert": "1",
+       "G2.ell=23.m[2].local_type.loewy": "1",
+       "G2.ell=23.m[2].components_through.0": "not_run",
+       "G2.ell=23.m[2].components_through.1": "certified",
+       "G2.ell=23.m[2].components_through.2": "not_run",
+       "G2.ell=23.m[3].residue_degree": "1",
+       "G2.ell=23.m[3].residue_poly": "[13,1]",
+       "G2.ell=23.m[3].support": "free",
+       "G2.ell=23.m[3].local_type.kind": "etale",
+       "G2.ell=23.m[3].local_type.rank": "1",
+       "G2.ell=23.m[3].local_type.embdim": "0",
+       "G2.ell=23.m[3].local_type.gorenstein": "true",
+       "G2.ell=23.m[3].local_type.length_mod_l": "1",
+       "G2.ell=23.m[3].local_type.hilbert": "1",
+       "G2.ell=23.m[3].local_type.loewy": "1",
+       "G2.ell=23.m[3].components_through.0": "not_run",
+       "G2.ell=23.m[3].components_through.1": "not_run",
+       "G2.ell=23.m[3].components_through.2": "certified",
+       "G2.ell=23.m[4].residue_degree": "1",
+       "G2.ell=23.m[4].residue_poly": "[22,1]",
+       "G2.ell=23.m[4].support": "free",
+       "G2.ell=23.m[4].local_type.kind": "etale",
+       "G2.ell=23.m[4].local_type.rank": "1",
+       "G2.ell=23.m[4].local_type.embdim": "0",
+       "G2.ell=23.m[4].local_type.gorenstein": "true",
+       "G2.ell=23.m[4].local_type.length_mod_l": "1",
+       "G2.ell=23.m[4].local_type.hilbert": "1",
+       "G2.ell=23.m[4].local_type.loewy": "1",
+       "G2.ell=23.m[4].components_through.0": "not_run",
+       "G2.ell=23.m[4].components_through.1": "not_run",
+       "G2.ell=23.m[4].components_through.2": "certified",
+       "G2.ell=23.m[5].residue_degree": "3",
+       "G2.ell=23.m[5].residue_poly": "[7,6,12,1]",
+       "G2.ell=23.m[5].support": "free",
+       "G2.ell=23.m[5].local_type.kind": "etale",
+       "G2.ell=23.m[5].local_type.rank": "3",
+       "G2.ell=23.m[5].local_type.embdim": "0",
+       "G2.ell=23.m[5].local_type.gorenstein": "true",
+       "G2.ell=23.m[5].local_type.length_mod_l": "1",
+       "G2.ell=23.m[5].local_type.hilbert": "1",
+       "G2.ell=23.m[5].local_type.loewy": "1",
+       "G2.ell=23.m[5].components_through.0": "not_run",
+       "G2.ell=23.m[5].components_through.1": "not_run",
+       "G2.ell=23.m[5].components_through.2": "certified",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_5].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       13,
+       19,
+       23,
+       31,
+       59,
+       61,
+       101,
+       131,
+       139,
+       191,
+       263,
+       307,
+       349,
+       409,
+       829,
+       859,
+       2531,
+       3919,
+       5167,
+       29173,
+       43867,
+       52081,
+       79531,
+       598079,
+       778871
+      ],
+      "p_in_S_cand": true,
+      "p_in_record_G2": true,
+      "wall_s": 7.38
+     },
+     "gl2": {
+      "q": 5,
+      "k": 18,
+      "p": 23,
+      "weight": 18,
+      "hecke_generators": [
+       2,
+       3,
+       7,
+       23,
+       5
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 16,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x79715b05d1eb6893",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          7,
+          23
+         ]
+        ],
+        "wall_s": 3.18
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xb978a543424bea3f",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          23
+         ]
+        ],
+        "wall_s": 0.85
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": 19,
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "7": 28
+      },
+      "dims": {
+       "L_q": 16,
+       "new": 5,
+       "old_level1": 1,
+       "full": 7
+      },
+      "U_q_signs": {
+       "n_plus": 3,
+       "n_minus": 2,
+       "ells": [
+        11,
+        13
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 23,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           22
+          ],
+          "T3": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           11
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T5": [
+           1,
+           16
+          ]
+         },
+         "values": {
+          "T2": 1,
+          "T3": 17,
+          "T7": 12,
+          "T23": 19,
+          "T5": 7
+         }
+        },
+        "T_p_residue": 19,
+        "ordinary": true,
+        "U_q_residue": 7,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 2,
+          "a_q_sign": -1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 23,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           22
+          ],
+          "T3": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           11
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T5": [
+           1,
+           11
+          ]
+         },
+         "values": {
+          "T2": 1,
+          "T3": 17,
+          "T7": 12,
+          "T23": 19,
+          "T5": 12
+         }
+        },
+        "T_p_residue": 19,
+        "ordinary": true,
+        "U_q_residue": 12,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       2
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 4.16,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x7e88b3d5b7ff1342",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_7,T_11,T_13,T_19,T_23,T_31,T_59,T_61,T_101,T_131,T_139,T_191,T_263,T_307,T_349,T_409,T_829,T_859,T_2531,T_3919,T_5167,U_5",
+        "G0.status": "final",
+        "G1.reduced_Q": "true",
+        "G1.C1.status": "certified",
+        "G1.theta": "0,0,1,1",
+        "G1.theta_ops": "T_2,T_3,T_7,U_5",
+        "G1.components": "certified",
+        "G1.components[0].type": "eis",
+        "G1.components[0].degree": "1",
+        "G1.components[0].mult": "1",
+        "G1.components[0].p0": "T_2",
+        "G1.components[0].minpoly": "[-0x20001,0x1]",
+        "G1.components[0].lambda_theta": "0xd39383266e89",
+        "G1.components[0].U_5": "0x1",
+        "G1.components[1].type": "eis",
+        "G1.components[1].degree": "1",
+        "G1.components[1].mult": "1",
+        "G1.components[1].p0": "T_2",
+        "G1.components[1].minpoly": "[-0x20001,0x1]",
+        "G1.components[1].lambda_theta": "0xd44525e29d4d",
+        "G1.components[1].U_5": "0xb1a2bc2ec5",
+        "G1.components[2].type": "cusp",
+        "G1.components[2].degree": "7",
+        "G1.components[2].mult": "2",
+        "G1.components[2].p0": "theta",
+        "G1.components[2].minpoly": "[0x149f7f246465b17363e5aba6ed4e5c3e5bb8342f,0xbdfe476ad7deef9ceed6b449af9b69897,-0xd09d80954d3bc45a9599cec241735,0x52ec796670587ba978aab743,-0x5f2ee6737e33ddbf33,-0x11724713a7e9b,0xe2d0f9,0x1]",
+        "G1.components[2].irreducible": "open(cap)",
+        "G1.C2_status": "partial(unfactored)",
+        "G2.ell=23.theory": "H",
+        "G2.ell=23.generation.status": "certified",
+        "G2.ell=23.generation.route": "saturation",
+        "G2.ell=23.generation.dim_A1": "9",
+        "G2.ell=23.t_ell": "added",
+        "G2.ell=23.maximal_ideals": "certified",
+        "G2.ell=23.decomposed_by": "theta=(0 0 1 1)",
+        "G2.ell=23.m[0].residue_degree": "1",
+        "G2.ell=23.m[0].residue_poly": "[2,1]",
+        "G2.ell=23.m[0].support": "free",
+        "G2.ell=23.m[0].local_type.kind": "etale",
+        "G2.ell=23.m[0].local_type.rank": "1",
+        "G2.ell=23.m[0].local_type.embdim": "0",
+        "G2.ell=23.m[0].local_type.gorenstein": "true",
+        "G2.ell=23.m[0].local_type.length_mod_l": "1",
+        "G2.ell=23.m[0].local_type.hilbert": "1",
+        "G2.ell=23.m[0].local_type.loewy": "1",
+        "G2.ell=23.m[0].components_through.0": "certified",
+        "G2.ell=23.m[0].components_through.1": "not_run",
+        "G2.ell=23.m[0].components_through.2": "not_run",
+        "G2.ell=23.m[1].residue_degree": "1",
+        "G2.ell=23.m[1].residue_poly": "[4,1]",
+        "G2.ell=23.m[1].support": "free",
+        "G2.ell=23.m[1].local_type.kind": "monogenic",
+        "G2.ell=23.m[1].local_type.rank": "2",
+        "G2.ell=23.m[1].local_type.embdim": "1",
+        "G2.ell=23.m[1].local_type.gorenstein": "true",
+        "G2.ell=23.m[1].local_type.length_mod_l": "2",
+        "G2.ell=23.m[1].local_type.hilbert": "1,1",
+        "G2.ell=23.m[1].local_type.loewy": "2",
+        "G2.ell=23.m[1].components_through.0": "not_run",
+        "G2.ell=23.m[1].components_through.1": "not_run",
+        "G2.ell=23.m[1].components_through.2": "certified",
+        "G2.ell=23.m[2].residue_degree": "1",
+        "G2.ell=23.m[2].residue_poly": "[11,1]",
+        "G2.ell=23.m[2].support": "free",
+        "G2.ell=23.m[2].local_type.kind": "etale",
+        "G2.ell=23.m[2].local_type.rank": "1",
+        "G2.ell=23.m[2].local_type.embdim": "0",
+        "G2.ell=23.m[2].local_type.gorenstein": "true",
+        "G2.ell=23.m[2].local_type.length_mod_l": "1",
+        "G2.ell=23.m[2].local_type.hilbert": "1",
+        "G2.ell=23.m[2].local_type.loewy": "1",
+        "G2.ell=23.m[2].components_through.0": "not_run",
+        "G2.ell=23.m[2].components_through.1": "certified",
+        "G2.ell=23.m[2].components_through.2": "not_run",
+        "G2.ell=23.m[3].residue_degree": "1",
+        "G2.ell=23.m[3].residue_poly": "[13,1]",
+        "G2.ell=23.m[3].support": "free",
+        "G2.ell=23.m[3].local_type.kind": "etale",
+        "G2.ell=23.m[3].local_type.rank": "1",
+        "G2.ell=23.m[3].local_type.embdim": "0",
+        "G2.ell=23.m[3].local_type.gorenstein": "true",
+        "G2.ell=23.m[3].local_type.length_mod_l": "1",
+        "G2.ell=23.m[3].local_type.hilbert": "1",
+        "G2.ell=23.m[3].local_type.loewy": "1",
+        "G2.ell=23.m[3].components_through.0": "not_run",
+        "G2.ell=23.m[3].components_through.1": "not_run",
+        "G2.ell=23.m[3].components_through.2": "certified",
+        "G2.ell=23.m[4].residue_degree": "1",
+        "G2.ell=23.m[4].residue_poly": "[22,1]",
+        "G2.ell=23.m[4].support": "free",
+        "G2.ell=23.m[4].local_type.kind": "etale",
+        "G2.ell=23.m[4].local_type.rank": "1",
+        "G2.ell=23.m[4].local_type.embdim": "0",
+        "G2.ell=23.m[4].local_type.gorenstein": "true",
+        "G2.ell=23.m[4].local_type.length_mod_l": "1",
+        "G2.ell=23.m[4].local_type.hilbert": "1",
+        "G2.ell=23.m[4].local_type.loewy": "1",
+        "G2.ell=23.m[4].components_through.0": "not_run",
+        "G2.ell=23.m[4].components_through.1": "not_run",
+        "G2.ell=23.m[4].components_through.2": "certified",
+        "G2.ell=23.m[5].residue_degree": "3",
+        "G2.ell=23.m[5].residue_poly": "[7,6,12,1]",
+        "G2.ell=23.m[5].support": "free",
+        "G2.ell=23.m[5].local_type.kind": "etale",
+        "G2.ell=23.m[5].local_type.rank": "3",
+        "G2.ell=23.m[5].local_type.embdim": "0",
+        "G2.ell=23.m[5].local_type.gorenstein": "true",
+        "G2.ell=23.m[5].local_type.length_mod_l": "1",
+        "G2.ell=23.m[5].local_type.hilbert": "1",
+        "G2.ell=23.m[5].local_type.loewy": "1",
+        "G2.ell=23.m[5].components_through.0": "not_run",
+        "G2.ell=23.m[5].components_through.1": "not_run",
+        "G2.ell=23.m[5].components_through.2": "certified",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_5].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        19,
+        23,
+        31,
+        59,
+        61,
+        101,
+        131,
+        139,
+        191,
+        263,
+        307,
+        349,
+        409,
+        829,
+        859,
+        2531,
+        3919,
+        5167,
+        29173,
+        43867,
+        52081,
+        79531,
+        598079,
+        778871
+       ],
+       "p_in_S_cand": true,
+       "p_in_record_G2": true,
+       "wall_s": 7.38
+      }
+     },
+     "wall_s": 11.6,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 40,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 7,
+     "a_q_sign": 1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": null,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_status": "computed",
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 7
+     },
+     "agrees_with_S06_C4": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x7ea84ab94a5bfac4",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_7,U_5",
+       "G0.status": "final",
+       "G1.reduced_Q": "undecided",
+       "G1.C1.status": "open(cap)",
+       "G1.theta": "open(cap)",
+       "G1.theta_ops": "T_2,T_3,T_7,U_5",
+       "G1.components": "not_run",
+       "G1.C2_status": "partial(unfactored)",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_5].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       5,
+       37
+      ],
+      "p_in_S_cand": false,
+      "p_in_record_G2": false,
+      "wall_s": 12.43
+     },
+     "gl2": {
+      "q": 5,
+      "k": 18,
+      "p": 23,
+      "weight": 40,
+      "hecke_generators": [
+       2,
+       3,
+       7,
+       11,
+       13,
+       17,
+       19,
+       23,
+       5
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 40,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x3c72bbd8f3323c67",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         37
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17
+         ],
+         [
+          19,
+          23
+         ]
+        ],
+        "wall_s": 47.96
+       },
+       "L_1": {
+        "rank": 7,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x5bf373ffe8735a98",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         37
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          17,
+          19,
+          23
+         ]
+        ],
+        "wall_s": 5.62
+       }
+      },
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "7": 28,
+       "11": 26
+      },
+      "dims": {
+       "L_q": 40,
+       "new": 13,
+       "old_level1": 3,
+       "full": 19
+      },
+      "U_q_signs": {
+       "n_plus": 6,
+       "n_minus": 7,
+       "ells": [
+        7,
+        11
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 23,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           22
+          ],
+          "T3": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           11
+          ],
+          "T11": [
+           1,
+           21
+          ],
+          "T13": [
+           1,
+           15
+          ],
+          "T17": [
+           1,
+           22
+          ],
+          "T19": [
+           1,
+           1
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T5": [
+           1,
+           16
+          ]
+         },
+         "values": {
+          "T2": 1,
+          "T3": 17,
+          "T7": 12,
+          "T11": 2,
+          "T13": 8,
+          "T17": 1,
+          "T19": 22,
+          "T23": 19,
+          "T5": 7
+         }
+        },
+        "T_p_residue": 19,
+        "ordinary": true,
+        "U_q_residue": 7,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 6,
+          "a_q_sign": 1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 23,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           22
+          ],
+          "T3": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           11
+          ],
+          "T11": [
+           1,
+           21
+          ],
+          "T13": [
+           1,
+           15
+          ],
+          "T17": [
+           1,
+           22
+          ],
+          "T19": [
+           1,
+           1
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T5": [
+           1,
+           11
+          ]
+         },
+         "values": {
+          "T2": 1,
+          "T3": 17,
+          "T7": 12,
+          "T11": 2,
+          "T13": 8,
+          "T17": 1,
+          "T19": 22,
+          "T23": 19,
+          "T5": 12
+         }
+        },
+        "T_p_residue": 19,
+        "ordinary": true,
+        "U_q_residue": 12,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       6
+      ],
+      "old_factor_degrees": [
+       3
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 55.82,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x7ea84ab94a5bfac4",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_7,U_5",
+        "G0.status": "final",
+        "G1.reduced_Q": "undecided",
+        "G1.C1.status": "open(cap)",
+        "G1.theta": "open(cap)",
+        "G1.theta_ops": "T_2,T_3,T_7,U_5",
+        "G1.components": "not_run",
+        "G1.C2_status": "partial(unfactored)",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_5].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        5,
+        37
+       ],
+       "p_in_S_cand": false,
+       "p_in_record_G2": false,
+       "wall_s": 12.43
+      }
+     },
+     "wall_s": 68.25,
+     "etaB_source": "code/results/laneC/hj8_def_native.json m_from_weight_k.etaB_ring (ring-theoretic; rank-1 block)",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "ranks_agree": true
+    }
+   },
+   "5,16,31": {
+    "k": {
+     "weight": 16,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 5,
+     "a_q_sign": 1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 5
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x7919e0d8c7a74914",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_7,T_11,T_13,T_31,T_43,T_47,T_71,T_73,T_181,T_191,T_313,T_443,T_1733,T_1741,T_1931,T_3169,T_3617,T_8681,T_11489,T_23041,U_5",
+       "G0.status": "final",
+       "G1.reduced_Q": "true",
+       "G1.C1.status": "certified",
+       "G1.theta": "0,0,1,1",
+       "G1.theta_ops": "T_2,T_3,T_7,U_5",
+       "G1.components": "certified",
+       "G1.components[0].type": "eis",
+       "G1.components[0].degree": "1",
+       "G1.components[0].mult": "1",
+       "G1.components[0].p0": "T_2",
+       "G1.components[0].minpoly": "[-0x8001,0x1]",
+       "G1.components[0].lambda_theta": "0x45160b7a439",
+       "G1.components[0].U_5": "0x1",
+       "G1.components[1].type": "eis",
+       "G1.components[1].degree": "1",
+       "G1.components[1].mult": "1",
+       "G1.components[1].p0": "T_2",
+       "G1.components[1].minpoly": "[-0x8001,0x1]",
+       "G1.components[1].lambda_theta": "0x4587bb4edc5",
+       "G1.components[1].U_5": "0x71afd498d",
+       "G1.components[2].type": "cusp",
+       "G1.components[2].degree": "7",
+       "G1.components[2].mult": "2",
+       "G1.components[2].p0": "theta",
+       "G1.components[2].minpoly": "[-0xb710f9f3b723778fa0700c7f4026b6c3f9441,-0x1f33479c6c3ab9f5cfa03f177695a5349,-0x284cfcb1fac495420842050ea45,0xc482dbfe8f75c0630f3703,0x11ccdb8ba5877c93d,-0x18e5eb88747b,-0x13b9f7,0x1]",
+       "G1.components[2].irreducible": "open(cap)",
+       "G1.C2_status": "partial(unfactored)",
+       "G2.ell=31.theory": "H",
+       "G2.ell=31.generation.status": "certified",
+       "G2.ell=31.generation.route": "saturation",
+       "G2.ell=31.generation.dim_A1": "9",
+       "G2.ell=31.t_ell": "added",
+       "G2.ell=31.maximal_ideals": "certified",
+       "G2.ell=31.decomposed_by": "theta=(0 0 1 1)",
+       "G2.ell=31.m[0].residue_degree": "1",
+       "G2.ell=31.m[0].residue_poly": "[7,1]",
+       "G2.ell=31.m[0].support": "free",
+       "G2.ell=31.m[0].local_type.kind": "etale",
+       "G2.ell=31.m[0].local_type.rank": "1",
+       "G2.ell=31.m[0].local_type.embdim": "0",
+       "G2.ell=31.m[0].local_type.gorenstein": "true",
+       "G2.ell=31.m[0].local_type.length_mod_l": "1",
+       "G2.ell=31.m[0].local_type.hilbert": "1",
+       "G2.ell=31.m[0].local_type.loewy": "1",
+       "G2.ell=31.m[0].components_through.0": "not_run",
+       "G2.ell=31.m[0].components_through.1": "not_run",
+       "G2.ell=31.m[0].components_through.2": "certified",
+       "G2.ell=31.m[1].residue_degree": "1",
+       "G2.ell=31.m[1].residue_poly": "[12,1]",
+       "G2.ell=31.m[1].support": "free",
+       "G2.ell=31.m[1].local_type.kind": "etale",
+       "G2.ell=31.m[1].local_type.rank": "1",
+       "G2.ell=31.m[1].local_type.embdim": "0",
+       "G2.ell=31.m[1].local_type.gorenstein": "true",
+       "G2.ell=31.m[1].local_type.length_mod_l": "1",
+       "G2.ell=31.m[1].local_type.hilbert": "1",
+       "G2.ell=31.m[1].local_type.loewy": "1",
+       "G2.ell=31.m[1].components_through.0": "not_run",
+       "G2.ell=31.m[1].components_through.1": "not_run",
+       "G2.ell=31.m[1].components_through.2": "certified",
+       "G2.ell=31.m[2].residue_degree": "1",
+       "G2.ell=31.m[2].residue_poly": "[13,1]",
+       "G2.ell=31.m[2].support": "free",
+       "G2.ell=31.m[2].local_type.kind": "etale",
+       "G2.ell=31.m[2].local_type.rank": "1",
+       "G2.ell=31.m[2].local_type.embdim": "0",
+       "G2.ell=31.m[2].local_type.gorenstein": "true",
+       "G2.ell=31.m[2].local_type.length_mod_l": "1",
+       "G2.ell=31.m[2].local_type.hilbert": "1",
+       "G2.ell=31.m[2].local_type.loewy": "1",
+       "G2.ell=31.m[2].components_through.0": "not_run",
+       "G2.ell=31.m[2].components_through.1": "not_run",
+       "G2.ell=31.m[2].components_through.2": "certified",
+       "G2.ell=31.m[3].residue_degree": "1",
+       "G2.ell=31.m[3].residue_poly": "[27,1]",
+       "G2.ell=31.m[3].support": "free",
+       "G2.ell=31.m[3].local_type.kind": "monogenic",
+       "G2.ell=31.m[3].local_type.rank": "2",
+       "G2.ell=31.m[3].local_type.embdim": "1",
+       "G2.ell=31.m[3].local_type.gorenstein": "true",
+       "G2.ell=31.m[3].local_type.length_mod_l": "2",
+       "G2.ell=31.m[3].local_type.hilbert": "1,1",
+       "G2.ell=31.m[3].local_type.loewy": "2",
+       "G2.ell=31.m[3].components_through.0": "not_run",
+       "G2.ell=31.m[3].components_through.1": "not_run",
+       "G2.ell=31.m[3].components_through.2": "certified",
+       "G2.ell=31.m[4].residue_degree": "1",
+       "G2.ell=31.m[4].residue_poly": "[28,1]",
+       "G2.ell=31.m[4].support": "free",
+       "G2.ell=31.m[4].local_type.kind": "monogenic",
+       "G2.ell=31.m[4].local_type.rank": "2",
+       "G2.ell=31.m[4].local_type.embdim": "1",
+       "G2.ell=31.m[4].local_type.gorenstein": "true",
+       "G2.ell=31.m[4].local_type.length_mod_l": "2",
+       "G2.ell=31.m[4].local_type.hilbert": "1,1",
+       "G2.ell=31.m[4].local_type.loewy": "2",
+       "G2.ell=31.m[4].components_through.0": "certified",
+       "G2.ell=31.m[4].components_through.1": "certified",
+       "G2.ell=31.m[4].components_through.2": "not_run",
+       "G2.ell=31.m[4].pair_kinds[0,1].depth": "1",
+       "G2.ell=31.m[4].pair_kinds[0,1].status": "certified",
+       "G2.ell=31.m[4].pair_kinds[0,1].kind": "meeting",
+       "G2.ell=31.m[5].residue_degree": "2",
+       "G2.ell=31.m[5].residue_poly": "[25,9,1]",
+       "G2.ell=31.m[5].support": "free",
+       "G2.ell=31.m[5].local_type.kind": "etale",
+       "G2.ell=31.m[5].local_type.rank": "2",
+       "G2.ell=31.m[5].local_type.embdim": "0",
+       "G2.ell=31.m[5].local_type.gorenstein": "true",
+       "G2.ell=31.m[5].local_type.length_mod_l": "1",
+       "G2.ell=31.m[5].local_type.hilbert": "1",
+       "G2.ell=31.m[5].local_type.loewy": "1",
+       "G2.ell=31.m[5].components_through.0": "not_run",
+       "G2.ell=31.m[5].components_through.1": "not_run",
+       "G2.ell=31.m[5].components_through.2": "certified",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_5].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       13,
+       31,
+       43,
+       47,
+       71,
+       73,
+       181,
+       191,
+       313,
+       443,
+       1733,
+       1741,
+       1931,
+       3169,
+       3617,
+       8681,
+       11489,
+       23041,
+       30977,
+       39119,
+       69313,
+       139409,
+       503821
+      ],
+      "p_in_S_cand": true,
+      "p_in_record_G2": true,
+      "wall_s": 24.14
+     },
+     "gl2": {
+      "q": 5,
+      "k": 16,
+      "p": 31,
+      "weight": 16,
+      "hecke_generators": [
+       2,
+       3,
+       7,
+       31,
+       5
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 16,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x4b761128f99419e5",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         13
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          7,
+          31
+         ]
+        ],
+        "wall_s": 3.82
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xb5ca52637e7530ff",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         13
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          31
+         ]
+        ],
+        "wall_s": 1.22
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": 1,
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "7": 28
+      },
+      "dims": {
+       "L_q": 16,
+       "new": 5,
+       "old_level1": 1,
+       "full": 7
+      },
+      "U_q_signs": {
+       "n_plus": 2,
+       "n_minus": 3,
+       "ells": [
+        7,
+        11
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           1
+          ],
+          "T3": [
+           1,
+           0
+          ],
+          "T7": [
+           1,
+           1
+          ],
+          "T31": [
+           1,
+           30
+          ],
+          "T5": [
+           1,
+           26
+          ]
+         },
+         "values": {
+          "T2": 30,
+          "T3": 0,
+          "T7": 30,
+          "T31": 1,
+          "T5": 5
+         }
+        },
+        "T_p_residue": 1,
+        "ordinary": true,
+        "U_q_residue": 5,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 2,
+          "a_q_sign": 1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           1
+          ],
+          "T3": [
+           1,
+           0
+          ],
+          "T7": [
+           1,
+           1
+          ],
+          "T31": [
+           1,
+           30
+          ],
+          "T5": [
+           1,
+           6
+          ]
+         },
+         "values": {
+          "T2": 30,
+          "T3": 0,
+          "T7": 30,
+          "T31": 1,
+          "T5": 25
+         }
+        },
+        "T_p_residue": 1,
+        "ordinary": true,
+        "U_q_residue": 25,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       2
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 5.06,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x7919e0d8c7a74914",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_7,T_11,T_13,T_31,T_43,T_47,T_71,T_73,T_181,T_191,T_313,T_443,T_1733,T_1741,T_1931,T_3169,T_3617,T_8681,T_11489,T_23041,U_5",
+        "G0.status": "final",
+        "G1.reduced_Q": "true",
+        "G1.C1.status": "certified",
+        "G1.theta": "0,0,1,1",
+        "G1.theta_ops": "T_2,T_3,T_7,U_5",
+        "G1.components": "certified",
+        "G1.components[0].type": "eis",
+        "G1.components[0].degree": "1",
+        "G1.components[0].mult": "1",
+        "G1.components[0].p0": "T_2",
+        "G1.components[0].minpoly": "[-0x8001,0x1]",
+        "G1.components[0].lambda_theta": "0x45160b7a439",
+        "G1.components[0].U_5": "0x1",
+        "G1.components[1].type": "eis",
+        "G1.components[1].degree": "1",
+        "G1.components[1].mult": "1",
+        "G1.components[1].p0": "T_2",
+        "G1.components[1].minpoly": "[-0x8001,0x1]",
+        "G1.components[1].lambda_theta": "0x4587bb4edc5",
+        "G1.components[1].U_5": "0x71afd498d",
+        "G1.components[2].type": "cusp",
+        "G1.components[2].degree": "7",
+        "G1.components[2].mult": "2",
+        "G1.components[2].p0": "theta",
+        "G1.components[2].minpoly": "[-0xb710f9f3b723778fa0700c7f4026b6c3f9441,-0x1f33479c6c3ab9f5cfa03f177695a5349,-0x284cfcb1fac495420842050ea45,0xc482dbfe8f75c0630f3703,0x11ccdb8ba5877c93d,-0x18e5eb88747b,-0x13b9f7,0x1]",
+        "G1.components[2].irreducible": "open(cap)",
+        "G1.C2_status": "partial(unfactored)",
+        "G2.ell=31.theory": "H",
+        "G2.ell=31.generation.status": "certified",
+        "G2.ell=31.generation.route": "saturation",
+        "G2.ell=31.generation.dim_A1": "9",
+        "G2.ell=31.t_ell": "added",
+        "G2.ell=31.maximal_ideals": "certified",
+        "G2.ell=31.decomposed_by": "theta=(0 0 1 1)",
+        "G2.ell=31.m[0].residue_degree": "1",
+        "G2.ell=31.m[0].residue_poly": "[7,1]",
+        "G2.ell=31.m[0].support": "free",
+        "G2.ell=31.m[0].local_type.kind": "etale",
+        "G2.ell=31.m[0].local_type.rank": "1",
+        "G2.ell=31.m[0].local_type.embdim": "0",
+        "G2.ell=31.m[0].local_type.gorenstein": "true",
+        "G2.ell=31.m[0].local_type.length_mod_l": "1",
+        "G2.ell=31.m[0].local_type.hilbert": "1",
+        "G2.ell=31.m[0].local_type.loewy": "1",
+        "G2.ell=31.m[0].components_through.0": "not_run",
+        "G2.ell=31.m[0].components_through.1": "not_run",
+        "G2.ell=31.m[0].components_through.2": "certified",
+        "G2.ell=31.m[1].residue_degree": "1",
+        "G2.ell=31.m[1].residue_poly": "[12,1]",
+        "G2.ell=31.m[1].support": "free",
+        "G2.ell=31.m[1].local_type.kind": "etale",
+        "G2.ell=31.m[1].local_type.rank": "1",
+        "G2.ell=31.m[1].local_type.embdim": "0",
+        "G2.ell=31.m[1].local_type.gorenstein": "true",
+        "G2.ell=31.m[1].local_type.length_mod_l": "1",
+        "G2.ell=31.m[1].local_type.hilbert": "1",
+        "G2.ell=31.m[1].local_type.loewy": "1",
+        "G2.ell=31.m[1].components_through.0": "not_run",
+        "G2.ell=31.m[1].components_through.1": "not_run",
+        "G2.ell=31.m[1].components_through.2": "certified",
+        "G2.ell=31.m[2].residue_degree": "1",
+        "G2.ell=31.m[2].residue_poly": "[13,1]",
+        "G2.ell=31.m[2].support": "free",
+        "G2.ell=31.m[2].local_type.kind": "etale",
+        "G2.ell=31.m[2].local_type.rank": "1",
+        "G2.ell=31.m[2].local_type.embdim": "0",
+        "G2.ell=31.m[2].local_type.gorenstein": "true",
+        "G2.ell=31.m[2].local_type.length_mod_l": "1",
+        "G2.ell=31.m[2].local_type.hilbert": "1",
+        "G2.ell=31.m[2].local_type.loewy": "1",
+        "G2.ell=31.m[2].components_through.0": "not_run",
+        "G2.ell=31.m[2].components_through.1": "not_run",
+        "G2.ell=31.m[2].components_through.2": "certified",
+        "G2.ell=31.m[3].residue_degree": "1",
+        "G2.ell=31.m[3].residue_poly": "[27,1]",
+        "G2.ell=31.m[3].support": "free",
+        "G2.ell=31.m[3].local_type.kind": "monogenic",
+        "G2.ell=31.m[3].local_type.rank": "2",
+        "G2.ell=31.m[3].local_type.embdim": "1",
+        "G2.ell=31.m[3].local_type.gorenstein": "true",
+        "G2.ell=31.m[3].local_type.length_mod_l": "2",
+        "G2.ell=31.m[3].local_type.hilbert": "1,1",
+        "G2.ell=31.m[3].local_type.loewy": "2",
+        "G2.ell=31.m[3].components_through.0": "not_run",
+        "G2.ell=31.m[3].components_through.1": "not_run",
+        "G2.ell=31.m[3].components_through.2": "certified",
+        "G2.ell=31.m[4].residue_degree": "1",
+        "G2.ell=31.m[4].residue_poly": "[28,1]",
+        "G2.ell=31.m[4].support": "free",
+        "G2.ell=31.m[4].local_type.kind": "monogenic",
+        "G2.ell=31.m[4].local_type.rank": "2",
+        "G2.ell=31.m[4].local_type.embdim": "1",
+        "G2.ell=31.m[4].local_type.gorenstein": "true",
+        "G2.ell=31.m[4].local_type.length_mod_l": "2",
+        "G2.ell=31.m[4].local_type.hilbert": "1,1",
+        "G2.ell=31.m[4].local_type.loewy": "2",
+        "G2.ell=31.m[4].components_through.0": "certified",
+        "G2.ell=31.m[4].components_through.1": "certified",
+        "G2.ell=31.m[4].components_through.2": "not_run",
+        "G2.ell=31.m[4].pair_kinds[0,1].depth": "1",
+        "G2.ell=31.m[4].pair_kinds[0,1].status": "certified",
+        "G2.ell=31.m[4].pair_kinds[0,1].kind": "meeting",
+        "G2.ell=31.m[5].residue_degree": "2",
+        "G2.ell=31.m[5].residue_poly": "[25,9,1]",
+        "G2.ell=31.m[5].support": "free",
+        "G2.ell=31.m[5].local_type.kind": "etale",
+        "G2.ell=31.m[5].local_type.rank": "2",
+        "G2.ell=31.m[5].local_type.embdim": "0",
+        "G2.ell=31.m[5].local_type.gorenstein": "true",
+        "G2.ell=31.m[5].local_type.length_mod_l": "1",
+        "G2.ell=31.m[5].local_type.hilbert": "1",
+        "G2.ell=31.m[5].local_type.loewy": "1",
+        "G2.ell=31.m[5].components_through.0": "not_run",
+        "G2.ell=31.m[5].components_through.1": "not_run",
+        "G2.ell=31.m[5].components_through.2": "certified",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_5].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        31,
+        43,
+        47,
+        71,
+        73,
+        181,
+        191,
+        313,
+        443,
+        1733,
+        1741,
+        1931,
+        3169,
+        3617,
+        8681,
+        11489,
+        23041,
+        30977,
+        39119,
+        69313,
+        139409,
+        503821
+       ],
+       "p_in_S_cand": true,
+       "p_in_record_G2": true,
+       "wall_s": 24.14
+      }
+     },
+     "wall_s": 29.2,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 46,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 5,
+     "a_q_sign": 1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": null,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_status": "computed",
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 5
+     },
+     "agrees_with_S06_C4": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0xe51f26e6358cc365",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_7,U_5",
+       "G0.status": "final",
+       "G1.reduced_Q": "undecided",
+       "G1.C1.status": "open(cap)",
+       "G1.theta": "open(cap)",
+       "G1.theta_ops": "T_2,T_3,T_7,U_5",
+       "G1.components": "not_run",
+       "G1.C2_status": "partial(unfactored)",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_5].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       5,
+       43
+      ],
+      "p_in_S_cand": false,
+      "p_in_record_G2": false,
+      "wall_s": 28.09
+     },
+     "gl2": {
+      "q": 5,
+      "k": 16,
+      "p": 31,
+      "weight": 46,
+      "hecke_generators": [
+       2,
+       3,
+       7,
+       11,
+       13,
+       17,
+       19,
+       23,
+       31,
+       5
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 44,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x6d2c1ea41278be18",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         43
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          7,
+          11,
+          13,
+          17
+         ],
+         [
+          19,
+          23,
+          31
+         ]
+        ],
+        "wall_s": 88.8
+       },
+       "L_1": {
+        "rank": 7,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x9e37cc1475679ccd",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         43
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          17,
+          19,
+          23,
+          31
+         ]
+        ],
+        "wall_s": 10.01
+       }
+      },
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "7": 28,
+       "11": 26
+      },
+      "dims": {
+       "L_q": 44,
+       "new": 15,
+       "old_level1": 3,
+       "full": 21
+      },
+      "U_q_signs": {
+       "n_plus": 8,
+       "n_minus": 7,
+       "ells": [
+        7,
+        11
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1,
+         1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           1
+          ],
+          "T3": [
+           1,
+           0
+          ],
+          "T7": [
+           1,
+           1
+          ],
+          "T11": [
+           1,
+           0
+          ],
+          "T13": [
+           1,
+           0
+          ],
+          "T17": [
+           1,
+           0
+          ],
+          "T19": [
+           1,
+           1
+          ],
+          "T23": [
+           1,
+           0
+          ],
+          "T31": [
+           1,
+           30
+          ],
+          "T5": [
+           1,
+           26
+          ]
+         },
+         "values": {
+          "T2": 30,
+          "T3": 0,
+          "T7": 30,
+          "T11": 0,
+          "T13": 0,
+          "T17": 0,
+          "T19": 30,
+          "T23": 0,
+          "T31": 1,
+          "T5": 5
+         }
+        },
+        "T_p_residue": 1,
+        "ordinary": true,
+        "U_q_residue": 5,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 8,
+          "a_q_sign": 1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           1
+          ],
+          "T3": [
+           1,
+           0
+          ],
+          "T7": [
+           1,
+           1
+          ],
+          "T11": [
+           1,
+           0
+          ],
+          "T13": [
+           1,
+           0
+          ],
+          "T17": [
+           1,
+           0
+          ],
+          "T19": [
+           1,
+           1
+          ],
+          "T23": [
+           1,
+           0
+          ],
+          "T31": [
+           1,
+           30
+          ],
+          "T5": [
+           1,
+           6
+          ]
+         },
+         "values": {
+          "T2": 30,
+          "T3": 0,
+          "T7": 30,
+          "T11": 0,
+          "T13": 0,
+          "T17": 0,
+          "T19": 30,
+          "T23": 0,
+          "T31": 1,
+          "T5": 25
+         }
+        },
+        "T_p_residue": 1,
+        "ordinary": true,
+        "U_q_residue": 25,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       7,
+       8
+      ],
+      "old_factor_degrees": [
+       3
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 102.71,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0xe51f26e6358cc365",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_7,U_5",
+        "G0.status": "final",
+        "G1.reduced_Q": "undecided",
+        "G1.C1.status": "open(cap)",
+        "G1.theta": "open(cap)",
+        "G1.theta_ops": "T_2,T_3,T_7,U_5",
+        "G1.components": "not_run",
+        "G1.C2_status": "partial(unfactored)",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_5].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        5,
+        43
+       ],
+       "p_in_S_cand": false,
+       "p_in_record_G2": false,
+       "wall_s": 28.09
+      }
+     },
+     "wall_s": 130.8,
+     "etaB_source": "code/results/laneC/hj8_def_native.json m_from_weight_k.etaB_ring (ring-theoretic; rank-1 block)",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "ranks_agree": true
+    }
+   },
+   "13,12,31": {
+    "k": {
+     "weight": 12,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 25,
+     "a_q_sign": -1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 25
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x6a4a6685b0b2ab98",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_5,U_13",
+       "G0.status": "final",
+       "G1.reduced_Q": "undecided",
+       "G1.C1.status": "open(cap)",
+       "G1.theta": "open(cap)",
+       "G1.theta_ops": "T_2,T_3,T_5,U_13",
+       "G1.components": "not_run",
+       "G1.C2_status": "partial(unfactored)",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_13].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3
+      ],
+      "p_in_S_cand": false,
+      "p_in_record_G2": false,
+      "wall_s": 0.71
+     },
+     "gl2": {
+      "q": 13,
+      "k": 12,
+      "p": 31,
+      "weight": 12,
+      "hecke_generators": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       31,
+       13
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 28,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xcb451430e6108e80",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          31
+         ]
+        ],
+        "wall_s": 5.78
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x0255fefc8633f257",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          31
+         ]
+        ],
+        "wall_s": 1.47
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": 21,
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "5": 28,
+       "7": 26
+      },
+      "dims": {
+       "L_q": 28,
+       "new": 11,
+       "old_level1": 1,
+       "full": 13
+      },
+      "U_q_signs": {
+       "n_plus": 5,
+       "n_minus": 6,
+       "ells": [
+        5,
+        7
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           24
+          ],
+          "T3": [
+           1,
+           27
+          ],
+          "T5": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           4
+          ],
+          "T11": [
+           1,
+           14
+          ],
+          "T31": [
+           1,
+           10
+          ],
+          "T13": [
+           1,
+           6
+          ]
+         },
+         "values": {
+          "T2": 7,
+          "T3": 4,
+          "T5": 25,
+          "T7": 27,
+          "T11": 17,
+          "T31": 21,
+          "T13": 25
+         }
+        },
+        "T_p_residue": 21,
+        "ordinary": true,
+        "U_q_residue": 25,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 6,
+          "a_q_sign": -1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           24
+          ],
+          "T3": [
+           1,
+           27
+          ],
+          "T5": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           4
+          ],
+          "T11": [
+           1,
+           14
+          ],
+          "T31": [
+           1,
+           10
+          ],
+          "T13": [
+           1,
+           16
+          ]
+         },
+         "values": {
+          "T2": 7,
+          "T3": 4,
+          "T5": 25,
+          "T7": 27,
+          "T11": 17,
+          "T31": 21,
+          "T13": 15
+         }
+        },
+        "T_p_residue": 21,
+        "ordinary": true,
+        "U_q_residue": 15,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       6
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 7.29,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x6a4a6685b0b2ab98",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_5,U_13",
+        "G0.status": "final",
+        "G1.reduced_Q": "undecided",
+        "G1.C1.status": "open(cap)",
+        "G1.theta": "open(cap)",
+        "G1.theta_ops": "T_2,T_3,T_5,U_13",
+        "G1.components": "not_run",
+        "G1.C2_status": "partial(unfactored)",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_13].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3
+       ],
+       "p_in_S_cand": false,
+       "p_in_record_G2": false,
+       "wall_s": 0.71
+      }
+     },
+     "wall_s": 8.0,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 42,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 25,
+     "a_q_sign": 1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": null,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_status": "computed",
+     "status": "computed",
+     "oracle_S06_C4": {
+      "status": "not computed",
+      "reason": "not computed within the runtime budget: the exact HNF closure of the Hecke algebra (S06-C1 toolkit, hecke_alg._closure) at level 13 and weight 42 raised a PARI stack error with 4 GiB and was still running after 13 min (8 GiB resident) with 12 GiB (measured at (13, 36); weight 42 is at least as large); mf_integral_hecke alone takes ~3 min at weight 42"
+     },
+     "record_words": {
+      "status": "open",
+      "reason": "hecke_structure not read (timeout 600 s or error): hacs timed out after 600 s\n--- stderr (tail) ---\n\n--- stdout (tail) ---\n"
+     },
+     "gl2": {
+      "q": 13,
+      "k": 12,
+      "p": 31,
+      "weight": 42,
+      "hecke_generators": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       17,
+       19,
+       23,
+       29,
+       31,
+       37,
+       41,
+       43,
+       47,
+       13
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 96,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xac7ac8d3c18bd7fe",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         7,
+         13,
+         19
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          17
+         ],
+         [
+          19,
+          23,
+          29
+         ],
+         [
+          31,
+          37
+         ],
+         [
+          41,
+          43
+         ],
+         [
+          47
+         ]
+        ],
+        "wall_s": 1505.11
+       },
+       "L_1": {
+        "rank": 7,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xd921800107e6e8f0",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         5,
+         7,
+         19
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          17,
+          19,
+          23,
+          29
+         ],
+         [
+          31,
+          37
+         ],
+         [
+          41,
+          43
+         ],
+         [
+          47
+         ]
+        ],
+        "wall_s": 29.88
+       }
+      },
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "5": 28,
+       "7": 26
+      },
+      "dims": {
+       "L_q": 96,
+       "new": 41,
+       "old_level1": 3,
+       "full": 47
+      },
+      "U_q_signs": {
+       "n_plus": 21,
+       "n_minus": 20,
+       "ells": [
+        11,
+        17
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         1,
+         -1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           24
+          ],
+          "T3": [
+           1,
+           27
+          ],
+          "T5": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           4
+          ],
+          "T11": [
+           1,
+           14
+          ],
+          "T17": [
+           1,
+           2
+          ],
+          "T19": [
+           1,
+           7
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T29": [
+           1,
+           20
+          ],
+          "T31": [
+           1,
+           10
+          ],
+          "T37": [
+           1,
+           26
+          ],
+          "T41": [
+           1,
+           28
+          ],
+          "T43": [
+           1,
+           6
+          ],
+          "T47": [
+           1,
+           26
+          ],
+          "T13": [
+           1,
+           6
+          ]
+         },
+         "values": {
+          "T2": 7,
+          "T3": 4,
+          "T5": 25,
+          "T7": 27,
+          "T11": 17,
+          "T17": 29,
+          "T19": 24,
+          "T23": 27,
+          "T29": 11,
+          "T31": 21,
+          "T37": 5,
+          "T41": 3,
+          "T43": 25,
+          "T47": 5,
+          "T13": 25
+         }
+        },
+        "T_p_residue": 21,
+        "ordinary": true,
+        "U_q_residue": 25,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 21,
+          "a_q_sign": 1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 31,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           24
+          ],
+          "T3": [
+           1,
+           27
+          ],
+          "T5": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           4
+          ],
+          "T11": [
+           1,
+           14
+          ],
+          "T17": [
+           1,
+           2
+          ],
+          "T19": [
+           1,
+           7
+          ],
+          "T23": [
+           1,
+           4
+          ],
+          "T29": [
+           1,
+           20
+          ],
+          "T31": [
+           1,
+           10
+          ],
+          "T37": [
+           1,
+           26
+          ],
+          "T41": [
+           1,
+           28
+          ],
+          "T43": [
+           1,
+           6
+          ],
+          "T47": [
+           1,
+           26
+          ],
+          "T13": [
+           1,
+           16
+          ]
+         },
+         "values": {
+          "T2": 7,
+          "T3": 4,
+          "T5": 25,
+          "T7": 27,
+          "T11": 17,
+          "T17": 29,
+          "T19": 24,
+          "T23": 27,
+          "T29": 11,
+          "T31": 21,
+          "T37": 5,
+          "T41": 3,
+          "T43": 25,
+          "T47": 5,
+          "T13": 15
+         }
+        },
+        "T_p_residue": 21,
+        "ordinary": true,
+        "U_q_residue": 15,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       21,
+       20
+      ],
+      "old_factor_degrees": [
+       3
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 1856.77,
+      "record": {
+       "status": "open",
+       "reason": "hecke_structure not read (timeout 600 s or error): hacs timed out after 600 s\n--- stderr (tail) ---\n\n--- stdout (tail) ---\n"
+      }
+     },
+     "wall_s": 2456.87,
+     "etaB_source": "code/results/laneC/hj8_def_native.json m_from_weight_k.etaB_ring (ring-theoretic; rank-1 block)",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "ranks_agree": true
+    }
+   },
+   "3,18,53": {
+    "k": {
+     "weight": 18,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 42,
+     "a_q_sign": 1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 42
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x4f2f6ca24a1f493d",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_5,T_7,T_11,T_13,T_17,T_19,T_23,T_37,T_53,T_61,T_103,T_197,T_233,T_347,T_757,T_857,T_1249,T_1871,T_3329,T_10753,T_15193,U_3",
+       "G0.status": "final",
+       "G1.reduced_Q": "true",
+       "G1.C1.status": "certified",
+       "G1.theta": "0,0,1,1",
+       "G1.theta_ops": "T_2,T_5,T_7,U_3",
+       "G1.components": "certified",
+       "G1.components[0].type": "eis",
+       "G1.components[0].degree": "1",
+       "G1.components[0].mult": "1",
+       "G1.components[0].p0": "T_2",
+       "G1.components[0].minpoly": "[-0x20001,0x1]",
+       "G1.components[0].lambda_theta": "0xd39383266e89",
+       "G1.components[0].U_3": "0x1",
+       "G1.components[1].type": "eis",
+       "G1.components[1].degree": "1",
+       "G1.components[1].mult": "1",
+       "G1.components[1].p0": "T_2",
+       "G1.components[1].minpoly": "[-0x20001,0x1]",
+       "G1.components[1].lambda_theta": "0xd3938ad8f44b",
+       "G1.components[1].U_3": "0x7b285c3",
+       "G1.components[2].type": "cusp",
+       "G1.components[2].degree": "5",
+       "G1.components[2].mult": "2",
+       "G1.components[2].p0": "theta",
+       "G1.components[2].minpoly": "[0x1886d585265c73a4bd2e9f9e31953,-0x1fde3d8f9b51025baa5fbff7,0xcd18bb85dcdfcd2ed2,-0x19038fac4140a,-0x99cc25,0x1]",
+       "G1.components[2].irreducible": "open(cap)",
+       "G1.C2_status": "partial(unfactored)",
+       "G2.ell=53.theory": "H",
+       "G2.ell=53.generation.status": "certified",
+       "G2.ell=53.generation.route": "saturation",
+       "G2.ell=53.generation.dim_A1": "7",
+       "G2.ell=53.t_ell": "added",
+       "G2.ell=53.maximal_ideals": "certified",
+       "G2.ell=53.decomposed_by": "theta=(0 0 1 2)",
+       "G2.ell=53.m[0].residue_degree": "1",
+       "G2.ell=53.m[0].residue_poly": "[13,1]",
+       "G2.ell=53.m[0].support": "free",
+       "G2.ell=53.m[0].local_type.kind": "etale",
+       "G2.ell=53.m[0].local_type.rank": "1",
+       "G2.ell=53.m[0].local_type.embdim": "0",
+       "G2.ell=53.m[0].local_type.gorenstein": "true",
+       "G2.ell=53.m[0].local_type.length_mod_l": "1",
+       "G2.ell=53.m[0].local_type.hilbert": "1",
+       "G2.ell=53.m[0].local_type.loewy": "1",
+       "G2.ell=53.m[0].components_through.0": "certified",
+       "G2.ell=53.m[0].components_through.1": "not_run",
+       "G2.ell=53.m[0].components_through.2": "not_run",
+       "G2.ell=53.m[1].residue_degree": "1",
+       "G2.ell=53.m[1].residue_poly": "[25,1]",
+       "G2.ell=53.m[1].support": "free",
+       "G2.ell=53.m[1].local_type.kind": "etale",
+       "G2.ell=53.m[1].local_type.rank": "1",
+       "G2.ell=53.m[1].local_type.embdim": "0",
+       "G2.ell=53.m[1].local_type.gorenstein": "true",
+       "G2.ell=53.m[1].local_type.length_mod_l": "1",
+       "G2.ell=53.m[1].local_type.hilbert": "1",
+       "G2.ell=53.m[1].local_type.loewy": "1",
+       "G2.ell=53.m[1].components_through.0": "not_run",
+       "G2.ell=53.m[1].components_through.1": "not_run",
+       "G2.ell=53.m[1].components_through.2": "certified",
+       "G2.ell=53.m[2].residue_degree": "1",
+       "G2.ell=53.m[2].residue_poly": "[26,1]",
+       "G2.ell=53.m[2].support": "free",
+       "G2.ell=53.m[2].local_type.kind": "etale",
+       "G2.ell=53.m[2].local_type.rank": "1",
+       "G2.ell=53.m[2].local_type.embdim": "0",
+       "G2.ell=53.m[2].local_type.gorenstein": "true",
+       "G2.ell=53.m[2].local_type.length_mod_l": "1",
+       "G2.ell=53.m[2].local_type.hilbert": "1",
+       "G2.ell=53.m[2].local_type.loewy": "1",
+       "G2.ell=53.m[2].components_through.0": "not_run",
+       "G2.ell=53.m[2].components_through.1": "not_run",
+       "G2.ell=53.m[2].components_through.2": "certified",
+       "G2.ell=53.m[3].residue_degree": "1",
+       "G2.ell=53.m[3].residue_poly": "[31,1]",
+       "G2.ell=53.m[3].support": "free",
+       "G2.ell=53.m[3].local_type.kind": "etale",
+       "G2.ell=53.m[3].local_type.rank": "1",
+       "G2.ell=53.m[3].local_type.embdim": "0",
+       "G2.ell=53.m[3].local_type.gorenstein": "true",
+       "G2.ell=53.m[3].local_type.length_mod_l": "1",
+       "G2.ell=53.m[3].local_type.hilbert": "1",
+       "G2.ell=53.m[3].local_type.loewy": "1",
+       "G2.ell=53.m[3].components_through.0": "not_run",
+       "G2.ell=53.m[3].components_through.1": "certified",
+       "G2.ell=53.m[3].components_through.2": "not_run",
+       "G2.ell=53.m[4].residue_degree": "1",
+       "G2.ell=53.m[4].residue_poly": "[34,1]",
+       "G2.ell=53.m[4].support": "free",
+       "G2.ell=53.m[4].local_type.kind": "monogenic",
+       "G2.ell=53.m[4].local_type.rank": "2",
+       "G2.ell=53.m[4].local_type.embdim": "1",
+       "G2.ell=53.m[4].local_type.gorenstein": "true",
+       "G2.ell=53.m[4].local_type.length_mod_l": "2",
+       "G2.ell=53.m[4].local_type.hilbert": "1,1",
+       "G2.ell=53.m[4].local_type.loewy": "2",
+       "G2.ell=53.m[4].components_through.0": "not_run",
+       "G2.ell=53.m[4].components_through.1": "not_run",
+       "G2.ell=53.m[4].components_through.2": "certified",
+       "G2.ell=53.m[5].residue_degree": "1",
+       "G2.ell=53.m[5].residue_poly": "[48,1]",
+       "G2.ell=53.m[5].support": "free",
+       "G2.ell=53.m[5].local_type.kind": "etale",
+       "G2.ell=53.m[5].local_type.rank": "1",
+       "G2.ell=53.m[5].local_type.embdim": "0",
+       "G2.ell=53.m[5].local_type.gorenstein": "true",
+       "G2.ell=53.m[5].local_type.length_mod_l": "1",
+       "G2.ell=53.m[5].local_type.hilbert": "1",
+       "G2.ell=53.m[5].local_type.loewy": "1",
+       "G2.ell=53.m[5].components_through.0": "not_run",
+       "G2.ell=53.m[5].components_through.1": "not_run",
+       "G2.ell=53.m[5].components_through.2": "certified",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_3].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       13,
+       17,
+       19,
+       23,
+       37,
+       53,
+       61,
+       103,
+       197,
+       233,
+       347,
+       757,
+       857,
+       1249,
+       1871,
+       3329,
+       10753,
+       15193,
+       34511,
+       43867,
+       90437,
+       184271,
+       205357
+      ],
+      "p_in_S_cand": true,
+      "p_in_record_G2": true,
+      "wall_s": 12.57
+     },
+     "gl2": {
+      "q": 3,
+      "k": 18,
+      "p": 53,
+      "weight": 18,
+      "hecke_generators": [
+       2,
+       5,
+       7,
+       53,
+       3
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 12,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x79c7bea4c605acf2",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          5,
+          7,
+          53
+         ]
+        ],
+        "wall_s": 5.59
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xb978a543424bea3f",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          53
+         ]
+        ],
+        "wall_s": 3.62
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": 40,
+      "generic_A": {
+       "2": 5,
+       "5": 19,
+       "7": 28
+      },
+      "dims": {
+       "L_q": 12,
+       "new": 3,
+       "old_level1": 1,
+       "full": 5
+      },
+      "U_q_signs": {
+       "n_plus": 2,
+       "n_minus": 1,
+       "ells": [
+        5,
+        11
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 53,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           51
+          ],
+          "T5": [
+           1,
+           35
+          ],
+          "T7": [
+           1,
+           12
+          ],
+          "T53": [
+           1,
+           13
+          ],
+          "T3": [
+           1,
+           11
+          ]
+         },
+         "values": {
+          "T2": 2,
+          "T5": 18,
+          "T7": 41,
+          "T53": 40,
+          "T3": 42
+         }
+        },
+        "T_p_residue": 40,
+        "ordinary": true,
+        "U_q_residue": 42,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 2,
+          "a_q_sign": 1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 53,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           51
+          ],
+          "T5": [
+           1,
+           35
+          ],
+          "T7": [
+           1,
+           12
+          ],
+          "T53": [
+           1,
+           13
+          ],
+          "T3": [
+           1,
+           33
+          ]
+         },
+         "values": {
+          "T2": 2,
+          "T5": 18,
+          "T7": 41,
+          "T53": 40,
+          "T3": 20
+         }
+        },
+        "T_p_residue": 40,
+        "ordinary": true,
+        "U_q_residue": 20,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       2
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 9.23,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x4f2f6ca24a1f493d",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_5,T_7,T_11,T_13,T_17,T_19,T_23,T_37,T_53,T_61,T_103,T_197,T_233,T_347,T_757,T_857,T_1249,T_1871,T_3329,T_10753,T_15193,U_3",
+        "G0.status": "final",
+        "G1.reduced_Q": "true",
+        "G1.C1.status": "certified",
+        "G1.theta": "0,0,1,1",
+        "G1.theta_ops": "T_2,T_5,T_7,U_3",
+        "G1.components": "certified",
+        "G1.components[0].type": "eis",
+        "G1.components[0].degree": "1",
+        "G1.components[0].mult": "1",
+        "G1.components[0].p0": "T_2",
+        "G1.components[0].minpoly": "[-0x20001,0x1]",
+        "G1.components[0].lambda_theta": "0xd39383266e89",
+        "G1.components[0].U_3": "0x1",
+        "G1.components[1].type": "eis",
+        "G1.components[1].degree": "1",
+        "G1.components[1].mult": "1",
+        "G1.components[1].p0": "T_2",
+        "G1.components[1].minpoly": "[-0x20001,0x1]",
+        "G1.components[1].lambda_theta": "0xd3938ad8f44b",
+        "G1.components[1].U_3": "0x7b285c3",
+        "G1.components[2].type": "cusp",
+        "G1.components[2].degree": "5",
+        "G1.components[2].mult": "2",
+        "G1.components[2].p0": "theta",
+        "G1.components[2].minpoly": "[0x1886d585265c73a4bd2e9f9e31953,-0x1fde3d8f9b51025baa5fbff7,0xcd18bb85dcdfcd2ed2,-0x19038fac4140a,-0x99cc25,0x1]",
+        "G1.components[2].irreducible": "open(cap)",
+        "G1.C2_status": "partial(unfactored)",
+        "G2.ell=53.theory": "H",
+        "G2.ell=53.generation.status": "certified",
+        "G2.ell=53.generation.route": "saturation",
+        "G2.ell=53.generation.dim_A1": "7",
+        "G2.ell=53.t_ell": "added",
+        "G2.ell=53.maximal_ideals": "certified",
+        "G2.ell=53.decomposed_by": "theta=(0 0 1 2)",
+        "G2.ell=53.m[0].residue_degree": "1",
+        "G2.ell=53.m[0].residue_poly": "[13,1]",
+        "G2.ell=53.m[0].support": "free",
+        "G2.ell=53.m[0].local_type.kind": "etale",
+        "G2.ell=53.m[0].local_type.rank": "1",
+        "G2.ell=53.m[0].local_type.embdim": "0",
+        "G2.ell=53.m[0].local_type.gorenstein": "true",
+        "G2.ell=53.m[0].local_type.length_mod_l": "1",
+        "G2.ell=53.m[0].local_type.hilbert": "1",
+        "G2.ell=53.m[0].local_type.loewy": "1",
+        "G2.ell=53.m[0].components_through.0": "certified",
+        "G2.ell=53.m[0].components_through.1": "not_run",
+        "G2.ell=53.m[0].components_through.2": "not_run",
+        "G2.ell=53.m[1].residue_degree": "1",
+        "G2.ell=53.m[1].residue_poly": "[25,1]",
+        "G2.ell=53.m[1].support": "free",
+        "G2.ell=53.m[1].local_type.kind": "etale",
+        "G2.ell=53.m[1].local_type.rank": "1",
+        "G2.ell=53.m[1].local_type.embdim": "0",
+        "G2.ell=53.m[1].local_type.gorenstein": "true",
+        "G2.ell=53.m[1].local_type.length_mod_l": "1",
+        "G2.ell=53.m[1].local_type.hilbert": "1",
+        "G2.ell=53.m[1].local_type.loewy": "1",
+        "G2.ell=53.m[1].components_through.0": "not_run",
+        "G2.ell=53.m[1].components_through.1": "not_run",
+        "G2.ell=53.m[1].components_through.2": "certified",
+        "G2.ell=53.m[2].residue_degree": "1",
+        "G2.ell=53.m[2].residue_poly": "[26,1]",
+        "G2.ell=53.m[2].support": "free",
+        "G2.ell=53.m[2].local_type.kind": "etale",
+        "G2.ell=53.m[2].local_type.rank": "1",
+        "G2.ell=53.m[2].local_type.embdim": "0",
+        "G2.ell=53.m[2].local_type.gorenstein": "true",
+        "G2.ell=53.m[2].local_type.length_mod_l": "1",
+        "G2.ell=53.m[2].local_type.hilbert": "1",
+        "G2.ell=53.m[2].local_type.loewy": "1",
+        "G2.ell=53.m[2].components_through.0": "not_run",
+        "G2.ell=53.m[2].components_through.1": "not_run",
+        "G2.ell=53.m[2].components_through.2": "certified",
+        "G2.ell=53.m[3].residue_degree": "1",
+        "G2.ell=53.m[3].residue_poly": "[31,1]",
+        "G2.ell=53.m[3].support": "free",
+        "G2.ell=53.m[3].local_type.kind": "etale",
+        "G2.ell=53.m[3].local_type.rank": "1",
+        "G2.ell=53.m[3].local_type.embdim": "0",
+        "G2.ell=53.m[3].local_type.gorenstein": "true",
+        "G2.ell=53.m[3].local_type.length_mod_l": "1",
+        "G2.ell=53.m[3].local_type.hilbert": "1",
+        "G2.ell=53.m[3].local_type.loewy": "1",
+        "G2.ell=53.m[3].components_through.0": "not_run",
+        "G2.ell=53.m[3].components_through.1": "certified",
+        "G2.ell=53.m[3].components_through.2": "not_run",
+        "G2.ell=53.m[4].residue_degree": "1",
+        "G2.ell=53.m[4].residue_poly": "[34,1]",
+        "G2.ell=53.m[4].support": "free",
+        "G2.ell=53.m[4].local_type.kind": "monogenic",
+        "G2.ell=53.m[4].local_type.rank": "2",
+        "G2.ell=53.m[4].local_type.embdim": "1",
+        "G2.ell=53.m[4].local_type.gorenstein": "true",
+        "G2.ell=53.m[4].local_type.length_mod_l": "2",
+        "G2.ell=53.m[4].local_type.hilbert": "1,1",
+        "G2.ell=53.m[4].local_type.loewy": "2",
+        "G2.ell=53.m[4].components_through.0": "not_run",
+        "G2.ell=53.m[4].components_through.1": "not_run",
+        "G2.ell=53.m[4].components_through.2": "certified",
+        "G2.ell=53.m[5].residue_degree": "1",
+        "G2.ell=53.m[5].residue_poly": "[48,1]",
+        "G2.ell=53.m[5].support": "free",
+        "G2.ell=53.m[5].local_type.kind": "etale",
+        "G2.ell=53.m[5].local_type.rank": "1",
+        "G2.ell=53.m[5].local_type.embdim": "0",
+        "G2.ell=53.m[5].local_type.gorenstein": "true",
+        "G2.ell=53.m[5].local_type.length_mod_l": "1",
+        "G2.ell=53.m[5].local_type.hilbert": "1",
+        "G2.ell=53.m[5].local_type.loewy": "1",
+        "G2.ell=53.m[5].components_through.0": "not_run",
+        "G2.ell=53.m[5].components_through.1": "not_run",
+        "G2.ell=53.m[5].components_through.2": "certified",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_3].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        37,
+        53,
+        61,
+        103,
+        197,
+        233,
+        347,
+        757,
+        857,
+        1249,
+        1871,
+        3329,
+        10753,
+        15193,
+        34511,
+        43867,
+        90437,
+        184271,
+        205357
+       ],
+       "p_in_S_cand": true,
+       "p_in_record_G2": true,
+       "wall_s": 12.57
+      }
+     },
+     "wall_s": 21.81,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 70,
+     "status": "open",
+     "reason": "descent(N, n, P): n = 68 > 60 (the verb's bound)",
+     "etaB_native": {
+      "status": "open",
+      "native_row": {
+       "weight": 70,
+       "pairing_perfect": false
+      },
+      "reason": "GL_2 side open"
+     }
+    }
+   },
+   "3,18,61": {
+    "k": {
+     "weight": 18,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": true,
+     "U_q_residue": 27,
+     "a_q_sign": -1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 27
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x4f2f6ca24a1f493d",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_5,T_7,T_11,T_13,T_17,T_19,T_23,T_37,T_53,T_61,T_103,T_197,T_233,T_347,T_757,T_857,T_1249,T_1871,T_3329,T_10753,T_15193,U_3",
+       "G0.status": "final",
+       "G1.reduced_Q": "true",
+       "G1.C1.status": "certified",
+       "G1.theta": "0,0,1,1",
+       "G1.theta_ops": "T_2,T_5,T_7,U_3",
+       "G1.components": "certified",
+       "G1.components[0].type": "eis",
+       "G1.components[0].degree": "1",
+       "G1.components[0].mult": "1",
+       "G1.components[0].p0": "T_2",
+       "G1.components[0].minpoly": "[-0x20001,0x1]",
+       "G1.components[0].lambda_theta": "0xd39383266e89",
+       "G1.components[0].U_3": "0x1",
+       "G1.components[1].type": "eis",
+       "G1.components[1].degree": "1",
+       "G1.components[1].mult": "1",
+       "G1.components[1].p0": "T_2",
+       "G1.components[1].minpoly": "[-0x20001,0x1]",
+       "G1.components[1].lambda_theta": "0xd3938ad8f44b",
+       "G1.components[1].U_3": "0x7b285c3",
+       "G1.components[2].type": "cusp",
+       "G1.components[2].degree": "5",
+       "G1.components[2].mult": "2",
+       "G1.components[2].p0": "theta",
+       "G1.components[2].minpoly": "[0x1886d585265c73a4bd2e9f9e31953,-0x1fde3d8f9b51025baa5fbff7,0xcd18bb85dcdfcd2ed2,-0x19038fac4140a,-0x99cc25,0x1]",
+       "G1.components[2].irreducible": "open(cap)",
+       "G1.C2_status": "partial(unfactored)",
+       "G2.ell=61.theory": "H",
+       "G2.ell=61.generation.status": "certified",
+       "G2.ell=61.generation.route": "saturation",
+       "G2.ell=61.generation.dim_A1": "7",
+       "G2.ell=61.t_ell": "added",
+       "G2.ell=61.maximal_ideals": "certified",
+       "G2.ell=61.decomposed_by": "theta=(0 0 1 1)",
+       "G2.ell=61.m[0].residue_degree": "1",
+       "G2.ell=61.m[0].residue_poly": "[8,1]",
+       "G2.ell=61.m[0].support": "free",
+       "G2.ell=61.m[0].local_type.kind": "etale",
+       "G2.ell=61.m[0].local_type.rank": "1",
+       "G2.ell=61.m[0].local_type.embdim": "0",
+       "G2.ell=61.m[0].local_type.gorenstein": "true",
+       "G2.ell=61.m[0].local_type.length_mod_l": "1",
+       "G2.ell=61.m[0].local_type.hilbert": "1",
+       "G2.ell=61.m[0].local_type.loewy": "1",
+       "G2.ell=61.m[0].components_through.0": "certified",
+       "G2.ell=61.m[0].components_through.1": "not_run",
+       "G2.ell=61.m[0].components_through.2": "not_run",
+       "G2.ell=61.m[1].residue_degree": "1",
+       "G2.ell=61.m[1].residue_poly": "[18,1]",
+       "G2.ell=61.m[1].support": "free",
+       "G2.ell=61.m[1].local_type.kind": "etale",
+       "G2.ell=61.m[1].local_type.rank": "1",
+       "G2.ell=61.m[1].local_type.embdim": "0",
+       "G2.ell=61.m[1].local_type.gorenstein": "true",
+       "G2.ell=61.m[1].local_type.length_mod_l": "1",
+       "G2.ell=61.m[1].local_type.hilbert": "1",
+       "G2.ell=61.m[1].local_type.loewy": "1",
+       "G2.ell=61.m[1].components_through.0": "not_run",
+       "G2.ell=61.m[1].components_through.1": "certified",
+       "G2.ell=61.m[1].components_through.2": "not_run",
+       "G2.ell=61.m[2].residue_degree": "1",
+       "G2.ell=61.m[2].residue_poly": "[27,1]",
+       "G2.ell=61.m[2].support": "free",
+       "G2.ell=61.m[2].local_type.kind": "monogenic",
+       "G2.ell=61.m[2].local_type.rank": "2",
+       "G2.ell=61.m[2].local_type.embdim": "1",
+       "G2.ell=61.m[2].local_type.gorenstein": "true",
+       "G2.ell=61.m[2].local_type.length_mod_l": "2",
+       "G2.ell=61.m[2].local_type.hilbert": "1,1",
+       "G2.ell=61.m[2].local_type.loewy": "2",
+       "G2.ell=61.m[2].components_through.0": "not_run",
+       "G2.ell=61.m[2].components_through.1": "not_run",
+       "G2.ell=61.m[2].components_through.2": "certified",
+       "G2.ell=61.m[3].residue_degree": "1",
+       "G2.ell=61.m[3].residue_poly": "[34,1]",
+       "G2.ell=61.m[3].support": "free",
+       "G2.ell=61.m[3].local_type.kind": "etale",
+       "G2.ell=61.m[3].local_type.rank": "1",
+       "G2.ell=61.m[3].local_type.embdim": "0",
+       "G2.ell=61.m[3].local_type.gorenstein": "true",
+       "G2.ell=61.m[3].local_type.length_mod_l": "1",
+       "G2.ell=61.m[3].local_type.hilbert": "1",
+       "G2.ell=61.m[3].local_type.loewy": "1",
+       "G2.ell=61.m[3].components_through.0": "not_run",
+       "G2.ell=61.m[3].components_through.1": "not_run",
+       "G2.ell=61.m[3].components_through.2": "certified",
+       "G2.ell=61.m[4].residue_degree": "2",
+       "G2.ell=61.m[4].residue_poly": "[22,39,1]",
+       "G2.ell=61.m[4].support": "free",
+       "G2.ell=61.m[4].local_type.kind": "etale",
+       "G2.ell=61.m[4].local_type.rank": "2",
+       "G2.ell=61.m[4].local_type.embdim": "0",
+       "G2.ell=61.m[4].local_type.gorenstein": "true",
+       "G2.ell=61.m[4].local_type.length_mod_l": "1",
+       "G2.ell=61.m[4].local_type.hilbert": "1",
+       "G2.ell=61.m[4].local_type.loewy": "1",
+       "G2.ell=61.m[4].components_through.0": "not_run",
+       "G2.ell=61.m[4].components_through.1": "not_run",
+       "G2.ell=61.m[4].components_through.2": "certified",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_3].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       13,
+       17,
+       19,
+       23,
+       37,
+       53,
+       61,
+       103,
+       197,
+       233,
+       347,
+       757,
+       857,
+       1249,
+       1871,
+       3329,
+       10753,
+       15193,
+       34511,
+       43867,
+       90437,
+       184271,
+       205357
+      ],
+      "p_in_S_cand": true,
+      "p_in_record_G2": true,
+      "wall_s": 12.48
+     },
+     "gl2": {
+      "q": 3,
+      "k": 18,
+      "p": 61,
+      "weight": 18,
+      "hecke_generators": [
+       2,
+       5,
+       7,
+       61,
+       3
+      ],
+      "dropped_by_hacs_cap": [],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 12,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0x79c7bea4c605acf2",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          5,
+          7,
+          61
+         ]
+        ],
+        "wall_s": 7.24
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xb978a543424bea3f",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         7
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          61
+         ]
+        ],
+        "wall_s": 4.78
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": 42,
+      "generic_A": {
+       "2": 5,
+       "5": 19,
+       "7": 28
+      },
+      "dims": {
+       "L_q": 12,
+       "new": 3,
+       "old_level1": 1,
+       "full": 5
+      },
+      "U_q_signs": {
+       "n_plus": 2,
+       "n_minus": 1,
+       "ells": [
+        5,
+        11
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 61,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           40
+          ],
+          "T5": [
+           1,
+           13
+          ],
+          "T7": [
+           1,
+           54
+          ],
+          "T61": [
+           1,
+           19
+          ],
+          "T3": [
+           1,
+           34
+          ]
+         },
+         "values": {
+          "T2": 21,
+          "T5": 48,
+          "T7": 7,
+          "T61": 42,
+          "T3": 27
+         }
+        },
+        "T_p_residue": 42,
+        "ordinary": true,
+        "U_q_residue": 27,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 1,
+          "a_q_sign": -1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 61,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           40
+          ],
+          "T5": [
+           1,
+           13
+          ],
+          "T7": [
+           1,
+           54
+          ],
+          "T61": [
+           1,
+           19
+          ],
+          "T3": [
+           1,
+           41
+          ]
+         },
+         "values": {
+          "T2": 21,
+          "T5": 48,
+          "T7": 7,
+          "T61": 42,
+          "T3": 20
+         }
+        },
+        "T_p_residue": 42,
+        "ordinary": true,
+        "U_q_residue": 20,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       1
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 12.04,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x4f2f6ca24a1f493d",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_5,T_7,T_11,T_13,T_17,T_19,T_23,T_37,T_53,T_61,T_103,T_197,T_233,T_347,T_757,T_857,T_1249,T_1871,T_3329,T_10753,T_15193,U_3",
+        "G0.status": "final",
+        "G1.reduced_Q": "true",
+        "G1.C1.status": "certified",
+        "G1.theta": "0,0,1,1",
+        "G1.theta_ops": "T_2,T_5,T_7,U_3",
+        "G1.components": "certified",
+        "G1.components[0].type": "eis",
+        "G1.components[0].degree": "1",
+        "G1.components[0].mult": "1",
+        "G1.components[0].p0": "T_2",
+        "G1.components[0].minpoly": "[-0x20001,0x1]",
+        "G1.components[0].lambda_theta": "0xd39383266e89",
+        "G1.components[0].U_3": "0x1",
+        "G1.components[1].type": "eis",
+        "G1.components[1].degree": "1",
+        "G1.components[1].mult": "1",
+        "G1.components[1].p0": "T_2",
+        "G1.components[1].minpoly": "[-0x20001,0x1]",
+        "G1.components[1].lambda_theta": "0xd3938ad8f44b",
+        "G1.components[1].U_3": "0x7b285c3",
+        "G1.components[2].type": "cusp",
+        "G1.components[2].degree": "5",
+        "G1.components[2].mult": "2",
+        "G1.components[2].p0": "theta",
+        "G1.components[2].minpoly": "[0x1886d585265c73a4bd2e9f9e31953,-0x1fde3d8f9b51025baa5fbff7,0xcd18bb85dcdfcd2ed2,-0x19038fac4140a,-0x99cc25,0x1]",
+        "G1.components[2].irreducible": "open(cap)",
+        "G1.C2_status": "partial(unfactored)",
+        "G2.ell=61.theory": "H",
+        "G2.ell=61.generation.status": "certified",
+        "G2.ell=61.generation.route": "saturation",
+        "G2.ell=61.generation.dim_A1": "7",
+        "G2.ell=61.t_ell": "added",
+        "G2.ell=61.maximal_ideals": "certified",
+        "G2.ell=61.decomposed_by": "theta=(0 0 1 1)",
+        "G2.ell=61.m[0].residue_degree": "1",
+        "G2.ell=61.m[0].residue_poly": "[8,1]",
+        "G2.ell=61.m[0].support": "free",
+        "G2.ell=61.m[0].local_type.kind": "etale",
+        "G2.ell=61.m[0].local_type.rank": "1",
+        "G2.ell=61.m[0].local_type.embdim": "0",
+        "G2.ell=61.m[0].local_type.gorenstein": "true",
+        "G2.ell=61.m[0].local_type.length_mod_l": "1",
+        "G2.ell=61.m[0].local_type.hilbert": "1",
+        "G2.ell=61.m[0].local_type.loewy": "1",
+        "G2.ell=61.m[0].components_through.0": "certified",
+        "G2.ell=61.m[0].components_through.1": "not_run",
+        "G2.ell=61.m[0].components_through.2": "not_run",
+        "G2.ell=61.m[1].residue_degree": "1",
+        "G2.ell=61.m[1].residue_poly": "[18,1]",
+        "G2.ell=61.m[1].support": "free",
+        "G2.ell=61.m[1].local_type.kind": "etale",
+        "G2.ell=61.m[1].local_type.rank": "1",
+        "G2.ell=61.m[1].local_type.embdim": "0",
+        "G2.ell=61.m[1].local_type.gorenstein": "true",
+        "G2.ell=61.m[1].local_type.length_mod_l": "1",
+        "G2.ell=61.m[1].local_type.hilbert": "1",
+        "G2.ell=61.m[1].local_type.loewy": "1",
+        "G2.ell=61.m[1].components_through.0": "not_run",
+        "G2.ell=61.m[1].components_through.1": "certified",
+        "G2.ell=61.m[1].components_through.2": "not_run",
+        "G2.ell=61.m[2].residue_degree": "1",
+        "G2.ell=61.m[2].residue_poly": "[27,1]",
+        "G2.ell=61.m[2].support": "free",
+        "G2.ell=61.m[2].local_type.kind": "monogenic",
+        "G2.ell=61.m[2].local_type.rank": "2",
+        "G2.ell=61.m[2].local_type.embdim": "1",
+        "G2.ell=61.m[2].local_type.gorenstein": "true",
+        "G2.ell=61.m[2].local_type.length_mod_l": "2",
+        "G2.ell=61.m[2].local_type.hilbert": "1,1",
+        "G2.ell=61.m[2].local_type.loewy": "2",
+        "G2.ell=61.m[2].components_through.0": "not_run",
+        "G2.ell=61.m[2].components_through.1": "not_run",
+        "G2.ell=61.m[2].components_through.2": "certified",
+        "G2.ell=61.m[3].residue_degree": "1",
+        "G2.ell=61.m[3].residue_poly": "[34,1]",
+        "G2.ell=61.m[3].support": "free",
+        "G2.ell=61.m[3].local_type.kind": "etale",
+        "G2.ell=61.m[3].local_type.rank": "1",
+        "G2.ell=61.m[3].local_type.embdim": "0",
+        "G2.ell=61.m[3].local_type.gorenstein": "true",
+        "G2.ell=61.m[3].local_type.length_mod_l": "1",
+        "G2.ell=61.m[3].local_type.hilbert": "1",
+        "G2.ell=61.m[3].local_type.loewy": "1",
+        "G2.ell=61.m[3].components_through.0": "not_run",
+        "G2.ell=61.m[3].components_through.1": "not_run",
+        "G2.ell=61.m[3].components_through.2": "certified",
+        "G2.ell=61.m[4].residue_degree": "2",
+        "G2.ell=61.m[4].residue_poly": "[22,39,1]",
+        "G2.ell=61.m[4].support": "free",
+        "G2.ell=61.m[4].local_type.kind": "etale",
+        "G2.ell=61.m[4].local_type.rank": "2",
+        "G2.ell=61.m[4].local_type.embdim": "0",
+        "G2.ell=61.m[4].local_type.gorenstein": "true",
+        "G2.ell=61.m[4].local_type.length_mod_l": "1",
+        "G2.ell=61.m[4].local_type.hilbert": "1",
+        "G2.ell=61.m[4].local_type.loewy": "1",
+        "G2.ell=61.m[4].components_through.0": "not_run",
+        "G2.ell=61.m[4].components_through.1": "not_run",
+        "G2.ell=61.m[4].components_through.2": "certified",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_3].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        37,
+        53,
+        61,
+        103,
+        197,
+        233,
+        347,
+        757,
+        857,
+        1249,
+        1871,
+        3329,
+        10753,
+        15193,
+        34511,
+        43867,
+        90437,
+        184271,
+        205357
+       ],
+       "p_in_S_cand": true,
+       "p_in_record_G2": true,
+       "wall_s": 12.48
+      }
+     },
+     "wall_s": 24.53,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 78,
+     "status": "open",
+     "reason": "descent(N, n, P): n = 76 > 60 (the verb's bound)",
+     "etaB_native": {
+      "status": "open",
+      "native_row": {
+       "weight": 78,
+       "pairing_perfect": false
+      },
+      "reason": "GL_2 side open"
+     }
+    }
+   },
+   "13,16,101": {
+    "k": {
+     "weight": 16,
+     "gl2_status": "computed",
+     "ord_eta": 1,
+     "ord_c": 1,
+     "ord_eta_new": 0,
+     "thm_E_identity": true,
+     "gorenstein_S_m": {
+      "gorenstein": true,
+      "socle_dim": 1,
+      "residue_degree": 1,
+      "local_rank": 2,
+      "trace_witness_found": true
+     },
+     "ranks": {
+      "S_m": 2,
+      "S_new_m": 1,
+      "S_old_m": 1
+     },
+     "ordinary": false,
+     "U_q_residue": 56,
+     "a_q_sign": -1,
+     "place": {
+      "residue_degree": 1,
+      "local_rank": 1,
+      "ramification_index": "1",
+      "dvr": true
+     },
+     "t_f_q": 1,
+     "sign_robust": true,
+     "vp_etaB": 0,
+     "etaB_source": "S06-C5",
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "rank_new_definite": 1,
+     "dims_agree": true,
+     "status": "computed",
+     "oracle_S06_C4": {
+      "ord": {
+       "eta": 1,
+       "c": 1,
+       "eta_new": 0
+      },
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "U_q_residue": 56
+     },
+     "agrees_with_S06_C4": true,
+     "agrees_with_S06_C6": true,
+     "record_words": {
+      "status": "final",
+      "record_fnv1a64": "0x94a6322f59fff105",
+      "settings_fingerprint": "0x8ffc29730c4f9672",
+      "words": {
+       "G0.operators": "T_2,T_3,T_5,U_13",
+       "G0.status": "final",
+       "G1.reduced_Q": "undecided",
+       "G1.C1.status": "open(cap)",
+       "G1.theta": "open(cap)",
+       "G1.theta_ops": "T_2,T_3,T_5,U_13",
+       "G1.components": "not_run",
+       "G1.C2_status": "partial(unfactored)",
+       "G3.partition": "U_p_tags",
+       "G3.C_T[U_13].status": "not_run",
+       "G3.C_T.status": "not_run",
+       "G3.C_T.lower": "not_run",
+       "G3.fibre_product": "not_certified"
+      },
+      "S_cand": [
+       2,
+       3,
+       13
+      ],
+      "p_in_S_cand": false,
+      "p_in_record_G2": false,
+      "wall_s": 1.91
+     },
+     "gl2": {
+      "q": 13,
+      "k": 16,
+      "p": 101,
+      "weight": 16,
+      "hecke_generators": [
+       2,
+       3,
+       5,
+       7,
+       11,
+       17,
+       19,
+       13
+      ],
+      "dropped_by_hacs_cap": [
+       101
+      ],
+      "algebra_route": "local",
+      "hacs": {
+       "L_q": {
+        "rank": 36,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xc7e8173d3fe51208",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         13
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          17
+         ],
+         [
+          19
+         ]
+        ],
+        "wall_s": 13.3
+       },
+       "L_1": {
+        "rank": 3,
+        "basis_rule": "iso_dixon/v3",
+        "basis_fnv": "0xb5ca52637e7530ff",
+        "saturation": "det_pm1",
+        "torsion_primes": [
+         2,
+         3,
+         13
+        ],
+        "batches": [
+         [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+         ],
+         [
+          17,
+          19
+         ]
+        ],
+        "wall_s": 1.27
+       }
+      },
+      "t_f_q": 1,
+      "a_p_g_mod_p": null,
+      "generic_A": {
+       "2": 5,
+       "3": 19,
+       "5": 28,
+       "7": 26
+      },
+      "dims": {
+       "L_q": 36,
+       "new": 15,
+       "old_level1": 1,
+       "full": 17
+      },
+      "U_q_signs": {
+       "n_plus": 7,
+       "n_minus": 8,
+       "ells": [
+        5,
+        7
+       ],
+       "assignments_total": 1,
+       "assignments_on_kept_orbits": [
+        [
+         -1
+        ]
+       ],
+       "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits"
+      },
+      "components": [
+       {
+        "m": {
+         "p": 101,
+         "local_rank": 2,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           87
+          ],
+          "T3": [
+           1,
+           15
+          ],
+          "T5": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           90
+          ],
+          "T11": [
+           1,
+           79
+          ],
+          "T17": [
+           1,
+           72
+          ],
+          "T19": [
+           1,
+           14
+          ],
+          "T13": [
+           1,
+           45
+          ]
+         },
+         "values": {
+          "T2": 14,
+          "T3": 86,
+          "T5": 95,
+          "T7": 11,
+          "T11": 22,
+          "T17": 29,
+          "T19": 87,
+          "T13": 56
+         }
+        },
+        "T_p_residue": null,
+        "ordinary": false,
+        "U_q_residue": 56,
+        "ranks": {
+         "S_m": 2,
+         "S_new_m": 1,
+         "S_old_m": 1
+        },
+        "forms": [
+         {
+          "orbit_degree": 8,
+          "a_q_sign": -1,
+          "place": {
+           "residue_degree": 1,
+           "local_rank": 1,
+           "ramification_index": "1",
+           "dvr": true
+          },
+          "status": "computed",
+          "ord": {
+           "eta": 1,
+           "c": 1,
+           "eta_new": 0,
+           "eta_no_base_change": 1
+          },
+          "thm_E_identity": true,
+          "gorenstein": {
+           "S_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 2,
+            "trace_witness_found": true
+           },
+           "S_new_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           },
+           "S_old_m": {
+            "gorenstein": true,
+            "socle_dim": 1,
+            "residue_degree": 1,
+            "local_rank": 1,
+            "trace_witness_found": true
+           }
+          },
+          "lemma_D": {
+           "a_cap_b_zero": true,
+           "ranks_add": true,
+           "ann_a_eq_b": true,
+           "ann_b_eq_a": true
+          },
+          "congruence_module_length": 1
+         }
+        ],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": true
+       },
+       {
+        "m": {
+         "p": 101,
+         "local_rank": 1,
+         "residue_degree": 1,
+         "labels": {
+          "T2": [
+           1,
+           87
+          ],
+          "T3": [
+           1,
+           15
+          ],
+          "T5": [
+           1,
+           6
+          ],
+          "T7": [
+           1,
+           90
+          ],
+          "T11": [
+           1,
+           79
+          ],
+          "T17": [
+           1,
+           72
+          ],
+          "T19": [
+           1,
+           14
+          ],
+          "T13": [
+           1,
+           80
+          ]
+         },
+         "values": {
+          "T2": 14,
+          "T3": 86,
+          "T5": 95,
+          "T7": 11,
+          "T11": 22,
+          "T17": 29,
+          "T19": 87,
+          "T13": 21
+         }
+        },
+        "T_p_residue": null,
+        "ordinary": false,
+        "U_q_residue": 21,
+        "ranks": {
+         "S_m": 1,
+         "S_new_m": 0,
+         "S_old_m": 1
+        },
+        "forms": [],
+        "route": "local (places of degree 1, precision p^40)",
+        "rk_new_ge_2": false,
+        "rk_full_ge_2": false,
+        "note": "no q-new form in m"
+       }
+      ],
+      "orbit_degrees": [
+       8
+      ],
+      "old_factor_degrees": [
+       1
+      ],
+      "sign_robust": true,
+      "status": "computed",
+      "runtime_s": 14.75,
+      "record": {
+       "status": "final",
+       "record_fnv1a64": "0x94a6322f59fff105",
+       "settings_fingerprint": "0x8ffc29730c4f9672",
+       "words": {
+        "G0.operators": "T_2,T_3,T_5,U_13",
+        "G0.status": "final",
+        "G1.reduced_Q": "undecided",
+        "G1.C1.status": "open(cap)",
+        "G1.theta": "open(cap)",
+        "G1.theta_ops": "T_2,T_3,T_5,U_13",
+        "G1.components": "not_run",
+        "G1.C2_status": "partial(unfactored)",
+        "G3.partition": "U_p_tags",
+        "G3.C_T[U_13].status": "not_run",
+        "G3.C_T.status": "not_run",
+        "G3.C_T.lower": "not_run",
+        "G3.fibre_product": "not_certified"
+       },
+       "S_cand": [
+        2,
+        3,
+        13
+       ],
+       "p_in_S_cand": false,
+       "p_in_record_G2": false,
+       "wall_s": 1.91
+      }
+     },
+     "wall_s": 16.66,
+     "etaB_native": {
+      "vp_etaB_m": [
+       0
+      ],
+      "source": "code/results/laneC/hj8_def_native.json (Gram G_w, BrandtSym)"
+     },
+     "etaB_native_eq_python": true
+    },
+    "k+p-1": {
+     "weight": 116,
+     "status": "open",
+     "reason": "descent(N, n, P): n = 114 > 60 (the verb's bound)"
+    }
+   }
+  },
+  "acceptance": {
+   "weight_k_identity_all": true,
+   "weight_k_agrees_S06_C6_all": true,
+   "weight_k_agrees_S06_C4_all": true,
+   "weight_k_native_etaB_eq_python_all": true,
+   "shifted_thm_E_identity_all_computed": true,
+   "shifted_agrees_S06_C4_where_both": true,
+   "shifted_identity_with_native_etaB_where_available": true,
+   "shifted_computed": [
+    "13,12,31",
+    "13,18,19",
+    "5,16,31",
+    "5,18,23"
+   ],
+   "shifted_open": [
+    "13,16,101",
+    "3,18,53",
+    "3,18,61"
+   ],
+   "pass": true
+  },
+  "conventions": {
+   "S": "full Hecke algebra Z[T_l (l <= Sturm + 1, l != q, l <= 97), U_q] of S_kk(Gamma_0(q)) (S06-C4's generator set minus primes > 97, the HACS descent cap); realised on (+)_s Z[gens]*1 in K_s over the orbits s that can meet m",
+   "T_l": "HACS descent(N, kk-2, P).module_Z() free block F (T_l b_j = sum_i F_ij b_i), exact over Z, in HACS's basis (record words: basis rule iso_dixon/v3, saturation det_pm1)",
+   "U_q": "q-new orbit: a_q = eps q^{(kk-2)/2}, eps from HACS level_n U_q charpolys (subset sum); level-one orbit g: U_q = y with y^2 - a_q(g) y + q^{kk-1} = 0, a_q(g) from HACS module_Z at level 1",
+   "eta": "eta_f(q) = eta(S_m, lam_f) (S06-C4, defect.congruence.defect, base change to O)",
+   "eta_new": "eta_f(1, q) = eta(S'_m, lam_f), S' = q-new quotient",
+   "c": "c_q(f) = lam_f(ker(S -> S''))",
+   "eta_B": "weight k: v_p det of the Gram matrix G_w (w_x weights) on the q-new orbit lattice at m (S06-C5 Python and the native BrandtSym file, cross-checked; Hsieh Rem 7.3); weight k+(p-1): the ring-theoretic congruence ideal of the definite Hecke algebra at the weight-k m (native file, m_from_weight_k.etaB_ring; the Gram is not eta^B there since p <= n)",
+   "t_f_q": "v_p(a_q(g)^2 - q^{k-2}(q+1)^2), a_q(g) from HACS (level-one T_q)",
+   "status": "computed / bound / open; record words quoted verbatim"
+  }
+ }
+}

@@ -1,0 +1,130 @@
+diff --git a/lean/Langlandscape/Langlandscape/Hyp/JLClassical.lean b/lean/Langlandscape/Langlandscape/Hyp/JLClassical.lean
+new file mode 100644
+index 0000000..4d6050e
+--- /dev/null
++++ b/lean/Langlandscape/Langlandscape/Hyp/JLClassical.lean
+@@ -0,0 +1,70 @@
++import Langlandscape.Brandt.Hecke
++import Langlandscape.Quat.Levels
++import AlgJL.Hyp.EichlerMass
++
++/-!
++# Classical Jacquet–Langlands target as a `Prop` (S01-L13)
++
++`plan/staged/stage-01-quaternion-foundations.tex`, `thm:s01-JLclassical`, `if:s01-targets`.
++
++* `GL2CuspData N k` : abstract stand-in for `S_k(Γ_0(N))^{D-new}` with commuting Hecke operators.
++* `Eis`, `eisT ℓ` : the Eisenstein line for `k = 2` (`T_ℓ 𝟏 = (ℓ+1) 𝟏`).
++* `Hyp.JLClassical d M hM S hfin` : the statement "there is an isomorphism of the definite Brandt module
++  `R^{X_B(U_0(DM))}` with `S ⊕ Eis` intertwining the `T_ℓ`, `ℓ ∤ DM`".
++* `Hyp.EichlerMass` : alias of the imported `GL2TF.Hyp.EichlerMass`; not redefined.
++
++Schematic interface: the GL₂ side is abstract data because Mathlib v4.35.0 has no Hecke operators on
++`S_k(Γ_0(N))`; the hypothesis is JL only when `S` is instantiated by the true space, which cannot be checked in
++Lean here. With an arbitrary `S`, `Hyp.JLClassical` only says that `S` is a Hecke-module complement of the
++constants; it carries no GL₂ content.
++
++The finiteness argument `hfin` (`[U : U ∩ g U g⁻¹] ≠ 0`, needed by `Tl`) is plumbing: it is the general fact that
++an open compact subgroup has finite index in its intersection with a conjugate, cited and not formalized here.
++
++Status: *cited (with reference)* for the mathematical content; the definitions are *formalized*.
++-/
++
++namespace Langlandscape
++
++open Langlandscape.Brandt Langlandscape.Quat
++
++/-- Abstract stand-in for `S_k(Γ_0(N))^{D-new}` with its Hecke operators (Mathlib v4.35.0 has neither).
++Source: tex `thm:s01-JLclassical`, cited; not to be discharged in this project. -/
++structure GL2CuspData (N k : ℕ) where
++  /-- the underlying type of the (abstract) cusp space -/
++  S : Type
++  [acg : AddCommGroup S]
++  [mod : Module ℂ S]
++  [fd : FiniteDimensional ℂ S]
++  /-- the Hecke operators `T_n` -/
++  T : ℕ → Module.End ℂ S
++  /-- the Hecke operators commute -/
++  comm : ∀ m n, Commute (T m) (T n)
++
++/-- The Eisenstein part for `k = 2`: the line of functions factoring through `Nrd` (tex `thm:s01-JLclassical`).
++Cited; not to be discharged in this project. -/
++abbrev Eis : Type := ℂ
++
++/-- `T_ℓ` acts on the Eisenstein line by `ℓ + 1` (tex `prop:s01-relations`(d), `T_ℓ 𝟏 = (ℓ+1) 𝟏`).
++Cited; not to be discharged in this project. -/
++noncomputable def eisT (ℓ : ℕ) : Module.End ℂ Eis := ((ℓ : ℂ) + 1) • LinearMap.id
++
++/-- Schematic interface for classical Jacquet–Langlands, `k = 2`, trivial coefficients (tex `thm:s01-JLclassical`).
++The GL₂ side `S` is abstract data (Mathlib v4.35.0 has no Hecke operators on `S_k(Γ_0(N))`); the statement is JL
++only when `S` is the true space, which cannot be checked in Lean here. `hfin` is the finiteness of the Hecke index
++for `Tl` (plumbing; cited). Source: Jacquet–Langlands 1970; cited; not to be discharged in this project. -/
++def Hyp.JLClassical (d : DefiniteData) (M : ℕ) (hM : M.Coprime d.D) (S : GL2CuspData (d.D * M) 2)
++    (hfin : ∀ (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : ¬ ℓ ∣ d.D),
++      (d.U0 M hM ⊓ conjSub (d.U0 M hM) (elemT d ℓ hℓ)).relIndex (d.U0 M hM) ≠ 0) : Prop :=
++  letI := S.acg; letI := S.mod
++  ∃ e : ZXdual (d.U0 M hM) ℂ ≃ₗ[ℂ] (S.S × Eis),
++    ∀ (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : ¬ ℓ ∣ d.D * M),
++      e.toLinearMap ∘ₗ Tl d (d.U0 M hM) ℓ (fun h => hℓ (h.mul_right M)) ℂ
++          (hfin ℓ (fun h => hℓ (h.mul_right M)))
++        = (LinearMap.prodMap (S.T ℓ) (eisT ℓ)) ∘ₗ e.toLinearMap
++
++/-- Alias of the imported Eichler mass hypothesis `GL2TF.Hyp.EichlerMass` (tex `thm:s01-JLclassical`, mass input).
++Cited; not redefined here. -/
++abbrev Hyp.EichlerMass := GL2TF.Hyp.EichlerMass
++
++end Langlandscape
+diff --git a/lean/Langlandscape/Langlandscape/Hyp/LambdaJL.lean b/lean/Langlandscape/Langlandscape/Hyp/LambdaJL.lean
+new file mode 100644
+index 0000000..9f34889
+--- /dev/null
++++ b/lean/Langlandscape/Langlandscape/Hyp/LambdaJL.lean
+@@ -0,0 +1,48 @@
++import Mathlib.Data.Nat.Prime.Defs
++import Mathlib.RingTheory.Ideal.Maps
++import Mathlib.Algebra.Algebra.Hom
++
++/-!
++# Λ-adic Jacquet–Langlands target as a `Prop` (S01-L13)
++
++`plan/staged/stage-01-quaternion-foundations.tex`, `thm:s01-lambdaJL`, `if:s01-targets`.
++
++* `LambdaJLGen` : generator labels `T_ℓ`, `U_ℓ`, `⟨d⟩`, `Π_ℓ` of the ordinary Λ-adic Hecke algebras.
++* `Hyp.LambdaJL D M p Λ TGL TB genGL genB newIdeal` : there is a surjective `Λ`-algebra map `TGL → TB` matching the
++  generators (`U_ℓ ↦ +Π_ℓ` for `ℓ ∣ D`), whose kernel is the abstract ideal `newIdeal` cutting out the `D`-new
++  quotient, i.e. `T^{ord, D-new} ≅ T_B^{ord}`.
++
++Schematic interface: the GL₂ side (`TGL`, `genGL`, `newIdeal`) is abstract data because Mathlib v4.35.0 has no
++Hecke operators on `S_k(Γ_0(N))`; the hypothesis is Λ-adic JL only when these are instantiated by the true algebra
++and ideal, which cannot be checked in Lean here. No later theorem may be advertised as "under Λ-adic JL" without
++this caveat.
++
++Status: *cited (with reference)* for the mathematical content; the definition is *formalized*.
++-/
++
++namespace Langlandscape
++
++/-- Generator labels of the ordinary Λ-adic Hecke algebras (tex `thm:s01-lambdaJL`). -/
++inductive LambdaJLGen
++  | T (ℓ : ℕ)
++  | U (ℓ : ℕ)
++  | dia (d : ℕ)
++  | Pi (ℓ : ℕ)
++
++/-- Schematic interface for Λ-adic Jacquet–Langlands (tex `thm:s01-lambdaJL`). The GL₂ side `genGL`, `newIdeal` is
++abstract data (no Hecke operators on `S_k(Γ_0(N))` in Mathlib v4.35.0); the statement is JL only when instantiated
++by the true algebra and ideal. The kernel conjunct says `ker φ = newIdeal`, i.e. `TGL ⧸ newIdeal ≅ T^{ord, D-new}`
++and `φ` induces `T^{ord, D-new} ≅ T_B^{ord}`. Source: Hida theory and Jacquet–Langlands; cited; not to be discharged
++in this project. -/
++def Hyp.LambdaJL (D M p : ℕ) (Λ TGL TB : Type*) [CommRing Λ] [CommRing TGL] [CommRing TB]
++    [Algebra Λ TGL] [Algebra Λ TB] (genGL : LambdaJLGen → TGL) (genB : LambdaJLGen → TB)
++    (newIdeal : Ideal TGL) : Prop :=
++  ∃ φ : TGL →ₐ[Λ] TB,
++    (Function.Surjective φ ∧
++      (∀ ℓ, ℓ.Prime → ¬ ℓ ∣ D * M * p → φ (genGL (.T ℓ)) = genB (.T ℓ)) ∧
++      (∀ ℓ, ℓ.Prime → ℓ ∣ M * p → φ (genGL (.U ℓ)) = genB (.U ℓ)) ∧
++      (∀ d, φ (genGL (.dia d)) = genB (.dia d)) ∧
++      (∀ ℓ, ℓ.Prime → ℓ ∣ D → φ (genGL (.U ℓ)) = genB (.Pi ℓ))) ∧   -- `U_ℓ ↦ +Π_ℓ` (F6/D3)
++    RingHom.ker φ.toRingHom = newIdeal                                 -- `T^{ord, D-new} ≅ T_B^{ord}`
++
++end Langlandscape

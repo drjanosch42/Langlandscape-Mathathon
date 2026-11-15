@@ -1,0 +1,195 @@
+{
+ "data": {
+  "101": {
+   "eis_order": 25,
+   "eis_order_eq_num": true,
+   "eis_v_ell": {
+    "5": 2
+   },
+   "h": 9,
+   "hecke_Z_index": {
+    "rank": 9,
+    "smith_nontrivial": []
+   },
+   "mass_ok": true,
+   "num_q_minus_1_over_12": 25,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ],
+   "q": 101,
+   "t_brandt_ops_s": 15.624878789996728,
+   "t_class_set_s": 0.4973771660006605,
+   "t_smith_s": 0.01099174800037872,
+   "t_total_s": 16.13328730300418
+  },
+  "11": {
+   "eis_order": 5,
+   "eis_order_eq_num": true,
+   "eis_v_ell": {
+    "5": 1
+   },
+   "h": 2,
+   "hecke_Z_index": {
+    "rank": 2,
+    "smith_nontrivial": []
+   },
+   "mass_ok": true,
+   "num_q_minus_1_over_12": 5,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    13
+   ],
+   "q": 11,
+   "t_brandt_ops_s": 1.645381466994877,
+   "t_class_set_s": 0.05022379400907084,
+   "t_smith_s": 0.0001260959979845211,
+   "t_total_s": 1.695762155999546
+  },
+  "131": {
+   "eis_order": 65,
+   "eis_order_eq_num": true,
+   "eis_v_ell": {
+    "13": 1,
+    "5": 1
+   },
+   "h": 12,
+   "hecke_Z_index": {
+    "rank": 12,
+    "smith_nontrivial": []
+   },
+   "mass_ok": true,
+   "num_q_minus_1_over_12": 65,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ],
+   "q": 131,
+   "t_brandt_ops_s": 23.594783388994983,
+   "t_class_set_s": 0.8158129079965875,
+   "t_smith_s": 0.027399022990721278,
+   "t_total_s": 24.43803891900461
+  },
+  "23": {
+   "eis_order": 11,
+   "eis_order_eq_num": true,
+   "eis_v_ell": {
+    "11": 1
+   },
+   "h": 3,
+   "hecke_Z_index": {
+    "rank": 3,
+    "smith_nontrivial": []
+   },
+   "mass_ok": true,
+   "num_q_minus_1_over_12": 11,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ],
+   "q": 23,
+   "t_brandt_ops_s": 3.6373920470068697,
+   "t_class_set_s": 0.0741454280068865,
+   "t_smith_s": 0.00028698999085463583,
+   "t_total_s": 3.711852563996217
+  },
+  "37": {
+   "eis_order": 3,
+   "eis_order_eq_num": true,
+   "eis_v_ell": {},
+   "h": 3,
+   "hecke_Z_index": {
+    "rank": 3,
+    "smith_nontrivial": []
+   },
+   "mass_ok": true,
+   "num_q_minus_1_over_12": 3,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ],
+   "q": 37,
+   "t_brandt_ops_s": 3.8847781469958136,
+   "t_class_set_s": 0.08691671500855591,
+   "t_smith_s": 0.0002847909927368164,
+   "t_total_s": 3.9720088519970886
+  },
+  "401": {
+   "eis_order": 100,
+   "eis_order_eq_num": true,
+   "h": 34,
+   "num_q_minus_1_over_12": 100,
+   "q": 401,
+   "t_T2_s": 5.5164832570008,
+   "t_class_set_s": 5.578875107996282
+  },
+  "997": {
+   "eis_order": 83,
+   "eis_order_eq_num": true,
+   "h": 83,
+   "num_q_minus_1_over_12": 83,
+   "q": 997,
+   "t_T2_s": 30.258876997002517,
+   "t_class_set_s": 30.666029956992134
+  },
+  "congruence_k_python_vs_native": {
+   "cells_rank_gt0": 40,
+   "cells_total": 74,
+   "k2_eis_cells": 14,
+   "mismatch": 0,
+   "orbit_smith_match_native": 69,
+   "orbits": 69,
+   "wall_s": {
+    "load_json": 0.0027713111048797145,
+    "phase_i_k2_eisenstein": 0.00030348698783200234,
+    "phase_ii_orbit_congruences": 0.004688853994593956,
+    "total": 0.00836553200497292
+   }
+  },
+  "v2_record_build_python_s": {
+   "cells": 74,
+   "source": "provenance.runtime_s of laneA_fbz_v2_a2e75098 records (brandt_export.py, sequential)",
+   "sum_runtime_s": 108.68
+  }
+ },
+ "provenance": {
+  "commit": "3e0a896cfb273f5980af3a4ae8f7abe138bcfe21-dirty",
+  "date": "2026-11-15T01:41:38+00:00",
+  "notes": "Eisenstein module = L/(Ze+L_cusp), pairing sum f g/|Gamma_x| (w_x=|Gamma|/2 same lattice); Z/num((q-1)/12) (cited Mazur 1977/Gross 1987). Hecke-index Smith trivial for q<=131 (h<=20) with ops<=13. q=401,997 class set + T_2 only; times on a loaded 32-core node.",
+  "params": {
+   "full q<1000 run aborted (time)": true,
+   "q": [
+    11,
+    23,
+    37,
+    101,
+    131,
+    401,
+    997
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.0,
+  "script": "code/hacs/jl/laneB/py_reference.py + py_congruence_k.py"
+ }
+}

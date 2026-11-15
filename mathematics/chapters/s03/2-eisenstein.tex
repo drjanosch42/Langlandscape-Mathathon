@@ -1,0 +1,304 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit and the Langlandscape team
+% Stage 03, WP S03-M2: the Eisenstein property of Phi^comb (prop:s03-phieis, full proof of steps (1)--(4)) and the
+% definite level-raising operator alpha alpha^dagger (prop:s03-LRdef, trivial coefficients).
+% Labels are fixed by plan/staged/stage-03-ribet-ihara.tex; new labels: lem:s03-nbr, lem:s03-stabfree, rem:s03-eis-ideals,
+% rem:s03-eis-cases, rem:s03-eis-corr. Conventions (C1)--(C6): \S\ref{ss:s03-conv} (chapters/s03/4-ihara.tex).
+\section{The Eisenstein property and the level-raising operator}\label{ss:s03-eisenstein}
+
+\emph{Standing notation for Lemmas~\ref{lem:s03-nbr}, \ref{lem:s03-stabfree} and Prop.~\ref{prop:s03-phieis}.} Let $q$ be any prime,
+$B=B_q$ (so $D=q$ in Def.~\ref{def:s01-B}), $M\ge1$ with $q\nmid M$, and $U=\Uzero M$. By Prop.~\ref{prop:s01-eichler}, $U=\hat R^\times$ for the
+Eichler order $R=\cO(M)$ of level $M$, i.e.\ $U_v=R_v^\times$ for every prime $v$. Put $E:=\XBq U$, a finite set (Prop.~\ref{prop:s01-finite}).
+For $x\in\Bhat^\times$, $\Gamma_x=B^\times\cap xUx^{-1}$; since $-1\in U$ we have $\Gamma_x\cap\{\pm1\}=\{\pm1\}$ and $w_x=|\Gamma_x|/2$ (C2). The
+weighted pairing of $\GDR_q(U)$ (Def.~\ref{def:s03-DR}), $\langle e,e'\rangle_w=w_e\delta_{ee'}$, is the Brandt pairing of
+Def.~\ref{def:s01-pairing} on $\Z[E]$ (same weights). Fix a prime $\ell\nmid qM$. Then $U_\ell=\GL_2(\Z_\ell)=:K$ through $\iota_\ell$; we identify
+$B_\ell=M_2(\Q_\ell)$ through $\iota_\ell$, read $x_\ell$ as a matrix, and put
+\[L_x:=x_\ell\Z_\ell^2\subset\Q_\ell^2\qquad(x\in\Bhat^\times),\]
+a $\Z_\ell$-lattice that depends on the representative $x$, not only on $[x]$. Let $g:=\varpi_\ell=\iota_\ell^{-1}\mathrm{diag}(\ell,1)$ and
+$UgU=\coprod_{i}g_iU$. Following Def.~\ref{def:s01-hecke} (homological convention), $T_\ell[x]=\sum_i[xg_i]$ on $\Z[E]$, and we write
+\[T_\ell[e]=\sum_{e'\in E}B(e,e')\,[e'],\qquad\text{i.e.}\quad B(e,e')=N_g(x,y):=\#\{i:[xg_i]=[y]\}\quad(e=[x],\ e'=[y]),\]
+which is the count $N_g$ of the proof of Prop.~\ref{prop:s01-adjoint}(a).
+
+\begin{lemma}[neighbours]\label{lem:s03-nbr}
+Let $x\in\Bhat^\times$ and $\mathcal N(x):=xUgU/U$ (the set of cosets $hU\subseteq xUgU$), the \emph{neighbours} of $x$.
+\begin{enumerate}[label=(\alph*)]
+\item Every neighbour has a representative $h=xk$ with $k\in\Bhat^\times$ supported at $\ell$ (so $h_v=x_v$ for $v\ne\ell$), and $hU\mapsto L_h$ is a
+  bijection from $\mathcal N(x)$ onto the set of $\Z_\ell$-sublattices of $L_x$ of index $\ell$. There are $\ell+1$ of them, the cosets $xg_iU$, so
+  $B(e,e')=\#\{hU\in\mathcal N(x):[h]=e'\}$ for any representative $x$ of $e$, and $\sum_{e'}B(e,e')=\ell+1$.
+\item $\Gamma_x$ acts on $\mathcal N(x)$ by $\gamma\cdot hU=\gamma hU$; $\pm1$ acts trivially, so $\Gamma_x/\{\pm1\}$ (of order $w_x$) acts; the action
+  preserves classes, $[\gamma h]=[h]$; and the stabiliser of $hU$ is $\Gamma_x\cap\Gamma_h$. For $h$ as in (a) and $\gamma\in\Gamma_x$:
+  $\gamma hU=hU$ if and only if $\gamma L_h=L_h$.
+\end{enumerate}
+\stproved{} (proof below).
+\end{lemma}
+\begin{proof}
+(a) As in the proof of Def.~\ref{def:s01-hecke} (factorisation), $UgU=\big(K\,\mathrm{diag}(\ell,1)\,K\big)\times\prod_{v\ne\ell}U_v$, so every element of
+$xUgU$ lies in $xkU$ for some $k$ supported at $\ell$ with $k_\ell\in K\mathrm{diag}(\ell,1)K$, and for two such $k,k'$ we have $xkU=xk'U$ iff
+$k_\ell K=k'_\ell K$. Thus $\mathcal N(x)\cong K\mathrm{diag}(\ell,1)K/K$. The map $k_\ell K\mapsto x_\ell k_\ell\Z_\ell^2=L_{xk}$ is well defined and
+injective, since for $m\in\GL_2(\Q_\ell)$ one has $m\Z_\ell^2=\Z_\ell^2$ iff $m\in K$. For $k_\ell\in K\mathrm{diag}(\ell,1)K$, $k_\ell\Z_\ell^2\subseteq\Z_\ell^2$ has index
+$|\det k_\ell|_\ell^{-1}=\ell$, so $L_{xk}\subset L_x$ has index $\ell$. Conversely, a sublattice of $L_x$ of index $\ell$ is $x_\ell L''$ with
+$L''\subseteq\Z_\ell^2$ of index $\ell$; $L''=m\Z_\ell^2$ for some $m\in M_2(\Z_\ell)$ (a basis of $L''$), with $v_\ell(\det m)=1$; by the
+elementary divisor theorem $m\in K\mathrm{diag}(\ell^a,\ell^b)K$ with $a+b=1$, $a,b\ge0$, and $K\mathrm{diag}(1,\ell)K=K\mathrm{diag}(\ell,1)K$ (Weyl
+conjugation, proof of Def.~\ref{def:s01-hecke}). So the map is onto. A subgroup $L''\subseteq\Z_\ell^2$ of index $\ell$ contains $\ell\Z_\ell^2$, so these are
+the preimages of the $\ell+1$ lines in $\F_\ell^2$. Since $UgU=\coprod_ig_iU$ gives $xUgU=\coprod_ixg_iU$, the $xg_iU$ are exactly the elements of
+$\mathcal N(x)$, whence the formula for $B(e,e')$ and the row sum $\ell+1$. Independence of the representative: if $x'=\delta xu_0$ ($\delta\in B^\times$,
+$u_0\in U$), then $x'UgU=\delta xUgU$, so $hU\mapsto\delta hU$ is a bijection $\mathcal N(x)\to\mathcal N(x')$ with $[\delta h]=[h]$.
+
+(b) If $\gamma\in\Gamma_x$, then $\gamma x=xu_0$ with $u_0\in U$, so $\gamma xUgU=xUgU$ and left multiplication by $\gamma$ permutes $\mathcal N(x)$. The
+elements $\pm1$ are central and lie in $U$, so $\pm hU=h(\pm1)U=hU$. As $\gamma\in B^\times$, $[\gamma h]=[h]$. Next, $\gamma hU=hU$ iff
+$h^{-1}\gamma h\in U$ iff $\gamma\in\Gamma_h$. For $h=xk$ as in (a) and $v\ne\ell$, $h_v^{-1}\gamma h_v=x_v^{-1}\gamma x_v\in U_v$ holds because
+$\gamma\in\Gamma_x$; so $\gamma\in\Gamma_h$ iff $h_\ell^{-1}\gamma h_\ell\in K$ iff $h_\ell^{-1}\gamma h_\ell\Z_\ell^2=\Z_\ell^2$ iff $\gamma L_h=L_h$.
+\end{proof}
+
+\begin{lemma}[free action on neighbours in other classes; step (1)]\label{lem:s03-stabfree}
+Let $x\in\Bhat^\times$, $\gamma\in\Gamma_x$ with $\gamma\ne\pm1$, and $hU\in\mathcal N(x)$ with $\gamma hU=hU$. Then $[h]=[x]$. More precisely, there is
+$\pi\in\Z[\gamma]\subset B$ with $\Nrd\pi=\ell$ and $hU=\pi xU$. Consequently, for $e\ne e'$ in $E$, $\Gamma_x/\{\pm1\}$ acts freely on the
+neighbours of $x$ in the class $e'$ ($e=[x]$), and
+\[w_e\mid B(e,e')\qquad(e\ne e').\]
+\stproved{} (proof below; elementary, valid for every prime $q$, every $M$ with $q\nmid M$ and every $\ell\nmid qM$, including $\ell\in\{2,3\}$).
+Lean: the statement is the registered hypothesis \lean{Langlandscape.Hyp.BrandtStabFree}, discharged by
+\lean{Langlandscape.Hyp.brandtStabFree\_holds} (\stformal; an external draft, integrated, audited and gated from scratch by our agents)
+\end{lemma}
+\begin{proof}
+\emph{(i) The element $\gamma$.} $\Gamma_x$ is finite: $\Gamma_x\subseteq\cO_x^\times$ for the order $\cO_x=B\cap x\hat\cO x^{-1}$ (proof of
+Prop.~\ref{prop:s01-finite}), and $\cO_x^\times$ is a discrete subset (as $\cO_x$ is a lattice) of the compact set $\{b\in B\otimes\R:\Nrd b=1\}$: for a unit $b$ of an order,
+$\Nrd b$ and $\Nrd b^{-1}$ are positive integers with product $1$, and $\Nrd$ is a positive definite quadratic form on $B\otimes\R$, $B$ being definite. So $\gamma$ has finite order. Write
+$\gamma=xux^{-1}$ with $u\in U$; then $\Nrd\gamma=\Nrd u\in\Zhat^\times$ and $\Nrd\gamma\in\Q_{>0}$, so $\Nrd\gamma=1$ (as in the proof of
+Lemma~\ref{lem:s01-stab}(a)), and $t:=\Trd\gamma\in\Z$ as $\gamma\in\cO_x$ is integral. Thus $\gamma^2-t\gamma+1=0$. If $\gamma\in\Q$, then $\gamma=\pm1$ (a rational number of finite order). Otherwise $\Q[\gamma]$ is a
+quadratic field, and an embedding $\Q[\gamma]\hookrightarrow\C$ sends $\gamma$ to a root $\lambda$ of $X^2-tX+1$ with $\lambda^n=1$, $n$ the order of $\gamma$;
+the other root is $\bar\lambda=\lambda^{-1}$, so $|t|=|\lambda+\bar\lambda|\le2$; if $t=\pm2$, then $(\gamma\mp1)^2=0$ and $\gamma=\pm1$ because $B$ is a division algebra. Hence $t\in\{-1,0,1\}$, and
+$\gamma\notin\Q$.
+
+\emph{(ii) The ring $A:=\Z[\gamma]$.} Since $\gamma^2=t\gamma-1$, $A=\Z+\Z\gamma$ is a commutative subring of $B$, free on $1,\gamma$ ($\gamma\notin\Q$), and
+$A\otimes\Q=\Q(\gamma)$ is an imaginary quadratic field ($t^2-4\in\{-3,-4\}$). For $t=0$, $A=\Z[i]$ with $i=\gamma$; for $t=\mp1$, $A=\Z[\omega]$ with
+$\omega=\pm\gamma$ and $\omega^2+\omega+1=0$. Both are Euclidean for $\Nrd$, hence principal ideal domains: under an embedding $A\subset\C$, $\Nrd a=|a|^2$
+and $A$ is the square lattice $\Z+\Z i$, resp.\ the hexagonal lattice $\Z+\Z\omega$, whose points lie within squared distance $\frac12$, resp.\ $\frac13$, of
+every $z\in\C$; so for $a,b\in A$, $b\ne0$, there is $c\in A$ with $\Nrd(a-bc)<\Nrd b$. For $0\ne\beta\in A$, $[A:\beta A]=|\det(\text{multiplication by }\beta)|
+=N_{\Q(\gamma)/\Q}(\beta)=\Nrd\beta$ (the reduced norm restricts to the field norm on the quadratic subfield $\Q(\gamma)$); and $\beta$ is invertible in
+$A[\frac1{\Nrd\beta}]$, as $\beta\bar\beta=\Nrd\beta$ with $\bar\beta=\Trd\beta-\beta\in A$.
+
+\emph{(iii) The local ring $\cO:=\Z_\ell[\gamma]$.} Let $\cO:=\Z_\ell+\Z_\ell\gamma\subset B_\ell=M_2(\Q_\ell)$. It is a commutative subring, free over $\Z_\ell$ on $1,\gamma$
+($1,\gamma$ stay linearly independent in $B\otimes_\Q\Q_\ell$), and for every $m\ge1$ the natural map $A/\ell^mA\to\cO/\ell^m\cO$ is an isomorphism of rings
+(both are free over $\Z/\ell^m$ on $1,\gamma$). Consequence:
+\begin{itemize}
+\item[$(*)$] \emph{If $\mathfrak b\subseteq\cO$ is an ideal with $\ell^m\cO\subseteq\mathfrak b$, then $\mathfrak b=\beta\cO$ for some $0\ne\beta\in A$, and $[\cO:\mathfrak b]=\Nrd\beta$.}
+\end{itemize}
+Indeed, let $\mathfrak B\subseteq A$ be the preimage of $\mathfrak b/\ell^m\cO$ under $A\to A/\ell^mA\cong\cO/\ell^m\cO$. It is an ideal containing $\ell^mA$, so
+$\mathfrak B=\beta A$ by (ii), $\beta\ne0$. As $\ell^m\in\beta A$, $\ell^m\cO\subseteq\beta\cO$; and $\beta\cO$ and $\mathfrak b$ have the same image $\mathfrak B/\ell^mA$ in
+$\cO/\ell^m\cO$; both contain $\ell^m\cO$, so $\beta\cO=\mathfrak b$. Finally $\cO/\mathfrak b\cong A/\mathfrak B=A/\beta A$ has order $\Nrd\beta$ by (ii).
+(In particular $\cO$ is the maximal order of $\Q_\ell(\gamma)=\Q_\ell+\Q_\ell\gamma$ for \emph{every} $\ell$, including $\ell=2,3$, because $A$ is the full ring of
+integers of $\Q(\gamma)$; the proof uses only $(*)$.)
+
+\emph{(iv) $L_x$ is free of rank one over $\cO$ (the lattice form of Morita).} Since $\gamma\in\Gamma_x$, $x^{-1}\gamma x\in U$, so
+$x_\ell^{-1}\gamma x_\ell\in U_\ell=K$, whence $\gamma L_x=\gamma x_\ell\Z_\ell^2=x_\ell(x_\ell^{-1}\gamma x_\ell)\Z_\ell^2=L_x$, so $L_x$ is an $\cO$-module. The matrix $\gamma\in M_2(\Q_\ell)$ is not scalar ($\gamma\notin\Q_\ell$), so its
+eigenvectors lie on at most two lines; choose $v_0\in\Q_\ell^2$ off these lines. Then $v_0,\gamma v_0$ is a basis, and
+$\phi:K_\ell:=\Q_\ell+\Q_\ell\gamma\to\Q_\ell^2$, $a\mapsto av_0$, is a $K_\ell$-linear isomorphism. Then $\mathfrak b':=\phi^{-1}(L_x)$ is an $\cO$-submodule of $K_\ell$ and
+a $\Z_\ell$-lattice of rank $2$. Choose $k\ge0$ with $\ell^k\mathfrak b'\subseteq\cO$; then $\mathfrak b:=\ell^k\mathfrak b'$ is an ideal of $\cO$ of finite index, hence
+contains some $\ell^m\cO$, and $(*)$ gives $\mathfrak b=\beta\cO$ with $0\ne\beta\in A$. Put $v:=\ell^{-k}\beta v_0$. Then $L_x=\phi(\mathfrak b')=\cO v$, and
+$\cO\to L_x$, $a\mapsto av$, is an isomorphism ($\beta$ is a unit of $K_\ell$ by (ii), and $\phi$ is injective).
+
+(The general dictionary behind this step: right $M_2(\Z_\ell)$-lattices $\Lambda\subset M_2(\Q_\ell)$ of the form $yM_2(\Z_\ell)$ correspond to lattices
+$y\Z_\ell^2\subset\Q_\ell^2$, via $\Lambda\mapsto\Lambda\Z_\ell^2$ and $L\mapsto\{a\in M_2(\Q_\ell):a\Z_\ell^2\subseteq L\}$, compatibly with left multiplication
+by $B_\ell^\times$; we only use the special case $(x_\ell K)\mapsto L_x$ of Lemma~\ref{lem:s03-nbr}(a).)
+
+\emph{(v) The fixed sublattice is $\pi L_x$.} We may take $h=xk$ as in Lemma~\ref{lem:s03-nbr}(a). By Lemma~\ref{lem:s03-nbr}(b), $\gamma L_h=L_h$, so $L_h$ is an
+$\cO$-submodule of $L_x=\cO v$ of index $\ell$. Put $\mathfrak a:=\{a\in\cO:av\in L_h\}$, an ideal with $L_h=\mathfrak av$ and $\cO/\mathfrak a\cong L_x/L_h$ of
+order $\ell$; hence $\ell\cO\subseteq\mathfrak a$. By $(*)$ with $m=1$, $\mathfrak a=\pi\cO$ with $\pi\in A$ and $\Nrd\pi=[\cO:\mathfrak a]=\ell$. So
+$L_h=\pi L_x$.
+
+\emph{(vi) Globalisation: $hU=\pi xU$, so $[h]=[x]$.} We show $h^{-1}\pi x\in U$ place by place. At $\ell$: $\pi x_\ell\Z_\ell^2=\pi L_x=L_h=h_\ell\Z_\ell^2$,
+so $h_\ell^{-1}\pi x_\ell\in K=U_\ell$. At $v\ne\ell$: $h_v=x_v$, and we need $\pi\in x_vU_vx_v^{-1}=(x_vR_vx_v^{-1})^\times$ (recall $U_v=R_v^\times$). The ring
+$x_vR_vx_v^{-1}$ contains $\gamma\in x_vU_vx_v^{-1}$, hence contains $A=\Z[\gamma]$, hence $\pi$; and $\pi^{-1}=\bar\pi/\ell$ with $\bar\pi\in A$ and
+$\ell\in\Z_v^\times$, so $\pi^{-1}\in x_vR_vx_v^{-1}$ as well. Thus $h^{-1}\pi x\in U$, i.e.\ $hU=\pi xU$, and $[h]=[\pi x]=[x]$ because $\pi\in B^\times$ and
+classes in $\XBq U=B^\times\backslash\Bhat^\times/U$ are orbits under \emph{left} multiplication by $B^\times$.
+
+\emph{(vii) Orbits.} By Lemma~\ref{lem:s03-nbr}(b), $\bar\Gamma_x:=\Gamma_x/\{\pm1\}$ acts on $\mathcal N(x)$ preserving classes, so the set
+$\mathcal N_{e'}(x):=\{hU\in\mathcal N(x):[h]=e'\}$, of cardinality $B(e,e')$ (Lemma~\ref{lem:s03-nbr}(a)), is a union of orbits. If $e'\ne e$, then by (i)--(vi)
+no $\gamma\ne\pm1$ fixes an element of $\mathcal N_{e'}(x)$, so $\bar\Gamma_x$ acts freely, every orbit has $|\bar\Gamma_x|=w_e$ elements, and
+$w_e\mid B(e,e')$.
+\end{proof}
+
+\begin{remark}[decomposition of $\ell$ in $\Z\lbrack\gamma\rbrack$; checks of the stage tex]\label{rem:s03-eis-cases}
+By (iii) and (v), the $\gamma$-fixed neighbours of $x$ correspond to the ideals of $A/\ell A\cong\F_\ell[X]/(X^2-tX+1)$ of index $\ell$, i.e.\ to the roots of
+$X^2-tX+1$ in $\F_\ell$. If $\ell$ is \emph{inert} in $A$ there are none: $\gamma$ fixes no neighbour at all (e.g.\ $A=\Z[\omega]$, $\ell=2$; $A=\Z[i]$,
+$\ell=3$). If $\ell$ \emph{splits} there are two, $\pi xU$ and $\bar\pi xU$. If $\ell$ is \emph{ramified} ($\ell=2$, $A=\Z[i]$, $\pi=1+i$; $\ell=3$,
+$A=\Z[\omega]$, $\pi=1-\omega$) there is exactly one. In every case the fixed neighbours lie in the class $e=[x]$ itself, so they contribute only to the
+diagonal entry $B(e,e)$. Nothing in the argument uses $q\ge5$, cyclicity of $\Gamma_x$, $\ell\ge5$, or the mass formula; for $q\in\{2,3\}$ the groups
+$\Gamma_x$ may be non-abelian (at $M=1$, $U=\hat\cO^\times$, $\Gamma_x=\cO_x^\times$ is binary tetrahedral of order $24$ for $q=2$ and binary dihedral of
+order $12$ for $q=3$; Prop.~\ref{prop:s01-finite}, \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~11.5.14, p.~176}), but the argument is element by
+element. The rest of the remark is \stproved{} (by (iii), (v) and Lemma~\ref{lem:s03-stabfree}(vi)).
+\end{remark}
+
+\begin{remark}[the same step in the language of ideals]\label{rem:s03-eis-ideals}
+For $x\in\Bhat^\times$ let $I_x:=B\cap x\hat R$. By the local--global dictionary for lattices \stcited{}
+\lit{voight\_2021\_quaternion-algebras}{Thm.~9.4.9, p.~145, with Lemma~9.5.3, p.~146}, $I_x$ is the lattice with completions $(I_x)_v=x_vR_v$, so it is a locally principal \emph{right}
+$R$-ideal, its left order is $\cO_L(I_x)=B\cap x\hat Rx^{-1}$, and $\cO_L(I_x)^\times=\Gamma_x$. Since $I_{\gamma xu}=\gamma I_x$ ($\gamma\in B^\times$,
+$u\in U=\hat R^\times$) and conversely $I_{x'}=\gamma I_x$ forces $x'^{-1}\gamma x\in\hat R^\times$, the map $[x]\mapsto[I_x]$ identifies $\XBq U$ with the
+classes of locally principal right $R$-ideals \emph{under left multiplication by $B^\times$}; this is the convention of Def.~\ref{def:s03-DR} and of
+stage 01 ($\Gamma_e=\cO_L(I)^\times$ for $e=[I]$). The neighbours $hU\in\mathcal N(x)$ correspond to the right $R$-ideals $J=I_h\subset I=I_x$ with
+$J_v=I_v$ ($v\ne\ell$) and $J_\ell\subset I_\ell$ of index $\ell^2$, i.e.\ $\Nrd(J)=\ell\Nrd(I)$; by the dictionary of (iv), $J_\ell=\{a:a\Z_\ell^2\subseteq L_h\}$.
+The group $\Gamma_x=\cO_L(I)^\times$ acts on them by \emph{left} multiplication $J\mapsto\gamma J$, which preserves right ideals and their classes. Step (vi)
+reads: $J_\ell=\pi I_\ell$ by (v), and $J_v=I_v=\pi I_v$ for $v\ne\ell$ because $\pi$ is a unit of $\cO_L(I)_v$; hence $J=\pi I$, which lies in the class of $I$
+because the class is the $B^\times$-orbit under left multiplication and $\pi\in B^\times$. The proof of Lemma~\ref{lem:s03-stabfree} does not use this remark.
+Status: \stpmc{} (on the cited local--global dictionary only).
+\end{remark}
+
+\begin{proposition}[$\Phicomb$ is Eisenstein]\label{prop:s03-phieis}
+Let $q$ be any prime, $U=\Uzero M$, $B=B_q$, $\ell\nmid qM$, and let $T_\ell$ act on $\Z[\XBq U]$ by the Brandt matrix (homological
+convention, $[x]\mapsto\sum_i[xg_i]$). Then $T_\ell$ is self-adjoint for $\langle,\rangle_w$, so it acts on $\Phicomb(\GDR_q(U))$, and
+$T_\ell-(1+\ell)$ annihilates $\Phicomb(\GDR_q(U))$. \stproved{} (proof below, steps (1)--(4); valid for all primes $q$, including $q\in\{2,3\}$, and all
+$M$ with $q\nmid M$ and $\ell\nmid qM$; it uses Lemma~\ref{lem:s03-stabfree}, Prop.~\ref{prop:s01-adjoint}(a),(b), Prop.~\ref{prop:s03-phi}, and the
+finiteness of $\XBq U$, Prop.~\ref{prop:s01-finite}, which makes $\GDR_q(U)$ a finite graph). Lean: abstract core \stformal{}: \lean{Langlandscape.Graph.heckeQ} and \lean{Langlandscape.Graph.phiComb\_eisenstein} (steps (2)--(4), abstract: an integer matrix $B$ with row sums $\ell+1$,
+$w_{e'}B(e,e')=w_eB(e',e)$ and $w_e\mid B(e,e')$ off the diagonal, acting on $\Phicomb$ of the two-vertex lattice $\Z[E]^0$ with weights $w_e>0$). Instantiation at $U=\hat\cO^\times$: \lean{Langlandscape.Ribet.phiComb\_eisenstein\_Ohat} \stformal{} modulo the registered hypothesis (step (1)) \lean{Langlandscape.Hyp.BrandtStabFree}.
+
+Cross-references (not needed for the proof): [Ri90, Thm~3.12, p.~449; proof pp.~449--450, Remark~3.13] \stcited{}
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Thm 3.12, p.~449}. Ribet's $\Phi=\coker(\iota)$ is our
+$\Phicomb$, and his proof is the divisibility of the off-diagonal Brandt entries $B_\ell(i,j)$ by $e(i)=w_i$, which is step~(1) below, a purely quaternionic
+fact. The geometric analogue for $\Phi_{N,p}$ is [Ed91, Th.~1, p.~163] \stcited{}
+\lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Edixhoven, Th\'eor\`eme~1, p.~163}, which assumes $p>3$.
+\end{proposition}
+\begin{proof}
+Write $E=\XBq U$, so $X:=X(\GDR_q(U))=\Z[E]^0$ and $\Phicomb:=\Phicomb(\GDR_q(U))=\Z^E/(W\Z[E]^0+\Z\mathbf1)$ with $W=\mathrm{diag}(w_e)$
+(Prop.~\ref{prop:s03-phi}; all edges are oriented $0\to1$ by Def.~\ref{def:s03-DR}). Under $\Hom(\Z[E]^0,\Z)=\Z^E/\Z\mathbf1$ (restriction of functionals),
+the map $\iota:X\to\Hom(X,\Z)$, $x\mapsto\langle x,\cdot\rangle_w$, sends $x$ to the class of $Wx$ (proof of Prop.~\ref{prop:s03-phi}).
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{$w_e\mid B(e,e')$ for $e'\ne e$.} This is Lemma~\ref{lem:s03-stabfree}. Put $S(e,e'):=B(e,e')/w_e\in\Z$ for $e\ne e'$.
+\item \emph{Symmetry.} By Prop.~\ref{prop:s01-adjoint}(a) (more precisely the identity $N_g(x,y)|\Gamma_y|=N_{g^{-1}}(y,x)|\Gamma_x|$ of its proof, divided by
+  $|\{\pm1\}\cap U|=2$), $w_{e'}N_g(x,y)=w_eN_{g^{-1}}(y,x)$. By Prop.~\ref{prop:s01-adjoint}(b), at level $\Uzero M$ with trivial coefficients
+  $T_{g^{-1}}=S_\ell^{-1}T_\ell=T_\ell$, i.e.\ $N_{g^{-1}}(y,x)=N_g(y,x)=B(e',e)$. (Directly: $g^{-1}=z_\ell^{-1}\iota_\ell^{-1}\mathrm{diag}(1,\ell)$ and
+  $Ug^{-1}U=z_\ell^{-1}UgU$; moreover $z_\ell=\ell\cdot c$ with $c\in\Zhat^\times\subseteq U$ central, so $[z_\ell^{-1}y]=[\ell^{-1}yc^{-1}]=[y]$.) Hence
+  \[w_{e'}B(e,e')=w_eB(e',e)\qquad(e,e'\in E),\]
+  which is the statement that $T_\ell$ is self-adjoint for $\langle,\rangle_w$: $\langle T_\ell e,e'\rangle_w=B(e,e')w_{e'}$ and
+  $\langle e,T_\ell e'\rangle_w=w_eB(e',e)$. (In the import this is \pathtt{brandt\_weighted\_symmetry}, cited in Prop.~\ref{prop:s01-adjoint}.) Dividing by
+  $w_ew_{e'}$: $S(e,e')=S(e',e)$ for $e\ne e'$.
+\item \emph{Action on $\Phicomb$.} By Lemma~\ref{lem:s03-nbr}(a), $\deg T_\ell[e]=\ell+1$, so $T_\ell$ preserves $X=\Z[E]^0$. Let $T_\ell^\vee$ be the transpose on
+  $\Hom(X,\Z)$, $T_\ell^\vee\varphi=\varphi\circ T_\ell$. On $\Z^E$ it is $(T_\ell^\vee\varphi)(e)=\varphi(T_\ell e)=\sum_{e'}B(e,e')\varphi(e')$, which maps $\mathbf 1$
+  to $(\ell+1)\mathbf 1$, so it descends to $\Z^E/\Z\mathbf1=\Hom(X,\Z)$ and is the transpose there. By step~(2),
+  $\iota(T_\ell x)=\langle T_\ell x,\cdot\rangle_w=\langle x,T_\ell\,\cdot\,\rangle_w=T_\ell^\vee\iota(x)$, so $T_\ell^\vee$ preserves $\iota(X)$ and induces an endomorphism
+  of $\Phicomb=\coker\iota$; this is the action of $T_\ell$ on $\Phicomb$. For $\varphi\in\Z^E$ and $e\in E$, using $\sum_{e'}B(e,e')=\ell+1$,
+  \[\big((T_\ell^\vee-(\ell+1))\varphi\big)(e)=\sum_{e'}B(e,e')\big(\varphi(e')-\varphi(e)\big)=\sum_{e'\ne e}B(e,e')\big(\varphi(e')-\varphi(e)\big)=w_ey_e,\]
+  \[y_e:=\sum_{e'\ne e}S(e,e')\big(\varphi(e')-\varphi(e)\big)\in\Z .\]
+  Moreover $\sum_ey_e=\sum_{e\ne e'}S(e,e')\varphi(e')-\sum_{e\ne e'}S(e,e')\varphi(e)=0$: exchanging the names $e\leftrightarrow e'$ in the first sum and using
+  $S(e',e)=S(e,e')$ turns it into the second. So $y:=\sum_ey_ee\in\Z[E]^0$.
+\item \emph{Conclusion.} Step~(3) says $(T_\ell^\vee-(\ell+1))\varphi=Wy$ with $y\in\Z[E]^0=X$, i.e.\ $(T_\ell^\vee-(\ell+1))(\Z^E)\subseteq W\Z[E]^0$, whose class in
+  $\Z^E/\Z\mathbf1$ is $\iota(X)$. Hence $T_\ell-(1+\ell)$ is zero on $\Phicomb(\GDR_q(U))$. \qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{remark}[corrections to the stage tex's proof]\label{rem:s03-eis-corr}
+The four-step proof of the stage tex is correct in substance; the following points were sketchy and are fixed above. (a) ``$\gamma$ has order $3,4$ or $6$
+(up to sign)'': $\gamma\ne\pm1$ has order exactly $3$, $4$ or $6$, and $\Z[\gamma]\in\{\Z[i],\Z[\omega]\}$ follows from $\Nrd\gamma=1$, $\Trd\gamma\in\{-1,0,1\}$
+(Lemma~\ref{lem:s03-stabfree}(i)--(ii)); finiteness of $\Gamma_x$ is what makes $\gamma$ of finite order. (b) ``Morita theory writes $I_\ell=L\otimes\Z_\ell^2$'':
+what is used is only the column-lattice dictionary $x_\ell K\mapsto L_x=x_\ell\Z_\ell^2$, under which neighbours are index-$\ell$ sublattices
+(Lemma~\ref{lem:s03-nbr}); ``$L$ is free of rank one over $\Z_\ell[\gamma]$'' needs the PID property of $\Z[\gamma]$ transported to $\Z_\ell[\gamma]$, which
+is $(*)$; that $\Z_\ell[\gamma]$ is the maximal order at $\ell$ is true for every $\ell$ (including $\ell=2,3$) but not needed beyond $(*)$. (c) ``$L'=\mathfrak pL$ for
+an ideal $\mathfrak p$ of norm $\ell$'': such $\mathfrak p$ exists only if $\ell$ is split or ramified in $\Z[\gamma]$; if $\ell$ is inert there is no fixed
+neighbour (Remark~\ref{rem:s03-eis-cases}), and the claim is vacuous. (d) ``$J_v=I_v=\pi I_v$ for $v\ne\ell$'' needs $\pi\in\cO_L(I)_v^\times$; this holds
+because $\Z[\gamma]\subseteq\cO_L(I)$ (as $\gamma\in\cO_L(I)$) and $\Nrd\pi=\ell\in\Z_v^\times$ (step (vi)). (e) Step (2) uses both parts (a) and (b) of
+Prop.~\ref{prop:s01-adjoint}: (a) gives $w_{e'}N_g(x,y)=w_eN_{g^{-1}}(y,x)$, and (b) ($S_\ell=1$ at level $\Uzero M$) identifies $N_{g^{-1}}$ with $N_g$.
+Regarding the status line ``not yet re-read by a second reader'' of the stage tex: the proof is written out in full here; the second reading is the
+independent audit of this section, not this text. \stproved{} (each point is proved at the place indicated).
+\end{remark}
+
+\subsection*{The definite level-raising operator}
+
+\emph{Standing notation for Prop.~\ref{prop:s03-LRdef}.} This is the identification of Def.~\ref{def:s02-BG} and of the standing notation of
+\S\ref{ss:s03-ribet}, with the orientation and sign (C1) of \S\ref{ss:s03-conv} (sign table in \S\ref{ss:s03-ribet}). Let $B=\Bd$, $q\nmid DM$,
+$U=\Uzero M$, $U':=\Uzero qU=U\cap\Uzero q$, $\alpha=\iota_q^{-1}\mathrm{diag}(1,q)$, $U'_\alpha:=\alpha^{-1}U'\alpha$, $X:=\XB U$ (both vertex types
+$V_0=V_1=X$) and $X':=\XB{U'}$ (the edges). The degeneracies are $s_0[y]=[y]$ and $s_1[y]=[y\alpha]$, $X'\to X$; $s_{j*}:\Z[X']\to\Z[X]$ are the
+pushforwards $[y]\mapsto s_j[y]$, and $\alpha=(-s_{0*},s_{1*}):\Z[X']\to\Z[X]^2$ as in (C1). For $y\in\Bhat^\times$ put $\Gamma'_y:=B^\times\cap yU'y^{-1}$ and
+$w'_y:=|\Gamma'_y|/2$ ($-1\in U'$). The weighted pairings are $\langle[x],[x_1]\rangle=w_x\delta_{[x][x_1]}$ on $\Z[X]$,
+$\langle[y],[y_1]\rangle'=w'_y\delta_{[y][y_1]}$ on $\Z[X']$, and the orthogonal sum on $\Z[X]^2$. They are non-degenerate over $\Q$, so every
+$\Z$-linear map between these modules has a unique adjoint, a priori with $\Q$-coefficients. Finally $T_q:=[U\varpi_qU]$, $\varpi_q=\iota_q^{-1}\mathrm{diag}(q,1)$,
+acting on $\Z[X]$ by $[x]\mapsto\sum_i[xg_i]$ ($U\varpi_qU=\coprod_ig_iU$), the homological Brandt operator of Def.~\ref{def:s01-hecke} at level $U$ (where
+$q\nmid DM$). We write $a_0:=1$, $a_1:=\alpha$ and $U'_0:=U'$, $U'_1:=U'_\alpha$, so that $s_j[y]=[ya_j]$ and $U'_j=a_j^{-1}U'a_j$.
+
+\begin{proposition}[definite level-raising operator]\label{prop:s03-LRdef}
+Let $V=\Z$ and $U=\Uzero M$ (trivial character). Let $s_j^\dagger$ be the adjoint of $s_{j*}$ for the weighted pairings on
+$\Z[\XB U]$ and $\Z[\XB{U'}]$. Explicitly,
+\[s_j^\dagger[x]=\sum_{u\in U/U'_j}[xua_j^{-1}]'=\sum_{[z]'\in s_j^{-1}[x]}[\Gamma_{za_j}:\Gamma'_z]\,[z]'\qquad(j=0,1),\]
+and for $j=0$, with each representative $z$ of $e=[z]'$ chosen in $xU$, this is $s_0^\dagger[x]=\sum_{e:s_0e=[x]}[\Gamma_x:\Gamma'_z]\,[e]$ (the stage tex's
+$[\Gamma_x:\Gamma_e]$). It is integral because $\Gamma'_z\subseteq\Gamma_{za_j}$. Then $\alpha^\dagger=(-s_0^\dagger,s_1^\dagger)$ maps $(\Z[\XB U]^0)^2$ into $\Z[\XB{U'}]^0$, and
+\[\alpha\alpha^\dagger=\begin{pmatrix}q+1&-T_q^\dagger\\-T_q&q+1\end{pmatrix}=\begin{pmatrix}q+1&-T_q\\-T_q&q+1\end{pmatrix}\ \text{ on }(\Z[\XB U]^0)^2,
+\qquad\det=(q+1)^2-T_q^2,\]
+(the matrix identity holds even on $\Z[\XB U]^2$),
+with $T_q=s_{1*}s_0^\dagger$ the Brandt operator at $q$, $T_q^\dagger=s_{0*}s_1^\dagger=T_{\alpha^{-1}}$ its weighted adjoint, and $T_q^\dagger=T_q$ at level
+$\Uzero M$; the determinant is taken in the commutative ring $\Z[T_q]\subseteq\End(\Z[\XB U]^0)$. \stproved{} (proof below). Lean: abstract core \stformal{}: \lean{Langlandscape.Graph.alphaMap}, \lean{Langlandscape.Graph.alphaDagger}, \lean{Langlandscape.Graph.levelT},
+\lean{Langlandscape.Graph.alphaDagger\_deg0} (under the fibre-sum hypotheses $\sum_{s_je=x}a_je=q+1$), and
+\lean{Langlandscape.Graph.alpha\_alphaDagger\_eq}, which needs the symmetry hypothesis \texttt{hsym}\,: $s_{0*}s_1^\dagger=s_{1*}s_0^\dagger$ on basis vectors (self-adjointness of $T_q$, i.e.\ the identity
+$T_q^\dagger=T_q$ of step (4)); this hypothesis is not provable in the abstract layer and is discharged only at the quaternionic instantiation (\lean{Langlandscape.Ribet.alpha\_alphaDagger\_eq\_Ohat}, \lean{Langlandscape.Ribet.alpha\_alphaDagger\_eq\_U0} \stformal{}). On the Brandt graph the level-raising operator is formalized without hypothesis: \lean{Langlandscape.Ribet.levelRaising\_hf0}, \lean{Langlandscape.Ribet.levelRaising\_hf1}, \lean{Langlandscape.Ribet.levelRaising\_hsym\_Ohat}, \lean{Langlandscape.Ribet.levelRaising\_hsym\_U0} \stformal{}. The definition of $s_j^\dagger$ as weighted adjoint and the index formula (steps (0)--(2)) are not formalized
+
+This is the definite analogue of [Ri90, pp.~454--455], where $\delta\sigma=\mu=\big(\begin{smallmatrix}p+1&\tau\\\tau&p+1\end{smallmatrix}\big)$ on $X\oplus X$ ($\tau$ the $p$-th Hecke operator; $\mu$ defined on p.~454, the matrix displayed on p.~455) appears with Ribet's unsigned
+$\delta=(s_{0*},s_{1*})$ \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{pp.~454--455}: by (C1),
+$\alpha=\epsilon\circ\delta$ with $\epsilon(a,b)=(-a,b)$, which is self-adjoint, so $\alpha\alpha^\dagger=\epsilon\,\delta\delta^\dagger\epsilon$ and
+$\delta\delta^\dagger=\big(\begin{smallmatrix}q+1&T_q\\T_q&q+1\end{smallmatrix}\big)$; only the off-diagonal signs change. Compare also [DT, proof of Thm.~1, p.~447] for the composite Hecke matrix
+\stcited{} \lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{proof of Thm.~1, p.~447} (Cor.~1, p.~446, is the Eisenstein-support analogue). With coefficients $\Vk$ the entries acquire
+powers of $q$ through the norm weight of the pairing (\texttt{weightedPairing} in the import); that normalisation is left to stage 06, and the Betti-side
+table is Prop.~\ref{prop:s03-PsiPsi}.
+\end{proposition}
+\begin{proof}
+\emph{(0) Local facts at $q$.} Write $K_q=\GL_2(\Zq)$ and $k=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in K_q$. Then
+$\mathrm{diag}(1,q)\,k\,\mathrm{diag}(1,q)^{-1}=\left(\begin{smallmatrix}a&b/q\\qc&d\end{smallmatrix}\right)$, so $K_q\cap\mathrm{diag}(1,q)K_q\mathrm{diag}(1,q)^{-1}=\{c\equiv0\bmod q\}=\Iw_q$; and
+$\mathrm{diag}(1,q)^{-1}k\,\mathrm{diag}(1,q)=\left(\begin{smallmatrix}a&qb\\c/q&d\end{smallmatrix}\right)$, so $K_q\cap\mathrm{diag}(1,q)^{-1}K_q\mathrm{diag}(1,q)=\{b\equiv0\bmod q\}
+=\mathrm{diag}(1,q)^{-1}\Iw_q\mathrm{diag}(1,q)$. Since $\alpha$ is supported at $q$ and $U_q=K_q$ ($q\nmid DM$), this gives
+\[U'=U\cap\alpha U\alpha^{-1},\qquad U'_\alpha=U\cap\alpha^{-1}U\alpha,\qquad [U:U']=[U:U'_\alpha]=|\mathbb P^1(\F_q)|=q+1,\]
+and in particular $U'_j\subseteq U$, so $s_0,s_1$ are well defined (Def.~\ref{def:s02-BG}). Consequently the maps $U/U'\to U\alpha U/U$, $uU'\mapsto u\alpha U$, and
+$U/U'_\alpha\to U\alpha^{-1}U/U$, $uU'_\alpha\mapsto u\alpha^{-1}U$, are bijections (surjective by construction; $u\alpha U=u_1\alpha U$ iff
+$u^{-1}u_1\in U\cap\alpha U\alpha^{-1}=U'$, and likewise for $\alpha^{-1}$):
+\[U\alpha U=\coprod_{u\in U/U'}u\alpha U,\qquad U\alpha^{-1}U=\coprod_{u\in U/U'_\alpha}u\alpha^{-1}U .\]
+Finally $U\alpha U=U\varpi_qU$ (Weyl conjugation, proof of Def.~\ref{def:s01-hecke}), and $\alpha^{-1}=z_q^{-1}\varpi_q$ with $z_q$ the central idele $q$ at $q$
+and $1$ elsewhere, so $U\alpha^{-1}U=z_q^{-1}U\varpi_qU$.
+
+\emph{(1) The sums $\sigma_j[x]:=\sum_{u\in U/U'_j}[xua_j^{-1}]'$ are well defined.} Replacing $u$ by $uu_1$, $u_1\in U'_j$, gives
+$xuu_1a_j^{-1}=xua_j^{-1}(a_ju_1a_j^{-1})$ with $a_ju_1a_j^{-1}\in U'$. Replacing $x$ by $\gamma xu_0$ ($\gamma\in B^\times$, $u_0\in U$) permutes the cosets
+$u\mapsto u_0u$ and multiplies on the left by $\gamma$. So $\sigma_j:\Z[X]\to\Z[X']$ is a well-defined $\Z$-linear map, and $\deg\sigma_j[x]=[U:U'_j]=q+1$.
+
+\emph{(2) $\sigma_j=s_j^\dagger$, and the coefficient formula.} Let $[z]'\in X'$ and $[x]\in X$. Then
+$\langle s_{j*}[z]',[x]\rangle=w_x$ if $s_j[z]'=[x]$ and $0$ otherwise. On the other side $\langle[z]',\sigma_j[x]\rangle'=w'_z\,m$, where
+$m:=\#\{uU'_j\in U/U'_j:[xua_j^{-1}]'=[z]'\}$. Since $s_j[xua_j^{-1}]'=[xu]=[x]$, $m=0$ unless $s_j[z]'=[x]$. In that case choose the representative $z$ with
+$za_j=xu_0$, $u_0\in U$ (from $za_j=\gamma xu_0$ replace $z$ by $\gamma^{-1}z$). Now $[xua_j^{-1}]'=[xu_0a_j^{-1}]'$ iff $xua_j^{-1}=\delta xu_0a_j^{-1}u'$ for
+some $\delta\in B^\times$, $u'\in U'$, iff $xu=\delta xu_0(a_j^{-1}u'a_j)$; then $\delta=xu(u_0a_j^{-1}u'a_j)^{-1}x^{-1}\in B^\times\cap xUx^{-1}=\Gamma_x$ and
+$uU'_j=(x^{-1}\delta x)u_0U'_j$. So the $uU'_j$ counted by $m$ form the orbit of $u_0U'_j$ under $\Gamma_x$, acting on $U/U'_j$ through
+$\delta\mapsto x^{-1}\delta x\in U$. The stabiliser of $u_0U'_j$ is
+$\Gamma_x\cap(xu_0)U'_j(xu_0)^{-1}=B^\times\cap za_jU'_ja_j^{-1}z^{-1}=B^\times\cap zU'z^{-1}=\Gamma'_z$ (note $\Gamma_x=\Gamma_{xu_0}=\Gamma_{za_j}$). Hence
+$m=[\Gamma_{za_j}:\Gamma'_z]=|\Gamma_x|/|\Gamma'_z|$, and
+\[\langle[z]',\sigma_j[x]\rangle'=\frac{|\Gamma'_z|}2\cdot\frac{|\Gamma_x|}{|\Gamma'_z|}=w_x=\langle s_{j*}[z]',[x]\rangle .\]
+(This uses $-1\in U$ and $-1\in U'$, the factor-$2$ hypothesis of (C3), which holds here.) By bilinearity $\langle s_{j*}c,a\rangle=\langle c,\sigma_ja\rangle'$ for
+all $c\in\Z[X']$, $a\in\Z[X]$, so $s_j^\dagger=\sigma_j$ is integral, with the coefficient $m=[\Gamma_{za_j}:\Gamma'_z]$ of $[z]'$. This index does not depend on
+the representative $z$ of $[z]'$: replacing $z$ by $\delta zu'$ conjugates both groups by $\delta$ (and $u'a_j=a_j(a_j^{-1}u'a_j)$ with $a_j^{-1}u'a_j\in U$). For
+$j=0$, $\sigma_0$ is the transfer $\pi^!$ of Prop.~\ref{prop:s01-adjoint}(c), and the computation is the one given there.
+
+\emph{(3) $\alpha^\dagger$.} For $c\in\Z[X']$ and $(a,b)\in\Z[X]^2$,
+$\langle\alpha c,(a,b)\rangle=-\langle s_{0*}c,a\rangle+\langle s_{1*}c,b\rangle=\langle c,-s_0^\dagger a+s_1^\dagger b\rangle'$, so
+$\alpha^\dagger(a,b)=-s_0^\dagger a+s_1^\dagger b$, i.e.\ $\alpha^\dagger=(-s_0^\dagger,s_1^\dagger)$. By (1), $\deg\alpha^\dagger(a,b)=(q+1)(\deg b-\deg a)$, so
+$\alpha^\dagger$ maps $(\Z[X]^0)^2$ into $\Z[X']^0$.
+
+\emph{(4) The entries.} $\alpha\alpha^\dagger(a,b)=\big(s_{0*}s_0^\dagger a-s_{0*}s_1^\dagger b,\ -s_{1*}s_0^\dagger a+s_{1*}s_1^\dagger b\big)$. Now:
+\begin{itemize}
+\item $s_{j*}s_j^\dagger[x]=\sum_{u\in U/U'_j}[xua_j^{-1}a_j]=\sum_u[xu]=(q+1)[x]$, so both diagonal entries are $q+1$.
+\item $s_{1*}s_0^\dagger[x]=\sum_{u\in U/U'}[xu\alpha]=T_\alpha[x]=T_q[x]$ by (0) ($U\alpha U=\coprod_{u\in U/U'}u\alpha U=U\varpi_qU$). This is the $(2,1)$ entry, with sign $-1$.
+\item $s_{0*}s_1^\dagger[x]=\sum_{u\in U/U'_\alpha}[xu\alpha^{-1}]=T_{\alpha^{-1}}[x]$ by (0). This is the $(1,2)$ entry, with sign $-1$. It is the weighted adjoint of
+  $T_q$: abstractly because $(s_{1*}s_0^\dagger)^\dagger=s_{0*}s_1^\dagger$, and concretely by Prop.~\ref{prop:s01-adjoint}(a) ($T_\alpha^\dagger=T_{\alpha^{-1}}$). In the
+  row convention $T_q[x]=\sum_yB_q(x,y)[y]$ of the Brandt matrix (as for $T_\ell$ at the start of this section), the weighted adjoint has
+  $T_q^\dagger[x]=\sum_y\big(WB_q^{\mathsf T}W^{-1}\big)(x,y)[y]=\sum_y w_xB_q(y,x)w_y^{-1}[y]$, with $W=\mathrm{diag}(w_x)$. At level $\Uzero M$ it equals $T_q$: by (0),
+  $U\alpha^{-1}U=z_q^{-1}U\varpi_qU$, and $z_q=q\cdot c$ with $c\in\Zhat^\times\subseteq U$ central ($c_v=q^{-1}$ for $v\ne q$, $c_q=1$), so
+  $[xz_q^{-1}g_i]=[q^{-1}xg_ic^{-1}]=[xg_i]$ and $T_{\alpha^{-1}}=T_q$ (this is $T_q^\dagger=S_q^{-1}T_q$ with $S_q=1$, as in Prop.~\ref{prop:s01-adjoint}(b)).
+\end{itemize}
+Hence $\alpha\alpha^\dagger=\big(\begin{smallmatrix}q+1&-T_q^\dagger\\-T_q&q+1\end{smallmatrix}\big)=\big(\begin{smallmatrix}q+1&-T_q\\-T_q&q+1\end{smallmatrix}\big)$ on
+$\Z[X]^2$. Since $\deg T_q[x]=q+1$, all entries preserve $\Z[X]^0$, so the formula holds on $(\Z[X]^0)^2$. The entries lie in the commutative ring $\Z[T_q]$, so
+the determinant of this $2\times2$ matrix over $\Z[T_q]$ is $(q+1)^2-T_q^2$.
+\end{proof}
+
+\begin{example}[the definite level-raising matrix for $B_{11}$, $q=2$]\label{ex:s03-LRB11}
+Take $B=B_{11}$ (so $D=11$), $q=2$, $M=1$, $U=\hat\cO^\times$. Then $|\XB U|=2$ (per vertex type) and $|\XB{U'}|=3$, the weights of the vertices are $(2,3)$ and those of the
+edges $(2,1,1)$. The Brandt matrix is $T_2=\big(\begin{smallmatrix}1&2\\3&0\end{smallmatrix}\big)$ with eigenvalues $3=q+1$ (on $\Z[\XB U]$ modulo $\Z[\XB U]^0$, Eisenstein) and $-2$.
+So $T_2=-2$ on the rank-one module $\Z[\XB U]^0$, and on $(\Z[\XB U]^0)^2$ Prop.~\ref{prop:s03-LRdef} gives
+\[\alpha\alpha^\dagger=\begin{pmatrix}3&2\\2&3\end{pmatrix},\qquad\det\alpha\alpha^\dagger=(q+1)^2-T_2^2=9-4=5,\]
+where $5$ is also the order of $\Phicomb$ of the collapsed two-vertex graph (weights $(2,1,1)$: $1\cdot1+2\cdot1+2\cdot1=5$, Prop.~\ref{prop:s03-phi}); the cokernel of
+$\alpha\alpha^\dagger$ on the \emph{degree-$0$} module $(\Z[\XB U]^0)^2$ has order $5$. On the full module $\Z[\XB U]^2$ the literal cokernel of $\alpha\alpha^\dagger$ is \emph{not} of order $5$:
+it is $\Z\oplus\Z/3$ (weighted pairing; $\Z$ for the unweighted one), see the \pathtt{acceptance\_note} of case \texttt{B11\_q2}, because the Eisenstein line contributes. The sign of the
+off-diagonal entries is (C1); with Ribet's unsigned $\delta$ they are $-2$ (the numerical value $\det=5$ is the same). \stcomp{}, \pathtt{code/results/s03/T2.json}, case \texttt{B11\_q2}
+(provenance: commit \texttt{518e93aa}, script \pathtt{langlandscape.ribet.collapse}); the value $5$ also appears as the determinant $(q+1)^2-q^{2-k}\lambda^2$ for $M=11$, $k=2$, $q=2$, $\lambda=-2$
+on the classical side, \pathtt{code/results/s03/C3\_rerun.json} (commit \texttt{05f7fe72}). The ranks of $H_1$ for this and two further cases are in Example~\ref{ex:s03-T2}.
+\end{example}
+

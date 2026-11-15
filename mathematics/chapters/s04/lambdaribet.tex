@@ -1,0 +1,142 @@
+% S04-M3 (package abhijit/s04-math): the Lambda-adic definite Ribet sequence (D-lim route and compactness route).
+% Labels: thm:s04-lambdaribet, lem:s04-limexact, if:s04-lambdaribet.
+\section{The \texorpdfstring{$\Lambda$}{Lambda}-adic definite Ribet sequence}
+
+Notation as in \S\ref{ss:s04-notation}. Fix a prime $q\nmid Dp$ and a level $U$ prime to $pq$ with $U_q=\GL_2(\Zq)$. Then
+$\Uzero qU$ is again a level prime to $p$, and we write $X^{(q)}_s:=X_s(\Uzero qU)=\XB{\Uzero qUU_s}$ for the middle term. (The stage
+tex writes $X'$ for this level in part (c) below; we use $X^{(q)}_s$ because $X'_s$ already denotes the level $U^{(p)}\Kpp s$.) The two
+degeneracies $s_0,s_1:X^{(q)}_s\to X_s$ are $s_0[x]=[x]$ and $s_1[x]=[x\alpha]$ with $\alpha\in B_q^\times$ supported at $q$
+(\texttt{if:s02-quot}).
+
+\begin{theorem}[$\Lambda$-adic definite Ribet sequence; seed Thm.~lambdaribet; \pathtt{if:s04-lambdaribet}]\label{thm:s04-lambdaribet}
+Let $q\nmid Dp$, $U$ of level prime to $pq$ with $U_q=\GL_2(\Zq)$ ($q$-admissible in the sense of stage 02). Assume $\BG(UU_s,q)$ is
+connected for every $s\ge1$ (equivalently, Prop.~quot holds at all these levels). This follows from \texttt{Hyp.SA} $\wedge$
+\texttt{Hyp.HS} (in Lean also \texttt{Hyp.BTtree}); it is not a finite check, and it does not imply $H_0=V_{U_p^1}$.
+\provisional{F7: connectivity hypothesis made explicit; before: no such hypothesis was stated (only the implicit ``$q$-admissible'').}
+Here $\Gamma_{UU_s}:=(\cO_{UU_s}[1/q])^1$ is the norm-one $\{q\}$-arithmetic group (as in Step~2 of the proof of Prop.~\ref{prop:s04-ekillsVk}); it does not
+contain the central $q^{\Z}$. Put
+\[\Xord_{Dq}(U):=\varprojlim_se\,H_1(\Gamma_{UU_s},\Zp)\otimes\cOE\]
+(transition maps: corestriction, i.e.\ the restriction of $\pi_*$ on $\Zp[X^{(q)}_s]$-chains; over $\Zp$, $p\ge5$,
+$H_1(\Gamma,\Zp)=H_1(\BG,\Z)\otimes\Zp$ by stage 02, D1). Then:
+\begin{enumerate}[label=(\alph*)]
+\item the sequence of $\Lam$-modules, equivariant for all Hecke operators supported away from $q$ (including $U_p$, $\langle d\rangle$,
+  $\Pi_\ell$ for $\ell\mid D$),
+  \[0\to\Xord_{Dq}(U)\to\Mord(\Uzero{q}U)\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\Mord(U)^{\oplus2}\to0\]
+  is exact;
+\item all three terms are $\Lam$-free, and $\rk_\Lam\Xord_{Dq}(U)=\rk_\Lam\Mord(\Uzero qU)-2\rk_\Lam\Mord(U)$;
+\item at finite level $s\ge1$: $\rk_{\Zp}H_1(\Gamma_{UU_s},\Zp)=(q-1)|X_s(U)|+1$, and $\rk_{\Zp}e\,H_1=\rk e\Zp[X^{(q)}_{s}]-2\rk e\Zp[X_s]$,
+  the ``$+1$'' being the degree line killed by $e$ (here $X^{(q)}_s$ is the level $\Uzero qUU_s$).
+\end{enumerate}
+Status: (a) \stproved{} below given \pathtt{if:s03-ribet}, Lemma~\ref{lem:s04-ekills}(a) and $\NUp$; (b) \stproved{} via
+Thm.~\ref{thm:s04-control}(a); (c) \stproved{} (seed rank check; \pathtt{if:s02-indef}). \emph{Lean status:} \stformal{} for $E=\Q_p$, $U=\Uone M$, $p\ge5$, $q\ne p$:
+the finite-level sequence of (a) and (c) at every $s\ge1$ (\lean{Langlandscape.Ordinary.ordRibet\_exact\_Utower\_uncond},
+\lean{Langlandscape.Ordinary.rank\_ordRibet\_uncond}, \lean{Langlandscape.Ordinary.rank\_ordRibet\_full\_uncond}; connectivity of $\BG(UU_s,q)$ is an explicit
+argument, \pathtt{Hyp.PadicOrdDecomp} is discharged). The limit statement of (a) is \emph{formalized modulo \pathtt{Hyp.InvLimExact}}
+(and the connectivity argument): \lean{Langlandscape.Ordinary.lim\_exact\_ribet} proves injectivity, exactness in the middle and surjectivity of $\alpha$ on the
+limits, but takes the surjectivity of the $A$-transitions $e\,H_1(\Gamma_{UU_{s+1}})\to e\,H_1(\Gamma_{UU_s})$ as the literal argument
+\texttt{hA : $\forall n$, Function.Surjective (H.transA n)} (not a term of type \lean{Langlandscape.Hyp.InvLimExact}: that hypothesis is the implication
+``$\forall s\ge1$ \texttt{BGConnected} $\Rightarrow\forall n$, \texttt{Surjective (H.transA n)}'', so \texttt{hA} is its conclusion, available once the connectivity argument is supplied). This $A$-surjectivity is \emph{not} formalized (undischarged; the snake-lemma route was dropped in S04-L13b), so
+(a) stays \stproved{} (tex) and is not upgraded. Not formalized: (b) (the $\Lam$-rank formula).
+\end{theorem}
+
+\subsection{Finite level}
+For $s\ge1$ put
+\[A_s:=e\,H_1(\Gamma_{UU_s},\Zp),\qquad B_s:=e\,\Zp[X^{(q)}_s],\qquad C_s:=e\,\Zp[X_s]^{2}.\]
+\begin{lemma}[finite-level ordinary Ribet sequence]\label{lem:s04-ribetfinite}
+For each $s\ge1$ the sequence $0\to A_s\to B_s\xrightarrow{\alpha}C_s\to0$ is exact, the maps commute with $U_p$, with every
+$\langle d\rangle$ and with the transition maps $\pi_*$, and all terms are $\Zp[\Delta_s]$-modules, $B_s$ and $C_s$ free.
+\stproved{} given \pathtt{if:s03-ribet}.
+\end{lemma}
+\begin{proof}
+Since $\BG(UU_s,q)$ is connected, \pathtt{if:s03-ribet}(a) (over $\Z$, trivial coefficients, degree-zero parts), tensored with the flat
+$\Z$-module $\Zp$, gives the exact sequence $0\to H_1\to\Zp[X^{(q)}_s]^0\xrightarrow{\alpha}(\Zp[X_s]^0)^2\to0$ with
+$\alpha=(-s_{0*},s_{1*})$. $U_p$ commutes with $s_{0*}$ and $s_{1*}$ (\texttt{if:s02-quot}(c): they are supported at $q\ne p$,
+cf.\ (N4)), so $H_1=\ker\alpha$ is $U_p$-stable and the sequence is $U_p$-equivariant. Apply the exact functor $e$
+(Def.~\ref{def:s04-e}) and Lemma~\ref{lem:s04-ekills}(a) ($e\Zp[Y]^0=e\Zp[Y]$ for $Y=X^{(q)}_s,X_s$): $0\to A_s\to B_s\to C_s\to0$
+is exact. The diamonds $\langle d\rangle$ ($d\in1+p\Zp$, supported at $p$) commute with $s_{0*}$ (the identity on representatives) and
+with $s_{1*}$ (right multiplication by $\alpha$, supported at $q$, commutes with right multiplication by $\delta_d$); so $\alpha$ is
+$\Zp[\Delta_s]$-linear. $\pi_*$ commutes with $s_{0*},s_{1*}$ (all are induced by maps $[x]\mapsto[x]$ or $[x]\mapsto[x\alpha]$ on
+representatives), and with $U_p$ (Lemma~\ref{lem:s01-Up}(b), at both levels $U$ and $\Uzero qU$); here it is essential that $U_p=\NUp$:
+with the seed's literal $U'_p$ this step fails (Lemma~\ref{lem:s01-Up}(c)). Finally $B_s$, $C_s$ are $\Zp[\Delta_s]$-free by
+Prop.~\ref{prop:s04-freeA}, applied to $\Uzero qU$ and to $U$.
+\end{proof}
+
+\noindent\emph{Rank check, proof of (c).} The level $UU_s$ is free (N1), so by \pathtt{if:s02-indef}
+$\rk_{\Zp}H_1(\Gamma_{UU_s},\Zp)=(q-1)|X_s|+1$. Directly from the exact sequence before applying $e$:
+$|X^{(q)}_s|=(q+1)|X_s|$ by (N3) ($[\GL_2(\Zq):\Uzero q_q]=q+1$, trivial stabilisers), so
+$\rk H_1=(|X^{(q)}_s|-1)-2(|X_s|-1)=(q-1)|X_s|+1$, consistent with \pathtt{if:s02-indef}. After applying $e$, exactness of
+$0\to A_s\to B_s\to C_s\to0$ gives $\rk e H_1=\rk e\Zp[X^{(q)}_s]-2\rk e\Zp[X_s]$. The difference between the two counts is the
+degree line: before $e$ the degree-zero submodules lose one rank each ($-1$ and $-2\cdot(-1)$, net $+1$), and $e$ kills the degree
+quotient $\Zp$ (Lemma~\ref{lem:s04-ekills}(a)). \stproved.
+
+\subsection{Exactness of the limit}
+
+\begin{lemma}[exactness of $\varprojlim$ along surjective transitions]\label{lem:s04-limexact}
+Let $0\to A_s\to B_s\xrightarrow{\beta_s}C_s\to0$ ($s\ge1$) be short exact sequences of abelian groups, with transition maps
+$A_{s+1}\to A_s$, $B_{s+1}\to B_s$, $C_{s+1}\to C_s$ forming a morphism of short exact sequences for each $s$. If the transition
+maps $A_{s+1}\to A_s$ are surjective, then $0\to\varprojlim A_s\to\varprojlim B_s\to\varprojlim C_s\to0$ is exact. If moreover the
+transitions of $B$ and $C$ are surjective, so are the projections from the limits to each level.
+\end{lemma}
+\begin{proof}
+Left exactness of $\varprojlim$ is formal. Surjectivity: let $(c_s)\in\varprojlim C_s$. Choose $b_1$ with $\beta_1(b_1)=c_1$. Given
+$b_s$ with $\beta_s(b_s)=c_s$, choose any $b'_{s+1}$ with $\beta_{s+1}(b'_{s+1})=c_{s+1}$. Its image $\bar b'_{s+1}$ in $B_s$ satisfies
+$\beta_s(\bar b'_{s+1})=c_s=\beta_s(b_s)$, so $\bar b'_{s+1}-b_s\in A_s$; lift it to $a_{s+1}\in A_{s+1}$ (surjectivity) and put
+$b_{s+1}:=b'_{s+1}-a_{s+1}$. Then $\beta_{s+1}(b_{s+1})=c_{s+1}$ and $b_{s+1}\mapsto b_s$. The sequence $(b_s)$ lies in $\varprojlim B_s$
+and maps to $(c_s)$. The last sentence follows by the same induction started at an arbitrary level.
+\end{proof}
+
+\begin{proof}[Proof of Thm.~\ref{thm:s04-lambdaribet}(a): the D-lim route]
+It suffices to work over $\Zp$; tensoring with the flat $\Zp$-module $\cOE$ commutes with everything below (all modules are
+finitely generated and $\cOE$ is $\Zp$-free of finite rank, so $\varprojlim(M_s\otimes\cOE)=(\varprojlim M_s)\otimes\cOE$).
+By Lemma~\ref{lem:s04-ribetfinite} the sequences $0\to A_s\to B_s\to C_s\to0$ form an inverse system of short exact sequences
+under $\pi_*$, with $\varprojlim B_s=\Mord(\Uzero qU)$ and $\varprojlim C_s=\Mord(U)^{\oplus2}$ (Def.~\ref{def:s04-Mord}) and
+$\varprojlim A_s=\Xord_{Dq}(U)$. By Lemma~\ref{lem:s04-limexact} it suffices to show that $A_{s+1}\to A_s$ is surjective.
+
+\emph{Surjectivity of the outer transitions, with kernels.} Let $I_s:=\ker(\Zp[\Delta_{s+1}]\to\Zp[\Delta_s])$, the ideal generated by
+the $[h]-1$, $h\in\ker(\Delta_{s+1}\to\Delta_s)$. By Lemma~\ref{lem:s04-hida}(d), applied to $\Uzero qU$ and to $U$ (control at both
+levels), $\pi_*$ induces $B_{s+1}/I_sB_{s+1}\xrightarrow{\sim}B_s$ and $C_{s+1}/I_sC_{s+1}\xrightarrow{\sim}C_s$. So
+$b:B_{s+1}\to B_s$ and $c:C_{s+1}\to C_s$ are surjective, with $\ker b=I_sB_{s+1}$ and $\ker c=I_sC_{s+1}$.
+
+\emph{$\ker b\to\ker c$ is onto.} $\alpha_{s+1}$ is $\Zp[\Delta_{s+1}]$-linear (Lemma~\ref{lem:s04-ribetfinite}) and surjective, so
+$\alpha_{s+1}(I_sB_{s+1})=I_s\,\alpha_{s+1}(B_{s+1})=I_sC_{s+1}$.
+
+\emph{Snake lemma.} The transition maps $a:A_{s+1}\to A_s$, $b$, $c$ form a morphism of short exact sequences. The snake lemma gives
+the exact sequence $\ker b\to\ker c\to\coker a\to\coker b$. Here $\ker b\to\ker c$ is onto and $\coker b=0$, so $\coker a=0$:
+$A_{s+1}\to A_s$ is surjective.
+
+Lemma~\ref{lem:s04-limexact} now gives exactness of $0\to\Xord_{Dq}(U)\to\Mord(\Uzero qU)\to\Mord(U)^{\oplus2}\to0$. \emph{Equivariance.}
+At every level the maps commute with $U_p$, with $\langle d\rangle$ (so the sequence is one of $\Lam$-modules) and with all Hecke
+operators supported away from $q$ (they commute with $s_{0*}$, $s_{1*}$ by \texttt{if:s02-quot}(c) and with $\pi_*$), hence so do the
+limit maps. Note that the left term is $\varprojlim A_s$ with the transition maps induced by $\pi_*$ on $X^{(q)}$-chains, i.e.\ the
+corestriction of the statement.
+\end{proof}
+
+\begin{proof}[Second proof of (a): compactness]
+All $A_s,B_s,C_s$ are finitely generated $\Zp$-modules, hence compact (and Hausdorff) in their $p$-adic topologies, and the maps
+are continuous. Given $(c_s)\in\varprojlim C_s$, the fibres $F_s:=\beta_s^{-1}(c_s)$ are non-empty (cosets of $A_s$) and compact,
+and the transition maps send $F_{s+1}$ into $F_s$; an inverse limit of non-empty compact Hausdorff spaces is non-empty, and any point of
+$\varprojlim F_s$ is a lift of $(c_s)$ to $\varprojlim B_s$ (equivalently, $\varprojlim^1A_s=0$ for compact $A_s$). So $\varprojlim$ is exact on the system $0\to A_s\to B_s\to C_s\to0$, and no surjectivity of the
+transition maps is needed. \stproved{} (standard). The D-lim route above is the one planned for Lean (stage plan D-lim): it avoids
+topology and $\varprojlim^1$, and it yields the extra information that every $A_{s+1}\to A_s$ is surjective.
+\end{proof}
+
+\begin{proof}[Proof of (b)]
+By Thm.~\ref{thm:s04-control}(a), $\Mord(\Uzero qU)$ and $\Mord(U)$ are $\Lam$-free of finite rank. A surjection onto a free module
+splits, so by (a) $\Xord_{Dq}(U)$ is a direct summand of $\Mord(\Uzero qU)$, hence finitely generated projective over the local ring
+$\Lam$, hence free (as in the proof of Prop.~\ref{prop:s04-freeA}). The rank formula follows from the split exact sequence. Hence (b)
+is \stproved{}, as Thm.~\ref{thm:s04-control}(a) is.
+\end{proof}
+
+\noindent\emph{Expected rank} \stexp: by \pathtt{if:s01-targets} and Thm.~\ref{thm:s04-control}, $\rk_\Lam\Xord_{Dq}(U)$ equals the
+$\Lam$-rank of the $q$-new quotient of $\TordB(\Uzero qU)$, i.e.\ of the $Dq$-new ordinary Hecke algebra of $\GL_2$; this is the
+rank of the character group of the toric part of Hida's ordinary $Dq$-new family, the shape required by $\HypX$ (stage 05). The
+equality ``old part has rank $2\rk\Mord(U)$'' is the rational injectivity of $(s_0^*,s_1^*)$, i.e.\ \pathtt{if:s03-ihara}(ii).
+
+\begin{interface}[\pathtt{if:s04-lambdaribet}]\label{if:s04-lambdaribet}
+Thm.~\ref{thm:s04-lambdaribet}; $\Xord_{Dq}(U):=\varprojlim_se\,H_1(\Gamma_{UU_s},\Zp)$, $\Lam$-free of rank
+$\rk\Mord(\Uzero qU)-2\rk\Mord(U)$. Status: exactness \stproved, freeness \stproved. Hypothesis: $\BG(UU_s,q)$ is connected for every
+$s\ge1$ (equivalently Prop.~quot at all these levels); it follows from \texttt{Hyp.SA} $\wedge$ \texttt{Hyp.HS} (in Lean also \texttt{Hyp.BTtree}), is not a finite check,
+and does not imply $H_0=V_{U_p^1}$. Addendum (D-lim): the transition maps $e\,H_1(\Gamma_{UU_{s+1}},\Zp)\to e\,H_1(\Gamma_{UU_s},\Zp)$
+are surjective.
+\provisional{F7: hypothesis added to the interface; before: no connectivity hypothesis stated.}
+\end{interface}

@@ -1,0 +1,118 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+\section{Computations}\label{sec:comp}
+All numbers in this section are \stcomp{} and are read from the result files under \texttt{code/results/} (index:
+\texttt{code/results/INDEX.md}); each file records script, commit, parameters, date and runtime. Python~3.10.12 with
+PARI/GP~2.15.4 unless stated. Several provenance fields carry a \texttt{-dirty} commit (shared worktrees); this is disclosed
+in the closures. A computation validates a statement; it is never part of a proof.
+
+\subsection{Stages 01--05 (summary)}
+\begin{center}\small
+\begin{tabular}{@{}p{0.27\textwidth}p{0.67\textwidth}@{}}\toprule
+file & result\\\midrule
+\res{s01/symn.json} & $T_\ell$ on $M(\hat\cO^\times;V_k)$, $D\in\{2,3,5,7,11,13\}$, $k\le12$: JL characteristic polynomial $=S_k(\Gamma_0(D))^{\rm new}$, 66/66 cases\\
+\res{s01/pi_sign.json} & $\Pi_D$, $D\in\{11,13,17,19\}$, $k\in\{2,4\}$: $\Pi^2=D^{k-2}$, $\Pi$-eigenvalue $=+a_D$ ($U_\ell\mapsto+\Pi_\ell$); 8/8 cells (7 non-vacuous; $(13,2)$ has no newforms)\\
+\res{s01/levels.json} & $|S_s|=2,50,1250$ ($D=3$, $p=5$, $s=1,2,3$); \res{s01/up*.json}: the $N_{U_p}$ normalisation (R1) closed\\
+\res{s02/validation.json} & $\BG(U,q)$: connectivity, fibre sums $q+1$, mass identity, $\rk H_1=E-2X+1$; 240 cases, all pass\\
+\res{s02/torsion.json} & $D=2$, $q=3$: $H_1(\Gamma_U,\Z)=\Z/3$ although the graph has $H_1=0$ (vertex torsion)\\
+\res{s03/T1.json} & Mazur check, $q\in\{11,23,37,101,131\}$: $h=2,3,3,9,12$, $|\Phicomb|=5,11,3,25,65=\mathrm{num}\frac{q-1}{12}$, all cyclic, Eisenstein\\
+\res{s03/betti_det.json} & $\det\Psi^*\Psi=(q+1)^2-q^{2-k}T_q^2$, 121 cases, never $0$\\
+\res{s03/C3_rerun.json} & HACS~0.2.1 re-run of the seed check C3: 14 cases agree with \texttt{betti\_det.json}\\
+\res{s04/H6_sign.json} & $U_p^*=\langle p\rangle_M U'_p$ exactly (sign $+1$; $-1$ fails), $D=2$, $M=7$, $p=5$\\
+\res{s04/C2.json} & ordinary rank 1 at $s=1$, matching the unique newform of level 15 (15a), which is ordinary and $3$-new\\
+\res{s05/T05-1.json} & $a_q=+\lambda(\Pi_q)$ on 144/144 eigenlines, 0 minus, 0 unmatched ($q\in\{11,23,37,43\}$, $k\in\{2,4,6,8\}$)\\
+\res{s05/T05-2.json} & $\Gamma_1$ dictionary $\theta$ with $U_q\mapsto+\Pi_q$, $\langle d\rangle\mapsto\langle d\rangle_{\rm ad}^{-1}$ matches all $q$-new eigensystems at $(q,N)\in\{(13,5),(11,7),(23,5),(23,7)\}$; $\varepsilon=-1$ fails everywhere\\\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Stage 06}
+Conventions as in \mainpdf, \S19--24; the triples are $(q,k,p)$ unless stated.
+
+\paragraph{T4, Hecke side} (\res{s06/T4_hecke.json}; S06-C3). $q=3$, $p=17$, $\delta=q^{k-2}(q+1)^2-T_q^2$. The length
+of the $\m$-part is $1,1,1,1,2$ at $k=12,28,44,60,124$, equal to the prediction (expected for $k\ge17$; $\dim\T=1,2,3,5,10$). Independent
+cross-check on Abhijit's node (\res{s06-xcheck/T4_hecke.json}, \texttt{code/cas/s06-xcheck}): lengths $1,1,1,1,2$.
+
+\paragraph{T4, Betti side} (\res{s06/T4_betti.json}; HACS Lane~A, HJ-A3). $\coker(\Psi^*\Psi)_\m\cong(\Z/17)^2=(\T(1)_\m/\delta)^2$
+at $k=12,28,44,60$ (gating route: amalgam; the cokernel is computed by the amalgam route, HACS supplies the Hecke side $\T(1)_\m/\delta$
+through \texttt{descent}, and the HACS \texttt{module\_Z} route was not run); at $k=28,44,60$ the reading is tagged \emph{expected}, since $k\ge\ell=17$ lies
+outside the proven range $\ell>k$ of the amalgam; $k=124$ is not reachable on the HACS route (cap $n\le60$); off the route,
+$k=124$ gives $(\Z/17^2)^2$ (expected, not gating).
+
+\paragraph{T5} (\res{s06/T5_def.json}, \res{s06/T5_gl2.json}, \res{s06/T5.json}; S06-C4--C6). Seven triples
+$(q,k,p)=(13,18,19)$, $(5,18,23)$, $(5,16,31)$, $(13,12,31)$, $(3,18,53)$, $(3,18,61)$, $(13,16,101)$. Definite side (Gram matrices with
+$w_x$ and $|\Gamma_x|$): $v_p(\eta^B)=0$ in all seven, Brandt and newform dimensions agree. At weight $k$, 7/7: $\ord\eta=\ord\cc=t_f(q)=1$,
+$\eta^{\rm new}$ a unit, $\eta^B=\eta_f(1,q)$, and $\eta_f(q)=\cc_q(f)\,\eta^B$. At weight $k+p-1$: 4/7; the three level-13
+cases were not computed (PARI stack / runtime budget). The planned check ``$\rk\T'_\m\ge2$'' is false: the rank is 1 (the full
+algebra has rank 2).
+
+\paragraph{C2: regression of seed C4(i)} (\res{s06/C4i.json}). \textbf{Partial}: 131 of 319 cases run (the others exceed
+dimension 60, the time budget, or the PARI stack). A row is one (case, Galois orbit, prime) record; the 131 cases give 882 rows. In scope (non-Eisenstein, DVR, Gorenstein): $v(h)=v(\cc_q)$ in
+225/225 rows. Eisenstein rows: $(h)\supseteq\cc_q$ on all 396 rows where $\cO_v$ is a DVR; it fails in 5 of the 46 non-DVR
+rows (at $p=2,3$; in all five $S_\m$ is not Gorenstein, observed, not proved). The chapter carries the corresponding caveat.
+
+\paragraph{C1: congruence toolkit} (\res{s06/C1.json}). Exact over $\Z$; toy cases $\eta=\cc=p^t$ ($t=1,2,3$), non-Gorenstein
+and ramified controls, and the seed case $S_{12}(\Gamma_0(3))$, $p=17$, with congruence-module length 1.
+
+\paragraph{H3: the case $q\equiv-1\bmod p$} (\res{s06-xcheck/H3.json}; Abhijit's cross-account check F4). The four $M=1$ triples
+are vacuous ($S_k(1)=0$ for $k=4,6$). The supplement at $M>1$, $(q,p,k,M)$ in
+$(13,7,4,9)$, $(13,7,6,11)$, $(97,7,2,11)$, $(19,5,2,53)$, $(41,7,2,31)$, $(89,5,2,17)$, $(41,7,4,6)$, $(19,5,4,18)$, is non-vacuous
+($S^{\rm old}\ne0$): $\ord\cc_q(f)-t^{\rm an}_f(q)=0$ for every form, and in particular the inclusion holds with equality in the
+5 cases with $t=2$, namely $(19,5,2,53)$, $(41,7,2,31)$, $(89,5,2,17)$, $(41,7,4,6)$, $(19,5,4,18)$, all with $N(\bar\rho)>1$.
+As the chapter says (Remark~23.9 of \mainpdf), this is numerical evidence in the open region, not a test of (F1); the case
+(F1) ($N(\bar\rho)=1$) is numerically untested.
+
+\paragraph{Definite local algebras} (\res{s06/definite_local.json}; HACS Lane~A, HJ-A2). At $D=11$, $k=2$ Mazur's prime $5$ is
+non-\'etale and Gorenstein; negative controls $D=3,5,7$, $k=12$ clean; generation over $\Z$ 14/14.
+
+\subsection{HACS}\label{ss:hacs}
+HACS v0.2.1 \cite{HACS021}, data hacs-data v0.2.0 \cite{HACSdata020}. Both lanes ran under Fabian's relaxed protocol:
+targeted validation only, every deviation disclosed; every number is \emph{computed}, nothing is ``certified''.
+
+\paragraph{Lane A} (closure \texttt{plan/hacs/outbox/20261115T0137Z\_laneA-closure.md}; about 1\,h\,10\,min wall).
+A bridge \texttt{hacs\_bridge/runner.py} with provenance; HJ-A1 \res{s05/gl2_dnew.json} (\texttt{symn.json} 66/66 and
+\texttt{pi\_sign.json} 8/8 reproduced through HACS; extended grid 152/204 OK, 52 cells skipped for memory, $U_D$ signs ambiguous
+on 8 cells); HJ-A2 and HJ-A3 as above; HJ-B0 the export format \texttt{langlandscape\_brandt/v2} with 74 \texttt{free\_block\_z}
+records, fingerprints byte-exact against HACS. The Lane~A binary passes the strict golden tiers (A 12154/0, B 6231/0; run once, at build time).
+Disclosed deviations include: new Python outside \texttt{code/hacs/}, no re-audit of fix rounds, HJ-A1 ran 21.4\,min against a
+20\,min cap, and \texttt{-dirty} provenance commits.
+
+\paragraph{Lane B} (closure \texttt{plan/hacs/outbox/20261115T0150Z\_laneB-closure.md}; about 1\,h wall). A native
+quaternion core (class sets, Brandt matrices) and exact integral congruence modules $C_f=L/(L_f\oplus L_f^c)$ of Brandt
+lattices, read through HACS's integral engine (\res{laneB/congruence_k.json}, \res{laneB/py_reference.json}).
+\begin{itemize}
+\item \emph{Mazur on the definite side} ($k=2$, $B_{q,\infty}$): the Eisenstein congruence module is $\Z/\mathrm{num}\frac{q-1}{12}$
+  exactly, $2$- and $3$-parts included, on the 14 levels of the v2 records (\res{laneB/congruence_k.json}: 14 Mazur
+  agreements, 0 differ); e.g.\ $q=11,23,37$: $\Z/5$, $\Z/11$, $\Z/3$; the Python reference (\res{laneB/py_reference.json})
+  gives in addition orders $25$ and $65=5\cdot13$ at $q=101,131$.
+\item \emph{Census read} (closure \S6; the log is outside git): through HACS's integral engine the Eisenstein congruence module
+  is $\Z/\mathrm{num}\frac{q-1}{12}$ for every prime $q\le600$ at $\ell\ge5$ (109/109 levels, 178\,s), and exactly
+  ($2$- and $3$-parts included) for the first 80 primes, $q\le409$ (80/80, exact $\Z$ route; the run was capped: the
+  15\,min cap stopped it after these 80 levels, so coverage is \emph{partial}).
+\item \emph{Beyond Mazur}: among the 26 non-zero integral $\Sym^n$ cells with $k>2$ (60 cells, 34 of rank~$0$; \res{laneB/congruence_k.json};
+  the lane closure counts 32) the only non-trivial lattice congruence module is at
+  $D=13$, $k=8$: $|C|=37$, between the orbits $x-10$ and $x^2+19x+6$; on the $\GL_2$ side $\mathrm{Res}=2^3\cdot37$ is the
+  only resultant of the $T_2$ factors containing $37$ (consistent with, not a confirmation of, the congruence). Caveat:
+  at $k>2$ the lattice is not canonical.
+\item \emph{Two implementations agree}: HACS-native C++ and Python$+$cypari2 give the same 69/69 orbit Smith lists; there is no
+  read-side speed claim.
+\item \emph{The one speed line} (build side): class set and $T_2$ for $B_{997,\infty}$ ($h=83$), single-threaded, same node:
+  Python $64.7$\,s against native $0.02$\,s, a factor $\approx3\times10^3$ (an earlier measurement on a loaded node gave
+  $61$\,s against $0.025$\,s, $\approx2.4\times10^3$); ``$\sim10^3\times$'' is the honest statement. (\res{laneB/py_reference.json}
+  records the Python side of the first run, $30.7$\,s $+$ $30.3$\,s; the re-timing and the native time are from the closure.)
+\item \emph{Native census}: all 404 primes $q\le2777$ generated in 19.6\,min single-threaded; Eichler's class number formula holds
+  for all 1229 primes $D<10^4$.
+\end{itemize}
+Disclosed deviations of Lane~B (closure \S4):
+\begin{enumerate}[label=D\arabic*,leftmargin=2.2em]
+\item relaxed protocol (Fabian Q3): no contract text, no refereed [C] line; HACS's certificate words are printed as \texttt{met(hacs\_word)};
+\item targeted validation only: no full \texttt{--all}/\texttt{--all-full}, \texttt{GOLDEN\_STRICT}, digests, \texttt{LABEL\_CENSUS},
+  console-script validation, route bit-identity, parallel-decomposition statement or quiet-window timing; \texttt{--all} grows
+  246\,$\to$\,248; one full run is due after the merge;
+\item the $L\oplus L$ adapter (ReadLocal assumes cusp multiplicity 2) is not a HACS route;
+\item own exact BigInt Smith/HNF (HACS's routes are mod $\ell^K$ only) and an own minimal JSON reader;
+\item \texttt{OC\_ENABLE\_JL} defaults to ON (the plan said OFF until HJ-11);
+\item no catalogue entry, no roster-count update; the native core is a standalone build, not registered in \texttt{hacs};
+\item no separate fresh review of the native core (acceptance: self-test 8084/0, byte-exact agreement with Lane~A's v2 records,
+  the Python cross-check);
+\item HACS process steps skipped: builds used the node semaphore, not the slot-27 heavy-job locks (allowed by Q6).
+\end{enumerate}

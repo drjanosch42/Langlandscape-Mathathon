@@ -1,0 +1,9 @@
+# S06-M11 literature note: [BKM] Bockle-Khare-Manning, Wiles defect for Hecke algebras that are not complete intersections
+
+- WP: S06-M11 (batch 2, Q3), supporting source (tex "Trivial primes", `rem` on (iii)). Status: *cited*.
+- Source: `literature/bockle-khare-manning_2019_wiles-defect-for-hecke-algebras-that-are-not-complete-intersections_arxiv.pdf` = arXiv:1910.08507v3 (4 Apr 2021), 39 pp. **arXiv numbering; printed page = PDF page.** Published: Compos. Math. 157 (2021). Good text layer.
+
+## Item
+1. **Intro, Thm 1.2, pp. 2-3 (tex: "[BKM, Intro., Thm 1.2], Sect. 1, p. 2-3": the quaternionic Hecke algebra is neither a complete intersection nor Gorenstein at a trivial prime): PARTIAL MATCH.**
+   p. 2: setting: rho of level 11, newform f of level 11q obtained by Ribet's level raising ([Rib84]) with tr rho(Frob_q) = +-(q+1) mod p; Shimura curve X for the indefinite algebra ramified at 11 and q, T the Hecke algebra on H^1(X,O), lambda_f: T -> O. A prime q is *trivial* if rho(Frob_q) = +-Id (forces q = 1 mod p). For non-trivial q, R and T are complete intersections and phi is an isomorphism. For trivial q: "computations of Shotton [Sho16], combined with patching, show that phi is an isomorphism but T_Q is not a complete intersection (nor Gorenstein)", and then |Phi| > |O/eta| (Thm 1.1 inequality). **Thm 1.2 (p. 2)** itself: n_q = the largest integer such that rho_{f,iota}|G_{Q_q} is = +-Id modulo the uniformiser power; then eta^Q_f / Fitt_O(Phi^Q_f) = O/(varpi^{2 n_q}) (the Wiles defect, with the main theorem Thm 10.1).
+   **Difference:** the non-Gorenstein statement is Shotton's, quoted in the introductory prose on p. 2; Thm 1.2 is the defect formula. The tex wording "[BKM, Intro., Thm 1.2]: neither complete intersection nor Gorenstein" attributes the Gorenstein statement to the introduction (correct) and Thm 1.2 (not quite). Suggested citation: "[BKM, Intro. p. 2 (after [Sho16]); Thm 1.2 for the size of the defect]".

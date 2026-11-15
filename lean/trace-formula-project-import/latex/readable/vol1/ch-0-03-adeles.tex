@@ -1,0 +1,302 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P0/Adeles.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §§1-2 written (M3, unit U3); §§3-4 written (M3, unit U4); §5 written (M3, unit U5). Lean modules: Adeles (§§1-2), Ideles (§§3-4), Tate (§5).
+% Fork algebraic_jl: §2 (characters, Poisson summation) and §5 (Tate's thesis) dropped, Haar-measure items and the L^2/classification items
+% of §§3-4 dropped, chapter title shortened (../../EDITS.md).
+
+\chapter{\texorpdfstring{Adeles and ideles of $\Q$}{Adeles and ideles of ℚ}}\label{ch:ch-0-03-adeles}
+
+\noindent\emph{Sources:} \cite{Corv-ptIII-1}; \cite{GH}; \cite[§2]{AIntro}.
+
+\section{The adele ring}\label{sec:adele-ring}
+
+\noindent\emph{Sources for this section:} \cite[§§1.3--1.4, 1.7]{GH}; \cite[§§3.1--3.2]{Corv-ptIII-1}; for the
+fundamental domain of $\Af$, [IFLT] \texttt{FLT/NumberField/Padics/RestrictedProduct.lean} (decision D17, vendored).
+
+\emph{The working model (decision D17).} We work with the concrete model $\A=\R\times\prod'_p(\Qp,\Zp)$ throughout:
+all local theory (\cref{ch:ch-0-02-local-field}) is stated on $\Qp$, and the restricted product over the primes is the
+natural index set. That this is the adele ring of $\Q$ in the sense of the library is a theorem
+(\cref{I.adele.thm:adele-concrete-model}), which anchors the model to the standard object.
+
+\begin{definition}[finite adeles]
+\tfstmt{I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent The sets $\A_{f,S}$ are subrings, $\A_{f,S}\subseteq\A_{f,S'}$ for $S\subseteq S'$, and $\Af$ is their
+union. On $\A_{f,S'}$ the product topology induces on $\A_{f,S}$ its product topology, and $\A_{f,S}$ is open in
+$\A_{f,S'}$ (it is a product of open subsets $\Zp\subseteq\Qp$, $p\in S'\setminus S$, and of whole factors). Hence each
+$\A_{f,S}$ is an open subspace of $\Af$ carrying its product topology. In the library $\Af$ is
+\texttt{RestrictedProduct} over \texttt{Nat.Primes} with respect to the cofinite filter, and the topology is the one
+of \texttt{Topology/\allowbreak Algebra/\allowbreak RestrictedProduct}.
+
+\begin{definition}[$\Zhat$ and $\Zhat^\times$]
+\tfstmt{I.adele.def:zhat}
+\uses{I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent If $x$ is a unit of $\Zhat$ with inverse $y$, then $x_py_p=1$ with $x_p,y_p\in\Zp$, so
+$x_p\in\Zp^\times$ for all $p$; conversely, if all $x_p\in\Zp^\times$, then $(x_p^{-1})_p\in\Zhat$ is an inverse.
+
+\begin{definition}[adeles]
+\tfstmt{I.adele.def:adele-ring}
+\uses{I.adele.def:finite-adeles-model}
+\end{definition}
+
+\begin{theorem}[local compactness]
+\tfstmt{I.adele.thm:adele-locally-compact}
+\uses{I.adele.def:adele-ring, I.adele.def:zhat}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.def:adele-ring, I.lf.def:padic-nalf-instance}
+\emph{$\Zhat$.} $\Zhat=\A_{f,\emptyset}$ is open with the product topology of $\prod_p\Zp$ (remark after
+\cref{I.adele.def:finite-adeles-model}), and it is compact by Tychonoff's theorem, each $\Zp$ being compact.
+
+\emph{Topological ring.} Addition and multiplication are continuous on each open subring $\A_{f,S}$ (componentwise
+on a product), and every pair $(x,y)\in\Af^2$ lies in some $\A_{f,S}^2$, an open neighbourhood; so they are continuous on
+$\Af$, and negation likewise.
+
+\emph{Locally compact.} Every $x\in\Af$ has the compact neighbourhood $x+\Zhat$ (translation is a homeomorphism).
+
+\emph{Hausdorff.} The inclusion $\Af\to\prod_p\Qp$ (product topology) is injective and continuous: its restriction to
+each open set $\A_{f,S}$ is the inclusion of a product of subspaces. $\prod_p\Qp$ is Hausdorff, so $\Af$ is.
+
+For $\A=\R\times\Af$ all properties pass to the finite product with $\R$.
+\end{proof}
+
+\begin{theorem}[second countability]
+\tfstmt{I.adele.thm:adele-second-countable}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.thm:adele-locally-compact, I.lf.thm:nalf-second-countable, X.topgrp.thm:restricted-product-second-countable}
+$\Zhat=\prod_p\Zp$ is a countable product of second countable spaces ($\Zp\subseteq\Qp$,
+\cref{I.lf.thm:nalf-second-countable}), hence second countable. Let $x\in\Af$ and let $N\ge1$ be the product of
+$p^{k_p}$ over the finitely many $p$ with $x_p\notin\Zp$, where $p^{k_p}x_p\in\Zp$. Then $Nx\in\Zhat$, i.e.\
+$x\in N^{-1}\Zhat$. So $\Af=\bigcup_{N\ge1}N^{-1}\Zhat$. For each $N$, the subgroup $N\Zhat=\prod_{p\mid N}p^{\operatorname{ord}_p N}\Zp\times\prod_{p\nmid N}\Zp$
+is open in the compact group $\Zhat$, so it has finite index. Multiplication by $N^{-1}$ (a homeomorphism of $\Af$, as
+$N$ is a unit of $\Af$) shows that $N^{-1}\Zhat$ is a finite union of cosets of $\Zhat$. Hence $\Af$ is a countable
+union of open sets $y+\Zhat$, each homeomorphic to $\Zhat$ and therefore second countable. The union of the countable
+bases of these sets is a countable base of $\Af$. Finally $\A=\R\times\Af$ is a product of two second countable spaces.
+\end{proof}
+
+\begin{theorem}[the model is the adele ring]
+\tfstmt{I.adele.thm:adele-concrete-model}
+\uses{I.adele.def:adele-ring}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+Mathlib's adele ring is $\A_{\infty}\times\A_{\Q,f}$. The infinite adele ring $\A_\infty$ is the product of the
+completions of $\Q$ at its infinite places. The finite adele ring $\A_{\Q,f}$ is the restricted product, over the
+height-one primes $v$ of $\Z=\mathcal O_\Q$, of the $v$-adic completions $\Q_v$ with respect to their rings of integers
+$\mathcal O_v$. We identify the factors and the index sets.
+
+\emph{Infinite part.} $\Q$ has exactly one infinite place, the real embedding, and the completion of $\Q$ for the
+usual absolute value is $\R$. So $\A_\infty\cong\R$ as topological rings, compatibly with $\Q\to\R$.
+
+\emph{Index sets.} $v\mapsto$ the positive generator of the prime ideal $v\subseteq\Z$ is a bijection from the
+height-one primes of $\Z$ to the primes $p$ (\texttt{primesEquiv}-type statement in the library).
+
+\emph{Finite factors.} For $v=(p)$, the $v$-adic valuation on $\Q$ and the $p$-adic norm define the same topology
+(both are $p^{-\operatorname{ord}_p}$ up to normalization). By the universal property of completions, the identity of
+$\Q$ extends to an isomorphism of topological fields $\Q_v\cong\Qp$. It maps $\mathcal O_v$, the closure of $\Z$
+(equivalently the closed unit ball), onto $\Zp$. In the library: \texttt{adicCompletionEquiv}-type statements.
+
+\emph{Restricted products.} Let $\sigma\colon I\to J$ be a bijection and $\phi_i\colon X_i\cong Y_{\sigma(i)}$
+isomorphisms of topological rings with $\phi_i(A_i)=B_{\sigma(i)}$ for open subrings $A_i$, $B_j$. Then
+$(x_i)\mapsto(\phi_{\sigma^{-1}(j)}(x_{\sigma^{-1}(j)}))_j$ is a ring isomorphism $\prod'_i(X_i,A_i)\cong\prod'_j(Y_j,B_j)$,
+since $\sigma$ maps cofinite sets to cofinite sets. It maps each $\prod_{i\in S}X_i\times\prod_{i\notin S}A_i$
+homeomorphically onto the corresponding subring for $\sigma(S)$, so it is a homeomorphism for the restricted product
+topologies.
+
+Combining the three identifications gives the isomorphism. It is compatible with $\Q$, because each factor isomorphism
+restricts to the identity on $\Q$.
+\end{proof}
+\noindent The theorem is used nowhere else in this edition. It is the fidelity anchor: every statement about $\A$ in
+this edition transfers along it to the library's adele ring.
+
+\begin{theorem}[$\Q$ is discrete in $\A$]
+\tfstmt{I.adele.thm:rat-discrete}
+\uses{I.adele.def:adele-ring, I.adele.def:zhat, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:adele-ring, I.adele.def:zhat, I.adele.thm:adele-locally-compact}
+If $q\in\Q$ lies in $(-1,1)\times\Zhat$, then $q\in\Zp$ for every $p$, so the denominator of $q$ is $1$ and $q\in\Z$.
+Then $\abs{q}<1$ forces $q=0$. The set $U=(-1,1)\times\Zhat$ is an open neighbourhood of $0$ in $\A$
+(\cref{I.adele.thm:adele-locally-compact}) with $U\cap\Q=\{0\}$. Hence $(q+U)\cap\Q=\{q\}$ for every $q\in\Q$ (as $U=-U$
+and $\Q$ is a group), and $\Q$ is discrete. A discrete subgroup $\Gamma$ of a Hausdorff topological group is closed: choose an open
+$V\ni0$ with $V-V\subseteq U$. For $x$ in the closure of $\Gamma$, the neighbourhood $x+V$ meets $\Gamma$. If
+$\gamma,\gamma'\in x+V$, then $\gamma-\gamma'\in V-V\subseteq U$, so $\gamma=\gamma'$. Thus $(x+V)\cap\Gamma$ is a single
+point $\gamma$. If $x\neq\gamma$, a smaller neighbourhood of $x$ avoiding $\gamma$ (Hausdorff) misses $\Gamma$, which
+contradicts $x\in\overline\Gamma$. So $x=\gamma\in\Gamma$.
+\end{proof}
+
+\begin{theorem}[a fundamental domain for $\Q$ in $\A$]
+\tfstmt{I.adele.thm:adele-fundamental-domain}
+\uses{I.adele.def:adele-ring, I.adele.def:zhat, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:adele-ring, I.adele.def:zhat}
+\emph{Existence.} For $y\in\Qp$ let $\{y\}_p\in\Z[1/p]$ be its $p$-adic fractional part: writing $y=\sum_{k\ge-n}a_kp^k$ with digits
+$a_k\in\{0,\dots,p-1\}$, $\{y\}_p=\sum_{k<0}a_kp^k$, so that $y-\{y\}_p\in\Zp$. Let $S$ be the finite set of primes $p$ with $x_p\notin\Zp$, and put
+$r=\sum_{p\in S}\{x_p\}_p\in\Q$. For $p\in S$,
+$x_p-r=(x_p-\{x_p\}_p)-\sum_{\ell\in S,\ell\neq p}\{x_\ell\}_\ell\in\Zp$, because $\{x_\ell\}_\ell\in\Z[1/\ell]\subseteq\Zp$
+for $\ell\neq p$. For $p\notin S$, $x_p\in\Zp$ and $r\in\Zp$. So $x_f-r\in\Zhat$. Let $m=\lfloor x_\infty-r\rfloor\in\Z$
+and $q=r+m$. Then $x_\infty-q\in[0,1)$, and $x_f-q=(x_f-r)-m\in\Zhat$ since $\Z\subseteq\Zhat$. So $y=x-q\in D$.
+
+\emph{Uniqueness.} If $q+y=q'+y'$ with $y,y'\in D$, then $q-q'=y'-y\in(-1,1)\times\Zhat$, so $q=q'$ by
+\cref{I.adele.thm:rat-discrete}.
+\end{proof}
+
+\begin{theorem}[$\Q\backslash\A$ is compact]
+\tfstmt{I.adele.thm:rat-quotient-compact-top}
+\uses{I.adele.def:adele-ring, I.adele.def:zhat, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.thm:adele-fundamental-domain, I.adele.thm:rat-discrete, I.adele.thm:adele-locally-compact}
+Let $\pi\colon\A\to\A/\Q$ be the quotient map; it is continuous.
+
+\emph{Compact.} By \cref{I.adele.thm:adele-fundamental-domain} every $x\in\A$ is $x=q+y$ with $q\in\Q$ and
+$y\in[0,1)\times\Zhat$, so $\pi(x)=\pi(y)$. Hence $\pi$ maps $[0,1]\times\Zhat$ onto $\A/\Q$. This set is compact,
+as $[0,1]$ is compact and $\Zhat$ is compact (\cref{I.adele.thm:adele-locally-compact}). A continuous image of a compact
+set is compact.
+
+\emph{Hausdorff.} $\Q$ is a closed subgroup of $\A$ (\cref{I.adele.thm:rat-discrete}). The quotient of a topological
+group by a closed subgroup is Hausdorff: the set $R=\{(x,y):x-y\in\Q\}\subseteq\A\times\A$ is closed and is a union of
+fibres of $\pi\times\pi$, so the open map $\pi\times\pi$ maps the open set $(\A\times\A)\setminus R$ onto the complement of the
+diagonal of $\A/\Q$, which is therefore open.
+\end{proof}
+\noindent This is the measure-free part of the parent's statement \texttt{I.adele.thm:rat-quotient-compact}, which also
+normalized a Haar measure on $\A$; the multiplicative analogue, compactness of $\A^1/\Q^\times$, is
+\cref{I.adele.thm:norm-one-quotient}.
+
+\section{Ideles}\label{sec:adele-ideles}
+
+\noindent\emph{Sources for this section:} \cite[§§1.3--1.4]{GH}; \cite[§§3.3--3.4]{Corv-ptIII-1}. Over $\Q$ the class
+number is one, and the idele class group is explicit (\cref{I.adele.thm:idele-decomposition}).
+
+\begin{definition}[ideles]
+\tfstmt{I.adele.def:ideles}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent\emph{The explicit description.} If $xy=1$ in $\A$, then $x_\infty y_\infty=1$ and $x_py_p=1$ for all $p$.
+For almost all $p$ both $x_p,y_p\in\Zp$, hence $x_p\in\Zp^\times$. Conversely, under the stated conditions
+$(x_\infty^{-1},(x_p^{-1})_p)$ lies in $\A$ and is an inverse. The units topology is finer than the subspace topology,
+and strictly finer. With it, $\A^\times$ is a topological group, and $\A^\times\cong\R^\times\times\prod'_p(\Qp^\times,\Zp^\times)$
+as topological groups (Mathlib \texttt{RestrictedProduct.unitsEquiv} with its topology; B-only item
+\texttt{I.adele.lem:ideles-restricted-product}). In particular the subgroup $\R^\times\times\Zhat^\times$ is open in
+$\A^\times$, and on it the units topology is the product topology: $\Zhat^\times=\prod_p\Zp^\times$ is closed under
+the componentwise inversion, which is continuous in the product topology.
+
+\begin{definition}[the idele norm]
+\tfstmt{I.adele.def:idele-norm}
+\uses{I.adele.def:ideles, I.lf.def:normalized-abs, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent\emph{Proof of the claims.} $\abs{x_p}_{\Qp}=1$ when $x_p\in\Zp^\times$ (\cref{I.lf.thm:abs-uniformizer}), so
+the product is finite. Multiplicativity follows from \cref{I.lf.thm:abs-multiplicative} factor by factor. On the open
+subgroup $\R^\times\times\Zhat^\times$ the norm is $x\mapsto\abs{x_\infty}$, which is continuous. So the norm is
+continuous (a homomorphism of topological groups that is continuous on an open subgroup is continuous). By \cref{I.lf.thm:abs-padic-eq},
+$\abs{x_p}_{\Qp}=\norm{x_p}_p$.
+
+\begin{theorem}[product formula]
+\tfstmt{I.adele.thm:product-formula}
+\uses{I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:idele-norm, I.lf.thm:abs-padic-eq}
+Write $q=\pm\prod_pp^{n_p}$ with $n_p\in\Z$, almost all zero. Then $\abs{q}=\prod_pp^{n_p}$ and
+$\abs{q}_{\Qp}=\norm{q}_p=p^{-n_p}$ (\cref{I.lf.thm:abs-padic-eq}), so $\abs{q}_\A=\prod_pp^{n_p}\cdot\prod_pp^{-n_p}=1$.
+\end{proof}
+
+\begin{theorem}[the idele group of $\Q$]
+\tfstmt{I.adele.thm:idele-decomposition}
+\uses{I.adele.def:ideles, I.adele.def:zhat, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:ideles, I.adele.def:zhat, I.adele.def:idele-norm, I.adele.thm:product-formula, I.lf.thm:unit-uniformizer-decomposition}
+Call the map $\Psi$. It is a homomorphism, since all three groups are commutative.
+
+\emph{Bijective.} Let $x\in\A^\times$. For each $p$, $x_p=u_pp^{n_p}$ with $u_p\in\Zp^\times$ and $n_p\in\Z$
+(\cref{I.lf.thm:unit-uniformizer-decomposition}), and $n_p=0$ for almost all $p$. Put $q_0=\prod_pp^{n_p}\in\Q_{>0}$,
+$\varepsilon=\operatorname{sign}(x_\infty)$, $q=\varepsilon q_0$, $r=\abs{x_\infty}/q_0>0$, and $u=q^{-1}x_f$. Then
+$q^{-1}x_p=\pm u_p\prod_{\ell\neq p}\ell^{-n_\ell}$
+is a unit of $\Zp$ times a product of primes $\ell\neq p$, which are units of $\Zp$; so $q^{-1}x_p\in\Zp^\times$.
+So $u\in\Zhat^\times$ and $x=q\cdot(r,u)$. Conversely, if $q\cdot(r,u)=q'\cdot(r',u')$, then $q'^{-1}q$ has
+$\norm{\cdot}_p=1$ at every $p$ (as $u,u'\in\Zhat^\times$), so $q'^{-1}q=\pm1$; and its sign is that of
+$r'/r>0$. So $q=q'$, and then $r=r'$, $u=u'$.
+
+\emph{Norm.} $\abs{q\cdot(r,u)}_\A=\abs{q}_\A\cdot r\cdot\prod_p\abs{u_p}_{\Qp}=r$ by \cref{I.adele.thm:product-formula}.
+
+\emph{Homeomorphism.} $U_0=\R_{>0}\times\Zhat^\times$ is open in $\A^\times$: it is open in the open subgroup
+$\R^\times\times\Zhat^\times$, whose topology is the product topology. On $\{q\}\times\R_{>0}\times\Zhat^\times$ the map
+$\Psi$ is $(r,u)\mapsto q\cdot(r,u)$, a homeomorphism onto the open set $qU_0$ (multiplication by $q$ is a homeomorphism
+of $\A^\times$). By bijectivity $\A^\times=\bigsqcup_{q\in\Q^\times}qU_0$, a disjoint union of open sets. A bijection
+that restricts to homeomorphisms between the members of two partitions into open sets is a homeomorphism.
+\end{proof}
+
+\begin{theorem}[the norm-one idele classes]
+\tfstmt{I.adele.thm:norm-one-quotient}
+\uses{I.adele.thm:idele-decomposition, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.def:zhat}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.thm:idele-decomposition, I.adele.thm:product-formula}
+By \cref{I.adele.thm:idele-decomposition}, $\abs{x}_\A=r(x)$. So $\A^1$ corresponds to $\Q^\times\times\{1\}\times\Zhat^\times$,
+and $\A^1\cong\Q^\times\times\Zhat^\times$ as topological groups, with $\Q^\times\subseteq\A^1$ (\cref{I.adele.thm:product-formula})
+corresponding to the first factor. The quotient by the first factor is $\Zhat^\times$, via $u\mapsto(1,u)\Q^\times$.
+This map is a continuous bijective homomorphism. Its inverse $x\Q^\times\mapsto u(x)$ is continuous, since
+$x\mapsto u(x)$ is continuous on $\A^1$ and constant on $\Q^\times$-cosets. $\Zhat^\times=\prod_p\Zp^\times$ is
+compact (Tychonoff).
+\end{proof}
+
+\begin{theorem}[topology of the ideles]
+\tfstmt{I.adele.thm:ideles-second-countable}
+\uses{I.adele.def:ideles, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.thm:idele-decomposition, I.adele.thm:adele-locally-compact, I.lf.thm:nalf-second-countable}
+By \cref{I.adele.thm:idele-decomposition}, $\A^\times\cong\Q^\times\times\R_{>0}\times\Zhat^\times$. Here $\Q^\times$ is
+countable and discrete, $\R_{>0}$ is locally compact, Hausdorff and second countable, and so is the compact group
+$\Zhat^\times=\prod_p\Zp^\times$ (a countable product of second countable compact spaces). Finite products preserve
+the three properties.
+\end{proof}
+
+\section{\texorpdfstring{Characters of $\Zhat^\times$ and Hecke characters}{Characters of Ẑ× and Hecke characters}}\label{sec:adele-characters}
+
+\noindent\emph{Sources for this section:} \cite[§2.1]{GH}; \cite[§3.3]{Corv-ptIII-1}.
+\Cref{I.adele.thm:zhat-characters-finite-order} is the dictionary between continuous characters of $\Zhat^\times$ and Dirichlet characters.
+
+\begin{theorem}[characters of $\Zhat^\times$ have finite order]
+\tfstmt{I.adele.thm:zhat-characters-finite-order}
+\uses{I.adele.def:zhat, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.def:zhat, I.adele.thm:adele-locally-compact}
+\emph{The map $\mathrm{red}_N$.} $N\Zhat$ is an open ideal of $\Zhat$ (remark in the proof of
+\cref{I.adele.thm:adele-second-countable}), and $\Zhat=\Z+N\Zhat$ by the Chinese remainder theorem (for $x\in\Zhat$ choose $m\in\Z$ with $m\equiv x_p\bmod p^{v_p(N)}\Zp$ for the finitely many $p\mid N$; then $x-m\in N\Zhat$). Moreover $\Z\cap N\Zhat=N\Z$, because an integer lying in $N\Zp$
+for all $p$ is divisible by $N$. So $\Zhat/N\Zhat\cong\Z/N\Z$, which defines $\mathrm{red}_N$. For $u\in\Zhat^\times$,
+$\mathrm{red}_N(u)$ is a unit. $\mathrm{red}_N$ restricted to $\Zhat^\times$ is onto $(\Z/N\Z)^\times$: for an integer $m$
+prime to $N$, the element $u$ with $u_p=m$ for $p\mid N$ and $u_p=1$ for $p\nmid N$ lies in $\Zhat^\times$ and satisfies
+$u-m\in N\Zhat$. Its kernel is $U_N=\Zhat^\times\cap(1+N\Zhat)$.
+
+\emph{No small subgroups.} Let $V=\{z\in\C^\times:\abs{z-1}<1/2\}$. The only subgroup of $\C^\times$ contained in $V$
+is $\{1\}$. Indeed, let $z\in V$ with all powers in $V$. Then $\abs{z}=1$, since otherwise $\abs{z^n}\to0$ or $\infty$
+for $n\to\pm\infty$, while $V\subseteq\{1/2<\abs{z}<3/2\}$. Write $z=e^{i\theta}$ with $\theta\in(-\pi,\pi]$. If
+$\theta\neq0$, the multiples $n\abs{\theta}$, $n\ge1$, increase in steps of $\abs{\theta}$. If $\abs\theta\ge\pi/3$ take
+$n=1$; otherwise some $n$ has $n\abs{\theta}\in[\pi/3,2\pi/3]$. Then $\cos(n\theta)\le1/2$, so
+$\abs{z^n-1}^2=2-2\cos(n\theta)\ge1$, a contradiction.
+
+\emph{Factorization.} $\chi^{-1}(V)$ is an open neighbourhood of $1$ in $\Zhat^\times$. The sets $U_N$ form a
+neighbourhood base of $1$: a basic neighbourhood in the product topology contains
+$\prod_{p\in S}(1+p^k\Zp)\times\prod_{p\notin S}\Zp^\times=U_N$ with $N=\prod_{p\in S}p^k$. So $U_N\subseteq\chi^{-1}(V)$
+for some $N$. Then $\chi(U_N)$ is a subgroup inside $V$, hence trivial. So $\chi$ factors through
+$\Zhat^\times/U_N\cong(\Z/N\Z)^\times$ (via $\mathrm{red}_N$, which is surjective with kernel $U_N$), giving $\chi_N$. Finally,
+$(\Z/N\Z)^\times$ is finite of order $n=\varphi(N)$, so $\chi^n=\chi_N^n\circ\mathrm{red}_N=1$.
+\end{proof}
+\noindent In the library a Dirichlet character mod $N$ is a \texttt{DirichletCharacter ℂ N}, a multiplicative character of
+$\Z/N\Z$ vanishing on non-units. The theorem uses only its values on units.
+
+\begin{definition}[Hecke characters]
+\tfstmt{I.adele.def:hecke-character}
+\uses{I.adele.def:ideles, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent Hecke characters are not assumed unitary. (Every Hecke character of $\Q$ is $x\mapsto\chi_0(u(x))\abs{x}_\A^s$ for a
+unique continuous character $\chi_0$ of $\Zhat^\times$ and a unique $s\in\C$, with $u(x)$ as in \cref{I.adele.thm:idele-decomposition}
+\cite[§2.1]{GH}; the parent project proves this classification, which is not part of this volume.)
+

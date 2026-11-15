@@ -1,0 +1,6905 @@
+{
+ "data": {
+  "acceptance": {
+   "H0_nonzero_U1p": true,
+   "S_l_cohom_[l]^2_hom_[l]^-2": true,
+   "S_l_nonvacuous_discriminating_instances": 8,
+   "S_l_scalar_on_P_max": true,
+   "U1p_exponent_cases_distinguished": true,
+   "U1p_exponent_cohom_+1_hom_-1": true,
+   "epsilon_checks": true,
+   "exponent_cohom_observed": [
+    1
+   ],
+   "exponent_distinguished_somewhere": true,
+   "exponent_hom_observed": [
+    -1
+   ],
+   "hecke_matches_mf": true,
+   "hecke_matches_mf_U1p": true,
+   "hecke_relation_ok": true,
+   "max_H0_zero_unless_(p-1)|(k-2)": true,
+   "original_H0_vanishes_3_le_k_le_p+1": true,
+   "original_T_l_p+3_le_k_le_2p_holds_vacuous_or_nondiscriminating": true
+  },
+  "acceptance_change": "Acceptance changed by the S03 coordinator after the M7 maths audit (mathematics/chapters/s03/NOTES.md, wip-implementation 6ff60ad). M7.1: rem:s03-T6(c) is wrong at the level maximal at p: H_0 != 0 only if (p-1) | (k-2), and there [l] is trivial mod p, so the +-1 exponent is not observable at maximal level; the exponent test (cohomological (1+l)[l], homological (1+l)[l]^{-1}) is run at U_1(p) for p = 5, k in {7, 9} and p = 7, k in {9, 10} and must distinguish the conventions with exponent +1 cohomologically. At maximal level the asserted claim is 'H_0 = 0 unless (p-1) | (k-2)'. M7.3: the normative (homological) S_l is l^{2-k} (the classical S_l^{-1}); S_l is checked as [l]^2 (cohomological) / [l]^{-2} (homological) on H_0 and as the scalar l^{k-2} / l^{2-k} on the Brandt module. The original claims (H_0 = 0 for 3 <= k <= p+1; T_l = (1+l)[l]^{+-1} for p+3 <= k <= 2p) are still recorded: both hold, the second only non-discriminatingly.",
+  "cases": [
+   {
+    "D": 3,
+    "H0": [
+     2
+    ],
+    "V_U1_coinvariants": [
+     2
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       2
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 12,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 14,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 8,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       2
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 12,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 14,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 8,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 13",
+      "charpoly_hom": "x + 13",
+      "charpoly_l^(2-k)mf": "x + 13",
+      "charpoly_mf": "x + 13",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 11",
+      "charpoly_hom": "x + 11",
+      "charpoly_l^(2-k)mf": "x + 11",
+      "charpoly_mf": "x + 11",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "7": {
+      "charpoly_cohom": "x + 17",
+      "charpoly_hom": "x + 17",
+      "charpoly_l^(2-k)mf": "x + 17",
+      "charpoly_mf": "x + 17",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 2,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 1,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [
+     2
+    ],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 3,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "1",
+      "charpoly_hom": "1",
+      "charpoly_l^(2-k)mf": "1",
+      "charpoly_mf": "1",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 0
+     },
+     "13": {
+      "charpoly_cohom": "1",
+      "charpoly_hom": "1",
+      "charpoly_l^(2-k)mf": "1",
+      "charpoly_mf": "1",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 0
+     },
+     "7": {
+      "charpoly_cohom": "1",
+      "charpoly_hom": "1",
+      "charpoly_l^(2-k)mf": "1",
+      "charpoly_mf": "1",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 0
+     }
+    },
+    "k": 4,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 1,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 5,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 14",
+      "charpoly_hom": "x + 4",
+      "charpoly_l^(2-k)mf": "x + 4",
+      "charpoly_mf": "x + 14",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 12",
+      "charpoly_hom": "x + 17",
+      "charpoly_l^(2-k)mf": "x + 17",
+      "charpoly_mf": "x + 12",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "7": {
+      "charpoly_cohom": "x + 15",
+      "charpoly_hom": "x + 15",
+      "charpoly_l^(2-k)mf": "x + 15",
+      "charpoly_mf": "x + 15",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 6,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 3,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 7,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 23",
+      "charpoly_hom": "x + 18",
+      "charpoly_l^(2-k)mf": "x + 18",
+      "charpoly_mf": "x + 23",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 23",
+      "charpoly_hom": "x + 22",
+      "charpoly_l^(2-k)mf": "x + 22",
+      "charpoly_mf": "x + 23",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "7": {
+      "charpoly_cohom": "x + 14",
+      "charpoly_hom": "x + 11",
+      "charpoly_l^(2-k)mf": "x + 11",
+      "charpoly_mf": "x + 14",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 8,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 3,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 9,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x^2 + 17*x + 7",
+      "charpoly_hom": "x^2 + 7*x + 12",
+      "charpoly_l^(2-k)mf": "x^2 + 7*x + 12",
+      "charpoly_mf": "x^2 + 17*x + 7",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 2
+     },
+     "13": {
+      "charpoly_cohom": "x^2 + 8*x + 17",
+      "charpoly_hom": "x^2 + 23*x + 12",
+      "charpoly_l^(2-k)mf": "x^2 + 23*x + 12",
+      "charpoly_mf": "x^2 + 8*x + 17",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 2
+     },
+     "7": {
+      "charpoly_cohom": "x^2 + 2*x + 10",
+      "charpoly_hom": "x^2 + 2*x + 10",
+      "charpoly_l^(2-k)mf": "x^2 + 2*x + 10",
+      "charpoly_mf": "x^2 + 2*x + 10",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 2
+     }
+    },
+    "k": 10,
+    "level": "max",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 4,
+    "rank_edge_module": 5,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [
+     1
+    ],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 2,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 4,
+    "rank_edge_module": 6,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 3,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 8,
+    "rank_edge_module": 12,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 4,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 12,
+    "rank_edge_module": 18,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 5,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 16,
+    "rank_edge_module": 24,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 4,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 3,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 6,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 20,
+    "rank_edge_module": 30,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1,
+     1
+    ],
+    "V_U1_coinvariants": [
+     1,
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf_U1p": {
+     "charpoly_cohom": "x^12 + x^11 + 3*x^10 + 4*x^8 + 4*x^7 + 2*x^6",
+     "charpoly_hom": "x^12 + 3*x^11 + 2*x^10 + 4*x^8 + 2*x^7 + 3*x^6",
+     "charpoly_mf": "x^12 + x^11 + 3*x^10 + 4*x^8 + 4*x^7 + 2*x^6",
+     "cohom_eq_mf": true,
+     "l": 7,
+     "rank_M": 12
+    },
+    "k": 7,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 24,
+    "rank_edge_module": 36,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1,
+     1
+    ],
+    "V_U1_coinvariants": [
+     1,
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 8,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 28,
+    "rank_edge_module": 42,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1,
+     1
+    ],
+    "V_U1_coinvariants": [
+     1,
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf_U1p": {
+     "charpoly_cohom": "x^16 + 3*x^12 + x^8",
+     "charpoly_hom": "x^16 + 3*x^12 + x^8",
+     "charpoly_mf": "x^16 + 3*x^12 + x^8",
+     "cohom_eq_mf": true,
+     "l": 7,
+     "rank_M": 16
+    },
+    "k": 9,
+    "level": "U1p",
+    "m": 1,
+    "p": 5,
+    "q": 2,
+    "rank_P": 32,
+    "rank_edge_module": 48,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     2
+    ],
+    "V_U1_coinvariants": [
+     2
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       2
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 12,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 14,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       2
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 12,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 14,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 37",
+      "charpoly_hom": "x + 37",
+      "charpoly_l^(2-k)mf": "x + 37",
+      "charpoly_mf": "x + 37",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 35",
+      "charpoly_hom": "x + 35",
+      "charpoly_l^(2-k)mf": "x + 35",
+      "charpoly_mf": "x + 35",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "5": {
+      "charpoly_cohom": "x + 43",
+      "charpoly_hom": "x + 43",
+      "charpoly_l^(2-k)mf": "x + 43",
+      "charpoly_mf": "x + 43",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 2,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 1,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [
+     2
+    ],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 3,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "1",
+      "charpoly_hom": "1",
+      "charpoly_l^(2-k)mf": "1",
+      "charpoly_mf": "1",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 0
+     },
+     "13": {
+      "charpoly_cohom": "1",
+      "charpoly_hom": "1",
+      "charpoly_l^(2-k)mf": "1",
+      "charpoly_mf": "1",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 0
+     },
+     "5": {
+      "charpoly_cohom": "1",
+      "charpoly_hom": "1",
+      "charpoly_l^(2-k)mf": "1",
+      "charpoly_mf": "1",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 0
+     }
+    },
+    "k": 4,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 1,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 5,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 25",
+      "charpoly_hom": "x + 22",
+      "charpoly_l^(2-k)mf": "x + 22",
+      "charpoly_mf": "x + 25",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 48",
+      "charpoly_hom": "x + 41",
+      "charpoly_l^(2-k)mf": "x + 41",
+      "charpoly_mf": "x + 48",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "5": {
+      "charpoly_cohom": "x + 43",
+      "charpoly_hom": "x + 25",
+      "charpoly_l^(2-k)mf": "x + 25",
+      "charpoly_mf": "x + 43",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 6,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 3,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 7,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 17",
+      "charpoly_hom": "x + 24",
+      "charpoly_l^(2-k)mf": "x + 24",
+      "charpoly_mf": "x + 17",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 2",
+      "charpoly_hom": "x + 23",
+      "charpoly_l^(2-k)mf": "x + 23",
+      "charpoly_mf": "x + 2",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "5": {
+      "charpoly_cohom": "x + 2",
+      "charpoly_hom": "x + 16",
+      "charpoly_l^(2-k)mf": "x + 16",
+      "charpoly_mf": "x + 2",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 8,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 3,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 9,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x^2 + 30*x + 29",
+      "charpoly_hom": "x^2 + 15*x + 44",
+      "charpoly_l^(2-k)mf": "x^2 + 15*x + 44",
+      "charpoly_mf": "x^2 + 30*x + 29",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 2
+     },
+     "13": {
+      "charpoly_cohom": "x^2 + 13*x + 35",
+      "charpoly_hom": "x^2 + 48*x + 35",
+      "charpoly_l^(2-k)mf": "x^2 + 48*x + 35",
+      "charpoly_mf": "x^2 + 13*x + 35",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 2
+     },
+     "5": {
+      "charpoly_cohom": "x^2 + 2*x + 48",
+      "charpoly_hom": "x^2 + 32*x + 38",
+      "charpoly_l^(2-k)mf": "x^2 + 32*x + 38",
+      "charpoly_mf": "x^2 + 2*x + 48",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 2
+     }
+    },
+    "k": 10,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 4,
+    "rank_edge_module": 5,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 11,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x + 46",
+      "charpoly_hom": "x + 1",
+      "charpoly_l^(2-k)mf": "x + 1",
+      "charpoly_mf": "x + 46",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "13": {
+      "charpoly_cohom": "x + 48",
+      "charpoly_hom": "x + 6",
+      "charpoly_l^(2-k)mf": "x + 6",
+      "charpoly_mf": "x + 48",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     },
+     "5": {
+      "charpoly_cohom": "x + 29",
+      "charpoly_hom": "x + 46",
+      "charpoly_l^(2-k)mf": "x + 46",
+      "charpoly_mf": "x + 29",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 1
+     }
+    },
+    "k": 12,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 2,
+    "rank_edge_module": 5,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [],
+    "V_U1_coinvariants": [],
+    "conventions": {
+     "cohomological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": true
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": true
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 13,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 0,
+    "rank_edge_module": 0,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "S_scalar_on_P": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf": {
+     "11": {
+      "charpoly_cohom": "x^3 + 44*x + 47",
+      "charpoly_hom": "x^3 + 30*x + 19",
+      "charpoly_l^(2-k)mf": "x^3 + 30*x + 19",
+      "charpoly_mf": "x^3 + 44*x + 47",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 3
+     },
+     "13": {
+      "charpoly_cohom": "x^3 + 45*x^2 + 23*x + 21",
+      "charpoly_hom": "x^3 + 10*x^2 + 9*x + 21",
+      "charpoly_l^(2-k)mf": "x^3 + 10*x^2 + 9*x + 21",
+      "charpoly_mf": "x^3 + 45*x^2 + 23*x + 21",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 3
+     },
+     "5": {
+      "charpoly_cohom": "x^3 + 29*x^2 + 31*x + 3",
+      "charpoly_hom": "x^3 + 43*x^2 + 17*x + 31",
+      "charpoly_l^(2-k)mf": "x^3 + 43*x^2 + 17*x + 31",
+      "charpoly_mf": "x^3 + 29*x^2 + 31*x + 3",
+      "cohom_eq_mf": true,
+      "hom_eq_l^(2-k)mf": true,
+      "rank_M": 3
+     }
+    },
+    "k": 14,
+    "level": "max",
+    "m": 2,
+    "p": 7,
+    "q": 2,
+    "rank_P": 6,
+    "rank_edge_module": 7,
+    "shapiro_equivariance": true,
+    "stage02_LocalModel_H0": [
+     1
+    ],
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 2,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 8,
+    "rank_edge_module": 12,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 3,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 16,
+    "rank_edge_module": 24,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 4,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 24,
+    "rank_edge_module": 36,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 5,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 32,
+    "rank_edge_module": 48,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 5,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 6,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 40,
+    "rank_edge_module": 60,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 7,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 48,
+    "rank_edge_module": 72,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1
+    ],
+    "V_U1_coinvariants": [
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 5,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 6,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "k": 8,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 56,
+    "rank_edge_module": 84,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1,
+     1
+    ],
+    "V_U1_coinvariants": [
+     1,
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": false,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": false,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": false,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": false,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf_U1p": {
+     "charpoly_cohom": "x^32 + 6*x^31 + 5*x^30 + 2*x^26 + 5*x^25 + 3*x^24 + 3*x^20 + 4*x^19 + x^18 + 4*x^14 + 3*x^13 + 6*x^12 + 5*x^8 + 2*x^7 + 4*x^6 + 6*x^2 + x + 2",
+     "charpoly_hom": "x^32 + 4*x^31 + 3*x^30 + 2*x^26 + x^25 + 6*x^24 + 3*x^20 + 5*x^19 + 2*x^18 + 4*x^14 + 2*x^13 + 5*x^12 + 5*x^8 + 6*x^7 + x^6 + 6*x^2 + 3*x + 4",
+     "charpoly_mf": "x^32 + 6*x^31 + 5*x^30 + 2*x^26 + 5*x^25 + 3*x^24 + 3*x^20 + 4*x^19 + x^18 + 4*x^14 + 3*x^13 + 6*x^12 + 5*x^8 + 2*x^7 + 4*x^6 + 6*x^2 + x + 2",
+     "cohom_eq_mf": true,
+     "l": 5,
+     "rank_M": 32
+    },
+    "k": 9,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 64,
+    "rank_edge_module": 96,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1,
+     1
+    ],
+    "V_U1_coinvariants": [
+     1,
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": false,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": false,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": false,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 0,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = -1 mod p: 1 + l = 0 mod p",
+        "vacuous": false
+       },
+       "5": {
+        "S_acts_as_[l]^+2": false,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": true,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": "not computed (cost; W too large)",
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf_U1p": {
+     "charpoly_cohom": "x^36 + 3*x^35 + x^34 + 3*x^32 + x^31 + x^30 + 6*x^29 + 2*x^28 + 6*x^26 + 2*x^25 + x^24 + 2*x^23 + 3*x^22 + 2*x^20 + 3*x^19 + x^18 + 5*x^17 + 4*x^16 + 5*x^14 + 4*x^13 + x^12 + x^11 + 5*x^10 + x^8 + 5*x^7 + x^6 + 4*x^5 + 6*x^4 + 4*x^2 + 6*x + 1",
+     "charpoly_hom": "x^36 + 6*x^35 + 4*x^34 + 6*x^32 + 4*x^31 + x^30 + 5*x^29 + x^28 + 5*x^26 + x^25 + x^24 + 4*x^23 + 5*x^22 + 4*x^20 + 5*x^19 + x^18 + 3*x^17 + 2*x^16 + 3*x^14 + 2*x^13 + x^12 + 2*x^11 + 6*x^10 + 2*x^8 + 6*x^7 + x^6 + x^5 + 3*x^4 + x^2 + 3*x + 1",
+     "charpoly_mf": "x^36 + 3*x^35 + x^34 + 3*x^32 + x^31 + x^30 + 6*x^29 + 2*x^28 + 6*x^26 + 2*x^25 + x^24 + 2*x^23 + 3*x^22 + 2*x^20 + 3*x^19 + x^18 + 5*x^17 + 4*x^16 + 5*x^14 + 4*x^13 + x^12 + x^11 + 5*x^10 + x^8 + 5*x^7 + x^6 + 4*x^5 + 6*x^4 + 4*x^2 + 6*x + 1",
+     "cohom_eq_mf": true,
+     "l": 5,
+     "rank_M": 36
+    },
+    "k": 10,
+    "level": "U1p",
+    "m": 1,
+    "p": 7,
+    "q": 2,
+    "rank_P": 72,
+    "rank_edge_module": 108,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   },
+   {
+    "D": 3,
+    "H0": [
+     1,
+     1
+    ],
+    "V_U1_coinvariants": [
+     1,
+     1
+    ],
+    "conventions": {
+     "cohomological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": false,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true,
+      "tau0_2_ok": true
+     },
+     "homological": {
+      "H0": [
+       1,
+       1
+      ],
+      "eps_alpha_zero": true,
+      "eps_onto": true,
+      "hecke": {
+       "11": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": 2,
+        "acts_as_(1+l)[l]^+1": true,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": 1,
+        "distinguishes": false,
+        "exponent_observed": "undetermined",
+        "uninformative_prime": "l = 1 mod p: [l] = 1 mod p",
+        "vacuous": false
+       },
+       "13": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       },
+       "7": {
+        "S_acts_as_[l]^+2": true,
+        "S_acts_as_[l]^-2": true,
+        "S_distinguishes": false,
+        "T_preserves_im": true,
+        "T_scalar_on_H0": null,
+        "acts_as_(1+l)[l]^+1": false,
+        "acts_as_(1+l)[l]^-1": true,
+        "diamond_l_scalar_on_H0": null,
+        "distinguishes": true,
+        "exponent_observed": [
+         -1
+        ],
+        "uninformative_prime": null,
+        "vacuous": false
+       }
+      },
+      "hecke_relation_T_l^2-T_l2=lS_l": {
+       "l": 7,
+       "ok": true
+      },
+      "ker_eps_eq_im_alpha": true,
+      "same_order": true
+     }
+    },
+    "eps_well_defined": true,
+    "hecke_vs_mf_U1p": {
+     "charpoly_cohom": "x^12 + 21*x^11 + 8*x^10 + 15*x^9 + 14*x^8 + 19*x^7 + 12*x^6 + 10*x^5",
+     "charpoly_hom": "x^12 + 3*x^11 + 17*x^10 + 5*x^9 + 14*x^8 + 17*x^7 + 13*x^6 + 20*x^5",
+     "charpoly_mf": "x^12 + 21*x^11 + 8*x^10 + 15*x^9 + 14*x^8 + 19*x^7 + 12*x^6 + 10*x^5",
+     "cohom_eq_mf": true,
+     "l": 7,
+     "rank_M": 12
+    },
+    "k": 7,
+    "level": "U1p",
+    "m": 2,
+    "p": 5,
+    "q": 2,
+    "rank_P": 24,
+    "rank_edge_module": 36,
+    "shapiro_equivariance": true,
+    "tau_transport": true
+   }
+  ],
+  "flag_notes": {
+   "S_l_cohom_[l]^2_hom_[l]^-2": "S_l = T_{z_l} derived from hecke_from (gamma = l); vacuous where H_0 = 0; the number of non-vacuous rows where [l]^2 != [l]^{-2} on H_0 is S_l_nonvacuous_discriminating_instances",
+   "S_l_scalar_on_P_max": "maximal level: S_l is the scalar l^{k-2} (cohom.) / l^{2-k} (homol., M7.3) on the Brandt module",
+   "hecke_matches_mf": "maximal level, k even: charpoly of T_l = PARI mf on S_k(3)^new (cohom.), = l^{2-k} T_l (homol.)",
+   "hecke_matches_mf_U1p": "U_1(p), EXPONENT_CASES: charpoly of cohom. T_l = classical T_l on the 3-new forms of Gamma_0(3) cap Gamma_1(p) (PARI mf, all characters mod p)",
+   "hecke_relation_ok": "T_l^2 - T_{l^2} = l S_l on P, both conventions, first informative l (U_1(p): only if dim W <= 240)",
+   "m": "maximal level m = 2; U_1(p) at m = 1 except EXTRA_CASES (p = 5, k = 7, m = 2)",
+   "original_H0_vanishes_3_le_k_le_p+1": "original plan claim (rem:s03-T6 (a)); holds and is consistent with M7.1",
+   "original_T_l_p+3_le_k_le_2p_holds_vacuous_or_nondiscriminating": "original plan claim; for p+3 <= k < 2p it holds vacuously (H_0 = 0), at k = 2p non-discriminatingly ([l] = 1 on H_0 = Z/p); the flag also asserts that no row in this range distinguishes the exponents (M7.1/M7.2)",
+   "uninformative primes": "l = 11 at p = 5 (l = 1 mod p) and l = 13 at p = 7 (1 + l = 0 mod p) carry no sign information; rows record uninformative_prime"
+  },
+  "observations": {
+   "exponent_distinguishing_cases": [
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 7,
+     "l": "7",
+     "level": "U1p",
+     "p": 5
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 7,
+     "l": "13",
+     "level": "U1p",
+     "p": 5
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 9,
+     "l": "7",
+     "level": "U1p",
+     "p": 5
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 9,
+     "l": "13",
+     "level": "U1p",
+     "p": 5
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 9,
+     "l": "5",
+     "level": "U1p",
+     "p": 7
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 9,
+     "l": "11",
+     "level": "U1p",
+     "p": 7
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 10,
+     "l": "5",
+     "level": "U1p",
+     "p": 7
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 10,
+     "l": "11",
+     "level": "U1p",
+     "p": 7
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 7,
+     "l": "7",
+     "level": "U1p",
+     "p": 5
+    },
+    {
+     "cohom": [
+      1
+     ],
+     "hom": [
+      -1
+     ],
+     "k": 7,
+     "l": "13",
+     "level": "U1p",
+     "p": 5
+    }
+   ],
+   "max_level_nonzero_H0_k_gt_2": [
+    {
+     "H0": [
+      1
+     ],
+     "k": 10,
+     "p": 5
+    },
+    {
+     "H0": [
+      1
+     ],
+     "k": 14,
+     "p": 7
+    }
+   ]
+  },
+  "summary": [
+   {
+    "H0": [
+     2
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 2,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 3,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 4,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 5,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 6,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 7,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 8,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 9,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 10,
+    "level": "max",
+    "m": 2,
+    "p": 5
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 2,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 3,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 4,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 5,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 6,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1,
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": [
+      1
+     ],
+     "7": [
+      1
+     ]
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": [
+      -1
+     ],
+     "7": [
+      -1
+     ]
+    },
+    "k": 7,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1,
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "7": "undetermined"
+    },
+    "k": 8,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     1,
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": [
+      1
+     ],
+     "7": [
+      1
+     ]
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": [
+      -1
+     ],
+     "7": [
+      -1
+     ]
+    },
+    "k": 9,
+    "level": "U1p",
+    "m": 1,
+    "p": 5
+   },
+   {
+    "H0": [
+     2
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 2,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 3,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 4,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 5,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 6,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 7,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 8,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 9,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 10,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 11,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 12,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 13,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 14,
+    "level": "max",
+    "m": 2,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 2,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 3,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 4,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 5,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 6,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 7,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": "undetermined",
+     "5": "undetermined"
+    },
+    "k": 8,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1,
+     1
+    ],
+    "exp_cohom": {
+     "11": [
+      1
+     ],
+     "13": "undetermined",
+     "5": [
+      1
+     ]
+    },
+    "exp_hom": {
+     "11": [
+      -1
+     ],
+     "13": "undetermined",
+     "5": [
+      -1
+     ]
+    },
+    "k": 9,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1,
+     1
+    ],
+    "exp_cohom": {
+     "11": [
+      1
+     ],
+     "13": "undetermined",
+     "5": [
+      1
+     ]
+    },
+    "exp_hom": {
+     "11": [
+      -1
+     ],
+     "13": "undetermined",
+     "5": [
+      -1
+     ]
+    },
+    "k": 10,
+    "level": "U1p",
+    "m": 1,
+    "p": 7
+   },
+   {
+    "H0": [
+     1,
+     1
+    ],
+    "exp_cohom": {
+     "11": "undetermined",
+     "13": [
+      1
+     ],
+     "7": [
+      1
+     ]
+    },
+    "exp_hom": {
+     "11": "undetermined",
+     "13": [
+      -1
+     ],
+     "7": [
+      -1
+     ]
+    },
+    "k": 7,
+    "level": "U1p",
+    "m": 2,
+    "p": 5
+   }
+  ]
+ },
+ "provenance": {
+  "commit": "49142d2f8be915b84aefbbb27d1a8fc26618f9b9",
+  "date": "2026-11-14T20:44:52+00:00",
+  "notes": "S03-C4 / T6 (rem:s03-T6): coker alpha with V_k over Z/p^m for B_3, q = 2; epsilon of thm:s03-iharaH0 (a); T_l on H_0 in the cohomological (C4) and homological (if:s02-indef) conventions (exponent table after rem:s03-pm); U_1(p) via Shapiro (W = Ind V_k). H0 = list of exponents e (summand Z/p^e). 'undetermined' = (1+l)[l] and (1+l)[l]^{-1} agree on H_0.",
+  "params": {
+   "D": 3,
+   "cases": [
+    [
+     2,
+     5,
+     2,
+     "max"
+    ],
+    [
+     3,
+     5,
+     2,
+     "max"
+    ],
+    [
+     4,
+     5,
+     2,
+     "max"
+    ],
+    [
+     5,
+     5,
+     2,
+     "max"
+    ],
+    [
+     6,
+     5,
+     2,
+     "max"
+    ],
+    [
+     7,
+     5,
+     2,
+     "max"
+    ],
+    [
+     8,
+     5,
+     2,
+     "max"
+    ],
+    [
+     9,
+     5,
+     2,
+     "max"
+    ],
+    [
+     10,
+     5,
+     2,
+     "max"
+    ],
+    [
+     2,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     3,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     4,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     5,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     6,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     7,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     8,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     9,
+     5,
+     1,
+     "U1p"
+    ],
+    [
+     2,
+     7,
+     2,
+     "max"
+    ],
+    [
+     3,
+     7,
+     2,
+     "max"
+    ],
+    [
+     4,
+     7,
+     2,
+     "max"
+    ],
+    [
+     5,
+     7,
+     2,
+     "max"
+    ],
+    [
+     6,
+     7,
+     2,
+     "max"
+    ],
+    [
+     7,
+     7,
+     2,
+     "max"
+    ],
+    [
+     8,
+     7,
+     2,
+     "max"
+    ],
+    [
+     9,
+     7,
+     2,
+     "max"
+    ],
+    [
+     10,
+     7,
+     2,
+     "max"
+    ],
+    [
+     11,
+     7,
+     2,
+     "max"
+    ],
+    [
+     12,
+     7,
+     2,
+     "max"
+    ],
+    [
+     13,
+     7,
+     2,
+     "max"
+    ],
+    [
+     14,
+     7,
+     2,
+     "max"
+    ],
+    [
+     2,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     3,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     4,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     5,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     6,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     7,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     8,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     9,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     10,
+     7,
+     1,
+     "U1p"
+    ],
+    [
+     7,
+     5,
+     2,
+     "U1p"
+    ]
+   ],
+   "ells": [
+    5,
+    7,
+    11,
+    13
+   ],
+   "exponent_cases_U1p": [
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     7,
+     9
+    ],
+    [
+     7,
+     10
+    ]
+   ],
+   "ps": [
+    5,
+    7
+   ],
+   "q": 2
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 13.16,
+  "script": "code/python/langlandscape/ribet/ihara.py"
+ }
+}

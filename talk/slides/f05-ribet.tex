@@ -1,0 +1,19 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 5: Ribet does it in the first case (D = q, weight 2, Gamma_0(qM)).
+% Sources: chapters/s05/geometric.tex thm:s05-G (G1) Deligne-Rapoport, (G2) Ribet 1990 Prop. 3.1 p. 439, (G3) Raynaud / SGA 7 (Phi = X^vee/X), all cited;
+% chapters/s03/1-graphs.tex rem:s03-mazur (Mazur, App. Thm A.1(b), cited); prop:s05-sign(a) (U_q = +Pi_q at Gamma_0, weight 2).
+\begin{frame}{Ribet does it in the first case: $D=q$, weight $2$, $\Gamma_0(qM)$}
+  \small
+  Ribet (Invent.\ Math.\ 100, 1990): $X_0(qM)$ has bad semistable reduction at $q$ (Deligne--Rapoport),
+  two components meeting at the supersingular points $\Sigma(M)$, and, compatibly with $T_\ell$, $\ell\nmid qM$,
+  \[\mathcal X_q\big(J_0(qM)\big)\;\cong\;\ZZ[\Sigma(M)]^0\;=\;\ZZ\big[X_{B_q}(U_0(M))\big]^0 :\]
+  the character group of the toric part at $q$ is the degree-$0$ part of the \emph{definite} Brandt module of discriminant $q$, level $M$.
+  \begin{block}{An integral exact sequence, equivariant for $T_\ell$, $\ell\nmid qM$}
+    \[0\to\mathcal X_q\xrightarrow{\ x\mapsto\langle x,\cdot\rangle\ }\mathcal X_q^\vee\to\Phi_q(J_0(qM))\to0\]
+    with the monodromy pairing $\langle e,e'\rangle=w_e\delta_{ee'}$, $w_e$ the thickness \reftag{Raynaud, SGA\,7}.
+    \emph{The cokernel is the component group.} At $M=1$: $\Phi_q\cong\ZZ/\operatorname{num}\frac{q-1}{12}$, Eisenstein \reftag{Mazur}.
+  \end{block}
+  This is the model for (a)--(e): integral, Hecke-equivariant, with the obstruction (congruences) in the cokernel.
+  It is \emph{geometric} (bad reduction), and stops at $\Gamma_0$-level, weight $2$.
+\end{frame}

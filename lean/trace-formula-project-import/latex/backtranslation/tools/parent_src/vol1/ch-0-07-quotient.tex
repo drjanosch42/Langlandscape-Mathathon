@@ -1,0 +1,1011 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/Quotient.lean (§1: lean/GL2TF/Common/DiscreteQuotient.lean; end of §1, M3e item 18, and §5: lean/GL2TF/Common/WeilFormula.lean); §7 (M8s-a U7): lean/GL2TF/VolI/P0/QuotientVolume.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline: planned IDs (\tfplanned) only; no statements or proofs yet.
+
+\chapter{Quotient measures}\label{ch:ch-0-07-quotient}
+
+\noindent\emph{Sources:} \cite[§1]{AIntro}; \cite[§1]{A-R1}.
+
+\section{Discrete subgroups}
+
+\begin{theorem}[Borel fundamental domains]
+\tfstmt{X.quot.thm:exists-fundamental-domain}
+\lean{GL2TF.exists_fundamental_domain}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:exists-fundamental-domain}
+\tfsem{X.quot.thm:exists-fundamental-domain}{f4d5409ea89e011070f09d8491ec111dfa3e369e62e1838acb4716b91de61887}
+\tfhyps{X.quot.thm:exists-fundamental-domain}{}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``group'')}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{8}{d9d9c103}{the assumption that this is the Borel $\sigma$-algebra of $G$ (A: ``Borel'')}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{9}{96f37204}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:exists-fundamental-domain}{10}{c0c7348d}{the assumption that $\Gamma$ is discrete (A: ``discrete'')}
+\begin{tffidelity}
+$\Gamma\backslash G$ and the cosets are handled through Lean's orbit quotient for the left action of $\Gamma$ on $G$: a Borel fundamental domain is a measurable set $D$ with $\forall g,\ \exists!\gamma\in\Gamma,\ \gamma^{-1}g\in D$, which is $G=\bigsqcup_\gamma\gamma D$. The statement is a conjunction: $\Gamma$ is countable; $\Gamma$ is closed; such a $D$ exists; and every such $D$ meets every coset $\Gamma g$ in exactly one point (\texttt{∃! d, d ∈ D ∧ ∃ γ, d = γ * g}). The hypotheses ``locally compact, Hausdorff, second countable group with its Borel $\sigma$-algebra'' and ``$\Gamma$ discrete'' are instance binders.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\Gamma$ is countable because it is a discrete subspace of a second countable space (\texttt{countable\_of\_discrete}); it is closed by Mathlib's \texttt{Subgroup.isClosed\_of\_discrete}. Existence of $D$ (\texttt{exists\_fd}): discreteness gives an open $V\ni1$ with $V V^{-1}\cap\Gamma=\{1\}$ (\texttt{exists\_open\_mul\_inv\_inter}). The open sets $Vg$ have a countable subcover $W_n=Ve_n$ of $G$ (second countability, \texttt{isOpen\_iUnion\_countable}). Put $\Gamma W_n=\bigcup_\gamma\gamma W_n$ (open) and $D=\bigsqcup_n\bigl(W_n\setminus\bigcup_{m<n}\Gamma W_m\bigr)$, which is Borel. For $g\in G$ let $n_0$ be minimal with $\Gamma g\cap W_{n_0}\neq\emptyset$ (a property of the orbit). A point $\gamma^{-1}g$ of the orbit lies in $D$ iff it lies in $W_{n_0}$ (minimality), and two such points $v_1e,v_2e$ differ by an element $v_1v_2^{-1}$ of $\Gamma\cap VV^{-1}=\{1\}$. So there is exactly one $\gamma$ with $\gamma^{-1}g\in D$. Last clause (\texttt{fd\_unique\_point}): if $d=\gamma g\in D$ and $d'=\gamma'g\in D$ then uniqueness for $d$ gives $\gamma'\gamma^{-1}=1$.
+\end{proof}
+
+\begin{definition}[quotient measure]
+\tfstmt{X.quot.def:quotient-measure}
+\lean{GL2TF.quotientMeasure}
+\uses{X.quot.thm:exists-fundamental-domain}
+\end{definition}
+\begin{tfformal}{X.quot.def:quotient-measure}
+\tfsem{X.quot.def:quotient-measure}{c66fa48fad47fd35715d41c9c2dc994f9f8e36601eaeaa17d5dcb805d3624ed4}
+\tfhyps{X.quot.def:quotient-measure}{}
+\tfbinder{X.quot.def:quotient-measure}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.def:quotient-measure}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.def:quotient-measure}{2}{746bd334}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.def:quotient-measure}{3}{a36bed94}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.def:quotient-measure}{4}{12b84d43}{the measure $\mu$ on $G$}
+\begin{tffidelity}
+The definition \texttt{quotientMeasure Γ μ} is stated for \emph{any} group $G$ with a $\sigma$-algebra, any subgroup $\Gamma$ and any measure $\mu$; there is no topology, discreteness or Haar assumption in its binders. The quotient $\Gamma\backslash G$ is \texttt{MulAction.orbitRel.Quotient Γ G} with Mathlib's quotient $\sigma$-algebra. The value is the image under the quotient map of the restriction of $\mu$ to the set chosen by \texttt{Classical.epsilon} among the measurable sets $D$ with $\forall g,\exists!\gamma,\gamma^{-1}g\in D$ (the junk value is $0$ when there is none). That it does not depend on the choice of $D$, that the $\sigma$-algebra of $\Gamma\backslash G$ is Borel, and that the measure is finite on compact sets are the B-only \cref{X.quot.lem:quotient-measure-spec}; the existence of $D$ is \cref{X.quot.thm:exists-fundamental-domain}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[unfolding]
+\tfstmt{X.quot.thm:unfolding-discrete}
+\lean{GL2TF.unfolding_discrete}
+\uses{X.quot.def:quotient-measure}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:unfolding-discrete}
+\tfsem{X.quot.thm:unfolding-discrete}{81c12d2cf50df7fced5b132cfb2520e0f2f31350d1905ff3a216bae4bd72db7d}
+\tfhyps{X.quot.thm:unfolding-discrete}{}
+\tfbinder{X.quot.thm:unfolding-discrete}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:unfolding-discrete}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:unfolding-discrete}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:unfolding-discrete}{3}{9211ef29}{the assumption that $G$ is a topological group (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:unfolding-discrete}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:unfolding-discrete}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:unfolding-discrete}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:unfolding-discrete}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:unfolding-discrete}{8}{d9d9c103}{the assumption that this is the Borel $\sigma$-algebra of $G$ (A: ``Borel'')}
+\tfbinder{X.quot.thm:unfolding-discrete}{9}{96f37204}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:unfolding-discrete}{10}{c0c7348d}{the assumption that $\Gamma$ is discrete (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:unfolding-discrete}{11}{1857cb01}{the measure $\mu$ on $G$}
+\tfbinder{X.quot.thm:unfolding-discrete}{12}{8a087fcf}{the assumption that $\mu$ is a Haar measure (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\begin{tffidelity}
+Same hypotheses as \cref{X.quot.thm:exists-fundamental-domain} plus a Haar measure $\mu$ (binder \texttt{[μ.IsHaarMeasure]}). The function $\Gamma g\mapsto\sum_\gamma f(\gamma g)$ is not named: part one states the existence of a measurable $F\colon\Gamma\backslash G\to[0,\infty]$ with $F(\Gamma g)=\sum'_\gamma f(\gamma g)$ for all $g$ (an \texttt{tsum}), and $\int f\dd\mu=\int F\dd\mu_{\Gamma\backslash G}$. Part two, for $\mu$-integrable $f\colon G\to\C$: there is an integrable $F$ such that for $\mu_{\Gamma\backslash G}$-almost every class $x$ and every $g$ in the class the series $\sum_\gamma\norm{f(\gamma g)}$ is summable and $F(x)=\sum'_\gamma f(\gamma g)$, and the integrals agree. These are the claims of A with the sum function named by an existential.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $D_0$ be the fundamental domain chosen in \cref{X.quot.def:quotient-measure} (\texttt{fdChoice}); $D_0$ is a Mathlib \texttt{IsFundamentalDomain} for the left action of the countable group $\Gamma$ (\texttt{isFD\_of}). Part one: for Borel $f\ge0$ the function $F=\texttt{MulAction.automorphize}\,f$ is measurable on $\Gamma\backslash G$ (it is a countable sum of measurable functions), and $\int f\dd\mu=\int_{D_0}\sum_\gamma f(\gamma g)\dd\mu$ by \texttt{IsFundamentalDomain.lintegral\_eq\_tsum''} and \texttt{lintegral\_tsum} (\texttt{lintegral\_unfold}); the right hand side is $\int F\dd\mu_{\Gamma\backslash G}$ since $\mu_{\Gamma\backslash G}=\pi_*(\mu|_{D_0})$. Part two follows the divergence recorded for U9 (\texttt{docs/notes/M3-divergences.md}): Lean does not split $f$ into positive and negative parts. Choose a Borel $f'$ with $f=f'$ $\mu$-a.e. (\texttt{AEStronglyMeasurable.mk}). The set $S=\{g:\sum_\gamma\norm{f'(\gamma g)}<\infty\}$ is Borel and $\Gamma$-invariant (\texttt{tsum\_reindex\_mul}); define $\Phi=1_S\cdot\sum_\gamma f'(\gamma g)$, which is Borel as a limit of finite partial sums (\texttt{measurable\_indicator\_tsum}), $\Gamma$-invariant, so it descends to a measurable $F$ on $\Gamma\backslash G$. Part one applied to $\norm{f'}$ gives $\int_{D_0}\sum_\gamma\norm{f'(\gamma g)}\dd\mu=\int\norm{f}\dd\mu<\infty$; hence $D_0\subseteq S$ a.e. and $\int\norm F\dd\mu_{\Gamma\backslash G}\le\int_{D_0}\sum_\gamma\norm{f'(\gamma g)}<\infty$ (integrability). For the a.e. clause take the $\Gamma$-invariant Borel set $B=S^c\cup\bigcup_\gamma\gamma^{-1}\{f\neq f'\}$ (using a measurable hull $N\supseteq\{f\ne f'\}$ of measure $0$); $\mu(B\cap D_0)=0$ (left invariance of $\mu$ for the translates of $N$), so $\mu_{\Gamma\backslash G}(\pi(B))=0$, and for $\pi(g)\notin\pi(B)$ and every representative $g$ the series $\sum\norm{f(\gamma g)}$ converges and $F(\pi g)=\sum'f(\gamma g)$. The integral identity: \texttt{IsFundamentalDomain.integral\_eq\_tsum''} for $f'$, together with $\int f=\int f'$, interchanges $\sum_\gamma$ and $\int_{D_0}$ (\texttt{integral\_tsum}, justified by the finiteness above) and identifies $\int_{D_0}F\circ\pi=\int F\dd\mu_{\Gamma\backslash G}$.
+\end{proof}
+
+\begin{theorem}[right invariance]
+\tfstmt{X.quot.thm:quotient-measure-invariant}
+\lean{GL2TF.quotientMeasure_invariant}
+\uses{X.quot.def:quotient-measure, X.haar.def:is-unimodular}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:quotient-measure-invariant}
+\tfsem{X.quot.thm:quotient-measure-invariant}{eb174ba15982d7da2801f3e20ff61e81d68412ac77c46436954c76b37c0a30e5}
+\tfhyps{X.quot.thm:quotient-measure-invariant}{}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{3}{9211ef29}{the assumption that $G$ is a topological group (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{8}{d9d9c103}{the assumption that this is the Borel $\sigma$-algebra of $G$ (A: ``Borel'')}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{9}{96f37204}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{10}{c0c7348d}{the assumption that $\Gamma$ is discrete (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{11}{1857cb01}{the measure $\mu$ on $G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{12}{8a087fcf}{the assumption that $\mu$ is a Haar measure (A: standing assumption of the situation of \cref{X.quot.def:quotient-measure})}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{13}{207270d7}{the assumption that $G$ is unimodular (A: ``unimodular'')}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{14}{bd91c243}{the set $E\subseteq\Gamma\backslash G$}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{15}{1a29618b}{the assumption that $E$ is measurable (A: ``Borel'')}
+\tfbinder{X.quot.thm:quotient-measure-invariant}{16}{3fd17375}{the element $h\in G$}
+\begin{tffidelity}
+$G$ unimodular is the explicit hypothesis \texttt{IsUnimodular G} (\cref{X.haar.def:is-unimodular}); $\mu$ is a Haar measure (binder). The statement is, for measurable $E\subseteq\Gamma\backslash G$ and $h\in G$, $\mu_{\Gamma\backslash G}(\{x:\exists g,\ \Gamma g\in E,\ x=\Gamma gh\})=\mu_{\Gamma\backslash G}(E)$. The assumption \texttt{IsUnimodular G} is a Prop-valued project constant in a binder and must be listed in \texttt{registry/assumptions.yaml} (auditor).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $P=\pi^{-1}E$. Since $\pi^{-1}(Eh)=P\,h^{-1}$ (using that $\Gamma g h=\Gamma g'h$ is a left orbit relation), $Eh$ is measurable. By the B-only \cref{X.quot.lem:quotient-measure-spec} (\texttt{quotientMeasure\_apply\_of}) the quotient measure may be computed with any Borel fundamental domain. Use $D_0$ for $Eh$ and $D_0'=D_0h^{-1}$, i.e.\ $\{g:gh\in D_0\}$, for $E$ (this is again a Borel fundamental domain, by $\gamma^{-1}(gh)\in D_0$). Then $\mu_{\Gamma\backslash G}(Eh)=\mu(D_0\cap Ph^{-1})=\mu\bigl((D_0'\cap P)h\bigr)=\mu(D_0'\cap P)=\mu_{\Gamma\backslash G}(E)$, where the middle equality is right invariance of the Haar measure $\mu$ on the unimodular group $G$ (\texttt{IsUnimodular}).
+\end{proof}
+
+\begin{lemma}[properties of the quotient measure]
+\tfstmt{X.quot.lem:quotient-measure-spec}
+\bonly
+\lean{GL2TF.quotientMeasure_spec}
+\uses{X.quot.def:quotient-measure}
+\end{lemma}
+\begin{tfformal}{X.quot.lem:quotient-measure-spec}
+\tfsem{X.quot.lem:quotient-measure-spec}{505c946ee2141e0f5eee872abccfda5346c17f699b6f5d3e4eb2622c429a9315}
+\tfhyps{X.quot.lem:quotient-measure-spec}{}
+\tfbinder{X.quot.lem:quotient-measure-spec}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{X.quot.lem:quotient-measure-spec}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{X.quot.lem:quotient-measure-spec}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{X.quot.lem:quotient-measure-spec}{6}{2be8b0e3}{the assumption that $G$ is second countable}
+\tfbinder{X.quot.lem:quotient-measure-spec}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{8}{d9d9c103}{the assumption that this is the Borel $\sigma$-algebra of $G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{9}{96f37204}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{10}{c0c7348d}{the assumption that $\Gamma$ is discrete}
+\tfbinder{X.quot.lem:quotient-measure-spec}{11}{1857cb01}{the measure $\mu$ on $G$}
+\tfbinder{X.quot.lem:quotient-measure-spec}{12}{8a087fcf}{the assumption that $\mu$ is a Haar measure}
+\begin{tffidelity}
+B-only. Three claims of \cref{X.quot.def:quotient-measure}, for a Haar measure $\mu$ on a locally compact Hausdorff second countable group $G$ with its Borel $\sigma$-algebra and a discrete subgroup $\Gamma$: the quotient $\sigma$-algebra of \texttt{MulAction.orbitRel.Quotient Γ G} is Borel (\texttt{BorelSpace}); for every measurable $D$ with $\forall g,\exists!\gamma,\gamma^{-1}g\in D$ and every measurable $E$, $\mu_{\Gamma\backslash G}(E)=\mu(D\cap\pi^{-1}E)$; and $\mu_{\Gamma\backslash G}$ is finite on compact sets (\texttt{IsFiniteMeasureOnCompacts}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(i) \texttt{quotient\_borelSpace}: $G$ is Polish (\texttt{polishSpace\_of\_lcsc}), and $\Gamma$ acts properly discontinuously (\texttt{tendsto\_cofinite\_of\_discrete}, \texttt{properlyDiscontinuousSMul\_of\_tendsto\_cofinite}). The quotient $\sigma$-algebra is $\le$ Borel because $\pi$ is continuous. Conversely, for $E$ with $\pi^{-1}E$ Borel, $E=\pi(D\cap\pi^{-1}E)$ with $D$ as in \cref{X.quot.thm:exists-fundamental-domain}, and $\pi$ is injective on $D$; a continuous injective image of a Borel set in a Polish space is Borel (Lusin--Souslin, \texttt{MeasurableSet.image\_of\_continuousOn\_injOn}). (ii) \texttt{quotientMeasure\_apply\_of}: both the chosen domain $D_0$ and any $D$ are Mathlib fundamental domains, and $\pi^{-1}E$ is $\Gamma$-invariant, so \texttt{IsFundamentalDomain.measure\_set\_eq} gives $\mu(D_0\cap\pi^{-1}E)=\mu(D\cap\pi^{-1}E)$; the former is $\mu_{\Gamma\backslash G}(E)$ by \texttt{Measure.map\_apply} and \texttt{restrict\_apply}. (iii) \texttt{quotientMeasure\_finite}: this follows the idea of A (divergence recorded in \texttt{docs/notes/M3-divergences.md}), but with one compact set. Since $G$ is locally compact, choose finitely many compact neighbourhoods whose interiors have images (open map $\pi$) covering a given compact $K$; their union is a compact $C$ with $\pi(C)\supseteq K$. Then $D\cap\pi^{-1}K\subseteq\bigcup_\gamma(\gamma C\cap D)$, so $\mu_{\Gamma\backslash G}(K)\le\sum_\gamma\mu(\gamma C\cap D)=\mu(C)<\infty$ (\texttt{IsFundamentalDomain.measure\_eq\_tsum}, compact sets have finite Haar measure). The topology of $\Gamma\backslash G$ is Hausdorff by Mathlib's properly-discontinuous instance rather than by closedness of $\Gamma$.
+\end{proof}
+
+\begin{theorem}[volume of a compact quotient]
+\tfstmt{X.quot.thm:compact-quotient-volume}
+\lean{GL2TF.compact_quotient_volume}
+\uses{X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec, X.quot.thm:exists-fundamental-domain}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:compact-quotient-volume}
+\tfsem{X.quot.thm:compact-quotient-volume}{1570afcda1050910014943806e4af6fd2f0340ba6c2ecce83e5d3a70dc4bc376}
+\tfhyps{X.quot.thm:compact-quotient-volume}{}
+\tfbinder{X.quot.thm:compact-quotient-volume}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:compact-quotient-volume}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:compact-quotient-volume}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:compact-quotient-volume}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``group'', with its topology)}
+\tfbinder{X.quot.thm:compact-quotient-volume}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:compact-quotient-volume}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:compact-quotient-volume}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:compact-quotient-volume}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:compact-quotient-volume}{8}{d9d9c103}{the assumption that this is the Borel $\sigma$-algebra of $G$ (A: ``with its Borel $\sigma$-algebra'')}
+\tfbinder{X.quot.thm:compact-quotient-volume}{9}{96f37204}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:compact-quotient-volume}{10}{c0c7348d}{the assumption that $\Gamma$ is discrete (A: ``discrete'')}
+\tfbinder{X.quot.thm:compact-quotient-volume}{11}{93d341cc}{the assumption that $\Gamma\backslash G$ is compact (A: ``such that $\Gamma\backslash G$ is compact'')}
+\tfbinder{X.quot.thm:compact-quotient-volume}{12}{ee497784}{the measure $\mu$ on $G$}
+\tfbinder{X.quot.thm:compact-quotient-volume}{13}{20bb5f34}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+The hypotheses on $G$ (topological group, locally compact, Hausdorff, second countable, Borel $\sigma$-algebra), discreteness of $\Gamma$ and the Haar property of $\mu$ are instance binders, as in \cref{X.quot.thm:exists-fundamental-domain}; compactness of $\Gamma\backslash G$ is the explicit binder \texttt{hΓ : CompactSpace (MulAction.orbitRel.Quotient Γ G)} (quotient topology). The conclusion is \texttt{0 < quotientMeasure Γ μ univ ∧ quotientMeasure Γ μ univ < ∞}. A's ``group'' is a topological group (as throughout §1). The Lean declaration lives in \texttt{GL2TF.Common.WeilFormula} (end of file; lead decision L-1, \texttt{docs/notes/M3e-L-notes.md}), in the same module group as this chapter.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Finiteness: $\mu_{\Gamma\backslash G}$ is finite on compact sets (\cref{X.quot.lem:quotient-measure-spec}) and $\Gamma\backslash G$ is compact. Positivity: $\Gamma$ is countable and has a Borel fundamental domain $D$ (\cref{X.quot.thm:exists-fundamental-domain}), and $\mu_{\Gamma\backslash G}(\Gamma\backslash G)=\mu(D)$ (\cref{X.quot.lem:quotient-measure-spec} with $E$ the whole space). If $\mu(D)=0$, then $G=\bigcup_{\gamma\in\Gamma}\gamma D$ (every $g$ has $\gamma^{-1}g\in D$) is a countable union of null sets by left invariance (\texttt{measure\_smul}, \texttt{measure\_iUnion\_null}), contradicting $\mu(G)>0$ for the non-zero Haar measure $\mu$.
+\end{proof}
+
+\section{Compact quotients of unipotent and toral groups}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{theorem}[the volume of $N(\Q)\backslash N(\A)$]
+\tfstmt{I.quot.thm:unipotent-quotient-volume}
+\lean{GL2TF.unipotent_quotient_volume}
+\uses{I.topgrp.def:adelic-subgroups, I.haar.def:borel-coordinate-measures, X.quot.def:quotient-measure, I.adele.def:adele-haar, I.adele.def:zhat, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:unipotent, I.quot.def:unipotent-rat, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:finite-adele-haar, I.adele.def:rat-embedding, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.thm:adele-fundamental-domain, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.def:center, I.conv.def:gl2, I.conv.def:torus, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:gl2-adelic, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.thm:adelic-subgroups-closed, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-rat-discrete, X.quot.lem:quotient-measure-spec, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:unipotent-quotient-volume}
+\tfsem{I.quot.thm:unipotent-quotient-volume}{0c11be0661dae83967a797e3f96f23c6eb68333720fa72ae3f51ca2d284a68bc}
+\tfhyps{I.quot.thm:unipotent-quotient-volume}{}
+\tfbinder{I.quot.thm:unipotent-quotient-volume}{0}{63a2c474}{the measure $\lambda$ on $\A$}
+\tfbinder{I.quot.thm:unipotent-quotient-volume}{1}{da8beea4}{the assumption that $\lambda$ is an additive Haar measure (A: ``Haar'')}
+\begin{tffidelity}
+$\lambda$ is a binder with the additive Haar hypothesis. The quotient is \texttt{MulAction.orbitRel.Quotient unipotentRat (unipotent Adele)} (\cref{I.quot.def:unipotent-rat}). Six clauses: existence of a continuous group isomorphism $e$ from the additive group $\A$ to $N(\A)$ with $e(x)=n(x)$ (Lean states this for \texttt{Multiplicative Adele}); $N(\Q)$ is discrete (\texttt{DiscreteTopology}); the quotient is compact (\texttt{CompactSpace}); \texttt{unipotentMeasure lam} is a Haar measure on $N(\A)$; its quotient measure of the whole space is $\lambda([0,1)\times\Zhat)$; and for $\lambda=\dd x$ (\texttt{adeleHaar}) the total mass is $1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The isomorphism is \texttt{unipotentEquiv} (the homeomorphism $x\mapsto n(x)$, with \texttt{unipHomeo\_add}). Discreteness of $N(\Q)$ (\texttt{unipotentRat\_discrete}): the inclusion into $G(\Q)\subseteq G(\A)$ is continuous and injective into the discrete subgroup $G(\Q)$ (\texttt{gl2Rat\_discrete}). Haar: $\texttt{unipotentMeasure}\,\lambda=n_*\lambda$ is positive on opens, finite on compacts (via the inverse homeomorphism), and left invariant because $n(a)n(x)=n(a+x)$ and $\lambda$ is translation invariant. The set $n([0,1)\times\Zhat)$ is a Borel fundamental domain for $N(\Q)$ (\texttt{unipotent\_fd}): this is \cref{I.adele.thm:rat-quotient-compact} (\texttt{adele\_fundamental\_domain}, existence and uniqueness of $q\in\Q$ with $x-q\in[0,1)\times\Zhat$) transported by $n$, using $n(a)^{-1}n(b)=n(b-a)$. Volume: by \cref{X.quot.lem:quotient-measure-spec}, $\mu_{N(\Q)\backslash N(\A)}(\text{all})=n_*\lambda(n([0,1)\times\Zhat))=\lambda([0,1)\times\Zhat)$; for $\lambda=\dd x$ this is $1$ by \cref{I.adele.thm:rat-quotient-compact}. Compactness: Lean does not use that $\A/\Q\to N(\Q)\backslash N(\A)$ is a homeomorphism but only that $x+\Q\mapsto\pi(n(x))$ is a well defined continuous surjection from the compact space $\A/\Q$ (\cref{I.adele.thm:rat-quotient-compact}); see the divergence note for U9.
+\end{proof}
+
+\begin{theorem}[$T(\Q)\backslash T(\A)^1$ is compact]
+\tfstmt{I.quot.thm:torus-quotient-compact}
+\lean{GL2TF.torus_quotient_compact}
+\uses{I.topgrp.def:adelic-subgroups, I.adele.def:idele-norm, I.adele.thm:idele-decomposition, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.quot.def:torus-rat, I.adele.def:idele-inf-fin, I.adele.def:norm-one-ideles, I.adele.def:rat-ideles, I.adele.def:rat-ideles-embedding, I.adele.def:idele-norm-fun, I.adele.def:norm-one-class-group, I.adele.def:rat-embedding, I.adele.def:zhat-to-norm-one-class, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:norm-one-quotient, I.adele.thm:product-formula, I.conv.def:diag-hom, I.conv.def:gl2, I.conv.def:torus, I.conv.lem:diag-elt-hom, I.haar.lem:diag-elt-mem-torus, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.topgrp.def:gl2-adelic, I.topgrp.thm:gl2-rat-discrete}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:torus-quotient-compact}
+\tfsem{I.quot.thm:torus-quotient-compact}{e3b4373a1f74056653f52099d7ccfded3d284c50f4829b5eb78ad4b1db09ec18}
+\tfhyps{I.quot.thm:torus-quotient-compact}{}
+\tfbinder{I.quot.thm:torus-quotient-compact}{0}{28c76fb9}{the group isomorphism $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$}
+\tfbinder{I.quot.thm:torus-quotient-compact}{1}{535b99c5}{the assumption that $e(q,r,u)=q\cdot(r,u)$ for all $q,r,u$ (this determines $e$) (A: the isomorphism $e$ of the snippet, fixed by its formula)}
+\begin{tffidelity}
+The isomorphism $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$ of \cref{I.adele.thm:idele-decomposition} is a binder together with its defining formula. Four clauses: $T(\Q)$ (\cref{I.quot.def:torus-rat}) is discrete in $T(\A)^1$; there is a map $\varphi\colon\A^1\times\A^1\to T(\A)^1$ with $\varphi(t_1,t_2)=\diag(t_1,t_2)$ and $\varphi(t)\in T(\Q)\iff t_1,t_2\in\Q^\times$ (this is the isomorphism $\diag(t_1,t_2)\mapsto(t_1,t_2)$ of the snippet, stated through its inverse); there is a map $\psi$ on the quotient $T(\Q)\backslash T(\A)^1$ with $\psi(\diag(t_1,t_2))=(u(t_1),u(t_2))$ where $u$ is the $\Zhat^\times$-component of $e^{-1}$; and the quotient is compact. The isomorphism of topological groups $T(\Q)\backslash T(\A)^1\cong\Zhat^\times\times\Zhat^\times$ is not stated; the compactness is stated directly. Here $\varphi$ is a continuous group isomorphism (\texttt{≃ₜ*}) and $\psi$ a homeomorphism (\texttt{≃ₜ}); only the group structure on the quotient, hence ``isomorphism of topological groups'' for $\psi$, is absent and replaced by $\psi$'s formula. In the Lean statement $e$ is only a multiplicative isomorphism (\texttt{≃*}), not assumed to be an isomorphism of topological groups as in \cref{I.adele.thm:idele-decomposition}; its defining formula determines it, so the hypothesis is weaker than in A but admits the same $e$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Discreteness of $T(\Q)$ (\texttt{torusRat\_discrete}) is as for $N(\Q)$: continuous injection into the discrete $G(\Q)$. The isomorphism $\varphi$ is \texttt{torusNormOneEquiv}: a diagonal matrix lies in $T(\A)^1$ iff $\abs{t_1t_2}_\A=1$, and the pair of diagonal entries (\texttt{torusEntry}, \texttt{diagElt\_torusEntry}) is its inverse; $\varphi(t)\in T(\Q)$ iff $t_1,t_2\in\Q^\times$ (\texttt{torusNormOneEquiv\_mem\_iff}, \texttt{diagElt\_injective}). For $\psi$, Lean packages A's chain of isomorphisms as a single map (see the divergence note for U9): define $\texttt{torusUnitsHom}\colon T(\A)^1\to\Zhat^\times\times\Zhat^\times$ as $\varphi^{-1}$ followed by $(t_1,t_2)\mapsto(e_1^{-1}[t_1],e_1^{-1}[t_2])$, where $e_1\colon\Zhat^\times\simeq\A^1/\Q^\times$ is that of \cref{I.adele.thm:norm-one-quotient}. It is continuous (composition of continuous maps), open (quotient maps are open and $\varphi$ is a homeomorphism), surjective (lift each $e_1(u_i)$ to $\A^1$) and its kernel is $T(\Q)$ (\texttt{ker\_torusUnitsHom}: trivial class iff $t_i\in\Q^\times$). Hence two elements of $T(\A)^1$ have the same image iff they lie in the same $T(\Q)$-orbit (\texttt{hfib}), so the map descends to a continuous open bijection $\psi$, i.e.\ a homeomorphism $T(\Q)\backslash T(\A)^1\to\Zhat^\times\times\Zhat^\times$. The formula for $\psi$ follows from \texttt{normOneClass\_eq}: for $t\in\A^1$ the class $[t]$ is the class of the $\Zhat^\times$-component of $e^{-1}t$ (its $\R_{>0}$-component is $1$ by the product formula, and its $\Q^\times$-component is killed). Compactness: $\Zhat^\times$ is compact (it is homeomorphic to $\A^1/\Q^\times$, compact by \cref{I.adele.thm:norm-one-quotient}), so is the product, and the quotient is its homeomorphic image.
+\end{proof}
+
+\begin{definition}[$B(\Q)$ inside $G(\A)$]
+\tfstmt{I.quot.def:borel-rat}
+\bonly
+\lean{GL2TF.borelRat}
+\uses{I.conv.def:borel, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.quot.def:borel-rat}
+\tfsem{I.quot.def:borel-rat}{707dded2109e9ef16a29372dfff1ee6195d3627056952aeb348f8ce583d4089f}
+\tfhyps{I.quot.def:borel-rat}{}
+\begin{tffidelity}
+B-only. $B(\Q)\le G(\A)$ as the image under \texttt{gl2Map (algebraMap ℚ Adele)} of \texttt{borel ℚ}. The statement $B(\Q)=B(\A)\cap G(\Q)$ is a clause of \cref{I.quot.thm:integration-borel-quotient}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$N(\Q)$ inside $N(\A)$]
+\tfstmt{I.quot.def:unipotent-rat}
+\bonly
+\lean{GL2TF.unipotentRat}
+\uses{I.conv.def:unipotent, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.quot.def:unipotent-rat}
+\tfsem{I.quot.def:unipotent-rat}{d402cfe5ebe4a15c533223185ee1e513cc71c8a4146137b291ae228262d20e2d}
+\tfhyps{I.quot.def:unipotent-rat}{}
+\begin{tffidelity}
+B-only. $N(\Q)$ as a subgroup of the subtype \texttt{unipotent Adele}: the pull-back of the image of \texttt{unipotent ℚ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the set $\R_{>0}\times\Zhat^\times$]
+\tfstmt{I.quot.def:idele-pos-units}
+\bonly
+\lean{GL2TF.idelePosUnits}
+\uses{I.adele.def:ideles, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.quot.def:idele-pos-units}
+\tfsem{I.quot.def:idele-pos-units}{2ca4a251db1262af537a4ecfd4c2ac4ce93ca3e74f8c5721fd958d012d22a58f}
+\tfhyps{I.quot.def:idele-pos-units}{}
+\begin{tffidelity}
+B-only. The set of ideles with $x_\infty>0$ and $x_p\in\Zp^\times$ for all $p$ (existence of a unit $v$ with $v=x_p$), a \texttt{Set Idele}; it is $D_T$'s coordinate set.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$T(\Q)$ inside $T(\A)^1$]
+\tfstmt{I.quot.def:torus-rat}
+\bonly
+\lean{GL2TF.torusRat}
+\uses{I.conv.def:torus, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.conv.def:diag-hom, I.topgrp.def:adelic-subgroups, I.adele.def:rat-ideles}
+\end{definition}
+\begin{tfformal}{I.quot.def:torus-rat}
+\tfsem{I.quot.def:torus-rat}{420321585c90188f533f205d4f7729a174286e8366f10ca3c6fc6429e2a180ea}
+\tfhyps{I.quot.def:torus-rat}{}
+\begin{tffidelity}
+B-only. $T(\Q)$ as the subgroup of the subtype \texttt{torusNormOne} given by the image of $\Q^\times\times\Q^\times$ (the product of \cref{I.adele.def:rat-ideles} with itself) under $\diag$ on $\A$, pulled back to $T(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+
+\section{Iwasawa coordinates on quotients}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{theorem}[integration over $B(\Q)\backslash G(\A)$]
+\tfstmt{I.quot.thm:integration-borel-quotient}
+\lean{GL2TF.integration_borel_quotient}
+\uses{I.haar.thm:iwasawa-integration, X.quot.def:quotient-measure, I.topgrp.def:adelic-subgroups, I.haar.def:modular-character-borel, I.haar.def:borel-coordinate-measures, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.haar.def:haar-adelic, I.haar.def:haar-real, I.lf.def:padic-measurable-space, I.quot.def:borel-rat, I.quot.def:idele-pos-units, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-unit-box, I.adele.def:adele-haar, I.adele.def:finite-adele-haar, I.adele.def:idele-haar, I.adele.def:idele-inf-fin, I.adele.def:idele-norm-fun, I.adele.def:norm-one-class-group, I.adele.def:norm-one-ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles, I.adele.def:rat-ideles-embedding, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:ideles-borel, I.adele.lem:padic-int-compact-instance, I.adele.lem:rat-embedding-diagonal, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:ideles-second-countable, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:gl2, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:torus-normalizes-unipotent, I.haar.def:borel-coordinates, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.lem:borel-coordinates-mem, I.haar.lem:borel-left-haar, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-adelic-spec, I.haar.thm:haar-real-is-haar, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-rat-discrete, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.topgrp.lem:matrix-borel-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:integration-borel-quotient}
+\tfsem{I.quot.thm:integration-borel-quotient}{d67beaa10d6883256710b85163f695586173d961518198d675278a74da7cdd54}
+\tfhyps{I.quot.thm:integration-borel-quotient}{}
+\tfbinder{I.quot.thm:integration-borel-quotient}{0}{217a8dc6}{the family of measures $\mu_p$ on $\GL_2(\Qp)$}
+\tfbinder{I.quot.thm:integration-borel-quotient}{1}{a1ae7147}{the assumption that every $\mu_p$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.quot.thm:integration-borel-quotient}{2}{7e81ff30}{the assumption that $\mu_p(K_p)=1$ for all but finitely many primes $p$ (A: $\mu_p(K_p)=1$ for almost all $p$)}
+\tfbinder{I.quot.thm:integration-borel-quotient}{3}{fe5cbc27}{the measure $\lambda$ on $\A$}
+\tfbinder{I.quot.thm:integration-borel-quotient}{4}{9b6d1714}{the assumption that $\lambda$ is an additive Haar measure (A: ``Haar'')}
+\tfbinder{I.quot.thm:integration-borel-quotient}{5}{88361c4c}{the measure $\nu$ on $\A^\times$}
+\tfbinder{I.quot.thm:integration-borel-quotient}{6}{674e2b3c}{the assumption that $\nu$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.quot.thm:integration-borel-quotient}{7}{e7e7dc93}{the measure $\kappa$ on $K=K_\infty\times K_f$}
+\tfbinder{I.quot.thm:integration-borel-quotient}{8}{6548be32}{the assumption that $\kappa$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.quot.thm:integration-borel-quotient}{9}{c4df1705}{the assumption that $\kappa$ is a probability measure (A: standing assumption of the situation of \cref{I.haar.thm:iwasawa-integration})}
+\begin{tffidelity}
+The data of \cref{I.haar.thm:iwasawa-integration} are binders: $\mu_p$ Haar with \texttt{hμ}, $\lambda$, $\nu$ and an arbitrary Haar probability measure $\kappa$ on $K$; the measure on $G(\A)$ is \texttt{haarAdelic haarReal μ}. Three clauses: $B(\Q)=B(\A)\cap G(\Q)$ (\texttt{borelRat = borel Adele ⊓ gl2RatAdelic}); $B(\Q)$ is discrete; and the integral formula for every measurable $\varphi\colon B(\Q)\backslash G(\A)\to[0,\infty]$ (written on the quotient; ``viewed as an invariant function on $G(\A)$'' is the composition with the quotient map). The integral over $D_T$ is over $t\in\texttt{idelePosUnits}\times\texttt{idelePosUnits}$ with the measure $\nu\otimes\nu$ on pairs $(t_1,t_2)$ (not on $T(\A)$ via \cref{I.haar.def:torus-coordinate-measure}), the inner integrals are over $\lambda$ restricted to $D=[0,1)\times\Zhat$ and over $\kappa$, and $\delta_B(t)^{-1}$ is written $\abs{t_1/t_2}_\A^{-1}$ (\texttt{ideleNorm (t.1 / t.2)}⁻¹). The constant is $\pi\prod^{\mathrm f}_p\mu_p(K_p)/(\lambda(D)\,\nu(\texttt{ideleUnitBox})^2)$ in $[0,\infty]$. The denominator is positive and finite: $\lambda(D)$ by \cref{I.adele.thm:rat-quotient-compact} and $\nu(\texttt{ideleUnitBox})=\kappa(\nu)$ by \cref{I.adele.lem:idele-haar-decomposition}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first two clauses are \texttt{borelRat\_eq} (an element of $G(\Q)$ whose image has vanishing $(1,0)$ entry has vanishing $(1,0)$ entry, since $\Q\to\A$ is injective) and \texttt{borelRat\_discrete} (continuous injection into $G(\Q)$). For the integral, the route is that of A (see the divergence note for U9) with Lean's bookkeeping. Let $D_0$ be the chosen fundamental domain of $B(\Q)$ in $G(\A)$, $f=1_{D_0}\cdot\varphi\circ\pi$, so that $\int\varphi\dd\mu_{B(\Q)\backslash G(\A)}=\int f\dd\mu_G$. Apply \cref{I.haar.thm:iwasawa-integration} to $f$: $\int f\dd\mu_G=c\int_{\A}\int_{\Q^\times_{\A}}\int_{\Q^\times_{\A}}\int_K f(n(x)\diag(t_1,t_2)k)\,\delta_B(t)^{-1}\dd\kappa\dd\nu\dd\nu\dd\lambda$ over all of $\A\times\A^\times\times\A^\times$. The inner integrand is rewritten as the integral over $B(\A)$ of $F(b)=\int_Kf(bk)\dd\kappa$ against the left Haar measure $\mu_B$ of $B(\A)$, which in the coordinates $(x,t_1,t_2)$ is $\lambda\otimes\nu\otimes\nu$ with density $\abs{t_1/t_2}_\A^{-1}$ (\texttt{borel\_left\_haar}, with \texttt{adele\_map\_mul} for the scaling of $\lambda$; \texttt{lintegral\_withDensity\_eq\_lintegral\_mul} and Tonelli). Now unfold over the discrete subgroup $B(\Q)\le B(\A)$ with the explicit fundamental domain $\Omega=n(D)D_T$ (\texttt{borelFD}): by \texttt{IsFundamentalDomain.lintegral\_eq\_tsum''}, $\int_{B(\A)}F\dd\mu_B=\int_\Omega\sum_\gamma F(\gamma b)\dd\mu_B$. That $\Omega$ is a fundamental domain is \texttt{borelFD\_unique}: write $b=n(x)\diag(t_1,t_2)$, use \texttt{idele\_posUnits\_unique} (every idele is uniquely $a\cdot s$, $a\in\Q^\times$, $s\in\R_{>0}\times\Zhat^\times$, from \texttt{rat\_eq\_one\_or\_neg\_one}) for $t_1,t_2$, then \texttt{adele\_D\_unique} for $x$, after the change $x\mapsto a_2a_1^{-1}x$ of \texttt{borelCoord\_inv\_mul}. For $b\in\Omega$ one has $\sum_\gamma F(\gamma b)=\int_K\varphi(\pi(bk))\dd\kappa$, because for each $k$ exactly one $\gamma$ puts $\gamma bk$ into $D_0$ (\texttt{tsum\_indicator\_fd}) and $\varphi\circ\pi$ is invariant. Finally the integral over $\Omega$ is converted back to coordinates: $\Omega=\texttt{borelCoord}(D\times D_T)$, \texttt{restrict\_withDensity} and Tonelli give $\int_{D_T}\int_D\int_K\varphi(\pi(n(x)tk))\,\abs{t_1/t_2}_\A^{-1}\dd\kappa\dd\lambda\dd(\nu\otimes\nu)$, which is the stated formula. The positivity and finiteness of the denominator is \cref{I.adele.thm:rat-quotient-compact} and \cref{I.adele.lem:idele-haar-decomposition}.
+\end{proof}
+
+\begin{theorem}[integration over $N(\A)T(\Q)\backslash G(\A)$]
+\tfstmt{I.quot.thm:integration-unipotent-torus-quotient}
+\lean{GL2TF.integration_unipotent_torus_quotient}
+\uses{I.quot.thm:integration-borel-quotient, I.quot.thm:unipotent-quotient-volume, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:torus, I.conv.def:unipotent, I.haar.def:haar-adelic, I.haar.def:haar-real, I.lf.def:padic-measurable-space, I.quot.def:borel-rat, I.quot.def:idele-pos-units, I.topgrp.def:max-compact-adelic, X.quot.def:quotient-measure, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-unit-box, I.adele.def:adele-haar, I.adele.def:finite-adele-haar, I.adele.def:idele-inf-fin, I.adele.def:idele-norm-fun, I.adele.def:norm-one-class-group, I.adele.def:norm-one-ideles, I.adele.def:rat-ideles, I.adele.def:rat-ideles-embedding, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:ideles-borel, I.adele.lem:padic-int-compact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:ideles-second-countable, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.lem:torus-normalizes-unipotent, I.haar.lem:borel-coordinates-mem, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.topgrp.def:gl2-adelic, I.topgrp.thm:gl2-adelic-locally-compact, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:integration-unipotent-torus-quotient}
+\tfsem{I.quot.thm:integration-unipotent-torus-quotient}{0fd826d2c54cac5b816f80fe58cd2a3e4aedc9ff7c88e69b8495346b4bee3267}
+\tfhyps{I.quot.thm:integration-unipotent-torus-quotient}{}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{0}{217a8dc6}{the family of measures $\mu_p$ on $\GL_2(\Qp)$}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{1}{a1ae7147}{the assumption that every $\mu_p$ is a Haar measure (A: standing assumption of the situation of \cref{I.quot.thm:integration-borel-quotient})}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{2}{7e81ff30}{the assumption that $\mu_p(K_p)=1$ for all but finitely many primes $p$ (A: $\mu_p(K_p)=1$ for almost all $p$)}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{3}{fe5cbc27}{the measure $\lambda$ on $\A$}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{4}{9b6d1714}{the assumption that $\lambda$ is an additive Haar measure (A: standing assumption of the situation of \cref{I.quot.thm:integration-borel-quotient})}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{5}{88361c4c}{the measure $\nu$ on $\A^\times$}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{6}{674e2b3c}{the assumption that $\nu$ is a Haar measure (A: standing assumption of the situation of \cref{I.quot.thm:integration-borel-quotient})}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{7}{e7e7dc93}{the measure $\kappa$ on $K=K_\infty\times K_f$}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{8}{6548be32}{the assumption that $\kappa$ is a Haar measure (A: standing assumption of the situation of \cref{I.quot.thm:integration-borel-quotient})}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{9}{c4df1705}{the assumption that $\kappa$ is a probability measure (A: standing assumption of the situation of \cref{I.quot.thm:integration-borel-quotient})}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{10}{76df27cd}{the function $\varphi\colon G(\A)\to[0,\infty]$}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{11}{a5d8fa21}{the assumption that $\varphi$ is measurable (A: ``Borel'')}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{12}{450acde2}{the assumption that $\varphi$ is left $B(\Q)$-invariant (A: left $B(\Q)$-invariant)}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{13}{e989af7a}{the function $\bar\varphi\colon B(\Q)\backslash G(\A)\to[0,\infty]$}
+\tfbinder{I.quot.thm:integration-unipotent-torus-quotient}{14}{1b6ce908}{the assumption $\bar\varphi(B(\Q)g)=\varphi(g)$ for all $g$ (A: viewing $\varphi$ as a function on the quotient)}
+\begin{tffidelity}
+Same binders as \cref{I.quot.thm:integration-borel-quotient}, plus a measurable function $\varphi$ on $G(\A)$, left $B(\Q)$-invariant (\texttt{hinv}), and a function \texttt{φbar} on $B(\Q)\backslash G(\A)$ with \texttt{φbar ⟦g⟧ = φ g} (hypothesis \texttt{hφbar}); the function $\varphi_N$ is the lintegral \texttt{g ↦ ∫⁻ x in Ico 0 1 ×ˢ Zhat, φ (n(x) * g) ∂lam} and is not named. Four clauses: $\varphi_N$ is measurable; invariant under every $n\in N(\A)$; invariant under $T(\Q)$ (the image of \texttt{torus ℚ}); and the integral of \texttt{φbar} against the quotient measure of \texttt{haarAdelic haarReal μ} equals $c\int_K\int_{D_T}\varphi_N(tk)\abs{t_1/t_2}_\A^{-1}\dd(\nu\otimes\nu)(t)\dd\kappa(k)$ (the integral over $K$ is outermost).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Put $\varphi_N(g)=\int_D\varphi(n(x)g)\dd\lambda(x)$. Measurability: $(g,x)\mapsto\varphi(n(x)g)$ is Borel on $G(\A)\times\A$, so the partial integral is Borel (\texttt{lintegral\_prod\_right'}). Left $B(\Q)$-invariance of $\varphi$ gives $\Q$-periodicity of $x\mapsto\varphi(n(x)g)$ (\texttt{hper}, as $n(q)\in B(\Q)$, \texttt{ur\_mem\_borelRat}). Invariance under $n(y)\in N(\A)$ (as in A): $D+y$ is another Borel fundamental domain of $\Q$ in $\A$, and for periodic $h$ the integrals over any two Borel fundamental domains agree (\texttt{setLIntegral\_periodic}, Mathlib's \texttt{IsAddFundamentalDomain.setLIntegral\_eq}), together with translation invariance of $\lambda$ (\texttt{lintegral\_D\_translate}). Invariance under $T(\Q)$: for $a_1,a_2\in\Q^\times$, $n(x)\diag(a_1,a_2)=\diag(a_1,a_2)\,n(a_2a_1^{-1}x)$, and left invariance of $\varphi$ under $\diag(a_1,a_2)\in B(\Q)$ (\texttt{diag\_mem\_borelRat}) removes the diagonal; what remains is the change of variable $x\mapsto cx$ with $c=a_2a_1^{-1}\in\Q^\times$, under which $cD$ is a fundamental domain of $\Q$ and $\lambda(c\,\cdot)=\abs{c}_\A\lambda=\lambda$ because $\abs{c}_\A=1$ (\texttt{lintegral\_D\_scale}, \texttt{adele\_map\_mul}). The integral formula is \cref{I.quot.thm:integration-borel-quotient} applied to $\texttt{φbar}$ (measurable because $\varphi=\texttt{φbar}\circ\pi$), followed by rearranging the iterated integrals with Tonelli (\texttt{lintegral\_lintegral\_swap}) so that the integral over $K$ is outermost and the factor $\delta_B(t)^{-1}$ is pulled out of the $x$-integral.
+\end{proof}
+
+\section{\texorpdfstring{The automorphic quotient and $L^2$}{The automorphic quotient and L2}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{definition}[the measure on $G(\Q)\backslash G(\A)^1$]
+\tfstmt{I.quot.def:automorphic-quotient-measure}
+\lean{GL2TF.automorphicQuotientMeasure}
+\uses{I.haar.def:haar-norm-one, X.quot.def:quotient-measure, I.topgrp.def:norm-one-group, I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.quot.def:automorphic-quotient-measure}
+\tfsem{I.quot.def:automorphic-quotient-measure}{09af51e86ed8c7bfcdd5ba8be6ecdc887dc61b857baee3bb8242025efe898f44}
+\tfhyps{I.quot.def:automorphic-quotient-measure}{}
+\tfbinder{I.quot.def:automorphic-quotient-measure}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\begin{tffidelity}
+\texttt{automorphicQuotientMeasure μ} is defined for an arbitrary measure $\mu$ on \texttt{GL (Fin 2) Adele} as \texttt{quotientMeasure gl2RatNormOne (haarNormOne μ)}, using the quotient of $G(\A)^1$ by $G(\Q)$ (\cref{I.quot.def:gl2-rat-norm-one}). That $G(\Q)$ is discrete in $G(\A)^1$ is the B-only \cref{I.quot.lem:gl2-rat-norm-one-discrete}; the quotient measure in the snippet requires this and a Haar $\mu$, which are not binders of the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[topology of the automorphic quotient]
+\tfstmt{I.quot.thm:automorphic-quotient-second-countable}
+\lean{GL2TF.automorphicQuotient_secondCountable}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.adele.lem:finadele-topological-ring-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:automorphic-quotient-second-countable}
+\tfsem{I.quot.thm:automorphic-quotient-second-countable}{098f13d7e6cf2273985ca1f237434b7fcd40bdc34c3e7fbbd927ee6002ac4dda}
+\tfhyps{I.quot.thm:automorphic-quotient-second-countable}{}
+\begin{tffidelity}
+A conjunction of \texttt{LocallyCompactSpace}, \texttt{T2Space} and \texttt{SecondCountableTopology} for \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} with the quotient topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is a closed subgroup of the locally compact, Hausdorff, second countable group $G(\A)$ (\cref{I.topgrp.lem:norm-one-group-closed-normal}), hence itself locally compact and second countable (\texttt{normOneGroup\_topology}). $G(\Q)\le G(\A)^1$ is discrete (\cref{I.quot.lem:gl2-rat-norm-one-discrete}). For a discrete subgroup $\Gamma$ of a locally compact Hausdorff second countable group, $\Gamma\backslash G$ is again of this type (\texttt{orbitQuotient\_topology}): the quotient map is open, which gives local compactness (\texttt{isOpenQuotientMap\_quotientMk.locallyCompactSpace}) and second countability (\texttt{ContinuousConstSMul.secondCountableTopology}); Hausdorff is Mathlib's instance for properly discontinuous actions (\texttt{tendsto\_cofinite\_of\_discrete}).
+\end{proof}
+
+\begin{definition}[$L^2$ of the automorphic quotient]
+\tfstmt{I.quot.def:l2-automorphic}
+\lean{GL2TF.l2Automorphic}
+\uses{I.quot.def:automorphic-quotient-measure, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.quot.def:l2-automorphic}
+\tfsem{I.quot.def:l2-automorphic}{0d2ddc98481d967f95dce7dac5d00fc5843f61bcc7896b3d6ceddcac35d88dee}
+\tfhyps{I.quot.def:l2-automorphic}{}
+\tfbinder{I.quot.def:l2-automorphic}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\begin{tffidelity}
+Lean defines $L^2$ as the Mathlib subgroup \texttt{Lp ℂ 2 (automorphicQuotientMeasure μ)} of the space of almost-everywhere classes of functions on \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} into $\C$; the type of the definition is an \texttt{AddSubgroup} of \texttt{(Quotient →ₘ[automorphicQuotientMeasure μ] ℂ)}. The Hilbert space structure is Mathlib's. The measure $\mu$ is an arbitrary measure (no Haar hypothesis in the definition).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[separability]
+\tfstmt{I.quot.thm:l2-separable}
+\lean{GL2TF.l2Automorphic_separable}
+\uses{I.quot.def:l2-automorphic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.lem:finadele-topological-ring-instance, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.lem:gl2-rat-norm-one-discrete, I.quot.thm:automorphic-quotient-second-countable, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:l2-separable}
+\tfsem{I.quot.thm:l2-separable}{29591cefe0f050b8d289b68cc1978a2294cba5e18cb413b83118237b5056a6f2}
+\tfhyps{I.quot.thm:l2-separable}{}
+\tfbinder{I.quot.thm:l2-separable}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.quot.thm:l2-separable}{1}{c626ff1c}{the assumption that $\mu$ is a Haar measure (A: ``Haar'')}
+\begin{tffidelity}
+For every Haar measure $\mu$ (binder \texttt{[μ.IsHaarMeasure]}), the space \texttt{l2Automorphic μ} is a separable space (\texttt{SeparableSpace}) in its subspace topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \cref{I.haar.lem:haar-norm-one-spec} $\mu^1$ is a Haar measure on $G(\A)^1$, and by \cref{X.quot.lem:quotient-measure-spec} the quotient $\sigma$-algebra on $G(\Q)\backslash G(\A)^1$ is Borel and $\mu_{G(\Q)\backslash G(\A)^1}$ is finite on compacts. The space is second countable (\cref{I.quot.thm:automorphic-quotient-second-countable}), hence the $\sigma$-algebra is countably generated and the measure is $\sigma$-finite (finite on compacts in a second countable locally compact space). Mathlib's instances then give that $L^2$ of a $\sigma$-finite measure on a countably generated space is second countable (\texttt{IsSeparable}, \texttt{Lp} with $p=2\ne\infty$), hence separable.
+\end{proof}
+
+\begin{definition}[the right action of $G(\A)^1$]
+\tfstmt{I.quot.def:automorphic-right-action}
+\lean{GL2TF.automorphicRightAction}
+\uses{I.quot.def:automorphic-quotient-measure, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one}
+\end{definition}
+\begin{tfformal}{I.quot.def:automorphic-right-action}
+\tfsem{I.quot.def:automorphic-right-action}{e00c238a343b20928cbf057d2688e324f2d39cd6d6456148468e90fe7a69a3b2}
+\tfhyps{I.quot.def:automorphic-right-action}{}
+\begin{tffidelity}
+A right action of $G(\A)^1$ is encoded as a left action of the opposite group: the Lean item is the instance \texttt{MulAction normOneGroupᵐᵒᵖ (G(ℚ)\textbackslash G(𝔸)\^{}1)} with $g^{\mathrm{op}}\cdot\dot x=\dot xg$. The instance carries only the action axioms. The remaining claims of A (the formula $(G(\Q)x)\cdot g=G(\Q)xg$, continuity, Borel $\sigma$-algebra of the quotient and invariance of the measure of \cref{I.quot.def:automorphic-quotient-measure}) are the B-only \cref{I.quot.lem:automorphic-right-action-spec} and its instance forms \cref{I.quot.lem:automorphic-right-action-continuous-instance,I.quot.lem:automorphic-quotient-borel-instance,I.quot.lem:automorphic-quotient-invariant-instance}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[claims of the right action]
+\tfstmt{I.quot.lem:automorphic-right-action-spec}
+\bonly
+\lean{GL2TF.automorphicRightAction_spec}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:norm-one-unimodular, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:automorphic-quotient-measure, I.quot.def:automorphic-right-action, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.quot.thm:quotient-measure-invariant, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:automorphic-right-action-spec}
+\tfsem{I.quot.lem:automorphic-right-action-spec}{cbba15d2f96d71ff377371888718533ae906476dca8a26b2cb3aaaa1e12825ac}
+\tfhyps{I.quot.lem:automorphic-right-action-spec}{}
+\begin{tffidelity}
+B-only. The conjunction of the four claims: \texttt{op g • ⟦x⟧ = ⟦x * g⟧}; \texttt{ContinuousSMul}; \texttt{BorelSpace}; and, for every Haar $\mu$ and measurable $E$, equality of the measures of $E$ and of its image under the action. The next three lemmas are the instance forms of (ii)--(iv).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(i) holds by definition of the action (\texttt{Quotient.map'} of $x\mapsto xg$). (ii) $\mathrm{id}\times p$ is an open quotient map (\texttt{IsOpenQuotientMap.prodMap}, \texttt{MulAction.isOpenQuotientMap\_quotientMk}), and $(g,x)\mapsto p(xg)$ is continuous, so the induced action map is continuous. (iii) is M3's \texttt{quotient\_borelSpace}. (iv) The image of $E$ under $g$ is $\{p(yg):p(y)\in E\}$, and \cref{X.quot.thm:quotient-measure-invariant} applies to $\mu^1$ because $G(\A)^1$ is unimodular (\cref{I.haar.thm:norm-one-unimodular}).
+\end{proof}
+
+\begin{lemma}[the right action is continuous]
+\tfstmt{I.quot.lem:automorphic-right-action-continuous-instance}
+\bonly
+\lean{GL2TF.automorphicRightAction_continuousSMul}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:automorphic-right-action, I.quot.def:gl2-rat-norm-one, I.quot.lem:automorphic-right-action-spec, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:automorphic-right-action-continuous-instance}
+\tfsem{I.quot.lem:automorphic-right-action-continuous-instance}{610c733c9e5e44f8500c72f49db63cb216a611d81f06c8f8f07c78e59f1106a9}
+\tfhyps{I.quot.lem:automorphic-right-action-continuous-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{ContinuousSMul normOneGroupᵐᵒᵖ (G(ℚ)\textbackslash G(𝔸)\^{}1)}, the second component of \cref{I.quot.lem:automorphic-right-action-spec}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Part (ii) of \cref{I.quot.lem:automorphic-right-action-spec}.
+\end{proof}
+
+\begin{lemma}[the quotient is Borel]
+\tfstmt{I.quot.lem:automorphic-quotient-borel-instance}
+\bonly
+\lean{GL2TF.automorphicQuotient_borelSpace}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:automorphic-right-action, I.quot.def:gl2-rat-norm-one, I.quot.lem:automorphic-right-action-spec, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:automorphic-quotient-borel-instance}
+\tfsem{I.quot.lem:automorphic-quotient-borel-instance}{f8399a96141f69db44b8455e7a639003adee75227574e37cd0a07e203f3a587e}
+\tfhyps{I.quot.lem:automorphic-quotient-borel-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace (G(ℚ)\textbackslash G(𝔸)\^{}1)}, the third component of \cref{I.quot.lem:automorphic-right-action-spec}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Part (iii) of \cref{I.quot.lem:automorphic-right-action-spec}.
+\end{proof}
+
+\begin{lemma}[the quotient measure is right invariant]
+\tfstmt{I.quot.lem:automorphic-quotient-invariant-instance}
+\bonly
+\lean{GL2TF.automorphicQuotientMeasure_invariant}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:automorphic-right-action, I.quot.def:gl2-rat-norm-one, I.quot.lem:automorphic-right-action-spec, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:automorphic-quotient-invariant-instance}
+\tfsem{I.quot.lem:automorphic-quotient-invariant-instance}{f7281508ded18a4c1ca85c4d432af95423c8448267f8a69edb65247becd17baa}
+\tfhyps{I.quot.lem:automorphic-quotient-invariant-instance}{}
+\tfbinder{I.quot.lem:automorphic-quotient-invariant-instance}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.quot.lem:automorphic-quotient-invariant-instance}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (B-only)}
+\begin{tffidelity}
+B-only. The instance \texttt{SMulInvariantMeasure normOneGroupᵐᵒᵖ (G(ℚ)\textbackslash G(𝔸)\^{}1) (automorphicQuotientMeasure μ)}, from the fourth component of \cref{I.quot.lem:automorphic-right-action-spec}; the measure $\mu$ is a binder with a Haar instance binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $c\in(G(\A)^1)^{\mathrm{op}}$ and measurable $E$, the preimage of $E$ under $c$ is the image of $E$ under $c^{-1}$ (\texttt{Set.preimage\_smul}, \texttt{Set.image\_smul}); apply part (iv) of \cref{I.quot.lem:automorphic-right-action-spec} with $g=(c^{-1})^{\mathrm{unop}}$.
+\end{proof}
+
+\begin{definition}[$G(\Q)$ inside $G(\A)^1$]
+\tfstmt{I.quot.def:gl2-rat-norm-one}
+\bonly
+\lean{GL2TF.gl2RatNormOne}
+\uses{I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:gl2-adelic}
+\end{definition}
+\begin{tfformal}{I.quot.def:gl2-rat-norm-one}
+\tfsem{I.quot.def:gl2-rat-norm-one}{50e1b4f79f7c1563c982a322508b686ee06405cdb813cde0ba5c7935dfffc162}
+\tfhyps{I.quot.def:gl2-rat-norm-one}{}
+\begin{tffidelity}
+B-only. $G(\Q)$ as a subgroup of the subtype \texttt{normOneGroup}: the pull-back of \texttt{gl2RatAdelic} to $G(\A)^1$ (\texttt{Subgroup.subgroupOf}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$G(\Q)$ is discrete in $G(\A)^1$]
+\tfstmt{I.quot.lem:gl2-rat-norm-one-discrete}
+\bonly
+\lean{GL2TF.gl2RatNormOne_discrete}
+\uses{I.quot.def:gl2-rat-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, I.adele.def:rat-embedding, I.conv.def:gl2, I.topgrp.def:gl2-adelic, I.topgrp.thm:gl2-rat-discrete}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:gl2-rat-norm-one-discrete}
+\tfsem{I.quot.lem:gl2-rat-norm-one-discrete}{f83da4810ba8eb5df163a14a21b84bc28e555b3459065866be72ede3f9543315}
+\tfhyps{I.quot.lem:gl2-rat-norm-one-discrete}{}
+\begin{tffidelity}
+B-only. The instance-type statement \texttt{DiscreteTopology gl2RatNormOne}, the claim made in \cref{I.quot.def:automorphic-quotient-measure} that $G(\Q)$ is a discrete subgroup of $G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $G(\Q)\cap G(\A)^1\to G(\Q)$ forgetting the norm-one condition is continuous (it is the subtype map) and injective, and $G(\Q)\le G(\A)$ is discrete (\texttt{gl2Rat\_discrete}, \cref{I.topgrp.thm:gl2-rat-discrete}); a space with a continuous injection into a discrete space is discrete (\texttt{DiscreteTopology.of\_continuous\_injective}).
+\end{proof}
+
+\section{Weil's formula}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[Bruhat functions]
+\tfstmt{X.quot.def:bruhat-function}
+\lean{GL2TF.IsBruhatFunction}
+\end{definition}
+\begin{tfformal}{X.quot.def:bruhat-function}
+\tfsem{X.quot.def:bruhat-function}{860caf08abb7970bcfded4a2113035d0705c55f34230849e836abd5fffecf18e}
+\tfhyps{X.quot.def:bruhat-function}{}
+\tfbinder{X.quot.def:bruhat-function}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.def:bruhat-function}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.def:bruhat-function}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.def:bruhat-function}{3}{ce8d39e1}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.def:bruhat-function}{4}{991a066d}{the subgroup $H\le G$}
+\tfbinder{X.quot.def:bruhat-function}{5}{e25e3d03}{the measure $\mu_H$ on $H$}
+\tfbinder{X.quot.def:bruhat-function}{6}{528d0499}{the function $\beta\colon G\to\R$}
+\begin{tffidelity}
+\texttt{IsBruhatFunction H μH β} is the conjunction: $\beta$ is continuous; $\beta\ge0$ everywhere (A: $\beta\colon G\to[0,\infty)$; Lean's $\beta$ is real valued with the sign condition as a clause); for every compact $C\subseteq G$ the set $\operatorname{tsupport}\beta\cap C\cdot H$ is compact (\texttt{tsupport} is the closure of $\{\beta\ne0\}$, A: $\supp\beta$; $C\cdot H$ is the product set, A: $CH$); and $\int_H\beta(xh)\,\dd\mu_H(h)=1$ for all $x$ (Bochner integral). The definition does not assume that $G$ is locally compact or that $\mu_H$ is Haar: these standing assumptions of A enter only in \cref{X.quot.thm:bruhat-function-exists}. The binder for $\mu_H$ is an arbitrary measure on the subtype $H$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[existence of Bruhat functions]
+\tfstmt{X.quot.thm:bruhat-function-exists}
+\lean{GL2TF.bruhat_function_exists}
+\uses{X.quot.def:bruhat-function}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:bruhat-function-exists}
+\tfsem{X.quot.thm:bruhat-function-exists}{9bc047964be74c708dcf084d16d45da74aea1f5cc00473e68eb0103e7cfa3fee}
+\tfhyps{X.quot.thm:bruhat-function-exists}{}
+\tfbinder{X.quot.thm:bruhat-function-exists}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:bruhat-function-exists}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:bruhat-function-exists}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:bruhat-function-exists}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``topological group'')}
+\tfbinder{X.quot.thm:bruhat-function-exists}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:bruhat-function-exists}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:bruhat-function-exists}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:bruhat-function-exists}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:bruhat-function-exists}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra (A: ``Borel'')}
+\tfbinder{X.quot.thm:bruhat-function-exists}{9}{96f37204}{the subgroup $H\le G$}
+\tfbinder{X.quot.thm:bruhat-function-exists}{10}{8724bfd3}{the assumption that $H$ is closed (A: ``closed subgroup'')}
+\tfbinder{X.quot.thm:bruhat-function-exists}{11}{be4adf53}{the measure $\mu_H$ on $H$}
+\tfbinder{X.quot.thm:bruhat-function-exists}{12}{272a89e6}{the assumption that $\mu_H$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+For a locally compact Hausdorff second countable group $G$ with its Borel $\sigma$-algebra, a closed subgroup $H$ and a left Haar measure $\mu_H$ on $H$: \texttt{∃ β, IsBruhatFunction H μH β}, with the predicate of \cref{X.quot.def:bruhat-function}. The hypotheses of A are the binders (instance binders for the topological and measurable structure, \texttt{hH} for closedness, an instance binder for Haar).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{As in A} (divergence D-L1-11: none; the frozen definition now reads $\operatorname{tsupport}\beta\cap(C\cdot H)$ compact, M4-SC-2). Step 1 (\texttt{exists\_bruhat\_pre}): $q\colon G\to G/H$ is open and $G/H$ is locally compact; choose a compact exhaustion $L_m$ of $G/H$ ($L_m=\emptyset$ for $m<2$, $L_m\subseteq\operatorname{int}L_{m+1}$). Lift the compact sets $B_m=L_m\setminus\operatorname{int}L_{m-1}$: compact $C_m\subseteq G$ with $B_m\subseteq q(C_m)$ (\texttt{exists\_compact\_image\_superset'}), and put $C'_m=C_m\cap q^{-1}(B_m)$, a compact subset of the open set $O_m=q^{-1}(\operatorname{int}L_{m+1}\setminus L_{m-2})$. Urysohn's lemma (\texttt{exists\_continuousMap\_one\_of\_isCompact\_subset\_isOpen}) gives $g_m\in C_c(G)$ with $0\le g_m\le1$, $g_m=1$ on $C'_m$ and $\operatorname{supp}g_m\subseteq O_m$. The supports are locally finite (near $x_0$ with $q(x_0)\in L_M$ only $m<M+3$ occur), so $g=\sum_mg_m$ is continuous and $\ge0$. If $D$ is compact then $q(D)\subseteq L_M$ for some $M$, and $\operatorname{supp}g\cap DH$ is a closed subset ($DH$ is closed) of the compact set $\bigcup_{m\le M+1}\operatorname{supp}g_m$. For $x\in G$ let $m_0$ be least with $q(x)\in L_{m_0}$; then $q(x)\in B_{m_0}$, so $xh_0\in C'_{m_0}$ for some $h_0\in H$, and $g(xh_0)\ge g_{m_0}(xh_0)=1$. Step 2 (\texttt{bruhat\_exists'}): put $J(x)=\int_Hg(xh)\,\dd\mu_H(h)$. Then $J>0$ (integral of a continuous non-negative function with compact support, positive at one point), $J(xh')=J(x)$ by left invariance of $\mu_H$, and $J$ is continuous: on a compact neighbourhood $N$ of $x_0$ there is a compact $S\subseteq H$ outside of which $g(xh)=0$ for all $x\in N$ (from compactness of $\operatorname{supp}g\cap NH$), so $J(x)=\int_Sg(xh)\,\dd\mu_H$ near $x_0$, continuous by the parametric integral theorem (\texttt{continuous\_parametric\_integral\_of\_continuous}). Then $\beta=g/J$ is continuous and $\ge0$, has the same support as $g$, and $\int_H\beta(xh)\,\dd\mu_H=J(x)/J(x)=1$.
+\end{proof}
+
+\begin{theorem}[Weil's formula]
+\tfstmt{X.quot.thm:weil-quotient-formula}
+\lean{GL2TF.weil_quotient_formula}
+\uses{X.quot.def:bruhat-function, X.quot.lem:coset-quotient-borel}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:weil-quotient-formula}
+\tfsem{X.quot.thm:weil-quotient-formula}{3e55fe8a6dd102dc0e56197b96dbe5f6540d762a43fae3547f194b4f2c8a0f9b}
+\tfhyps{X.quot.thm:weil-quotient-formula}{}
+\tfbinder{X.quot.thm:weil-quotient-formula}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``topological group'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra (A: ``Borel'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{9}{96f37204}{the subgroup $H\le G$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{10}{8724bfd3}{the assumption that $H$ is closed (A: ``closed subgroup'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{11}{6a0bd725}{the assumption that $H$ is locally compact (A: not stated; implied by ``closed subgroup'' of a locally compact group)}
+\tfbinder{X.quot.thm:weil-quotient-formula}{12}{ee497784}{the measure $\mu_G$ on $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{13}{20bb5f34}{the assumption that $\mu_G$ is a left Haar measure (A: ``left Haar measures $\mu_G$'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{14}{2274cd23}{the measure $\mu_H$ on $H$}
+\tfbinder{X.quot.thm:weil-quotient-formula}{15}{5be427c2}{the assumption that $\mu_H$ is a left Haar measure (A: ``left Haar measures $\mu_H$'')}
+\tfbinder{X.quot.thm:weil-quotient-formula}{16}{3f1c350f}{the assumption $\Delta_G(h)=\Delta_H(h)$ for all $h\in H$ (A: ``Assume $\Delta_G(h)=\Delta_H(h)$ for all $h\in H$'')}
+\begin{tffidelity}
+The coset space is Lean's \texttt{G ⧸ H} (left cosets $xH$). The function $f^\flat$ is not named: the integrand is $q\mapsto\int_Hf(\texttt{q.out}\cdot h)\,\dd\mu_H(h)$ for the representative \texttt{Quotient.out q}; this is independent of the representative by left invariance of $\mu_H$ (it is only ever used after integrating). The statement has three parts: (1) \texttt{∃! ν}, finite on compacts, with $\int_Gf\,\dd\mu_G=\int_{G/H}f^\flat\,\dd\nu$ for continuous compactly supported $f$; (2) for every such $\nu$: left $G$-invariance ($\nu(gE)=\nu(E)$ for measurable $E$, $g\in G$); (3) for every such $\nu$: the formula for measurable $f\colon G\to[0,\infty]$ (with $f^\flat$ measurable, \texttt{lintegral}), and for $\mu_G$-integrable $f\colon G\to\C$ ($f(\texttt{q.out}\,h)$ integrable for $\nu$-a.e.\ $q$, $f^\flat$ integrable, equality of integrals). A's ``Borel'' is Lean's \texttt{Measurable}, where the $\sigma$-algebra on $G/H$ is the quotient $\sigma$-algebra; that it is the Borel $\sigma$-algebra is the B-only \cref{X.quot.lem:coset-quotient-borel}. The hypothesis $\Delta_G|_H=\Delta_H$ is the binder \texttt{hΔ} (equality of the modular characters as functions on $H$). Binder 11 (local compactness of the subtype $H$) is implied by the other binders (a closed subgroup of a locally compact group) and is carried as an instance argument. Convention: Mathlib's \texttt{Measure.modularCharacter} is defined by $\mu(\,\cdot\,g)=\Delta(g)\cdot\mu$, i.e.\ $\mu(Eg^{-1})=\Delta(g)\mu(E)$, which is the reciprocal of the convention $\mu(Eg)=\Delta(g)\mu(E)$ of A. The statements are invariant: the hypothesis $\Delta_G|_H=\Delta_H$ and the formula do not change under $\Delta\mapsto\Delta^{-1}$. Do not ``correct'' the sign.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Mathlib's modular character is used, with $(\cdot\,g)_*\mu=\Delta(g)\mu$ (the reciprocal of A's convention; the hypothesis $\Delta_G|_H=\Delta_H$ is invariant). Two Mathlib gaps are filled. (i) $\Delta$ is continuous (\texttt{continuous\_modularCharacterFun}): $\Delta(g)=\int f(xg)\,\dd\mu\big/\int f\,\dd\mu$ for a fixed $f\in C_c$, a ratio of parametric integrals. (ii) The inversion formula $\int\psi(h^{-1})\,\dd\mu=\int\Delta(h)\psi(h)\,\dd\mu$ (\texttt{integral\_comp\_inv\_eq}): $\mu^{\mathrm{inv}}$ is a right Haar measure with density $\Delta$ with respect to $\mu$, proved by uniqueness of right Haar measures plus a $c^2=1$ argument (\texttt{inv\_eq\_withDensity}). \emph{Step 1} is \cref{X.quot.thm:bruhat-function-exists}. \emph{Step 2} (\texttt{integral\_eq\_integral\_bruhat}), as in A: for $f\in C_c(G)$, $\int_Gf=\int_G\!\int_Hf(x)\beta(xh)\,\dd h\,\dd x$ (as $\int_H\beta(xh)\,\dd h=1$); Fubini (continuous with compact support) swaps the order; substituting $x\mapsto xh^{-1}$ and using $\Delta_G(h)=\Delta_H(h)$ gives $\int_H\Delta(h)f(yh^{-1})\beta(y)\,\dd h$, and the inversion formula on $H$ turns this into $\int_Gf^\flat(y)\beta(y)\,\dd y$. \emph{Step 3} (existence, \texttt{weil\_exists}): the functional $\varphi\mapsto\int_G\beta\,(\varphi\circ q)$ on $C_c(G/H)$ is well defined (\texttt{integrable\_bruhat\_mul}, from the compactness property of $\beta$) and positive (\texttt{weilFunctional}), defined directly, so no well-definedness argument via Step 1 is needed for existence. The Riesz--Markov--Kakutani theorem (\texttt{RealRMK.rieszMeasure}) gives a regular measure $\nu$ on $G/H$ finite on compacts with $\int_G\beta\cdot(\varphi\circ q)=\int\varphi\,\dd\nu$; combined with Step 2 (applied to real and imaginary parts, since $f^\flat\in C_c(G/H)$, \texttt{continuous\_flat}, \texttt{hasCompactSupport\_flat}) this gives the formula for $f\in C_c$. \emph{Step 4} (uniqueness, \texttt{weil\_unique}; here Step 1 is used): any two such measures integrate $C_c(G/H)$ equally, because every $\varphi\in C_c(G/H)$ is $f^\flat$ for $f=\beta\cdot(\varphi\circ q)$; two measures finite on compacts with the same integrals of all $\varphi\in C_c(G/H)$ are equal (\texttt{Measure.ext\_of\_integral\_eq\_on\_compactlySupported}). Left invariance (\texttt{weil\_invariant}): the push-forward of $\nu$ under $q\mapsto g^{-1}q$ is finite on compacts and satisfies the same defining formula, by left invariance of $\mu_G$ (substituting $x\mapsto g^{-1}x$), so equals $\nu$ by uniqueness. \emph{Step 5} (D-L1-12, adopted by A): the measure $m=\nu\mathbin{\gg\!\!=}(q\mapsto(h\mapsto xh)_*\mu_H)$ on $G$ (with $x=\texttt{Quotient.out}\,q$, \texttt{cosetKernel}) is shown to equal $\mu_G$: both are regular and have the same integrals on $C_c(G)$ (\texttt{bind\_cosetKernel\_eq}). Then for Borel $f\ge0$ the formula is \texttt{lintegral\_bind} (\texttt{lintegral\_bind\_cosetKernel}), and $f^\flat$ is measurable as the kernel evaluated on a measurable set (\texttt{measurable\_lintegral\_out}; the coset space is Borel, \cref{X.quot.lem:coset-quotient-borel}). The $L^1$ statements are Mathlib's kernel lemmas for the composition $\kappa\circ_m\nu=\mu_G$ (\texttt{weil\_integrable}: \texttt{Measure.ae\_integrable\_of\_integrable\_comp} for the integrability of the fibre integrands, \texttt{Integrable.integral\_comp} for the integrability of $f^\flat$, \texttt{Kernel.integral\_comp} for the equality of integrals).
+\end{proof}
+
+\begin{lemma}[the coset space is Borel]
+\tfstmt{X.quot.lem:coset-quotient-borel}
+\bonly
+\lean{GL2TF.coset_quotient_borel}
+\end{lemma}
+\begin{tfformal}{X.quot.lem:coset-quotient-borel}
+\tfsem{X.quot.lem:coset-quotient-borel}{701a6b70f4f5623f5ea6e8f725e424356af7762908af5f57b6a2acacdc2927fa}
+\tfhyps{X.quot.lem:coset-quotient-borel}{}
+\tfbinder{X.quot.lem:coset-quotient-borel}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.lem:coset-quotient-borel}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.lem:coset-quotient-borel}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.lem:coset-quotient-borel}{3}{9211ef29}{the assumption that $G$ is a topological group (B-only)}
+\tfbinder{X.quot.lem:coset-quotient-borel}{4}{b9372ff8}{the assumption that $G$ is locally compact (B-only)}
+\tfbinder{X.quot.lem:coset-quotient-borel}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (B-only)}
+\tfbinder{X.quot.lem:coset-quotient-borel}{6}{2be8b0e3}{the assumption that $G$ is second countable (B-only)}
+\tfbinder{X.quot.lem:coset-quotient-borel}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.lem:coset-quotient-borel}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra (B-only)}
+\tfbinder{X.quot.lem:coset-quotient-borel}{9}{96f37204}{the subgroup $H\le G$}
+\tfbinder{X.quot.lem:coset-quotient-borel}{10}{8724bfd3}{the assumption that $H$ is closed (B-only)}
+\begin{tffidelity}
+B-only. The instance-type statement \texttt{BorelSpace (G ⧸ H)}; it makes ``Borel measure on $G/H$'' in \cref{X.quot.thm:weil-quotient-formula} unambiguous.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A locally compact second countable Hausdorff group is Polish (\texttt{polishSpace\_of\_lcsc}); for a closed subgroup $H$ the coset space $G/H$ is Hausdorff and second countable, and Mathlib's \texttt{CosetSpace.borelSpace} states that the quotient $\sigma$-algebra on $G/H$ is the Borel $\sigma$-algebra.
+\end{proof}
+
+\section{Right cosets and quotient towers}\label{sec:quot-tower}
+
+\noindent\emph{Lean counterpart:} \texttt{lean/GL2TF/Common/QuotientTower.lean} (milestone M7a, unit U2). \emph{Conventions.} The space of right cosets
+$H\backslash G$ is \texttt{MulAction.orbitRel.Quotient H G} (the orbits of the left multiplication action of $H$ on $G$) with Mathlib's quotient topology
+and quotient $\sigma$-algebra; for closed $H$ the latter is the Borel $\sigma$-algebra (B-only \cref{X.quot.lem:right-coset-quotient-borel}), so a
+``Borel measure on $H\backslash G$'' is a \texttt{Measure} on this type. A function of $Hx$ given by an expression in $x$ is evaluated at the chosen
+representative \texttt{Quotient.out q} of the coset $q$; where A asserts that the expression depends only on $Hx$, this choice is harmless. Functions on
+$\Gamma\backslash G$ coming from left $\Gamma$-invariant $F$ on $G$ are written \texttt{F (Quotient.out q)}. The quotient measure
+$\mu_{\Gamma\backslash G}$ is \texttt{quotientMeasure Γ μ} (\texttt{X.quot.def:quotient-measure}), defined for any subgroup.
+
+\begin{lemma}
+\tfstmt{X.quot.lem:right-coset-quotient-locally-compact-instance}
+\bonly
+\lean{GL2TF.rightCoset_quotient_topology}
+\end{lemma}
+\begin{tfformal}{X.quot.lem:right-coset-quotient-locally-compact-instance}
+\tfsem{X.quot.lem:right-coset-quotient-locally-compact-instance}{c1a4ee57a5abf1070732c4287e6622b0fc3a4dbf460113cf95ba30e8b9b0599d}
+\tfhyps{X.quot.lem:right-coset-quotient-locally-compact-instance}{}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{3}{9211ef29}{$G$ is a topological group (A: ``group'' with its topology)}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{4}{b9372ff8}{$G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{5}{d9bcd626}{$G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{6}{2be8b0e3}{$G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{7}{bfcc3cac}{the subgroup $H\le G$}
+\tfbinder{X.quot.lem:right-coset-quotient-locally-compact-instance}{8}{fed925db}{the assumption that $H$ is closed (A: ``closed subgroup'')}
+\begin{tffidelity}
+B-only. The conjunction \texttt{LocallyCompactSpace (H\textbackslash G) ∧ T2Space (H\textbackslash G) ∧ SecondCountableTopology (H\textbackslash G)} for the right-coset space; proved (the quotient map is open, Hausdorffness from closedness of $H$). Stated as a theorem with the closedness binder \texttt{hH}, not as a global instance (closedness is not a class); consumers obtain the instances from it.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The quotient map $G\to H\backslash G$ is open (\texttt{MulAction.isOpenQuotientMap\_quotientMk}), so local compactness passes to the quotient (\texttt{IsOpenQuotientMap.locallyCompactSpace}); Hausdorffness is Mathlib's instance for the quotient by a closed subgroup; second countability holds because $H$ acts by homeomorphisms (\texttt{ContinuousConstSMul.secondCountableTopology}).
+\end{proof}
+
+\begin{lemma}
+\tfstmt{X.quot.lem:right-coset-quotient-borel}
+\bonly
+\lean{GL2TF.rightCoset_quotient_borel}
+\uses{X.quot.lem:right-coset-quotient-locally-compact-instance}
+\end{lemma}
+\begin{tfformal}{X.quot.lem:right-coset-quotient-borel}
+\tfsem{X.quot.lem:right-coset-quotient-borel}{f3f1b2c905e0aefbcb1559a078c71b61085b4ecb72c3a615f1ea6c29d078c874}
+\tfhyps{X.quot.lem:right-coset-quotient-borel}{}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{3}{9211ef29}{$G$ is a topological group (A: ``group'' with its topology)}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{4}{b9372ff8}{$G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{5}{d9bcd626}{$G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{6}{2be8b0e3}{$G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{8}{d9d9c103}{it is the Borel $\sigma$-algebra (A: ``with its Borel $\sigma$-algebra'')}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{9}{96f37204}{the subgroup $H\le G$}
+\tfbinder{X.quot.lem:right-coset-quotient-borel}{10}{8724bfd3}{the assumption that $H$ is closed (A: ``closed subgroup'')}
+\begin{tffidelity}
+B-only. \texttt{BorelSpace (MulAction.orbitRel.Quotient H G)}: the quotient $\sigma$-algebra on $H\backslash G$ is the Borel $\sigma$-algebra of the quotient topology; proved (Mathlib's \texttt{Quotient.borelSpace} on the Polish group $G$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G$ is Polish (\texttt{polishSpace\_of\_lcsc}); by \cref{X.quot.lem:right-coset-quotient-locally-compact-instance} the quotient is Hausdorff and second countable, and Mathlib's \texttt{Quotient.borelSpace} gives that the quotient $\sigma$-algebra is the Borel $\sigma$-algebra.
+\end{proof}
+
+\begin{definition}[Weil measures]
+\tfstmt{X.quot.def:weil-measure}
+\lean{GL2TF.IsWeilMeasure}
+\end{definition}
+\begin{tfformal}{X.quot.def:weil-measure}
+\tfsem{X.quot.def:weil-measure}{d1ab046006fc547af6619957336a9db77848745cad3a9370ebe95dbd9c07cac3}
+\tfhyps{X.quot.def:weil-measure}{}
+\tfbinder{X.quot.def:weil-measure}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.def:weil-measure}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.def:weil-measure}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.def:weil-measure}{3}{ce8d39e1}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.def:weil-measure}{4}{991a066d}{the subgroup $H\le G$}
+\tfbinder{X.quot.def:weil-measure}{5}{d295096d}{the measure $\mu_G$ on $G$ (A: ``left Haar measure'')}
+\tfbinder{X.quot.def:weil-measure}{6}{1945ea72}{the measure $\mu_H$ on $H$ (A: ``left Haar measure'')}
+\tfbinder{X.quot.def:weil-measure}{7}{d397a319}{the measure $\nu$ on $H\backslash G$ (A: ``Borel measure'')}
+\begin{tffidelity}
+\texttt{IsWeilMeasure H μG μH ν := IsFiniteMeasureOnCompacts ν ∧ ∀ f : G → ℂ, Continuous f → HasCompactSupport f → ∫ x, f x ∂μG = ∫ q, (∫ h, f (h * Quotient.out q) ∂μH) ∂ν}. The predicate is stated with the minimal structure (a group with a topology and a $\sigma$-algebra, any subgroup $H$, any measures): A's context (``locally compact, Hausdorff, second countable'', ``closed'', ``unimodular'', ``left Haar measures'', ``Borel $\sigma$-algebra'') is not part of the predicate but appears as binders of every theorem that uses it (\cref{X.quot.thm:weil-quotient-formula-right,X.quot.thm:quotient-tower}, and the Weil-measure binders of Vol.~II). $f^\natural(Hx)$ is written $\int_Hf(h\cdot\mathrm{out}(q))\,\dd\mu_H(h)$ at the chosen representative $\mathrm{out}(q)$ of $q=Hx$; this is A's $f^\natural$ because, as A notes, the integral does not depend on the representative for unimodular $H$ (for non-unimodular $H$ it would depend on the choice, which is why every consumer assumes $H$ unimodular). Integrals are Bochner integrals of $\C$-valued functions.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[Weil's formula for right cosets]
+\tfstmt{X.quot.thm:weil-quotient-formula-right}
+\lean{GL2TF.weil_quotient_formula_right}
+\uses{X.haar.def:is-unimodular, X.haar.lem:unimodular-iff-modular-character, X.quot.def:weil-measure, X.quot.lem:coset-quotient-borel, X.quot.lem:right-coset-quotient-borel, X.quot.thm:weil-quotient-formula}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:weil-quotient-formula-right}
+\tfsem{X.quot.thm:weil-quotient-formula-right}{6ad5b7d758c61c419cca43f52fd1ef5441b0c94471aff4f94f7944dbc551628e}
+\tfhyps{X.quot.thm:weil-quotient-formula-right}{}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{3}{9211ef29}{$G$ is a topological group (A: ``group'' with its topology)}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{4}{b9372ff8}{$G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{5}{d9bcd626}{$G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{6}{2be8b0e3}{$G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{8}{d9d9c103}{it is the Borel $\sigma$-algebra (A: ``with its Borel $\sigma$-algebra'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{9}{96f37204}{the closed subgroup $H\le G$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{10}{8724bfd3}{the assumption that $H$ is closed (A: ``closed subgroup'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{11}{6a0bd725}{the topology of $H$ is locally compact (B-only; automatic for closed $H$, needed to speak of Haar measures on $H$)}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{12}{2f3679ad}{the assumption that $G$ is unimodular (A: ``$G$ \ldots unimodular'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{13}{ac0ef6ab}{the assumption that $H$ is unimodular (A: ``$H$ unimodular'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{14}{08bf41c7}{the measure $\mu_G$ on $G$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{15}{868e9b54}{$\mu_G$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{16}{f0cf0dde}{the measure $\mu_H$ on $H$}
+\tfbinder{X.quot.thm:weil-quotient-formula-right}{17}{5b431bd1}{$\mu_H$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+A conjunction. (a) \texttt{∃! ν, IsWeilMeasure H μG μH ν}. Then, for every Weil measure $\nu$ (which by (a) is \emph{the} Weil measure): (b) right invariance, with $Eg$ written as the set \texttt{\{q | ∃ x, mk x ∈ E ∧ q = mk (x * g)\}} of A's $\{Hxg:Hx\in E\}$, for measurable $E$; (c) for measurable $f\colon G\to[0,\infty]$, $f^\natural$ (the lower integral at the representative, as in \cref{X.quot.def:weil-measure}) is measurable and $\int^-f\,\dd\mu_G=\int^-f^\natural\,\dd\nu$; (d) for $\mu_G$-integrable $f\colon G\to\C$: for $\nu$-a.e.\ $q$ the function $h\mapsto f(h\,\mathrm{out}(q))$ is $\mu_H$-integrable (A's ``converges absolutely''), $f^\natural$ is $\nu$-integrable and the formula holds. ``Borel'' is \texttt{Measurable} for the Borel $\sigma$-algebra of $G$ and the quotient $\sigma$-algebra of $H\backslash G$ (Borel by \cref{X.quot.lem:right-coset-quotient-borel}). The instance binder \texttt{[LocallyCompactSpace H]} is redundant (closed subgroups of locally compact groups are locally compact) and only makes Haar measures on $H$ meaningful.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L1-divergences.md}, item 9). The inversion $j\colon G/H\to H\backslash G$, $xH\mapsto Hx^{-1}$, is a homeomorphism (proof plumbing \texttt{rightCosetHomeomorph}), hence a measurable equivalence (\cref{X.quot.lem:coset-quotient-borel}, \cref{X.quot.lem:right-coset-quotient-borel}). Since $G$ and $H$ are unimodular, $\Delta_G|_H=\Delta_H=1$, and \cref{X.quot.thm:weil-quotient-formula} gives the unique left Weil measure $\nu_L$ on $G/H$ with its properties. Unimodularity also makes $\mu_H$ right invariant and inversion invariant, and $\mu_G$ inversion invariant (\texttt{isMulRightInvariant\_of\_isUnimodular}, \texttt{isInvInvariant\_of\_isUnimodular}: the modular density of \texttt{inv\_eq\_withDensity} is $1$). With these, A's identity $f^\natural(j(xH))=(f\circ\iota)^\flat(xH)$, $\iota(x)=x^{-1}$, holds for every representative (\texttt{integral\_rightCoset\_eq}, \texttt{lintegral\_rightCoset\_eq}, \texttt{integrable\_rightCoset\_of}; the chosen representative of $j(xH)$ differs from $x^{-1}$ by a left factor $h_0\in H$, absorbed by right invariance of $\mu_H$). (a) Existence: $\nu_0=j_*\nu_L$ (\texttt{Measure.map} along $j$) is finite on compacts ($j^{-1}$ maps compacts to compacts) and satisfies the formula, by $\int_Gf=\int_Gf\circ\iota$, the left formula for $f\circ\iota$, \texttt{integral\_map\_equiv} and the identity. Uniqueness: for a Weil measure $\nu$, $(j^{-1})_*\nu$ is a left Weil measure by the same computation, so it equals $\nu_L$ and $\nu=\nu_0$. (b): the preimage under $j$ of $\{Hxg:Hx\in E\}$ is the left translate $g^{-1}\cdot j^{-1}(E)$, and $\nu_L$ is left $G$-invariant. (c), (d): from the corresponding parts of \cref{X.quot.thm:weil-quotient-formula} for $f\circ\iota$, transported by $j$ (\texttt{lintegral\_map\_equiv}, \texttt{integrable\_map\_equiv}, \texttt{MeasurableEmbedding.ae\_map\_iff}) and the identity above.
+\end{proof}
+
+\begin{theorem}[the quotient measure is a Weil measure]
+\tfstmt{X.quot.thm:weil-measure-discrete}
+\lean{GL2TF.weil_measure_discrete}
+\uses{X.haar.def:is-unimodular, X.quot.def:quotient-measure, X.quot.def:weil-measure, X.quot.thm:unfolding-discrete}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:weil-measure-discrete}
+\tfsem{X.quot.thm:weil-measure-discrete}{864ab913316a3d6759c22600d58b273493d43c184032cadad2a364f98d1f2ce8}
+\tfhyps{X.quot.thm:weil-measure-discrete}{}
+\tfbinder{X.quot.thm:weil-measure-discrete}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:weil-measure-discrete}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:weil-measure-discrete}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:weil-measure-discrete}{3}{9211ef29}{$G$ is a topological group (A: ``group'' with its topology)}
+\tfbinder{X.quot.thm:weil-measure-discrete}{4}{b9372ff8}{$G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:weil-measure-discrete}{5}{d9bcd626}{$G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:weil-measure-discrete}{6}{2be8b0e3}{$G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:weil-measure-discrete}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:weil-measure-discrete}{8}{d9d9c103}{it is the Borel $\sigma$-algebra (A: ``with its Borel $\sigma$-algebra'')}
+\tfbinder{X.quot.thm:weil-measure-discrete}{9}{96f37204}{the discrete subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:weil-measure-discrete}{10}{c0c7348d}{$\Gamma$ is discrete (A: ``discrete subgroup'')}
+\tfbinder{X.quot.thm:weil-measure-discrete}{11}{1857cb01}{the measure $\mu$ on $G$}
+\tfbinder{X.quot.thm:weil-measure-discrete}{12}{8a087fcf}{$\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+The conclusion is the conjunction \texttt{IsClosed Γ ∧ IsUnimodular Γ ∧ (Measure.count : Measure Γ).IsHaarMeasure ∧ IsWeilMeasure Γ μ Measure.count (quotientMeasure Γ μ)}, as in A; $c$ is Mathlib's counting measure. Discreteness is the instance \texttt{DiscreteTopology Γ} (subspace topology).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\Gamma$ is closed (\texttt{Subgroup.isClosed\_of\_discrete}) and countable (\texttt{countable\_of\_discrete}). The counting measure is a Haar measure on $\Gamma$: compact subsets of a discrete space are finite, and non-empty open sets have positive counting measure. \emph{Divergence from A} (see \texttt{docs/notes/M7a-L1-divergences.md}, item 10): unimodularity of $\Gamma$ is shown by writing an arbitrary left Haar measure on $\Gamma$ as $c\cdot\mathrm{count}$ (\texttt{Measure.isMulLeftInvariant\_eq\_smul}) and using that the counting measure is invariant under right translation (\texttt{measure\_preimage\_mul\_right}); A only notes the latter. Weil measure: $\mu_{\Gamma\backslash G}$ is finite on compacts (\texttt{quotientMeasure\_finite}, from \cref{X.quot.def:quotient-measure}), and for $f\in C_c(G)$ (integrable) the integrable part of \cref{X.quot.thm:unfolding-discrete} gives $\int_Gf\,\dd\mu=\int_{\Gamma\backslash G}\sum_{\gamma\in\Gamma}f(\gamma x)\,\dd\dot x$; the inner sum is the integral over $\Gamma$ against the counting measure (\texttt{integral\_countable}).
+\end{proof}
+
+\begin{theorem}[unfolding along a subgroup]
+\tfstmt{X.quot.thm:unfolding-subgroup}
+\lean{GL2TF.unfolding_subgroup}
+\uses{X.quot.def:quotient-measure, X.quot.thm:unfolding-discrete}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:unfolding-subgroup}
+\tfsem{X.quot.thm:unfolding-subgroup}{2c7a00bf2a71ae355589277dbbca224685199e56cfa94f0b9268cf43441984d4}
+\tfhyps{X.quot.thm:unfolding-subgroup}{}
+\tfbinder{X.quot.thm:unfolding-subgroup}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{3}{9211ef29}{$G$ is a topological group (A: ``group'' with its topology)}
+\tfbinder{X.quot.thm:unfolding-subgroup}{4}{b9372ff8}{$G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:unfolding-subgroup}{5}{d9bcd626}{$G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:unfolding-subgroup}{6}{2be8b0e3}{$G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:unfolding-subgroup}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{8}{d9d9c103}{it is the Borel $\sigma$-algebra (A: ``with its Borel $\sigma$-algebra'')}
+\tfbinder{X.quot.thm:unfolding-subgroup}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{10}{9c9c679e}{$\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{X.quot.thm:unfolding-subgroup}{11}{ac63aa15}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{12}{7f26269c}{$\Gamma$ is discrete (A: ``discrete subgroup'')}
+\tfbinder{X.quot.thm:unfolding-subgroup}{13}{89ef295f}{the subgroup $\Gamma'\le G$}
+\tfbinder{X.quot.thm:unfolding-subgroup}{14}{175141e5}{the assumption $\Gamma'\le\Gamma$ (A: ``$\Gamma'\le\Gamma$ a subgroup'')}
+\begin{tffidelity}
+Two conjuncts. ($\ge0$) For measurable left $\Gamma'$-invariant $F\colon G\to[0,\infty]$ there is a measurable $\Phi$ on $\Gamma\backslash G$ with $\Phi(\Gamma x)=\sum_{d}F(\mathrm{out}(d)\,x)$ for \emph{every} representative $x$ (this is A's ``depends only on $\Gamma x$, is a Borel function of $\Gamma x$''), the sum (\texttt{tsum} in $[0,\infty]$) over $d\in\Gamma'\backslash\Gamma$ = \texttt{MulAction.orbitRel.Quotient (Γ'.subgroupOf Γ) Γ} (right cosets $\Gamma'\delta$, at the chosen representative $\delta=\mathrm{out}(d)$; A: ``the term depends only on $\Gamma'\delta$''), and $\int^-F\,\dd\mu_{\Gamma'\backslash G}=\int^-\Phi\,\dd\mu_{\Gamma\backslash G}$, with $F$ on $\Gamma'\backslash G$ written $F(\mathrm{out}(q))$. ($\C$) For measurable, left $\Gamma'$-invariant $F\colon G\to\C$ with $q\mapsto F(\mathrm{out}(q))$ integrable on $\Gamma'\backslash G$, there is an integrable $\Phi$ on $\Gamma\backslash G$ such that for a.e.\ $p$ and every representative $x$ of $p$ the family $\norm{F(\delta x)}$ is summable (``converges absolutely'') and $\Phi(p)=\sum_dF(\mathrm{out}(d)x)$, and $\int F\,\dd\mu_{\Gamma'\backslash G}=\int\Phi\,\dd\mu_{\Gamma\backslash G}$. ``The resulting function is integrable'' is the integrability of $\Phi$. $\Gamma'$ is a subgroup of $G$ with $\Gamma'\le\Gamma$ (binder \texttt{hΓ'}); it is discrete as a subgroup of $\Gamma$, which needs no binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A} (alternative proof; see \texttt{docs/notes/M7a-L1-divergences.md}, item 11). A builds a fundamental domain $D'=\bigsqcup_{\delta}\delta D$ for $\Gamma'$; Lean instead takes $D'$ to be the fundamental domain of $\Gamma'$ chosen in \cref{X.quot.def:quotient-measure} (\texttt{fdChoice}; $\Gamma'$ is discrete as a subgroup of $\Gamma$) and applies \cref{X.quot.thm:unfolding-discrete} for $\Gamma$ to $F\cdot1_{D'}$. Left side: $\mu_{\Gamma'\backslash G}$ is by definition the image of $\mu|_{D'}$, and $F(\mathrm{out}(\Gamma'x))=F(x)$ by left $\Gamma'$-invariance (\texttt{out\_mk\_invariant}, \texttt{measurable\_out\_comp}), so $\int_{\Gamma'\backslash G}F=\int_{D'}F=\int_G F1_{D'}$. Right side (\texttt{unfold\_reindex}): for fixed $x$ and $d\in\Gamma'\backslash\Gamma$ let $\eta(d)\in\Gamma'$ be the unique element with $\eta(d)^{-1}\mathrm{out}(d)x\in D'$, and $\gamma_0(d)=\eta(d)^{-1}\mathrm{out}(d)\in\Gamma$; then $d\mapsto\gamma_0(d)$ is injective (its coset is $d$), every $\gamma\in\Gamma$ with $1_{D'}(\gamma x)F(\gamma x)\ne0$ is some $\gamma_0(d)$, and $1_{D'}(\gamma_0(d)x)F(\gamma_0(d)x)=F(\mathrm{out}(d)x)$. So $\sum_{\gamma\in\Gamma}(F1_{D'})(\gamma x)=\sum_{d\in\Gamma'\backslash\Gamma}F(\mathrm{out}(d)x)$ (\texttt{Function.Injective.tsum\_eq}). The integrable part is the same, with absolute summability transferred by \texttt{Function.Injective.summable\_iff}, and $F1_{D'}$ integrable on $G$ because $F$ is integrable on $\Gamma'\backslash G$.
+\end{proof}
+
+\begin{theorem}[quotient towers]
+\tfstmt{X.quot.thm:quotient-tower}
+\lean{GL2TF.quotient_tower}
+\uses{X.haar.def:is-unimodular, X.quot.def:quotient-measure, X.quot.def:weil-measure, X.quot.thm:unfolding-discrete, X.quot.thm:weil-quotient-formula-right}
+\end{theorem}
+\begin{tfformal}{X.quot.thm:quotient-tower}
+\tfsem{X.quot.thm:quotient-tower}{cd0eb0ef0fd9c4dd90307c5eacae20683b8a0d0db5e36af8add00a755fd0d532}
+\tfhyps{X.quot.thm:quotient-tower}{}
+\tfbinder{X.quot.thm:quotient-tower}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.quot.thm:quotient-tower}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.quot.thm:quotient-tower}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.quot.thm:quotient-tower}{3}{9211ef29}{$G$ is a topological group (A: ``group'' with its topology)}
+\tfbinder{X.quot.thm:quotient-tower}{4}{b9372ff8}{$G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.quot.thm:quotient-tower}{5}{d9bcd626}{$G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.quot.thm:quotient-tower}{6}{2be8b0e3}{$G$ is second countable (A: ``second countable'')}
+\tfbinder{X.quot.thm:quotient-tower}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.quot.thm:quotient-tower}{8}{d9d9c103}{it is the Borel $\sigma$-algebra (A: ``with its Borel $\sigma$-algebra'')}
+\tfbinder{X.quot.thm:quotient-tower}{9}{96f37204}{the closed subgroup $H\le G$}
+\tfbinder{X.quot.thm:quotient-tower}{10}{8724bfd3}{the assumption that $H$ is closed (A: ``closed subgroup'')}
+\tfbinder{X.quot.thm:quotient-tower}{11}{6a0bd725}{the topology of $H$ is locally compact (B-only; automatic for closed $H$)}
+\tfbinder{X.quot.thm:quotient-tower}{12}{e5e02403}{the subgroup $\Gamma\le G$}
+\tfbinder{X.quot.thm:quotient-tower}{13}{24e17cfa}{$\Gamma$ is discrete in $G$ (A: ``discrete in $G$'')}
+\tfbinder{X.quot.thm:quotient-tower}{14}{40f72c2a}{the assumption $\Gamma\le H$ (A: ``$\Gamma\le H$'')}
+\tfbinder{X.quot.thm:quotient-tower}{15}{290e6445}{the assumption that $G$ is unimodular (A: ``$G$ \ldots unimodular'')}
+\tfbinder{X.quot.thm:quotient-tower}{16}{039be145}{the assumption that $H$ is unimodular (A: ``$H$ unimodular'')}
+\tfbinder{X.quot.thm:quotient-tower}{17}{83ea792c}{the measure $\mu_G$ on $G$}
+\tfbinder{X.quot.thm:quotient-tower}{18}{05e9e91e}{$\mu_G$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{X.quot.thm:quotient-tower}{19}{cbbd7fc8}{the measure $\mu_H$ on $H$}
+\tfbinder{X.quot.thm:quotient-tower}{20}{5e1bb583}{$\mu_H$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{X.quot.thm:quotient-tower}{21}{96528153}{the measure $\nu$ on $H\backslash G$}
+\tfbinder{X.quot.thm:quotient-tower}{22}{2122a2d3}{the assumption that $\nu$ is a Weil measure for $(\mu_G,\mu_H)$ (A: ``$\nu$ a Weil measure'', \cref{X.quot.def:weil-measure})}
+\begin{tffidelity}
+Two conjuncts as in \cref{X.quot.thm:unfolding-subgroup}. ($\ge0$) For measurable left $\Gamma$-invariant $F\ge0$ there is a measurable $\Phi$ on $H\backslash G$ with $\Phi(Hx)=\int^-_{\Gamma\backslash H}F(\mathrm{out}(p)\,x)\,\dd(\mu_H)_{\Gamma\backslash H}(p)$ for every representative $x$ (A's ``depends only on $Hx$, Borel''), and $\int^-F\,\dd\mu_{\Gamma\backslash G}=\int^-\Phi\,\dd\nu$. ($\C$) For measurable, left $\Gamma$-invariant, $\mu_{\Gamma\backslash G}$-integrable $F$ there is a $\nu$-integrable $\Phi$ such that for $\nu$-a.e.\ $r$ and every representative $x$ of $r$ the function $p\mapsto F(\mathrm{out}(p)x)$ is integrable on $\Gamma\backslash H$ and $\Phi(r)$ is its integral, and the formula holds. $\Gamma\backslash H$ is \texttt{MulAction.orbitRel.Quotient (Γ.subgroupOf H) H} with \texttt{quotientMeasure (Γ.subgroupOf H) μH}; $\Gamma$ is a subgroup of $G$ with \texttt{[DiscreteTopology Γ]} (``discrete in $G$'') and \texttt{hΓH : Γ ≤ H}. As in \cref{X.quot.thm:weil-quotient-formula-right}, $G$ and $H$ unimodular are explicit binders and \texttt{[LocallyCompactSpace H]} is redundant.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L1-divergences.md}, item 12). Let $D$ be the chosen fundamental domain of $\Gamma$ (\texttt{fdChoice}). Left side: $\int_{\Gamma\backslash G}F=\int_GF1_D\,\dd\mu_G$ (definition of the quotient measure and left $\Gamma$-invariance of $F$). Apply \cref{X.quot.thm:weil-quotient-formula-right}(c) (resp.\ (d)) for the given Weil measure $\nu$ to $F1_D$: $\int_GF1_D=\int_{H\backslash G}\int_H(F1_D)(h\,\mathrm{out}(Hx))\,\dd\mu_H(h)\,\dd\nu$, and $\Phi(Hx)$ is this inner integral. Inner integral: the chosen representative is $h_0x$ with $h_0\in H$, and right invariance of $\mu_H$ ($H$ unimodular) replaces it by $x$; then \cref{X.quot.thm:unfolding-discrete} for the discrete subgroup $\Gamma\cap H$ of $H$ (\texttt{Γ.subgroupOf H}, discrete by \texttt{discreteTopology\_subgroupOf}) gives $\int_H(F1_D)(hx)\,\dd h=\int_{(\Gamma\cap H)\backslash H}\sum_{\gamma}(F1_D)(\gamma hx)$, and $\sum_{\gamma\in\Gamma}1_D(\gamma y)F(\gamma y)=F(y)$ since exactly one $\gamma$ moves $y$ into $D$ (\texttt{tsum\_indicator\_fdChoice}). The integrable version runs the same way with the integrable parts of both theorems, the a.e.\ integrability of the inner function coming from \cref{X.quot.thm:weil-quotient-formula-right}(d) and right translation by $h_0^{-1}$.
+\end{proof}
+
+\section{The volume of the automorphic quotient}\label{sec:quot-volume}
+% M8s-a U7 (B1, 2026-11-04). The formal blocks were written without a tfaudit run: \tfsem records and \tfbinder hashes may still read `pending'
+% and \uses lists are a build-free scan; the next `tools/lbuild.sh --audit' reconciles them (check 6). The Lean proofs of the four A items
+% are written (lean/GL2TF/VolI/P0/QuotientVolume.lean, notes in docs/notes/U7-proofs.md); the sketches below mirror them.
+
+\noindent\emph{Sources for this section:} \cite[§1.6, Thm.~1.6.1]{Gold} (the volume of $\SL_2(\Z)\backslash\mathbb H$); Mathlib
+\texttt{ModularGroup.\allowbreak exists\_smul\_mem\_fd}, \texttt{ModularGroup.\allowbreak eq\_one\_or\_neg\_one\_of\_mem\_fdo\_mem\_fd}. Milestone M8s-a
+(late optional unit U7, else M10a); normalization: \texttt{docs/notes/M4-normalizations.md}~§3.
+
+\noindent\emph{Lean counterpart:} \texttt{lean/GL2TF/VolI/P0/QuotientVolume.lean}. \emph{Conventions.} $\mathbb H$ is not used as a type: points
+of the upper half-plane are complex numbers $z$ with $\operatorname{Im}z>0$, and $\dd x\,\dd y$ is Mathlib's \texttt{volume} on $\C$ (the Lebesgue
+measure of $\C=\R^2$). Integrals of non-negative functions are lower Lebesgue integrals \texttt{∫⁻} with values in $[0,\infty]$; real constants
+enter through \texttt{ENNReal.ofReal}. $n(x)$ is Mathlib's \texttt{upperRightHom x}, $\diag(t_1,t_2)$ is \texttt{diagElt} (\cref{I.conv.def:diag-element})
+of two units, a positive real $r$ is the unit \texttt{realUnitOf r} (\cref{I.haar.def:real-unit-of}).
+
+\begin{definition}[the modular fundamental domain]
+\tfstmt{I.quot.def:modular-domain}
+\bonly
+\lean{GL2TF.modularDomain}
+\end{definition}
+\begin{tfformal}{I.quot.def:modular-domain}
+\tfsem{I.quot.def:modular-domain}{005982093d91c0e4a2528d792ad81103441db5c1aaa100b935c276a50cae237b}
+\tfhyps{I.quot.def:modular-domain}{}
+\begin{tffidelity}
+B-only (D14): the set $\mathcal D$ named in \cref{I.quot.lem:modular-area}. \texttt{modularDomain = \{z : ℂ | 0 < z.im ∧ 1 ≤ ‖z‖ ∧ |z.re| ≤ 1/2\}}; $\abs z$ is the complex norm. It agrees with Mathlib's \texttt{ModularGroup.fd} under the inclusion $\mathbb H\subseteq\C$ (Mathlib's set is a subset of \texttt{UpperHalfPlane}, with $\abs z^2\ge1$ in place of $\abs z\ge1$); the identification is a proof step of \cref{I.quot.lem:standard-fundamental-domain}, not part of any statement.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the half fundamental domain]
+\tfstmt{I.quot.def:modular-half-domain}
+\bonly
+\lean{GL2TF.modularHalfDomain}
+\uses{I.quot.def:modular-domain}
+\end{definition}
+\begin{tfformal}{I.quot.def:modular-half-domain}
+\tfsem{I.quot.def:modular-half-domain}{aa436263b74d067a449a2d73615702df1f64e692579646a4cb60c7ddd7386d26}
+\tfhyps{I.quot.def:modular-half-domain}{}
+\begin{tffidelity}
+B-only (D14): the set $\mathcal D'$ of \cref{I.quot.lem:modular-area}. \texttt{modularHalfDomain = \{z | z ∈ modularDomain ∧ 0 ≤ z.re\}}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the area of the modular fundamental domain]
+\tfstmt{I.quot.lem:modular-area}
+\lean{GL2TF.modular_area}
+\uses{I.quot.def:modular-domain, I.quot.def:modular-half-domain}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:modular-area}
+\tfsem{I.quot.lem:modular-area}{be18a8fa510ab18a322bbbc67538783baff92446bab8ccf37219b3b0a7267cc2}
+\tfhyps{I.quot.lem:modular-area}{}
+\begin{tffidelity}
+A conjunction of the two equalities, as lower Lebesgue integrals over $\C$ with Mathlib's \texttt{volume} (A: ``the Lebesgue measure $\dd x\,\dd y$ of $\C=\R^2$''): \texttt{∫⁻ z in modularDomain, ENNReal.ofReal (z.im \textasciicircum{} 2)⁻¹ = ENNReal.ofReal (π / 3)}, and the same over \texttt{modularHalfDomain} with $\pi/6$. A's real integrals of the positive function $y^{-2}$ are these values in $[0,\infty]$; in particular both integrals are finite. $\mathcal D$, $\mathcal D'$ are the B-only \cref{I.quot.def:modular-domain,I.quot.def:modular-half-domain}, which A defines inside the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (no divergence), the Lean proof of \texttt{modular\_area}. Both equalities go through one strip lemma: for $-1<a\le b<1$, $\int_{[a,b]\times\R}\mathbf 1\{y\ge\sqrt{1-x^2}\}\,y^{-2}=\arcsin b-\arcsin a$. Write $\mathcal D=\{(x,y):\abs x\le\frac12,\ y\ge\sqrt{1-x^2}\}$ through the equivalence $\C\simeq\R\times\R$ (\texttt{Complex.volume\_preserving\_equiv\_real\_prod}), apply Tonelli (\texttt{lintegral\_prod}), evaluate the inner integral $\int_{\sqrt{1-x^2}}^\infty y^{-2}\,\dd y=(1-x^2)^{-1/2}$ (\texttt{qv\_inner\_Ici}, from \texttt{integral\_Ioi\_rpow\_of\_lt}) and the outer one by the antiderivative $\arcsin$ (\texttt{qv\_arcsin\_integral}: \texttt{Real.deriv\_arcsin} and the fundamental theorem of calculus), with $\arcsin\frac12=\pi/6$ (\texttt{qv\_arcsin\_half}). For $\mathcal D$ take $[a,b]=[-\frac12,\frac12]$ and for $\mathcal D'$ take $[0,\frac12]$.
+\end{proof}
+
+\begin{definition}[the real norm-one group]
+\tfstmt{I.haar.def:norm-one-real}
+\bonly
+\lean{GL2TF.normOneReal}
+\end{definition}
+\begin{tfformal}{I.haar.def:norm-one-real}
+\tfsem{I.haar.def:norm-one-real}{48869fcc25d7eeb16e14aaf500451e2f727d7b74a5b02467147057d2f094a722}
+\tfhyps{I.haar.def:norm-one-real}{}
+\begin{tffidelity}
+B-only (D14): $G(\R)^1$, which A defines inside \cref{I.haar.lem:haar-real-upper-half-plane,I.quot.lem:standard-fundamental-domain}. A \texttt{Subgroup (GL (Fin 2) ℝ)} with carrier \texttt{\{g | |det g| = 1\}}; the subgroup axioms are proved in the definition body. Measures on $G(\R)^1$ are measures on the subtype with the induced $\sigma$-algebra.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the shell measure on $G(\R)^1$]
+\tfstmt{I.haar.def:shell-measure-real}
+\bonly
+\lean{GL2TF.shellMeasureReal}
+\uses{I.haar.def:norm-one-real, I.haar.def:haar-real, I.haar.def:real-unit-of, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:shell-measure-real}
+\tfsem{I.haar.def:shell-measure-real}{f6b1b797d69f814d70e826074414b729285eff4f05a09cdca8e02a1396526925}
+\tfhyps{I.haar.def:shell-measure-real}{}
+\begin{tffidelity}
+B-only (D14). \texttt{Measure.comap Subtype.val (Measure.map φ (haarReal.restrict S))} with $S=\{h:\sqrt{\abs{\det h}}\in[1,e)\}$ and $\varphi(h)=\iota\bigl(\sqrt{\abs{\det h}}\bigr)^{-1}h$, where $\iota$ is the scalar embedding $\R^\times\to\GL_2(\R)$ (\texttt{Units.map (Matrix.scalar …)}) applied to \texttt{realUnitOf}. This is not A's definition of $m_\infty$ (A defines $m_\infty(E)$ as $\dd g_\infty(\{rg:1\le r<e,\ g\in E\})$ and then proves that it is a Borel measure): Lean takes the push-forward description of A's proof as the definition, which is a measure by construction, and the first conjunct of \cref{I.haar.lem:haar-real-upper-half-plane} proves that it has A's values on Borel sets. \texttt{comap} along the inclusion of $G(\R)^1$ is the restriction to the subtype; $\varphi$ takes values in $G(\R)^1$ because $\det(\lambda h)=\lambda^2\det h$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the shell measure in upper half-plane coordinates]
+\tfstmt{I.haar.lem:haar-real-upper-half-plane}
+\lean{GL2TF.haarReal_upperHalfPlane}
+\uses{I.haar.def:norm-one-real, I.haar.def:shell-measure-real, I.haar.def:haar-real, I.haar.def:haar-orthogonal, I.haar.def:real-unit-of, I.conv.def:diag-element, I.conv.def:max-compact-real, I.haar.lem:max-compact-real-borel-instance, X.topgrp.def:matrix-measurable-space, I.haar.thm:iwasawa-constant-real, I.adele.def:real-units-haar, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-second-countable-instance, I.haar.lem:max-compact-real-compact-instance}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:haar-real-upper-half-plane}
+\tfsem{I.haar.lem:haar-real-upper-half-plane}{e941ac74a3c7fb8512074499957b7256cb945044699752bc0ce42e6c195dd67d}
+\tfhyps{I.haar.lem:haar-real-upper-half-plane}{}
+\begin{tffidelity}
+A conjunction; the statement has no binders ($E$ and $F$ are quantified inside). (1) For every measurable $E\subseteq G(\R)^1$: \texttt{shellMeasureReal E = haarReal \{h | ∃ r, 1 ≤ r ∧ r < exp 1 ∧ ∃ g ∈ E, h = r • g\}} (as matrices). This is A's defining formula for $m_\infty$, and together with the B-only \cref{I.haar.def:shell-measure-real} it is A's ``$m_\infty$ is a Borel measure on $G(\R)^1$'' (``Borel'' is \texttt{MeasurableSet} for the subtype $\sigma$-algebra induced by the Borel $\sigma$-algebra of $\GL_2(\R)$). (2) For every measurable $F\colon\GL_2(\R)\to[0,\infty]$: \texttt{∫⁻ g, F g ∂shellMeasureReal = ofReal (4π) * ∫⁻ x, ∫⁻ y in Ioi 0, ofReal (y\textasciicircum2)⁻¹ * ∫⁻ k, F (upperRightHom x * diagElt (√y) (√y)⁻¹ * k) ∂haarOrthogonal}, with $\Kinf=\Ort(2)$ the subgroup \texttt{maxCompactReal} and $\dd k$ = \texttt{haarOrthogonal} (\cref{I.haar.def:haar-orthogonal}); the order of integration $\dd k$, $\dd y/y^2$, $\dd x$ is A's. \emph{Difference (formalizer's note):} $F$ is a function on $\GL_2(\R)$, not on $G(\R)^1$; on the left it is evaluated at $g\in G(\R)^1$ through the coercion, on the right at points $n(x)\diag(y^{1/2},y^{-1/2})k$, which lie in $G(\R)^1$. The two forms are equivalent: a Borel $F$ on $G(\R)^1$ is the restriction of the Borel function $F'$ on $\GL_2(\R)$ equal to $F$ on the closed set $G(\R)^1$ and $0$ elsewhere, and only values on $G(\R)^1$ enter either side.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A for clause (1) and for the Iwasawa step; \emph{Divergence D-U7-1} in the substitution of clause (2). (1) (\texttt{qv\_shell\_clause1}): the preimage of $E$ under the map $\varphi$ of \cref{I.haar.def:shell-measure-real}, intersected with the shell $S$, is $\{rg:1\le r<e,\ g\in E\}$ (unique decomposition $h=rg$, $r=\abs{\det h}^{1/2}$); \texttt{Measure.comap\_apply} (the inclusion of the closed subgroup is a measurable embedding; \texttt{qv\_normOneReal\_measurable}, \texttt{qv\_phi\_measurable} supply the measurability that makes $m_\infty$ non-zero), \texttt{Measure.map\_apply}, \texttt{Measure.restrict\_apply}. (2) (\texttt{qv\_shell\_clause2}): \texttt{lintegral\_map} and \texttt{lintegral\_comap} reduce to $\int f\,\dd g_\infty$ with A's $f$ (\texttt{qv\_lintegral\_shell}); then \cref{I.haar.thm:iwasawa-constant-real} with $\kappa=\dd k$. For fixed $x$ (\texttt{qv\_per\_x}) the iterated $(t_2,t_1)$-integral over $\R^\times\times\R^\times$ is computed \emph{without} the logarithmic coordinates and without a separate sign-quadrant count. Instead, $t_1=t_2v$ (left invariance of $\dd^\times t$ on $\R^\times$) and the factorization \texttt{qv\_factor}: $n(x)\diag(t_2v,t_2)k=a(\abs{t_2}\sqrt{\abs v})\cdot n(x)\diag(\sqrt{\abs v},1/\sqrt{\abs v})\cdot(\sigma k)$ with $\sigma=\diag(\operatorname{sgn}(t_2v),\operatorname{sgn}t_2)\in\Ort(2)$, where $a(r)$ is the scalar and $\sigma$ is absorbed by left invariance of \texttt{haarOrthogonal} (this is A's sign quadrants). Tonelli swaps the two unit integrals; the $t_2$-integral over the shell $\{(\sqrt{\abs v})^{-1}\le\abs{t_2}<e(\sqrt{\abs v})^{-1}\}$ is $2$ (\texttt{lintegral\_realUnits\_abs}, \texttt{lintegral\_shell} of \texttt{Reduction}), and the $v$-integral of a function of $\abs v$ is $2\int_0^\infty\dd y/y$. The result is $4\int_0^\infty y^{-2}\int_{\Ort(2)}F(n(x)\diag(\sqrt y,1/\sqrt y)k)\,\dd k\,\dd y$, and with the factor $\pi$ this is A's $4\pi$.
+\end{proof}
+\noindent\emph{The coordinates} (A's remark after the lemma) are proof steps of \cref{I.quot.lem:standard-fundamental-domain,I.quot.thm:quotient-volume}, not items.
+
+\begin{definition}[the point $z(g)$]
+\tfstmt{I.quot.def:upper-half-plane-point}
+\bonly
+\lean{GL2TF.upperHalfPlanePoint}
+\end{definition}
+\begin{tfformal}{I.quot.def:upper-half-plane-point}
+\tfsem{I.quot.def:upper-half-plane-point}{a4f8127d524fe9d792955ca45f60dadbe1e88e365467330729e9558491ceabf8}
+\tfhyps{I.quot.def:upper-half-plane-point}{}
+\tfbinder{I.quot.def:upper-half-plane-point}{0}{da0bab74}{the element $g\in\GL_2(\R)$}
+\begin{tffidelity}
+B-only (D14): $z(g)$ of \cref{I.quot.lem:standard-fundamental-domain}. \texttt{upperHalfPlanePoint g = ((g₀₀ · det g : ℝ) * I + g₀₁) / ((g₁₀ · det g : ℝ) * I + g₁₁)} in $\C$. A defines $z(g)$ only on $G(\R)^1$ with $\varepsilon=\det g\in\{\pm1\}$; Lean defines it on all of $\GL_2(\R)$ with $\varepsilon=\det g$ (the formula agrees with A's on $G(\R)^1$; elsewhere the value is never used). The denominator never vanishes ($(c,d)\neq0$ and $\det g\neq0$), so Lean's division convention $w/0=0$ plays no role.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the set $D_\infty$]
+\tfstmt{I.quot.def:standard-domain-inf}
+\bonly
+\lean{GL2TF.standardDomainInf}
+\uses{I.haar.def:norm-one-real, I.quot.def:upper-half-plane-point, I.quot.def:modular-half-domain}
+\end{definition}
+\begin{tfformal}{I.quot.def:standard-domain-inf}
+\tfsem{I.quot.def:standard-domain-inf}{bb2f5494e4e86e55c7cd983e3ce3e52f0d6688a35f236e6de2dcd24565e1991d}
+\tfhyps{I.quot.def:standard-domain-inf}{}
+\begin{tffidelity}
+B-only (D14): $D_\infty$ of \cref{I.quot.lem:standard-fundamental-domain}, as a subset of $\GL_2(\R)$: \texttt{\{g | g ∈ normOneReal ∧ upperHalfPlanePoint g ∈ modularHalfDomain ∧ (0 < g₁₀ ∨ (g₁₀ = 0 ∧ 0 < g₁₁))\}}. The last conjunct is $(g_{21},g_{22})\in P$ (Lean indices start at $0$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the set $D$]
+\tfstmt{I.quot.def:standard-domain}
+\bonly
+\lean{GL2TF.standardDomain}
+\uses{I.quot.def:standard-domain-inf, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-fin, I.topgrp.def:max-compact-fin-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.quot.def:standard-domain}
+\tfsem{I.quot.def:standard-domain}{5739a0c7a74b73fc5853a59105cefbd7860b336420bbf6ad32ee0068a31c37ec}
+\tfhyps{I.quot.def:standard-domain}{}
+\begin{tffidelity}
+B-only (D14): $D$ of \cref{I.quot.lem:standard-fundamental-domain}. \texttt{standardDomain = \{x | compInf x ∈ standardDomainInf ∧ compFin x ∈ maxCompactFin\}}, with $x_\infty$ = \texttt{compInf x} and $x_f$ = \texttt{compFin x} (\cref{I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-fin}) and $\Kf$ = \texttt{maxCompactFin} (\cref{I.topgrp.def:max-compact-fin-adelic}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[a standard fundamental domain]
+\tfstmt{I.quot.lem:standard-fundamental-domain}
+\lean{GL2TF.standard_fundamental_domain}
+\uses{I.haar.def:norm-one-real, I.quot.def:upper-half-plane-point, I.quot.def:standard-domain, I.quot.def:standard-domain-inf, I.quot.def:modular-half-domain, I.topgrp.def:norm-one-group, I.topgrp.def:gl2-adelic, I.haar.def:haar-norm-one, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.haar.lem:haar-real-upper-half-plane, I.red.thm:measurable-fundamental-domain, I.topgrp.thm:strong-approximation, I.topgrp.thm:gl2-adelic-restricted-product, I.topgrp.thm:gl2-rat-discrete, I.adele.thm:product-formula, X.quot.def:quotient-measure, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:real-units-haar, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:rat-embedding-diagonal, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.haar.def:haar-adelic, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.def:haar-orthogonal, I.haar.def:haar-real, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.def:shell-measure-real, I.haar.lem:gl2-adelic-borel, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-second-countable-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:haar-norm-one-spec, I.haar.lem:max-compact-real-borel-instance, I.haar.lem:max-compact-real-compact-instance, I.haar.thm:haar-real-is-haar, I.haar.thm:iwasawa-constant-real, I.haar.thm:vol-max-compact-local, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.quot.def:modular-domain, I.quot.lem:gl2-rat-norm-one-discrete, I.red.def:siegel-omega-zero, I.red.def:siegel-set, I.red.lem:det-max-compact-fin, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-adelic-compact, X.quot.lem:quotient-measure-spec}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:standard-fundamental-domain}
+\tfsem{I.quot.lem:standard-fundamental-domain}{12cddde004e49c64123bc4f7bb35d88662297c40148069aceb91e00a8c038a8f}
+\tfhyps{I.quot.lem:standard-fundamental-domain}{}
+\begin{tffidelity}
+A conjunction; no binders ($\mu$ and $E$ are quantified inside). (1) \texttt{∀ g ∈ normOneReal, 0 < (upperHalfPlanePoint g).im} (A: ``then $\operatorname{Im}z(g)>0$''). (2) \texttt{MeasurableSet standardDomain} and (3) \texttt{standardDomain ⊆ normOneGroup} (A: ``$D$ is a Borel subset of $G(\A)^1$''; Borel is \texttt{MeasurableSet} for the $\sigma$-algebra of $G(\A)$ used throughout). (4) For every $x\in G(\A)^1$ there is $\gamma$ in \texttt{gl2RatAdelic} (the image of $G(\Q)$ in $G(\A)$, \cref{I.topgrp.def:gl2-adelic}) with $\gamma^{-1}x\in D$. (5) For every measure $\mu$ on $G(\A)$ with \texttt{μ.IsHaarMeasure} (A: ``a left Haar measure''): \texttt{haarNormOne μ} (= $\mu^1$, \cref{I.haar.def:haar-norm-one}, a measure on the subtype $G(\A)^1$) of the set of $x$ having two distinct such $\gamma_1\neq\gamma_2$ is $0$ (A: ``more than one such $\gamma$''); and for every measurable $E$ in \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} ($=X$), \texttt{automorphicQuotientMeasure μ E = haarNormOne μ (Subtype.val ⁻¹' standardDomain ∩ Quotient.mk \_ ⁻¹' E)}, i.e.\ $\mu_X(E)=\mu^1(D\cap p^{-1}(E))$ with $D$ pulled back to the subtype. $G(\R)^1$, $z(g)$, $P$, $D_\infty$, $D$ are the B-only \cref{I.haar.def:norm-one-real,I.quot.def:upper-half-plane-point,I.quot.def:standard-domain-inf,I.quot.def:standard-domain}, which A defines inside the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, Steps 1--6, with the following \emph{Divergences D-U7-2 to D-U7-4}. \emph{D-U7-2 (Step 1).} Instead of A's $\star$-action, Mathlib's action \texttt{UpperHalfPlane.glAction} of $\GL_2(\R)$ on $\mathbb H$ is used; it applies complex conjugation when $\det<0$, so $z(g)=g\cdot i$ for $\abs{\det g}=1$ (\texttt{qv\_z\_eq\_smul}), equivariance is \texttt{mul\_smul}, and $\operatorname{Im}z(g)>0$ is immediate. Step 2 transfers \texttt{ModularGroup.exists\_smul\_mem\_fd} along $z$ (\texttt{qv\_halfDomain\_iff}, identifying \texttt{modularDomain} with \texttt{ModularGroup.fd}); if $\operatorname{Re}<0$ multiply by $J=\diag(-1,1)$ (\texttt{UpperHalfPlane.coe\_J\_smul}), then fix the bottom row by $\pm1$ (\texttt{qv\_P\_neg}, \texttt{qv\_P\_not\_both}); the rational elements have finite part in $K_f$ (\texttt{qv\_K\_of\_int}). Step 3 core (\texttt{qv\_unique\_core}) uses \texttt{ModularGroup.eq\_one\_or\_neg\_one\_of\_mem\_fdo\_mem\_fd}, once for $\tau$ if $\det\tau=1$ and once for $\tau J$ at $J\cdot u$ if $\det\tau=-1$. Step 4 is \cref{I.topgrp.thm:strong-approximation} with $K'=K_f$ (\texttt{qv\_exists}), $\abs{\det h_\infty}=1$ by \cref{I.adele.thm:product-formula}, and $G(\Q)\cap K_f\subseteq\GL_2(\Z)$ (\texttt{qv\_int\_of\_K}); $D\subseteq G(\A)^1$ is \texttt{qv\_normOne\_of}, using the product decomposition \cref{I.topgrp.thm:gl2-adelic-restricted-product}. \emph{D-U7-3 (Steps 3 and 5, the null set).} A forms $N=\bigcup_\sigma\sigma\star Z$ and uses that each $\sigma\star$ is a diffeomorphism. Lean avoids images of null sets: if $x$ has representatives $\gamma_1\neq\gamma_2$, then $y=\gamma_1^{-1}x\in D$ has $z(y_\infty)\in Z$ by the Step 3 core applied to $\tau=\gamma_2^{-1}\gamma_1$, so the exceptional set lies in $\bigcup_{\gamma\in G(\Q)}\gamma B$ with $B=B_\infty\times K_f$, $B_\infty=\{g\in D_\infty:z(g)\notin\mathcal D'^\circ\}$, $\mathcal D'^\circ=\{\abs z>1,\ 0<\operatorname{Re}z<\frac12\}$ (\texttt{qv\_M\_sub}). By left invariance and countability $\mu^1(\bigcup\gamma B)\le\sum\mu^1(B)$; $\mu^1(B)=c\,m_\infty(B_\infty)$ by uniqueness of Haar measure (\texttt{Measure.isMulLeftInvariant\_eq\_smul}) and the product computation \texttt{qv\_haarNormOne\_prod} (the one of \cref{I.quot.thm:quotient-volume}, for a Borel $S\subseteq G(\R)^1$), and $m_\infty(B_\infty)=0$ by \cref{I.haar.lem:haar-real-upper-half-plane}(2) (\texttt{qv\_shell\_Binf}: for $x\notin\{0,\frac12\}$ the $y$-integrand lives on the single point $y=\sqrt{1-x^2}$). \emph{D-U7-4 (Step 6, the quotient measure).} A writes $\mu^1(D\cap A)=\int_{D_0\cap A}n\,\dd\mu^1$ with the counting function $n$. Lean instead uses the measurable $G(\Q)$-invariant exceptional set $M$ (\texttt{qv\_Mset}), null by D-U7-3, and $D'=(D\setminus M)\cup(D_0\cap M)$ with $D_0$ from \cref{I.red.thm:measurable-fundamental-domain}. $D'$ is an exact Borel fundamental domain, so the specification of the quotient measure (\cref{X.quot.def:quotient-measure}) gives $\mu_X(E)=\mu^1(D'\cap p^{-1}E)$, and $D$, $D'$ differ only inside the null set $M$, so $\mu^1(D'\cap p^{-1}E)=\mu^1(D\cap p^{-1}E)$ (\texttt{qv\_quotient}).
+\end{proof}
+
+\begin{theorem}[the volume of $G(\Q)\backslash G(\A)^1$]
+\tfstmt{I.quot.thm:quotient-volume}
+\lean{GL2TF.quotient_volume}
+\uses{I.quot.def:automorphic-quotient-measure, I.haar.def:haar-adelic, I.haar.def:haar-real, I.haar.def:haar-local, I.topgrp.def:norm-one-group, I.topgrp.def:gl2-adelic, I.quot.def:gl2-rat-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.quot.lem:standard-fundamental-domain, I.haar.lem:haar-real-upper-half-plane, I.quot.lem:modular-area, I.haar.thm:vol-max-compact-local, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.haar.def:haar-fin-adelic, I.haar.def:haar-norm-one, I.haar.def:haar-orthogonal, I.haar.def:norm-one-normalization, I.haar.def:norm-one-real, I.haar.def:real-unit-of, I.haar.def:shell-measure-real, I.haar.lem:gl2-adelic-borel, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:max-compact-real-borel-instance, I.haar.lem:max-compact-real-compact-instance, I.haar.thm:haar-real-is-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.thm:abs-padic-eq, I.quot.def:modular-domain, I.quot.def:modular-half-domain, I.quot.def:standard-domain, I.quot.def:standard-domain-inf, I.quot.def:upper-half-plane-point, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-product-equiv, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:central-split-component, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-real-locally-compact}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:quotient-volume}
+\tfsem{I.quot.thm:quotient-volume}{3d1bff4fce873fbdb5755b7d98c8047c62f9efc4a17acc72f2f74460245be89a}
+\tfhyps{I.quot.thm:quotient-volume}{}
+\begin{tffidelity}
+\texttt{automorphicQuotientMeasure (haarAdelic haarReal fun p ↦ Local.haarLocal ℚ\_[p]) Set.univ = ENNReal.ofReal (π\textasciicircum2 / 3)}. The standard Haar measure $\dd g=\dd g_\infty\otimes\bigotimes'_p\dd g_p$ (\cref{I.haar.def:haar-adelic}) is written out: \emph{difference (formalizer's note):} the statement inlines the expression of \texttt{haarG} (\texttt{VolI/P2/Eisenstein/Defs.lean}, \texttt{haarAdelic haarReal stdLoc} with \texttt{stdLoc p = Local.haarLocal ℚ\_[p]}), because this chapter may not import Part 2; the two measures are equal by \texttt{rfl}. $\vol(X)=\int_X\dd\dot g$ is the measure of \texttt{Set.univ}; the value is in $[0,\infty]$, so the statement includes finiteness.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (\texttt{quotient\_volume}): \cref{I.quot.lem:standard-fundamental-domain}(5) with $E=X$, after the standard Haar measure of \cref{I.haar.def:haar-adelic} is unfolded (\texttt{haarAdelic\_spec}); the shell of $D_\infty\times K_f$ splits as (shell of $D_\infty$)$\times K_f$ (\texttt{qv\_haarNormOne\_prod}) and $\dd g_f(K_f)=1$ (\cref{I.haar.def:haar-adelic}, \cref{I.haar.thm:vol-max-compact-local}), so $\vol(X)=m_\infty(D_\infty)$; then \cref{I.haar.lem:haar-real-upper-half-plane}(2) with $F=\mathbf 1_{D_\infty}$ and the coordinates (\texttt{qv\_mem\_standardDomainInf\_iwasawa}: $F(g)=\mathbf 1_{\mathcal D'}(x+iy)\mathbf 1_Q(k)$), $\dd k(Q)=\frac12$ by left translation by $-1$ (\texttt{qv\_haarOrthogonal\_Qset}), and \cref{I.quot.lem:modular-area} (\texttt{qv\_transfer\_halfDomain}): $4\pi\cdot\frac12\cdot\frac\pi6=\pi^2/3$.
+\end{proof}

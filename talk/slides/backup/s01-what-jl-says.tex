@@ -1,0 +1,46 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S01-T1: What JL says.  source: code/results/s01/brandt_w2.json
+% math: mathematics/ label ex:s01-masschecks ; stage tex: plan/staged/stage-01-quaternion-foundations.tex, thm:s01-JLclassical (cited)
+\begin{frame}{What Jacquet--Langlands says: the case $D=11$}
+  % source: code/results/s01/brandt_w2.json  (data.T1.D = 11)
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Quaternion side.} $B_{11}$ definite, ramified at $\{11,\infty\}$.\\[2pt]
+      $X_B(\Ohat^\times)$ is a finite set:
+      \begin{itemize}
+        \item % data.T1.h = 2
+          $h=2$ points,
+        \item % data.T1.gammas = [4, 6]
+          automorphism groups of order $4$ and $6$,
+        \item % data.T1.mass = "5/12" = data.T1.mass_expected; ex:s01-masschecks
+          mass $\tfrac14+\tfrac16=\tfrac5{12}=\tfrac{11-1}{24}$.
+      \end{itemize}
+      \medskip
+      \textbf{Modular side.} $X_0(11)$ has genus % data.T1.X0_11.genus = 1
+      $1$ (Weil curve 11a1).
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Brandt matrix} % data.T1.T2 = [[1,2],[3,0]]
+      \[
+        T_2=\begin{pmatrix}1&2\\3&0\end{pmatrix},\qquad
+        \text{eigenvalues } 3,\ -2 .
+      \]
+      % data.T1.T2_eigenvalues = [3, -2]; data.T1.X0_11.a2_mf = -2; data.T1.X0_11.a2_11a1_ellap = -2
+      {\footnotesize\begin{tabular}{@{}lcc@{}}
+        \toprule
+        & $T_2$, $B_{11}$ & $a_2$, $X_0(11)$\\
+        \midrule
+        Eisenstein (const.) & $3$ & $3$\\
+        newform 11a & $-2$ & $-2$\\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+  \end{columns}
+  \vspace{4pt}
+  \begin{block}{No map of spaces}
+    The correspondence is between \emph{Hecke eigensystems}, not a map between the
+    two spaces: $\dim=2$ on one side, genus $1$ on the other.
+  \end{block}
+  {\tiny Status: \emph{computed} (Brandt $T_2$, Weil curve 11a1); the JL correspondence itself is \emph{cited}.}
+\end{frame}

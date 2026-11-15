@@ -1,0 +1,217 @@
+{
+ "data": {
+  "B11_q2": {
+   "D": 11,
+   "X_per_type": 2,
+   "components": 1,
+   "edge_mass": "5/4",
+   "edge_multiplicities": {
+    "a0-b0": 1,
+    "a0-b1": 1,
+    "a1-b0": 1
+   },
+   "edges": [
+    {
+     "from": "a0",
+     "name": "e0",
+     "s0": 0,
+     "s1": 0,
+     "stab": 4,
+     "to": "b0"
+    },
+    {
+     "from": "a0",
+     "name": "e1",
+     "s0": 0,
+     "s1": 1,
+     "stab": 2,
+     "to": "b1"
+    },
+    {
+     "from": "a1",
+     "name": "e2",
+     "s0": 1,
+     "s1": 0,
+     "stab": 2,
+     "to": "b0"
+    }
+   ],
+   "level": "O^x",
+   "minus_one_in_U": true,
+   "n_edges": 3,
+   "n_vertices": 4,
+   "q": 2,
+   "rank_boundary": 3,
+   "rk_H1": 0,
+   "rk_H1_formula": 0,
+   "stab_e_multiset": [
+    2,
+    2,
+    4
+   ],
+   "stab_v_multiset": [
+    4,
+    6
+   ],
+   "vertex_mass": "5/12",
+   "vertices": [
+    {
+     "class": 0,
+     "name": "x0",
+     "stab": 4,
+     "type0": "a0",
+     "type1": "b0",
+     "w": 2
+    },
+    {
+     "class": 1,
+     "name": "x1",
+     "stab": 6,
+     "type0": "a1",
+     "type1": "b1",
+     "w": 3
+    }
+   ]
+  },
+  "B2_q13": {
+   "D": 2,
+   "X_per_type": 1,
+   "components": 1,
+   "edge_mass": "7/12",
+   "edge_multiplicities": {
+    "a0-b0": 3
+   },
+   "edges": [
+    {
+     "from": "a0",
+     "name": "e0",
+     "s0": 0,
+     "s1": 0,
+     "stab": 6,
+     "to": "b0"
+    },
+    {
+     "from": "a0",
+     "name": "e1",
+     "s0": 0,
+     "s1": 0,
+     "stab": 6,
+     "to": "b0"
+    },
+    {
+     "from": "a0",
+     "name": "e2",
+     "s0": 0,
+     "s1": 0,
+     "stab": 4,
+     "to": "b0"
+    }
+   ],
+   "level": "O^x",
+   "minus_one_in_U": true,
+   "n_edges": 3,
+   "n_vertices": 2,
+   "q": 13,
+   "rank_boundary": 1,
+   "rk_H1": 2,
+   "rk_H1_formula": 2,
+   "stab_e_multiset": [
+    4,
+    6,
+    6
+   ],
+   "stab_v_multiset": [
+    24
+   ],
+   "vertex_mass": "1/24",
+   "vertices": [
+    {
+     "class": 0,
+     "name": "x0",
+     "stab": 24,
+     "type0": "a0",
+     "type1": "b0",
+     "w": 12
+    }
+   ]
+  },
+  "B2_q7": {
+   "D": 2,
+   "X_per_type": 1,
+   "components": 1,
+   "edge_mass": "1/3",
+   "edge_multiplicities": {
+    "a0-b0": 2
+   },
+   "edges": [
+    {
+     "from": "a0",
+     "name": "e0",
+     "s0": 0,
+     "s1": 0,
+     "stab": 6,
+     "to": "b0"
+    },
+    {
+     "from": "a0",
+     "name": "e1",
+     "s0": 0,
+     "s1": 0,
+     "stab": 6,
+     "to": "b0"
+    }
+   ],
+   "level": "O^x",
+   "minus_one_in_U": true,
+   "n_edges": 2,
+   "n_vertices": 2,
+   "q": 7,
+   "rank_boundary": 1,
+   "rk_H1": 1,
+   "rk_H1_formula": 1,
+   "stab_e_multiset": [
+    6,
+    6
+   ],
+   "stab_v_multiset": [
+    24
+   ],
+   "vertex_mass": "1/24",
+   "vertices": [
+    {
+     "class": 0,
+     "name": "x0",
+     "stab": 24,
+     "type0": "a0",
+     "type1": "b0",
+     "w": 12
+    }
+   ]
+  }
+ },
+ "provenance": {
+  "commit": "9b729715a11e63f35006c7434421f5024ce45e2f-dirty",
+  "date": "2026-11-14T19:10:07+00:00",
+  "notes": "H02.3: rk H1 = E - rank(boundary) over Q",
+  "params": {
+   "cases": [
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     13
+    ],
+    [
+     11,
+     2
+    ]
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.29307902400614694,
+  "script": "langlandscape.tables_s02"
+ }
+}

@@ -1,0 +1,29 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S06-T1 (K1): Thm E, the combinatorial half of the defect formula.
+% math: mathematics/chapters/s06/s06-m1.tex thm:s06-E (proved), lem:s06-S (proved), lem:s06-D (proved), rem:s06-gor-uses, ex:s06-toy (proved)
+% lean: lean/Langlandscape/Langlandscape/CommAlg/ThmE.lean (formalized; green on wip-implementation; with DVR.lean): theta_mem_b, mk_theta_mem_ann,
+%       eta_eq_span_lambda', c_eq_orderIdeal, eta_eq_c_mul_of_unimodular, unimodular_of_isGorenstein, eta_eq_c_mul_of_isGorenstein, c_principal_iff_isGorenstein.
+%       The DVR half of (iii) is formalized: ThmE.eta_eq_c_mul_of_dvr (CommAlg/DVR.lean).
+\newcommand{\Ann}{\mathrm{Ann}}
+\begin{frame}{K1: the defect is an old/new congruence ideal}
+  \scriptsize
+  \textbf{Setting} (lem.\ s06-D): $A$ Noetherian local domain, $S$ finite free $A$-algebra, ideals $\mathfrak a,\mathfrak b$ (``old'', ``new'' part), $S'=S/\mathfrak a$, $\lambda=\lambda'\circ(S\to S')$.
+  Congruence ideal $\eta(S,\lambda)=\lambda(\Ann_S\ker\lambda)$; $\mathfrak c_q:=\lambda(\mathfrak b)$.
+  \begin{block}{Theorem E (thm.\ s06-E; \emph{proved}; Lean: see below)}
+    Assume (Gor$_S$): $S$ is $A$-Gorenstein. Then
+    \[\eta(S,\lambda)\;=\;\mathfrak c_q\cdot\eta(S',\lambda')\]
+    under (Gor$_{S'}$) (or $A$ a DVR). In words: the defect $(h_F)=\eta/\eta^B$ is the old/new congruence ideal $\mathfrak c_q$.
+  \end{block}
+  \textbf{Three-line sketch} (proof of thm.\ s06-E):
+  \begin{enumerate}
+    \item[1.] \emph{Uses (Gor$_S$):} trace $\ell$ gives $\theta$ with $\ell(\theta\,\cdot)=\lambda$ and $S[\lambda]=A\theta$ (lem.\ s06-S); $\theta\in\mathfrak b$, and $\mathfrak b\cong S'^\vee$ (lem.\ s06-D(b)), so $\mathfrak c_q=\{\psi(x):\psi\in S'^\vee\}$ for $x=\theta\bmod\mathfrak a$.
+    \item[2.] $x=h\theta'$ with $S'[\lambda']=A\theta'$, hence $\eta(S,\lambda)=(h\,\lambda'(\theta'))$ and $\mathfrak c_q=(h)$ if $\theta'$ is unimodular.
+    \item[3.] \emph{Uses (Gor$_{S'}$):} $\ell'(\theta')=\lambda'(1)=1$, so $\theta'$ is unimodular; hence $\eta(S,\lambda)=\mathfrak c_q\,\eta(S',\lambda')$.
+  \end{enumerate}
+  \textbf{Where each hypothesis is used} (rem.\ s06-gor-uses): (Gor$_S$) is \emph{indispensable} (existence of $\theta$, $\mathfrak b\cong S'^\vee$); (Gor$_{S'}$) only for step 3, and not needed over a DVR (\emph{proved}, thm.\ s06-E(iii); \emph{formalized}: \texttt{ThmE.eta\_eq\_c\_mul\_of\_dvr}, \texttt{CommAlg/DVR.lean}).
+
+  \textbf{Toy example} (ex.\ s06-toy, \emph{proved}): $A$ a DVR, $S=\{(x,y)\in A^2:x\equiv y \bmod\varpi^t\}$, $\lambda=\mathrm{pr}_1$, $\ell(x,y)=(x-y)/\varpi^t$ a trace, $\theta=(\varpi^t,0)$. Then $S'=A$, $\mathfrak c_q=(\varpi^t)=\eta(S,\lambda)$.
+  \vfill
+  {\tiny \emph{formalized} (Lean, \texttt{CommAlg/ThmE.lean}): \texttt{theta\_mem\_b}, \texttt{mk\_theta\_mem\_ann}, \texttt{eta\_eq\_span\_lambda'}, \texttt{c\_eq\_orderIdeal} (i); \texttt{eta\_eq\_c\_mul\_of\_unimodular} (ii); \texttt{unimodular\_of\_isGorenstein}, \texttt{eta\_eq\_c\_mul\_of\_isGorenstein} (iii, Gorenstein half); \texttt{c\_principal\_iff\_isGorenstein} (iv). Source: \texttt{mathematics/chapters/s06/s06-m1.tex}.}
+\end{frame}

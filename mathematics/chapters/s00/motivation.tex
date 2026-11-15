@@ -1,0 +1,59 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction), part 1: the problem statement and our motivation. No \input; reusable in the report.
+\section{The problem and our motivation}\label{ss:s00-motivation}
+\ifdefined\sOOsummary\sOOsummary\fi
+
+\subsection{The problem}
+The problem we were set reads, verbatim:
+\begin{quote}
+``The Jacquet--Langlands correspondence, established by Herv\'e Jacquet and Robert Langlands in 1970, is a foundational result
+in number theory and representation theory. It links automorphic representations of GL(2) with those of the multiplicative
+group of a quaternion algebra, matching representations that share the same local data and L-functions. As one of the
+earliest proven cases of Langlands functoriality, it became an essential tool in modern arithmetic, including work leading to
+the proof of Fermat's Last Theorem.''
+\end{quote}
+with the references \cite{JL} (H.~Jacquet and R.~P.~Langlands, \emph{Automorphic Forms on GL(2)}, Lecture Notes in Math.~114,
+Springer 1970, doi:10.1007/BFb0058988) and \cite[Ch.~8]{Bergeron16} (N.~Bergeron, \emph{The Spectrum of Hyperbolic Surfaces},
+Universitext, Springer 2016, Chapter~8, doi:10.1007/978-3-319-27666-3\_8). The desired outcome was stated as:
+\begin{quote}
+``A new approach to the construction of the Jacquet-Langlands functorial transfer and the characterization of its image. If
+early attempts to a new approach bear no fruit, we could aim at a LEAN formalization of the trace formula proof, with an
+accompanying human-readable mathematically consistent writeup.''
+\end{quote}
+We took the first alternative. In the first case ($D=q$, weight~$2$, $\Gamma_0$-type level) our route reproves classical JL
+modulo the cited geometry (\S\ref{ss:s00-whycited}); beyond $D=q$ it invokes the correspondence: classical, $p$-adic and
+$\Lambda$-adic JL are \emph{cited} (Thm.~\ref{thm:s01-JLclassical}, Thm.~\ref{thm:s01-chenevier}, Thm.~\ref{thm:s01-lambdaJL}, all
+\stcited). What we built is an \emph{integral, combinatorial} approach to the transfer on the definite side, which isolates
+the one geometric input in a single named hypothesis, and an integral theorem on the image: the defect formula of stage~06
+(\S\ref{ss:s00-outline}). The narrative of this chapter is: classical JL (an equality of spectra, a trace identity)
+$\to$ the hope, an integral Hecke-equivariant map with properties (a)--(e) (\S\ref{ss:s00-hope}) $\to$ Ribet's exact sequence, which
+realises the hope in the first case $D=q$, weight~$2$, $\Gamma_0(qM)$ (\S\ref{ss:s00-ribet}), and its combinatorial form on the
+Bruhat--Tits tree $\to$ what we did (\S\S\ref{ss:s00-question}--\ref{ss:s00-newknown}).
+
+\subsection{Motivation: congruences and integral structure}\label{ss:s00-why}
+Over $\C$ the correspondence is a bijection of automorphic representations, and its shadow on traces is an identity of trace
+formulas. Arithmetic needs more: it needs the correspondence on \emph{lattices}, because congruences between eigenforms are
+properties of $\Z$- or $\Zp$-structures and are invisible over a field. We kept the following picture in mind; every point
+is made precise later, with the status stated there.
+\begin{enumerate}[label=(M\arabic*)]
+\item \emph{JL carries congruences from the quaternionic side to $\GL_2$.} Two congruent quaternionic Hecke eigensystems give
+  congruent $D$-new eigensystems for $\GL_2$, away from $D$ and, at $\ell\mid D$, through the matching $U_\ell\mapsto+\Pi_\ell$
+  of the $\Lambda$-adic Hecke JL in our normalisation. This is a consequence of the surjection of Hecke algebras in
+  Thm.~\ref{thm:s01-lambdaJL} (\stcited). The sign is fixed in stage~05, Prop.~\ref{prop:s05-sign}: \stpmc{} at $\Gamma_0$-level, and
+  at $\Gamma_1$-level \stpmc{} given (X1) and the model decision FD1.
+\item \emph{The converse fails.} At $\ell\mid D$ the image of JL consists of forms that are special (Steinberg type) at $\ell$, while
+  $B_\ell^\times$ sees only one-dimensional representations there. The quaternionic side therefore sees only $D$-new forms. A
+  congruence between a $D$-new form and a form that is old or unramified principal series at $\ell$ (level raising) has no
+  quaternionic counterpart: it is not killed, it simply has nowhere to live on the $B$-side. (\stknown; level raising:
+  \cite{Ri84}, cited as in stage~06.)
+\item \emph{The missing congruences are measured by a defect.} For $D=q$ and a $q$-new Hida branch $F$, stage~06 identifies the
+  defect $(h_F)=\eta_F(\eta^B_F)^{-1}$ between the congruence ideals on the two sides with the old/new congruence ideal
+  $\cc_q(F)$ and the Tamagawa ideal $\tq_q(F)$ (Thm.~\ref{thm:s06-defect}, \stpmc{} under the standing hypotheses; \S\ref{ss:s00-outline}).
+  This is the integral form of ``JL loses exactly the level-raising congruences at $q$''.
+\item \emph{An integral comparison map sees this as a cokernel.} For $D=q$ such a map exists classically: Ribet's exact
+  sequence (\S\ref{ss:s00-ribet}, \stcited), whose definite side we reprove on the Bruhat--Tits tree. For maps of this kind, the
+  sub-versus-quotient comparison of $q$-new lattices has cokernel $(\T/(\fa+\fb))^{\oplus r}$, the congruence module
+  (Prop.~\ref{prop:s05-subquot}, \stproved, \stformal); so ``congruences are obstructions'' becomes the precise statement
+  ``cokernel $=$ congruence module'' (\S\ref{ss:s00-map}).
+\end{enumerate}

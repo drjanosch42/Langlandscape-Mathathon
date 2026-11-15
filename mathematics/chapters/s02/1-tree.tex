@@ -1,0 +1,182 @@
+\section{The tree and the \texorpdfstring{$S$}{S}-arithmetic group}
+
+\emph{Standing notation.} As in stage 01: $B=\Bd$ is definite of discriminant $D$, $q\nmid D$, $q\neq p$, $p\ge5$,
+$p\nmid D$. We fix a maximal order $\cO$ and $\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$ for $\ell\nmid D$; $\iota_q$ extends to
+$B_q\xrightarrow{\sim}M_2(\Qq)$, and we use it to regard elements of $B_q$ as matrices ($\Nrd=\det$ under $\iota_q$). For a subgroup $H$ of
+$\Bhat^\times$ (or of $B^\times$, $B_\ell^\times$) put $H^1:=H\cap\ker\Nrd$. A superscript ${}^{(q)}$ denotes components away from $q$;
+$B_q^\times$ is identified with the elements of $\Bhat^\times$ that are $1$ away from $q$, and $\Bhat^{(q)}$ with those that are $1$ at $q$.
+Put $\alpha:=\iota_q^{-1}\mathrm{diag}(1,q)\in B_q^\times$ (we write $\alpha=\mathrm{diag}(1,q)$ when acting on $\Qq^2$), and
+$\Iw_q=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Zq):q\mid c\}$.
+
+\begin{definition}[Bruhat--Tits tree, types, base cells]\label{def:s02-tree}
+$\cT_q$ is the graph whose vertices are the homothety classes $[L]$ of $\Zq$-lattices $L\subset\Qq^2$ (of rank~$2$).
+$[L]\ne[L']$ are adjacent iff there are representatives with $qL\subsetneq L'\subsetneq L$ (the relation is symmetric: $qL'\subsetneq qL\subsetneq L'$).
+$\GL_2(\Qq)$ acts by $g[L]=[gL]$. Every lattice is of the form $g\Zq^2$ with $g\in\GL_2(\Qq)$, and $g\Zq^2=g'\Zq^2$ iff
+$g'\in g\GL_2(\Zq)$. The \emph{type} is $\tau[g\Zq^2]:=\ord_q\det g\bmod 2$. It is well defined: the class $[g\Zq^2]$ determines
+$g$ up to $g\mapsto\lambda gk$ with $\lambda\in\Qq^\times$, $k\in\GL_2(\Zq)$, and $\det(\lambda gk)=\lambda^2\det g\det k$ changes
+$\ord_q\det g$ by $2\ord_q\lambda+0$.
+Put $v_0=[\Zq^2]$, $v_1=\alpha v_0=[\Zq\oplus q\Zq]$ and $e_0=\{v_0,v_1\}$. Every edge has one vertex of
+each type (Lemma~\ref{lem:s02-tree} below, proof of (b)). We orient every edge from its type-$0$ end $o(e)$ to its type-$1$ end $t(e)$.
+\end{definition}
+
+\begin{remark}[conventions in the literature]\label{rem:s02-treeconv}
+Serre uses the same base edge: $L=e_1\cO\oplus e_2\cO$, $L'=e_1\cO\oplus e_2\pi\cO$, edge stabiliser the
+matrices with $c\equiv0\bmod\pi$ \lit{serre\_1980\_trees}{II.1.3, ``Stabilizers of the edges: Iwahori
+subgroups'', p.~77}. Casselman calls the two types ``even'' and ``odd'', with $\alpha=\mathrm{diag}(1,\varpi)$ and
+$K_1=\alpha K\alpha^{-1}$ \lit{casselman\_2014\_bruhat-tits-tree-of-sl2\_preprint}{\S2, p.~5 and \S3, pp.~7--8}.
+Ludwig--Merten have the same base edge, with $I_1$ ``upper triangular modulo $\varpi$'', i.e.\ $c\equiv0$.
+Their edges are \emph{unordered} pairs, and their Laplacian carries the parity sign $w_{\rm par}(v)=\pm1$
+\lit{ludwig-merten\_2026\_formalising-the-bruhat-tits-tree}{\S3.6, p.~70--71; Def.~4.1, p.~72}. So
+our oriented harmonicity (Prop.~\ref{prop:s02-harm}) agrees with their $\ker\Delta$. All three conventions
+agree with the seed. \stcited{} \lit{serre\_1980\_trees}{II.1.3, p.~77}
+\end{remark}
+
+\begin{lemma}[seed Lemma~tree]\label{lem:s02-tree}\label{if:s02-tree}
+\begin{enumerate}[label=(\alph*)]
+\item $\cT_q$ is a $(q+1)$-regular tree; the neighbours of $[L]$ correspond to $\mathbb P^1(L/qL)$.
+  \stcited{} \lit{serre\_1980\_trees}{II.1.1, Thm.~1, p.~70 (tree); ``Projective lines'', p.~72 (regularity, neighbours)}; formalised (on Lean v4.19) as \texttt{BTtree}
+  \lit{ludwig-merten\_2026\_formalising-the-bruhat-tits-tree}{\S3.4 and \S3.5, p.~69--70}.
+\item $g\in\GL_2(\Qq)$ preserves types iff $\ord_q\det g$ is even. In particular $\SL_2(\Qq)$, and hence
+  $\iota_q(B^1_q)$, acts without inversion. \stproved{} (also \lit{serre\_1980\_trees}{II.1.3, p.~76}).
+\item $\SL_2(\Qq)$ acts transitively on type-$0$ vertices, on type-$1$ vertices and on edges, with
+  stabilisers $\SL_2(\Zq)$, $\SL_2(\Qq)\cap\alpha\GL_2(\Zq)\alpha^{-1}$ and $\SL_2(\Qq)\cap\Iw_q$.
+\item $\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\Iw_q$ and $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$.
+\end{enumerate}
+(b)--(d) \stproved{} (seed proof, completed below). The stabiliser statements with scalars removed are
+\lit{serre\_1980\_trees}{II.1.3, Lemma~1, p.~76}.
+\end{lemma}
+\begin{sloppypar}\noindent\emph{Lean status.} (a) stays \stcited; it is registered in Lean as the hypothesis
+\lean{Langlandscape.Hyp.BTtree} (a registered hypothesis, not a proof: the coset-model graph \texttt{Tree.graph q} is a tree with
+$q+1$ neighbours at every vertex). (b)--(d) \stformal{} in the \emph{coset model} of the tree: vertices
+$\GL_2(\Qq)/\Qq^\times\GL_2(\Zq)$ (\texttt{Tree.Vert}), edges with type-$0$ origin $\GL_2(\Qq)/\Qq^\times\Iw_q$ restricted to
+$\tau(o(e))=0$ (\texttt{Tree.EdgeO}); the lattice description of Def.~\ref{def:s02-tree} and its identification with the coset model
+are not formalised, and in the coset model ``each edge has one end of each type'' is \lean{Langlandscape.Tree.vtype\_t}.
+(b) \lean{Langlandscape.Tree.preserves\_vtype\_iff}, \lean{Langlandscape.Tree.vtype\_smul};
+(c) \lean{Langlandscape.Tree.SLq\_transitive\_type0}, \lean{Langlandscape.Tree.SLq\_transitive\_type1},
+\lean{Langlandscape.Tree.SLq\_transitive\_edge}, \lean{Langlandscape.Tree.stabilizer\_v0}, \lean{Langlandscape.Tree.stabilizer\_v1},
+\lean{Langlandscape.Tree.stabilizer\_e0};
+(d) \lean{Langlandscape.Tree.GL2Zl\_inf\_Kalpha}, \lean{Langlandscape.Tree.alphaq\_inv\_conj\_mem\_GL2Zl}; also
+$[\GL_2(\Zq):\Iw_q]=q+1$ is \lean{Langlandscape.Tree.relIndex\_Iw}.\end{sloppypar}
+\begin{proof}
+(b) For $g,h\in\GL_2(\Qq)$ one has $\ord_q\det(gh)=\ord_q\det g+\ord_q\det h$, i.e.\ $\tau(g[L])=\tau[L]+\ord_q\det g\bmod2$
+(write $L=h\Zq^2$). Since both types occur ($\tau v_0=0$, $\tau v_1=1$ because $\det\alpha=q$), $g$ preserves types iff $\ord_q\det g$ is even.
+If $g\in\SL_2(\Qq)$, then $\det g=1$, so $g$ preserves types; for $g\in B^1_q$, $\iota_q(g)$ has determinant $\Nrd g=1$.
+Adjacent vertices have different types: if $qL\subsetneq L'\subsetneq L$ then $L/L'$ is a nonzero proper quotient of $L/qL\cong\F_q^2$,
+so $[L:L']=q$. Writing $L=h\Zq^2$ and $L'=hg\Zq^2$ with $g\in\GL_2(\Qq)$, the index is $[L:L']=q^{\ord_q\det g}$ (elementary divisors),
+so $\ord_q\det g=1$ and the types of $[L]$, $[L']$ differ. (This also justifies ``each edge has one vertex of each type''.)
+An automorphism that preserves types never swaps the two ends of an edge, since these have different types; so $g\in\SL_2(\Qq)$ fixes
+each end of an edge it stabilises: there is no inversion.
+
+(c) \emph{Type $0$.} Let $v=[g\Zq^2]$ be of type $0$, so $\det g=q^{2m}u$ with $u\in\Zq^\times$. Then
+$g'=q^{-m}g\,\mathrm{diag}(u^{-1},1)$ has $\det g'=q^{-2m}q^{2m}u\,u^{-1}=1$ and, as $\mathrm{diag}(u^{-1},1)\in\GL_2(\Zq)$ and scalars do not change the
+class, $g'v_0=[g\Zq^2]=v$. So $\SL_2(\Qq)v_0$ contains every type-$0$ vertex.
+\emph{Type $1$.} Let $v=[g\Zq^2]$ have type $1$, $\det g=q^{2m+1}u$. Then
+$g'=q^{-m}g\,\mathrm{diag}(u^{-1},1)\,\alpha^{-1}$ has $\det g'=q^{-2m}\cdot q^{2m+1}u\cdot u^{-1}\cdot q^{-1}=1$, and
+$g'v_1=g'\alpha v_0=[q^{-m}g\,\mathrm{diag}(u^{-1},1)\Zq^2]=v$.
+
+\emph{Stabilisers of vertices.} The three stabilisers in (c) are those of $v_0$, $v_1$ and $e_0$, in this order. If $g\in\GL_2(\Qq)$ fixes $v_0$ then $g\Zq^2=\lambda\Zq^2$ for some $\lambda\in\Qq^\times$, so
+$\lambda^{-1}g\in\GL_2(\Zq)$; thus $\Stab_{\GL_2(\Qq)}(v_0)=\Qq^\times\GL_2(\Zq)$, and likewise $\Stab(v_1)=\alpha\Stab(v_0)\alpha^{-1}=\Qq^\times\alpha\GL_2(\Zq)\alpha^{-1}$.
+If $g=\lambda\alpha^{\epsilon}k\alpha^{-\epsilon}$ ($\epsilon\in\{0,1\}$, $k\in\GL_2(\Zq)$) has $\det g=1$, then
+$1=\lambda^2\det k$ with $\det k\in\Zq^\times$, so $2\ord_q\lambda=0$, $\lambda\in\Zq^\times$ and $g\in\alpha^{\epsilon}\GL_2(\Zq)\alpha^{-\epsilon}$
+(a group containing $\Zq^\times$). Conversely $\SL_2(\Qq)\cap\alpha^\epsilon\GL_2(\Zq)\alpha^{-\epsilon}$ fixes $v_\epsilon$. For $\epsilon=0$ this is
+$\SL_2(\Zq)$, since $\GL_2(\Zq)\cap\SL_2(\Qq)=\SL_2(\Zq)$.
+
+\emph{Edges.} Let $\{w,w'\}$ be an edge, $w$ of type $0$ and $w'$ of type $1$. By transitivity there is $h\in\SL_2(\Qq)$ with $hw=v_0$; then
+$hw'$ is a neighbour of $v_0$, i.e.\ by the definition of adjacency $hw'=[L']$ with $q\Zq^2\subsetneq L'\subsetneq\Zq^2$, corresponding to the line $\ell=L'/q\Zq^2\in\mathbb P^1(\F_q)$ of
+$\F_q^2=\Zq^2/q\Zq^2$. The edge $e_0$ corresponds to the line $\F_q e_1$ ($v_1=[\Zq\oplus q\Zq]$). Now the reduction map $\SL_2(\Zq)\to\SL_2(\F_q)$ is
+surjective: let $\bar k=\left(\begin{smallmatrix}\bar a&\bar b\\\bar c&\bar d\end{smallmatrix}\right)\in\SL_2(\F_q)$. Since $\bar a\bar d-\bar b\bar c=1$,
+the first column is nonzero, say $\bar a\neq0$ (the case $\bar c\neq0$ is symmetric, solving for $b$ instead of $d$). Lift $\bar a,\bar b,\bar c$
+arbitrarily to $a,b,c\in\Zq$; then $a\in\Zq^\times$, and $d:=a^{-1}(1+bc)\in\Zq$ satisfies $ad-bc=1$ and reduces to
+$\bar a^{-1}(1+\bar b\bar c)=\bar d$. (If $\bar c\neq0$: lift $\bar a,\bar c,\bar d$ and put $b:=c^{-1}(ad-1)$.) So
+$k=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\SL_2(\Zq)$ lifts $\bar k$.
+And $\SL_2(\F_q)$ is transitive on $\mathbb P^1(\F_q)$, being transitive on nonzero vectors: given $x\neq0$ in $\F_q^2$ choose $y$ with
+$\det(x\,|\,y)=1$ (possible as $x$ extends to a basis, and one rescales $y$), so $(e_1\,|\,e_2)\mapsto(x\,|\,y)$ is an element of $\SL_2(\F_q)$ taking $e_1$ to $x$.
+Thus there is $k\in\SL_2(\Zq)$ with $k\,hw'=v_1$ (the action of $k\in\SL_2(\Zq)$ on neighbours of $v_0$ is the induced action on lines of $\Zq^2/q\Zq^2$), and
+$kh\in\SL_2(\Qq)$ maps $\{w,w'\}$ to $e_0$.
+\emph{Stabiliser of $e_0$.} By (b), an element of $\SL_2(\Qq)$ stabilising $e_0$ fixes both ends, so the stabiliser is
+$\SL_2(\Zq)\cap\big(\SL_2(\Qq)\cap\alpha\GL_2(\Zq)\alpha^{-1}\big)=\SL_2(\Qq)\cap\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\SL_2(\Qq)\cap\Iw_q$, using (d).
+
+(d) Let $k=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Zq)$. With $\alpha=\mathrm{diag}(1,q)$,
+\[\alpha^{-1}k\alpha=\left(\begin{smallmatrix}a&qb\\c/q&d\end{smallmatrix}\right),\qquad
+\alpha k\alpha^{-1}=\left(\begin{smallmatrix}a&b/q\\qc&d\end{smallmatrix}\right).\]
+If $k\in\Iw_q$, then $q\mid c$, so $\alpha^{-1}k\alpha$ has entries in $\Zq$ and determinant $\det k\in\Zq^\times$, hence lies in $\GL_2(\Zq)$; this is the
+second claim, and it shows $\Iw_q=\alpha(\alpha^{-1}\Iw_q\alpha)\alpha^{-1}\subseteq\alpha\GL_2(\Zq)\alpha^{-1}$, so $\Iw_q\subseteq\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}$.
+Conversely, an element of $\alpha\GL_2(\Zq)\alpha^{-1}$ is $\left(\begin{smallmatrix}a&b/q\\qc&d\end{smallmatrix}\right)$ with $a,b,c,d\in\Zq$; if it also lies in $\GL_2(\Zq)$,
+its lower left entry $qc$ is divisible by $q$, so it lies in $\Iw_q$.
+\end{proof}
+
+\begin{definition}[admissible levels; $\GU$]\label{def:s02-GU}
+A level $U\subseteq\hat\cO^\times$ is \emph{$q$-admissible} if it is compact open, $U=U_q\times U^{(q)}$ with
+$U_q=\iota_q^{-1}\GL_2(\Zq)$, and $\Nrd(U)=\Zhat^\times$. All levels $\Uzero{N},\Uone{N}$ with $q\nmid N$ and
+$U_s=\Uone{Mp^s}$ are $q$-admissible (stage 01, \pathtt{if:s01-classset}, Lemma~\ref{lem:s01-nrd}; here $q\nmid Mp$).
+For such $U$ put
+\[\GU:=B^1\cap\big(B^1_q\times U^{(q)}\big)=\{\gamma\in B^\times:\Nrd\gamma=1,\ \gamma^{(q)}\in U^{(q)}\}
+=\cO_U[\tfrac1q]^1.\]
+Here $\cO_U[\tfrac1q]^1$ is \emph{notation} for this group (no order $\cO_U$ is asserted for general $U$, e.g.\
+$U=\Uone{N}$). For $U=\hat\cO^\times$ it is the group $\cO[\tfrac1q]^1$ of norm-one units of $\cO[\tfrac1q]=B\cap\big(B_q\times\prod_{\ell\ne q}\cO_\ell\big)$
+(an element of norm $1$ of this ring is a unit, its inverse being its conjugate).
+It acts on $\cT_q$ through $\iota_q$. By Lemma~\ref{lem:s02-tree}(b) the action is type-preserving and has
+no inversions. It acts on a $\Zp[U_p]$-module $V$ through $\gamma\mapsto\gamma_p\in U_p$ ($p\ne q$, $p\nmid D$).
+The levels attached to the cells are $U$ (type $0$), $\alpha U\alpha^{-1}$ (type $1$; conjugation at $q$
+only) and $\Uzero{q}U:=U\cap\Uzero{q}$ (edges). All three are of the form $U'=U'_q\times U^{(q)}$ with
+$\Nrd U'=\Zhat^\times$ (conjugation preserves $\Nrd$, and $\Nrd(\iota_q^{-1}\Iw_q)=\Zq^\times$ since $\Iw_q\ni\mathrm{diag}(u,1)$).
+\stproved{}
+\end{definition}
+\begin{sloppypar}\noindent\emph{Lean status.} \stformal{} (definitions and the level statements):
+\lean{Langlandscape.Tree.IsQLevel}, \lean{Langlandscape.Tree.IsQAdmissible}, \lean{Langlandscape.Tree.GammaU},
+\lean{Langlandscape.Tree.gammaU\_smul\_vtype} (type-preserving action), \lean{Langlandscape.Tree.isQLevel\_U0},
+\lean{Langlandscape.Tree.isQLevel\_U1}, \lean{Langlandscape.Tree.isQLevel\_Utower}, \lean{Langlandscape.Tree.hasFactorAt\_U0q} (edge
+level), \lean{Langlandscape.Tree.det\_localComponent\_finEmbed} ($\Nrd=\det$ under $\iota_q$).
+\emph{Shape in Lean.} A $q$-level (\texttt{IsQLevel}) is $U\le\hat\cO^\times$ of finite index with $U=V\cap\iota_q^{-1}\GL_2(\Zq)$ for
+some $V$ invariant at $q$, in place of ``compact open, $U=U_q\times U^{(q)}$''; \texttt{IsQAdmissible} adds $\Zhat^\times\subseteq\Nrd(U)$
+(\lean{Langlandscape.Quat.NrdSurj}; ``$\subseteq\Zhat^\times$'' follows from $U\le\hat\cO^\times$).
+\emph{Norm surjectivity} $\Nrd(U)=\Zhat^\times$ for $\hat\cO^\times$, $\Uzero N$, $\Uone N$, $U_s$ (Lemma~\ref{lem:s01-nrd}):
+\lean{Langlandscape.Quat.nrdSurj\_Ohat}, \lean{Langlandscape.Quat.nrdSurj\_U0}, \lean{Langlandscape.Quat.nrdSurj\_U1},
+\lean{Langlandscape.Quat.nrdSurj\_Utower}, \stformal{} modulo \pathtt{Hyp.RamNrdSurj}, which is discharged by
+\lean{Langlandscape.Hyp.ramNrdSurj\_holds}: the $\ell\mid D$ part of Lemma~\ref{lem:s01-nrd},
+$\Nrd(\cO_\ell^\times)=\Z_\ell^\times$, is registered in Lean as the hypothesis \lean{Langlandscape.Hyp.RamNrdSurj}
+(needed for every definite $B$, since $D>1$ by \texttt{def:s01-B}) and is now \stformal{} as the theorem
+\lean{Langlandscape.Hyp.ramNrdSurj\_holds}~$d$ for every definite datum; the consumers keep the explicit argument and receive it as
+\texttt{ramNrdSurj\_holds d}. The split part uses
+\lean{Langlandscape.Quat.det\_iota} ($\det\circ\iota_\ell=\Nrd$).\end{sloppypar}
+
+\begin{definition}[norm-one class set]\label{def:s02-Xone}
+For $U'\in\{U,\Uzero{q}U\}$ as above (the type-$1$ level $\alpha U\alpha^{-1}\not\subseteq\hat\cO^\times$ is not needed: type-$1$ cells use $(a_c,U_c)=(\alpha,U)$), $\Xone(U'):=B^1\backslash\Bhat^1/U'^1$. For $x\in\Bhat^\times$, $\Gamma_x=B^\times\cap xU'x^{-1}$
+as in \pathtt{if:s01-classset}. \stformal{} \lean{Langlandscape.Tree.XBone}, \lean{Langlandscape.Tree.XBone.toXB}
+(with $\Bhat^1=$ \lean{Langlandscape.Tree.BHatOne}).
+\end{definition}
+
+\begin{lemma}[norm reduction]\label{lem:s02-normone}
+Let $U'$ be compact open with $\Nrd U'\subseteq\Zhat^\times$.
+\begin{enumerate}[label=(\alph*)]
+\item The natural map $\Xone(U')\to\XB{U'}$ is injective, and for $x\in\Bhat^1$ one has
+  $B^1\cap xU'^1x^{-1}=\Gamma_x$.\quad\stproved{} (uses only $\Nrd(B^\times)\subseteq\Q_{>0}$, which holds
+  because $B$ is definite; the proof below is self-contained).
+\item If $\Nrd U'=\Zhat^\times$ and $\Nrd(B^\times)=\Q_{>0}$, the map is bijective.\quad\stproved{} given
+  the Hasse--Schilling norm theorem, which is \stcited{}
+  \lit{voight\_2021\_quaternion-algebras}{Main Thm.~14.7.4, p.~234};
+  \lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~III, Thm.~4.1, p.~80}.
+\end{enumerate}
+\begin{sloppypar}\noindent\emph{Lean status.} (a) \stformal{} \lean{Langlandscape.Tree.XBone\_toXB\_injective},
+\lean{Langlandscape.Tree.GammaOne\_eq\_Gam}; Lean assumes $U'\le\hat\cO^\times$, which is stronger than $\Nrd U'\subseteq\Zhat^\times$
+and holds for all levels used here. (b) \stformal{} modulo \texttt{Hyp.HS}: \lean{Langlandscape.Tree.XBone\_toXB\_bijective} takes
+$\Zhat^\times\subseteq\Nrd U'$ (\pathtt{Quat.NrdSurj}), $U'\le\hat\cO^\times$, and Hasse--Schilling, which stays \stcited{} and is
+registered in Lean as the hypothesis \lean{Langlandscape.Hyp.HS}.\end{sloppypar}
+\end{lemma}
+\begin{proof}
+We use $\Q_{>0}\cap\Zhat^\times=\{1\}$ inside $\Qhat^\times$: a positive rational $r$ that is an $\ell$-adic unit for all $\ell$ has
+$\ord_\ell r=0$ for all $\ell$, so $r=1$.
+
+(a) The map is $B^1xU'^1\mapsto B^\times xU'$, well defined as $B^1\subseteq B^\times$, $U'^1\subseteq U'$.
+Let $x,x'\in\Bhat^1$ with $x'=\gamma xu$, $\gamma\in B^\times$, $u\in U'$. Taking $\Nrd$ (multiplicative, with commutative target $\Qhat^\times$):
+$1=\Nrd\gamma\cdot1\cdot\Nrd u$, so $\Nrd\gamma=(\Nrd u)^{-1}\in\Q_{>0}\cap\Zhat^\times=\{1\}$, as $\Nrd\gamma\in\Nrd(B^\times)\subseteq\Q_{>0}$ and
+$\Nrd u\in\Nrd U'\subseteq\Zhat^\times$. Hence $\gamma\in B^1$, $u\in U'^1$, and $x,x'$ have the same class in $\Xone(U')$: injectivity.
+Stabiliser: ``$\subseteq$'' is clear, since $xU'^1x^{-1}\subseteq xU'x^{-1}$ and $B^1\subseteq B^\times$. Conversely let $\gamma\in\Gamma_x$,
+$\gamma=xux^{-1}$ with $u\in U'$. Then $\Nrd\gamma=\Nrd u\in\Q_{>0}\cap\Zhat^\times=\{1\}$, so $u\in U'^1$ and $\gamma\in B^1\cap xU'^1x^{-1}$.
+
+(b) Let $x\in\Bhat^\times$. Then $\Nrd x\in\Qhat^\times=\Q_{>0}\cdot\Zhat^\times$ (given $a\in\Qhat^\times$, $r:=\prod_\ell\ell^{\ord_\ell a_\ell}\in\Q_{>0}$ is a finite product
+and $a/r\in\Zhat^\times$). Write $\Nrd x=rz$, $r\in\Q_{>0}$, $z\in\Zhat^\times$. Since $\Nrd(B^\times)=\Q_{>0}$
+(Hasse--Schilling) choose $\gamma\in B^\times$ with $\Nrd\gamma=r^{-1}$, and since $\Nrd U'=\Zhat^\times$ choose $u\in U'$ with $\Nrd u=z^{-1}$.
+Then $\Nrd(\gamma xu)=r^{-1}rz\,z^{-1}=1$, so $\gamma xu\in\Bhat^1$ has the same image in $\XB{U'}$ as $x$: surjectivity.
+Together with (a) the map is bijective.
+\end{proof}

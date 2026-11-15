@@ -1,0 +1,615 @@
+{
+ "data": {
+  "checks": {
+   "charpoly": true,
+   "commute": true,
+   "fnv": true,
+   "row_sums": true,
+   "square": true,
+   "symmetry": true,
+   "symn_charpoly": null
+  },
+  "free_block_z": {
+   "D": 43,
+   "F": [
+    [
+     [
+      "0",
+      "2",
+      "1",
+      "0"
+     ],
+     [
+      "2",
+      "0",
+      "1",
+      "0"
+     ],
+     [
+      "1",
+      "1",
+      "0",
+      "1"
+     ],
+     [
+      "0",
+      "0",
+      "2",
+      "1"
+     ]
+    ],
+    [
+     [
+      "0",
+      "2",
+      "1",
+      "1"
+     ],
+     [
+      "2",
+      "0",
+      "1",
+      "1"
+     ],
+     [
+      "1",
+      "1",
+      "2",
+      "0"
+     ],
+     [
+      "2",
+      "2",
+      "0",
+      "0"
+     ]
+    ],
+    [
+     [
+      "0",
+      "4",
+      "1",
+      "1"
+     ],
+     [
+      "4",
+      "0",
+      "1",
+      "1"
+     ],
+     [
+      "1",
+      "1",
+      "4",
+      "0"
+     ],
+     [
+      "2",
+      "2",
+      "0",
+      "2"
+     ]
+    ],
+    [
+     [
+      "2",
+      "2",
+      "3",
+      "1"
+     ],
+     [
+      "2",
+      "2",
+      "3",
+      "1"
+     ],
+     [
+      "3",
+      "3",
+      "0",
+      "2"
+     ],
+     [
+      "2",
+      "2",
+      "4",
+      "0"
+     ]
+    ],
+    [
+     [
+      "5",
+      "2",
+      "4",
+      "1"
+     ],
+     [
+      "2",
+      "5",
+      "4",
+      "1"
+     ],
+     [
+      "4",
+      "4",
+      "1",
+      "3"
+     ],
+     [
+      "2",
+      "2",
+      "6",
+      "2"
+     ]
+    ],
+    [
+     [
+      "2",
+      "7",
+      "4",
+      "1"
+     ],
+     [
+      "7",
+      "2",
+      "4",
+      "1"
+     ],
+     [
+      "4",
+      "4",
+      "3",
+      "3"
+     ],
+     [
+      "2",
+      "2",
+      "6",
+      "4"
+     ]
+    ],
+    [
+     [
+      "5",
+      "8",
+      "4",
+      "1"
+     ],
+     [
+      "8",
+      "5",
+      "4",
+      "1"
+     ],
+     [
+      "4",
+      "4",
+      "7",
+      "3"
+     ],
+     [
+      "2",
+      "2",
+      "6",
+      "8"
+     ]
+    ],
+    [
+     [
+      "4",
+      "6",
+      "6",
+      "4"
+     ],
+     [
+      "6",
+      "4",
+      "6",
+      "4"
+     ],
+     [
+      "6",
+      "6",
+      "6",
+      "2"
+     ],
+     [
+      "8",
+      "8",
+      "4",
+      "0"
+     ]
+    ],
+    [
+     [
+      "6",
+      "7",
+      "6",
+      "5"
+     ],
+     [
+      "7",
+      "6",
+      "6",
+      "5"
+     ],
+     [
+      "6",
+      "6",
+      "11",
+      "1"
+     ],
+     [
+      "10",
+      "10",
+      "2",
+      "2"
+     ]
+    ],
+    [
+     [
+      "6",
+      "12",
+      "9",
+      "3"
+     ],
+     [
+      "12",
+      "6",
+      "9",
+      "3"
+     ],
+     [
+      "9",
+      "9",
+      "6",
+      "6"
+     ],
+     [
+      "6",
+      "6",
+      "12",
+      "6"
+     ]
+    ],
+    [
+     [
+      "8",
+      "9",
+      "10",
+      "5"
+     ],
+     [
+      "9",
+      "8",
+      "10",
+      "5"
+     ],
+     [
+      "10",
+      "10",
+      "7",
+      "5"
+     ],
+     [
+      "10",
+      "10",
+      "10",
+      "2"
+     ]
+    ],
+    [
+     [
+      "10",
+      "10",
+      "10",
+      "8"
+     ],
+     [
+      "10",
+      "10",
+      "10",
+      "8"
+     ],
+     [
+      "10",
+      "10",
+      "16",
+      "2"
+     ],
+     [
+      "16",
+      "16",
+      "4",
+      "2"
+     ]
+    ],
+    [
+     [
+      "14",
+      "9",
+      "12",
+      "7"
+     ],
+     [
+      "9",
+      "14",
+      "12",
+      "7"
+     ],
+     [
+      "12",
+      "12",
+      "13",
+      "5"
+     ],
+     [
+      "14",
+      "14",
+      "10",
+      "4"
+     ]
+    ],
+    [
+     [
+      "17",
+      "13",
+      "12",
+      "6"
+     ],
+     [
+      "13",
+      "17",
+      "12",
+      "6"
+     ],
+     [
+      "12",
+      "12",
+      "18",
+      "6"
+     ],
+     [
+      "12",
+      "12",
+      "12",
+      "12"
+     ]
+    ]
+   ],
+   "F_fnv": [
+    "0x548c90165a025ef6",
+    "0xd79e2412e4acda8a",
+    "0x35ec83c6b36dfd26",
+    "0xe674efe91f7ba59e",
+    "0xec91bf52c1e03f76",
+    "0xa03c009157ff6efa",
+    "0xbf005ddf21938e22",
+    "0x0666ceae39da065c",
+    "0x1941d4e1a5091fa1",
+    "0x388bf1b445cbec85",
+    "0x3a5caa9a3f9cb2d5",
+    "0x92887040fc593465",
+    "0xc945a20db115a6dc",
+    "0x7d19559965c61ea3"
+   ],
+   "M": 1,
+   "N": 43,
+   "basis_fnv": "0x5be69854e5266db5",
+   "basis_rule": "brandt_k2_canonical/v2: b_j = 1_{c_j}, c_j the j-th left-ideal class; classes sorted ascending by (|Gamma_c|, (r_c(1),...,r_c(20))), r_c(m) = #{x in O_r(I_c) : nrd x = m} (x, -x both counted); ties listed in order_ties, order within a tie unspecified",
+   "bits_F": [
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    4,
+    5
+   ],
+   "bound_basis": "-",
+   "charpoly_Z": [
+    [
+     "12",
+     "2",
+     "-8",
+     "-1",
+     "1"
+    ],
+    [
+     "16",
+     "4",
+     "-10",
+     "-2",
+     "1"
+    ],
+    [
+     "-48",
+     "92",
+     "-14",
+     "-6",
+     "1"
+    ],
+    [
+     "0",
+     "-16",
+     "-30",
+     "-4",
+     "1"
+    ],
+    [
+     "-252",
+     "177",
+     "-1",
+     "-13",
+     "1"
+    ],
+    [
+     "490",
+     "203",
+     "-59",
+     "-11",
+     "1"
+    ],
+    [
+     "-918",
+     "285",
+     "113",
+     "-25",
+     "1"
+    ],
+    [
+     "160",
+     "-88",
+     "-116",
+     "-14",
+     "1"
+    ],
+    [
+     "744",
+     "761",
+     "-9",
+     "-25",
+     "1"
+    ],
+    [
+     "3240",
+     "432",
+     "-198",
+     "-24",
+     "1"
+    ],
+    [
+     "-288",
+     "-471",
+     "-209",
+     "-25",
+     "1"
+    ],
+    [
+     "0",
+     "2736",
+     "-72",
+     "-38",
+     "1"
+    ],
+    [
+     "-1470",
+     "749",
+     "109",
+     "-45",
+     "1"
+    ],
+    [
+     "6912",
+     "-4176",
+     "852",
+     "-64",
+     "1"
+    ]
+   ],
+   "class_keys": [
+    "((Fraction(4, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(4, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(3, 1), Fraction(3, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(2, 1), Fraction(1, 1), Fraction(0, 1), Fraction(1, 1)))",
+    "((Fraction(4, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(4, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(2, 1), Fraction(3, 1), Fraction(0, 1), Fraction(1, 1)))",
+    "((Fraction(2, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(2, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(1, 1)))",
+    "((Fraction(1, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), Fraction(1, 1)))"
+   ],
+   "convention": "column: T_p b_j = sum_i F[i][j] b_i; F = B_p (B[c][c'] = #neighbours of c in c'); row sums l+1",
+   "d_algebra": 4,
+   "e_eis": 1,
+   "gammas": [
+    2,
+    2,
+    2,
+    4
+   ],
+   "k": 2,
+   "lattice": "functions",
+   "n": 0,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    47
+   ],
+   "order_ties": [
+    [
+     0,
+     1
+    ]
+   ],
+   "origin": "jl:brandt.py(theta,cross-checked)",
+   "phi_fnv": "-",
+   "proof": [
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count"
+   ],
+   "q0_key": "-",
+   "rank": 4,
+   "saturation": "exact_basis",
+   "schema": "langlandscape_brandt/v2",
+   "status": "ok",
+   "tag": "computed"
+  },
+  "schema": "langlandscape_brandt/v2",
+  "writer": "python:brandt_export@b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty"
+ },
+ "provenance": {
+  "commit": "b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty",
+  "date": "2026-11-15T01:28:09+00:00",
+  "notes": "HJ-B0; format plan/hacs/freeblockz-export-format.md (v2); computed",
+  "params": {
+   "D": 43,
+   "M": 1,
+   "k": 2,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    47
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 6.739041640990763,
+  "script": "code/python/langlandscape/hacs_bridge/brandt_export.py"
+ }
+}

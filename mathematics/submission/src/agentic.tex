@@ -1,0 +1,272 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Section "Agentic setup". Report body: anonymised (no person, machine, account or user names).
+% Every number is taken from the repository file named next to it; nothing here is estimated.
+\section{Agentic setup}\label{sec:agentic}
+
+\begin{sloppypar}
+All mathematics, Lean code, computations and talk material in this repository were produced by a hierarchy of
+Claude Code agents, coordinated through git and working across four machines: \emph{the main orchestration machine},
+two Lean build machines (\emph{build machine A}, a 16-thread workstation; \emph{build machine B}, a 16-thread workstation),
+and \emph{the second team member's machine} (a notebook), which runs
+its own Claude Code session under \emph{a second, separate Claude account} (hardware:
+\pathtt{agents/rules/resources.md}, \pathtt{docs/agentic-process/architecture.md}~\S1). The two team members designed this setup,
+steered it in real time and took the critical decisions recorded in \pathtt{agents/status/STATE.md} (``Decisions''; \S\ref{ss:human});
+questions awaiting a team decision were applied provisionally and marked as such (\pathtt{docs/agentic-process/workflow.md}~\S1). The full
+process write-up is \pathtt{docs/agentic-process/} (README, architecture, workflow, timeline, metrics, lessons,
+model study, HACS). Unless stated otherwise, the counts below are those of
+\pathtt{docs/agentic-process/metrics.md} and \texttt{timeline.md}, state 2026-11-14, 18:10\,PST, i.e.\ after stage~6
+and before the final integration. All times PST (UTC$-$8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.
+\end{sloppypar}
+
+\subsection{Orchestration architecture}
+The redacted session transcripts behind this section are in \pathtt{supplementary/agent-logs/} (see \S\ref{sec:ai}).
+
+\begin{sloppypar}
+\paragraph{Hierarchy.} A single long-running \emph{global master} session (Opus) on the main orchestration machine
+ran the project from 2026-11-14, 01:20\,PST, within the setup designed by the team and under its steering (continuous at the critical decisions, not at every hour; \S\ref{ss:human}; \pathtt{docs/agentic-process/timeline.md}~\S2). Its first
+principle is to keep its own context clean: it delegates \emph{every} task, including reading large files and running
+builds, and acts itself only to plan, take operational decisions, brief, merge into \texttt{main} and refer the critical decisions to the humans
+(\pathtt{agents/roles/global\_master.md}). Below it sit \emph{stage masters} (coordinators, Opus; one per planning
+phase and per execution stage, plus two HACS lane masters and a final-integration master), which split their stage
+into work packages (WPs) and delegate them to \emph{workers}; every coordinator follows the base role
+\pathtt{agents/roles/coordinator.md}. The shape is
+\begin{center}
+\small
+global master $\to$ stage masters $\to$ (track sub-coordinators $\to$) workers, auditors, experiment strands,
+\end{center}
+with Lean build jobs and the second machine attached to the global master only
+(\pathtt{docs/agentic-process/architecture.md}~\S2). Each master and worker works in its own git worktree on its own
+branch; subagents commit but never push; only the global master pushes and merges into \texttt{main}
+(\pathtt{agents/rules/orchestration.md}). The concurrency cap is \textbf{8 concurrent Claude subagents per delegating
+agent} (raised from 3 on 2026-11-14 at 07:32\,PST), subject to the memory and disk thresholds of
+\pathtt{agents/rules/resources.md} (at least 12\,GB RAM kept free, about 2\,GB budgeted per subagent); Fable agents may
+run in parallel with all others.
+
+\paragraph{Models by task class.} The policy is \pathtt{agents/rules/model-selection.md}, summarised in
+Table~\ref{tab:agentic-models}. It was not fixed in advance: it is the outcome of a model-versus-task study run inside
+the stages (\pathtt{plan/implementation/EXPERIMENT\_PROTOCOL.md}, \pathtt{docs/agentic-process/model-study.md}).
+For a selected WP, two (in stage~1 up to three) models implemented the same brief from the same base commit at the
+same minute; build machines and auditors saw only neutral job ids, never model names; each strand got its own blind
+auditor, a rubric score and a weighted finding count $W = 3\cdot\mathrm{crit} + 2\cdot\mathrm{maj} + \mathrm{min}$;
+the decision metric was the active time (implementation $+$ audit $+$ fix minutes): the fastest passing strand wins,
+unless another passing strand of equal quality is within $\tau = \max(15\,\%\mbox{ of the best}, 5\,\mathrm{min})$,
+in which case the cheaper one wins. Twelve such comparisons were run in stages 1--5
+(25 local strand branches; \texttt{metrics.md}~\S1). Examples of the evidence behind the table: on routine Lean,
+Sonnet passed in 4.0 active minutes against 13.0 for Muse Spark Open, which failed with two critical findings
+(stage~1); on routine LaTeX an Opus single shot (7.8 min) failed on the minor count while Sonnet plus one Opus fix
+(8.05 min) passed (stage~2); on hard Lean off the critical path, Sonnet plus one Opus fix took 18.1 active minutes
+against 26.3 for Opus at less than half the cost index (stage~4); on hard LaTeX, Opus with a planned fix round
+passed while a Fable single shot failed on the minor count (stage~3). Every verdict is a prior from one or two
+comparisons per cell (\pathtt{model-selection.md}~\S2; confounds such as remote build latency and Opus auditing
+Opus are listed in \pathtt{model-study.md}~\S4).
+\end{sloppypar}
+
+\begin{table}[ht]
+\centering\small\sloppy
+\begin{tabular}{@{}p{0.38\linewidth}p{0.22\linewidth}p{0.32\linewidth}@{}}
+\toprule
+Task class & Model & Fix-round budget \\
+\midrule
+Lean mechanical (copying, vendoring) & Haiku 5.5 & none; red check $\to$ Sonnet \\
+Lean routine, Lean ``mechanical with meaning'' & Sonnet 5.5 & one Opus fix \\
+Lean hard on the critical path & Opus 5.5 (right first time) & one planned Opus fix \\
+Lean hard off the critical path & Sonnet first & one Opus fix \\
+LaTeX and code, routine & Sonnet 5.5 & one Opus fix (6--8 minor findings expected at round~0) \\
+LaTeX hard (full proofs) & Opus 5.5 & one planned Opus fix, always \\
+conceptual, delicate; Opus failures & Opus or Fable 5.2 & --- \\
+Lean audits, chapter audits & Fable 5.2, in parallel & --- \\
+coordination (stage masters) & Opus 5.5 & --- \\
+logging, polling, axiom lists, file moves & Haiku 5.5 & --- \\
+opencode (Mistral Large 4, Muse Spark Open) & Q\&A only & not used as implementers \\
+\bottomrule
+\end{tabular}
+\caption{Model policy by task class (\pathtt{agents/rules/model-selection.md}~\S1). A fix that does not reach green
+escalates one rung (Haiku $\to$ Sonnet $\to$ Opus $\to$ stage master, who splits, re-scopes or calls Fable); Fable is
+never on an escalation ladder.}\label{tab:agentic-models}
+\end{table}
+
+\begin{sloppypar}
+\paragraph{Audits.} Every stage closed with Fable audits run in parallel on the early-gate commit: a Lean audit
+(\pathtt{agents/roles/lean\_audit.md}) and a chapter audit (\pathtt{agents/roles/mathematics\_chapter\_audit.md});
+from stage~4 on, both were run in parts while WPs were still open, and their required remarks became fix WPs inside the
+same stage (\pathtt{docs/agentic-process/workflow.md}~\S\S3, 5). Opus ran the WP-level audits. The Fable audits found
+what the Opus audits had missed: the only discharge of \pathtt{Hyp.RamNrdSurj} in stage~2 was vacuous (it covered
+$D = 1$ only); in stage~6 the registered hypothesis \pathtt{Hyp.FreeRankTwo} turned out to be equivalent to the
+Galois half of the conclusion of \pathtt{Defect.defect\_formula}, which is now disclosed as such everywhere the theorem
+is stated; three of four ``non-vacuity reasons'' given by writers were false; and the stage-6 chapter failed for
+$M > 1$ before it was restricted (\pathtt{docs/agentic-process/lessons.md}, items 11, 32--34;
+\pathtt{model-study.md}~\S3a). The per-stage findings are tabulated in \texttt{metrics.md}~\S6. The consolidated
+final report that this report builds on was audited by Fable against the chapters, the result files and the gate logs
+(\pathtt{mathematics/audits/2026-11-15\_final-report-audit.md}: FAIL with three blockers, all one-line text
+corrections, PASS WITH REMARKS once they are applied; all blockers, majors and minors were applied in one fix round, merge \texttt{b2f6aa20}, and a cross-account review followed with a second fix round).
+
+\paragraph{Cross-account reviews.} Reviews by the same account share its blind spots, so finished chapters were also
+read \emph{blind} by agents of the second, separate Claude account on the second team member's machine: the chapters
+of stages 1--5 (\pathtt{mathematics/audits/2026-11-1*\_s0*-xacct.md}), second readers for conceptual claims of stage~6,
+and the final report and talk (\pathtt{mathematics/audits/2026-11-15\_final-xacct.md}: verdict FIX LIST, 0 critical,
+7 major, 18 minor). This independent reading changed a statement of the mathematics twice: a gap in the
+$q \equiv -1$ claim for $M > 1$ was found there, the $M = 1$ case confirmed, and a counterexample restricted the
+statement (\texttt{lessons.md}, item 34). The second machine also wrote WPs (stage-6 commutative-algebra Lean files,
+chapter drafts, literature checks); its Lean was accepted only after a build on build machine A or B.
+
+\paragraph{The message protocol between machines.} Native session messages reach only sessions of the same account.
+Between the two accounts all traffic is files in git (\pathtt{agents/rules/messages.md}): each machine has an inbox
+directory under \pathtt{agents/messages/}; a message is a Markdown file named
+\texttt{YYYYMMDD-HHMMSSZ\_<from>\_<slug>.md} with a front matter (id, from, to, type
+$\in$ \{request, report, question, answer, ack, info\}, re, priority), committed and pushed on \texttt{main}; the
+recipient answers or acknowledges and moves the file to \texttt{archive/}, so an inbox root holds exactly the
+unprocessed messages. Inboxes were polled every 10 minutes. By 18:10\,PST on 2026-11-14 there were 134 message files
+and 7 work batches had been sent (\texttt{metrics.md}~\S\S1, 5); batch~8 (review of the final report and talk) followed.
+Inside the main machine, stage masters talk to the global master through committed \emph{outbox} files
+\pathtt{plan/implementation/outbox/<UTC>\_<id>.md} (job specifications, status, milestone closures) and \emph{inbox}
+files with verbatim build results; a session message is only a notification, never the payload. This rule (decision
+F11, 2026-11-14 08:49\,PST) followed an incident in which in-session messages were delayed by hours and one job batch
+was lost; every channel that writes to git was reliable (\texttt{lessons.md}, item 5). Build results come back on
+result branches named after the build machine and the job id, which are read but never merged; deliveries of the second
+machine come on branches of their own and are merged by the stage master after acceptance
+(\pathtt{architecture.md}~\S4).
+
+\paragraph{opencode.} Two non-Claude models were available through the opencode CLI
+(\pathtt{agents/rules/opencode.md}): Mistral Large 4 and Muse Spark Open. In the planning phases Muse Spark Open served as
+a cheap first-pass auditor behind Claude revisers who judged every finding (7 of 70 findings confirmed, 22 partially,
+41 rejected in the staged plan; 15 of 89 confirmed in the implementation plans, where 12 findings labelled critical had
+none left after verification). Both models competed as implementers in the stage-1 model study and won no comparison
+(\pathtt{model-study.md}~\S2). From then on they were used for
+questions and answers only, never as implementers (\pathtt{plan/implementation/OVERVIEW.md}~\S5.1, decision F13).
+\emph{One disclosed exception:} the discharge of \pathtt{Hyp.RamNrdSurj} was drafted by an external model
+(\pathtt{mistral-large-4-0} via opencode), run by a team member on the other team member's machine, outside our agent
+process. It was then integrated into the library by the agents as \pathtt{Langlandscape.Hyp.ramNrdSurj\_holds}, audited
+independently by Fable (PASS WITH REMARKS), and gated from scratch (build machine A, \pathtt{ramnrd-final-2}, 840/840
+standard axiom lines; \pathtt{docs/agentic-process/workflow.md}~\S6). The gate is listed in
+Appendix~\ref{sec:commits}.
+\end{sloppypar}
+
+\subsection{The wall-time minimizer}
+
+\begin{sloppypar}
+The design goal of every rule above is to minimise \emph{wall} time, not agent time or cost
+(\pathtt{agents/rules/orchestration.md}). The mechanisms, each recorded in the stage run files
+\pathtt{plan/implementation/runs/s0*.md}:
+\begin{itemize}
+\item \emph{Pipelining.} Tracks are decoupled: mathematics may run ahead of Lean, and no milestone of one track waits
+for another; the only coupling is that a statement must exist in the mathematics before it is formalized
+(\pathtt{orchestration.md}, ``Decoupled tracks''). Lean WPs stack on unverified drafts of their upstream WPs instead of
+waiting for them (rule F14). Stages overlapped: the stage-6 commutative-algebra layer was written on the second machine
+during stages 2--3 and merged in stage~3's first integration round (\texttt{runs/s03.md}); each finished chapter went
+to its Fable audit and cross-account review as soon as it existed; the two HACS lanes ran on the main machine's GPU
+next to stages 5 and 6 (\pathtt{docs/agentic-process/hacs.md}).
+\item \emph{Early gates.} An early full gate (gate-1) runs as soon as the core Lean WPs are green, and from stage~5 a
+\emph{pregate} on the merged tree without the open WPs at $t \approx 35$\,min (709/709 in stage~5, 786/786 in stage~6),
+so that gate-1 became a short round (6 and 7 minutes; \texttt{workflow.md}~\S5). In stage~5, gate-1 passed at
+$t = 43$\,min against a planned $\approx 80$\,min (milestone closure s05).
+\item \emph{Model policy and fix-round budgets} (Table~\ref{tab:agentic-models}): one planned fix round per WP is
+cheaper than a stronger first shot; after two failed Sonnet rounds a WP escalates to Opus, and a parallel rescue writer
+starts at round~3 (\texttt{lessons.md}, item 20).
+\item \emph{Parallel Lean job distribution.} Batched integration rounds amortise the remote round trip; from stage~3 two
+build machines ran single-WP lettered jobs in parallel. Stage~3 ran 22 rounds in 52 minutes with 2--3 minutes per round
+(\texttt{runs/s03.md}, lesson 1); stage~4 ran 53 job ids in 112 minutes, typically 2--4 minutes per result
+(\texttt{runs/s04.md}, lessons 8--9).
+\item \emph{Warm seeds.} Each build machine keeps a warm-seed worktree, advanced after each green job to the latest
+verified integration point, and seeds new jobs from it by copy-on-write
+(\pathtt{agents/roles/lean\_build\_node.md}, ``Warm seed''). Seeded versus from-scratch builds of the same tree:
+stage-5 gate-1 223\,s vs 279\,s; stage-6 gate-1 20\,s vs 304\,s (milestone closures s05, s06). Final gates are never
+seeded.
+\end{itemize}
+
+Table~\ref{tab:agentic-walls} gives the result. The stage wall is measured from the stage's $t_0$ to its final-gate
+PASS. Stages 1--6 together took $\approx 10.4$\,h including a 1\,h re-plan after stage~1, against a plan of
+$\approx 21.7$\,h; the planned Lean walls were repeatedly about twice too long, and the critical path was a chain of
+cheap single-error fix rounds rather than proof difficulty (\texttt{timeline.md}~\S1, \texttt{runs/s04.md},
+\texttt{runs/s06.md}).
+\end{sloppypar}
+
+\begin{table}[ht]
+\centering\small\sloppy
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Stage & Wall (h) & Plan (h) & Actual/plan & Source \\
+\midrule
+1 quaternion foundations & 2.2 & 8.8 & 0.25 & \texttt{runs/s01.md} \\
+2 tree quotients & 1.3 & 2.5 $\pm$ 0.7 & 0.52 & \texttt{runs/s02.md} \\
+3 Ribet--Ihara & 1.1 & 2.85 (2.2--3.6) & 0.39 & \texttt{runs/s03.md} \\
+4 $\Lambda$-adic Ribet & 2.2 & 3.0 (2.6--3.8) & 0.73 & \texttt{runs/s04.md} \\
+5 comparison & 1.1 & 2.1 (1.5--3.2) & 0.52 & \texttt{runs/s05.md} \\
+6 integral defect & $\approx$ 1.2 & 2.2--2.6 & $\approx$ 0.5 & \texttt{runs/s06.md} \\
+\bottomrule
+\end{tabular}
+\caption{Stage wall times against plan. The planning phases before stage~1 (staged plan, Fable seam audit,
+implementation plans, Fable plan audit) took about 6\,h. Source: \pathtt{docs/agentic-process/timeline.md}~\S1.}\label{tab:agentic-walls}
+\end{table}
+
+\subsection{Lean across machines}
+
+\begin{sloppypar}
+\paragraph{Frozen toolchain.} Lean \texttt{v4.35.0} and Mathlib at revision
+\texttt{56a005855ea17e0b0958f73ec801ae140b0a1679} are frozen as a local copy on every machine
+(\pathtt{agents/rules/frozen.md}). \texttt{lake update}, \texttt{lake clean}, \texttt{lake exe cache get}, any edit of a
+toolchain or manifest file and any write into the frozen tree are forbidden for all agents. Builds run only through
+wrapper scripts, which take locks, cap memory, check a pin file of SHA-256 sums of the manifest files and abort with exit
+code 99 on any mismatch; \pathtt{check\_frozen.sh}, part of every gate, verifies that the frozen trees are untouched. It
+caught one bad import (a Mathlib module that does not exist at the frozen revision) before it could do harm
+(\texttt{workflow.md}~\S4, \texttt{lessons.md}, item 13).
+
+\paragraph{Job flow.} From about 07:50\,PST on 2026-11-14, all Lean builds ran on the two build machines, because the main
+machine's CPU and GPU were reserved for the HACS computations (\pathtt{agents/rules/resources.md}, ``TEMPORARY''). A job
+goes through four steps: (1) the stage master commits an outbox file with the job specification (which tree, which
+targets, which checks, the expected number of axiom lines); (2) the global master pushes the needed branch (for
+experiment strands a neutral temporary ref) and relays the specification to a build machine with a free slot (machine A
+has three slots, machine B two); (3) the build machine builds through the wrappers and pushes its logs to a result
+branch for that job; (4) the global master writes an inbox file with the verbatim errors and goal states (never fix
+hints) and the stage master integrates: a WP is merged only after its check passed \emph{on the merged tree}
+(\pathtt{architecture.md}~\S\S1a, 3; \texttt{workflow.md}~\S3). The second machine's Lean drafts entered only through
+acceptance jobs on build machine B.
+
+\paragraph{Gates.} A gate has the steps (a) build of the library and its tests, (b) build of the vendored stacks,
+(c) \pathtt{Audit/PrintAxioms.lean} with a count of lines against the expected number, every line a subset of
+\{\texttt{propext}, \pathtt{Classical.choice}, \texttt{Quot.sound}\}, (d) a forbidden-token grep, (e) a
+\texttt{sorry} count, (f) \pathtt{check\_frozen.sh}, plus per-file checks of the stage's files. Every stage's final gate
+was built \emph{from scratch} (unseeded) on build machine A; from stage~2 on it was cross-checked on build machine B
+(build machine B came online at 11:48\,PST on 2026-11-14, after stage~1 had closed; \texttt{timeline.md}~\S2). All six
+final gates passed with standard axioms only and no \texttt{sorry} in our code, with 161, 195, 519, 592, 747 and 836
+axiom lines; the gate after the \pathtt{Hyp.RamNrdSurj} discharge (job \pathtt{ramnrd-final-2}, build
+machine A, from scratch) built 4198 jobs in 321\,s and printed 840/840 standard lines, with build machine B's quick check
+\texttt{ramnrd-3} also passing; the gate after the Lean submission bundle (job \texttt{subl-gate-1}, build machine A, from
+scratch, Lean tree 28d2b091), built 4199 jobs in 323\,s and printed 950/950 standard lines, with build machine B's fresh-checkout
+cross-check \pathtt{subl-gate-1x} also passing (\texttt{metrics.md}~\S3; \texttt{timeline.md}~\S3); and the final gate, after the merge of
+the \pathtt{Hyp.BrandtStabFree} discharge (job \texttt{bsf-gate-1}, build machine A, from scratch in an unseeded worktree, Lean tree
+c70ef3a9), built 4205 jobs (and the vendored files, 1955 jobs) and printed 955/955 standard lines. The only \texttt{sorry} in the built
+tree lies in the frozen import (\pathtt{AlgJL/VolIII/P2/Instances.lean}), outside every audited declaration.
+
+\paragraph{Job counts.} Table~\ref{tab:agentic-jobs} counts the job traffic per stage, as outbox and inbox files and as
+result branches per build machine (\texttt{timeline.md}~\S3, \texttt{metrics.md}~\S7). In total 107 result branches of
+build machine A and 68 of build machine B existed at 18:10\,PST on 2026-11-14, among them acceptance jobs for the second
+machine's Lean.
+\end{sloppypar}
+
+\begin{table}[ht]
+\centering\small\sloppy
+\begin{tabular}{@{}lrrrrp{0.36\linewidth}@{}}
+\toprule
+Stage & Outbox & Inbox & Res.\ A & Res.\ B & Final gate: axiom lines; from-scratch wall \\
+\midrule
+1 & 19 & 0 & 16 & 0 & 161; 3842 jobs \\
+2 & 39 & 16 & 19 & 1 & 195; cross-check B PASS \\
+3 & 60 & 30 & 20 & 11 & 519; A 180\,s, B 3:16 \\
+4 & 85 & 55 & 30 & 25 & 592; A 251\,s, B 3:50 \\
+5 & 42 & 24 & 11 & 13 & 747; A 273\,s, B 4:22 \\
+6 & 47 & 21 & 10 & 13 & 836; A 319\,s, B 5:21; 4194 jobs \\
+\bottomrule
+\end{tabular}
+\caption{Lean job traffic per stage. Outbox/inbox: files whose name contains the stage (a proxy that also counts status
+and closure files; the inbox was introduced in stage~2). Results A/B: result branches of build machines A and B.
+Sources: \pathtt{docs/agentic-process/timeline.md}~\S3, \texttt{metrics.md}~\S\S3, 7, milestone closures
+\pathtt{plan/implementation/outbox/*milestone-closure-s0*.md}.}\label{tab:agentic-jobs}
+\end{table}
+
+\begin{sloppypar}
+\paragraph{Scale.} At 18:10\,PST on 2026-11-14, \texttt{main} had 2058 commits (405 merges); the Lean library had 195
+non-vendored files with about 37\,980 lines (\texttt{metrics.md}~\S\S1, 3); 29 hypotheses were registered in
+\pathtt{lean/Langlandscape/HYPOTHESES.md}, of which 2 were then discharged and 1 conditionally discharged (now 3 and 1). Token counts and
+costs per model are not recorded in the repository.
+\end{sloppypar}

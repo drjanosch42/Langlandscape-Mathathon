@@ -1,0 +1,29 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+\documentclass[11pt]{amsart}
+% Standalone build of the report section on hypotheses. Build from mathematics/ (so that preamble.tex and
+% references.bib resolve as for main.tex):
+%   latexmk -pdf -interaction=nonstopmode -outdir=report report/standalone-hypotheses.tex
+% In the full report: \input{report/hyp-preamble} in the preamble and \input{report/hypotheses} in the body.
+\input{preamble}
+\addbibresource{report/hypotheses.bib}
+\input{report/hyp-preamble}
+\DeclareFieldFormat{postnote}{#1}% postnotes are theorem/section numbers, not page numbers
+\title{What the Lean formalization assumes:\\ hypotheses, their sources, and their status}
+\author{The Langlandscape team (Fabian Januszewski, Abhijit)}
+\date{Stage-04 state with the stage-6 hypotheses (registry at 99f5500f) and the \texttt{RamNrdSurj} discharge (2323a252), 2026-11-15 (provisional; see \S\ref{sec:hyp-refresh})}
+\begin{document}
+\begin{abstract}
+  Every theorem of the Lean~4 formalization of this project that depends on a mathematical input not proved in Lean
+  takes that input as an explicit argument, a registered \emph{hypothesis} \texttt{Langlandscape.Hyp.X}. This
+  document lists all of them, states each one precisely, says where it comes from (literature, a target statement
+  that is out of scope, or a result proved on paper here whose formalization needs more infrastructure), where it is
+  used, and what would discharge it. It also covers the hypotheses and the two known \texttt{sorry}s of the
+  imported GL(2) trace-formula fork, and the hypotheses projected for stages~5 and~6.
+\end{abstract}
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+\input{report/hypotheses}
+{\sloppy\printbibliography}
+\end{document}

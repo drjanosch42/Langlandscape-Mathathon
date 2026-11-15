@@ -1,0 +1,16 @@
+Let $\gamma\in\GL_2(\Q)$ be elliptic (\cref{II.orb.def:elliptic}) with geometric class $\mathcal O$ (\cref{II.kernel.def:geometric-class}), let
+$f\colon G(\A)^1\to\C$ be continuous with compact support, and let $K_{\mathcal O}$ and $K^{\abs f}_{\mathcal O}$ be the class kernels of $f$ and of $\abs f$
+(\cref{II.kernel.def:class-kernel}). Let $\mu$ be a left Haar measure on $G(\A)$, $\dd\dot x$ the quotient measure of $\mu^1$ on $G(\Q)\backslash G(\A)^1$
+(\texttt{I.quot.def:automorphic-quotient-measure}), $\nu_\gamma$ a left Haar measure on $G_\gamma(\A)^1$ with quotient measure $\bar\nu_\gamma$ on
+$G_\gamma(\Q)\backslash G_\gamma(\A)^1$ (\texttt{X.quot.def:quotient-measure}, with the discrete subgroup $G_\gamma(\Q)$ of \cref{II.orb.thm:centralizer-rat-points}), and
+$\nu$ a Weil measure for $(\mu^1,\nu_\gamma)$ on $G_\gamma(\A)^1\backslash G(\A)^1$ (\texttt{X.quot.def:weil-measure}). Put
+$v_\gamma=\bar\nu_\gamma(G_\gamma(\Q)\backslash G_\gamma(\A)^1)$. Then $K_{\mathcal O}(x,x)$ and $K^{\abs f}_{\mathcal O}(x,x)$ depend only on $\dot x=G(\Q)x$, the function
+$\dot x\mapsto K_{\mathcal O}(\dot x,\dot x)$ is $\dd\dot x$-integrable on $G(\Q)\backslash G(\A)^1$,
+\[
+  \int_{G(\Q)\backslash G(\A)^1}K^{\abs f}_{\mathcal O}(\dot x,\dot x)\,\dd\dot x=v_\gamma\int_{G_\gamma(\A)^1\backslash G(\A)^1}\abs{f(x^{-1}\gamma x)}\,\dd\nu(x)<\infty,
+\]
+and
+\[
+  \int_{G(\Q)\backslash G(\A)^1}K_{\mathcal O}(\dot x,\dot x)\,\dd\dot x=v_\gamma\,O_\gamma(f;\nu)
+\]
+(\cref{II.orb.def:orbital-integral}).

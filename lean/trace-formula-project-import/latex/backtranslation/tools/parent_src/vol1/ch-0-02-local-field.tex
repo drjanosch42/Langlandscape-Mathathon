@@ -1,0 +1,674 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/LocalField.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline: planned IDs (\tfplanned) only; no statements or proofs yet.
+
+\chapter{Non-archimedean local fields}\label{ch:ch-0-02-local-field}
+
+\noindent\emph{Sources:} \cite{Corv-ptIII-1}; Cassels--Fr\"ohlich Ch.~XV; \cite[§1]{Cas-p}.
+
+\section{\texorpdfstring{The interface \texttt{NALF}}{The interface NALF}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[non-archimedean local field]
+\tfstmt{I.lf.def:nalf}
+\lean{GL2TF.Local.IsNALF}
+\end{definition}
+\begin{tfformal}{I.lf.def:nalf}
+\tfsem{I.lf.def:nalf}{40077095115d1c90c586fb97c004f5fff78b25a9459d59b4ff332fafec3f3701}
+\tfhyps{I.lf.def:nalf}{}
+\tfbinder{I.lf.def:nalf}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:nalf}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:nalf}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:nalf}{3}{ccb181dd}{the topology of $F$}
+\begin{tffidelity}
+The snippet describes a non-archimedean local field by a topology and a valuation $v$ up to equivalence with the conditions (i)--(iii). Lean takes Mathlib's class \texttt{IsNonarchimedeanLocalField}, which extends \texttt{IsValuativeTopology} (the topology is the one defined by the valuation, condition (i)), \texttt{ValuativeRel.IsNontrivial} (condition (ii)) and \texttt{LocallyCompactSpace} (condition (iii)). The valuation up to equivalence is the instance \texttt{ValuativeRel F}, which is a binder. \texttt{IsNALF} is a reducible alias of this class, a \texttt{Prop}; it appears in all later statements as the instance binder \texttt{[IsNALF F]}. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning. That $\mathfrak p_F=\{x:v(x)<1\}$ is the maximal ideal of $\Ocal_F$ (\texttt{IsLocalRing.maximalIdeal 𝒪[F]}) is a library fact rather than a definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\Qp$ as a non-archimedean local field]
+\tfstmt{I.lf.def:padic-nalf-instance}
+\lean{GL2TF.Local.padic_isNALF}
+\uses{I.lf.def:nalf, I.lf.lem:padic-valuative-topology}
+\end{definition}
+\begin{tfformal}{I.lf.def:padic-nalf-instance}
+\tfsem{I.lf.def:padic-nalf-instance}{acdce7b1a39a58585b82e72722b48bb3e8ee1ffd93e927e24833c56305696e7a}
+\tfhyps{I.lf.def:padic-nalf-instance}{}
+\tfbinder{I.lf.def:padic-nalf-instance}{0}{cf3d1075}{the prime $p$ (a natural number)}
+\tfbinder{I.lf.def:padic-nalf-instance}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+The snippet's prime $p$ is the implicit binder \texttt{p : ℕ} with the instance \texttt{Fact (Nat.Prime p)}. $\Qp$ is \texttt{ℚ\_[p]} with the valuative relation \texttt{Padic.mulValuation} (the multiplicative form of the $p$-adic valuation, equivalent to $\abs{\cdot}_p$) and the metric topology provided by Mathlib. The condition that the metric topology is the valuative topology is the B-only \cref{I.lf.lem:padic-valuative-topology}; local compactness and non-triviality are taken from the library. The statement is Prop-valued (an \texttt{instance}), with proof content only.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The instance is the structure \texttt{IsNonarchimedeanLocalField ℚ\_[p]} with empty body: its three fields are found by instance search, namely \texttt{IsValuativeTopology} from \cref{I.lf.lem:padic-valuative-topology}, and \texttt{LocallyCompactSpace} and \texttt{ValuativeRel.IsNontrivial} from Mathlib. A's proof of local compactness (the ball $x_0+\Zp$) is therefore replaced by the library fact.
+\end{proof}
+
+\begin{lemma}[the $p$-adic topology is the valuative topology]
+\tfstmt{I.lf.lem:padic-valuative-topology}
+\bonly
+\lean{GL2TF.Local.padic_isValuativeTopology}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:padic-valuative-topology}
+\tfsem{I.lf.lem:padic-valuative-topology}{549c08eb6735ae6759233f1dc07e20067b975b61a6b4a88d38f091337f877272}
+\tfhyps{I.lf.lem:padic-valuative-topology}{}
+\tfbinder{I.lf.lem:padic-valuative-topology}{0}{cf3d1075}{the prime $p$ (a natural number)}
+\tfbinder{I.lf.lem:padic-valuative-topology}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only plumbing. Lean states \texttt{IsValuativeTopology ℚ\_[p]}: the open neighbourhoods of $0$ are exactly the sets containing a ball $\{x:v(x)<\gamma\}$, which is how Mathlib phrases ``the topology is defined by the valuation''. The snippet paraphrases this as the equality of the metric and the valuation neighbourhood bases; the translation is not literal but equivalent. The prime is the implicit binder \texttt{p} with \texttt{Fact (Nat.Prime p)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Mathlib's criterion \texttt{IsValuativeTopology.of\_mem\_nhds\_zero\_iff\_vle} is applied to \texttt{Padic.mulValuation}. Auxiliary step (\texttt{padic\_mulValuation\_lt\_iff}): $\texttt{mulValuation}\,x<\texttt{mulValuation}\,y\iff\norm{x}<\norm{y}$, via $\norm{x}=p^{-\operatorname{val}x}$. ($\Rightarrow$) a ball of radius $\varepsilon$ contains the set $\{v<v(p^n)\}$ for $n$ with $\norm{p}^n<\varepsilon$. ($\Leftarrow$) a bound $\gamma$ is a quotient $v(r)/v(t)$ of values of non-zero elements, and the ball of radius $\norm{r/t}$ lies in $\{v<\gamma\}$. This is the argument of the proof of \cref{I.lf.def:padic-nalf-instance} in A, with the base of balls replaced by the library's neighbourhood criterion.
+\end{proof}
+
+\begin{lemma}[$F$ is Hausdorff]
+\tfstmt{I.lf.lem:nalf-t2}
+\bonly
+\lean{GL2TF.Local.t2Space}
+\uses{I.lf.def:nalf}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:nalf-t2}
+\tfsem{I.lf.lem:nalf-t2}{e46ebef7c51046a57a4b382b022724f5dba4a87ca494ddcaf1471aaf108ff5b0}
+\tfhyps{I.lf.lem:nalf-t2}{}
+\tfbinder{I.lf.lem:nalf-t2}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.lem:nalf-t2}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.lem:nalf-t2}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.lem:nalf-t2}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.lem:nalf-t2}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The Lean statement is the instance \texttt{T2Space F}, Hausdorff for the topology of $F$; no difference.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The valuation has rank one (\texttt{IsRankLeOne}, embedded into $\R$), so the uniform structure of the additive group makes $F$ a nontrivially normed field (\texttt{Valued.toNontriviallyNormedField}); a metric space is Hausdorff, found by \texttt{inferInstance}.
+\end{proof}
+
+\begin{definition}[uniformizer]
+\tfstmt{I.lf.def:uniformizer}
+\lean{GL2TF.Local.unif}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:uniformizer}
+\tfsem{I.lf.def:uniformizer}{4abba01790554349fa0b7ead23afa8773ff3faf7ce52f13dec2fca278765f3f5}
+\tfhyps{I.lf.def:uniformizer}{}
+\tfbinder{I.lf.def:uniformizer}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:uniformizer}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:uniformizer}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:uniformizer}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:uniformizer}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The snippet fixes ``once and for all'' a uniformizer $\unif\in\Ocal_F$ with $\mathfrak p_F=\unif\Ocal_F$. Lean defines \texttt{unif F : 𝒪[F]} as \texttt{Classical.choose} of the existence statement $\exists\varpi\in\Ocal_F,\ \mathfrak p_F=\varpi\Ocal_F$, which holds since $\Ocal_F$ is a discrete valuation ring. The defining property is recorded in \cref{I.cartan.lem:maximal-ideal-eq-span-unif}. The choice is not canonical, as in A; all statements are about this fixed choice. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{Classical.choose} of $\exists\varpi\in\Ocal_F,\ \mathfrak p_F=\varpi\Ocal_F$; the witness is an irreducible element of the discrete valuation ring $\Ocal_F$ (\texttt{IsDiscreteValuationRing.exists\_irreducible}), and an irreducible generates the maximal ideal (\texttt{hϖ.maximalIdeal\_eq}). A proof helper \texttt{irreducible\_unif} records that the choice is irreducible.
+\end{proof}
+
+\begin{definition}[residue cardinality]
+\tfstmt{I.lf.def:residue-cardinality}
+\lean{GL2TF.Local.q}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:residue-cardinality}
+\tfsem{I.lf.def:residue-cardinality}{4db8e2b2767a2f017c4e696ebe2496801b151f6cb039567d07b6367d8621fad3}
+\tfhyps{I.lf.def:residue-cardinality}{}
+\tfbinder{I.lf.def:residue-cardinality}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:residue-cardinality}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:residue-cardinality}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:residue-cardinality}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:residue-cardinality}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+Lean defines $q_F$ as \texttt{Nat.card 𝓀[F]}, the cardinality of the residue field as a natural number. The value of \texttt{Nat.card} on an infinite type is $0$; this does not matter here, because the residue field of a non-archimedean local field is finite (a library fact, as in the remark of the readable edition). The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[unit--uniformizer decomposition]
+\tfstmt{I.lf.thm:unit-uniformizer-decomposition}
+\lean{GL2TF.Local.unit_uniformizer_decomposition}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:unit-uniformizer-decomposition}
+\tfsem{I.lf.thm:unit-uniformizer-decomposition}{552852e22e232bb0648aca9613b501c89b21bb831d07f1489233280fa7cd5dc0}
+\tfhyps{I.lf.thm:unit-uniformizer-decomposition}{}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{5}{a6a506ac}{the element $x\in F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{6}{fe68a984}{the hypothesis $x\neq0$}
+\begin{tffidelity}
+The pair $(u,n)\in\Ocal_F^\times\times\Z$ is \texttt{un : 𝒪[F]ˣ × ℤ}; $u$ is coerced to $F$ via $\Ocal_F^\times\to\Ocal_F\to F$, and $\unif^n$ is the integer power in $F$ of the image of \texttt{unif F}. ``For every $x\in F^\times$'' is the pair of binders $x\in F$ and $x\neq0$. Uniqueness is \texttt{∃!}. No difference otherwise. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Existence: either $v(x)\le1$ or $v(x^{-1})\le1$ (\texttt{Valuation.val\_le\_one\_or\_val\_inv\_le\_one}). In the first case the discrete valuation ring lemma \texttt{eq\_unit\_mul\_pow\_irreducible} gives $x=u\unif^n$ with $n\ge0$; in the second it is applied to $x^{-1}$ and inverted, giving $(u^{-1},-n)$. Uniqueness: applying $v$ gives $v(\unif)^n=v(\unif)^m$ with $0<v(\unif)<1$, hence $n=m$, and then $u=u'$ by cancelling $\unif^n\neq0$. As in A.
+\end{proof}
+
+\begin{theorem}[second countability]
+\tfstmt{I.lf.thm:nalf-second-countable}
+\lean{GL2TF.Local.secondCountableTopology}
+\uses{I.lf.def:nalf}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:nalf-second-countable}
+\tfsem{I.lf.thm:nalf-second-countable}{cce64c28ad895e0f5802cf6d5cc7ff2bcba6a633ff358bbf77fb7d1a13a78015}
+\tfhyps{I.lf.thm:nalf-second-countable}{}
+\tfbinder{I.lf.thm:nalf-second-countable}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:nalf-second-countable}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:nalf-second-countable}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:nalf-second-countable}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:nalf-second-countable}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The Lean statement is \texttt{SecondCountableTopology F}, the library's notion for the topology of $F$. It is declared as an \texttt{instance}, the statement being the one of the snippet. The explicit and instance binders are exactly the ones listed in the binder table; no further assumption is hidden in the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Same set-up as \cref{I.lf.lem:nalf-t2}: $F$ becomes a nontrivially normed field and, being locally compact, a proper space (\texttt{ProperSpace.of\_nontriviallyNormedField\_of\_weaklyLocallyCompactSpace}); a proper metric space is second countable (\texttt{secondCountable\_of\_proper}). \emph{Deviation from A:} A's proof is elementary, writing $F=\bigcup_m\unif^{-m}\Ocal$ with finitely many cosets of $\unif^n\Ocal$ in $\unif^{-m}\Ocal$; the Lean proof uses the library route.
+\end{proof}
+
+\begin{tfoutline}
+  \tfplanned{I.lf.def:adic-completion-nalf-instance}{$v$\texttt{.adicCompletion} $\Q$ is an \texttt{NALF}}
+\end{tfoutline}
+
+\section{Normalized absolute value and Haar measure}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{definition}[normalized absolute value]
+\tfstmt{I.lf.def:normalized-abs}
+\lean{GL2TF.Local.normAbs}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:normalized-abs}
+\tfsem{I.lf.def:normalized-abs}{b381fe349103fd956724b0fafbac79e70077b84dd447697edab62a871f71e855}
+\tfhyps{I.lf.def:normalized-abs}{}
+\tfbinder{I.lf.def:normalized-abs}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:normalized-abs}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:normalized-abs}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:normalized-abs}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:normalized-abs}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.def:normalized-abs}{5}{a6a506ac}{the element $a\in F$}
+\begin{tffidelity}
+Lean defines $\abs{a}_F$ as Mathlib's \texttt{distribHaarChar F (Units.mk0 a h)} (the modulus character, which does not involve a Haar measure), with value $0$ at $a=0$, as a function \texttt{F → ℝ}. The measure $\mu$ of the snippet therefore does not occur in the definition; its independence from $\mu$ is built in. That $\mu(aE)=\abs{a}_F\mu(E)$ is \cref{I.lf.thm:haar-scaling}. The value is a real number, and positivity on $F^\times$ is not part of the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[absolute value of the uniformizer]
+\tfstmt{I.lf.thm:abs-uniformizer}
+\lean{GL2TF.Local.normAbs_uniformizer}
+\uses{I.lf.def:normalized-abs, I.lf.def:uniformizer, I.lf.def:residue-cardinality, I.lf.def:nalf, I.lf.lem:nalf-t2, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:abs-uniformizer}
+\tfsem{I.lf.thm:abs-uniformizer}{d947f09fe5a4a76e2d491d65df766144afa85d7d19ae89476a4f65495ae69404}
+\tfhyps{I.lf.thm:abs-uniformizer}{}
+\tfbinder{I.lf.thm:abs-uniformizer}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:abs-uniformizer}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:abs-uniformizer}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:abs-uniformizer}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:abs-uniformizer}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\begin{tffidelity}
+$q$ is \texttt{q F}, the residue cardinality coerced to $\R$, and $\unif$ is \texttt{unif F}. ``$x\in\Ocal_F^\times$'' is rendered as \texttt{∃ u : 𝒪[F]ˣ, ↑u = x}. The clauses $\abs{x}_F\le1\iff x\in\Ocal_F$ and $\abs{x}_F=1\iff x\in\Ocal_F^\times$ are stated for all $x\in F$, including $x=0$ (they hold there as well); the snippet states them for $x\in F^\times$. The power $q^{-n}$ is a \texttt{zpow} in $\R$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Helper facts (all about \texttt{distribHaarChar}, the modulus character of the additive group, on which $|\cdot|_F$ is defined): $|u|_F=1$ for $u\in\mathcal O_F^\times$ and $|\varpi|_F=q^{-1}$ (\texttt{normAbs\_unit\_unif}). The latter uses that $\mathcal O_F$ is the disjoint union of $q$ cosets of $\varpi\mathcal O_F$ (\texttt{measure\_integer\_eq\_q\_mul}) together with $\mu(\varpi E)=|\varpi|_F\mu(E)$. Multiplicativity of the modulus then gives $|u\varpi^n|_F=q^{-n}$ (\texttt{normAbs\_unit\_mul\_unif\_zpow}). The two equivalences follow by writing $x=u\varpi^n$ by \cref{I.lf.thm:unit-uniformizer-decomposition}: $x\in\mathcal O_F\iff n\ge0\iff q^{-n}\le1$, and $q^{-n}=1\iff n=0$ because $q>1$ (\texttt{one\_lt\_q}); $x=0$ is treated separately.
+\end{proof}
+
+\begin{theorem}[multiplicativity and the ultrametric inequality]
+\tfstmt{I.lf.thm:abs-multiplicative}
+\lean{GL2TF.Local.normAbs_multiplicative}
+\uses{I.lf.def:normalized-abs, I.lf.def:nalf, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:abs-multiplicative}
+\tfsem{I.lf.thm:abs-multiplicative}{fda7767d8734e6b5e0bad4650e15223e821930edc0f312522beb6807ddac1e9b}
+\tfhyps{I.lf.thm:abs-multiplicative}{}
+\tfbinder{I.lf.thm:abs-multiplicative}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:abs-multiplicative}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.thm:abs-multiplicative}{5}{a6a506ac}{the element $a\in F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{6}{b99c2c68}{the element $b\in F$}
+\begin{tffidelity}
+Three clauses as in A, for all $a,b\in F$; the maximum is taken in $\R$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Multiplicativity for $a,b\ne0$ is multiplicativity of \texttt{distribHaarChar}; if one factor is $0$ both sides vanish. $|a|_F=0\iff a=0$: positivity of \texttt{distribHaarChar}. Ultrametric inequality: for $a=u\varpi^m$, $b=u'\varpi^k$ with $m\le k$ one has $a+b=\varpi^m(u+u'\varpi^{k-m})$ with the second factor in $\mathcal O_F$, so $|a+b|_F\le q^{-m}=\max$ (\texttt{normAbs\_add\_le\_of\_le}); the cases $a=0$, $b=0$ and $k\le m$ (by commutativity) are handled separately.
+\end{proof}
+
+\begin{theorem}[the absolute value on $\Qp$]
+\tfstmt{I.lf.thm:abs-padic-eq}
+\lean{GL2TF.Local.normAbs_padic}
+\uses{I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.def:nalf, I.lf.def:padic-measurable-space, I.lf.lem:padic-borel-space}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:abs-padic-eq}
+\tfsem{I.lf.thm:abs-padic-eq}{0d422e38f87e343ce1844722b45d5b402468496488b4b6d2d0a4a3af49be89dd}
+\tfhyps{I.lf.thm:abs-padic-eq}{}
+\tfbinder{I.lf.thm:abs-padic-eq}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.thm:abs-padic-eq}{1}{31f64cb4}{the assumption that $p$ is prime (A: $F=\Qp$ for a prime $p$)}
+\tfbinder{I.lf.thm:abs-padic-eq}{2}{9cb71556}{the element $x\in\Qp$}
+\begin{tffidelity}
+$p$ is an implicit natural number with the instance \texttt{Fact (Nat.Prime p)}; $F=\Qp$ is \texttt{ℚ\_[p]} with the non-archimedean local field structure of \cref{I.lf.def:padic-nalf-instance}. The right side is Mathlib's norm \texttt{‖x‖} on \texttt{ℚ\_[p]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs from A (see \texttt{docs/notes/M3-divergences.md}, item \texttt{abs-padic-eq}): not through \cref{I.lf.thm:abs-uniformizer}. Units of $\Z_p$ have $|u|_{\Q_p}=1$ (\texttt{normAbs\_padicInt\_unit}, the closed unit ball is preserved by $u$). Counting cosets, $\Z_p=\bigsqcup_{a=0}^{p-1}(a+p\Z_p)$ so $dx(\Z_p)=p\,dx(p\Z_p)$ (\texttt{padic\_measure\_closedBall\_one}), hence $|p|_{\Q_p}=p^{-1}$ (\texttt{normAbs\_padic\_p}). For $x\ne0$ write $x=p^{v}u$ with $u=xp^{-v}$ of norm $1$; multiplicativity of \texttt{distribHaarChar} gives $|x|_{\Q_p}=p^{-v}=\|x\|$.
+\end{proof}
+
+\begin{definition}[normalized additive Haar measure]
+\tfstmt{I.lf.def:additive-haar}
+\lean{GL2TF.Local.normAddHaar}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:additive-haar}
+\tfsem{I.lf.def:additive-haar}{fe9a2b8690cc1ae7367e24d50ceae8d0d0f1b66dc5efeda17c8b3af7f5050452}
+\tfhyps{I.lf.def:additive-haar}{}
+\tfbinder{I.lf.def:additive-haar}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:additive-haar}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:additive-haar}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:additive-haar}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:additive-haar}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.def:additive-haar}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.def:additive-haar}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\begin{tffidelity}
+The definition (\texttt{normAddHaar F}) requires the $\sigma$-algebra on $F$ and the assumption that it is Borel, as it produces a \texttt{Measure F}. That it is an additive Haar measure with $\dd x(\Ocal_F)=1$ is not part of the definition; it is the B-only \cref{I.lf.lem:additive-haar-spec}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[scaling of additive Haar measures]
+\tfstmt{I.lf.thm:haar-scaling}
+\lean{GL2TF.Local.haar_scaling}
+\uses{I.lf.def:normalized-abs, I.lf.def:nalf, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:nalf-second-countable}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:haar-scaling}
+\tfsem{I.lf.thm:haar-scaling}{9c6e61d2681b5d2fffb3b581cffe17bc7b1e536c72027600c9157ff01e6b10ca}
+\tfhyps{I.lf.thm:haar-scaling}{}
+\tfbinder{I.lf.thm:haar-scaling}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:haar-scaling}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:haar-scaling}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:haar-scaling}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:haar-scaling}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.thm:haar-scaling}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.thm:haar-scaling}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: ``Borel'')}
+\tfbinder{I.lf.thm:haar-scaling}{7}{1f09e8b9}{the measure $\mu$ on $F$}
+\tfbinder{I.lf.thm:haar-scaling}{8}{dc6e2cda}{the assumption that $\mu$ is an additive Haar measure (A: ``Haar'')}
+\tfbinder{I.lf.thm:haar-scaling}{9}{a39c44fb}{the element $a\in F$}
+\tfbinder{I.lf.thm:haar-scaling}{10}{b491e385}{the assumption $a\neq0$ (A: $a\in F^\times$)}
+\begin{tffidelity}
+The snippet's $a\in F^\times$ is the pair of an element $a\in F$ and the hypothesis $a\ne0$. The set identity reads \texttt{μ (a • E) = ENNReal.ofReal (normAbs F a) * μ E} for every measurable $E$ (Borel, since the $\sigma$-algebra is assumed to be Borel). The integral identity is for every $f$ with \texttt{Integrable f μ}, with $\abs{a}_F^{-1}$ acting by scalar multiplication on the complex number $\int f$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs from A in the second part (see divergence note, \texttt{haar-scaling}). The first part is the defining property of the modulus (\texttt{measure\_smul\_normAbs}). For the integral, the pushforward of $\mu$ under $x\mapsto ax$ (as the \texttt{DomMulAct} action) is $|a^{-1}|_F\,\mu$ by the first part, and \texttt{integral\_domSMul} identifies $\int f\,d(a\cdot\mu)$ with $\int f(ax)\,d\mu$; then $|a^{-1}|_F=|a|_F^{-1}$ by \cref{I.lf.thm:abs-multiplicative}. Integrability is not used.
+\end{proof}
+
+\begin{theorem}[volumes of the ideals $\unif^n\Ocal$]
+\tfstmt{I.lf.thm:vol-ideal-power}
+\lean{GL2TF.Local.vol_ideal_power}
+\uses{I.lf.def:uniformizer, I.lf.def:residue-cardinality, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.lem:nalf-t2, I.lf.thm:nalf-second-countable}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:vol-ideal-power}
+\tfsem{I.lf.thm:vol-ideal-power}{7eaafc08b3115efd5793c26cfec52ba7400f8b1d9fb43890c82b96dbee4ebea2}
+\tfhyps{I.lf.thm:vol-ideal-power}{}
+\tfbinder{I.lf.thm:vol-ideal-power}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:vol-ideal-power}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:vol-ideal-power}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:vol-ideal-power}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:vol-ideal-power}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.thm:vol-ideal-power}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.thm:vol-ideal-power}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\tfbinder{I.lf.thm:vol-ideal-power}{7}{1f09e8b9}{the measure $\mu$ on $F$}
+\tfbinder{I.lf.thm:vol-ideal-power}{8}{dc6e2cda}{the assumption that $\mu$ is an additive Haar measure (A: ``Haar'')}
+\begin{tffidelity}
+The sets $\unif^n\Ocal_F$ and $\Ocal_F^\times$ are \texttt{unif F \^{} n • 𝒪[F]} (with $n\in\Z$, a \texttt{zpow}) and the range of the coercion $\Ocal_F^\times\to F$. The factors $q^{-n}$ and $1-q^{-1}$ are real numbers converted by \texttt{ENNReal.ofReal}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+First part: $\mu(\varpi^n\mathcal O_F)=|\varpi^n|_F\,\mu(\mathcal O_F)$ by \cref{I.lf.thm:haar-scaling} and $|\varpi^n|_F=q^{-n}$ by \cref{I.lf.thm:abs-uniformizer} (\texttt{hpow}). Second part: $\mathcal O_F=\mathcal O_F^\times\sqcup\varpi\mathcal O_F$ (an element of $\mathcal O_F$ is a unit or lies in $\mathfrak p_F=(\varpi)$; the pieces are disjoint since $\varpi$ is not a unit; $\varpi\mathcal O_F$ is open hence measurable). Therefore $\mu(\mathcal O_F)=\mu(\mathcal O_F^\times)+q^{-1}\mu(\mathcal O_F)$; since $\mu(\mathcal O_F)<\infty$ (compact) one cancels $\mu(\varpi\mathcal O_F)$ and gets $\mu(\mathcal O_F^\times)=(1-q^{-1})\mu(\mathcal O_F)$.
+\end{proof}
+
+\begin{theorem}[Haar modulus of linear maps]
+\tfstmt{I.lf.thm:haar-modulus-linear}
+\lean{GL2TF.Local.haar_modulus_linear}
+\uses{I.lf.def:normalized-abs, I.lf.def:nalf, I.lf.def:additive-haar, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:nalf-second-countable}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:haar-modulus-linear}
+\tfsem{I.lf.thm:haar-modulus-linear}{ab3f977d3fc205d751156f749441031267603aedd5e06365921dafa78736115c}
+\tfhyps{I.lf.thm:haar-modulus-linear}{}
+\tfbinder{I.lf.thm:haar-modulus-linear}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:haar-modulus-linear}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.thm:haar-modulus-linear}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: ``Borel'')}
+\tfbinder{I.lf.thm:haar-modulus-linear}{7}{c8a3045d}{the natural number $n$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{8}{ad7b8149}{the assumption $n\ge1$ (A: $n\ge1$)}
+\tfbinder{I.lf.thm:haar-modulus-linear}{9}{9b0397c6}{the measure $\mu$ on $F^n$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{10}{a2971106}{the assumption that $\mu$ is an additive Haar measure (A: ``Haar'')}
+\tfbinder{I.lf.thm:haar-modulus-linear}{11}{5ef2837f}{the matrix $A\in\GL_n(F)$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{12}{cec0e844}{the set $E\subseteq F^n$}
+\tfbinder{I.lf.thm:haar-modulus-linear}{13}{07d48450}{the assumption that $E$ is measurable (A: ``Borel'')}
+\begin{tffidelity}
+$n\ge1$ is the hypothesis \texttt{1 ≤ n}. The space is \texttt{Fin n → F} with the product $\sigma$-algebra (Borel by Mathlib), $A\in\GL_n(F)$ acts by \texttt{mulVec}, and $AE$ is its image set. The factor is \texttt{ENNReal.ofReal (normAbs F det A)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Via the normalized product measure $\nu=(dx)^{\otimes n}$: every additive Haar measure on $F^n$ is a multiple of $\nu$ (\texttt{isAddLeftInvariant\_eq\_smul}), so it suffices to treat $\nu$. For $B=A^{-1}$ the image $A(E)$ is the preimage of $E$ under $B$, so $\nu(A E)=(B_*\nu)(E)$. Mathlib's diagonal/transvection induction (\texttt{diagonal\_transvection\_induction\_of\_det\_ne\_zero}) is used in \texttt{map\_toLin'\_normAddHaar\_pi} to show $B_*\nu=|\det B|_F^{-1}\nu$: the diagonal case is \cref{I.lf.thm:haar-scaling} in one coordinate (\texttt{measure\_preimage\_mul\_left\_normAbs}), the transvection case is Fubini through \texttt{lmarginal} and translation invariance. Finally $|\det B|_F^{-1}=|\det A|_F$ by multiplicativity. The hypothesis $n\ge1$ is not used (divergence note).
+\end{proof}
+
+\begin{definition}[normalized multiplicative Haar measure]
+\tfstmt{I.lf.def:multiplicative-haar}
+\lean{GL2TF.Local.normMulHaar}
+\uses{I.lf.def:normalized-abs, I.lf.def:additive-haar, I.lf.def:residue-cardinality, I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:multiplicative-haar}
+\tfsem{I.lf.def:multiplicative-haar}{bc5f7fa567d807cbfb8b8965b57138cc22377cb53ae7d8362a66547cc7b01414}
+\tfhyps{I.lf.def:multiplicative-haar}{}
+\tfbinder{I.lf.def:multiplicative-haar}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:multiplicative-haar}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:multiplicative-haar}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:multiplicative-haar}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:multiplicative-haar}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.def:multiplicative-haar}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.def:multiplicative-haar}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: ``Borel'')}
+\begin{tffidelity}
+The measure is the pull-back along $F^\times\to F$ of the measure $x\mapsto(1-q^{-1})^{-1}\abs{x}_F^{-1}\dd x$ on $F$; it lives on \texttt{Fˣ} with Mathlib's $\sigma$-algebra on the units (the comap of the $\sigma$-algebra of $F$). Equivalently, for Borel $E\subseteq F^\times$ the integral of the snippet. That it is a Haar measure is the B-only \cref{I.lf.lem:multiplicative-haar-is-haar}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[volume of $\Ocal^\times$]
+\tfstmt{I.lf.thm:vol-units}
+\lean{GL2TF.Local.vol_units}
+\uses{I.lf.def:multiplicative-haar, I.lf.def:nalf, I.lf.def:additive-haar, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:multiplicative-haar-is-haar, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.lf.thm:vol-ideal-power}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:vol-units}
+\tfsem{I.lf.thm:vol-units}{4f9e2873a4540eeeeaa23d84c06661e7c1c5c1f657ed953e69e804a360d0ef4c}
+\tfhyps{I.lf.thm:vol-units}{}
+\tfbinder{I.lf.thm:vol-units}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:vol-units}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:vol-units}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:vol-units}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:vol-units}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.thm:vol-units}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.thm:vol-units}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\begin{tffidelity}
+Both clauses as in A: $\dtimes x(\Ocal_F^\times)=1$, with $\Ocal_F^\times$ the set \texttt{\{u | ∃ v, ↑↑v = ↑u\}} in \texttt{Fˣ}, and $\nu=\nu(\Ocal_F^\times)\cdot\dtimes x$ for every Haar measure $\nu$ on \texttt{Fˣ}; the scalar $\nu(\Ocal_F^\times)\in[0,\infty]$ acts as a scalar of \texttt{ℝ≥0∞}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $K=\mathcal O_F^\times\subseteq F^\times$. The measure $d^\times x$ is the pull-back along $F^\times\to F$ of $c\,|x|_F^{-1}dx$, $c=(1-q^{-1})^{-1}$. The image of $K$ is $\{|x|_F=1\}$ by \cref{I.lf.thm:abs-uniformizer} (closed, so measurable), on which the density is the constant $c$; so $d^\times x(K)=c\,dx(\mathcal O_F^\times)=c(1-q^{-1})=1$ by \cref{I.lf.thm:vol-ideal-power} and $dx(\mathcal O_F)=1$. For an arbitrary Haar measure $\nu$ on $F^\times$: $F^\times$ is locally compact, second countable and Borel (open embedding in $F$), so Haar uniqueness (\texttt{isMulLeftInvariant\_eq\_smul}, using \cref{I.lf.lem:multiplicative-haar-is-haar}) gives $\nu=\lambda\,d^\times x$ with $\lambda=\nu(K)$ evaluated at $K$.
+\end{proof}
+
+\begin{definition}[the Borel $\sigma$-algebra of $\Qp$]
+\tfstmt{I.lf.def:padic-measurable-space}
+\bonly
+\lean{GL2TF.Local.padic_measurableSpace}
+\end{definition}
+\begin{tfformal}{I.lf.def:padic-measurable-space}
+\tfsem{I.lf.def:padic-measurable-space}{b562eae6eb9520e4f88e827292cb27142ef4db6a240d706aaa418738879ca51b}
+\tfhyps{I.lf.def:padic-measurable-space}{}
+\tfbinder{I.lf.def:padic-measurable-space}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.def:padic-measurable-space}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only. The Borel $\sigma$-algebra of \texttt{ℚ\_[p]} (\texttt{borel ℚ\_[p]}); Mathlib carries no measurable structure on \texttt{ℚ\_[p]}. $p$ is an implicit natural number with \texttt{Fact (Nat.Prime p)}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the $\sigma$-algebra of $\Qp$ is Borel]
+\tfstmt{I.lf.lem:padic-borel-space}
+\bonly
+\lean{GL2TF.Local.padic_borelSpace}
+\uses{I.lf.def:padic-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:padic-borel-space}
+\tfsem{I.lf.lem:padic-borel-space}{51d3aac556bc36bc3531521f4bd2259d87009fd2c82f2a08c35c4f4a9069c6e0}
+\tfhyps{I.lf.lem:padic-borel-space}{}
+\tfbinder{I.lf.lem:padic-borel-space}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.lem:padic-borel-space}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace ℚ\_[p]}, which holds by \texttt{rfl} for the $\sigma$-algebra of \cref{I.lf.def:padic-measurable-space}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By definition: the $\sigma$-algebra on $\Q_p$ is \texttt{borel}, so the equality is \texttt{rfl}.
+\end{proof}
+
+\begin{lemma}[the additive Haar measure is a Haar measure of mass $1$ on $\Ocal_F$]
+\tfstmt{I.lf.lem:additive-haar-spec}
+\bonly
+\lean{GL2TF.Local.normAddHaar_spec}
+\uses{I.lf.def:nalf, I.lf.def:additive-haar}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:additive-haar-spec}
+\tfsem{I.lf.lem:additive-haar-spec}{1b620a83ef5c354d6ddd6660e7715db02627b28fb84e16bd7928c3ad1d9d3944}
+\tfhyps{I.lf.lem:additive-haar-spec}{}
+\tfbinder{I.lf.lem:additive-haar-spec}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.lem:additive-haar-spec}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.lem:additive-haar-spec}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.lem:additive-haar-spec}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.lem:additive-haar-spec}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.lf.lem:additive-haar-spec}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.lem:additive-haar-spec}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+B-only. Companion of \cref{I.lf.def:additive-haar}: \texttt{(normAddHaar F).IsAddHaarMeasure} and \texttt{normAddHaar F 𝒪[F] = 1}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{normAddHaar} is Mathlib's \texttt{Measure.addHaarMeasure} for the positive compact $\mathcal O_F$ (compact by \texttt{isCompact\_integer}, with nonempty interior as it is open); the two clauses are the instance and \texttt{Measure.addHaarMeasure\_self}.
+\end{proof}
+
+\begin{lemma}[the multiplicative measure is a Haar measure]
+\tfstmt{I.lf.lem:multiplicative-haar-is-haar}
+\bonly
+\lean{GL2TF.Local.normMulHaar_isHaarMeasure}
+\uses{I.lf.def:nalf, I.lf.def:multiplicative-haar, I.lf.def:additive-haar, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:multiplicative-haar-is-haar}
+\tfsem{I.lf.lem:multiplicative-haar-is-haar}{7bd3682fbd938c789c5083e8f848470924f2eafb5a7738a7b76c789a939869ae}
+\tfhyps{I.lf.lem:multiplicative-haar-is-haar}{}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.lem:multiplicative-haar-is-haar}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+B-only. Companion of \cref{I.lf.def:multiplicative-haar}: \texttt{(normMulHaar F).IsHaarMeasure}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $h(x)=c|x|_F^{-1}$ and $d^\times x=\mathrm{comap}(\mathrm{val})\,(dx\cdot h)$; the unit-to-field map is an open embedding and a measurable embedding (\texttt{measurableEmbedding\_units\_val}). Haar axioms: \emph{finite on compacts}: the image of a compact $C$ is compact and $|\cdot|_F$ is continuous (\texttt{continuous\_normAbs}, as it is locally constant on $F^\times$), so $|\cdot|_F$ has a positive minimum on it, hence $h$ is bounded and $dx(C)<\infty$. \emph{Left invariance}: $dx$ scales by $|a|_F$ under $x\mapsto ax$ (\texttt{lintegral\_comp\_mul\_left}) while $h$ scales by $|a|_F^{-1}$. \emph{Open sets have positive measure}: $dx$ of a non-empty open set is positive and $h>0$.
+\end{proof}
+
+\section{\texorpdfstring{Characters and Fourier analysis on $\Qp$}{Characters and Fourier analysis on ℚp}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[$p$-adic fractional part]
+\tfstmt{I.lf.def:fractional-part}
+\lean{GL2TF.Local.fracPart}
+\end{definition}
+\begin{tfformal}{I.lf.def:fractional-part}
+\tfsem{I.lf.def:fractional-part}{21a3a595bd536536639e0cb0476a8adaf820dadb59ff18f8d8df4f8680fc8443}
+\tfhyps{I.lf.def:fractional-part}{}
+\tfbinder{I.lf.def:fractional-part}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.def:fractional-part}{1}{31f64cb4}{the assumption that $p$ is prime (A: ``prime'')}
+\tfbinder{I.lf.def:fractional-part}{2}{9cb71556}{the element $x\in\Qp$}
+\begin{tffidelity}
+Lean gives an explicit formula instead of the characterization: $\{x\}_p=\mathrm{appr}(xp^n,n)/p^n$ with $n=\max(0,-v_p(x))$ (Mathlib's \texttt{PadicInt.appr}), as a function \texttt{ℚ\_[p] → ℚ}. The characterization of the snippet (the unique rational $r$ with $0\le r<1$, denominator a power of $p$, $x-r\in\Zp$) is the B-only \cref{I.lf.lem:fractional-part-spec}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the standard character of $\Qp$]
+\tfstmt{I.lf.def:standard-character}
+\lean{GL2TF.Local.stdCharPadic}
+\uses{I.lf.def:fractional-part}
+\end{definition}
+\begin{tfformal}{I.lf.def:standard-character}
+\tfsem{I.lf.def:standard-character}{b859b6b17c2e55c98a85f1f98247fe8e11b3ae5c1f68f2dfe093f24f269cbe73}
+\tfhyps{I.lf.def:standard-character}{}
+\tfbinder{I.lf.def:standard-character}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.def:standard-character}{1}{31f64cb4}{the assumption that $p$ is prime (A: ``prime'')}
+\tfbinder{I.lf.def:standard-character}{2}{9cb71556}{the element $x\in\Qp$}
+\begin{tffidelity}
+$\psi_p$ is a function \texttt{ℚ\_[p] → ℂ} given by $x\mapsto e^{2\pi i\{x\}_p}$. That it is a continuous homomorphism to the unit circle is the B-only \cref{I.lf.lem:standard-character-hom}; the codomain $\C^\times$ of the snippet is $\C$ in Lean.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[conductor of $\psi_p$]
+\tfstmt{I.lf.thm:standard-character-conductor}
+\lean{GL2TF.Local.stdCharPadic_conductor}
+\uses{I.lf.def:standard-character, I.lf.def:fractional-part, I.lf.lem:fractional-part-spec}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:standard-character-conductor}
+\tfsem{I.lf.thm:standard-character-conductor}{3925b13af2e8b788f9036c83356af674dcb2ae33f1c80124b7f7af62c9c69e4a}
+\tfhyps{I.lf.thm:standard-character-conductor}{}
+\tfbinder{I.lf.thm:standard-character-conductor}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.thm:standard-character-conductor}{1}{31f64cb4}{the assumption that $p$ is prime (A: ``prime'')}
+\begin{tffidelity}
+$\psi_p(p^{-1})=e^{2\pi i/p}$ is stated with the complex exponential; the condition ``trivial on $p^n\Zp$'' is \texttt{∀ x ∈ ↑p \^{} n • ↑(PadicInt.subring p), stdCharPadic (x * y) = 1}, and $p^{-n}\Zp$ is the same set with exponent $-n$ (a \texttt{zpow}). $e^{2\pi i/p}\ne1$ is a separate clause.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\psi_p=1$ on $\Z_p$ is \texttt{stdCharPadic\_eq\_one\_iff}. Since $\{p^{-1}\}_p=1/p$ (the characterization \texttt{fracPart\_eq\_of}, with $0<1/p<1$ and $p^{-1}-1/p=0\in\Z_p$), $\psi_p(p^{-1})=e^{2\pi i/p}$. That this is $\ne1$: $e^{2\pi i/p}=1$ would give an integer $m$ with $1=mp$ (\texttt{Complex.exp\_eq\_one\_iff}), so $p\mid1$, contradicting $p>1$. Conductor, ``$\Rightarrow$'': take $x=p^n\in p^n\Z_p$, so $\psi_p(p^ny)=1$, hence $p^ny\in\Z_p$ by \texttt{stdCharPadic\_eq\_one\_iff}, i.e.\ $y=p^{-n}(p^ny)\in p^{-n}\Z_p$. ``$\Leftarrow$'': for $x=p^na$, $y=p^{-n}b$ with $a,b\in\Z_p$ one has $xy=ab\in\Z_p$, so $\psi_p(xy)=1$.
+\end{proof}
+
+\begin{definition}[Schwartz--Bruhat functions]
+\tfstmt{I.lf.def:schwartz-bruhat}
+\lean{GL2TF.Local.schwartzBruhat}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:schwartz-bruhat}
+\tfsem{I.lf.def:schwartz-bruhat}{84955cb503dd76208e2e18bfbe09d2eaa70caa57b084463ef67e1346b8b85c36}
+\tfhyps{I.lf.def:schwartz-bruhat}{}
+\tfbinder{I.lf.def:schwartz-bruhat}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:schwartz-bruhat}{1}{ca81b5b8}{the topology of $F$}
+\begin{tffidelity}
+A \texttt{Submodule ℂ (F → ℂ)}, the $\C$-subspace of the snippet, defined for any topological space $F$: the locally constant functions of compact support. Only the topology of $F$ is a binder.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[a spanning set of $\Schw(F)$]
+\tfstmt{I.lf.thm:schwartz-bruhat-span}
+\lean{GL2TF.Local.schwartzBruhat_span}
+\uses{I.lf.def:schwartz-bruhat, I.lf.def:uniformizer, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:schwartz-bruhat-span}
+\tfsem{I.lf.thm:schwartz-bruhat-span}{7323c53ad5085f0332a5d65ff359630f7fb41e83779d5159a3bc8c3f736be9b4}
+\tfhyps{I.lf.thm:schwartz-bruhat-span}{}
+\tfbinder{I.lf.thm:schwartz-bruhat-span}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:schwartz-bruhat-span}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:schwartz-bruhat-span}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:schwartz-bruhat-span}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:schwartz-bruhat-span}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\begin{tffidelity}
+The span is \texttt{Submodule.span ℂ} of the range of the family $(a,n)\mapsto1_{a+\unif^n\Ocal_F}$ indexed by pairs in $F\times\Z$; the translate is \texttt{a +ᵥ unif F \^{} n • 𝒪[F]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. ``$\supseteq$'': $1_{a+\varpi^n\mathcal O_F}$ is the indicator of a compact open set (\texttt{unif\_zpow\_smul\_integer\_isCompact\_isOpen}), hence locally constant (\texttt{isLocallyConstant\_indicator\_one}) with compact support. ``$\subseteq$'' is the helper \texttt{schwartzBruhat\_le\_span\_nat}, restricted to exponents $n\in\N$: for $\Phi\in\mathcal S(F)$ choose around each $x$ a neighbourhood $x+\varpi^{m_x}\mathcal O_F$ on which $\Phi$ is constant (\texttt{exists\_unif\_pow\_smul\_integer\_subset}, using that the $\varpi^m\mathcal O_F$ form a neighbourhood base of $0$ by compactness of $\mathcal O_F$); finitely many cover $\operatorname{supp}\Phi$, let $m=\max m_x$; then $\Phi$ is constant on the cosets of $\varpi^m\mathcal O_F$ and is a finite combination of their indicators (a finite sum over the cosets meeting the support).
+\end{proof}
+
+\begin{definition}[Fourier transform]
+\tfstmt{I.lf.def:fourier-transform}
+\lean{GL2TF.Local.fourierLocal}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:fourier-transform}
+\tfsem{I.lf.def:fourier-transform}{3a765e6904cbeb10e8667530a2277945f8401b6c582bafcf788a934543037aa8}
+\tfhyps{I.lf.def:fourier-transform}{}
+\tfbinder{I.lf.def:fourier-transform}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:fourier-transform}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:fourier-transform}{2}{746bd334}{the $\sigma$-algebra of $F$}
+\tfbinder{I.lf.def:fourier-transform}{3}{bfdbfb11}{the function $\psi\colon F\to\C$}
+\tfbinder{I.lf.def:fourier-transform}{4}{12b84d43}{the measure $\mu$ on $F$}
+\tfbinder{I.lf.def:fourier-transform}{5}{8a0ed382}{the function $\Phi\colon F\to\C$}
+\tfbinder{I.lf.def:fourier-transform}{6}{b99c2c68}{the element $y\in F$}
+\begin{tffidelity}
+Lean takes $\psi\colon F\to\C$ to be an arbitrary function and $\mu$ an arbitrary measure, and $\Phi\colon F\to\C$ an arbitrary function; the definition is the integral $\int\Phi(x)\psi(xy)\dd\mu(x)$, which needs neither that $\psi$ is a character nor that $\mu$ is Haar. The hypotheses of the snippet are therefore not binders. Only a field structure and a $\sigma$-algebra on $F$ are used.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[Fourier transform of an indicator]
+\tfstmt{I.lf.thm:fourier-indicator}
+\lean{GL2TF.Local.fourier_indicator}
+\uses{I.lf.def:fourier-transform, I.lf.def:standard-character, I.lf.def:additive-haar, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.def:fractional-part, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.lem:additive-haar-spec, I.lf.lem:fractional-part-spec, I.lf.lem:nalf-t2, I.lf.lem:standard-character-hom, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:fourier-indicator}
+\tfsem{I.lf.thm:fourier-indicator}{ae2b4b222413a0341fe11796b4b6937801a2a9bb2b0cb3557d8e1583dd6fe07c}
+\tfhyps{I.lf.thm:fourier-indicator}{}
+\tfbinder{I.lf.thm:fourier-indicator}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.thm:fourier-indicator}{1}{31f64cb4}{the assumption that $p$ is prime (A: ``prime'')}
+\tfbinder{I.lf.thm:fourier-indicator}{2}{9cb71556}{the element $a\in\Qp$}
+\tfbinder{I.lf.thm:fourier-indicator}{3}{d4710ca0}{the integer $n$}
+\tfbinder{I.lf.thm:fourier-indicator}{4}{4e141c2d}{the element $y\in\Qp$}
+\begin{tffidelity}
+Stated with the Lean $\psi_p$ and $\dd x$ (\texttt{fourierLocal ℚ\_[p] stdCharPadic (normAddHaar ℚ\_[p])}). The factor $p^{-n}$ is \texttt{(p : ℂ) \^{} (-n)}, a \texttt{zpow} in $\C$; the set $p^{-n}\Zp$ is \texttt{(p : ℚ\_[p]) \^{} (-n) • ↑(PadicInt.subring p)}, and $1_{p^{-n}\Zp}$ is its indicator.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Over $\Q_p$ with $(\psi_p,dx)$. Step 1 (translation): substituting $t\mapsto a+t$ (\texttt{integral\_add\_left\_eq\_self}) and using $\psi_p(a y+ty)=\psi_p(ay)\psi_p(ty)$ gives $\psi_p(ay)\int 1_T(t)\psi_p(ty)\,dx$ with $T=p^n\Z_p$. Step 2 (scaling): $t=p^ns$ and \cref{I.lf.thm:haar-scaling} (in the form \texttt{integral\_comp\_mul\_left\_padic}) turn the integral into $|p^n|\int 1_{\Z_p}(s)\psi_p(s\,p^ny)\,dx(s)$. Step 3: $\int_{\Z_p}\psi_p(sw)\,ds=1_{\Z_p}(w)$ (\texttt{integral\_padicInt\_stdChar}: if $w\in\Z_p$ the integrand is $1_{\Z_p}$ and $dx(\Z_p)=1$; if $w\notin\Z_p$ then $\psi_p(w)\ne1$, and translating $s\mapsto s+1$ (which preserves $\Z_p$) shows $I=\psi_p(w)I$, so $I=0$), and $p^ny\in\Z_p\iff y\in p^{-n}\Z_p$. Finally $|p^n|_{\Q_p}=p^{-n}$ by \cref{I.lf.thm:abs-padic-eq}.
+\end{proof}
+
+\begin{theorem}[Fourier inversion on $\Qp$]
+\tfstmt{I.lf.thm:fourier-inversion}
+\lean{GL2TF.Local.fourier_inversion}
+\uses{I.lf.def:fourier-transform, I.lf.def:schwartz-bruhat, I.lf.def:standard-character, I.lf.def:additive-haar, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.def:fractional-part, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:fractional-part-spec, I.lf.lem:nalf-t2, I.lf.lem:standard-character-hom, I.lf.thm:abs-multiplicative, I.lf.thm:abs-padic-eq, I.lf.thm:abs-uniformizer, I.lf.thm:fourier-indicator, I.lf.thm:nalf-second-countable, I.lf.thm:schwartz-bruhat-span, I.lf.thm:unit-uniformizer-decomposition}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:fourier-inversion}
+\tfsem{I.lf.thm:fourier-inversion}{8f586f8ffe1ee14a367eae8210f1ddc2ca5964f5840769a67c18d5cb93f57e07}
+\tfhyps{I.lf.thm:fourier-inversion}{}
+\tfbinder{I.lf.thm:fourier-inversion}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.thm:fourier-inversion}{1}{31f64cb4}{the assumption that $p$ is prime (A: ``prime'')}
+\tfbinder{I.lf.thm:fourier-inversion}{2}{92c2ee1d}{the function $\Phi\colon\Qp\to\C$}
+\tfbinder{I.lf.thm:fourier-inversion}{3}{5ad4147f}{the assumption $\Phi\in\Schw(\Qp)$ (A: $\Phi\in\Schw$)}
+\begin{tffidelity}
+For all $\Phi\in\Schw(\Qp)$ (a membership hypothesis), $\hat\Phi\in\Schw(\Qp)$ and $\hat{\hat\Phi}(x)=\Phi(-x)$ for all $x$; both transforms are taken with $(\psi_p,\dd x)$. Self-duality of $\dd x$ is not a separate clause.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By linearity it is enough to treat the generators of \cref{I.lf.thm:schwartz-bruhat-span} (\texttt{Submodule.span\_induction}; the transform is additive and homogeneous on $\mathcal S(\Q_p)$: \texttt{fourierLocal\_add}, \texttt{fourierLocal\_smul}; the zero, sum and scalar cases carry both clauses along). For $1_{a+p^n\Z_p}$, \cref{I.lf.thm:fourier-indicator} gives $\hat\Phi(y)=p^{-n}\psi_p(ay)1_{p^{-n}\Z_p}(y)$, which is locally constant (product of locally constant functions) with compact support, so $\hat\Phi\in\mathcal S$. Applying the formula once more to $\hat\Phi$ (a character times the indicator of $p^{-n}\Z_p$, shift by $a$) gives $p^{-n}\cdot p^{n}1_{p^n\Z_p}(a+x)$, which equals $1_{a+p^n\Z_p}(-x)$ since $p^n\Z_p=-p^n\Z_p$. The scalar $dx$ is self-dual here because the factors $p^{\pm n}$ cancel.
+\end{proof}
+
+\begin{lemma}[characterization of the fractional part]
+\tfstmt{I.lf.lem:fractional-part-spec}
+\bonly
+\lean{GL2TF.Local.fracPart_spec}
+\uses{I.lf.def:fractional-part}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:fractional-part-spec}
+\tfsem{I.lf.lem:fractional-part-spec}{1e71365121cdcbb346878bf76f40edd4002028ad152562092d682d41ee9dd912}
+\tfhyps{I.lf.lem:fractional-part-spec}{}
+\tfbinder{I.lf.lem:fractional-part-spec}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.lem:fractional-part-spec}{1}{31f64cb4}{the assumption that $p$ is prime}
+\tfbinder{I.lf.lem:fractional-part-spec}{2}{9cb71556}{the element $x\in\Qp$}
+\begin{tffidelity}
+B-only. The characterization of \texttt{fracPart x}: it satisfies $0\le\{x\}_p<1$, its denominator is a power of $p$ (\texttt{∃ k, (fracPart x).den = p \^{} k}) and $x-\{x\}_p\in\Zp$, and every rational $r$ with these properties equals it.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Existence: put $n=\max(0,-v_p(x))$; then $p^nx\in\Z_p$, and $a$ is the representative in $[0,p^n)$ of $p^nx$ modulo $p^n\Z_p$, so $r=a/p^n$ has denominator a power of $p$ and $x-r\in\Z_p$ (\texttt{rat\_mul\_den\_pow}, \texttt{rat\_den\_eq\_pow\_of\_mul}). Uniqueness: if $r,r'\in[0,1)$ both have $p$-power denominators and $x-r,x-r'\in\Z_p$, then $t=r-r'$ has $p^Nt\in\Z$ and $|t|_p\le1$, hence $t\in\Z$ (\texttt{rat\_isInt\_of\_padic}), and $|t|<1$ forces $t=0$.
+\end{proof}
+
+\begin{lemma}[$\psi_p$ is a character]
+\tfstmt{I.lf.lem:standard-character-hom}
+\bonly
+\lean{GL2TF.Local.stdCharPadic_isHom}
+\uses{I.lf.def:standard-character, I.lf.def:fractional-part, I.lf.lem:fractional-part-spec}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:standard-character-hom}
+\tfsem{I.lf.lem:standard-character-hom}{65e0257a1acabeab57ce84c1c65d0860a2b2d12fe74247e2dc74941adfd647e9}
+\tfhyps{I.lf.lem:standard-character-hom}{}
+\tfbinder{I.lf.lem:standard-character-hom}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.lem:standard-character-hom}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only. Companion of \cref{I.lf.def:standard-character}: $\psi_p$ is continuous, $\psi_p(0)=1$, $\psi_p(x+y)=\psi_p(x)\psi_p(y)$ and $\norm{\psi_p(x)}=1$ (together: a continuous homomorphism to the unit circle).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additivity: $\{x+y\}_p-\{x\}_p-\{y\}_p=-m\in\Z$ (\texttt{fracPart\_add}, from the uniqueness part of \cref{I.lf.lem:fractional-part-spec}), and $e^{2\pi i m}=1$. Value at $0$: $\psi_p=1$ on $\Z_p$. Continuity: $\psi_p$ is locally constant, since $\psi_p(y)=\psi_p(x)\psi_p(y-x)=\psi_p(x)$ for $y-x\in\Z_p$, an open neighbourhood. Norm $1$: $\psi_p(x)=e^{i\theta}$ for real $\theta$ (\texttt{Complex.norm\_exp\_ofReal\_mul\_I}).
+\end{proof}
+
+\begin{tfoutline}
+  \tfplanned{I.lf.thm:characters-of-qp}{every continuous character of $\Qp$ is $x\mapsto\psi_p(ax)$ for a unique $a$}
+\end{tfoutline}
+

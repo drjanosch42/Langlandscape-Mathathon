@@ -1,0 +1,575 @@
+\section{Weighted graphs, the definite Ribet sequence and the Ihara lemma}\label{sec:stage-03}
+% Stage 03 (ribet-ihara). Drafter: Opus stage drafter. Source: seed §6 and §2.7.
+\providecommand{\BG}{\mathrm{BG}}          % bipartite Brandt graph of (U,q); same definition as stage 02
+
+\subsection{Goals}
+This stage turns seed \S6 (and the weighted-graph notation of seed \S2.7) into precise statements with fixed conventions.
+It covers the definite side and the Betti $\GL_2$ side. The main points are:
+\begin{enumerate}[label=(G\arabic*)]
+\item \emph{Weighted graphs.} The lattice $X(\G)$, the pairing $\langle,\rangle_w$ and $\Phicomb(\G)$. The two-vertex formula
+  (Prop.~\ref{prop:s03-phi}), a cyclicity criterion (Lemma~\ref{lem:s03-cyclic}) and the DR graph $\GDR_q(U)$.
+\item \emph{Mazur check.} At level $1$, $\Phicomb(\GDR_q(1))\cong\Z/\mathrm{num}\frac{q-1}{12}$, cyclic, for \emph{every} prime $q$
+  (Prop.~\ref{prop:s03-mazur}). The proof uses only the mass formula and the count of elliptic classes. We also record the
+  Eisenstein property of $\Phicomb$ (Prop.~\ref{prop:s03-phieis}).
+\item \emph{Definite Ribet sequence.} An abstract lemma on connected bipartite multigraphs (Lemma~\ref{lem:s03-bip}) is the
+  whole combinatorial content of Thm~\ref{thm:s03-ribet}(a). Part (b) is the version with coefficients.
+\item \emph{Definite Ihara lemma.} Cor.~\ref{cor:s03-ihara}(i), (ii) hold over every coefficient group. For (iii) we fix the
+  convention the seed left open: on $\coker\alpha\cong V_{U^1_p}$, the operator $T_\ell$ acts as $(1+\ell)$ times an element of
+  $U_p$ of determinant $\ell^{+1}$ (Thm~\ref{thm:s03-iharaH0}). The exponent $-1$ belongs to the adjoint operator
+  $S_\ell^{-1}T_\ell$.
+\item \emph{$\GL_2$ amalgam.} The amalgam $\Gamma_0(M)[\frac1q]=\Gamma_0(M)*_{\Gamma_0(Mq)}\alpha'^{-1}\Gamma_0(M)\alpha'$, its
+  Mayer--Vietoris sequence, the maps $\Psi,\Psi^*$, the formula for $\Psi^*\Psi$ and the Betti level-raising module
+  $\coker(\Psi^*\Psi)_\m$. These are on the Betti side only.
+\end{enumerate}
+
+\subsection{Definitions and statements}
+
+\subsubsection{Conventions fixed in this stage}\label{ss:s03-conv}
+Throughout, $q\nmid D$, $U$ is as in Prop.~quot of stage 02 (so $U_q=\GL_2(\Zq)$ and $\Nrd U=\Zhat^\times$), and
+$U':=\Uzero{q}U$ is the Iwahori level at $q$. We put $\alpha=\iota_q^{-1}\mathrm{diag}(1,q)$ as in stage 02.
+\begin{enumerate}[label=(C\arabic*)]
+\item \emph{Orientation and sign.} Every edge of the quotient graph is oriented from its type-$0$ end to its type-$1$ end. Hence
+  $\partial e=[s_1e]_1-[s_0e]_0$, and
+  \[\alpha:=(-s_{0*},\,s_{1*}):\ \Z[\XB{U'}]\to\Z[\XB U]\oplus\Z[\XB U].\]
+  The transpose for the evaluation pairing $\Z[X]\times\Z^X\to\Z$ is $\alpha^\vee(f_0,f_1)=s_1^*f_1-s_0^*f_0$, which the seed
+  writes as $\alpha^*=(-s_0^*,s_1^*)$. Ribet [Ri90] uses $\delta=(s_{0*},s_{1*})$ with no sign. The two differ by the automorphism
+  $(x,y)\mapsto(-x,y)$, which flips the sign of the off-diagonal entries of $\alpha\alpha^\dagger$
+  (Prop.~\ref{prop:s03-LRdef}).
+\item \emph{Weights.} The default is $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$. We have $-1\in\Gamma_x$ if and only if $-1\in U$. So $|\Gamma_x|=2w_x$ when $-1\in U$ (e.g.\ $\hat\cO^\times$,
+  $\Uzero M$), and $|\Gamma_x|=w_x$ when $-1\notin U$ (e.g.\ $\Uone N$, $N>2$). The
+  mass formula of \texttt{if:s01-mass} is stated with $|\Gamma_x|$, so it reads $\sum_x w_x^{-1}=\frac1{12}\prod_{\ell\mid D}(\ell-1)$.
+\item \emph{Pullback and trace.} On cohomological Brandt modules, $(s_0^*f)(y)=f(y)$ and $(s_1^*f)(y)=f(y\alpha)$. The traces are
+  \[(s_{0*}g)(x)=\sum_{u\in U/U'}g(xu),\qquad (s_{1*}g)(x)=\sum_{u\in U/\alpha^{-1}U'\alpha}g(xu\alpha^{-1}),\]
+  with representatives $u\in\GL_2(\Zq)$. No twist by $V$ occurs, because $\alpha$ lives at $q\ne p$. With the pairing
+  $\langle f,\varphi\rangle_U:=\sum_{[x]\in\XB U}w_x^{-1}\langle f(x),\varphi(x)\rangle$ between $\Brandt UV$ and $\Brandt U{V^\vee}$, the
+  maps $s_{j*}$ are adjoint to $s_j^*$. Under the norm identification of \texttt{if:s01-brandt} ($p\nmid|\Gamma_x|$), they are the
+  homological pushforwards $[y]\mapsto[y]$ and $[y]\mapsto[y\alpha]$.
+  \emph{Factor-$2$ hypothesis} (stage 01, Prop.~s01-adjoint(c)). For $\pi:\XB{U'}\to\XB U$, one has $\nu\circ\pi_*=\mathrm{tr}\circ\nu'$
+  only if $-1\in U'$ or $-1\notin U$. Otherwise $\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$. For the degeneracies $s_0,s_1$ of this stage the
+  hypothesis \emph{always holds}: $U'=\Uzero qU$ differs from $U$ (and $\alpha^{-1}U'\alpha$ from $U$) only at $q$, and $-1\in\Iw_q$, so
+  $-1\in U'\iff-1\in U$. The same holds for the unfolding identity used for $\varepsilon$ in Thm~\ref{thm:s03-iharaH0}: there the
+  orbit sizes are $w_x/w_y=|\Gamma_x|/|\Gamma_y|$. This stage never passes from $\hat\cO^\times$ to $\Uone N$. Any such level change
+  (for example comparing $\Phicomb(\GDR_q(\Uone{Mp^s}))$ with level $1$, or in stage 04) must carry the factor $2$ explicitly whenever
+  $-1\in U$ and $-1\notin U'$.
+\item \emph{Hecke operators.} For $g\in\Bhat^\times$ supported at $\ell\nmid Dpq$ with $UgU=\coprod_ig_iU$, put
+  $(T_gf)(x)=\sum_if(xg_i)$ on $\Brandt UV$. This is the convention of \texttt{if:s01-hecke}. The quotient $\coker\alpha$ carries the
+  \emph{induced} action. For $\langle,\rangle_U$ one has $T_g^\dagger=T_{g^{-1}}$. For $T_\ell$ ($g=\mathrm{diag}(\ell,1)$) this
+  is $T_{g^{-1}}=S_\ell^{-1}T_\ell$.
+\item \emph{Norm character.} Every $a\in\Qhat^\times$ factors uniquely as $a=r_at_a$ with $r_a\in\Q_{>0}$ and
+  $t_a\in\Zhat^\times$. Put $\tau(x):=(t_{\Nrd x})_p\in\Zp^\times$ for $x\in\Bhat^\times$. Equivalently,
+  $\tau(x)=\Nrd(x)_p\,\|\Nrd x\|$ with $\|\cdot\|$ the finite idelic norm. This is the factor $(\det g_l\,\|\det g\|)$ of [DT, p.~446]
+  and the \texttt{normWeight} of the import. Then $\tau(\gamma xu)=\tau(x)\det(u_p)$, $\tau(x\alpha)=q^{-1}\tau(x)$, and
+  $\tau(xg)=\ell^{-1}\tau(x)$ for $\Nrd g\in\ell\Z_\ell^\times$ at $\ell$.
+\item \emph{Coinvariants as $\Zp[\Zp^\times]$-modules.} Put $U_p^1:=U_p\cap\SL_2(\Zp)$. Then $\det:U_p/U_p^1\xrightarrow\sim\Zp^\times$.
+  For a $U_p$-module $V$ and $t\in\Zp^\times$, let $[t]$ denote the action of any $u_t\in U_p$ with $\det u_t=t$ on
+  $V_{U^1_p}$, and also on $V^{U^1_p}$. It is well defined because $U^1_p$ is normal in $U_p$.
+\end{enumerate}
+
+\subsubsection{Weighted graphs}
+\begin{definition}[weighted graph; seed \S2.7]\label{def:s03-graph}
+A \emph{weighted graph} $\G$ is a finite graph (multiple edges allowed, no loops needed) with vertex set $V(\G)$, edge set $E(\G)$, a
+chosen orientation, and weights $w_e\in\Z_{\ge1}$. Its chain complex is $\Z[E]\xrightarrow\partial\Z[V]$. Put
+$X(\G):=H_1(\G)=\ker\partial$, $\langle e,e'\rangle_w=w_e\delta_{ee'}$ and
+\[\Phicomb(\G):=\coker\big(X(\G)\to\Hom(X(\G),\Z),\ x\mapsto\langle x,\cdot\rangle_w\big).\]
+\status{definition}
+\end{definition}
+
+\begin{remark}\label{rem:s03-grothendieck}
+For a semistable curve with dual graph $\G$ and thicknesses $w_e$, $X(\G)$ is the character group of the toric part. Then
+$\langle,\rangle_w$ is the monodromy pairing and $\Phicomb$ is the component group: [SGA7, IX] \stcited{} (reference not in
+\texttt{literature/}), and [Ri90, Prop.~2.2, Thm~2.3, p.~436; weighted form p.~437--438]
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{pp.~436--438}. The tree route
+does not use this dictionary. In this plan it is a remark only, and its use belongs to stage 05.
+\end{remark}
+
+\begin{proposition}[two-vertex graphs; seed Prop.~phi]\label{prop:s03-phi}
+Let $\G$ have two vertices, with every edge joining them. Then $X(\G)=\Z[E]^0$ and $\Phicomb(\G)=\Z^E/(W\Z[E]^0+\Z\mathbf1)$, where
+$W=\mathrm{diag}(w_e)$. Moreover
+\[|\Phicomb(\G)|=\Big(\prod_ew_e\Big)\sum_e\frac1{w_e}=\sum_e\prod_{e'\ne e}w_{e'}.\]
+If all $w_e=1$, then $\Phicomb\cong\Z/|E|$. In general $\Phicomb$ is not cyclic: $w=(2,2,2)$ gives $\Z/2\times\Z/6$.
+\stproved{} (seed; the proof is finite linear algebra).
+\end{proposition}
+
+\begin{lemma}[cyclicity]\label{lem:s03-cyclic}
+In the situation of Prop.~\ref{prop:s03-phi}, put $W:=\prod_ew_e$, $n:=|\Phicomb(\G)|$ and $\lambda(x):=\sum_e(W/w_e)x_e$. Then
+$\lambda$ induces a homomorphism $\bar\lambda:\Phicomb(\G)\to\Z/n$. It is surjective, hence an isomorphism, if and only if
+$\gcd_e(W/w_e)=1$. This holds in particular when the $w_e$ are pairwise coprime (any number of $1$'s allowed). \sttoprove{}
+\end{lemma}
+\begin{proof}[Proof sketch]
+We have $\lambda(\mathbf1)=n$, and $\lambda(Wx)=W\sum_ex_e=0$ for $x\in\Z[E]^0$, so $\bar\lambda$ is well defined. Its image is
+$\gcd_e(W/w_e)\Z/n$. If $\bar\lambda$ is onto, it is an isomorphism because both groups have order $n$. If a prime $r$ divides
+$w_{e_0}$ and the weights are pairwise coprime, then $r\nmid W/w_{e_0}$.
+\end{proof}
+
+\begin{remark}\label{rem:s03-kirchhoff}
+For a connected weighted graph, $|\Phicomb(\G)|=\sum_{T}\prod_{e\notin T}w_e$, where $T$ runs over the spanning trees. This is the
+weighted matrix-tree theorem \sttoprove{} (standard). Prop.~\ref{prop:s03-phi} is the two-vertex case.
+\end{remark}
+
+\begin{definition}[DR graph; seed Def.~DR]\label{def:s03-DR}
+Let $B=B_q$ and $U=\Uone{Mp^s}$ or $\Uzero M$. Then $\GDR_q(U)$ is the two-vertex weighted graph with edge set $\XBq U$, every edge
+oriented $0\to1$, and $w_e=|\Gamma_e/(\Gamma_e\cap\{\pm1\})|$. Put $\Xcomb_q(U):=\Z[\XBq U]^0$ and, for $k>2$,
+$\Xcomb_q(U;\Vk):=\Brandt U{\Vk}$. \status{definition}
+\end{definition}
+
+For $s\ge1$ every $w_e=1$ by Lemma stab(b) (\texttt{if:s01-classset}), so $\Phicomb(\GDR_q(U))\cong\Z/|S_s|$ \stproved.
+
+\subsubsection{The Mazur check}
+\begin{lemma}[elliptic classes]\label{lem:s03-elliptic}
+Let $q\ge5$, $B=B_q$ and $U=\hat\cO^\times$ maximal. Then $w_x\in\{1,2,3\}$ for every $[x]\in\XBq U$. Moreover
+\[n_2:=\#\{x:w_x=2\}=\tfrac12\big(1-(\tfrac{-4}q)\big),\qquad n_3:=\#\{x:w_x=3\}=\tfrac12\big(1-(\tfrac{-3}q)\big).\]
+That is, $n_2=1$ if and only if $q\equiv3\bmod4$, and $n_3=1$ if and only if $q\equiv2\bmod3$; otherwise each is $0$.
+\stpmc: the mass formula \texttt{if:s01-mass} [Vo, Thm~25.1.1, p.~415] \lit{voight\_2021\_quaternion-algebras}{Thm 25.1.1, p.~415}
+and the Eichler class number formula [Vo, Thm~30.1.5, p.~543] \lit{voight\_2021\_quaternion-algebras}{Thm 30.1.5, p.~543}.
+Geometric form: [Mz, App.\ Thm~1.1(d), p.~175--176] \lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{App.\ Thm 1.1(d), p.~175--176}.
+\end{lemma}
+\begin{proof}[Proof sketch]
+$\cO_x^\times$ is the unit group of an order in the definite algebra $B_q$, so by [Vo, Thm~11.5.14, p.~176]
+\lit{voight\_2021\_quaternion-algebras}{Thm 11.5.14, p.~176} \stcited{} it is cyclic of order $2,4,6$, or $Q_8$, or binary dihedral of
+order $12$, or binary tetrahedral of order $24$. The last three cases have $|\cO_x^\times/\pm1|>3$. The group $Q_8$ gives $i,j\in B_q$
+with $i^2=j^2=-1$, $ij=-ji$, so $B_q\cong(-1,-1)_\Q$, which is ramified exactly at $\{2,\infty\}$. The binary dihedral group of order $12$
+gives $B_q\cong(-3,-1)_\Q$ ([Vo, 11.5.12]), which is ramified exactly at $\{3,\infty\}$ (Hilbert symbol at $3$). The binary tetrahedral group
+contains $Q_8$. Since $q\ge5$, only the cyclic cases remain, that is $w_x=|\cO_x^\times/\pm1|\in\{1,2,3\}$.
+By Thm~30.1.5 and Thm~25.1.1,
+\[\#\mathrm{Cls}-\sum_x w_x^{-1}=\sum_x(1-w_x^{-1})=\tfrac{n_2}2+\tfrac{2n_3}3=\tfrac{\epsilon_2}4+\tfrac{\epsilon_3}3,\qquad
+\epsilon_2=1-(\tfrac{-4}q),\ \epsilon_3=1-(\tfrac{-3}q)\in\{0,2\}.\]
+Then $3n_2+4n_3=(3\epsilon_2+4\epsilon_3)/2\in\{0,3,4,7\}$, which has the unique solution $n_j=\epsilon_j/2$ in non-negative integers.
+\end{proof}
+
+\begin{proposition}[Mazur check; seed Example mazur]\label{prop:s03-mazur}
+For every prime $q$,
+\[\Phicomb\big(\GDR_q(\hat\cO^\times)\big)\ \cong\ \Z\big/\mathrm{num}\tfrac{q-1}{12},\]
+and this group is cyclic, generated via $\bar\lambda$ of Lemma~\ref{lem:s03-cyclic}. For $q\in\{2,3\}$ both sides are trivial.
+\stpmc: Lemma~\ref{lem:s03-elliptic}, Prop.~\ref{prop:s03-phi}, Lemma~\ref{lem:s03-cyclic}.
+\end{proposition}
+\begin{proof}
+Let $q\ge5$. By the mass formula, $\sum_e w_e^{-1}=\frac{q-1}{12}$. By Lemma~\ref{lem:s03-elliptic}, $\prod_ew_e=2^{n_2}3^{n_3}$,
+and $2^{n_2}3^{n_3}=12/\gcd(q-1,12)$: indeed $4\mid q-1$ if and only if $n_2=0$, and $3\mid q-1$ if and only if $n_3=0$. Hence
+$\prod w_e\sum w_e^{-1}=\mathrm{num}\frac{q-1}{12}$. The non-unit weights $2,3$ each occur at most once, so they are pairwise coprime
+and Lemma~\ref{lem:s03-cyclic} applies. For $q=2,3$ there is one class, with $w=12$ resp.\ $6$, and $\Phicomb=0$.
+\end{proof}
+
+\begin{remark}[comparison with Mazur; seed doubts]\label{rem:s03-mazur}
+(a) Mazur--Rapoport--Deligne show that the component group of $J_0(q)$ at $q$ is cyclic of order $\mathrm{num}\frac{q-1}{12}$,
+generated by $(0)-(\infty)$: [Mz, App.\ Thm~A.1(b), p.~173]
+\lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{App.\ Thm A.1(b), p.~173, PDF p.~142} \stcited. The definite
+statement above agrees in order \emph{and} in group structure. The identification of the two groups uses the dictionary of
+Remark~\ref{rem:s03-grothendieck}: edges are supersingular points [Ri90, Prop.~3.1, Prop.~3.3, p.~439--440], and the thickness is
+$e(i)=\#\mathrm{Aut}(E)/2=w_e$ [Ri90, p.~439], [DR, VI Thm~6.9(iii), p.~286--287]
+\lit{deligne-rapoport\_1973\_les-schemas-de-modules-de-courbes-elliptiques}{VI Th.~6.9(iii)}. This identification is
+\emph{not} part of the tree route.
+(b) The seed restricts to $q\ge5$, but the statement holds for all $q$.
+(c) The seed's mass formula ``$\sum_e|\cO_e^\times|^{-1}=\frac{q-1}{24}$'' is correct with full unit groups. With $w_e$ it reads
+$\frac{q-1}{12}$.
+\end{remark}
+
+\begin{example}[T1 data]\label{ex:s03-mazur}
+\begin{center}\small
+\begin{tabular}{rrlrr}\toprule
+$q$ & $h=|\XBq1|$ & weights $w_e$ & $\sum_ew_e^{-1}$ & $|\Phicomb|=\mathrm{num}\frac{q-1}{12}$\\\midrule
+$11$ & $2$ & $(2,3)$ & $5/6$ & $5$\\
+$23$ & $3$ & $(1,2,3)$ & $11/6$ & $11$\\
+$37$ & $3$ & $(1,1,1)$ & $3$ & $3$\\
+$101$ & $9$ & $(1^8,3)$ & $25/3$ & $25$\\
+$131$ & $12$ & $(1^{10},2,3)$ & $65/6$ & $65$\\\bottomrule
+\end{tabular}
+\end{center}
+The class numbers are those of [Vo, Exercise 30.6]: $(q-1)/12$, $(q+7)/12$, $(q+5)/12$, $(q+13)/12$ for $q\equiv1,5,7,11\bmod12$.
+The entries were derived by hand from Lemma~\ref{lem:s03-elliptic} \stsketch. HACS test T1 must reproduce them, including the Smith
+form $\Z/n$ (cyclicity).
+\end{example}
+
+\begin{proposition}[$\Phicomb$ is Eisenstein]\label{prop:s03-phieis}
+Let $q$ be any prime, $U=\Uzero M$, $B=B_q$, $\ell\nmid qM$, and let $T_\ell$ act on $\Z[\XBq U]$ by the Brandt matrix (homological
+convention, $[x]\mapsto\sum_i[xg_i]$). Then $T_\ell$ is self-adjoint for $\langle,\rangle_w$, so it acts on $\Phicomb(\GDR_q(U))$, and
+$T_\ell-(1+\ell)$ annihilates $\Phicomb(\GDR_q(U))$. \stproved{} (elementary proof below; valid for all primes $q$, including $q\in\{2,3\}$, and
+all $M$ with $\ell\nmid qM$).
+\provisional{F13: status changed from \stcited{} to \stproved{}; all primes $q$ and all $M$ with $\ell\nmid qM$; four-step proof inserted; sentence ``We do not claim the proposition beyond the range covered by [Ri90]'' (with the remark on $q\in\{2,3\}$, $U=\hat\cO^\times$) removed; before: \stcited{} [Ri90, Thm~3.12, p.~449] with [Ed91, Th.~1] (assumes $p>3$) as geometric analogue.}
+Cross-references (not needed for the proof): [Ri90, Thm~3.12, p.~449; proof p.~449--450, Remark 3.13]
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Thm 3.12, p.~449}. Ribet's $\Phi=\coker(\iota)$
+is \emph{literally} our $\Phicomb$, and his proof is the statement that the off-diagonal Brandt entries $B_\ell(i,j)$ are divisible by
+$e(i)=w_i$; this is step~1 below, a purely quaternionic fact. The geometric analogue for $\Phi_{N,p}$ is [Ed91, Th.~1] \stcited, which assumes $p>3$.
+\end{proposition}
+\begin{proof}
+Write $E=\XBq U$, let $R$ be the Eichler order of level $M$ in $B$, so that $E$ is the set of classes of right $R$-ideals, and
+$\Gamma_e=\cO_L(I)^\times$ for $e=[I]$. Let $B(e,e')$ be the Brandt matrix of $T_\ell$: $T_\ell[e]=\sum_{e'}B(e,e')[e']$. It counts
+the $\ell+1$ right $R$-ideals $J\subset I$ of reduced norm $\ell\,\Nrd(I)$ ($\ell\nmid qM$) that lie in the class $e'$. So
+$\sum_{e'}B(e,e')=\ell+1$. Write $w_e=|\Gamma_e/\pm1|$.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{$w_e\mid B(e,e')$ for $e'\ne e$.} The group $\Gamma_e/\pm1$ permutes the $\ell+1$ neighbours $J$ of $I$ by $J\mapsto\gamma J$,
+  and $\gamma J\cong J$ is in the same class. Suppose some $\gamma\in\Gamma_e$, $\gamma\ne\pm1$, fixes a neighbour $J$. As $B$ is
+  definite, $\gamma$ has finite order and $\Q(\gamma)$ is imaginary quadratic, so $\gamma$ has order $3,4$ or $6$ (up to sign) and $\Z[\gamma]$ is
+  $\Z[i]$ or $\Z[\omega]$. It is a principal ideal domain, and $\Z_\ell[\gamma]$ is its maximal order at $\ell$. Since $R_\ell\cong M_2(\Z_\ell)$,
+  Morita theory writes $I_\ell=L\otimes\Z_\ell^2$ and $J_\ell=L'\otimes\Z_\ell^2$ with $L$ a faithful $\Z_\ell[\gamma]$-lattice of
+  $\Z_\ell$-rank $2$ and $L'\subset L$ a $\Z_\ell[\gamma]$-stable sublattice of index $\ell$. So $L=\Z_\ell[\gamma]v$ is free of rank one
+  and $L'=\mathfrak pL$ for an ideal $\mathfrak p$ of norm $\ell$, which is generated by some $\pi\in\Z[\gamma]$ of norm $\ell$. Then $J_\ell=\pi I_\ell$,
+  and $J_v=I_v=\pi I_v$ for $v\ne\ell$, so $J=\pi I\cong I$, i.e.\ $J$ lies in the class $e$. Hence the neighbours in a class $e'\ne e$ have
+  trivial stabiliser in $\Gamma_e/\pm1$. They come in orbits of size $w_e$, and $w_e\mid B(e,e')$.
+\item \emph{Symmetry.} For $e\ne e'$ put $S(e,e')=B(e,e')/w_e\in\Z$. It is symmetric, because $w_{e'}B(e,e')=w_eB(e',e)$
+  (self-adjointness of $T_\ell$ at level $\Uzero M$, Prop.~s01-adjoint(a),(b); formal in the import as \texttt{brandt\_weighted\_symmetry}).
+\item \emph{Action on the dual.} $T_\ell$ preserves $\Z[E]^0$ (it multiplies degrees by $\ell+1$). Under $\Hom(\Z[E]^0,\Z)=\Z^E/\Z\mathbf1$ it
+  acts by $(T_\ell\varphi)(e)=\sum_{e'}B(e,e')\varphi(e')$, which preserves $\Z\mathbf1$ since the rows sum to $\ell+1$. The map
+  $x\mapsto\langle x,\cdot\rangle_w$ is $T_\ell$-equivariant by step~2, so $T_\ell$ acts on $\Phicomb=\Z^E/(\Z\mathbf1+W\Z[E]^0)$. For $\varphi\in\Z^E$,
+  \[\big((T_\ell-(\ell+1))\varphi\big)(e)=\sum_{e'\ne e}B(e,e')\big(\varphi(e')-\varphi(e)\big)=w_ex_e,\quad
+  x_e:=\sum_{e'\ne e}S(e,e')\big(\varphi(e')-\varphi(e)\big)\in\Z,\]
+  and $\sum_ex_e=0$ by the symmetry of $S$.
+\item \emph{Conclusion.} So $(T_\ell-(\ell+1))\Z^E\subseteq W\Z[E]^0$, which is the image of $X(\GDR_q(U))=\Z[E]^0$. Hence $T_\ell-(1+\ell)$ is zero on $\Phicomb$.
+\end{enumerate}
+The argument uses neither $q\ge5$, nor cyclic stabilisers, nor the mass formula. Status: \stproved{} (derived in the global seam audit; not yet re-read by a second reader).
+\end{proof}
+
+\subsubsection{The definite Ribet sequence}
+\begin{lemma}[bipartite collapse]\label{lem:s03-bip}
+Let $\G$ be a finite \emph{connected} bipartite multigraph with parts $V_0,V_1$, edge set $E$, and maps $s_j:E\to V_j$. Put
+$\partial=(-s_{0*},s_{1*}):\Z[E]\to\Z[V_0]\oplus\Z[V_1]$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\ker\partial\subseteq\Z[E]^0$, and $\partial$ restricts to a surjection $\Z[E]^0\twoheadrightarrow\Z[V_0]^0\oplus\Z[V_1]^0$.
+  Hence there is an exact sequence $0\to H_1(\G)\to\Z[E]^0\to\Z[V_0]^0\oplus\Z[V_1]^0\to0$, and $\rk H_1=|E|-|V_0|-|V_1|+1$.
+\item For every abelian group $A$, the kernel of $\partial^\vee:A^{V_0}\oplus A^{V_1}\to A^E$, $(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0$, is
+  the diagonal $\{(c\mathbf1,c\mathbf1):c\in A\}$.
+\item The sequence in (a) is the long exact homology sequence of the collapse $\G\to\G^{(2)}$ onto the graph with the same edges and two
+  vertices. The connecting map is $\partial|_{\Z[E]^0}$.
+\end{enumerate}
+\sttoprove{} (elementary; the seed's proof of Thm ribet(a) is (c)). This is the Lean target: no quaternions are involved.
+\end{lemma}
+\begin{proof}[Proof sketch]
+(a) If $\partial y=0$, then $\deg y=\deg s_{1*}y=0$. Because $\G$ is connected, $\partial(\Z[E])=\{(a,b):\deg a+\deg b=0\}$. Given
+$(a,b)$ with $\deg a=\deg b=0$, pick $y$ with $\partial y=(a,b)$. Then $\deg y=\deg b=0$. (b) The condition $f_1(s_1e)=f_0(s_0e)$ for
+every $e$ says that $(f_0,f_1)$ is constant along edges, hence constant on the connected graph $\G$.
+\end{proof}
+
+\begin{theorem}[definite Ribet sequence as a vertex collapse; seed Thm ribet]\label{thm:s03-ribet}
+Let $q\nmid D$, $U$ as in \texttt{if:s02-quot}, $\G:=\GU\quot\cT_q$, and $|\G|$ its underlying graph, with the orientation (C1).
+\begin{enumerate}[label=(\alph*)]
+\item Over $\Z$ there is an exact sequence, equivariant for all Hecke operators supported away from $q$:
+  \[0\to H_1(|\G|,\Z)\to\Z[\XB{U'}]^0\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\big(\Z[\XB U]^0\big)^{2}\to0.\]
+\item Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Then, with the traces of (C3),
+  \[0\to H_1(\GU,V)\to\Brandt{U'}V\xrightarrow{\alpha}\Brandt UV^{2}\to H_0(\GU,V)\to0.\]
+\item $\rk_\Z H_1(|\G|)=|\XB{U'}|-2|\XB U|+1$. At a level where all $\Gamma_x$ are trivial, this is $(q-1)|\XB U|+1$, as in
+  \texttt{if:s02-indef}. For $V=\Zp$, $p\ge5$: $H_1(\GU,\Zp)=H_1(|\G|,\Z)\otimes\Zp$.
+\end{enumerate}
+\stpmc: Lemma~\ref{lem:s03-bip} and \texttt{if:s02-quot} for (a); \texttt{if:s02-coh} for (b). The definite form of Ribet's
+surjectivity is [Ri90, Thm~3.15, p.~451] \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Thm 3.15, p.~451}
+\stcited. Ribet proves it with Eichler's theorems. [Ri90, Rem.~3.18, p.~452] records the graph-connectivity proof (Livn\'e,
+Edixhoven), which is ours.
+\end{theorem}
+
+\begin{remark}
+In (a), $H_1(|\G|,\Z)$ is the homology of the \emph{underlying graph}. It differs from $H_1(\GU,\Z)$ by torsion supported at $2,3$
+(the vertex groups). The two agree after $\otimes\Z[\frac16]$. In line with the amended \texttt{if:s02-indef}, the
+indefinite stage over $\Z$ is $H_1(|\G|,\Z)=H_1(\BG(U,q),\Z)=H_1(\GU,\Z)/\mathrm{torsion}$. Part (a) needs only the connectivity of
+$\BG(U,q)$, which is a finite check at a single level (stage 02). Part (b) and the identification of $H_0$ need full strong approximation. Ribet's version for $\GL_2$ character groups is (a) together with
+two identifications that the tree route does not prove: Čerednik--Drinfeld, and $\HypX$ at a second prime (stage 05).
+\end{remark}
+
+\begin{proposition}[definite level-raising operator]\label{prop:s03-LRdef}
+Let $V=\Z$ and $U=\Uzero M$ (trivial character). Let $s_j^\dagger$ be the adjoint of $s_{j*}$ for the weighted pairings on
+$\Z[\XB U]$ and $\Z[\XB{U'}]$. Explicitly, $s_0^\dagger[x]=\sum_{e:s_0e=x}[\Gamma_x:\Gamma_e]\,[e]$, which is integral because
+$\Gamma_e\subseteq\Gamma_x$. Then $\alpha^\dagger=(-s_0^\dagger,s_1^\dagger)$ maps $(\Z[\XB U]^0)^2$ into $\Z[\XB{U'}]^0$, and
+\[\alpha\alpha^\dagger=\begin{pmatrix}q+1&-T_q\\-T_q&q+1\end{pmatrix}\ \text{ on }(\Z[\XB U]^0)^2,\qquad
+\det=(q+1)^2-T_q^2,\]
+with $T_q=s_{1*}s_0^\dagger$ the Brandt operator at $q$. \sttoprove{}. This is the definite analogue of [Ri90, p.~454], where
+$\rho=\big(\begin{smallmatrix}p+1&t\\t&p+1\end{smallmatrix}\big)$ appears with Ribet's unsigned $\delta$ (see (C1)), and of [DT,
+Cor.~1, p.~446]. With coefficients $\Vk$ the diagonal and off-diagonal entries acquire powers of $q$ through the norm weight of the
+pairing (\texttt{weightedPairing} in the import). That normalisation is left to stage 06, which uses it.
+\end{proposition}
+
+\subsubsection{The definite Ihara lemma}
+\begin{corollary}[definite Ihara lemma, (i)--(ii); seed Cor.~ihara]\label{cor:s03-ihara}
+(i) $\alpha$ in Thm~\ref{thm:s03-ribet}(a) is surjective over $\Z$.
+(ii) For every abelian group $A$ (in particular $A=\F_\ell$ for every prime $\ell$), the kernel of
+$\alpha^\vee:(A^{\XB U})^2\to A^{\XB{U'}}$, $(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0$, is the line of constants $A\cdot(\mathbf1,\mathbf1)$.
+(ii$'$) Let $p\ge5$ and let $W$ be a $\Zp$-module with continuous $U_p$-action. Then
+\[\ker\big(\alpha^\vee:\Brandt UW^2\to\Brandt{U'}W\big)=\big\{(f_w,\,f_{[q]^{-1}w}):w\in W^{U^1_p}\big\},\qquad f_w(x):=[\tau(x)]^{-1}w,\]
+and this is $H^0(\GU,W)=W^{U^1_p}$.
+\stproved{} for (i), (ii) (Lemma~\ref{lem:s03-bip} and \texttt{if:s02-quot}). \sttoprove{} for (ii$'$): check that $f_w\in\Brandt UW$
+by (C5) and that $s_1^*f_{w'}=s_0^*f_{[q]w'}$; then use \texttt{if:s02-coh}.
+\end{corollary}
+
+\begin{theorem}[Ihara (iii): $H_0$ and its Hecke action]\label{thm:s03-iharaH0}
+Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Use conventions (C1)--(C6).
+\begin{enumerate}[label=(\alph*)]
+\item The map
+  \[\varepsilon:\Brandt UV^2\to V_{U^1_p},\qquad \varepsilon(f_0,f_1)=\sum_{[x]\in\XB U}w_x^{-1}\big([\tau(x)]\,f_0(x)+[q\,\tau(x)]\,f_1(x)\big)\]
+  is well defined and surjective, and $\ker\varepsilon=\mathrm{im}\,\alpha$. Hence $\coker\alpha\cong H_0(\GU,V)=V_{U^1_p}$.
+\item For $g$ supported at $\ell\nmid Dpq$, the induced action of $T_g$ on $\coker\alpha$ is
+  \[T_g\ \longmapsto\ \deg(UgU)\cdot[\ell^{\,v_\ell(\Nrd g)}].\]
+  In particular, $T_\ell$ acts as $(1+\ell)[\ell]$ and $S_\ell$ acts as $[\ell]^2$, the exponent being $+1$. If $U_p$ contains
+  the scalars, then $[\ell]^2$ is the scalar $\ell$, which acts on $\Vk$ as $\ell^{k-2}$, in agreement with the classical
+  normalisation $S_\ell=\ell^{k-2}$. The exponent $+1$ is for the cohomological operators $T_g$; for the transposed (homological) operators of the normative convention of stage 02, \texttt{if:s02-indef}, it is $-1$ (Remark~\ref{rem:s03-pm}).
+  \provisional{F9: exponent remark added; before: no mention of the exponent $-1$ for the normative homological convention.}
+\item On the $\chi$-eigenpiece of $V_{U^1_p}\otimes\cOE$ for a character $\chi:\Zp^\times\to\cOE^\times$ (via $[\cdot]$), $T_\ell$ acts by
+  $(1+\ell)\chi(\ell)$.
+\end{enumerate}
+\sttoprove{} (proof sketched below; it upgrades the seed's ``Hecke action \stsketch'').
+\end{theorem}
+
+\begin{remark}[where $\ell^{-1}$ comes from]\label{rem:s03-pm}
+The seed's exponent $\ell^{\pm1}$ is the choice between $T_\ell$ and its adjoint $T_\ell^\dagger=T_{g^{-1}}=S_\ell^{-1}T_\ell$. The
+adjoint acts on $\coker\alpha$ as $(1+\ell)[\ell]^{-1}$. One obtains $\ell^{-1}$ by transporting the homological operator
+$[x]\mapsto\sum_i[xg_i]$ on $\Brandt UV_*$ (stage 02's presentation of $H_*$) through the norm map $\nu$ of stage 01, or by dualising the action on $H^0(\GU,V^\vee)$, where $T_\ell$ acts as
+$(1+\ell)[\ell]$ on $(V^\vee)^{U^1_p}$ and the transpose of $[\ell]$ on $V^\vee$ is $[\ell]^{-1}$ on $V$. Compare the adjunction
+formula $([UgV]f_1,f_2)=\|\det g\|^{2-k}(f_1,[Vg^{-1}U]f_2)$ of [DT, p.~446]
+\lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{p.~446}. Under (C4), with the classical $S_\ell$,
+only $+1$ is consistent with (b). HACS test T6 should confirm this for both normalisations of the code.
+\end{remark}
+
+\begin{corollary}[Eisenstein support]\label{cor:s03-eis}
+Call a maximal ideal $\m$ of the Hecke algebra $\T$ (generated over $\Zp$ by the $T_\ell,S_\ell$ with $\ell\nmid NDpq$) \emph{Eisenstein}
+if there is $a\in\Z/(p-1)$ such that $T_\ell-\ell^a(1+\ell)\in\m$ and $S_\ell-\ell^{2a}\in\m$ for all such $\ell$. This implies
+Eisenstein in the sense of [DT, p.~439--440]. Then every $\m$ in the support of $H_0(\GU,V)$ is Eisenstein, and
+$H_0(\GU,V)_\m=0$ for non-Eisenstein $\m$. \sttoprove{} (from Thm~\ref{thm:s03-iharaH0}: the image of $\Zp[[\Zp^\times]]$ in
+$\End(V_{U^1_p})$ is finite over $\Zp$, and its residue characters factor through $\F_p^\times$). The classical analogue is [DT,
+Lemma~2, p.~445] \stcited{} \lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{Lemma 2, p.~445--446}.
+\end{corollary}
+
+\begin{remark}[vanishing and non-vanishing of $H_0$ with $\Vk$; sharpens T6]\label{rem:s03-T6}
+(a) If $U_p=\GL_2(\Zp)$ and $2<k\le p+1$, then $H_0(\GU,\Vk)=0$. Indeed, $\Sym^{k-2}\F_p^2$ is an irreducible non-trivial
+$\SL_2(\F_p)$-module, so its coinvariants vanish, and Nakayama applies. \sttoprove.
+(b) If $U_p=\Uone{p^s}_p$ with $s\ge1$, then $U^1_p\bmod p$ is the upper unipotent group. Its coinvariants on $\Sym^{k-2}\F_p^2$ are
+non-zero, so $H_0(\GU,\Vk)\ne0$ for every $k$. This is the finite-level Eisenstein cokernel that stage 04 (Lemma ekills, seed O3)
+must kill with $e$. The $U_p$-action on $H_0$ is not determined here. \sttoprove.
+(c) The seed lists T6 as ``new''. With Thm~\ref{thm:s03-iharaH0} it becomes a validation item: for $B_3$, tree at $2$,
+$p\in\{5,7\}$, at maximal level at $p$, the prediction is $H_0=0$ for $k\le p+1$, an explicit Eisenstein action
+$T_\ell=(1+\ell)[\ell]$ for $p+3\le k\le 2p$, and $H_0\ne0$ at $\Uone p$-level.
+\end{remark}
+
+\subsubsection{The $\GL_2$ side: the amalgam (Betti only)}\label{ss:s03-amalgam}
+Let $(M,q)=1$ and $\Gamma:=\Gamma_0(M)$. Put $G:=\Gamma_0(M)[\frac1q]=\{\gamma\in\SL_2(\Z[\frac1q]):\gamma\equiv(\begin{smallmatrix}*&*\\0&*\end{smallmatrix})\bmod M\}$,
+$\alpha'=\mathrm{diag}(q,1)$ and $\Gamma':=\alpha'^{-1}\Gamma\alpha'$. Then
+$\alpha'^{-1}(\begin{smallmatrix}a&b\\c&d\end{smallmatrix})\alpha'=(\begin{smallmatrix}a&b/q\\qc&d\end{smallmatrix})$, so
+$\Gamma\cap\Gamma'=\Gamma_0(Mq)$. Moreover $\alpha'^{-1}v_0=\alpha v_0=v_1$ in $\cT_q$, so the conventions agree with stage 02.
+
+\begin{proposition}[amalgam]\label{prop:s03-amalgam}
+$G=\Gamma*_{\Gamma_0(Mq)}\Gamma'$. \stpmc: [Se, II.1.4, Thm~3, p.~79] \lit{serre\_1980\_trees}{II.1.4 Thm 3, p.~79} under
+hypothesis (D) of [Se, II.1.4 Thm~2, p.~78]: the closure of $G$ in $\SL_2(\Qq)$ is $\SL_2(\Qq)$. This follows from strong
+approximation for $\SL_2$ over $\Q$ [Vo, Thm~28.2.3, p.~479] \lit{voight\_2021\_quaternion-algebras}{Thm 28.2.3, p.~479}. For
+$M=1$ it is [Se, p.~81] \stcited, whose second factor is exactly $\{(\begin{smallmatrix}a&q^{-1}b\\qc&d\end{smallmatrix})\}=\Gamma'$.
+The vertex stabilisers are $\Gamma$ (of $v_0$) and $\Gamma'$ (of $v_1$).
+\end{proposition}
+
+Let $l$ be a prime with $l>k$, $l\ne q$, so $l\ge5$. Let $V=\Sym^{k-2}(\Z_{(l)}^2)$, $k\ge4$ even, be the symmetric power of the
+standard (column) representation of $\GL_2(\Z_{(l)})\ni\alpha'$. Let $c:H^1(\Gamma,V)\xrightarrow\sim H^1(\Gamma',V)$,
+$(cz)(\gamma')=\alpha'^{-1}z(\alpha'\gamma'\alpha'^{-1})$, be the conjugation isomorphism.
+
+\begin{proposition}[Mayer--Vietoris; seed \S6.4]\label{prop:s03-MV}
+There is an exact sequence
+\[0\to H^1(G,V)\to H^1(\Gamma,V)^2\xrightarrow{\ \Psi\ }H^1(\Gamma_0(Mq),V)\to H^2(G,V)\to0,\qquad \Psi(x,y)=\mathrm{res}\,x-\mathrm{res}\,(cy).\]
+\stpmc: [Br, II.7 Cor.~7.7, p.~51; III.6 Exercise, p.~74] \lit{brown\_1982\_cohomology-of-groups}{II Cor.~7.7 p.~51; III.6 Ex.\ p.~74}
+\stcited, applied to Prop.~\ref{prop:s03-amalgam}. The end terms vanish for these reasons. $H^0(\Gamma_0(Mq),V)=0$ for $k>2$: the
+image of $\Gamma_0(Mq)$ in $\SL_2(\F_l)$ is everything ($l\nmid Mq$), and $\Sym^{k-2}\F_l^2$ is irreducible and non-trivial since
+$k-2<l$. $H^2(\Gamma,V)=0$ because $\Gamma$ is virtually free with torsion of order prime to $l$. The same argument shows that
+$H^1(\Gamma,V)$ is torsion-free.
+\end{proposition}
+
+\begin{proposition}[$\Psi^*\Psi$]\label{prop:s03-PsiPsi}
+Put $\Psi^*(z):=\big(\mathrm{cor}^\Gamma_{\Gamma_0(Mq)}z,\ -c^{-1}\mathrm{cor}^{\Gamma'}_{\Gamma_0(Mq)}z\big)$. Then
+\[\Psi^*\Psi=\begin{pmatrix}q+1&-T'_q\\-T''_q&q+1\end{pmatrix}\ \text{ on }H^1(\Gamma,V)^2,\qquad
+T'_q=\mathrm{cor}\circ\mathrm{res}\circ c,\quad T''_q=c^{-1}\circ\mathrm{cor}'\circ\mathrm{res}.\]
+Here $T'_q$ and $T''_q$ are the double-coset operators of $\Gamma\alpha'\Gamma$, acting on $V$ through $\alpha'^{-1}$ resp.\ $\alpha'$.
+One of them is the classical integral $T_q$, and the other is $q^{2-k}T_q$. Which one is which depends on whether $V$ or $V^\vee$
+is taken as the coefficient system (and on the order of the two factors). The seed's matrix
+$\big(\begin{smallmatrix}q+1&-T_q\\-q^{2-k}T_q&q+1\end{smallmatrix}\big)$ is one of these choices. In every normalisation
+\[\det(\Psi^*\Psi)=(q+1)^2-q^{2-k}T_q^2=-q^{2-k}\big(T_q^2-q^{k-2}(q+1)^2\big),\]
+which is Ribet's level-raising condition up to a unit. \sttoprove{} (standard double-coset computation; \stcomp{} in seed C3 with
+the HACS normalisation, to be recorded).
+\end{proposition}
+
+\begin{definition}[Betti level-raising module]\label{def:s03-LR}
+For a maximal ideal $\m$ of the Hecke algebra of $\Gamma_0(M)$ acting on $H^1(\Gamma,V)$, put
+$\mathrm{LR}_q(M,k)_\m:=\coker(\Psi^*\Psi)_\m$. It is a finite module whenever $T_q^2-q^{k-2}(q+1)^2$ is a non-zero-divisor on
+$H^1(\Gamma,V)_\m$. \status{definition} It is used by stage 06 as the Betti incarnation of $\cc_q$ (seed C3, T4; status there
+\stsketch). [Ri84] is the classical source, and it is not in \texttt{literature/}. The cohomological old/new congruence module
+also appears in [Ri83, Thm~(1.4), p.~195]
+\lit{ribet\_1983\_mod-p-hecke-operators-and-congruences-between-modular-forms}{Thm (1.4), p.~195} \stcited.
+\end{definition}
+
+\begin{conjecture}[Ihara lemma for $\GL_2$, Betti form]\label{conj:s03-iharaGL2}
+For non-Eisenstein $\m$, $(\coker\Psi)_{\m,\mathrm{tors}}=0$. Equivalently, $\Psi\otimes\F_l$ is injective after localisation at
+$\m$, because $H^1(\Gamma,V)$ is torsion-free and $H^2(\Gamma,V/l)=0$. \stexp{} (consistent with C3: all torsion found is
+Eisenstein, at $l=k+1$). The classical route uses Ihara's lemma [Ih75] (not in \texttt{literature/}) or the congruence subgroup
+property of $\SL_2(\Z[\frac1q])$ (\texttt{literature/serre\_1970\_*}, scan, theorem not checked). The indefinite quaternionic analogue
+is [MS19, Thm~1.1]
+\lit{manning-shotton\_2019\_iharas-lemma-for-shimura-curves-over-totally-real-fields-via-patching\_arxiv}{Thm 1.1} \stcited.
+\end{conjecture}
+
+\subsection{Proof strategy}
+\begin{itemize}
+\item \emph{Prop.~\ref{prop:s03-phi}, Lemma~\ref{lem:s03-cyclic}, Prop.~\ref{prop:s03-mazur}.} These are finite linear algebra plus two
+  cited inputs: the mass formula (imported) and the elliptic count (Lemma~\ref{lem:s03-elliptic}, derived from Voight's class number
+  formula by the small linear system in its proof). Cyclicity comes from the explicit functional $\lambda$.
+\item \emph{Thm~\ref{thm:s03-ribet}(a) and Cor.~\ref{cor:s03-ihara}(i), (ii).} Lemma~\ref{lem:s03-bip} is applied to the bipartite
+  graph $(\XB U\sqcup\XB U,\XB{U'},s_0,s_1)$. Connectivity is the only arithmetic input: the graph is a quotient of the connected tree
+  (\texttt{if:s02-quot}, via \texttt{if:s02-SA}). Equivalently, by (ii) with $A=\Z$, connectivity \emph{is} the statement
+  $H^0(\GU,\Z)=\Z$.
+\item \emph{Thm~\ref{thm:s03-ribet}(b).} It is the two-term complex of \texttt{if:s02-coh}, rewritten with (C3).
+\item \emph{Thm~\ref{thm:s03-iharaH0}.} (a) Surjectivity of $\varepsilon$: for $v\in V$ and a class $x$, take $f_0$ supported on the class of $x$ with $f_0(x)=\sum_{\gamma\in\Gamma_x/\pm1}\gamma v$ (and $f_1=0$). Then $\varepsilon(f_0,0)=[\tau(x)]v$ in $V_{U^1_p}$, because $\Gamma_x\subseteq U^1_p$ acts trivially on coinvariants. This does not need $\tau$ to be surjective. Next, use the perfect pairing $\langle,\rangle_U$ between $\Brandt UV$ and
+  $\Brandt U{V^*}$, with $V^*=\Hom(V,\Q_p/\Z_p)$ ($p\nmid w_x$). Under it, $\coker\alpha$ is dual to $\ker\alpha^\vee$, which
+  Cor.~\ref{cor:s03-ihara}(ii$'$) computes as $\{(f_w,f_{[q]^{-1}w})\}$. Pairing $(f_0,f_1)$ against $(f_w,f_{[q]^{-1}w})$ gives
+  $w(\varepsilon(f_0,f_1))$. As a direct check, $\varepsilon\circ\alpha=0$: unfolding
+  $\sum_{[x]}w_x^{-1}\sum_{u\in U/U'}F(xu)=\sum_{[y]\in\XB{U'}}w_y^{-1}F(y)$ turns both terms into
+  $\sum_{[y]}w_y^{-1}[\tau(y)]g(y)$, using $\tau(xu\alpha^{-1})=q\tau(x)$. (b) Substitute $y=xg_i$ in $\varepsilon(T_gf)$. The
+  double sum becomes a sum over $Ug^{-1}U$-translates. Since $\tau(yh)=\ell^{m}\tau(y)$ for $\Nrd h\in\ell^{-m}\Z_\ell^\times$, one gets
+  $\varepsilon(T_gf)=\deg(UgU)[\ell^m]\varepsilon(f)$. Equivalently, $T_g^\dagger=T_{g^{-1}}$ acts on $f_w$ by $\deg\cdot[\ell^m]^{-1}$,
+  and transposing gives $[\ell^m]$.
+\item \emph{Cor.~\ref{cor:s03-eis}.} This is a support argument over the finite $\Zp$-algebra generated by $[\Zp^\times]$.
+\item \emph{Amalgam.} Serre II.1.4 Thm~3 needs (D), which follows from strong approximation for $\SL_2$. MV is Brown. The formula for
+  $\Psi^*\Psi$ is the identity $\mathrm{cor}\circ\mathrm{res}=[\Gamma:\Gamma_0(Mq)]=q+1$ on the diagonal, together with the
+  double-coset description of $\mathrm{cor}\circ c^{\pm1}\circ\mathrm{res}$ off it. The powers of $q$ are bookkeeping of
+  $\alpha'^{-1}=q^{-1}\alpha'^\iota$ on $\Sym^{k-2}$.
+\end{itemize}
+
+\subsection{Dependencies and interfaces}
+\paragraph{Imported (restated verbatim from \texttt{SPLIT.md}).}
+\begin{interface}[\texttt{if:s01-classset}]
+$X_B(U)$, $\Gamma_x$ and $w_x$ as defined in the conventions above. Facts: $X_B(U)$ is finite, $\Gamma_x$ is finite,
+$\Nrd(U)=\Zhat^\times$ for all the standard levels, and Lemma stab (a)--(c) holds. \status{imported from stage 01}
+\end{interface}
+\begin{interface}[\texttt{if:s01-brandt}]
+$M(U;V)$ together with the Brandt pairing $\langle[x],[y]\rangle=w_x\delta_{xy}$, the norm-map identification
+$\Zp[X]\cong\Zp^X$ when $p\nmid|\Gamma_x|$, and the right-translation maps $x\mapsto xg$ for $g\in B_q^\times$.
+\status{imported from stage 01}
+\end{interface}
+\begin{interface}[\texttt{if:s01-hecke}]
+The Hecke operators $T_\ell$, $S_\ell$, $U_\ell$, $\langle d\rangle$, $U_p$ (with fixed normalisation $N_{U_p}$) and $\Pi_\ell$
+($\ell\mid D$). All operators supported away from $q$ commute with right translation by $B_q^\times$. $T^*=T_{g^{-1}}$; $T_\ell$ is self-adjoint only at level $\Uzero M$.
+\provisional{F15: exporter's sentence from stage 01; before: ``Self-adjointness for the pairing''.}
+\status{imported from stage 01}
+\end{interface}
+\begin{interface}[\texttt{if:s01-mass}]
+The mass formula $\sum_x1/|\Gamma_x|=(1/24)\prod_{\ell\mid D}(\ell-1)$ at maximal level (the full-unit convention, as in the
+import's \texttt{Hyp.EichlerMass}), and its level change. \status{imported from stage 01}
+\end{interface}
+\begin{interface}[\texttt{if:s02-tree}, \texttt{if:s02-SA}, \texttt{if:s02-quot}, \texttt{if:s02-coh}, \texttt{if:s02-indef}]
+$\cT_q$, its types, $v_0$, $v_1=\alpha v_0$, $e_0$, and Lemma tree. Strong approximation: $\hat B^1=B^1(B^1_q\times U^{1,(q)})$ for
+$q\nmid D$, with $U$ as in Prop quot. Status: cited (Voight Ch.~28), or a hypothesis in Lean. Prop quot (a)--(c): the bijections,
+the degeneracies $s_0[x]=[x]$ and $s_1[x]=[x\alpha]$, stabilisers, and Hecke equivariance. Prop coh (the two-term complex) and
+Prop harm; $H_0(\GU,V)=V_{U_p^1}$. The definition $\cX^{(q)}_{Dq}(U;V):=H_1(\GU,V)$; the rank at a free level is
+$(q-1)|X_B(U)|+1$. Amended (stage 02, D1): over $\Z$, $\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)=H_1(\GU,\Z)/\mathrm{torsion}$, which agrees
+with $H_1(\GU,\cdot)$ after $\otimes\Zp$, $p\ge5$. $H_0(\GU,V)=V_{U^1_p}$ needs full strong approximation, not the per-level check
+(stage 02, D3). \status{imported from stage 02}
+\end{interface}
+
+\paragraph{Checks against the committed drafts of stages 01 and 02.}
+(R1) Stage 01 uses (C4): the cohomological $T_gf(x)=\sum_ig_{i,p}f(xg_i)$ (Def.~s01-hecke), with $S_\ell=\ell^{k-2}$ at level
+$\Uzero M\cdot\GL_2(\Zp)$ (Prop.~s01-relations(a)). So Thm~\ref{thm:s03-iharaH0}(b) holds with exponent $+1$ as stated. (R2) Stage 01
+states $T_g^*=T_{g^{-1}}$ (\texttt{if:s01-hecke}). Its norm map $\nu$ intertwines $T_g$ on $\Z[X]$ (transpose action) with $T_{g^{-1}}$
+on $\Z^X$, and $\pi_*$ with the trace (Prop.~s01-adjoint). This is (C3). (R3) Stage 02 presents $H_*(\GU,V)$ as the homology of the
+\emph{homological} modules $\Brandt{\cdot}{V}_*$, with $\partial=(-s_{0*},s_{1*})$, edges oriented $0\to1$, and the graph $\BG(U,q)$
+connected. This is consistent with (C1). However, if $H_0$ is taken as $\coker\partial$ on $\Brandt UV_*^2$ with the stage-01
+transposed Hecke action, then $\nu$ turns $T_\ell$ into $T_\ell^\dagger$, and the exponent in Thm~\ref{thm:s03-iharaH0}(b) becomes
+$-1$ (Remark~\ref{rem:s03-pm}). Every use must say which presentation it means. The normative convention is the one fixed in stage 02, \texttt{if:s02-indef}:
+the Hecke action on $H_*(\GU,V)$ comes from the homological complex with the transposed operators, which corresponds to the adjoint operators $T_{g^{-1}}$ on the cohomological modules. In it the exponent is $-1$; Thm~\ref{thm:s03-iharaH0}(b) keeps $+1$ for the cohomological operators.
+\provisional{F9: normative convention cross-referenced to stage 02 \texttt{if:s02-indef}; before: R3 only warned that every use must say which presentation it means.} (R4) $H_0(\GU,V)=V_{U^1_p}$, and hence
+Thm~\ref{thm:s03-iharaH0}, uses the full density of $\GU$ in $U^1_p$ (\texttt{if:s02-coh}, stage 02 D3). It is \emph{not} discharged by
+the finite per-level connectivity check of stage 02, which suffices only for Thm~\ref{thm:s03-ribet}(a) and
+Cor.~\ref{cor:s03-ihara}(i), (ii).
+
+\paragraph{Exported.}
+\begin{interface}[\texttt{if:s03-graph}]\label{if:s03-graph}
+Weighted graphs, $X(\G)$, $\langle,\rangle_w$, $\Phicomb$ (Def.~\ref{def:s03-graph}); Prop.~\ref{prop:s03-phi} and
+Lemma~\ref{lem:s03-cyclic}; the DR graph $\GDR_q(U)$ and $\Xcomb_q(U)$ (Def.~\ref{def:s03-DR}); the Mazur check
+Prop.~\ref{prop:s03-mazur} ($\Phicomb(\GDR_q(1))\cong\Z/\mathrm{num}\frac{q-1}{12}$, cyclic, all $q$); $\Phicomb$ is Eisenstein
+(Prop.~\ref{prop:s03-phieis}). Status: \stpmc.
+\end{interface}
+\begin{interface}[\texttt{if:s03-ribet}]\label{if:s03-ribet}
+Thm~\ref{thm:s03-ribet}(a) over $\Z$ and (b) with coefficients, with $\alpha=(-s_{0*},s_{1*})$, edges oriented $0\to1$, and $s_{j*}$
+the traces (C3). The abstract core is Lemma~\ref{lem:s03-bip}. Optional: $\alpha\alpha^\dagger$ (Prop.~\ref{prop:s03-LRdef}). Status:
+\stpmc{} (given \texttt{if:s02-quot}, \texttt{if:s02-coh}).
+\end{interface}
+\begin{interface}[\texttt{if:s03-ihara}]\label{if:s03-ihara}
+Cor.~\ref{cor:s03-ihara}(i), (ii) over any coefficient group, and (ii$'$). (iii) $=$ Thm~\ref{thm:s03-iharaH0}: $\coker\alpha\cong
+V_{U^1_p}$ via $\varepsilon$, with $T_g\mapsto\deg(UgU)[\ell^{v_\ell(\Nrd g)}]$ under (C4), and Cor.~\ref{cor:s03-eis} ($H_0$ is
+Eisenstein). Status: (i), (ii) \stproved; (ii$'$), (iii) \sttoprove{} with proof sketch.
+\end{interface}
+\begin{interface}[\texttt{if:s03-amalgam}]\label{if:s03-amalgam}
+Prop.~\ref{prop:s03-amalgam} (amalgam for $\Gamma_0(M)[\frac1q]$), Prop.~\ref{prop:s03-MV} (MV sequence, $\Psi$),
+Prop.~\ref{prop:s03-PsiPsi} ($\Psi^*\Psi$, with $\det=(q+1)^2-q^{2-k}T_q^2$), and Def.~\ref{def:s03-LR}
+($\mathrm{LR}_q(M,k)_\m=\coker(\Psi^*\Psi)_\m$). Status: amalgam and MV \stpmc; $\Psi^*\Psi$ \sttoprove{} (computed in C3).
+\end{interface}
+
+\paragraph{Interface deviations.}
+\begin{enumerate}[label=(D\arabic*)]
+\item \texttt{if:s03-ihara}: \texttt{SPLIT.md} says that (iii) ``is sketched''. Here it is upgraded to ``to prove'' with a complete
+  sketch, and the exponent is fixed to $+1$ under (C4). This needs (R1).
+\item \texttt{if:s03-ihara}: (ii) is stated for every abelian group $A$ (the seed says $\F_\ell$), and (ii$'$) with coefficients is
+  added.
+\item \texttt{if:s03-graph}: it adds Lemma~\ref{lem:s03-cyclic}, the Mazur check as a proposition valid for all $q$, and
+  Prop.~\ref{prop:s03-phieis}.
+\item \texttt{if:s03-amalgam}: the seed's $\Psi^*\Psi$ matrix is exported only up to the choice between $T'_q$ and $T''_q$ in the
+  off-diagonal entries (Prop.~\ref{prop:s03-PsiPsi}). Stage 06 should use only $\det(\Psi^*\Psi)$ and $\coker(\Psi^*\Psi)_\m$, which
+  do not depend on that choice up to isomorphism.
+\end{enumerate}
+
+\subsection{Lean, HACS, talk}
+The tracks are independent. Each milestone list refers only to statements that already exist above.
+
+\paragraph{Mathematics track.}
+\begin{enumerate}[label=M\arabic*.]
+\item Write full proofs of Lemma~\ref{lem:s03-cyclic}, Lemma~\ref{lem:s03-elliptic} and Prop.~\ref{prop:s03-mazur}.
+\item Write the full proof of Thm~\ref{thm:s03-iharaH0}(a)--(c) and Cor.~\ref{cor:s03-eis}, including the unfolding identity and
+  well-definedness of $\varepsilon$. Cross-check with stage 01's final Hecke and pairing conventions (R1), (R2).
+\item Prove Prop.~\ref{prop:s03-LRdef} and fix its $\Vk$-version jointly with stage 06.
+\item Prove Prop.~\ref{prop:s03-PsiPsi} in one fixed normalisation, and record which entry carries $q^{2-k}$ in the HACS C3 code.
+\end{enumerate}
+
+\paragraph{Lean track.}
+\begin{enumerate}[label=L\arabic*.]
+\item \emph{Weighted bipartite multigraphs} as data $(V_0,V_1,E,s_0,s_1,w)$ with \texttt{Fintype}, and the incidence maps on
+  \texttt{Finsupp} or \texttt{Fin n} $\to\Z$ (not \texttt{SimpleGraph}). Define $X(\G)$ and $\Phicomb$ as a quotient module.
+\item Lemma~\ref{lem:s03-bip}(a), (b) with connectivity as a hypothesis, stated as a \texttt{Relation.ReflTransGen} on vertices. This is
+  Thm~\ref{thm:s03-ribet}(a) and Cor.~\ref{cor:s03-ihara}(i), (ii) in abstract form.
+\item Prop.~\ref{prop:s03-phi}: $|\Z^E/(W\Z[E]^0+\Z\mathbf1)|=\sum_e\prod_{e'\ne e}w_{e'}$. This needs the index of a full-rank sublattice
+  as $|\det|$; check what Mathlib v4.35.0 provides. Lemma~\ref{lem:s03-cyclic} via $\lambda$.
+\item The arithmetic of Prop.~\ref{prop:s03-mazur} ($2^{n_2}3^{n_3}\cdot\frac{q-1}{12}=\mathrm{num}\frac{q-1}{12}$), from hypotheses
+  ``$\sum w^{-1}=(q-1)/12$'' (from \texttt{Hyp.EichlerMass}) and the elliptic count (a new registered hypothesis until the class number
+  formula exists in Lean).
+\item Later: instantiate L2 on $\XB U\sqcup\XB U$ with the import's \texttt{classSet}, connectivity coming from the SA hypothesis of
+  stage 02. Thm~\ref{thm:s03-iharaH0} needs Brandt modules with coefficients and the norm character, built on
+  \texttt{weightedPairing}/\texttt{normWeight}.
+\item Not now: the amalgam (the import has no $\SL_2(\Z)$ generators and no Serre theory of trees).
+\end{enumerate}
+
+\paragraph{HACS / computation track.}
+\begin{enumerate}[label=H\arabic*.]
+\item \textbf{T1}: $q\in\{11,23,37,101,131\}$. Class sets of $B_q$ with weights, and the Smith form of $\langle,\rangle_w$ on
+  $\Z[E]^0$. Predict Example~\ref{ex:s03-mazur} and cyclicity. Also check that $T_\ell-(1+\ell)$ kills $\Phicomb$ for $\ell\le13$
+  (Prop.~\ref{prop:s03-phieis}).
+\item \textbf{T2}: (a) $B_2$, $q=7$: $|\XB{U'}|=2$, $\rk H_1=1$. (b) $B_2$, $q=13$: $|\XB{U'}|=3$, $\rk H_1=2$. (c) $B_{11}$, $q=2$:
+  $|\XB U|=2$, $|\XB{U'}|=3$, $\rk H_1=0$, so $\alpha$ is unimodular. Prediction for (c) with the \emph{weighted} adjoint: $T_2=-2$ on
+  $\Z[\XB U]^0$, so $|\coker(\alpha\alpha^\dagger)|=|\det\big(\begin{smallmatrix}3&2\\2&3\end{smallmatrix}\big)|=5$ \emph{exactly}
+  \stsketch{} (hand computation). Compare with the unweighted adjoint. The class numbers were checked by hand with [Vo,
+  Thm~30.1.5].
+\item \textbf{T6}: $B_3$, tree at $2$, $p\in\{5,7\}$, $k\le2p$. Compute $\coker\alpha$ and $\varepsilon$ explicitly, and the
+  $T_\ell$-action. Predict Remark~\ref{rem:s03-T6} and the exponent $+1$ (Thm~\ref{thm:s03-iharaH0}). Run with both Hecke
+  conventions to see the $\pm1$ flip.
+\item \textbf{C3 re-run}: record the normalisation of $\Psi^*\Psi$ used (Prop.~\ref{prop:s03-PsiPsi}) and check that $\det$ is
+  independent of it.
+\end{enumerate}
+
+\paragraph{Talk track.}
+\begin{enumerate}[label=K\arabic*.]
+\item Central slide: the tree quotient $\GU\quot\cT_q$ collapses onto the two-vertex DR graph, and the kernel of the collapse is the
+  Ribet sequence (Lemma~\ref{lem:s03-bip}).
+\item The Mazur slide: $q=11$, two edges of weights $2,3$, so $|\Phi|=6(\frac12+\frac13)=5$. In general
+  $\prod w\cdot\frac{q-1}{12}=\mathrm{num}\frac{q-1}{12}$ (Prop.~\ref{prop:s03-mazur}).
+\item ``Ihara $=$ connectivity'' (Cor.~\ref{cor:s03-ihara}(ii)), and ``the cokernel is Eisenstein''
+  ($T_\ell\mapsto(1+\ell)[\ell]$).
+\end{enumerate}
+
+\subsection{Risks}
+\begin{enumerate}[label=R\arabic*.]
+\item \emph{Convention drift.} The exponent in Thm~\ref{thm:s03-iharaH0}, the signs in $\alpha\alpha^\dagger$ and the factor $2$ in the
+  weights all depend on (C1)--(C5). A different Hecke convention in stage 01 silently flips $[\ell]$ to $[\ell]^{-1}$. Mitigation:
+  (R1), (R2), and T6 run with both conventions.
+\item \emph{$\Psi^*\Psi$ normalisation.} The seed's matrix is asymmetric, and which off-diagonal entry carries $q^{2-k}$ is not
+  determined by the seed. Mitigation: (D4); downstream uses only $\det$ and $\coker$.
+\item \emph{Connectivity rests on strong approximation} (stage 02). In Lean it stays a hypothesis until SA for $B^1$ is available.
+  Everything else in this stage is elementary.
+\item \emph{Elliptic count.} Lemma~\ref{lem:s03-elliptic} relies on Voight's class number formula, which is not in the import. Lean
+  needs a registered hypothesis, or a direct proof of the classification of unit groups.
+\item \emph{Finite-level $H_0$ is non-zero at $\Uone{p^s}$} (Remark~\ref{rem:s03-T6}(b)). Stage 04 must show that $e$ kills it. Its
+  $U_p$-action is not computed here (seed O3).
+\item \emph{Literature.} [Ri90] and [Ri83] are scans, verified via local OCR. [Ri84], [SGA7] and [Ih75] are missing. The
+  \texttt{SPLIT.md} literature line ``\texttt{ribet\_1983} (level raising)'' is a misattribution: [Ri83] is about congruence primes.
+\end{enumerate}

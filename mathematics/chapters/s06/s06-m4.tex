@@ -1,0 +1,74 @@
+% S06-M4 (package abhijit/s06-math): the Galois half. Labels: prop:s06-galois, lem:s06-burnside, lem:s06-traceform.
+\section{The Galois half}
+
+\begin{proposition}[Galois comparison; seed Prop.~galois]\label{prop:s06-galois}
+Assume (H0), (H1), (H2). Then $\tq_q(F)\subseteq\cc_q(F)$. \stpmc{}
+(Lean: Given \pathtt{Hyp.ResidualBurnside}, \pathtt{Hyp.FreeRankTwo} is equivalent to the inclusion $\tq_q\subseteq\cc_q$; both directions are proved in Lean (\pathtt{Defect.galois}, \pathtt{Defect.freeRankTwo\_of\_le}, packaged as \pathtt{Defect.freeRankTwo\_iff\_le}). The Galois half is therefore not formalized independently: its arithmetic content (that the old-form representation $\rho_M$ exists at level $M$, steps 1--3 of Prop.~\ref{prop:s06-galois}) is the cited hypothesis. \pathtt{Hyp.ResidualBurnside} is discharged only given absolute irreducibility, (H2).)
+\end{proposition}
+\noindent\emph{Cited inputs.}
+(1) $H$ is free of rank two over $\T$, and $H(M)$ is free of rank two over $\T(M)_\m$ (tame level $M$):
+\cite[\S7.2, p.~68]{Hs} \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S7.2, proof of Lemma 7.4, p.~68}
+\stcited, citing \cite[Cor.~1, 2, p.~482]{Wi95}
+\lit{wiles\_1995\_modular-elliptic-curves-and-fermats-last-theorem}{Thm 2.1, Cor.~1, Cor.~2, p.~482}, under (CR) (which (H2)
+implies, Remark~\ref{rem:s06-CR}). The Galois action on $H$ (resp.\ $H(M)$) is unramified outside $Np$ (resp.\ $Mp$), and
+$\tr(\Frob_\ell\mid H)=T_\ell$ in $\T$ for $\ell\nmid Np$ (Eichler--Shimura; for each classical specialisation this is
+\lit{darmon-diamond-taylor\_1997\_fermats-last-theorem\_preprint}{Thm 3.1(a), p.~85}) \stcited.
+(2) $H(M)$ is unramified at $q$, since $q\nmid Mp$ ($X_1(Mp^r)$ has good reduction at $q$; for each classical specialisation this is
+again \lit{darmon-diamond-taylor\_1997\_fermats-last-theorem\_preprint}{Thm 3.1(a), p.~85}) \stknown.
+(3) Chebotarev: for a Galois extension of $\Q$ unramified outside a finite set $S$, the Frobenius elements at primes $\notin S$ are
+dense \lit{darmon-diamond-taylor\_1997\_fermats-last-theorem\_preprint}{Thm 2.3, p.~52} \stknown.
+
+\begin{lemma}[Burnside in dimension two]\label{lem:s06-burnside}
+Let $k$ be a field, $G$ a group and $\bar\rho:G\to\GL_2(k)$ absolutely irreducible. Then $k[G]\to M_2(k)$ is surjective. If $A$ is a local
+ring with residue field $k$ and $\rho:G\to\GL_2(A)$ reduces to $\bar\rho$, then $A[G]\to M_2(A)$ is surjective. \stproved{}
+\stformal{} (\lean{CommAlg.surjective\_groupAlgebra\_of\_absIrred}, \Tpath{CommAlg/Burnside.lean}; stated for $A$ local with a local homomorphism $A\to K$, $K$ algebraically closed, and $\bar\rho\otimes K$ irreducible; the case $A=k$ is the first claim.)
+\end{lemma}
+\begin{proof}
+Let $B\subseteq M_2(k)$ be the image of $k[G]$. Since $\dim_kB=\dim_{\bar k}(B\otimes\bar k)$ and $B\otimes\bar k$ is the image of
+$\bar k[G]$, it suffices to treat $k=\bar k$, where $\bar k^2$ is an irreducible $B$-module. Not every element of $B$ is a scalar (else every
+line would be stable). Pick a non-scalar $b\in B$ and an eigenvalue $c$ of $b$; then $e:=b-c$ is non-zero and singular, so of rank one:
+$e=v\otimes\varphi$ ($e(w)=\varphi(w)v$). The subspace $Bv$ is non-zero and $B$-stable, hence $=\bar k^2$; likewise
+$\varphi B=\{\varphi\circ b':b'\in B\}$ is a non-zero $B$-stable subspace of the dual, which is also irreducible, hence is the whole dual.
+So $BeB=\{b_1v\otimes\varphi b_2\}$ spans all rank-one maps $w\otimes\psi$, which span $M_2(\bar k)$. Thus $B=M_2(k)$.
+For the second claim let $B_A$ be the image of $A[G]$. Then $B_A+\m_AM_2(A)=M_2(A)$ by the first claim, and $M_2(A)$ is a finitely
+generated $A$-module, so $B_A=M_2(A)$ by Nakayama's lemma.
+\end{proof}
+
+\begin{lemma}[trace-form core]\label{lem:s06-traceform}
+Let $A$ be a commutative ring, $\rho:G\to\GL_2(A)$ with $A[G]\to M_2(A)$ surjective, and $\sigma\in G$ with $\tr\rho(g\sigma)=\tr\rho(g)$ for all
+$g\in G$. Then $\rho(\sigma)=1$. \stproved{} and \stformal{} (\lean{CommAlg.eq\_one\_of\_trace\_mul\_eq}, \Tpath{CommAlg/TraceForm.lean}; same statement, $G$ any monoid.)
+\end{lemma}
+\begin{proof}
+By linearity $\tr(X\rho(\sigma))=\tr(X)$ for every $X$ in the image of $A[G]$, i.e.\ for all $X\in M_2(A)$. So $\tr(X(\rho(\sigma)-1))=0$ for all $X$.
+Taking $X=E_{ji}$ (matrix units) gives $(\rho(\sigma)-1)_{ij}=0$: the trace form is perfect on $M_2(A)$.
+\end{proof}
+
+\begin{proof}[Proof of Prop.~\ref{prop:s06-galois}]
+If $\bar\rho_\m$ is ramified at $q$, then $\T''=0$ (Lemma~\ref{lem:s06-decomp}(b)), so $\fb R=R$ and $\cc_q(F)=\lambda(R)=I_F$; there is
+nothing to prove. Otherwise put $A:=I_F/\cc_q(F)$; if $A=0$ there is again nothing to prove, so let $A\ne0$. It is a local ring (a
+quotient of the local ring $I_F$) with residue field $k=I_F/\m_{I_F}$.
+
+\emph{Step 1: $\lambda\bmod\cc_q(F)$ factors through the old quotient.} Since $\lambda(\fb R)=\cc_q(F)$ (Def.~\ref{def:s06-ctam}), the
+composite $\bar\lambda:R\to I_F\to A$ kills $\fb R$, hence factors through $R''=R/\fb R=\T''\otimes_\Lam I_F\cong\T(M)_\m\otimes_\Lam I_F$
+(Lemma~\ref{lem:s06-decomp}(b),(c)). Let $\nu:\T(M)_\m\to A$ be the resulting $\Lam$-algebra map. Under $\T\to\T''\cong\T(M)_\m$, $T_\ell\mapsto T_\ell$
+for $\ell\nmid Np$, so $\nu(T_\ell)=\lambda_F(T_\ell)\bmod\cc_q(F)$ for $\ell\nmid Np$.
+
+\emph{Step 2: two representations over $A$.} Put $\rho_A:=\rho_F\otimes_{I_F}A$ on $\mathcal T_F\otimes A\cong A^2$, and
+$\rho_M:=H(M)\otimes_{\T(M)_\m,\nu}A\cong A^2$ (input (1)). Both are continuous for the $\m_A$-adic topology. For $\ell\nmid Np$, input (1)
+gives $\tr\rho_A(\Frob_\ell)=\lambda_F(T_\ell)\bmod\cc_q(F)=\nu(T_\ell)=\tr\rho_M(\Frob_\ell)$.
+
+\emph{Step 3: Chebotarev and continuity.} Both representations factor through $G_{\Q,S}$, $S=\{\ell\mid Np\}\cup\{\infty\}$ (input (1)). The
+functions $g\mapsto\tr\rho_A(g)$ and $g\mapsto\tr\rho_M(g)$ are continuous on $G_{\Q,S}$ and agree on all $\Frob_\ell$, $\ell\notin S$, which are dense
+(input (3)); $A$ is Hausdorff ($\cap_n\m_A^n=0$, $A$ being Noetherian local). Hence $\tr\rho_A=\tr\rho_M$ on $G_\Q$.
+
+\emph{Step 4: the trace identity at $q$.} Let $\sigma\in I_q$. Since $\rho_M$ is unramified at $q$ (input (2)), $\rho_M(g\sigma)=\rho_M(g)$, so
+$\tr\rho_A(g\sigma)=\tr\rho_M(g\sigma)=\tr\rho_M(g)=\tr\rho_A(g)$ for all $g\in G_\Q$.
+
+\emph{Step 5: Burnside and the trace form.} $\rho_A\bmod\m_A=\bar\rho_\m\otimes k$ is absolutely irreducible by (H2). By
+Lemma~\ref{lem:s06-burnside}, $A[G_\Q]\to M_2(A)$ is surjective, and by Lemma~\ref{lem:s06-traceform}, $\rho_A(\sigma)=1$, i.e.\ all entries of
+$\rho_F(\sigma)-1$ lie in $\cc_q(F)$. As $\sigma\in I_q$ was arbitrary, $\tq_q(F)\subseteq\cc_q(F)$.
+\end{proof}
+\noindent The prime $q$ may be $\equiv-1\bmod p$ here: Prop.~\ref{prop:s06-galois} does not use (H0$^-$). (H0) is used only through
+Lemma~\ref{lem:s06-decomp}(b) ($\T''\cong\T(M)_\m$); without it one could replace $H(M)$ by the old part of $H$, which is still
+unramified at $q$. (Im) is not used. The statement is the docstring of the Lean declaration \pathtt{Defect.galois} (S06-L8b): the
+Tamagawa ideal \texttt{D.tq} is contained in \texttt{D.cq} $=\fb.\mathrm{map}\,\lambda$.

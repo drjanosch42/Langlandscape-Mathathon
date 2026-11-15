@@ -1,0 +1,216 @@
+{
+ "cited_unaudited": [
+  {
+   "name": "LanglandscapeTests.S04.Hyp.hsiehCR_toy",
+   "file": "test library: LanglandscapeTests/S04/Hyp.lean",
+   "kind": null,
+   "claims": "hyp:s04-CR",
+   "hyp_args": "",
+   "only_discharged_hyps": "",
+   "why_not_audited": "test-library declaration (LanglandscapeTests), not in the audited library set"
+  },
+  {
+   "name": "LanglandscapeTests.Hyp.S05.toyTate_gal_uncond",
+   "file": "test library: LanglandscapeTests/Hyp/S05.lean",
+   "kind": null,
+   "claims": "rem:s05-hypX-lean",
+   "hyp_args": "",
+   "only_discharged_hyps": "",
+   "why_not_audited": "test-library declaration (LanglandscapeTests), not in the audited library set"
+  }
+ ],
+ "discharged_only": [
+  {
+   "name": "Langlandscape.Tree.isQAdmissible_Ohat",
+   "file": "Langlandscape/Tree/Admissible.lean:143",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Langlandscape.Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Tree.isQAdmissible_U0",
+   "file": "Langlandscape/Tree/Admissible.lean:148",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Langlandscape.Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "(hqN : ¬ q ∣ N)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Tree.isQAdmissible_U1",
+   "file": "Langlandscape/Tree/Admissible.lean:154",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Langlandscape.Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "(hqN : ¬ q ∣ N)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Tree.isQAdmissible_Utower",
+   "file": "Langlandscape/Tree/Admissible.lean:160",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Langlandscape.Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "(hqN : ¬ q ∣ M * p ^ s)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Quat.nrdSurj_U1",
+   "file": "Langlandscape/Quat/LevelNrd.lean:231",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "(N : ℕ) (hN : N.Coprime d.D)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ribet.brandtZ_dvd",
+   "file": "Langlandscape/Ribet/PhiEis.lean:125",
+   "discharged_hyps": "BrandtStabFree",
+   "binder_positions": "#2 explicit (hyp : Langlandscape.Hyp.BrandtStabFree d ℓ)",
+   "other_explicit_binders": "(hq : d.D.Prime) (c c' : XB d.Ohat) (hne : c ≠ c') (ohatWeight d c : ℤ)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Brandt\\allowbreak{}Stab\\allowbreak{}Free} discharged by \\texttt{Hyp.\\allowbreak{}brandtStabFree\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ribet.phiComb_eisenstein_Ohat",
+   "file": "Langlandscape/Ribet/PhiEis.lean:134",
+   "discharged_hyps": "BrandtStabFree",
+   "binder_positions": "#3 explicit (hyp : Langlandscape.Hyp.BrandtStabFree d ℓ)",
+   "other_explicit_binders": "(hq : d.D.Prime) ((ℓ : ℤ) + 1) ((ℓ : ℤ) + 1)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Brandt\\allowbreak{}Stab\\allowbreak{}Free} discharged by \\texttt{Hyp.\\allowbreak{}brandtStabFree\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ribet.phiComb_eisenstein_DR",
+   "file": "Langlandscape/Ribet/PhiEis.lean:145",
+   "discharged_hyps": "BrandtStabFree",
+   "binder_positions": "#3 explicit (hyp : Langlandscape.Hyp.BrandtStabFree d ℓ)",
+   "other_explicit_binders": "(hq : d.D.Prime) ((ℓ : ℤ) + 1) ((ℓ : ℤ) + 1)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Brandt\\allowbreak{}Stab\\allowbreak{}Free} discharged by \\texttt{Hyp.\\allowbreak{}brandtStabFree\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.ekillsA_tower",
+   "file": "Langlandscape/Ordinary/Tower.lean:151",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hM : M ≠ 0) (hpM : ¬ p ∣ M) (hs : 1 ≤ s) (ordPart (R := ℤ_[p]) (M := ↥(LinearMap.ker (deg (Xs d M p s hN) ℤ_[p]))) (UpKer (UpHom d M p s hN hp hM hpM hs ℤ_[p]) (p : ℤ_[p]) (deg_comp_UpHom ℤ_[p] hM hpM hs)))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.ord_control_finite",
+   "file": "Langlandscape/Ordinary/Tower.lean:369",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hM : M ≠ 0) (hpM : ¬ p ∣ M) (hs : 1 ≤ s) (ordPush (isUpLevel_Utower (hp := hp) hM hpM (Nat.le_add_left 1 s)) (isUpLevel_Utower (hp := hp) hM hpM hs) (Utower_succ_le hN hN' hM) ℤ_[p]) (isUpLevel_Utower (hp := hp) hM hpM (Nat.le_add_left 1 s)) (isUpLevel_Utower (hp := hp) hM hpM hs) (x : ZX (d.Utower M p (s + 1) hN') ℤ_[p])",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.ord_control_finite_U0q",
+   "file": "Langlandscape/Ordinary/Tower.lean:423",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hM : M ≠ 0) (hpM : ¬ p ∣ M) (hs : 1 ≤ s) (hq : q.Coprime d.D) (hpq : p ∉ q.primeFactors) (ordPush (isUpLevel_U0q_Utower (hp := hp) hM hpM (Nat.le_add_left 1 s) hq hpq) (isUpLevel_U0q_Utower (hp := hp) hM hpM hs hq hpq) (U0q_le_U0q hq (Utower_succ_le hN hN' hM)) ℤ_[p]) (isUpLevel_U0q_Utower (hp := hp) hM hpM (Nat.le_add_left 1 s) hq hpq) (isUpLevel_U0q_Utower (hp := hp) hM hpM hs hq hpq) (x : ZX (d.U0q q hq (d.Utower M p (s + 1) hN')) ℤ_[p])",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.ordFree_finite",
+   "file": "Langlandscape/Ordinary/TowerRank.lean:599",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hM : M ≠ 0) (hpM : ¬ p ∣ M) (hs : 1 ≤ s) (h5 : 5 ≤ p)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.ordRibet_exact_Utower",
+   "file": "Langlandscape/Ordinary/RibetFinite.lean:543",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#2 explicit (hdec : Langlandscape.Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hM : M ≠ 0) (hpM : ¬ p ∣ M) (hN : ∀ s, (M * p ^ s).Coprime d.D) (hqN : ∀ s, ¬ q ∣ M * p ^ s) (hconn : ∀ s, 1 ≤ s → Tree.BGConnected d q hq (d.Utower M p s (hN s)) (Tree.isQLevel_Utower (hqN s))) (s : ℕ) (hs : 1 ≤ s) (ordH1toDeg0 (hq := hq) (Tree.isQLevel_Utower (hqN s)) (ne_of_not_dvd_tower hs (hqN s)) (isUpLevel_Utower (hp := hp) (hN := hN s) hM hpM hs) (isUpLevel_U0q_Utower (hp := hp) (hN := hN s) hM hpM hs (Tree.coprime_of_not_dvd hq) (not_mem_primeFactors_of_ne (ne_of_not_dvd_tower hs (hqN s))))) (ordH1toDeg0 (hq := hq) (Tree.isQLevel_Utower (hqN s)) (ne_of_not_dvd_tower hs (hqN s)) (isUpLevel_Utower (hp := hp) (hN := hN s) hM hpM hs) (isUpLevel_U0q_Utower (hp := hp) (hN := hN s) hM hpM hs (Tree.coprime_of_not_dvd hq) (not_mem_primeFactors_of_ne (ne_of_not_dvd_tower hs (hqN s))))) (ordAlpha (hq := hq) (Tree.isQLevel_Utower (hqN s)) (ne_of_not_dvd_tower hs (hqN s)) (isUpLevel_Utower (hp := hp) (hN := hN s) hM hpM hs) (isUpLevel_U0q_Utower (hp := hp) (hN := hN s) hM hpM hs (Tree.coprime_of_not_dvd hq) (not_mem_primeFactors_of_ne (ne_of_not_dvd_tower hs (hqN s))))) (ordAlpha (hq := hq) (Tree.isQLevel_Utower (hqN s)) (ne_of_not_dvd_tower hs (hqN s)) (isUpLevel_Utower (hp := hp) (hN := hN s) hM hpM hs) (isUpLevel_U0q_Utower (hp := hp) (hN := hN s) hM hpM hs (Tree.coprime_of_not_dvd hq) (not_mem_primeFactors_of_ne (ne_of_not_dvd_tower hs (hqN s)))))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.lim_exact_ribet",
+   "file": "Langlandscape/Ordinary/Limit.lean:502",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#2 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(H : RibetHyp d q M p) (hconn : ∀ s ≥ 1, Tree.BGConnected d q H.hq (d.Utower M p s (H.hN s)) (Tree.isQLevel_Utower (H.hqN s))) (hA : ∀ n, Function.Surjective (H.transA n))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.map_ordPart_UpDeg0E",
+   "file": "Langlandscape/Ordinary/RibetFiniteFull.lean:186",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Langlandscape.Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hU : Tree.IsQLevel d q hq U) (hUp0 : IsUpLevel d p hp (d.U0q q (Tree.coprime_of_not_dvd hq) U) K') (ordPart (R := ℤ_[p]) (M := ↥(Langlandscape.Graph.deg0 (Tree.BG d q hq U hU).E ℤ_[p])) (UpDeg0E hU hUp0 ℤ_[p]))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.rank_ordRibet",
+   "file": "Langlandscape/Ordinary/RibetFinite.lean:575",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Langlandscape.Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hU : Tree.IsQLevel d q hq U) (hc : Tree.BGConnected d q hq U hU) (hpq : p ≠ q) (hUp : IsUpLevel d p hp U K) (hUp0 : IsUpLevel d p hp (d.U0q q (Tree.coprime_of_not_dvd hq) U) K') (ordPart (R := ℤ_[p]) (M := ↥(Langlandscape.Graph.deg0 (Tree.BG d q hq U hU).E ℤ_[p])) (UpDeg0E hU hUp0 ℤ_[p])) (ordPart (R := ℤ_[p]) (M := ↥(Langlandscape.Graph.deg0Prod (Tree.BG d q hq U hU) ℤ_[p])) (UpDeg0Prod hU hUp ℤ_[p])) (ordPart (R := ℤ_[p]) (M := ↥(Langlandscape.Graph.H1 (Tree.BG d q hq U hU) ℤ_[p])) (UpH1 hU hpq hUp hUp0 ℤ_[p]))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.perfect_ordPart_pairing_tower_padic",
+   "file": "Langlandscape/Ordinary/Tower.lean:220",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(h5 : 5 ≤ p) (hM : M ≠ 0) (hpM : ¬ p ∣ M) (hs : 1 ≤ s)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.TowerHyp.mordTrans_surjective",
+   "file": "Langlandscape/Ordinary/Limit.lean:228",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(n : ℕ)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.map_ordPart_UpDeg0Prod",
+   "file": "Langlandscape/Ordinary/RibetFiniteFull.lean:200",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Langlandscape.Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hU : Tree.IsQLevel d q hq U) (hUp : IsUpLevel d p hp U K) (ordPart (R := ℤ_[p]) (M := ↥(Langlandscape.Graph.deg0Prod (Tree.BG d q hq U hU) ℤ_[p])) (UpDeg0Prod hU hUp ℤ_[p]))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.rank_ordRibet_full",
+   "file": "Langlandscape/Ordinary/RibetFiniteFull.lean:245",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#1 explicit (hdec : Langlandscape.Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(hU : Tree.IsQLevel d q hq U) (hc : Tree.BGConnected d q hq U hU) (hpq : p ≠ q) (hUp : IsUpLevel d p hp U K) (hUp0 : IsUpLevel d p hp (d.U0q q (Tree.coprime_of_not_dvd hq) U) K') (ordPart (R := ℤ_[p]) (M := ↥(Langlandscape.Graph.H1 (Tree.BG d q hq U hU) ℤ_[p])) (UpH1 hU hpq hUp hUp0 ℤ_[p]))",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Ordinary.Mord.proj_surjective",
+   "file": "Langlandscape/Ordinary/Limit.lean:245",
+   "discharged_hyps": "PadicOrdDecomp",
+   "binder_positions": "#5 explicit (hdec : Hyp.PadicOrdDecomp p)",
+   "other_explicit_binders": "(T : TowerHyp d M p) (n : ℕ) (Compat.proj (M := T.MordLevel) T.mordTrans n)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Padic\\allowbreak{}Ord\\allowbreak{}Decomp} discharged by \\texttt{Ordinary.\\allowbreak{}padicOrdDecomp\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Quat.nrdSurj_Utower",
+   "file": "Langlandscape/Quat/LevelNrd.lean:240",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "(M p s : ℕ) (hN : (M * p ^ s).Coprime d.D)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Quat.nrdSurj_Ohat",
+   "file": "Langlandscape/Quat/LevelNrd.lean:217",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  },
+  {
+   "name": "Langlandscape.Quat.nrdSurj_U0",
+   "file": "Langlandscape/Quat/LevelNrd.lean:222",
+   "discharged_hyps": "RamNrdSurj",
+   "binder_positions": "#1 explicit (hram : Hyp.RamNrdSurj d)",
+   "other_explicit_binders": "(N : ℕ) (hN : N.Coprime d.D)",
+   "discharge_lemmas": "\\texttt{Hyp.\\allowbreak{}Ram\\allowbreak{}Nrd\\allowbreak{}Surj} discharged by \\texttt{Hyp.\\allowbreak{}ramNrdSurj\\_\\allowbreak{}holds}"
+  }
+ ]
+}

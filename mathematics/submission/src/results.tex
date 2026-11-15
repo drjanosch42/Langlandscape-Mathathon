@@ -1,0 +1,117 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Section 7: main results with their support status (claims table). Statuses are those of the chapters
+% (mathematics/chapters/, via final-report/generated/results-table.tex) and of the Lean registry at the final gate; never upgraded.
+
+\paragraph{Status vocabulary.} Each claim below carries one or more of the following statuses, exactly as in the chapters
+(where a statement has several clauses, each clause carries its own status).
+\begin{itemize}
+\item \emph{Proved} (\stproved): the proof is written out in \mainpdf{} \cite{LLmain}; \S\ref{ss:s00-outline} gives its outline.
+\item \emph{Proved modulo cited} (\stpmc): proved in \mainpdf, using the cited results named in the statement as black boxes.
+\item \emph{Lean-verified}: a Lean~4 declaration with this content compiles at the final gate, its \texttt{\#print axioms} list is a
+  subset of \texttt{propext}, \pathtt{Classical.choice}, \texttt{Quot.sound}, it contains no \texttt{sorry}, and its statement
+  matches the claim: Table~L1 (\S\ref{ss:lean-tables}) records no difference. We use this word only where the chapter says
+  \emph{formalized} without qualifier. Where audited declarations cover only some parts or a special case, we say
+  \emph{formalized in part} and Table~L1 records the difference.
+\item \emph{Lean-conditional on} \texttt{Hyp.A}, \dots: as Lean-verified, but the declaration takes the registered hypotheses
+  \texttt{Hyp.A}, \dots{} as explicit arguments (\S\ref{sec:lean}); it is a theorem \emph{about} those hypotheses, not a proof of them.
+\item \emph{Computed}: checked by machine computation over the stated range (\S\ref{sec:comp}); a computation is never part of a proof.
+\item \emph{Cited} (\stcited): taken from the literature with a precise pointer; not reproved.
+\item \emph{Sketched} (\stsketch), \emph{expected} (\stexp), \emph{conjectural} (\stconj), \emph{open} (\stopen), \emph{to prove} (\sttoprove): no proof is claimed.
+\end{itemize}
+
+\paragraph{The headline.} For $D=q$, a $q$-new primitive ordinary Hida branch $F$ with $\lambda_F:\T\to I_F$, $p\ge5$, $\m$
+non-Eisenstein with $\bar\rho_\m$ absolutely irreducible on $G_{\Q(\sqrt{p^*})}$ and $p$-distinguished, under the standing
+hypotheses (H0), (H1), (H2), (P) and either (H0$^-$) ($q\not\equiv-1\bmod p$ or $\bar\rho_\m$ ramified at $q$) or (Lev)
+\mainref{Hyp.~20.1}: the defect $(h_F)=\eta_F(\eta^B_F)^{-1}$ of the congruence ideals of $F$ on the $\GL_2$ side and on the
+definite side equals the old/new congruence ideal $\cc_q(F)$, and $\cc_q(F)$ equals the Tamagawa ideal $\tq_q(F)$; at weight-$k$
+points $f$ this reads $\eta_f(N)=\cc_q(f)\,\eta^B_f$ with $\cc_q(f)=(\varpi^{t_f(q)})$ \mainref{Thm~21.5, Cor.~21.2, Cor.~21.6}.
+Status: \textbf{proved modulo cited} results (Hida's control theorem, Hsieh's Gorenstein theorem, Kim--Ota \cite[Thm~1.1]{KO} and,
+for (F1$'$), our sign-fixed reading R4 of \cite[Thm~3.14]{KO}); \textbf{open} for $q\equiv-1\bmod p$ outside (Lev) (i.e.\
+$N(\bar\rho)>1$, or non-squarefree $M$); in Lean, \pathtt{Defect.defect\_formula} is \textbf{Lean-conditional} on the registered
+hypotheses, including the Galois half \pathtt{Hyp.FreeRankTwo}, and is a statement about an abstract \pathtt{Defect.Setting}
+(Hida's Hecke algebra and the Galois representation are not constructed in Lean); its commutative-algebra half (Thm~E) is
+formalized as abstract commutative algebra, with the qualifiers of Table~L1 (Lemmas S and G and the cyclic dual lemma are Lean-verified). \textbf{Computed}: 7 triples $(q,k,p)$ at
+weight $k$ and 6 of them at weight $k+p-1$ (T5: 4 in stage~06, 2 more by HACS Lane~C), and 225/225 in-scope rows of the regression C2 (\S\ref{sec:comp}).
+
+\paragraph{The claims table.} One row per main claim. ``main.pdf'' gives the number in \mainpdf. In the Lean column, \emph{Lean-verified} means that Table~L1
+(\S\ref{ss:lean-tables}) records the statement as in the chapter, with no difference; \emph{formalized in part} means that the
+named parts are covered by audited declarations with standard axioms, with the differences (special cases, abstract
+settings, extra arguments) recorded in Table~L1; ``cond.'' means Lean-conditional on the hypotheses named; ``hypothesis''
+means that the Lean object is the registered hypothesis, i.e.\ the statement is asserted, not proved; ``--'' means not formalized. The last column says what is known and what is ours: \textbf{K} known,
+cited from the literature (not reproved); \textbf{S} standard or known, written out in our conventions (no novelty claimed);
+\textbf{F} the underlying result or idea is known (reference in the statement), the definite, combinatorial or integral form
+given here is ours (we did not find it in this form in the literature we checked); \textbf{N} ours: we did not find this in the
+literature we checked; \textbf{C} a hypothesis, conjecture or open item formulated by us. These attributions are our reading of
+the literature cited in \mainpdf, not the result of a systematic search; the per-stage account is in the section ``What is new
+and what is known''.
+Registered hypotheses are listed in Appendix~\ref{app:hyp}; Lean declaration names are in Appendix~\ref{app:decls}.
+
+{\small\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}>{\raggedright}p{0.25\textwidth} >{\raggedright}p{0.10\textwidth} >{\raggedright}p{0.24\textwidth} >{\raggedright}p{0.26\textwidth} >{\raggedright\arraybackslash}p{0.08\textwidth}@{}}
+\caption{Main claims and their support status (statuses as in the chapters and in the Lean registry at the final gate; never upgraded).}\label{tab:claims}\\
+\toprule claim & main.pdf & status on paper & Lean; computation & known/ ours\\\midrule\endfirsthead
+\toprule claim & main.pdf & status on paper & Lean; computation & known/ ours\\\midrule\endhead
+\bottomrule\endfoot
+\multicolumn{5}{@{}l}{\textbf{Stage 01: quaternionic foundations}}\\
+Eichler mass formula, maximal order (a) & Thm 2.1(a) & cited \cite[Thm~25.1.1]{Vo} & is the hypothesis \pathtt{GL2TF.Hyp.EichlerMass} (cited) & K\\
+mass level change (b); indices (c); class number of the tower $|S_s|=\frac{\varphi(D)}{24}\psi(Mp^s)\varphi(Mp^s)$ (d) & Thm 2.1(b)--(d) & (b) proved; (c) proved; (d) proved modulo (a) & (b) ($w$-weighted level change) and (c) first half formalized in part; (d) cond.\ on \pathtt{Hyp.EichlerMass}; computed $|S_s|=2,50,1250$ ($D=3$, $p=5$, $s\le3$) & S\\
+norm surjectivity $\Nrd(\cO_\ell^\times)=\Z_\ell^\times$, $\ell\mid D$ & Lemma 1.3 & proved & formalized in part (split primes and assembly); its ramified part \pathtt{Hyp.RamNrdSurj} is \emph{discharged} (\pathtt{Hyp.ramNrdSurj\_holds}, which proves a stronger local statement) & S\\
+Brandt pairing, adjoints, Hecke relations, $N_{U_p}$ normalisation & Prop.~3.3, 4.4 & proved / known & formalized in part (Table L1) & S\\
+classical JL, Brandt form & Thm 6.1 & cited \cite[Thm~16.1]{JL} & schematic hypothesis \pathtt{Hyp.JLClassical}; computed: 66/66 cases $D\le13$, $k\le12$ & K\\
+$p$-adic JL (Chenevier) & Thm 6.2 & cited \cite{Ch} & -- & K\\
+$\Lambda$-adic Hecke JL & Thm 6.3 & cited \cite{LV,Hs} & schematic hypothesis \pathtt{Hyp.LambdaJL} & K\\
+\multicolumn{5}{@{}l}{\textbf{Stage 02: tree quotients}}\\
+strong approximation for $B^1$ at $\{\infty,q\}$ & Thm 7.7 & cited \cite[Main Thm~28.5.3]{Vo}; the appendix proof (Thm 7.34) is proved modulo cited (Hasse--Minkowski) & hypothesis \texttt{Hyp.SA} & K\\
+strong approximation at one level $\iff$ the Brandt graph $\BG(U,q)$ is connected (a finite check) & Prop.~7.9 & proved (connectedness of the tree, cited, in one direction) & formalized in part: the tree-free parts; (i)$\Rightarrow$(iii) cond.\ on \texttt{Hyp.BTtree}; computed 240 cases & F\\
+$\GU\backslash\cT_q\cong\BG(U,q)$; pull/push maps & Prop.~7.10 & (a) proved given connectivity, proved modulo cited via Thm 7.7 and Hasse--Schilling; (b), (c) proved & (a) formalized given connectivity, or cond.\ on \texttt{Hyp.SA}, \texttt{Hyp.HS} (audited since the submission bundle, Table L1); (b) formalized; (c) formalized only for trivial coefficients and the pull/push maps (not the traces) & S\\
+harmonic cochains, $H_1(\GU,V)$ & Prop.~7.18, 7.19 & kernel description proved given connectivity; isomorphism with $H_1(\GU,V)$ proved modulo cited (Serre) & formalized in part ($V=R$, all $w_x$ units); the isomorphism with $H_1$ is the hypothesis \pathtt{Hyp.SerreCoh}; \pathtt{Hyp.SerreFree} & S\\
+\multicolumn{5}{@{}l}{\textbf{Stage 03: weighted graphs, Ribet, Ihara}}\\
+$\Phicomb$ of two-vertex graphs & Prop.~8.3 & proved & formalized in part ($E\ne\emptyset$, edges oriented $v_0\to v_1$) & F\\
+Mazur check: $\Phicomb(\GDR_q(1))\cong\Z/\mathrm{num}\frac{q-1}{12}$ & Prop.~8.8 & proved modulo cited & cond.\ on \pathtt{Hyp.EllipticCount}, \pathtt{Hyp.EichlerMass}; computed $q\in\{11,23,37,101,131\}$ and (HACS) every prime $q\le600$ at $\ell\ge5$ & F\\
+$\Phicomb$ is Eisenstein & Prop.~9.5 & proved (with cited inputs) & abstract core formalized; instance at $\hat\cO^\times$ cond.\ on \pathtt{Hyp.BrandtStabFree}, which is discharged (\BSFdischargeName) & F\\
+definite level-raising operator & Prop.~9.7 & proved & abstract core formalized in part (its symmetry hypothesis discharged at the quaternionic instances) & F\\
+definite Ribet sequence as a vertex collapse & Thm 10.2 & given connectivity of $\BG(U,q)$ (condition (iii)): (a) and the first two sentences of (c) proved; (b) (coefficients) and the last sentence of (c) proved modulo cited; without assuming (iii): proved modulo cited (Thm 7.7, Hasse--Schilling, connectedness of the tree) & (a) and the rank in (c) formalized given connectivity (\pathtt{Tree.BGConnected}), or cond.\ on \texttt{Hyp.SA}, \texttt{Hyp.HS}, \texttt{Hyp.BTtree}; (b) -- & F\\
+definite Ihara lemma (i), (ii) & Cor.~10.5 & (i), (ii) proved given connectivity (condition (iii)); (ii$'$) proved modulo cited (given (iii); the tree property is cited) & (i), (ii) formalized over any ring, given connectivity (or cond.\ on \texttt{Hyp.SA}, \texttt{Hyp.HS}, \texttt{Hyp.BTtree}); (ii$'$) -- & F\\
+Ihara (iii): $H_0$ and its Hecke action & Thm 11.3 & proved modulo cited & clause (a) is the hypothesis \texttt{Hyp.IharaH0}; (b) -- & F\\
+Eisenstein support & Cor.~11.5 & proved modulo cited & -- & F\\
+amalgam, Mayer--Vietoris, $\det\Psi^*\Psi=(q+1)^2-q^{2-k}T_q^2$ & Prop.~12.2, 12.3, 12.6 & proved modulo cited & --; computed $\det\Psi^*\Psi$ in 121 cases (never $0$) & S\\
+Ihara lemma for $\GL_2$, Betti form & Conj.~12.10 & expected (cited for parts) & -- & K\\
+\multicolumn{5}{@{}l}{\textbf{Stage 04: ordinary and $\Lambda$-adic}}\\
+freeness at finite level & Prop.~14.2 & proved & formalized in part ($\Zp$, $U=\Uone M$, $p\ge5$) & S\\
+$\Lambda$-freeness and control of $\Mord(U)$ & Thm 14.4 & (a) proved; (b) cited (integrally if $p\nmid\varphi(M)$, otherwise sketched), general level expected & (a) finite-level part formalized ($\Zp$, $\Uone M$, $p\ge5$); the $\Lambda$-adic half is the open hypothesis \pathtt{Hyp.MordLambdaFree} (stated only; no Lean theorem uses it); (b) schematic \pathtt{Hyp.HidaControl} & F\\
+$\Lambda$-adic definite Ribet sequence & Thm 15.1 & proved, given connectivity of $\BG(UU_s,q)$ for all $s\ge1$ (a hypothesis of the theorem) & finite levels $s\ge1$ formalized ($\Qp$, $\Uone M$, $p\ge5$); inverse limit formalized given connectivity and the surjectivity of the $A$-transitions as explicit arguments (the latter is the conclusion of the open \pathtt{Hyp.InvLimExact}) & F\\
+Hsieh: Gorenstein and freeness; $\eta^B_F$ as a self-pairing & Thm 16.6, 16.7 & (i)--(iii) cited \cite[Thm~4.5]{Hs}, (iv) proved from (ii); 16.7 cited & hypothesis \pathtt{Hyp.HsiehGor} & K\\
+$\eta$-principle & Prop.~17.1 & proved & \textbf{Lean-verified} (\pathtt{CommAlg.EtaPrinciple}) & S\\
+$e$ kills $H_0$ with $\Vk$-coefficients & Prop.~18.1 & \textbf{to prove} (transfer step not written) & -- & C\\
+\multicolumn{5}{@{}l}{\textbf{Stage 05: the comparison hypothesis}}\\
+$\HypX(M;q)$: Hecke-equivariant isometries $\Xq(J_s)\cong\Z[S_s]^0$ compatible in $s$ and with Galois & Hyp.~18.15 & a \textbf{hypothesis}, open at $\Gamma_1(Mp^s)$-level with $U_p$; never assumed known & hypotheses \texttt{Hyp.X.char}, \texttt{Hyp.X.iso}, \texttt{Hyp.X.gal} & C\\
+(G1)--(G4) at $\Gamma_0$-type level (Ribet, Deligne--Rapoport, Grothendieck) & Thm 18.30 & cited \cite{Ri90,DR,SGA7} & -- & K\\
+sign $\varepsilon=+1$, exponent $+1$: $U_q\mapsto+\Pi_q$ & Prop.~18.6 & proved modulo cited (given (X1) and the model choice FD1 at $\Gamma_1$-level); the hybrid dictionary excluded only modulo cited results at suitable levels & --; computed $a_q=+\lambda(\Pi_q)$ on 144/144 eigenlines & F\\
+$\Lambda$-adic version of $\HypX$ & Prop.~18.20 & parts proved / proved modulo cited; (c2) conjectural, open & \pathtt{xlambda\_finite} cond.\ on \texttt{Hyp.X.char}, for an abstract \texttt{CharGroupData}, existence only & F\\
+$\HypXiso$ holds non-canonically & Prop.~18.24 & proved modulo cited (parts sketched) & algebraic half formalized (\pathtt{xiso\_of\_gorenstein}) & F\\
+$q$-new sub- versus quotient lattice & Prop.~18.25 & proved & \textbf{Lean-verified} (\pathtt{CommAlg.subquot\_kernel}, \pathtt{subquot\_coker}), with the splitting hypothesis in the equivalent form $(\fa+\fb)\T_K=\T_K$ (the CRT equivalence with $\T_K=(\T/\fa)_K\times(\T/\fb)_K$ is not formalized) & F\\
+no tree-only chain & Prop.~18.28 & proved / proved modulo cited & -- & N\\
+relation to Chenevier (O7) & Rem.~18.41 & sketched on the ordinary locus; open beyond & -- & F\\
+simplicial realisation O2 & Conj.~18.40 & conjectural, open & -- & C\\
+\multicolumn{5}{@{}l}{\textbf{Stage 06: the integral Jacquet--Langlands defect}}\\
+Lemma S, Lemma G, cyclic dual lemma & Lemma 19.2--19.4 & proved & \textbf{Lean-verified} (full statements) & S\\
+Lemma D (new/old data) & Lemma 19.5 & proved & formalized with qualifiers (splitting hypothesis field-free; closing base-change sentence not formalized) & F\\
+Thm E, the combinatorial half: $\eta=\cc\cdot\eta'$ for new/old data & Thm 19.8 & proved & (i)--(iv) formalized ((iv) for $S'$ $A$-free) as abstract commutative algebra (\texttt{NewOldData}); not formalized: localisation clause of (iii), specialisation to Hecke rings & F\\
+Kim--Ota & Thm 21.1 & cited \cite[Thm~1.1]{KO} & hypothesis \texttt{Hyp.KimOta} & K\\
+fixed-weight level lowering mod $\varpi^t$ & Cor.~21.2 & proved modulo cited & \texttt{cor\_fixed} cond.\ on registered hypotheses & F\\
+\textbf{$\Lambda$-adic defect formula} $(h_F)=\cc_q(F)=\tq_q(F)$ & \textbf{Thm 21.5} & \textbf{proved modulo cited} under Hyp.~20.1; \textbf{open} for $q\equiv-1\bmod p$ outside (Lev) & \pathtt{Defect.defect\_formula} cond.\ on the registered hypotheses incl.\ \pathtt{Hyp.FreeRankTwo} (abstract \pathtt{Defect.Setting}); computed T5, C2 & N\\
+all weights of the branch & Cor.~21.6 & proved modulo cited & \pathtt{cor\_allweights} cond.\ (the newform condition $\cc\ne0$ is not a Lean argument) & N\\
+Galois comparison $\tq_q\subseteq\cc_q$ & Prop.~22.1 & proved modulo cited & \pathtt{Defect.galois}, \pathtt{freeRankTwo\_iff\_le}: given \pathtt{Hyp.ResidualBurnside}, \pathtt{Hyp.FreeRankTwo} $\iff$ the inclusion; the Galois half is not formalized independently & F\\
+the inclusion without (H0$^-$), $q\equiv-1\bmod p$ & Prop.~23.2 & (F0), (F1) proved modulo cited; (F1$'$) proved modulo cited in our reading R4 of \cite[Thm~3.14]{KO}; $N(\bar\rho)>1$, non-squarefree $M$ open & hypothesis \pathtt{Hyp.KimOtaRT}; computed (H3): numerical evidence in the open region; (F1) untested & F\\
+Betti incarnation of $\cc_q$ & Prop.~24.1 & (a) proved; (b), (c) proved modulo cited & --; computed T4 ($q=3$, $p=17$) & F\\
+several ramified primes $(h_F)=\prod_i\tq_{q_i}$ & Conj.~25.2 & conjectural & -- & C\\
+\multicolumn{5}{@{}l}{\textbf{Literature}}\\
+sign correction $\JL(U_q)=+U_q$ for $q\mid N^-$ in \cite[\S4.5]{Hs} & \S\ref{ss:hsieh} & proved modulo cited for trivial central character at $q$; sketched otherwise & --; computed 144/144 eigenlines & N\\
+\end{longtable}}
+
+\noindent The complete list of the 88 theorems, propositions, corollaries and conjectures of \mainpdf{} with all status markers
+is reproduced (generated from the chapter sources) in Table~\ref{tab:allresults}.
+
+{\small
+\input{../../final-report/generated/results-table}}

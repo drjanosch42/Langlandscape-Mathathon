@@ -1,0 +1,2325 @@
+{
+ "data": {
+  "T1": {
+   "D": 11,
+   "T2": [
+    [
+     1,
+     2
+    ],
+    [
+     3,
+     0
+    ]
+   ],
+   "T2_eigenvalues": [
+    3,
+    -2
+   ],
+   "X0_11": {
+    "a2_11a1_ellap": -2,
+    "a2_mf": -2,
+    "genus": 1,
+    "genus_via": "dim S_2(Gamma_0(11)) (mfinit)",
+    "weil_curve": "11a1 = [0,-1,1,-10,-20]"
+   },
+   "gammas": [
+    4,
+    6
+   ],
+   "h": 2,
+   "mass": "5/12",
+   "mass_expected": "5/12"
+  },
+  "T2_table": {
+   "11": {
+    "T": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    "charpoly": [
+     -6,
+     -1,
+     1
+    ],
+    "eigenvalues": [
+     3,
+     -2
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4,
+     6
+    ],
+    "gammas_multiset": [
+     4,
+     6
+    ],
+    "h": 2
+   },
+   "13": {
+    "T": [
+     [
+      3
+     ]
+    ],
+    "charpoly": [
+     -3,
+     1
+    ],
+    "eigenvalues": [
+     3
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     2
+    ],
+    "gammas_multiset": [
+     2
+    ],
+    "h": 1
+   },
+   "17": {
+    "T": [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "charpoly": [
+     -3,
+     -2,
+     1
+    ],
+    "eigenvalues": [
+     3,
+     -1
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     6,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     6
+    ],
+    "h": 2
+   },
+   "19": {
+    "T": [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "charpoly": [
+     0,
+     -3,
+     1
+    ],
+    "eigenvalues": [
+     3,
+     0
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     4
+    ],
+    "h": 2
+   },
+   "2": {
+    "T": [
+     [
+      4
+     ]
+    ],
+    "charpoly": [
+     -4,
+     1
+    ],
+    "eigenvalues": [
+     4
+    ],
+    "ell": 3,
+    "gammas_in_rep_order": [
+     24
+    ],
+    "gammas_multiset": [
+     24
+    ],
+    "h": 1
+   },
+   "23": {
+    "T": [
+     [
+      1,
+      2,
+      0
+     ],
+     [
+      1,
+      1,
+      1
+     ],
+     [
+      0,
+      3,
+      0
+     ]
+    ],
+    "charpoly": [
+     3,
+     -4,
+     -2,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x^2 + x - 1, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4,
+     2,
+     6
+    ],
+    "gammas_multiset": [
+     2,
+     4,
+     6
+    ],
+    "h": 3
+   },
+   "29": {
+    "T": [
+     [
+      1,
+      2,
+      0
+     ],
+     [
+      2,
+      0,
+      1
+     ],
+     [
+      0,
+      3,
+      0
+     ]
+    ],
+    "charpoly": [
+     3,
+     -7,
+     -1,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x^2 + 2*x - 1, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     2,
+     2,
+     6
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     6
+    ],
+    "h": 3
+   },
+   "3": {
+    "T": [
+     [
+      3
+     ]
+    ],
+    "charpoly": [
+     -3,
+     1
+    ],
+    "eigenvalues": [
+     3
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     12
+    ],
+    "gammas_multiset": [
+     12
+    ],
+    "h": 1
+   },
+   "31": {
+    "T": [
+     [
+      1,
+      2,
+      0
+     ],
+     [
+      1,
+      1,
+      1
+     ],
+     [
+      0,
+      1,
+      2
+     ]
+    ],
+    "charpoly": [
+     3,
+     2,
+     -4,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x^2 - x - 1, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4,
+     2,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     4
+    ],
+    "h": 3
+   },
+   "37": {
+    "T": [
+     [
+      1,
+      1,
+      1
+     ],
+     [
+      1,
+      0,
+      2
+     ],
+     [
+      1,
+      2,
+      0
+     ]
+    ],
+    "charpoly": [
+     0,
+     -6,
+     -1,
+     1
+    ],
+    "eigenvalues": [
+     3,
+     0,
+     -2
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     2,
+     2,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     2
+    ],
+    "h": 3
+   },
+   "41": {
+    "T": [
+     [
+      0,
+      1,
+      2,
+      0
+     ],
+     [
+      3,
+      0,
+      0,
+      0
+     ],
+     [
+      2,
+      0,
+      0,
+      1
+     ],
+     [
+      0,
+      0,
+      1,
+      2
+     ]
+    ],
+    "charpoly": [
+     3,
+     14,
+     -8,
+     -2,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x^3 + x^2 - 5*x - 1, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     2,
+     6,
+     2,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     2,
+     6
+    ],
+    "h": 4
+   },
+   "43": {
+    "T": [
+     [
+      1,
+      2,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      1,
+      1
+     ],
+     [
+      0,
+      1,
+      0,
+      2
+     ],
+     [
+      0,
+      1,
+      2,
+      0
+     ]
+    ],
+    "charpoly": [
+     12,
+     2,
+     -8,
+     -1,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x + 2, 1; x^2 - 2, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4,
+     2,
+     2,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     2,
+     4
+    ],
+    "h": 4
+   },
+   "47": {
+    "T": [
+     [
+      1,
+      2,
+      0,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      1,
+      1,
+      0
+     ],
+     [
+      0,
+      1,
+      1,
+      0,
+      1
+     ],
+     [
+      0,
+      3,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      0,
+      2
+     ]
+    ],
+    "charpoly": [
+     3,
+     -16,
+     20,
+     -2,
+     -4,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x^4 - x^3 - 5*x^2 + 5*x - 1, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4,
+     2,
+     2,
+     6,
+     2
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     2,
+     4,
+     6
+    ],
+    "h": 5
+   },
+   "5": {
+    "T": [
+     [
+      3
+     ]
+    ],
+    "charpoly": [
+     -3,
+     1
+    ],
+    "eigenvalues": [
+     3
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     6
+    ],
+    "gammas_multiset": [
+     6
+    ],
+    "h": 1
+   },
+   "53": {
+    "T": [
+     [
+      1,
+      1,
+      1,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      1,
+      1,
+      0
+     ],
+     [
+      1,
+      1,
+      0,
+      1,
+      0
+     ],
+     [
+      0,
+      1,
+      1,
+      0,
+      1
+     ],
+     [
+      0,
+      0,
+      0,
+      3,
+      0
+     ]
+    ],
+    "charpoly": [
+     3,
+     11,
+     2,
+     -8,
+     -1,
+     1
+    ],
+    "eigenvalues": {
+     "charpoly_factorisation": "[x - 3, 1; x + 1, 1; x^3 + x^2 - 3*x - 1, 1]"
+    },
+    "ell": 2,
+    "gammas_in_rep_order": [
+     2,
+     2,
+     2,
+     2,
+     6
+    ],
+    "gammas_multiset": [
+     2,
+     2,
+     2,
+     2,
+     6
+    ],
+    "h": 5
+   },
+   "7": {
+    "T": [
+     [
+      3
+     ]
+    ],
+    "charpoly": [
+     -3,
+     1
+    ],
+    "eigenvalues": [
+     3
+    ],
+    "ell": 2,
+    "gammas_in_rep_order": [
+     4
+    ],
+    "gammas_multiset": [
+     4
+    ],
+    "h": 1
+   }
+  },
+  "conventions": {
+   "B": "B[c][c'] = number of l-neighbours I_c*K lying in class c'; row sums l+1; |Gamma_c'| B[c][c'] = |Gamma_c| B[c'][c]",
+   "M>1": "Eichler order O cap O_r(J), J an M-neighbour of O",
+   "gamma": "|Gamma_c| = |O_r(I_c)^x| including -1"
+  },
+  "dnew": {
+   "2,11": {
+    "dim_expected": 1,
+    "ell": {
+     "3": {
+      "T": [
+       [
+        4
+       ]
+      ],
+      "charpoly": [
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -4,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        6
+       ]
+      ],
+      "charpoly": [
+       -6,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -6,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        8
+       ]
+      ],
+      "charpoly": [
+       -8,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -8,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    }
+   },
+   "3,5": {
+    "dim_expected": 2,
+    "ell": {
+     "2": {
+      "T": [
+       [
+        1,
+        2
+       ],
+       [
+        2,
+        1
+       ]
+      ],
+      "charpoly": [
+       -3,
+       -2,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -3,
+       -2,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        4,
+        4
+       ],
+       [
+        4,
+        4
+       ]
+      ],
+      "charpoly": [
+       0,
+       -8,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       -8,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     4
+    ],
+    "h": 2,
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    }
+   },
+   "5,7": {
+    "dim_expected": 4,
+    "ell": {
+     "2": {
+      "T": [
+       [
+        2,
+        1,
+        0,
+        0
+       ],
+       [
+        1,
+        0,
+        1,
+        1
+       ],
+       [
+        0,
+        3,
+        0,
+        0
+       ],
+       [
+        0,
+        3,
+        0,
+        0
+       ]
+      ],
+      "charpoly": [
+       0,
+       12,
+       -7,
+       -2,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       12,
+       -7,
+       -2,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        0,
+        2,
+        1,
+        1
+       ],
+       [
+        2,
+        2,
+        0,
+        0
+       ],
+       [
+        3,
+        0,
+        1,
+        0
+       ],
+       [
+        3,
+        0,
+        0,
+        1
+       ]
+      ],
+      "charpoly": [
+       -16,
+       24,
+       -5,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -16,
+       24,
+       -5,
+       -4,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2,
+     2,
+     6,
+     6
+    ],
+    "h": 4,
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    }
+   }
+  },
+  "seed_C4ii": {
+   "11": {
+    "ell": {
+     "2": {
+      "T": [
+       [
+        1,
+        2
+       ],
+       [
+        3,
+        0
+       ]
+      ],
+      "charpoly": [
+       -6,
+       -1,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -6,
+       -1,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        2,
+        2
+       ],
+       [
+        3,
+        1
+       ]
+      ],
+      "charpoly": [
+       -4,
+       -3,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -4,
+       -3,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        4,
+        2
+       ],
+       [
+        3,
+        3
+       ]
+      ],
+      "charpoly": [
+       6,
+       -7,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       6,
+       -7,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        4,
+        4
+       ],
+       [
+        6,
+        2
+       ]
+      ],
+      "charpoly": [
+       -16,
+       -6,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -16,
+       -6,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "isogeny": {
+     "A": {
+      "2": [
+       [
+        0,
+        3
+       ],
+       [
+        2,
+        1
+       ]
+      ],
+      "3": [
+       [
+        1,
+        3
+       ],
+       [
+        2,
+        2
+       ]
+      ],
+      "5": [
+       [
+        3,
+        3
+       ],
+       [
+        2,
+        4
+       ]
+      ],
+      "7": [
+       [
+        2,
+        6
+       ],
+       [
+        4,
+        4
+       ]
+      ]
+     },
+     "aut_orders": [
+      6,
+      4
+     ],
+     "j_invariants_Fq2": [
+      "0",
+      "1"
+     ],
+     "matching": {
+      "mode": "B",
+      "perm_class_to_j": [
+       1,
+       0
+      ]
+     },
+     "method": "brute-force permutation respecting |Gamma|=|Aut|, simultaneous for all l"
+    },
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    },
+    "reps_norms": [
+     1,
+     2
+    ]
+   },
+   "17": {
+    "ell": {
+     "2": {
+      "T": [
+       [
+        0,
+        3
+       ],
+       [
+        1,
+        2
+       ]
+      ],
+      "charpoly": [
+       -3,
+       -2,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -3,
+       -2,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        1,
+        3
+       ],
+       [
+        1,
+        3
+       ]
+      ],
+      "charpoly": [
+       0,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       -4,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        0,
+        6
+       ],
+       [
+        2,
+        4
+       ]
+      ],
+      "charpoly": [
+       -12,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -12,
+       -4,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        5,
+        3
+       ],
+       [
+        1,
+        7
+       ]
+      ],
+      "charpoly": [
+       32,
+       -12,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       32,
+       -12,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6,
+     2
+    ],
+    "h": 2,
+    "isogeny": {
+     "A": {
+      "2": [
+       [
+        0,
+        3
+       ],
+       [
+        1,
+        2
+       ]
+      ],
+      "3": [
+       [
+        1,
+        3
+       ],
+       [
+        1,
+        3
+       ]
+      ],
+      "5": [
+       [
+        0,
+        6
+       ],
+       [
+        2,
+        4
+       ]
+      ],
+      "7": [
+       [
+        5,
+        3
+       ],
+       [
+        1,
+        7
+       ]
+      ]
+     },
+     "aut_orders": [
+      6,
+      2
+     ],
+     "j_invariants_Fq2": [
+      "0",
+      "8"
+     ],
+     "matching": {
+      "mode": "B",
+      "perm_class_to_j": [
+       0,
+       1
+      ]
+     },
+     "method": "brute-force permutation respecting |Gamma|=|Aut|, simultaneous for all l"
+    },
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    },
+    "reps_norms": [
+     1,
+     2
+    ]
+   },
+   "19": {
+    "ell": {
+     "2": {
+      "T": [
+       [
+        1,
+        2
+       ],
+       [
+        1,
+        2
+       ]
+      ],
+      "charpoly": [
+       0,
+       -3,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       -3,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        0,
+        4
+       ],
+       [
+        2,
+        2
+       ]
+      ],
+      "charpoly": [
+       -8,
+       -2,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -8,
+       -2,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        4,
+        2
+       ],
+       [
+        1,
+        5
+       ]
+      ],
+      "charpoly": [
+       18,
+       -9,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       18,
+       -9,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        2,
+        6
+       ],
+       [
+        3,
+        5
+       ]
+      ],
+      "charpoly": [
+       -8,
+       -7,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -8,
+       -7,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     2
+    ],
+    "h": 2,
+    "isogeny": {
+     "A": {
+      "2": [
+       [
+        2,
+        1
+       ],
+       [
+        2,
+        1
+       ]
+      ],
+      "3": [
+       [
+        2,
+        2
+       ],
+       [
+        4,
+        0
+       ]
+      ],
+      "5": [
+       [
+        5,
+        1
+       ],
+       [
+        2,
+        4
+       ]
+      ],
+      "7": [
+       [
+        5,
+        3
+       ],
+       [
+        6,
+        2
+       ]
+      ]
+     },
+     "aut_orders": [
+      2,
+      4
+     ],
+     "j_invariants_Fq2": [
+      "7",
+      "18"
+     ],
+     "matching": {
+      "mode": "B",
+      "perm_class_to_j": [
+       1,
+       0
+      ]
+     },
+     "method": "brute-force permutation respecting |Gamma|=|Aut|, simultaneous for all l"
+    },
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    },
+    "reps_norms": [
+     1,
+     2
+    ]
+   },
+   "23": {
+    "ell": {
+     "2": {
+      "T": [
+       [
+        1,
+        2,
+        0
+       ],
+       [
+        1,
+        1,
+        1
+       ],
+       [
+        0,
+        3,
+        0
+       ]
+      ],
+      "charpoly": [
+       3,
+       -4,
+       -2,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       3,
+       -4,
+       -2,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        0,
+        2,
+        2
+       ],
+       [
+        1,
+        3,
+        0
+       ],
+       [
+        3,
+        0,
+        1
+       ]
+      ],
+      "charpoly": [
+       20,
+       -5,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       20,
+       -5,
+       -4,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        2,
+        4,
+        0
+       ],
+       [
+        2,
+        2,
+        2
+       ],
+       [
+        0,
+        6,
+        0
+       ]
+      ],
+      "charpoly": [
+       24,
+       -16,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       24,
+       -16,
+       -4,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        4,
+        4,
+        0
+       ],
+       [
+        2,
+        4,
+        2
+       ],
+       [
+        0,
+        6,
+        2
+       ]
+      ],
+      "charpoly": [
+       32,
+       12,
+       -10,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       32,
+       12,
+       -10,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     2,
+     6
+    ],
+    "h": 3,
+    "isogeny": {
+     "A": {
+      "2": [
+       [
+        0,
+        0,
+        3
+       ],
+       [
+        0,
+        1,
+        2
+       ],
+       [
+        1,
+        1,
+        1
+       ]
+      ],
+      "3": [
+       [
+        1,
+        3,
+        0
+       ],
+       [
+        2,
+        0,
+        2
+       ],
+       [
+        0,
+        1,
+        3
+       ]
+      ],
+      "5": [
+       [
+        0,
+        0,
+        6
+       ],
+       [
+        0,
+        2,
+        4
+       ],
+       [
+        2,
+        2,
+        2
+       ]
+      ],
+      "7": [
+       [
+        2,
+        0,
+        6
+       ],
+       [
+        0,
+        4,
+        4
+       ],
+       [
+        2,
+        2,
+        4
+       ]
+      ]
+     },
+     "aut_orders": [
+      6,
+      4,
+      2
+     ],
+     "j_invariants_Fq2": [
+      "0",
+      "3",
+      "19"
+     ],
+     "matching": {
+      "mode": "B",
+      "perm_class_to_j": [
+       1,
+       2,
+       0
+      ]
+     },
+     "method": "brute-force permutation respecting |Gamma|=|Aut|, simultaneous for all l"
+    },
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    },
+    "reps_norms": [
+     1,
+     2,
+     4
+    ]
+   },
+   "37": {
+    "ell": {
+     "2": {
+      "T": [
+       [
+        1,
+        1,
+        1
+       ],
+       [
+        1,
+        0,
+        2
+       ],
+       [
+        1,
+        2,
+        0
+       ]
+      ],
+      "charpoly": [
+       0,
+       -6,
+       -1,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       -6,
+       -1,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        2,
+        1,
+        1
+       ],
+       [
+        1,
+        0,
+        3
+       ],
+       [
+        1,
+        3,
+        0
+       ]
+      ],
+      "charpoly": [
+       12,
+       -11,
+       -2,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       12,
+       -11,
+       -2,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        2,
+        2,
+        2
+       ],
+       [
+        2,
+        1,
+        3
+       ],
+       [
+        2,
+        3,
+        1
+       ]
+      ],
+      "charpoly": [
+       0,
+       -12,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       -12,
+       -4,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        2,
+        3,
+        3
+       ],
+       [
+        3,
+        2,
+        3
+       ],
+       [
+        3,
+        3,
+        2
+       ]
+      ],
+      "charpoly": [
+       -8,
+       -15,
+       -6,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -8,
+       -15,
+       -6,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2,
+     2,
+     2
+    ],
+    "h": 3,
+    "isogeny": {
+     "A": {
+      "2": [
+       [
+        1,
+        1,
+        1
+       ],
+       [
+        1,
+        0,
+        2
+       ],
+       [
+        1,
+        2,
+        0
+       ]
+      ],
+      "3": [
+       [
+        2,
+        1,
+        1
+       ],
+       [
+        1,
+        0,
+        3
+       ],
+       [
+        1,
+        3,
+        0
+       ]
+      ],
+      "5": [
+       [
+        2,
+        2,
+        2
+       ],
+       [
+        2,
+        1,
+        3
+       ],
+       [
+        2,
+        3,
+        1
+       ]
+      ],
+      "7": [
+       [
+        2,
+        3,
+        3
+       ],
+       [
+        3,
+        2,
+        3
+       ],
+       [
+        3,
+        3,
+        2
+       ]
+      ]
+     },
+     "aut_orders": [
+      2,
+      2,
+      2
+     ],
+     "j_invariants_Fq2": [
+      "8",
+      "30*t + 18",
+      "7*t + 25"
+     ],
+     "matching": {
+      "mode": "B",
+      "perm_class_to_j": [
+       0,
+       1,
+       2
+      ]
+     },
+     "method": "brute-force permutation respecting |Gamma|=|Aut|, simultaneous for all l"
+    },
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    },
+    "reps_norms": [
+     1,
+     2,
+     2
+    ]
+   },
+   "53": {
+    "ell": {
+     "2": {
+      "T": [
+       [
+        1,
+        1,
+        1,
+        0,
+        0
+       ],
+       [
+        1,
+        0,
+        1,
+        1,
+        0
+       ],
+       [
+        1,
+        1,
+        0,
+        1,
+        0
+       ],
+       [
+        0,
+        1,
+        1,
+        0,
+        1
+       ],
+       [
+        0,
+        0,
+        0,
+        3,
+        0
+       ]
+      ],
+      "charpoly": [
+       3,
+       11,
+       2,
+       -8,
+       -1,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       3,
+       11,
+       2,
+       -8,
+       -1,
+       1
+      ]
+     },
+     "3": {
+      "T": [
+       [
+        2,
+        0,
+        0,
+        1,
+        1
+       ],
+       [
+        0,
+        0,
+        3,
+        1,
+        0
+       ],
+       [
+        0,
+        3,
+        0,
+        1,
+        0
+       ],
+       [
+        1,
+        1,
+        1,
+        1,
+        0
+       ],
+       [
+        3,
+        0,
+        0,
+        0,
+        1
+       ]
+      ],
+      "charpoly": [
+       -12,
+       11,
+       38,
+       -10,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -12,
+       11,
+       38,
+       -10,
+       -4,
+       1
+      ]
+     },
+     "5": {
+      "T": [
+       [
+        0,
+        2,
+        2,
+        2,
+        0
+       ],
+       [
+        2,
+        1,
+        1,
+        1,
+        1
+       ],
+       [
+        2,
+        1,
+        1,
+        1,
+        1
+       ],
+       [
+        2,
+        1,
+        1,
+        2,
+        0
+       ],
+       [
+        0,
+        3,
+        3,
+        0,
+        0
+       ]
+      ],
+      "charpoly": [
+       0,
+       24,
+       20,
+       -16,
+       -4,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       0,
+       24,
+       20,
+       -16,
+       -4,
+       1
+      ]
+     },
+     "7": {
+      "T": [
+       [
+        2,
+        2,
+        2,
+        2,
+        0
+       ],
+       [
+        2,
+        0,
+        4,
+        1,
+        1
+       ],
+       [
+        2,
+        4,
+        0,
+        1,
+        1
+       ],
+       [
+        2,
+        1,
+        1,
+        4,
+        0
+       ],
+       [
+        0,
+        3,
+        3,
+        0,
+        2
+       ]
+      ],
+      "charpoly": [
+       -128,
+       -16,
+       132,
+       -16,
+       -8,
+       1
+      ],
+      "equal": true,
+      "pari_rhs": [
+       -128,
+       -16,
+       132,
+       -16,
+       -8,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2,
+     2,
+     2,
+     2,
+     6
+    ],
+    "h": 5,
+    "isogeny": {
+     "A": {
+      "2": [
+       [
+        0,
+        0,
+        3,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        1,
+        1,
+        1
+       ],
+       [
+        1,
+        1,
+        0,
+        0,
+        1
+       ],
+       [
+        0,
+        1,
+        0,
+        1,
+        1
+       ],
+       [
+        0,
+        1,
+        1,
+        1,
+        0
+       ]
+      ],
+      "3": [
+       [
+        1,
+        0,
+        0,
+        3,
+        0
+       ],
+       [
+        0,
+        0,
+        1,
+        0,
+        3
+       ],
+       [
+        0,
+        1,
+        1,
+        1,
+        1
+       ],
+       [
+        1,
+        0,
+        1,
+        2,
+        0
+       ],
+       [
+        0,
+        3,
+        1,
+        0,
+        0
+       ]
+      ],
+      "5": [
+       [
+        0,
+        3,
+        0,
+        0,
+        3
+       ],
+       [
+        1,
+        1,
+        1,
+        2,
+        1
+       ],
+       [
+        0,
+        1,
+        2,
+        2,
+        1
+       ],
+       [
+        0,
+        2,
+        2,
+        0,
+        2
+       ],
+       [
+        1,
+        1,
+        1,
+        2,
+        1
+       ]
+      ],
+      "7": [
+       [
+        2,
+        3,
+        0,
+        0,
+        3
+       ],
+       [
+        1,
+        0,
+        1,
+        2,
+        4
+       ],
+       [
+        0,
+        1,
+        4,
+        2,
+        1
+       ],
+       [
+        0,
+        2,
+        2,
+        2,
+        2
+       ],
+       [
+        1,
+        4,
+        1,
+        2,
+        0
+       ]
+      ]
+     },
+     "aut_orders": [
+      6,
+      2,
+      2,
+      2,
+      2
+     ],
+     "j_invariants_Fq2": [
+      "0",
+      "7*t + 5",
+      "46",
+      "50",
+      "46*t + 51"
+     ],
+     "matching": {
+      "mode": "B",
+      "perm_class_to_j": [
+       3,
+       1,
+       4,
+       2,
+       0
+      ]
+     },
+     "method": "brute-force permutation respecting |Gamma|=|Aut|, simultaneous for all l"
+    },
+    "relations": {
+     "commutative": true,
+     "row_sums": true,
+     "weighted_symmetry": true
+    },
+    "reps_norms": [
+     1,
+     2,
+     2,
+     4,
+     8
+    ]
+   }
+  }
+ },
+ "provenance": {
+  "commit": "e6c79ba5d773739ac1252374c8591ca7cfec323c-dirty",
+  "date": "2026-11-14T17:02:12+00:00",
+  "notes": "weight-2 Brandt matrices; see module docstring for conventions",
+  "params": {
+   "dnew_cases": [
+    [
+     2,
+     11
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     5,
+     7
+    ]
+   ],
+   "ells": [
+    2,
+    3,
+    5,
+    7
+   ],
+   "seed_qs": [
+    11,
+    17,
+    19,
+    23,
+    37,
+    53
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 6.764162084997224,
+  "script": "code/python/langlandscape/brandt.py"
+ }
+}

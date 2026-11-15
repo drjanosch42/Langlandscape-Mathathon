@@ -1,0 +1,64 @@
+% S04-M7 (optional; package abhijit/s04-math): e kills H_0 with V_k coefficients; nearly ordinary remark.
+% Labels: prop:s04-ekillsVk, rem:s04-nearly.
+\section{Coefficients \texorpdfstring{$\Vk$}{V k} and the nearly ordinary tower}
+
+Notation as in \S\ref{ss:s04-notation}; $\Vk=\Sym^{k-2}$ with the action $(gP)(X,Y)=P((X,Y)g)$ of stage~01 (\eqref{eq:s01-Vk}),
+$n:=k-2$, and $\mathrm{ev}:\Vk\to\Zp$, $P\mapsto P(0,1)$. Throughout this section the level at $p$ is $\Kp s=\iota_p^{-1}\Uone{p^s}_p$
+with $s\ge1$; at levels maximal at $p$ or of type $\Uzero p$ the statements below change (see the remark after the proof).
+
+\begin{proposition}[$e$ kills $H_0$ with $\Vk$-coefficients]\label{prop:s04-ekillsVk}
+Let $s\ge1$, $k\ge2$, $q\nmid Dp$, $U$ of level prime to $pq$ with $U_q=\GL_2(\Zq)$. Assume $\BG(UU_s,q)$ is connected and \texttt{Hyp.SA}
+(both are used in Step~3, through \texttt{if:s02-coh}(c) and \texttt{if:s02-SA}). Then $e$ kills $H_0(\Gamma_{UU_s},\Vk)$ (with
+$U_p$ induced from $\coker\partial$). Consequently, for every $k$,
+\[0\to e\,H_1(\Gamma_{UU_s},\Vk)\to e\,\Brandt{\Uzero{q}UU_s}{\Vk}_*\xrightarrow{\ \partial\ }e\,\Brandt{UU_s}{\Vk}_*^{\,2}\to0\]
+is exact, \emph{without} localisation at a non-Eisenstein $\m$.
+\end{proposition}
+\noindent\sttoprove{} (the transfer step below is not written; the other steps are proved). Structure of the argument:
+
+\emph{Step 1 (local computation, \stproved).} Every $g=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\varpi_j\Kp{s}$
+has $a\equiv c\equiv0$ and $d\equiv1\pmod p$: indeed $\varpi_j\left(\begin{smallmatrix}a'&b'\\c'&d'\end{smallmatrix}\right)=
+\left(\begin{smallmatrix}pa'+jc'&pb'+jd'\\c'&d'\end{smallmatrix}\right)$ with $c'\in p^s\Zp$, $d'\in1+p^s\Zp$. Hence
+$(gP)(X,Y)=P(aX+cY,\,bX+dY)\equiv P(0,\,bX+dY)=P(0,1)\,(bX+dY)^n\pmod p$, i.e.\ modulo $p$, $g$ factors through $\mathrm{ev}$, and
+$\mathrm{ev}(gP)=P(c,d)\equiv P(0,1)=\mathrm{ev}(P)\pmod p$.
+
+\emph{Step 2 ($\mathrm{ev}$ on coinvariants, \stproved).} $\Gamma:=\Gamma_{UU_s}$ has image in $\Kp s$ at $p$ (it consists of elements of
+$\cO_{UU_s}[1/q]^1$ and $q\ne p$). For $\gamma\in\Kp s$, $c\in p^s\Zp$ and $d\in1+p^s\Zp$, so $\mathrm{ev}(\gamma P)=P(c,d)\equiv
+d^n\mathrm{ev}(P)\equiv\mathrm{ev}(P)\pmod{p^s}$. So $\mathrm{ev}$ induces a surjection $H_0(\Gamma,\Vk)=(\Vk)_\Gamma\to\Z/p^s$. In
+particular $H_0(\Gamma_{UU_s},\Vk)\ne0$ for every $k\ge2$ and every $s\ge1$, unconditionally.
+
+\emph{Step 3 (transfer of $U_p$, \sttoprove).} By \texttt{if:s02-coh}(c), $H_0=(\Vk)_\Gamma$, and $\Gamma$ is dense in $U^1_p$; this
+identification is \stpmc{} via strong approximation (\texttt{if:s02-SA}) and must not be replaced by a per-level check (stage 02,
+deviation D3). Under it, $U_p$ should act by $v\mapsto\sum_{i=1}^{p}\xi_iv$ for global $\xi_i\in B^\times$ with
+$\xi_i\in\varpi_{j(i)}\Kp{s}$ at $p$ (Hecke operator of the commensurator); writing this transfer of $U_p$ from $\coker\partial$ to group
+homology, using \texttt{if:s02-quot}(c), is the step still to be done.
+
+\emph{Step 4 (conclusion, \stproved{} given Step 3).} By Step~1, modulo $p$ each $\xi_iv$ depends only on $\mathrm{ev}(v)\bmod p$, and
+$\mathrm{ev}(\xi_iv)\equiv\mathrm{ev}(v)$. Hence $U_pv\equiv\mathrm{ev}(v)\sum_i(b_iX+d_iY)^n$ and $\mathrm{ev}(U_pv)\equiv p\,\mathrm{ev}(v)\equiv0
+\pmod p$, so $U_p^2v=U_p(U_pv)\equiv\mathrm{ev}(U_pv)\sum_i(\cdots)\equiv0\pmod p$. Thus $U_p^2$ maps $(\Vk)_\Gamma$ into
+$p(\Vk)_\Gamma$, $U_p$ is topologically nilpotent on the finitely generated $\Zp$-module $(\Vk)_\Gamma$, and $e=0$. The exact sequence
+follows by applying the exact functor $e$ (Def.~\ref{def:s04-e}) to the two-term complex of \texttt{if:s02-coh} (with
+$H_1=\ker\partial$ and $H_0=\coker\partial$), as in Lemma~\ref{lem:s04-ribetfinite}.
+
+\noindent In particular, $e$ kills the \emph{non-zero} Ihara cokernel at level $\Uone{p^s}$ (Step~2 shows it is non-zero; cf.\ stage 03,
+Remark on T6): it is non-zero but non-ordinary. This upgrades the seed's ``with $V_k$ after localisation at a non-Eisenstein $\m$
+\stsketch''. The analogous argument on $\Brandt{UU_s}{\Vk}$ itself fails (the $p$ summands live at different points), as it must.
+
+\noindent\emph{Levels.} Step~2 uses $d\equiv1\pmod{p^s}$, i.e.\ the $\Uone{p^s}$ level at $p$. At a level where $d$ runs through all of
+$\Zp^\times$ (maximal at $p$, or $\Uzero{p^s}$), this argument (descent of $\mathrm{ev}$ to $(\Vk)_\Gamma\otimes\F_p$) needs
+$d^n\equiv1\pmod p$ for all $d\in\Zp^\times$, i.e.\ $(p-1)\mid(k-2)$; this is a condition for the argument, not a criterion for
+$H_0\ne0$; so the unconditional non-vanishing in Step~2 is a statement about the $\Uone{p^s}$
+tower, not about levels maximal at $p$. Nothing in this section is used at such levels.
+
+\subsection{Nearly ordinary versus ordinary (seed \S3.3)}
+\begin{remark}\label{rem:s04-nearly}
+On the definite side the nearly ordinary tower uses $U^{(p)}\times\{g\in\GL_2(\Zp):c\equiv0\bmod p^s\}\cap\ker(\text{torus}\to(\Z/p^s)^{\times2})$
+and $\Lam_2=\cOE[[(1+p\Zp)^2]]$. Twisting by $x\mapsto\psi(\tau(x))$ ($\tau$ the norm character of stage 03, (C5); $\psi$ a character of
+$1+p\Zp$) identifies the nearly ordinary module with $\Mord\hat\otimes_{\cOE}\cOE[[1+p\Zp]]$, the second factor acting by the central
+(Nrd-)character. \stsketch{} (the seed's claim, made explicit; it uses $\Q_{>0}\backslash\hat\Q^\times/\Zhat^\times=1$). Nothing in
+stages 04--06 requires the nearly ordinary theory.
+\end{remark}
+\noindent\emph{Why the twist works} (\stsketch). The level above differs from $UU_s$ by the upper-left torus entry $a\bmod p^s$. Since
+$\Nrd$ of the $p$-component of $\mathrm{diag}(a,1)$ is $a$, and $\Q_{>0}\backslash\hat\Q^\times/\Zhat^\times=1$, every class can be moved so
+that the extra torus variable is recorded by the reduced norm; a character $\psi$ of $1+p\Zp$ composed with the norm character therefore
+separates the second variable of $\Lam_2$ from the diamond variable of $\Lam$. Making the bijection of class sets and the
+Hecke-compatibility precise is not done here.

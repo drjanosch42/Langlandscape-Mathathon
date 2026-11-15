@@ -1,0 +1,23 @@
+\documentclass[11pt]{amsart}
+% Standalone build of stages 01, 02 and 06. Build from this directory:
+%   latexmk -pdf -interaction=nonstopmode standalone-s06.tex
+% Labels owned by s06-m5 (prop:s06-levM, rem:s06-minus1) are undefined until that file exists (sibling rule).
+\input{preamble}
+\IfFileExists{bib/s06-m1.bib}{\addbibresource{bib/s06-m1.bib}}{}
+\IfFileExists{bib/s06-m2.bib}{\addbibresource{bib/s06-m2.bib}}{}
+\IfFileExists{bib/s06-m3.bib}{\addbibresource{bib/s06-m3.bib}}{}
+\IfFileExists{bib/s06-m4.bib}{\addbibresource{bib/s06-m4.bib}}{}
+\IfFileExists{bib/s06-m5.bib}{\addbibresource{bib/s06-m5.bib}}{}
+\IfFileExists{bib/s06-m7.bib}{\addbibresource{bib/s06-m7.bib}}{}
+\IfFileExists{bib/s06-m8.bib}{\addbibresource{bib/s06-m8.bib}}{}
+\IfFileExists{bib/s06-m11.bib}{\addbibresource{bib/s06-m11.bib}}{}
+\title{Jacquet--Langlands: stage 06 (standalone)}
+\author{Langlandscape project}
+\date{\today}
+\begin{document}
+\maketitle
+\input{chapters/s01}
+\input{chapters/s02}
+\input{chapters/s06}
+\printbibliography
+\end{document}

@@ -1,0 +1,3 @@
+"""Langlandscape computations (Jacquet–Langlands, stage 01+)."""
+
+__version__ = "0.1.0"

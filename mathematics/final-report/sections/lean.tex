@@ -1,0 +1,205 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+\section{The Lean formalization}\label{sec:lean}
+
+\paragraph{Setting.} Lean~4 \texttt{v4.35.0} with a frozen matching Mathlib; the project \texttt{lean/Langlandscape/}
+(library \texttt{Langlandscape}, tests \texttt{LanglandscapeTests}) builds on a curated fork of our earlier GL(2)/$\Q$
+trace-formula project (\texttt{lean/trace-formula-project-import/}, library \texttt{AlgJL}, namespace \texttt{GL2TF}).
+\emph{Status words} (milestone closure S06): \emph{formalized} = compiles, standard axioms only (checked by \texttt{\#print axioms} for the \GateAudited{} audited
+declarations, which since the submission bundle include every library declaration named in the chapters; for the 2 test-library declarations named there, by the \texttt{sorry} count and the forbidden-token grep); \emph{formalized modulo
+$H$} = compiles with the hypotheses $H$ as explicit arguments. Every hypothesis is a \texttt{def \dots : Prop} in
+\texttt{Langlandscape/Hyp/}, taken as an explicit argument, never an \texttt{axiom} and never a global instance; the registry
+is \texttt{lean/Langlandscape/HYPOTHESES.md}.
+
+\subsection{Gates}
+Each stage was closed by a from-scratch final gate on TITAN, cross-checked on CONCEPTD from a fresh checkout; after
+stage~06 one more from-scratch gate was run for the discharge of \texttt{Hyp.RamNrdSurj} (840/840), one for
+the Lean submission bundle (950/950, now the previous gate), and a last one after the discharge of \texttt{Hyp.BrandtStabFree}, which is the final gate. The six
+steps are: (a) build of \texttt{Langlandscape} and \texttt{LanglandscapeTests}, (b) \texttt{VendorStacks}, (c)
+\texttt{\#print axioms} on every headline declaration (\texttt{Audit/PrintAxioms.lean}), (d) forbidden-token grep, (e)
+\texttt{sorry} count, (f) \texttt{check\_frozen} (toolchain and Mathlib unchanged). Numbers from the milestone closures
+(\emph{computed}):
+\begin{center}\small
+\begin{tabular}{@{}lllrl@{}}\toprule
+stage & final gate & Lean tree & \texttt{\#print axioms} lines, all standard & \texttt{sorry}\\\midrule
+01 & s01-final-1 & 0492baa & 161 & 0\\
+02 & s02-final-1 & c45f2e8 & 195/195 & import's 1 only\\
+03 & s03-final-1 & 5aa765a & 519/519 & import's 1 only\\
+04 & s04-final-1 & 71576d1c & 592/592 & import's 1 only\\
+05 & s05-final-1 & 9ddd83ea & 747/747 & import's 1 only\\
+06 & s06-final-1 & 4405815 & 836/836 & import's 1 only\\
+RamNrdSurj & ramnrd-final-2 & 2323a252 & 840/840 & import's 1 only\\
+bundle (previous) & subl-gate-1 & 28d2b091 & 950/950 & import's 1 only\\
+final & bsf-gate-1 & c70ef3a9 & \textbf{\GateAudited/\GateAudited} & import's 1 only\\\bottomrule
+\end{tabular}
+\end{center}
+\emph{Stage-06 gate} (s06-final-1, TITAN, from scratch, sha 4405815): (a) 4194 jobs, rc~0, 319\,s, 4.53\,GB; (b) rc~0;
+(c) \texttt{PrintAxioms} 836/836, non-standard 0 (every line $\subseteq\{$\texttt{propext}, \texttt{Classical.choice},
+\texttt{Quot.sound}$\}$; no \texttt{sorryAx}, \texttt{ofReduceBool}, \texttt{trustCompiler}); (d) grep empty; (e) one
+\texttt{sorry}, in the frozen import; (f) clean; \texttt{check\_wp} on 32 files OK; 0 warnings in the stage-06 files.
+Cross-check s06-final-1x (CONCEPTD, fresh checkout, 4405815): 4194 jobs rc~0, 5:21, 836/836, non-standard 0, the same
+single \texttt{sorry}.
+
+\emph{RamNrdSurj gate} (ramnrd-final-2, TITAN, from scratch, sha 2323a252, after the merge of the \texttt{Hyp.RamNrdSurj}
+discharge): (a) 4198 jobs, rc~0, 321\,s, 4.9\,GB; (b) rc~0; (c) \texttt{PrintAxioms} 840/840, non-standard 0,
+the same 23 lines with a proper subset of the standard triple as at the stage-06 gate; the four new declarations
+\texttt{Hyp.ramNrdSurj\_holds}, \texttt{Hyp.ramNrdSurj\_of\_local}, \texttt{Local.exists\_nrd\_eq\_unit\_of\_ne\_two},
+\texttt{Local.exists\_nrd\_eq\_unit\_two} each use exactly \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound};
+(d) grep empty; (e) one \texttt{sorry}, in the frozen import (unchanged); (f) clean; \texttt{check\_wp} on the 5 new or
+changed files OK. Quick check ramnrd-3 (CONCEPTD): build of the affected modules rc~0, \texttt{check\_wp} rc~0 on five file
+sets, \texttt{PrintAxioms} 840/840, non-standard 0; PASS.
+
+\emph{Submission-bundle gate} (previous gate; subl-gate-1, TITAN, from scratch; gate commit dc61af50, Lean tree of the bundle merge 28d2b091: fresh-clone
+\texttt{lakefile.toml} path, \texttt{BUILDING-LEAN.md}, 110 new \texttt{\#print axioms} rows (102 of the 104 chapter-cited but
+unaudited declarations; the 2 test-library ones \texttt{LanglandscapeTests.S04.Hyp.hsiehCR\_toy},
+\texttt{LanglandscapeTests.Hyp.S05.toyTate\_gal\_uncond} are not in the audit), and \texttt{Uncond.lean} with the 8
+\texttt{Hyp.RamNrdSurj}-free \texttt{\_uncond} twins): (a) 4199 jobs, rc~0, 323\,s; (b) rc~0; (c) \texttt{PrintAxioms}
+950/950, non-standard 0, the same 23 proper-subset lines, no \texttt{sorryAx}; (d) grep empty; (e) one
+\texttt{sorry}, in the frozen import (unchanged); (f) clean; 0 warnings in \texttt{Uncond.lean}. Cross-check subl-gate-1x
+(CONCEPTD, fresh checkout): build rc~0, 341\,s, 950/950, non-standard 0, the same single \texttt{sorry}; PASS.
+Clean-room test subl-clean-1 (TITAN, fresh clone of dc61af50 in an empty directory): \texttt{lake exe cache get} and \texttt{lake build}
+succeeded (library 224\,s, imported GL(2) project 96\,s, tests and vendored files 70\,s); \texttt{PrintAxioms} 950 lines, all standard;
+lakefile and manifest unchanged; only the nine pinned packages fetched.
+
+\emph{Final gate} (bsf-gate-1, TITAN, from scratch in an unseeded worktree, Lean tree c70ef3a9, after the merge of the discharge of \texttt{Hyp.BrandtStabFree} by \texttt{Hyp.brandtStabFree\_holds}; logs fa755069): (a) \texttt{Langlandscape} and \texttt{LanglandscapeTests} rc~0, 4205 jobs; (b) \texttt{VendorStacks} rc~0, 1955 jobs; (c) \texttt{PrintAxioms} \GateAudited/\GateAudited{} standard (929 full triple, 23 proper subset, 3 none), non-standard 0, the five new rows full triples; (d) grep empty; (e) \texttt{sorry} 0 in our files, the single import \texttt{sorry} (\texttt{AlgJL/VolIII/P2/Instances.lean:1815}) unchanged; (f) \texttt{check\_frozen} clean.
+
+\paragraph{The \texttt{sorry}.} There is no \texttt{sorry} in \texttt{lean/Langlandscape/} (the table of
+\texttt{SORRIES.md} for \texttt{lean/Langlandscape/} is empty; its second section lists the two \texttt{sorry}s of the import).
+1 \texttt{sorry} in the built tree (frozen import, \texttt{AlgJL/VolIII/P2/Instances.lean}); 1 more in the frozen import's
+\texttt{AlgJL/VolIII/Brandt/BrandtInstances.lean} (\texttt{hecke\_d11\_weight4}), which is not imported by
+\texttt{Langlandscape} and not part of our build. The first is \texttt{GL2TF.Quat.eichler\_mass\_instances\_small}
+(\texttt{Instances.lean:1815}), a stretch example already open in the parent project; that module is imported only by two
+test files that do not use it. Since \texttt{sorryAx} occurs in none of the \GateAudited{}
+audited axiom lists, no audited declaration depends on either (details: Appendix~\ref{app:hyp}, ``The sorrys of the import'').
+
+\subsection{What is formalized}
+In brief (per-stage detail in the milestone closures and in Table~\ref{tab:allresults}):
+\begin{itemize}
+\item \textbf{01}: class sets, stabilisers and weights, finiteness, $|\Gamma_x|\mid 24$, mass level change with the factor-2
+  case, Brandt modules and pairing, Hecke operators and relations, the $U_p$ normalisation; the cited JL targets as
+  schematic hypotheses (\texttt{Hyp.JLClassical}, \texttt{Hyp.LambdaJL}).
+\item \textbf{02}: the coset model of the tree, $\Gamma_U$ and its action, the Brandt graph and its pull/push maps, the
+  SA- and tree-free bijections of \texttt{prop:s02-BG}, \texttt{prop:s02-quot}(a) given connectivity (iii) (or modulo
+  \texttt{Hyp.SA}, \texttt{Hyp.HS}), (b), and (c) for trivial coefficients and the pull/push maps (not the traces), graph
+  homology and the rank formula (given connectivity),
+  the two-term complex with trivial coefficients, $q$-new $\simeq\ker\partial$; norm surjectivity $\Nrd(U)=\Zhat^\times$ at the
+  standard levels (\texttt{lem:s01-nrd}), with its ramified part \texttt{Hyp.RamNrdSurj} discharged.
+\item \textbf{03}: weighted graphs, $X$ and $\Phicomb$, two-vertex $\Phicomb$, the Mazur arithmetic (the check on the DR graph modulo \texttt{Hyp.EllipticCount} and \texttt{Hyp.EichlerMass}),
+  $\Phicomb$ Eisenstein (abstract core; the instance at $\hat\cO^\times$ modulo \texttt{Hyp.BrandtStabFree}),
+  the level-raising operator (with its hypotheses discharged on the Brandt graph), the definite Ribet sequence (a) and
+  the rank in (c), and Ihara (i),(ii), over any ring, given connectivity (\texttt{Tree.BGConnected}, or modulo \texttt{Hyp.SA},
+  \texttt{Hyp.HS}, \texttt{Hyp.BTtree}); Ihara (iii) as a statement (\texttt{Hyp.IharaH0}).
+\item \textbf{04}: the ordinary projector and its $\Zp$-instance (\texttt{Hyp.PadicOrdDecomp} \textbf{discharged},
+  \texttt{Ordinary.padicOrdDecomp\_holds}), $e$ kills the degree term; for the vertex and component terms the abstract forms only (graph inputs as hypotheses; the
+  $H_0$ clause is not formalized); $U_p^*=\langle p\rangle_M U'_p$,
+  control at finite level, the ordinary Ribet sequence at every finite level $s\ge1$ (connectivity of $\BG(UU_s,q)$ an
+  explicit argument), its inverse limit \emph{formalized modulo \texttt{Hyp.InvLimExact}} (the surjectivity of the
+  $A$-transitions is an argument and is not formalized), Hecke operators with coefficients.
+\item \textbf{05}: the hypotheses \texttt{Hyp.X.char}, \texttt{Hyp.X.iso}, \texttt{Hyp.X.gal} with non-vacuity instances (for \texttt{X.char}, \texttt{X.gal} relative to an uninhabited
+  context, see Table~\ref{tab:hyps}), the
+  dictionary $\theta$ and its consistency, \texttt{prop:s05-subquot} (\texttt{CommAlg.subquot\_kernel},
+  \texttt{subquot\_coker}), the algebraic half of \texttt{prop:s05-Xiso} (\texttt{xiso\_of\_gorenstein}), the finite-level
+  $\Lambda$-adic comparison \texttt{xlambda\_finite}, \emph{formalized modulo \texttt{Hyp.X.char}}, for an abstract
+  \texttt{CharGroupData} (not for $X_q(J_s)$ itself) and as an existence statement only; it no longer depends on
+  \texttt{Hyp.PadicOrdDecomp}.
+\item \textbf{06}: the commutative-algebra layer \texttt{CommAlg} (abstract commutative algebra; no \texttt{Hyp.*}; all
+  declarations with the standard axioms), checked against the gated tree 4405815 and as stated in \mainpdf, \S19:
+  \begin{itemize}
+  \item cyclic dual lemma: formalized (\texttt{isGorenstein\_iff\_cyclic});
+  \item Lemma S and base change: formalized, full statement;
+  \item Lemma G: formalized, full statement;
+  \item Lemma D (a)--(c): formalized with qualifiers: the splitting hypothesis is used only in field-free form; the
+    isomorphisms are $A$-linear plus equivariance; the closing base-change sentence is not formalized;
+  \item splitting lemma: only $\exists c\ne0,\ c\cdot1\in\fa+\fb\iff(\fa+\fb)S_K=S_K$ is formalized; the CRT step is not;
+  \item Theorem~E (Thm~19.8): (i), (ii), (iii) (both the Gorenstein half and the DVR half) and (iv) (for $S'$ $A$-free) formalized, under the hypotheses of Lemma~D (Lemma~19.5) as the structure \texttt{NewOldData} (with the qualifiers of Lemma~D), as abstract
+    commutative algebra. \emph{Not formalized}: the localisation clause of (iii) at height-one primes for normal $A$; the
+    standalone $\operatorname{im}(\fb\to S')\cong\fb\cong S'^\vee$; the specialisation $S=R$, $A=I_F$ to Hecke rings;
+  \item further modules: trace form, Burnside, squeeze, \texttt{TwoByTwo}, the $\eta$-principle (\texttt{CommAlg.EtaPrinciple}).
+  \end{itemize}
+  The Defect layer (\texttt{Defect.defect\_formula}, \texttt{defect\_formula\_of\_le}, \texttt{cor\_fixed},
+  \texttt{cor\_allweights}, \texttt{galois}, \texttt{freeRankTwo\_iff\_le}) is \emph{formalized modulo registered
+  hypotheses} (next subsection).
+\end{itemize}
+
+\subsection{The defect formula and the Galois half}
+The binding wording (milestone closure S06; Fabian): \textbf{\texttt{Defect.defect\_formula} is formalized modulo the
+registered \texttt{Hyp.*}, including the Galois half (\texttt{Hyp.FreeRankTwo}); it is not an unconditional theorem.}
+The Lean statement is about an abstract \texttt{Defect.Setting} (rings $\Lambda$, $I$, $T$, $\mathcal O$, a group $G$ and
+$\rho:G\to\GL_2(I)$); Hida's Hecke algebra and the Galois representation are not constructed in Lean, and (H1), (H2), (P)
+and (Lev) are not Lean arguments: they are the conditions under which the cited \texttt{Hyp.*} are asserted.
+\texttt{defect\_formula\_of\_le} takes in addition the inclusion $\cc_q(f)\subseteq\m^t$ and (Gor$_{R'}$) as plain arguments.
+The disclosure sentence, verbatim as in the chapter (\mainpdf, \S21--22), the registry and the Lean docstring:
+\begin{quote}\small
+Given \texttt{Hyp.ResidualBurnside}, \texttt{Hyp.FreeRankTwo} is equivalent to the inclusion $\tq_q\subseteq\cc_q$; both
+directions are proved in Lean (\texttt{Defect.galois}, \texttt{Defect.freeRankTwo\_of\_le}, packaged as
+\texttt{Defect.freeRankTwo\_iff\_le}). The Galois half is therefore not formalized independently: its arithmetic content
+(that the old-form representation $\rho_M$ exists at level $M$, steps 1--3 of Prop.~22.1) is the cited hypothesis.
+\end{quote}
+\texttt{Hyp.ResidualBurnside} is discharged only given absolute irreducibility, (H2)
+(\texttt{Hyp.residualBurnside\_of\_absIrred}). The toy instances of \texttt{Hyp.HidaControlGL2}, \texttt{Hyp.KimOta},
+\texttt{Hyp.KimOtaRT} in the Lean tests are consistency (non-vacuity) instances only, not evidence; apart from \texttt{Hyp.RamNrdSurj} and \texttt{Hyp.BrandtStabFree} (discharged, see
+below), no Lean term discharges any cited hypothesis.
+
+\subsection{The registered hypotheses}
+At c70ef3a9 there are \textbf{\NumHypRegistered{} registered hypotheses}: the \NumHypRows{} rows \texttt{Langlandscape.Hyp.*} of
+\texttt{HYPOTHESES.md} plus the reused \texttt{GL2TF.Hyp.EichlerMass} of the import (the alias row
+\texttt{Langlandscape.Hyp.EichlerMass} is not a new hypothesis). \NumHypDischarged{} \emph{discharged} (\HypDischargedNames), \NumHypCondDischarged{}
+\emph{conditionally discharged} (\HypCondDischargedNames); the remaining \NumHypOpen{} are open.
+``Instance'' means a Lean term in the tests showing that the hypothesis is satisfiable (non-vacuity), never evidence.
+For \texttt{X.char} and \texttt{X.gal} the instance is a theorem quantified over a context $(d,\dots,P_q,h_{P_q})$ that no
+closed Lean term inhabits yet, so non-vacuity is relative to that context.
+\begingroup\small\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}p{0.25\textwidth} p{0.06\textwidth} p{0.30\textwidth} p{0.33\textwidth}@{}}
+\caption{The \NumHypRegistered{} registered hypotheses (from \texttt{lean/Langlandscape/HYPOTHESES.md} at c70ef3a9).}\label{tab:hyps}\\
+\toprule \texttt{Hyp.} & stage & content (statement label) & status; instance in the tests\\\midrule\endfirsthead
+\toprule \texttt{Hyp.} & stage & content (statement label) & status; instance in the tests\\\midrule\endhead
+\texttt{GL2TF.Hyp.EichlerMass} & import & Eichler's mass formula, maximal order (\texttt{thm:s01-mass}) & open, cited; closed instances only in the import's test library, not reachable\\
+\texttt{JLClassical} & 01 & classical JL, $k=2$ (\texttt{thm:s01-JLclassical}) & open (schematic), cited; none\\
+\texttt{LambdaJL} & 01 & $\Lambda$-adic Hecke JL (\texttt{thm:s01-lambdaJL}) & open (schematic), cited; none\\
+\texttt{SA} & 02 & strong approximation, shape (SA$_U$) (\texttt{thm:s02-SA}) & open, cited; none\\
+\texttt{HS} & 02 & Hasse--Schilling norm theorem (\texttt{lem:s02-normone}(b)) & open, cited; none\\
+\texttt{BTtree} & 02 & the Bruhat--Tits graph is a $(q+1)$-regular tree (\texttt{lem:s02-tree}(a)) & open, cited; none\\
+\texttt{SerreCoh} & 02 & \texttt{prop:s02-coh}(b) under connectivity & open, cited; none\\
+\texttt{SerreFree} & 02 & \texttt{prop:s02-free}(a) & open, cited; none\\
+\texttt{RamNrdSurj} & 02 & $\Nrd(\cO_\ell^\times)=\Z_\ell^\times$ for $\ell\mid D$ (\texttt{lem:s01-nrd}) & \textbf{discharged}: \texttt{Hyp.ramNrdSurj\_holds}\\
+\texttt{IharaH0} & 03 & \texttt{thm:s03-iharaH0}(a) & open; none (premises jointly satisfiable)\\
+\texttt{EllipticCount} & 03 & \texttt{lem:s03-elliptic} + the $q\in\{2,3\}$ part of \texttt{prop:s03-mazur} & open, cited; none\\
+\texttt{BrandtStabFree} & 03 & step (1) of \texttt{prop:s03-phieis} & \textbf{discharged}: \texttt{Hyp.brandtStabFree\_holds}\\
+\texttt{PadicOrdDecomp} & 04 & ordinary decomposition, f.g.\ $\Zp$-modules (\texttt{def:s04-e}) & \textbf{discharged}: \texttt{Ordinary.padicOrdDecomp\_holds}\\
+\texttt{MordLambdaFree} & 04 & \texttt{thm:s04-control}(a), $\Lambda$-adic half & open; none\\
+\texttt{HidaControl} & 04 & \texttt{thm:s04-control}(b), finite level & open (schematic), cited; none\\
+\texttt{HsiehCR} & 04 & Hsieh's residual condition (\texttt{hyp:s04-CR}) & open; toy (\texttt{hsiehCR\_toy})\\
+\texttt{InvLimExact} & 04 & \texttt{thm:s04-lambdaribet}(a), surjective transitions & open; none\\
+\texttt{X.char} & 05 & $\HypX$ (X1)--(X3) (\texttt{hyp:s05-X}) & open; \texttt{canonicalCharData\_char} ($\varphi=\mathrm{id}$)\\
+\texttt{X.iso} & 05 & $\HypXiso$, level-wise (\texttt{def:s05-Xiso}) & open; \texttt{toyXIso\_holds}\\
+\texttt{X.gal} & 05 & $\HypX$ (X4) & open; \texttt{toyTate\_gal\_uncond} (non-faithful model)\\
+\texttt{HsiehGor} & 06 & \texttt{thm:s04-Gor} & open, cited; toy\\
+\texttt{OldDecomp} & 06 & \texttt{lem:s06-decomp}(a)--(c) & open; toy\\
+\texttt{HsiehGorFull} & 06 & (Gor$_R$) & open, cited; toy\\
+\texttt{FreeRankTwo} & 06 & steps 1--3 of \texttt{prop:s06-galois}; the Galois half (see above) & open, cited; consistency instance\\
+\texttt{ResidualBurnside} & 06 & $I[G]\twoheadrightarrow M_2(I)$ (\texttt{lem:s06-burnside}) & \textbf{conditionally discharged} (absolute irreducibility); toy\\
+\texttt{TamSpec} & 06 & \texttt{lem:s06-tam}(a)--(c) & open; toy\\
+\texttt{HidaControlGL2} & 06 & \texttt{lem:s06-control}, \texttt{lem:s06-pstab}, (P2) & open, cited; consistency instance\\
+\texttt{KimOta} & 06 & \texttt{thm:s06-KO} at $P$ & open, cited; consistency instance\\
+\texttt{KimOtaRT} & 06 & \texttt{prop:s06-levM} output, inclusion only & open, cited; consistency instance\\\bottomrule
+\end{longtable}
+\endgroup
+\noindent The hypotheses report (Appendix~\ref{app:hyp}) states each hypothesis in full, with its source, its consumers
+and a discharge plan; its summary table has \NumHypTableRows{} rows (the three stage-05 \texttt{Hyp.X.*} are registered but described in a
+separate section there).
+
+\paragraph{The discharge of \texttt{Hyp.RamNrdSurj}.} \texttt{Langlandscape.Hyp.ramNrdSurj\_holds (d : DefiniteData) :
+Hyp.RamNrdSurj d} (\texttt{Hyp/RamNrdSurjDischarge.lean}) is \emph{formalized}: it reduces the hypothesis to local norm
+surjectivity (\texttt{Hyp.ramNrdSurj\_of\_local}, using $\cO_\ell=\{x:\Nrd x\in\Z_\ell\}$ at $\ell\mid D$) and proves the
+local statement from \texttt{Local.exists\_nrd\_eq\_unit\_of\_ne\_two} ($\ell$ odd) and \texttt{Local.exists\_nrd\_eq\_unit\_two}
+($\ell=2$). These two theorems state more than is needed: for every prime $\ell$ and all nonzero $a,b$, every unit of
+$\Z_\ell$ is a reduced norm from $(a,b\mid\Q_\ell)$ (\emph{formalized}). The consumers (\texttt{Quat.nrdSurj\_*},
+\texttt{Tree.isQAdmissible\_*}) keep the explicit argument and receive it as \texttt{ramNrdSurj\_holds d}.
+\begin{quote}\small
+The discharge of Hyp.RamNrdSurj was drafted by an external model (mistral-large-4-0 via opencode), run by Fabian Januszewski on Abhijit A J's machine, outside our agent process (where opencode is Q\&A-only); it was integrated into the library, independently audited (Fable, PASS WITH REMARKS) and gated from scratch by the Langlandscape agents.
+\end{quote}
+
+\paragraph{Known Lean debts (disclosed).} Warnings: 204 in \texttt{Langlandscape/}, 71 in the tests at the final gate
+(0 in the stage-06 files; the 6 new ones are module-system import notices in the two \texttt{Local/QuatNrd*} files); \texttt{linter.overlappingInstances} is suppressed locally on three headlines
+(\texttt{cor\_fixed}, \texttt{defect\_formula}, \texttt{cor\_allweights}); Lean audit minors R9--R11 of stage~06 and the
+optional items of the Fable Lean audits are open.

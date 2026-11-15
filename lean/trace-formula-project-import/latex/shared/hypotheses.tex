@@ -1,0 +1,30 @@
+% hypotheses.tex -- registry of the named hypotheses (PLAN §3.H, decision D4).
+% Fork copy (algebraic_jl): only the entry reachable from the kept items, Hyp.EichlerMass (parent tex/shared/hypotheses.tex @ 84818d0).
+% Input once per document, inside an appendix chapter (both editions). Hand text; consumer lists will be generated.
+% Every hyp item (kind = hyp) needs an entry \tfhypentry{<ID>}{key=value, ...} (macro in gl2tf.sty).
+% Keys: short, lean (name after GL2TF.Hyp.), informal, usedby, cite, why, instance | waiver, discharge.
+% Brace every value that contains a comma. tfcheck (check 9) requires cite, discharge and instance or waiver.
+% The exact statement is printed from the snippet with \tfstmttext (no label; the item itself is typeset with
+% \tfstmt in its chapter). IDs whose snippet does not exist yet print a placeholder.
+% Policy (D4): no axioms; whitelist {propext, Classical.choice, Quot.sound}; each hypothesis is
+% def GL2TF.Hyp.<Name> : Prop (or a Prop family over a defined project type), taken as an explicit argument;
+% new hypotheses need user approval.
+
+\noindent The named hypotheses below are the only unproved inputs of this volume. Each is a true theorem
+of the literature, stated as a \texttt{Prop} about already-defined objects and taken as an explicit
+argument by its consumers; theorems depending on one are marked \enquote{conditional on \dots} in A and B.
+The axiom whitelist is $\{\texttt{propext},\texttt{Classical.choice},\texttt{Quot.sound}\}$.
+
+\tfhypentry{III.qcls.hyp:eichler-mass}{
+ short=H-EM, lean={EichlerMass (a b : ℤ) (D : ℕ) (O : MaxOrder a b)},
+ informal={for $a,b\in\Z$ and a maximal order $\Oord$ of $\Bq=(a,b)_\Q$: if $a,b<0$ and $\Bq$ is ramified exactly at the primes dividing the squarefree
+  $D$ (\texttt{RamifiedExactly a b D}, an antecedent inside the hypothesis), then $\Mass(\Oord)=\sum_{c\in X(\Oord)}|\Gamma_c|^{-1}=\frac1{24}\prod_{p\mid D}(p-1)$,
+  with full unit groups $\Gamma_c=\Oord_c^\times$ (conventions row N4). Vacuous at every other index.},
+ usedby={Vol~III Ch~III.7 (the Eichler-order mass, \texttt{III.qcls.cor:eichler-order-mass}) and the central term of the quaternionic side (Q4).},
+ cite={\cite[(20)--(21), p.~180]{Shz} (Eichler's mass formula with $e_\mu=|\Oord_\mu^\times|/2$, hence $\frac1{12}$; with full unit groups $\frac1{24}$);
+  \cite{Piz} (unit counts and $\sum 1/e_j=(p-1)/24$); \cite{Voi}.},
+ why={the proof needs the volume of $\Bq^\times\backslash\Bq^\times(\A)^1$ (Siegel/Tamagawa) or a comparison of central terms through the trace identity.},
+ instance={$(a,b,D)=(-1,-11,11)$ with Pizer's maximal order (exit \texttt{III.qcls.ex:eichler-mass-instance-d11}: two classes, $|\Gamma|=4,6$,
+  mass $5/12$), and $(-1,-1,2)$ with the Hurwitz order (mass $1/24$); both prove the antecedent too.},
+ instdecl=GL2TFTests.eichlerMass_d11,
+ discharge={Q8 (Ch~III.13, comparison of central terms) or later; D4 approval 2026-11-11.}}

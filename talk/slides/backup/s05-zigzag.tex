@@ -1,0 +1,41 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S05-T2: two-part zig-zag. Data source: none (structural diagram, no computed numbers).
+% math: mathematics/chapters/s05/simplicial.tex def:s05-stages (stages i--iv, the displayed zig-zag following it)
+% math: mathematics/chapters/s05/simplicial.tex conj:s05-O2 (right part is open: no simplicial realisation claimed)
+% math: mathematics/chapters/s05/hypX.tex hyp:s05-X (Hyp.X, a hypothesis)
+\begin{frame}{The zig-zag has two independent parts}
+  \footnotesize
+  \begin{columns}[T]
+  \begin{column}{0.48\textwidth}
+  \centering
+  {\bfseries Left: $B$ with $q\nmid D$}\\[1mm]
+  explicit simplicial maps
+  \begin{tikzpicture}[>=stealth, node distance=1.0cm, every node/.style={draw, rounded corners, inner sep=3pt}]
+    \node (a) {$X^B(U)$};
+    \node[right=1.4cm of a] (b) {$X^B(U_0(q)\cap U)$};
+    \node[below=1.1cm of b] (c) {$\Gamma_U\backslash\mathcal T_q$};
+    \draw[<->] (a) -- (b);
+    \draw[->, dashed] (b) -- node[draw=none, right] {$\leadsto$} (c);
+    \node[draw=none, above=0.1cm of a, xshift=1.3cm] {\scriptsize 0-dim};
+    \node[draw=none, left=0.2cm of c] {\scriptsize 1-dim};
+  \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.48\textwidth}
+  \centering
+  {\bfseries Right: $B_q$ (ramified at $q$)}\\[1mm]
+  \begin{tikzpicture}[>=stealth, every node/.style={draw, rounded corners, inner sep=3pt, align=center}]
+    \node (g) {edges of $\mathcal G^{\mathrm{DR}}_q(U_s)$\\[-1pt]{\scriptsize $X^q(U_s)$}};
+    \node[below=1.4cm of g] (d) {dual graph of\\ $X_{s,\overline{\mathbb F}_q}$ ($\GL_2$)};
+    \draw[<->, dashed, red!70!black, thick] (g) -- node[draw=none, right, red!70!black] {\textbf{Hyp.X}} (d);
+  \end{tikzpicture}
+  \end{column}
+  \end{columns}
+  \vspace{2mm}
+  \begin{itemize}
+    \item Left: maps between definite stages at a prime $q\nmid D$ (def.\ s05-stages); the two parts live at different primes: left $q\nmid D$, right $D=q$.
+    \item Right: the DR graph is \emph{hypothesised} to be the dual graph of the special fibre, with thicknesses, compatible with Hecke and Galois. This is a \emph{hypothesis}; no simplicial realisation is known (conj.\ s05-O2, open).
+  \end{itemize}
+  \vfill
+  {\tiny Sources: \texttt{mathematics/chapters/s05/simplicial.tex} (def.\ s05-stages, conj.\ s05-O2); \texttt{hypX.tex} (hyp.\ s05-X).}
+\end{frame}

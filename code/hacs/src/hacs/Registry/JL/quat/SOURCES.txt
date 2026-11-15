@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+# SPDX-License-Identifier: LGPL-3.0-only WITH LicenseRef-CUDA-exception
+# hacs_jl quaternion core (HJ-1 + HJ-2): library sources, paths relative to this directory.
+Quat.cpp
+Lattice.cpp
+Order.cpp
+ClassSet.cpp
+Brandt2.cpp
+Tree.cpp            # HJ-7 (Lane C); also needs ../../../NumberField/BigInt.cpp
+TreeK.cpp           # HJ-7b (Lane C)
+# standalone executables (not part of the hacs binary):
+#   tests/quat_selftest.cpp      (links the five sources above)
+#   tools/jl_brandt2_dump.cpp    (links the five sources above + ../../../NumberField/Sha256.cpp)
+#   tests/tree_selftest.cpp      (HJ-7: the six sources above + ../../../NumberField/BigInt.cpp)
+#   tools/jl_tree_dump.cpp       (HJ-7: the six sources above + ../../../NumberField/BigInt.cpp)
+# HJ-4a (also needs ../../../NumberField/BigInt.cpp and BigRational.cpp):
+BrandtSym.cpp
+#   tests/brandtsym_selftest.cpp (HJ-4a: the six sources above + NumberField BigInt.cpp, BigRational.cpp, Sha256.cpp)
+#   tools/jl_brandtsym_dump.cpp  (HJ-4a: the same set)
+# HJ-3 (needs Tree.cpp for class_units / find_mu / idempotent_mod, and ../../../NumberField/BigInt.cpp):
+Level.cpp
+#   tests/level_selftest.cpp     (HJ-3: Quat, Lattice, Order, ClassSet, Brandt2, Tree, Level + NumberField BigInt.cpp, Sha256.cpp)
+#   tools/jl_tree_k.cpp          (HJ-7b: Quat Lattice Order ClassSet Brandt2 BrandtSym Tree TreeK + NumberField/{BigInt,BigRational}.cpp)
+# HJ-4b (needs Level.cpp, Tree.cpp, BrandtSym.cpp, NumberField BigInt.cpp, BigRational.cpp):
+BrandtLevel.cpp
+#   tests/brandtlevel_selftest.cpp (HJ-4b: all nine sources above + NumberField BigInt.cpp, BigRational.cpp, Sha256.cpp)
+Ordinary.cpp        # HJ-9 (Lane C; needs Level.cpp, Tree.cpp)
+#   tools/jl_hj9.cpp             (HJ-9: Quat Lattice Order ClassSet Brandt2 Tree Level Ordinary + NumberField/BigInt.cpp)
+#   tools/jl_ihara_xcheck.cpp    (HJ-7b cross-check via BrandtLevel: the brandtlevel_selftest set)

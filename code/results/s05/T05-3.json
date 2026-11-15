@@ -1,0 +1,81 @@
+{
+ "data": {
+  "101": {
+   "equal": true,
+   "h": 9,
+   "num_q_minus_1_over_12": 25,
+   "phi_cyclic_stage03": true,
+   "phi_divisors_stage03": [
+    25
+   ],
+   "phi_order_stage03": 25,
+   "q": 101
+  },
+  "11": {
+   "equal": true,
+   "h": 2,
+   "num_q_minus_1_over_12": 5,
+   "phi_cyclic_stage03": true,
+   "phi_divisors_stage03": [
+    5
+   ],
+   "phi_order_stage03": 5,
+   "q": 11
+  },
+  "131": {
+   "equal": true,
+   "h": 12,
+   "num_q_minus_1_over_12": 65,
+   "phi_cyclic_stage03": true,
+   "phi_divisors_stage03": [
+    65
+   ],
+   "phi_order_stage03": 65,
+   "q": 131
+  },
+  "23": {
+   "equal": true,
+   "h": 3,
+   "num_q_minus_1_over_12": 11,
+   "phi_cyclic_stage03": true,
+   "phi_divisors_stage03": [
+    11
+   ],
+   "phi_order_stage03": 11,
+   "q": 23
+  },
+  "37": {
+   "equal": true,
+   "h": 3,
+   "num_q_minus_1_over_12": 3,
+   "phi_cyclic_stage03": true,
+   "phi_divisors_stage03": [
+    3
+   ],
+   "phi_order_stage03": 3,
+   "q": 37
+  }
+ },
+ "provenance": {
+  "commit": "89045d1f9659955f74f5a48e1eee0af71d81ac9a-dirty",
+  "date": "2026-11-14T23:53:21+00:00",
+  "notes": "pointer to stage-03 T1; no new computation beyond num((q-1)/12)",
+  "params": {
+   "q": [
+    11,
+    23,
+    37,
+    101,
+    131
+   ],
+   "source": "code/results/s03/T1.json",
+   "source_commit": "518e93aaf4025645559146fe5ba1ff1997d9e94c-dirty",
+   "source_date": "2026-11-14T20:25:49+00:00",
+   "source_script": "code/python/langlandscape/ribet/mazur.py"
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.0013870749971829355,
+  "script": "python3 -m langlandscape.comparison.pointer_s03"
+ }
+}

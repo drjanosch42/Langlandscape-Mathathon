@@ -1,0 +1,79 @@
+% Bibliography fragment for S06-M11 (package abhijit/s06-m11, literature verification, batch 2).
+% Only keys that are NOT in mathematics/references.bib: Hi86a, Hi88a, DDT97, Hel04 (and W88, Car94, Edi92, see below).
+% The keys already present there (Hs, KO, PW, Wi95, Hi86b, Dia89, MW86, Boc07, Ri84, Hel, DFG, Dim09, BKM) are not repeated
+% (biber would report duplicates); the verification results for those are in mathematics/litnotes/*.md.
+% S06-M10b (audit part 2, P2-R4): W88, Car94, Edi92 moved here from bib/s06-m5.bib.
+@article{Hi86a,
+  author = {Hida, Haruzo},
+  title = {Galois representations into {${\rm GL}_2(\mathbb{Z}_p[[X]])$} attached to ordinary cusp forms},
+  journal = {Invent. Math.},
+  volume = {85},
+  number = {3},
+  year = {1986},
+  pages = {545--613},
+  note = {local: literature/hida\_1986\_galois-representations-into-gl2-zp-x-attached-to-ordinary-cusp-forms.pdf (journal page = PDF page + 544; partly poor OCR); S06-M11: Thm 1.1 p.~551, Thm 2.1 (Galois representation into $\mathrm{GL}_2$ of the primitive component) p.~557, Lemma 8.1 p.~596; see mathematics/litnotes/hi86a.md}
+}
+
+@article{Hi88a,
+  author = {Hida, Haruzo},
+  title = {Modules of congruence of {H}ecke algebras and {$L$}-functions associated with cusp forms},
+  journal = {Amer. J. Math.},
+  volume = {110},
+  number = {2},
+  year = {1988},
+  pages = {323--382},
+  note = {local: literature/hida\_1988\_modules-of-congruence-of-hecke-algebras-and-l-functions-associated-with-cusp-forms.pdf (JSTOR copy, text layer present); the Gorenstein $\Rightarrow$ principal congruence ideal result (Thm 0.1) is quoted by [Hs, p.~4, p.~18]; see mathematics/litnotes/hida1988.md (S04-M5) for the checked pages}
+}
+
+@incollection{DDT97,
+  author = {Darmon, Henri and Diamond, Fred and Taylor, Richard},
+  title = {Fermat's {L}ast {T}heorem},
+  booktitle = {Elliptic curves, modular forms \& {F}ermat's {L}ast {T}heorem ({H}ong {K}ong, 1993)},
+  edition = {2},
+  publisher = {International Press},
+  address = {Cambridge, MA},
+  year = {1997},
+  pages = {2--140},
+  note = {local: literature/darmon-diamond-taylor\_1997\_fermats-last-theorem\_preprint.pdf (preprint, numbering may differ; PDF page = printed page); (st06, S06-M2/M4) verified: Thm 1.22 (Atkin--Lehner), p.~31; Thm 2.3 (Chebotarev), p.~52; Thm 3.1(a),(d),(e) (unramified away from $N\ell$; conductor; shape of $\rho|_{G_p}$ for $p\,\|\,N$), p.~85--86; S06-M11 checked Lemma 4.17 (the determinant of the pairing generates an ideal containing the $d$-th power of the congruence ideal, with equality when the module is free), preprint p.~126; also cited through [KO] and [PW, Prop.~6.4] (Sect.~4.4 cohomology congruence ideals)}
+}
+
+@misc{Hel04,
+  author = {Helm, David},
+  title = {On maps between modular {J}acobians and {J}acobians of {S}himura curves},
+  year = {2004},
+  eprint = {math/0401265},
+  eprinttype = {arxiv},
+  note = {arXiv v1 (20 Jan 2004); local: literature/helm\_2004\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves\_arxiv.pdf; Cor.~8.11 and Rem.~8.12 are on p.~31 and carry the same numbers as in the Israel J. Math. 160 (2007) version (key Hel in references.bib), where they are on p.~110; see mathematics/litnotes/hel.md}
+}
+
+@article{W88,
+  author = {Wiles, Andrew},
+  title = {On ordinary {$\lambda$}-adic representations associated to modular forms},
+  journal = {Invent. Math.},
+  volume = {94},
+  year = {1988},
+  pages = {529--573},
+  note = {local: literature/wiles\_1988\_ordinary-lambda-adic-representations-associated-to-modular-forms.pdf (image-only scan; no text layer). (st06, S06-M5) cited for the ordinary shape of $\rho_g|_{G_{\mathbb Q_p}}$ (\S2); theorem and page NOT checked}
+}
+
+@incollection{Car94,
+  author = {Carayol, Henri},
+  title = {Formes modulaires et repr\'esentations galoisiennes \`a valeurs dans un anneau local complet},
+  booktitle = {{$p$}-adic monodromy and the {B}irch and {S}winnerton-{D}yer conjecture ({B}oston, 1991)},
+  series = {Contemp. Math.},
+  volume = {165},
+  publisher = {Amer. Math. Soc.},
+  year = {1994},
+  pages = {213--237},
+  note = {local: literature/carayol\_1994\_formes-modulaires-et-representations-galoisiennes.pdf; (st06, S06-M5) verified: Th\'eor\`eme 1 (representations with absolutely irreducible residual representation are determined by their traces), p.~215; Th\'eor\`eme 2 (descent of a representation from $A'$ to $A$ when the traces lie in $A$), p.~219}
+}
+
+@article{Edi92,
+  author = {Edixhoven, Bas},
+  title = {The weight in {S}erre's conjectures on modular forms},
+  journal = {Invent. Math.},
+  volume = {109},
+  year = {1992},
+  pages = {563--594},
+  note = {not in literature/; (st06, S06-M5) cited for Fontaine's theorem in the form: a non-ordinary eigenform of weight $2\le k\le p-1$, level prime to $p$, has $\bar\rho|_{I_p}\cong\omega_2^{k-1}\oplus\omega_2^{p(k-1)}$ (Thm~2.6); and (S06-M10b, P2-R7) for Deligne's theorem on the ordinary shape of $\rho_g|_{G_{\mathbb Q_p}}$ for $p\nmid N_g$ (Thm~2.5); NOT checked on a page}
+}

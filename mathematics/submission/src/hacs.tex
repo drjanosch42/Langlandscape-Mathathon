@@ -1,0 +1,228 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Section: our HACS contributions (report only). Every number is computed and read from a committed source: the JSON files
+% under code/results/, the HACS lane closures plan/hacs/outbox/20261115T0137Z_laneA-closure.md and
+% plan/hacs/outbox/20261115T0150Z_laneB-closure.md (including the errata at its end), code/hacs/CHANGES.md and
+% plan/hacs/HACS-JL-PLAN.md. Anonymous body: no person or machine names, no repository URLs.
+\section{Our HACS contributions}\label{sec:hacs}
+
+HACS v0.2.1 \cite{HACS021} (DOI 10.5281/zenodo.24231446), with its data release hacs-data v0.2.0 \cite{HACSdata020}
+(DOI 10.5281/zenodo.24147012), is a C++ system for Hecke algebras and congruence modules on the $\GL_2$ side, with an
+exact integral engine. During the event we added a Jacquet--Langlands (JL) module that feeds \emph{definite} Brandt
+lattices into that engine, and a Python bridge that drives the shipped binary. This section reports what we built
+(\S\ref{ss:hacs}), four worked examples (\S\S\ref{ss:hacs-b11}--\ref{ss:hacs-t4}), the one speed measurement
+(\S\ref{ss:hacs-speed}) and the overnight lane (\S\ref{ss:hacs-lanec}); what comes next is in Section~\ref{sec:stage2}.
+
+\paragraph{Status words.} Every number in this section is \emph{computed}; a comparison that came out equal is
+\emph{checked}. Both lanes ran under a relaxed protocol decided by the team (targeted validation only, every deviation
+disclosed, \S\ref{ss:hacs-dev}); nothing here is a refereed HACS record, and HACS's own record words that would claim more
+are re-labelled \texttt{met(hacs\_word)} in our output. A computation validates a statement; it is never part of a proof.
+Sources: the lane closures \pathtt{plan/hacs/outbox/20261115T0137Z\_laneA-closure.md} (Lane~A) and
+\pathtt{plan/hacs/outbox/20261115T0150Z\_laneB-closure.md} (Lane~B, with the errata at its end), the change log
+\pathtt{code/hacs/CHANGES.md}, the work-package plan \pathtt{plan/hacs/HACS-JL-PLAN.md}, and the result files named below.
+
+\subsection{What we built}\label{ss:hacs}
+\begin{itemize}
+\item \emph{The JL module inside HACS} (\pathtt{code/hacs/src/hacs/Registry/JL/}, documented in \pathtt{code/hacs/jl/README.md}
+  and \pathtt{code/hacs/CHANGES.md}). It reads a Brandt lattice, given as integer Hecke matrices in a fixed basis (the export
+  format \pathtt{langlandscape\_brandt/v2}, record \pathtt{free\_block\_z}), into HACS's integral engine
+  (\texttt{LatticeFromFreeZ} $\to$ \texttt{ReadLocal}, the local read of a Hecke module at a prime $\ell$), and computes
+  exact integral congruence modules $C_f=L/(L_f\oplus L_f^c)$, where $L_f$ is the saturated sublattice cut out by a Galois
+  orbit $f$ of eigensystems and $L_f^c$ the one cut out by the other orbits. Four validations are registered
+  (\texttt{JLBrandtFreeBlockSpikeValidation}, \texttt{JLBrandtFreeBlockRead}, \texttt{JLBrandtCongruenceSpikeValidation},
+  \texttt{JLBrandtCongruenceRead}).
+\item \emph{Three hook lines} in upstream HACS, each marked \texttt{Langlandscape JL hook}: one \texttt{include(cmake/jl/JL.cmake)}
+  in \pathtt{CMakeLists.txt}, and the declaration and the call of \texttt{RegisterJL()} in
+  \pathtt{src/hacs/ValidationRegistry.cpp}. No other upstream source, golden file or licence file is changed; the
+  upstream list of 294 validations keeps its order and the JL names follow it.
+\item \emph{A native quaternion core} (\pathtt{Registry/JL/quat/}): definite algebras $B_{D,\infty}$, lattices and orders,
+  left-ideal class sets, weight-2 Brandt matrices, and the writer \pathtt{jl\_brandt2\_dump} of the v2 format; self-test
+  8084 checks, 0 failing. It is a standalone build, not linked into the \texttt{hacs} binary (deviation D6).
+\item \emph{Lane~A, the Python bridge} (\pathtt{code/python/langlandscape/hacs\_bridge/}: \texttt{runner.py} with an
+  environment allowlist and sha256 provenance, and one driver per work package). HJ-A1 (\res{s05/gl2_dnew.json}): the
+  $\GL_2$-side $D$-new characteristic polynomials through HACS reproduce \res{s01/symn.json} on 66/66 cells and
+  \res{s01/pi_sign.json} on 8/8; on an extended grid 152/204 cells are OK and 52 were skipped for memory. HJ-A2
+  (\res{s06/definite_local.json}): the definite Hecke algebra at $D=11$, $k=2$ is non-\'etale and Gorenstein at
+  Mazur's prime $5$, the negative controls $D=3,5,7$, $k=12$ are clean, generation over $\Z$ checked on 14/14 cells.
+  HJ-A3: the T4 Betti side (\S\ref{ss:hacs-t4}). HJ-B0: the export format and 74 \pathtt{free\_block\_z} records
+  (\pathtt{code/results/s06/brandt\_free\_block\_z/}), whose fingerprints agree byte for byte with HACS's.
+\item \emph{Lane~B, the integral reads} (HJ-6-min, HJ-6b, HJ-1/2): the reads above on the 74 records
+  (\res{laneB/congruence_k.json}), a Python reference with PARI (\res{laneB/py_reference.json}), and the native census
+  (\S\ref{ss:hacs-census}).
+\item \emph{Two independent implementations agree}: HACS-native C++ and Python with \texttt{cypari2} give the same Smith
+  lists on 69/69 orbits (\res{laneB/py_reference.json}, field \pathtt{congruence\_k\_python\_vs\_native}: 69 orbits, 0
+  mismatches). The native class sets agree with Lane~A's independently written v2 records on 14/14 fingerprints.
+\item \emph{Validation actually run.} The Lane~A binary passed the strict golden regression (tier A 12154 checked, 0
+  failing; tier B 6231 checked, 0 mismatching), once, at build time. After the merge, one sharded \texttt{--all} run on the
+  integrated tree passed 248/248 (the upstream 246 plus the two fast JL validations) and the strict golden regression again
+  passed with 0 failures (Lane~B closure, \S7). Not run: the four digests, \pathtt{LABEL\_CENSUS}, the slow tier
+  \texttt{--all-full}, the device lane.
+\end{itemize}
+
+\subsection{Disclosed deviations}\label{ss:hacs-dev}
+Lane~B (closure \S4; details in \pathtt{code/hacs/CHANGES.md}):
+\begin{enumerate}[label=D\arabic*,leftmargin=2.2em]
+\item relaxed protocol (team decision): no contract text and no refereed HACS contract line; HACS's record words are printed
+  as \texttt{met(hacs\_word)};
+\item targeted validation only during the event (the full run of \S\ref{ss:hacs} came afterwards; digests,
+  \pathtt{LABEL\_CENSUS}, \texttt{--all-full} and the device lane are still not run);
+\item the $L\oplus L$ adapter (HACS's \texttt{ReadLocal} assumes cusp multiplicity 2) is ours, not a HACS route;
+\item our own exact BigInt Smith/HNF (HACS's routes are modulo $\ell^K$ only) and our own minimal JSON reader;
+\item the build option \pathtt{OC\_ENABLE\_JL} defaults to ON (the plan said OFF until registration, HJ-11);
+\item no catalogue entry and no roster update; the native core is a standalone build;
+\item no separate fresh review of the native core (acceptance: self-test 8084/0, byte-exact agreement with Lane~A's
+  records, the Python cross-check);
+\item HACS's heavy-job locks were not used; builds went through our own build semaphore (allowed by a team decision).
+\end{enumerate}
+Lane~A (closure, ``Disclosed deviations''): the new Python lives outside \pathtt{code/hacs/} (the exporter uses PARI, which
+HACS does not allow inside its tree); fix rounds were not re-audited; HJ-A1 ran 21.4\,min against a 20\,min cap, 52 cells
+were skipped for memory and the $U_D$ signs are ambiguous on 8 cells; HJ-A2 uses the anemic algebra (no $T_\ell$, no
+$U_D$; adding $T_\ell$ changes nothing at $k=2$, checked); its comparison with the stage-06 check C1 is replaced by an independent Python check; the $U_D$ signs are computed for prime $D$, $M=1$ only; the export format v1 was superseded by v2 within the lane (its class order depended on the process); HJ-A3 gates on the amalgam route, not on HACS's
+\texttt{module\_Z}; records at $k>2$ are \texttt{canonical: false}; several provenance commits carry \texttt{-dirty}
+(shared worktree).
+
+\subsection{Worked example: the Brandt module of $B_{11,\infty}$ at weight 2}\label{ss:hacs-b11}
+Let $B=B_{11,\infty}$ be the definite quaternion algebra over $\Q$ ramified exactly at $11$ and $\infty$, and $\cO$ a
+maximal order. The class number is $h=2$; the two right orders have unit groups of orders $|\cO_1^\times|=4$ and
+$|\cO_2^\times|=6$, and the mass is $\frac14+\frac16=\frac5{12}=\frac{11-1}{24}$, as Eichler's mass formula predicts
+(\res{s01/brandt_w2.json}, block \texttt{T1}). In the basis of the two classes,
+\[
+T_2=\begin{pmatrix}1&2\\3&0\end{pmatrix},\qquad \chi(T_2)=x^2-x-6=(x-3)(x+2).
+\]
+Each row sums to $3=2+1$, so $e=(1,1)$ spans the \emph{Eisenstein line} ($T_2e=3e$). The other eigenvalue,
+$-2=a_2$ of the elliptic curve 11a1 $=X_0(11)$, belongs to the cuspidal line, spanned by $(2,-3)$. The two lines span a
+sublattice of index $\bigl|\det\bigl(\begin{smallmatrix}1&2\\1&-3\end{smallmatrix}\bigr)\bigr|=5$ in $L=\Z^2$, so the
+congruence module is
+\[
+C_{\rm eis}=L/(L_{\rm eis}\oplus L_{\rm cusp})\cong\Z/5=\Z/\mathrm{num}\tfrac{11-1}{12},
+\]
+which is Mazur's Eisenstein ideal at level 11, seen on the definite side; numerically, $3\equiv-2\pmod5$. The HACS read
+(\res{laneB/congruence_k.json}, cell $D=11$, $M=1$, $k=2$; record \pathtt{code/results/s06/brandt\_free\_block\_z/D11\_M1\_k2.json})
+gives:
+\begin{center}\small
+\begin{tabular}{@{}lllll@{}}\toprule
+orbit & $T_2$, $T_3$, $T_5$ on the line & Smith list of $C_f$ & ring module $(\T_f\times\T_f^c)/\T$ & Gram det.\\\midrule
+Eisenstein & $x-3$, $x-4$, $x-6$ & $(5)$ & $\Z/5$ & $5/6$\\
+cuspidal & $x+2$, $x+1$, $x-1$ & $(5)$ & $\Z/5$ & $5$\\\bottomrule
+\end{tabular}
+\end{center}
+The Gram determinant is that of the pairing $\sum_c x_cy_c/w_c$, $w_c=|\cO_c^\times|/2$. HACS's \texttt{ReadLocal} on
+$L\oplus L$ returns the exact length $5^1$ at $\ell=5$ and $7^0$ at $\ell=7$; the Python reference
+(\res{laneB/py_reference.json}, $q=11$) gives the same order $5$. On the $\GL_2$ side the resultant of the two $T_2$
+factors is $\pm5$ (field \texttt{gl2\_compare}), so the prime sets agree.
+
+\subsection{The Mazur census through HACS's integral engine}\label{ss:hacs-census}
+At $k=2$ and $D=q$ prime, the Eisenstein congruence module of the definite Brandt module is expected to be
+$\Z/\mathrm{num}\frac{q-1}{12}$ (Mazur; the definite form via Gross, \stcited{}). Our reads:
+\begin{center}\small
+\begin{tabular}{@{}p{0.30\textwidth}p{0.64\textwidth}@{}}\toprule
+range & result (all \emph{computed})\\\midrule
+14 v2 records (every prime $q\le43$) & exact route: $C_{\rm eis}=\Z/\mathrm{num}\frac{q-1}{12}$ exactly, $2$- and $3$-parts included; 14/14 agree, 0 differ (\res{laneB/congruence_k.json})\\
+$q=11,23,37,101,131$ & $h=2,3,3,9,12$; $\Z/5$, $\Z/11$, $\Z/3$, $\Z/25$, $\Z/5\oplus\Z/13$ (\res{laneB/py_reference.json}; also \res{s03/T1.json})\\
+every prime $q\le600$ (109 levels) & HACS \texttt{ReadLocal} on $L\oplus L$: agrees with $\mathrm{num}\frac{q-1}{12}$ at every $\ell\ge5$, 109/109, 0 differ, 0 fingerprint mismatches; 178\,s wall\\
+the first 80 primes, $q\le409$ & exact $\Z$ route: order exactly $\mathrm{num}\frac{q-1}{12}$, $2$- and $3$-parts included, 80/80; the run was \emph{capped} (15\,min) after these 80 levels, so coverage is partial\\
+all 404 primes $q\le2777$ & class sets and $T_2$ generated natively in 19.6\,min single-threaded; not read (large-$h$ cells take minutes each)\\
+all 1229 primes $D<10^4$ & Eichler's class number formula holds for the native class sets\\\bottomrule
+\end{tabular}
+\end{center}
+The census read is Lane~B closure \S6, corrected by its erratum (the exact route stopped at the 80th prime, $q=409$, not at
+$q=479$); its log is outside git. At $\ell=2$ \texttt{ReadLocal} cannot reach the precision needed, which is why the
+$2$- and $3$-parts come from our exact route (D4).
+
+\subsection{Beyond Mazur: a congruence modulo 37 at $D=13$, $k=8$}\label{ss:hacs-d13}
+$B_{13,\infty}$ has class number $1$ and unit group $\{\pm1\}$ (\res{s01/symn.json}, cell $(13,8)$), so the weight-8 Brandt
+module is $(\Sym^6)^{\{\pm1\}}$, of rank 7, which is also $\dim S_8(\Gamma_0(13))^{\rm new}$. The characteristic polynomial of
+$T_2$ on it equals that on $S_8(\Gamma_0(13))^{\rm new}$ (\res{s01/symn.json}) and factors over $\Z$ as
+\[
+(x-10)\,(x^2+19x+6)\,(x^4-15x^3-270x^2+3264x+12880).
+\]
+Among the 74 cells read (14 at $k=2$, 60 at $k>2$, of which 34 have rank $0$), this is the only cell with $k>2$ with a
+non-trivial lattice congruence module: for the orbits $f_1=x-10$ and $f_2=x^2+19x+6$ the Smith list of $C_f$ is $(37)$,
+and the quartic orbit has trivial $C_f$ (\res{laneB/congruence_k.json}, cell $D=13$, $M=1$, $k=8$, orbits 0, 1, 2).
+\begin{center}\small
+\begin{tabular}{@{}llll@{}}\toprule
+orbit & $T_2$-factor & $C_f$ & $U_{13}$-eigenvalue on $S_8(\Gamma_0(13))^{\rm new}$\\\midrule
+0 & $x-10$ & $\Z/37$ & $+13^3$\\
+1 & $x^2+19x+6$ & $\Z/37$ & $+13^3$ (both embeddings)\\
+2 & $x^4-15x^3-270x^2+3264x+12880$ & $0$ & $-13^3$\\\bottomrule
+\end{tabular}
+\end{center}
+\emph{Atkin--Lehner signs.} The $U_{13}$ column is HACS's $\GL_2$-side read (\res{s05/gl2_dnew.json}, cell $(13,8)$:
+$U_{13}$-sign $+$ on the linear and the quadratic factor, $-$ on the quartic, $s=13^3=2197$, sign status
+\texttt{unique}). Since $a_q=-q^{k/2-1}w_q$ for a newform of weight $k$ and level exactly divisible by $q$, both congruent
+orbits have $w_{13}=-1$: equal signs, as a congruence modulo $37$ between them requires, since $37\nmid2\cdot13^3$.
+\emph{Resultant.} $\mathrm{Res}(x-10,\,x^2+19x+6)=100+190+6=296=2^3\cdot37$, recomputed with \texttt{sympy}; the other two
+resultants are $\mathrm{Res}(x-10,\text{quartic})=13520=2^4\cdot5\cdot13^2$ and
+$\mathrm{Res}(x^2+19x+6,\text{quartic})=2^5\cdot13^4\cdot997$, so $2^3\cdot37$ is the only resultant of the $T_2$ factors
+that contains $37$. This is \emph{consistent with} the congruence $10\equiv\alpha\pmod{\mathfrak P}$ for a root $\alpha$ of
+$x^2+19x+6$ and a prime $\mathfrak P\mid37$, not a confirmation of it on the $\GL_2$ side.
+\emph{Lattice caveat.} The Lane~B values were computed on a Hecke-stable lattice (schema \pathtt{brandt\_symn\_int/v1}), not a
+canonical one, and on such a lattice $C_f$ depends on that choice. On the Lane~C intrinsic lattice (\S\ref{ss:hacs-lanec},
+merged) the $p$-parts of the modules at $k>2$ are invariants for every $p\nmid D$ (the $D$-part still depends on a choice), and the factor $37$ at $D=13$, $k=8$ reappears there: the indices recorded for the three orbits are $2\cdot37$, $2^2\cdot37$ and $2^3$ (\res{laneC/hj4_congruence.json}), not $37$, $37$, $1$. The lattice-independent ring module $(\T_f\times\T_f^c)/\T$ of
+$\T=\Z[T_p:p\in\{2,3,5\}]$ has order $2\cdot13^2\cdot37$ for orbit 0 and $2^2\cdot13^4\cdot37$ for orbit 1; the primes $2$ and $13$
+also divide the index $2^3\cdot13^6$ of $\T$ in its saturation in $\mathrm{End}_\Z(L)$, and $37$ is the only prime dividing both ring modules that does not divide this index.
+
+\subsection{Worked example: T4, the Betti side at $q=3$, $p=17$}\label{ss:hacs-t4}
+(\res{s06/T4_betti.json}, Lane~A HJ-A3; Hecke side \res{s06/T4_hecke.json}.) At level 1 and $q=3$, $p=17$, let $\m$ be the
+maximal ideal of the $17$-adic eigensystem of $\Delta$-type ($T_2\equiv-24$, $T_3\equiv252\bmod17$), and
+$\delta=q^{k-2}(q+1)^2-T_q^2$. The cokernel of the Betti map $\Psi^*\Psi$, localised at $\m$, was computed as follows.
+\begin{center}\small
+\begin{tabular}{@{}llllll@{}}\toprule
+$k$ & $\dim\T$ & $\coker(\Psi^*\Psi)_\m$ & $\T(1)_\m/\delta$ & route & tag\\\midrule
+12 & 1 & $(\Z/17)^2$ & $\Z/17$ & amalgam & computed\\
+28 & 2 & $(\Z/17)^2$ & $\Z/17$ & amalgam & computed; reading \emph{expected}\\
+44 & 3 & $(\Z/17)^2$ & $\Z/17$ & amalgam & computed; reading \emph{expected}\\
+60 & 5 & $(\Z/17)^2$ & $\Z/17$ & amalgam & computed; reading \emph{expected}\\
+124 & 10 & --- & --- & --- & not reachable on the HACS route\\\bottomrule
+\end{tabular}
+\end{center}
+So $\coker(\Psi^*\Psi)_\m\cong(\T(1)_\m/\delta)^2\cong(\Z/17)^2$ at $k=12,28,44,60$. The gating route is the amalgam route (the
+cokernel computed from cocycles, all four blocks of $\alpha^*\alpha$ as actual composites); HACS supplies the Hecke side $\T(1)_\m/\delta$ through
+\texttt{descent}; HACS's \texttt{module\_Z} route was \emph{not run}. The rows $k\ge17$ are tagged \emph{expected} in the
+JSON, since $k\ge\ell=17$ lies outside the proven range $\ell>k$ of the amalgam comparison. $k=124$ is not reachable on the
+HACS route (cap $n\le60$); off the route it gives $(\Z/17^2)^2$ (expected, not gating). The Hecke-side lengths
+$1,1,1,1,2$ at $k=12,28,44,60,124$ equal the prediction (\res{s06/T4_hecke.json}).
+
+\subsection{The one speed line}\label{ss:hacs-speed}
+Build side only: the class set and $T_2$ of $B_{997,\infty}$ ($h=83$), single-threaded, on the same build machine. The
+Python reference took $64.7$\,s ($32.7+32.0$\,s, re-timed in the Lane~B closure, \S2), the native core $0.02$\,s (3 runs,
+including the JSON write, 4.6\,MB resident). The factor is $\approx3\times10^3$; an earlier measurement on a loaded machine
+gave $61$\,s against $0.025$\,s ($\approx2.4\times10^3$). The honest statement is ``native core speed $\approx10^3\times$''.
+\res{laneB/py_reference.json} records the Python side of the first run ($30.7$\,s class set $+$ $30.3$\,s $T_2$). There is
+\emph{no read-side speed claim}: both implementations read the 74 records in milliseconds.
+
+\subsection{Lane C: the Bruhat--Tits tree map}\label{ss:hacs-lanec}
+Lane~C implements the explicit Ribet/Ihara map on Bruhat--Tits tree quotients natively (work packages HJ-3 levels, HJ-4
+$\Sym^n$ Brandt modules, HJ-7 tree quotients, Ribet and Ihara, HJ-8 the integral defect comparison, HJ-9 the $\Lambda$-adic
+definite side, of \pathtt{plan/hacs/HACS-JL-PLAN.md}). It is merged on the main branch; summary
+\pathtt{plan/hacs/outbox/20261115T0830Z\_laneC-summary.md}, closure \pathtt{plan/hacs/outbox/20261115T1347Z\_laneC-closure.md},
+results in \pathtt{code/results/laneC/}. Status of every number in this subsection: \emph{computed} (``checked'' where it equals an
+independent reference); none is certified.
+\begin{itemize}
+\item \emph{HJ-4a, integral $\Sym^n$ Brandt modules} on an \emph{intrinsic} lattice ($=\Sym^n(\Zp^2)$ at every $p\nmid D$; only the choice at
+  $p\mid D$ is ours): characteristic polynomials agree with \res{s01/symn.json} (66/66) and with the PARI newspace (374/374 operators,
+  including composite $D$). Congruence modules at $k>2$ computed on it are invariants at every $p\nmid D$, not artefacts of a
+  choice; the factor $37$ at $D=13$, $k=8$ reappears on it (indices $2\cdot37$ and $2^2\cdot37$ for the two congruent orbits, $2^3$ for the quartic one).
+\item \emph{HJ-7a, tree quotients at weight~2.} The stage-02/03 reference values are reproduced, 288/288 cells. The Ribet map
+  $\alpha=(-s_{0*},\,s_{1*}):\Z[E]\to\Z[X]^2$ and $\alpha\alpha^\dagger=\bigl(\begin{smallmatrix}q+1&-T_q\\-T_q^{\mathsf T}&q+1\end{smallmatrix}\bigr)$ are
+  implemented, and $\Phicomb$ is the Smith form of the weighted Gram matrix on $\ker\partial$. For $B_{11}$, $q=2$:
+  $\coker(\alpha\alpha^\dagger)\cong\Z/5$ on the cuspidal part and $\Phicomb\cong\Z/5$.
+\item \emph{HJ-7b, the exact quaternionic Ihara cokernel at weight $k$.} On 210 cells ($D\in\{2,3,5,7,11,13\}$, $q\le13$, $q\ne D$,
+  even $k\le14$) the $\Z$-cokernel of $\iota=(s_0^*,-s_1^*)$ is computed exactly, by two independent native routes that agree on
+  210/210 cells; its free rank is $\dim S_k(\Gamma_0(Dq))^{\rm new}$ (PARI). Torsion prime to $6Dq$ occurs only at
+  $(k,\ell)\in\{(8,5),(10,7),(14,5),(14,11)\}$, always as $\Z/\ell$. $W_D$ is an integral involution (traces agree with PARI, 38/38).
+\item \emph{HJ-9, the $\Lambda$-adic definite side} ($B_3$, $q=2$, $p=5$): $\rk_{\Delta_s}e\,\Zp[S_s]=1$ for $s=1,\dots,5$
+  ($|S_5|=781\,250$).
+\item \emph{HJ-8, the integral defect comparison $\eta_f(q)=\cc_q(f)\,\eta^B$.} T5: at weight $k$, 7/7 agree with stage~06 field by
+  field; at weight $k+(p-1)$, 4 cells satisfy Thm~E, two of them new ($(13,18,19)@36$, $(13,12,31)@42$), and 3 remain open on this route
+  ($(3,18,53)@70$ and $(3,18,61)@78$, HACS descent needs $n\le60$, their $\GL_2$ side was computed in stage~06, \S\ref{sec:comp}; $(13,16,101)@116$ on both sides). H3: 9/9 blocks agree. Census
+  ($q$ prime $\le50$; $k$ even, $2\le k\le20$; $p$ prime, $k<p<200$, $p\ge5$, $p\ne q$, $p\nmid q^2-1$; 5869 cells with a non-zero module): the 5 genuine
+  definite congruences ($\eta^B=p$) agree 5/5; of 50 old-congruent cells, 44/44 computed agree and 6 were not run; 120 definite
+  blocks are not determined (ramified or residue degree~2 Hecke fields); no computed block disagrees. The $U_q$ sign in three
+  cells, $(19,6,7)$, $(19,6,107)$, $(2,20,83)$, is the sign of $a_q$ of PARI's $q$-new eigenforms (\texttt{cypari2}, called from our
+  Python driver, not from HACS), checked to be among the HACS-admissible assignments and never taken from the definite side;
+  where HACS's sign is unique, PARI agrees, 30/30.
+\item \emph{Validation.} Closure battery at \texttt{08481d69}: \texttt{--all} 253/253, \pathtt{GOLDEN\_STRICT} tiers A and B with
+  0 failures; the linked paths are unchanged up to the final branch (empty diff), so the battery covers it. Not run: the digests,
+  \pathtt{LABEL\_CENSUS}, \texttt{--all-full}, the device lane. Deviations: \pathtt{code/hacs/CHANGES.md} (``Deviations --- Lane C'').
+\end{itemize}

@@ -1,0 +1,291 @@
+ts	strand	event	data
+2026-11-14T15:33:29Z	s01-x3-haiku	setup	base=60da904;brief_sha=7b0338db8a5f;inputs=2064ab80,7b6d59bc,1f56ffbb,4672a958,89f07145,d2d0deaa,03eb6a5c,da7ce7cf,261eeb9e
+2026-11-14T15:33:29Z	s01-x3-mistral	setup	base=60da904;brief_sha=7b0338db8a5f;inputs=2064ab80,7b6d59bc,1f56ffbb,4672a958,89f07145,d2d0deaa,03eb6a5c,da7ce7cf,261eeb9e
+2026-11-14T15:34:34Z	s01-l5a-sonnet	setup	base=92c7fc3;brief_sha=5ea1411677e2
+2026-11-14T15:34:34Z	s01-l5a-muse	setup	base=92c7fc3;brief_sha=5ea1411677e2
+2026-11-14T15:34:44Z	s01-x3-mistral	impl_start	model=mistral
+2026-11-14T15:34:44Z	s01-l5a-muse	impl_start	model=muse;max_it=6;allowed=lean/Langlandscape/Langlandscape/Quat/Stab.lean
+2026-11-14T15:34:51Z	s01-x3-haiku	impl_start	model=haiku
+2026-11-14T15:34:51Z	s01-l5a-sonnet	impl_start	model=sonnet
+2026-11-14T15:36:08Z	s01-l5a-muse	tokens	model=muse;in=136029;out=8750;reasoning=7068;cache_r=2079872;cache_w=0;cost=0;iter=1
+2026-11-14T15:36:18Z	s01-l5a-muse	build	s=10;queue=0;iter=1;ok=0;errs=9
+2026-11-14T15:36:54Z	s01-x3-haiku	impl_end	sha=c23f98d
+2026-11-14T15:36:54Z	s01-l5a-sonnet	impl_end	sha=6417192
+2026-11-14T15:37:58Z	s01-l5a-muse	tokens	model=muse;in=126482;out=1827;reasoning=16254;cache_r=1640416;cache_w=0;cost=0;iter=2
+2026-11-14T15:38:57Z	s01-l5a-muse	build	s=59;queue=0;iter=2;ok=0;errs=11
+2026-11-14T15:39:15Z	s01-x3-haiku	build	s=80;queue=0;by=stage-master
+2026-11-14T15:40:07Z	s01-l5a-muse	tokens	model=muse;in=69385;out=5949;reasoning=4525;cache_r=524752;cache_w=0;cost=0;iter=3
+2026-11-14T15:40:44Z	s01-l5a-sonnet	build	s=68;queue=0;by=stage-master
+2026-11-14T15:40:49Z	s01-l5a-muse	build	s=42;queue=0;iter=3;ok=0;errs=9
+2026-11-14T15:41:21Z	s01-x3-mistral	impl_end	sha=c3b1914;rc=0
+2026-11-14T15:41:21Z	s01-x3-mistral	tokens	model=mistral;{"in":152314,"out":9612,"r":16002}
+2026-11-14T15:41:52Z	s01-l5a-muse	tokens	model=muse;in=124549;out=6001;reasoning=3881;cache_r=949888;cache_w=0;cost=0;iter=4
+2026-11-14T15:42:24Z	s01-l5a-muse	build	s=32;queue=0;iter=4;ok=0;errs=6
+2026-11-14T15:43:55Z	s01-l9-opus	setup	base=c5f10f2;brief_sha=765065838c14
+2026-11-14T15:43:56Z	s01-l9-sonnet	setup	base=c5f10f2;brief_sha=765065838c14
+2026-11-14T15:43:56Z	s01-l9-muse	setup	base=c5f10f2;brief_sha=765065838c14
+2026-11-14T15:44:08Z	s01-l5a-muse	tokens	model=muse;in=160875;out=6728;reasoning=9555;cache_r=1093392;cache_w=0;cost=0;iter=5
+2026-11-14T15:44:22Z	s01-l5a-muse	build	s=14;queue=0;iter=5;ok=0;errs=8
+2026-11-14T15:44:59Z	s01-x3-mistral	setup	label=D
+2026-11-14T15:44:59Z	s01-x3-haiku	setup	label=B
+2026-11-14T15:45:15Z	s01-l5a-sonnet	setup	label=F
+2026-11-14T15:45:38Z	s01-l5a-muse	tokens	model=muse;in=81497;out=6762;reasoning=9115;cache_r=650224;cache_w=0;cost=0;iter=6
+2026-11-14T15:45:47Z	s01-l5a-muse	build	s=9;queue=0;iter=6;ok=0;errs=5
+2026-11-14T15:45:47Z	s01-l5a-muse	impl_end	sha=1a04b80e2e6b5523e8e786c89f75923a5474c12e;result=red;best_iter=6;errs=5
+2026-11-14T15:46:34Z	s01-x3-mistral	build	s=21;queue=0;by=stage-master
+2026-11-14T15:46:40Z	s01-l9-opus	impl_start	model=opus
+2026-11-14T15:46:40Z	s01-l9-sonnet	impl_start	model=sonnet
+2026-11-14T15:46:40Z	s01-x3-haiku	audit_start	r=0
+2026-11-14T15:46:40Z	s01-l9-muse	impl_start	model=muse;max_it=10;allowed=lean/Langlandscape/Langlandscape/Local/UpCosets.lean
+2026-11-14T15:46:40Z	s01-x3-mistral	audit_start	r=0
+2026-11-14T15:49:16Z	s01-x3-mistral	audit_end	r=0;W=2;Q=10;c=0;M=0;m=2
+2026-11-14T15:49:16Z	s01-x3-mistral	pass	sha=c3b1914
+2026-11-14T15:49:26Z	s01-x3-haiku	audit_end	r=0;W=4;Q=10;c=0;M=0;m=4
+2026-11-14T15:49:26Z	s01-x3-haiku	pass	sha=c23f98d
+2026-11-14T15:49:47Z	s01-l5a-muse	impl_end	sha=1a04b80;red=1;errs=5
+2026-11-14T15:49:47Z	s01-l5a-muse	setup	label=D
+2026-11-14T15:49:57Z	s01-l5a-sonnet	audit_start	r=0
+2026-11-14T15:49:57Z	s01-l5a-muse	audit_start	r=0
+2026-11-14T15:51:14Z	s01-l9-muse	stop	reason=pause;note=no-local-lean-directive;opencode_i1_left_running
+2026-11-14T15:51:54Z	s01-l5a-sonnet	audit_end	r=0;W=3;Q=9;c=0;M=0;m=3
+2026-11-14T15:51:54Z	s01-l5a-sonnet	pass	sha=6417192
+2026-11-14T15:51:54Z	s01-l5a-muse	audit_end	r=0;W=10;Q=3;c=2;M=0;m=4
+2026-11-14T15:51:54Z	s01-l5a-muse	stop	reason=fail;note=decisive after r0 (ref passed, active far below muse impl); fix rounds skipped under no-local-Lean directive
+2026-11-14T15:57:24Z	s01-l9-sonnet	titan_check	sha=4134853;job=s01-l9-b-1;note=impl continues after remote check (directive)
+2026-11-14T16:03:33Z	s01-l9-opus	titan_check	sha=26dd24b;job=s01-l9-a-1
+2026-11-14T16:20:56Z	s01-l13-sonnet	setup	base=eb21aad;brief_sha=174898e50c5a;stacked=l11a(unverified)
+2026-11-14T16:20:56Z	s01-l13-haiku	setup	base=eb21aad;brief_sha=174898e50c5a;stacked=l11a(unverified)
+2026-11-14T16:21:07Z	s01-l13-sonnet	impl_start	model=sonnet
+2026-11-14T16:21:07Z	s01-l13-haiku	impl_start	model=haiku
+2026-11-14T16:21:57Z	s01-l13-sonnet	impl_end	sha=8979370;uncompiled=1
+2026-11-14T16:23:51Z	s01-l13-haiku	impl_end	sha=f8c0a44;uncompiled=1
+2026-11-14T16:53:28Z	s01-c1-sonnet	setup	base=1fe260b;brief_sha=0fa82a2e8a2e
+2026-11-14T16:53:28Z	s01-c1-mistral	setup	base=1fe260b;brief_sha=0fa82a2e8a2e
+2026-11-14T16:53:42Z	s01-c1-mistral	impl_start	model=mistral;max_it=4;allowed=code/python/tests/test_s01_classset.py code/python/langlandscape/quat.py code/python/langlandscape/classset.py code/results/s01/classsets.json
+2026-11-14T16:53:43Z	s01-c1-sonnet	impl_start	model=sonnet
+2026-11-14T16:56:16Z	s01-l9-sonnet	build	s=36;queue=0;remote=titan;ok=0;errs=25
+2026-11-14T16:56:26Z	s01-m4-opus	setup	base=49ec93b;brief_sha=8658cf29f4dc
+2026-11-14T16:56:26Z	s01-m4-sonnet	setup	base=49ec93b;brief_sha=8658cf29f4dc
+2026-11-14T16:56:26Z	s01-m2-sonnet	setup	base=49ec93b;brief_sha=6951ee77cbe3
+2026-11-14T16:56:26Z	s01-m2-muse	setup	base=49ec93b;brief_sha=6951ee77cbe3
+2026-11-14T16:56:45Z	s01-m4-opus	impl_start	model=opus
+2026-11-14T16:56:45Z	s01-m4-sonnet	impl_start	model=sonnet
+2026-11-14T16:56:45Z	s01-m2-sonnet	impl_start	model=sonnet
+2026-11-14T16:56:47Z	s01-m2-muse	impl_start	model=muse;max_it=4;allowed=mathematics/chapters/s01/2-mass.tex
+2026-11-14T16:57:17Z	s01-l9-sonnet	titan_check	sha=78f8b32;job=s01-l9-b-2
+2026-11-14T16:57:27Z	s01-c1-sonnet	impl_end	sha=ae8c4e1
+2026-11-14T16:57:53Z	s01-m2-muse	tokens	model=muse;in=62301;out=5910;reasoning=7469;cache_r=730944;cache_w=0;cost=0;iter=1
+2026-11-14T16:57:54Z	s01-c1-sonnet	setup	label=C
+2026-11-14T16:57:54Z	s01-m2-muse	build	s=1;queue=0;iter=1;ok=0;errs=2
+2026-11-14T16:58:02Z	s01-c1-sonnet	audit_start	r=0
+2026-11-14T16:58:31Z	s01-m2-muse	tokens	model=muse;in=33616;out=1106;reasoning=5798;cache_r=213440;cache_w=0;cost=0;iter=2
+2026-11-14T16:58:31Z	s01-m2-muse	build	s=0;queue=0;iter=2;ok=0;errs=2
+2026-11-14T16:58:31Z	s01-m2-muse	note	no change in error set at iteration 2
+2026-11-14T16:58:31Z	s01-m2-muse	impl_end	sha=15f7de58dc9fee9466a3d62c3fe688ea7ae4033e;result=red;best_iter=1;errs=2
+2026-11-14T16:58:48Z	s01-m2-sonnet	impl_end	sha=461fc19571123b3099640569c12c11a07f56aa88
+2026-11-14T16:59:11Z	s01-m2-sonnet	setup	label=C
+2026-11-14T16:59:14Z	s01-m2-muse	setup	label=A
+2026-11-14T16:59:20Z	s01-m2-sonnet	audit_start	r=0
+2026-11-14T17:00:14Z	s01-c1-sonnet	audit_end	r=0;W=6;Q=9;c=0;M=0;m=6;auditor_verdict=PASS;protocol=fail(minor>3)
+2026-11-14T17:00:18Z	s01-c1-sonnet	escalate	from=sonnet;to=opus;r=0
+2026-11-14T17:00:18Z	s01-c1-sonnet	fix_start	r=1;model=opus
+2026-11-14T17:00:28Z	s01-l9-sonnet	build	s=10;queue=0;remote=titan;ok=0;errs=6
+2026-11-14T17:00:54Z	s01-l9-sonnet	titan_check	sha=cc343bd;job=s01-l9-b-3
+2026-11-14T17:01:16Z	s01-m2-sonnet	audit_end	r=0;W=8;Q=10;c=0;M=0;m=8;verdict=PASS-by-auditor;protocol=fail(minor>3)
+2026-11-14T17:01:16Z	s01-m2-sonnet	escalate	from=sonnet;to=opus;r=0
+2026-11-14T17:01:16Z	s01-m2-sonnet	fix_start	r=0;model=opus
+2026-11-14T17:01:35Z	s01-l9-sonnet	note	r2/r3 relays: errors+goal states only; master fix hints were stripped by the stage master before relay (not contaminated)
+2026-11-14T17:02:05Z	s01-l9-sonnet	build	s=9;queue=0;remote=titan;ok=0;errs=3
+2026-11-14T17:02:12Z	s01-m4-sonnet	impl_end	sha=b21dd2e5b984c2a6845af80ce7cfdce0db274335
+2026-11-14T17:02:19Z	s01-m4-sonnet	setup	label=A
+2026-11-14T17:02:22Z	s01-m4-sonnet	audit_start	r=0
+2026-11-14T17:02:25Z	s01-c1-sonnet	fix_end	r=1;sha=be793d7
+2026-11-14T17:02:29Z	s01-c1-sonnet	audit_start	r=1
+2026-11-14T17:02:36Z	s01-l9-sonnet	titan_check	sha=d326c72;job=s01-l9-b-4
+2026-11-14T17:02:41Z	s01-m2-sonnet	fix_end	r=0;sha=6f58196
+2026-11-14T17:02:44Z	s01-m2-sonnet	audit_start	r=1
+2026-11-14T17:03:06Z	s01-l13-sonnet	titan_check	sha=06895b5;job=s01-int2c-1
+2026-11-14T17:03:42Z	s01-l9-sonnet	impl_end	sha=d326c72;remote_rounds=4;note=relays carried errors+goal states only (master hints stripped)
+2026-11-14T17:03:42Z	s01-l9-opus	impl_end	sha=26dd24b;remote_rounds=1
+2026-11-14T17:03:42Z	s01-l9-muse	stop	reason=pause;final=no-local-Lean directive; loop cannot run (needs local lfile); strand cancelled
+2026-11-14T17:03:42Z	s01-l9-opus	setup	label=F
+2026-11-14T17:03:42Z	s01-l9-sonnet	setup	label=A
+2026-11-14T17:03:49Z	s01-l9-sonnet	audit_start	r=0
+2026-11-14T17:03:49Z	s01-l9-opus	audit_start	r=0
+2026-11-14T17:05:00Z	s01-m2-sonnet	audit_end	r=1;W=1;Q=10;c=0;M=0;m=1
+2026-11-14T17:05:00Z	s01-m2-sonnet	pass	sha=6f58196
+2026-11-14T17:05:17Z	s01-c1-sonnet	audit_end	r=1;W=3;Q=10;c=0;M=0;m=3
+2026-11-14T17:05:17Z	s01-c1-sonnet	pass	sha=be793d7
+2026-11-14T17:05:59Z	s01-l9-opus	audit_end	r=0;W=4;Q=9;c=0;M=1;m=2;adj=A0.1 (.titan scratch committed) is a stage-master-instructed artefact under the TITAN directive, removed at merge -> W_adj=2,M_adj=0
+2026-11-14T17:05:59Z	s01-l9-opus	pass	sha=26dd24b;on=adjusted
+2026-11-14T17:06:24Z	s01-m4-opus	impl_end	sha=86baf11
+2026-11-14T17:06:27Z	s01-l9-sonnet	audit_end	r=0;W=6;Q=9;c=0;M=1;m=4;adj=A0.1 artefact -> W_adj=4,M_adj=0,m=4 (>3: not a pass)
+2026-11-14T17:06:27Z	s01-l9-sonnet	stop	reason=fail;note=decided: opus passed r0 with fewer remote rounds (1 vs 4); fix round skipped (decision unaffected); agent-compute ~12 min vs opus ~16 min, but 4 TITAN round trips
+2026-11-14T17:06:27Z	s01-m4-opus	setup	label=F
+2026-11-14T17:06:30Z	s01-m4-opus	audit_start	r=0
+2026-11-14T17:07:05Z	s01-m4-sonnet	audit_end	r=0;W=10;Q=7;c=0;M=2;m=6
+2026-11-14T17:07:05Z	s01-m2-muse	audit_start	r=0
+2026-11-14T17:08:42Z	s01-c1-mistral	tokens	model=mistral;in=249821;out=4530;reasoning=42825;cache_r=1296640;cache_w=0;cost=0;iter=1
+2026-11-14T17:08:42Z	s01-c1-mistral	note	opencode rc=124 at iteration 1
+2026-11-14T17:08:42Z	s01-c1-mistral	build	s=0;queue=0;iter=1;ok=0;errs=1
+2026-11-14T17:09:39Z	s01-m2-muse	audit_end	r=0;W=19;Q=2;c=2;M=5;m=3
+2026-11-14T17:09:39Z	s01-m2-muse	escalate	from=muse;to=sonnet;r=0
+2026-11-14T17:09:39Z	s01-m4-sonnet	escalate	from=sonnet;to=opus;r=0
+2026-11-14T17:09:39Z	s01-m4-sonnet	fix_start	r=0;model=opus
+2026-11-14T17:11:02Z	s01-l13-sonnet	titan_check	sha=2368064;job=s01-int2e-1
+2026-11-14T17:11:02Z	s01-l13-haiku	titan_check	sha=271f496;job=s01-l13-b-3
+2026-11-14T17:11:09Z	s01-m4-opus	audit_end	r=0;W=6;Q=9;c=0;M=1;m=4
+2026-11-14T17:11:09Z	s01-m4-opus	stop	reason=fail;note=W0=6>5 at top rung opus (ladder opus->fail); content merged at mechanical acceptance, fixes applied in production WP s01-m4fix
+2026-11-14T17:13:46Z	s01-l13-sonnet	build	remote=titan;ok=1;job=s01-int2e-1
+2026-11-14T17:13:46Z	s01-l13-sonnet	impl_end	sha=2368064;remote_rounds=4;note=rounds 1-3 failed on upstream modules (stacked), own errors: Nat.Prime import, U0 field
+2026-11-14T17:14:14Z	s01-l13-haiku	build	remote=titan;ok=1;job=s01-l13-b-3
+2026-11-14T17:14:14Z	s01-l13-haiku	impl_end	sha=271f496;remote_rounds=3
+2026-11-14T17:14:14Z	s01-l13-sonnet	setup	label=C
+2026-11-14T17:14:14Z	s01-l13-sonnet	audit_start	r=0
+2026-11-14T17:14:14Z	s01-l13-haiku	setup	label=F
+2026-11-14T17:14:14Z	s01-l13-haiku	audit_start	r=0
+2026-11-14T17:15:48Z	s01-l13-sonnet	audit_end	r=0;W=1;Q=10;c=0;M=0;m=1
+2026-11-14T17:15:48Z	s01-l13-sonnet	pass	sha=2368064
+2026-11-14T17:16:10Z	s01-l13-haiku	audit_end	r=0;W=5;Q=8;c=0;M=1;m=3
+2026-11-14T17:16:10Z	s01-l13-haiku	stop	reason=fail;note=decisive: reference passed r0 (W1,Q10) with less agent time; same-model fix round skipped
+2026-11-14T17:23:42Z	s01-c1-mistral	tokens	model=mistral;in=267328;out=6584;reasoning=41653;cache_r=1549312;cache_w=0;cost=0;iter=2
+2026-11-14T17:23:42Z	s01-c1-mistral	note	opencode rc=124 at iteration 2
+2026-11-14T17:23:43Z	s01-c1-mistral	build	s=1;queue=0;iter=2;ok=0;errs=1
+2026-11-14T17:23:43Z	s01-c1-mistral	note	no change in error set at iteration 2
+2026-11-14T17:23:43Z	s01-c1-mistral	impl_end	sha=987879faa78d7494e6f2dea70aefb98824097850;result=red;best_iter=1;errs=1
+2026-11-14T17:24:02Z	s01-c1-mistral	setup	label=A
+2026-11-14T17:24:02Z	s01-c1-mistral	audit_start	r=0
+2026-11-14T17:24:40Z	s01-c1-mistral	audit_end	r=0;W=14;Q=0;c=4;M=1;m=0
+2026-11-14T17:24:40Z	s01-c1-mistral	escalate	from=mistral;to=sonnet;r=0
+2026-11-14T17:24:40Z	s01-c1-mistral	fix_start	r=1;model=sonnet
+2026-11-14T17:29:25Z	s01-c1-mistral	fix_end	r=1;sha=d77321a
+2026-11-14T17:29:26Z	s01-c1-mistral	audit_start	r=1
+2026-11-14T17:32:21Z	s01-c1-mistral	audit_end	r=1;W=6;Q=8;c=0;M=1;m=4;auditor_verdict=PASS;protocol=fail(major=1)
+2026-11-14T17:32:21Z	s01-c1-mistral	escalate	from=sonnet;to=opus;r=1
+2026-11-14T17:32:21Z	s01-c1-mistral	fix_start	r=2;model=opus
+2026-11-14T17:36:35Z	s01-c1-mistral	fix_end	r=2;sha=ec6edad
+2026-11-14T17:36:37Z	s01-c1-mistral	audit_start	r=2
+2026-11-14T17:40:02Z	s01-c1-mistral	audit_end	r=2;W=3;Q=10;c=0;M=0;m=3
+2026-11-14T17:40:02Z	s01-c1-mistral	pass	sha=ec6edad
+2026-11-14T17:46:11Z	s01-m2-muse	stop	reason=stopped;note=stage end; strand not finished, no production impact
+2026-11-14T17:46:11Z	s01-m4-sonnet	stop	reason=stopped;note=stage end; strand not finished, no production impact
+2026-11-14T18:54:12Z	s02-l1-opus	setup	base=ca91787;brief_sha=2a0512295697;role=reference;letter=b
+2026-11-14T18:54:12Z	s02-l1-sonnet	setup	base=ca91787;brief_sha=2a0512295697;role=challenger;letter=a
+2026-11-14T18:54:12Z	s02-m1-sonnet	setup	base=ca91787;brief_sha=bcee535f159c;role=reference;letter=b
+2026-11-14T18:54:12Z	s02-m1-opus	setup	base=ca91787;brief_sha=bcee535f159c;role=challenger;letter=a
+2026-11-14T18:54:29Z	s02-l1-opus	impl_start	model=opus
+2026-11-14T18:54:29Z	s02-l1-sonnet	impl_start	model=sonnet
+2026-11-14T18:54:29Z	s02-m1-sonnet	impl_start	model=sonnet
+2026-11-14T18:54:29Z	s02-m1-opus	impl_start	model=opus
+2026-11-14T18:57:16Z	s02-m1-sonnet	impl_end	sha=fab3570
+2026-11-14T18:57:20Z	s02-m1-sonnet	setup	label=E
+2026-11-14T18:57:28Z	s02-m1-sonnet	audit_start	r=0
+2026-11-14T18:59:26Z	s02-m1-opus	impl_end	sha=1faf46d
+2026-11-14T18:59:26Z	s02-m1-opus	setup	label=C
+2026-11-14T18:59:28Z	s02-m1-opus	audit_start	r=0
+2026-11-14T18:59:39Z	s02-m1-sonnet	audit_end	r=0;W=6;Q=9;c=0;M=1;m=4
+2026-11-14T18:59:39Z	s02-m1-sonnet	fix_start	r=1;model=opus;escalated=sonnet→opus@r1
+2026-11-14T19:00:47Z	s02-m1-sonnet	fix_end	r=1;sha=6688575
+2026-11-14T19:00:50Z	s02-m1-sonnet	audit_start	r=1
+2026-11-14T19:02:21Z	s02-m1-opus	audit_end	r=0;W=6;Q=9;c=0;M=0;m=6
+2026-11-14T19:02:21Z	s02-m1-opus	stop	reason=fail;note=single shot, minor 6 > 3 at r0
+2026-11-14T19:02:47Z	s02-m1-sonnet	audit_end	r=1;W=2;Q=10;c=0;M=0;m=2
+2026-11-14T19:02:47Z	s02-m1-sonnet	pass	sha=6688575
+2026-11-14T19:02:54Z	s02-m1-sonnet	merged	sha=8ea1a57;winner=s02-m1-sonnet
+2026-11-14T19:17:05Z	s02-l1-sonnet	impl_end	sha=969d69a
+2026-11-14T19:20:57Z	s02-l1-sonnet	note	deviation=strand a sent alone (reference not committed at t+30); global master decision: experiment must not block critical path; reference gets the same job regime when it lands
+2026-11-14T19:22:35Z	s02-l1-sonnet	build	s=;queue=;job=s02-l1-a-1;rc=1;errors=2
+2026-11-14T19:22:35Z	s02-l1-sonnet	fix_start	r=relay1;model=sonnet
+2026-11-14T19:22:56Z	s02-l1-sonnet	fix_end	r=relay1;sha=b2bd26a
+2026-11-14T19:23:32Z	s02-l1-opus	impl_end	sha=d28faea
+2026-11-14T19:25:02Z	s02-l1-sonnet	build	s=;queue=;job=s02-l1-a-2;rc=0;chk=0;axioms=84/84
+2026-11-14T19:25:02Z	s02-l1-opus	build	s=;queue=;job=s02-l1-b-1;rc=0;chk=0;axioms=88/88
+2026-11-14T19:25:02Z	s02-l1-opus	merged_first	case=(a) green before D
+2026-11-14T19:25:12Z	s02-l1-sonnet	setup	label=D
+2026-11-14T19:25:12Z	s02-l1-sonnet	audit_start	r=0
+2026-11-14T19:25:12Z	s02-l1-opus	setup	label=F
+2026-11-14T19:25:12Z	s02-l1-opus	audit_start	r=0
+2026-11-14T19:26:59Z	s02-l1-sonnet	audit_end	r=0;W=5;Q=9;c=0;M=0;m=5
+2026-11-14T19:26:59Z	s02-l1-sonnet	fix_start	r=1;model=sonnet
+2026-11-14T19:27:10Z	s02-l1-opus	audit_end	r=0;W=6;Q=9;c=0;M=0;m=6
+2026-11-14T19:27:10Z	s02-l1-opus	fix_start	r=1;model=opus;note=planned opus fix (stage plan)
+2026-11-14T19:27:27Z	s02-l1-sonnet	fix_end	r=1;sha=a5c78d0
+2026-11-14T19:30:29Z	s02-l1-opus	fix_end	r=1;sha=283e3a0
+2026-11-14T19:32:59Z	s02-l1-sonnet	build	s=;queue=;job=s02-l1-a-3;rc=0;axioms=84/84
+2026-11-14T19:32:59Z	s02-l1-opus	build	s=;queue=;job=s02-l1-b-2;rc=0;axioms=85/85
+2026-11-14T19:33:01Z	s02-l1-sonnet	audit_start	r=1
+2026-11-14T19:33:01Z	s02-l1-opus	audit_start	r=1
+2026-11-14T19:34:26Z	s02-l1-sonnet	audit_end	r=1;W=3;Q=9;c=0;M=0;m=3
+2026-11-14T19:34:26Z	s02-l1-sonnet	pass	sha=a5c78d0;off-regime=pair regime broken at round 1 (see note)
+2026-11-14T19:34:51Z	s02-l1-opus	audit_end	r=1;W=2;Q=10;c=0;M=0;m=2
+2026-11-14T19:34:51Z	s02-l1-opus	pass	sha=283e3a0
+2026-11-14T19:34:51Z	s02-l1-opus	merged	follow-up sha=da02f28
+2026-11-14T20:21:25Z	s03-m2-opus	setup	base=7ac603f;brief_sha=60da2aaa1bf90e88496b65f967e34b87ff12e71046f7548a9b0180267f445d49;cap=45
+2026-11-14T20:21:25Z	s03-m2-opus	impl_start	model=opus
+2026-11-14T20:21:25Z	s03-m2-fable	setup	base=7ac603f;brief_sha=60da2aaa1bf90e88496b65f967e34b87ff12e71046f7548a9b0180267f445d49;cap=45
+2026-11-14T20:21:25Z	s03-m2-fable	impl_start	model=fable
+2026-11-14T20:28:52Z	s03-m2-fable	impl_end	sha=ec9e94f;tokens=144111
+2026-11-14T20:28:52Z	s03-m2-fable	setup	label=A
+2026-11-14T20:29:24Z	s03-m2-opus	deviation	protocol_deviation=external-check.md added to every blind audit input (identical for both strands; source code/results/s03/T2.json acceptance_note, C3: coker alpha alpha^dagger = 5 only on degree-0 part); approved by stage master
+2026-11-14T20:29:24Z	s03-m2-fable	deviation	protocol_deviation=external-check.md added to every blind audit input (identical for both strands; source code/results/s03/T2.json acceptance_note, C3: coker alpha alpha^dagger = 5 only on degree-0 part); approved by stage master
+2026-11-14T20:33:11Z	s03-m2-opus	impl_end	sha=093d8b0;tokens=195539
+2026-11-14T20:33:11Z	s03-m2-opus	setup	label=D
+2026-11-14T20:34:03Z	s03-m2-opus	audit_start	r=0;auditor=opus
+2026-11-14T20:37:58Z	s03-m2-fable	audit_start	r=0;auditor=opus
+2026-11-14T20:38:38Z	s03-m2-opus	audit_end	r=0;W=5;Q=9;c=0;M=0;m=5;verdict=FAIL(protocol: minor 5>3; auditor wrote PASS)
+2026-11-14T20:38:38Z	s03-m2-opus	fix_start	r=1;model=opus
+2026-11-14T20:39:59Z	s03-m2-opus	fix_end	r=1;sha=f01aec5;tokens=62401
+2026-11-14T20:40:02Z	s03-m2-opus	audit_start	r=1;auditor=opus
+2026-11-14T20:41:29Z	s03-m2-fable	audit_end	r=0;W=4;Q=10;c=0;M=0;m=4;verdict=FAIL(protocol: minor 4>3; auditor wrote PASS)
+2026-11-14T20:41:29Z	s03-m2-fable	stop	reason=fail;note=single-shot, r0 fail (minor 4>3)
+2026-11-14T20:43:37Z	s03-m2-opus	audit_end	r=1;W=3;Q=9;c=0;M=0;m=3;verdict=PASS;prior=5 RESOLVED
+2026-11-14T20:43:37Z	s03-m2-opus	pass	sha=f01aec5
+2026-11-14T21:31:50Z	s04-l6-a	setup	wp=S04-L6;base=0031e784abbe3b216cc5ac82cb2608fe93cff75e;brief_sha=738389f1;model=opus;regime=E1prime
+2026-11-14T21:31:50Z	s04-l6-b	setup	wp=S04-L6;base=0031e784abbe3b216cc5ac82cb2608fe93cff75e;brief_sha=738389f1;model=sonnet;regime=E1prime
+2026-11-14T21:31:50Z	s04-l6-a	impl_start	
+2026-11-14T21:31:50Z	s04-l6-b	impl_start	
+2026-11-14T21:41:17Z	s04-l6-b	impl_end	sha=f81ac8fd4c63d8e18cd440fa24a0fe18db20cebc
+2026-11-14T21:47:07Z	s04-l6-a	impl_end	sha=575c7d0
+2026-11-14T21:50:44Z	s04-l6-a	remote_result	job=s04-l6-a-1;rc=1;errors=10
+2026-11-14T21:50:44Z	s04-l6-b	remote_result	job=s04-l6-b-1;rc=1;errors=2
+2026-11-14T21:55:28Z	s04-l6-a	relay	round=1
+2026-11-14T21:55:28Z	s04-l6-b	relay	round=1
+2026-11-14T21:56:20Z	s04-l6-a	fix_end	round=1;sha=5344a6f
+2026-11-14T21:56:20Z	s04-l6-b	fix_end	round=1;sha=b8abf0e
+2026-11-14T22:01:48Z	s04-l6-a	note	production rescue writer started outside the experiment (deviation 1)
+2026-11-14T22:10:51Z	s04-l6-a	remote_result	job=s04-l6-a-2;rc=1;errors=3;lib=builds
+2026-11-14T22:10:51Z	s04-l6-b	remote_result	job=s04-l6-b-2;rc=1;errors=1;lib=builds
+2026-11-14T22:10:51Z	s04-l6-a	relay	round=2
+2026-11-14T22:10:51Z	s04-l6-b	relay	round=2
+2026-11-14T22:11:05Z	s04-l6-b	fix_end	round=2;sha=1a022ce
+2026-11-14T22:11:15Z	s04-l6-a	fix_end	round=2;sha=a289461
+2026-11-14T22:15:05Z	s04-l6-a	remote_result	job=s04-l6-a-3;rc=0;PASS
+2026-11-14T22:15:05Z	s04-l6-b	remote_result	job=s04-l6-b-3;rc=0;PASS
+2026-11-14T22:15:11Z	s04-l6-opus	setup	label=D
+2026-11-14T22:15:11Z	s04-l6-sonnet	setup	label=B
+2026-11-14T22:15:30Z	s04-l6-a	audit_start	r=0;label=D;auditor=fable
+2026-11-14T22:15:30Z	s04-l6-b	audit_start	r=0;label=B;auditor=fable
+2026-11-14T22:16:50Z	s04-l6-b	audit_end	r=0;crit=0;major=0;minor=6;W=6;Q=9;auditor_verdict=PASS;protocol=FAIL(minor>3)
+2026-11-14T22:19:13Z	s04-l6-a	audit_end	r=0;crit=0;major=0;minor=4;W=4;Q=9;auditor_verdict=PASS;protocol=FAIL(minor>3)
+2026-11-14T22:19:13Z	s04-l6-a	fix_start	r=1;rung=opus(same-model)
+2026-11-14T22:19:13Z	s04-l6-b	fix_start	r=1;rung=sonnet->opus(escalated,W=6)
+2026-11-14T22:24:00Z	s04-l6-a	fix_end	r=1;sha=79fa5a3
+2026-11-14T22:24:00Z	s04-l6-b	fix_end	r=1;sha=b0552f3;rung=opus
+2026-11-14T22:32:03Z	s04-l6-a	remote_result	job=s04-l6-a-4;rc=0;PASS
+2026-11-14T22:32:03Z	s04-l6-b	remote_result	job=s04-l6-b-4;rc=0;PASS
+2026-11-14T22:32:33Z	s04-l6-a	audit_start	r=1;label=D;auditor=fable
+2026-11-14T22:32:33Z	s04-l6-b	audit_start	r=1;label=B;auditor=fable
+2026-11-14T22:33:49Z	s04-l6-a	audit_end	r=1;crit=0;major=0;minor=2;W=2;Q=9;verdict=PASS
+2026-11-14T22:33:49Z	s04-l6-a	pass	r=1
+2026-11-14T22:33:59Z	s04-l6-b	audit_end	r=1;crit=0;major=0;minor=3;W=3;Q=10;verdict=PASS
+2026-11-14T22:33:59Z	s04-l6-b	pass	r=1;escalated=sonnet->opus@r1
+2026-11-14T23:53:36Z	s05-l4-a	impl_start	model=sonnet;base=a46532bb
+2026-11-14T23:53:45Z	s05-l4-b	impl_start	model=opus;base=a46532bb
+2026-11-15T00:08:52Z	s05-l4-a	impl_end	sha=3fd9b51a
+2026-11-15T00:12:33Z	s05-l4-a	fix_start	r=1;model=opus
+2026-11-15T00:14:02Z	s05-l4-a	fix_end	r=1;sha=37228dcf
+2026-11-15T00:20:23Z	s05-l4-b	impl_end	sha=6a8c5b8b
+2026-11-15T00:24:20Z	s05-l4-b	fix_start	r=1;model=opus
+2026-11-15T00:25:12Z	s05-l4-b	fix_end	r=1;sha=f24c43eb
+2026-11-15T00:25:12Z	s05-l4-b	pass	sha=f24c43eb;note=remote r2 s05-e5-D-2 PASS 38/38 and blind audit r0 PASS are untimed, see LOG
+2026-11-15T00:25:12Z	s05-l4-b	note	corrects=previous_pass_line;reason=pass time not recorded, timestamp above is the fix_end placeholder;untimed=remote r1/r2 and audit r0 for both strands

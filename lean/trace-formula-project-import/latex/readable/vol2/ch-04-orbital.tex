@@ -1,0 +1,298 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolII/Centralizer.lean (§§1--2, M3e); lean/GL2TF/VolII/Orbital.lean (§§3 ff., M7a).
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §§1--2 written (M3e, units U1--U2; docs/sprints/M3e-plan.md §1.2 items 1--17, 19; item 18 is in vol1 ch-0-07);
+% §§3--4 written (M7a, unit U6; docs/sprints/M7a-plan.md §1.2 items 49--58; Lean: VolII/{Orbital,OrbitalHyperbolic}.lean);
+% §5 G0 outline (U7, items 59--62; moved to M9c by the D-LATE fallback; Lean: VolII/OrbitalLocal.lean).
+% Fork algebraic_jl: §§1--2 kept without centralizer-unimodular and elliptic-volume-finite; §§3 ff. (orbital integrals) dropped;
+% title and outline rewritten (../../EDITS.md).
+
+\chapter{Elliptic elements and their centralizers}\label{ch:ch-04-orbital}
+
+\noindent\emph{Scope:} area \texttt{orb} (its algebraic and topological part). \emph{Sources:} \cite[§8]{A-I}; \cite[§§10--11]{AIntro};
+\cite[Lecture II §§1--2]{Gel}; \cite[§16]{JL}.
+
+\noindent\emph{Overview.} §1 introduces elliptic elements of $\GL_2$ over a field and the centralizers $G_\gamma$ of rational
+elements, with their adelic points and the norm-one part $G_\gamma(\A)^1$. §2 proves that $G_\gamma(\Q)\backslash G_\gamma(\A)^1$ is
+compact for elliptic $\gamma$. The route (decision D9 of the parent, route ($\beta$)) uses no adeles of the quadratic field $E=\Q[\gamma]$:
+a height bound for elliptic $\gamma$, obtained from the adelic Hadamard inequality of \cref{ch:ch-0-08-reduction}, is fed into the compactness
+criterion of \cref{ch:ch-0-08-reduction}, and finiteness of $G(\Q)$-conjugates of $\gamma$ in a compact set turns relative compactness in
+$G(\Q)\backslash G(\A)^1$ into compactness of $G_\gamma(\Q)\backslash G_\gamma(\A)^1$. In the parent project the chapter continues with
+volumes and orbital integrals; that material is analytic and not part of this volume.
+
+\noindent\emph{Notation.} $K$ denotes a field, $P_\gamma$ the characteristic polynomial of $\gamma\in\GL_2(K)$, $e_2=(0,1)$ the bottom
+row vector, and row vectors are multiplied by matrices from the right. For a commutative $\Q$-algebra $R$, $\iota_R\colon\GL_2(\Q)\to\GL_2(R)$
+is the homomorphism induced by the structure map (\texttt{I.conv.def:gl2}); for $R=\A$ it is the inclusion $G(\Q)\subseteq G(\A)$, and we write
+$\gamma$ for $\iota_\A(\gamma)$.
+
+\section{Elliptic elements and their centralizers}\label{sec:orb-centralizer}
+
+\noindent\emph{Sources for this section:} \cite[Lecture II §1]{Gel} (elliptic means not conjugate into a proper parabolic subgroup; the
+eigenvalues of an elliptic element do not lie in the ground field); \cite[§10]{AIntro}; \cite[§8]{A-I}. In the library:
+\texttt{Matrix.\allowbreak charpoly\_fin\_two}, \texttt{Matrix.\allowbreak aeval\_self\_charpoly} (Cayley--Hamilton),
+\texttt{Subgroup.\allowbreak centralizer}. The definition of ellipticity by irreducibility is generic in $K$ (the parent project uses it also over $\Qp$).
+
+\begin{definition}[elliptic elements]
+\tfstmt{II.orb.def:elliptic}
+\uses{I.conv.def:gl2}
+\end{definition}
+\noindent By \cref{II.orb.thm:elliptic-iff-no-eigenvector} and \cref{II.orb.thm:elliptic-iff-not-borel-conjugate}, $\gamma$ is elliptic if and only if
+its eigenvalues do not lie in $K$, if and only if $\gamma$ is not $\GL_2(K)$-conjugate into the Borel subgroup; the last form is
+the definition of \cite[Lecture II §1]{Gel} and \cite[§8]{A-I}; \cite[§10]{AIntro} calls such classes \emph{anisotropic} and uses
+\emph{elliptic} in a wider sense (for $\GL_2$ the Borel subgroup is the only proper standard parabolic subgroup). \emph{Examples.} Over $\Q$, $\gamma_i=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$ ($P=X^2+1$) and
+$\gamma_{\sqrt2}=\begin{psmallmatrix}0&2\\1&0\end{psmallmatrix}$ ($P=X^2-2$) are elliptic; $\diag(2,1)$ ($P=(X-2)(X-1)$) and
+$\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix}$ ($P=(X-1)^2$) are not.
+
+\begin{theorem}[elliptic elements have no eigenvector]
+\tfstmt{II.orb.thm:elliptic-iff-no-eigenvector}
+\uses{II.orb.def:elliptic, I.conv.def:center}
+\end{theorem}
+\begin{proof}
+(a)$\Leftrightarrow$(b). $P_\gamma$ is monic of degree $2$. A factorization into two factors of positive degree has two linear
+factors, hence a root; conversely a root $\lambda$ gives the factor $X-\lambda$ of degree $1<2$. (Neither direction uses the characteristic.)
+
+(b)$\Leftrightarrow$(c). The rows $v,v\gamma$ are linearly dependent with $v\ne0$ exactly when $v\gamma=\lambda v$ for some $\lambda\in K$, that is,
+$v(\gamma-\lambda)=0$. If such $v$ and $\lambda$ exist, $\gamma-\lambda$ is singular, so $P_\gamma(\lambda)=\det(\lambda-\gamma)=0$. Conversely, if
+$P_\gamma(\lambda)=0$, then $\gamma-\lambda$ is singular, so its rows are linearly dependent and there is a non-zero row vector $v$ with
+$v(\gamma-\lambda)=0$.
+
+Finally, if $\gamma=z\cdot1$ is central, then $P_\gamma=(X-z)^2$ has the root $z$.
+\end{proof}
+
+\begin{theorem}[elliptic means not conjugate into $B$]
+\tfstmt{II.orb.thm:elliptic-iff-not-borel-conjugate}
+\uses{II.orb.def:elliptic, I.conv.def:borel}
+\end{theorem}
+\begin{proof}
+\uses{II.orb.thm:elliptic-iff-no-eigenvector}
+For $b\in B(K)$, $e_2b=b_{22}e_2$, since the bottom row of $b$ is $(0,b_{22})$.
+Suppose $b=\delta\gamma\delta^{-1}\in B(K)$ and put $v=e_2\delta\ne0$. Then $v\gamma=e_2b\delta=b_{22}v$, so $v,v\gamma$ are dependent and
+$\gamma$ is not elliptic (\cref{II.orb.thm:elliptic-iff-no-eigenvector}). Conversely, if $\gamma$ is not elliptic, there are $v\ne0$ and
+$\lambda\in K$ with $v\gamma=\lambda v$ (same theorem). Complete $v$ to a basis $(u,v)$ of $K^2$ and let $\delta$ have rows $u,v$. Then $\delta$ is
+invertible, $e_2\delta=v$, and the bottom row of $\delta\gamma\delta^{-1}$ is $e_2\delta\gamma\delta^{-1}=\lambda v\delta^{-1}=\lambda e_2$, so
+$\delta\gamma\delta^{-1}\in B(K)$. The last assertion holds because $P_{\delta\gamma\delta^{-1}}=\det(X-\delta\gamma\delta^{-1})=\det(\delta(X-\gamma)\delta^{-1})=P_\gamma$.
+\end{proof}
+
+\begin{theorem}[the quadratic field $K{[\gamma]}$]
+\tfstmt{II.orb.thm:elliptic-quadratic-field}
+\uses{II.orb.def:elliptic}
+\end{theorem}
+\begin{proof}
+\uses{II.orb.thm:elliptic-iff-no-eigenvector}
+Let $\varphi\colon K[X]\to\Mat_2(K)$ be the $K$-algebra homomorphism with $X\mapsto\gamma$. By Cayley--Hamilton, $\varphi(P_\gamma)=0$, so
+$\gamma^2=\tr(\gamma)\gamma-\det\gamma$; dividing with remainder by $P_\gamma$ shows that the image of $\varphi$ is $E$, so $E$ is a commutative
+subring. The kernel of $\varphi$ is a proper ideal (as $\varphi(1)=1\ne0$) containing $(P_\gamma)$, which is maximal because $P_\gamma$ is
+irreducible. Hence $\ker\varphi=(P_\gamma)$ and $\varphi$ induces an isomorphism $K[X]/(P_\gamma)\cong E$; in particular $E$ is a field with
+$\dim_KE=\deg P_\gamma=2$, so $1,\gamma$ are linearly independent (directly: $\gamma$ is not central by
+\cref{II.orb.thm:elliptic-iff-no-eigenvector}). A non-zero $\eta\in E$ has an inverse $\eta'$ in the field $E$, and $\eta\eta'=1$ in
+$\Mat_2(K)$.
+\end{proof}
+\noindent In the language of algebraic groups, for elliptic $\gamma\in\GL_2(\Q)$ the centralizer $G_\gamma$ is the torus
+$R_{E/\Q}\mathbb G_m$ with $E=\Q[\gamma]$: by \cref{II.orb.thm:centralizer-explicit} below its $R$-points are the units of
+$E\otimes_\Q R=R\cdot1\oplus R\gamma$. This identification is not used and not formalized (route ($\beta$)).
+
+\begin{definition}[centralizers]
+\tfstmt{II.orb.def:centralizer}
+\uses{I.conv.def:gl2, I.topgrp.def:gl2-adelic}
+\end{definition}
+\noindent The definition is made for every $\gamma$. $G_\gamma(R)$ is a subgroup, being the
+centralizer of an element. For central $\gamma$, $G_\gamma(R)=\GL_2(R)$; for $\gamma=\diag(2,1)$, $G_\gamma(R)$ is the diagonal torus (by
+\cref{II.orb.thm:centralizer-explicit}, with $a\cdot1+b\gamma=\diag(a+2b,a+b)$).
+
+\begin{theorem}[centralizers of non-central elements]
+\tfstmt{II.orb.thm:centralizer-explicit}
+\uses{II.orb.def:centralizer, I.conv.def:center}
+\end{theorem}
+\begin{proof}
+\uses{II.orb.thm:elliptic-iff-no-eigenvector}
+Elements $a\cdot1+b\,\iota_R(\gamma)$ commute with $\iota_R(\gamma)$, which gives "$\supseteq$". For "$\subseteq$", first choose a row vector
+$v\in\Q^2$ with $v,v\gamma$ linearly independent: if every non-zero $v$ were an eigenvector, then $e_1,e_2,e_1+e_2$ would be eigenvectors,
+which forces equal eigenvalues and $\gamma\in Z(\Q)$. Let $P\in\GL_2(\Q)$ have rows $v,v\gamma$. With $t=\tr\gamma$, $d=\det\gamma$ and
+$v\gamma^2=tv\gamma-dv$ (Cayley--Hamilton),
+\[
+  P\gamma P^{-1}=C:=\begin{pmatrix}0&1\\-d&t\end{pmatrix}.
+\]
+Conjugation by $\iota_R(P)$ is an automorphism of $\GL_2(R)$ which maps $G_\gamma(R)$ onto the centralizer of $\iota_R(C)$ and
+$a\cdot1+b\,\iota_R(\gamma)$ to $a\cdot1+b\,\iota_R(C)$; so we may assume $\gamma=C$. Let $g=\begin{psmallmatrix}x&y\\z&w\end{psmallmatrix}\in\GL_2(R)$ commute with
+$C$. Comparing
+\[
+  gC=\begin{pmatrix}-dy&x+ty\\-dw&z+tw\end{pmatrix},\qquad Cg=\begin{pmatrix}z&w\\-dx+tz&-dy+tw\end{pmatrix}
+\]
+gives $z=-dy$ and $w=x+ty$, so $g=x\cdot1+y\,C$. Elements of the form $a\cdot1+b\,\iota_R(\gamma)$ commute with each other, so $G_\gamma(R)$ is
+commutative.
+\end{proof}
+\noindent\emph{A conjugation-free variant} (the route of the Lean proof). Write $\gamma=\begin{psmallmatrix}p&q\\r&s\end{psmallmatrix}$. As $\gamma\notin Z(\Q)$,
+$q\ne0$, or $r\ne0$, or $q=r=0$ and $p\ne s$. The four entries of $g\gamma=\gamma g$ for $g=\begin{psmallmatrix}x&y\\z&w\end{psmallmatrix}$ then give
+$g=a\cdot1+b\,\iota_R(\gamma)$ explicitly: for $q\ne0$, $b=y/q$ and $a=x-bp$; for $r\ne0$, $b=z/r$ and $a=x-bp$; for $q=r=0$, $y=z=0$ and
+$b=(x-w)/(p-s)$, $a=x-bp$. Only the invertibility of non-zero rationals in $R$ is used.
+
+\begin{definition}[the norm-one centralizer]
+\tfstmt{II.orb.def:centralizer-norm-one}
+\uses{II.orb.def:centralizer, I.topgrp.def:norm-one-group}
+\end{definition}
+\noindent\emph{Comparison with \cite[§8]{A-I}, \cite[§10]{AIntro}.} Arthur defines $G_\gamma(\A)^1$ intrinsically as the common kernel of the
+characters $\abs{\chi}_\A$, $\chi$ a rational character of $G_\gamma$ over $\Q$. For elliptic $\gamma$, $G_\gamma=R_{E/\Q}\mathbb G_m$ and its rational
+characters are the integer powers of the norm $N_{E/\Q}$, and $N_{E/\Q}(\eta)=\det\eta$ for $\eta\in E$: the row space $\Q^2$ is a one-dimensional
+$E$-vector space under right multiplication, so right multiplication by $\eta$ on $\Q^2$ is conjugate to multiplication by $\eta$ on $E$. So
+the common kernel is $\{g\in G_\gamma(\A):\abs{\det g}_\A=1\}=G_\gamma(\A)\cap G(\A)^1$, and the two definitions agree. This comparison is a remark
+and is not formalized (the library has no character groups of tori).
+
+\begin{theorem}[rational points]
+\tfstmt{II.orb.thm:centralizer-rat-points}
+\uses{II.orb.def:centralizer, II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-rat-discrete, I.topgrp.thm:norm-one-splitting, I.adele.thm:product-formula}
+(a) $\iota$ is an injective homomorphism (\texttt{I.topgrp.thm:gl2-rat-discrete}), so $\iota(\delta)\iota(\gamma)=\iota(\gamma)\iota(\delta)$ if and only if
+$\delta\gamma=\gamma\delta$. (b) By (a), $\iota(G_\gamma(\Q))\subseteq G_\gamma(\A)$, and $G(\Q)\subseteq G(\A)^1$
+(\texttt{I.topgrp.thm:norm-one-splitting}; this is the product formula $\abs{\det\delta}_\A=1$, \texttt{I.adele.thm:product-formula}).
+(c) $\iota(G_\gamma(\Q))$ is a subgroup of the discrete subgroup $G(\Q)$ of $G(\A)$ (\texttt{I.topgrp.thm:gl2-rat-discrete}), hence discrete in
+the subspace topology, which is the same whether taken from $G(\A)$, $G(\A)^1$ or $G_\gamma(\A)^1$.
+\end{proof}
+\noindent Henceforth $G_\gamma(\Q)$ is regarded as a discrete subgroup of $G_\gamma(\A)^1$ via $\iota$.
+
+\begin{theorem}[closedness]
+\tfstmt{II.orb.thm:centralizer-closed}
+\uses{II.orb.def:centralizer, II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.def:norm-one-group}
+$G_\gamma(\A)$ is the set where the continuous maps $g\mapsto g\gamma$ and $g\mapsto\gamma g$ to the Hausdorff space $G(\A)$ agree, hence
+closed. $G_\gamma(\A)^1$ is closed in $G(\A)^1$ as the trace of a closed set, and it is closed in $G(\A)$ because $G(\A)^1$ is
+(\texttt{I.topgrp.def:norm-one-group}). A closed subset of a locally compact Hausdorff space is locally compact, and
+subspaces of Hausdorff, second countable spaces are Hausdorff and second countable; $G(\A)$ has all three properties
+(\texttt{I.topgrp.thm:gl2-adelic-locally-compact}). Multiplication and inversion of $G_\gamma(\A)^1$ are restrictions of those of $G(\A)$,
+hence continuous.
+\end{proof}
+
+\begin{theorem}[the split centre in $G_\gamma(\A)$]
+\tfstmt{II.orb.thm:centralizer-norm-one-splitting}
+\uses{II.orb.def:centralizer, II.orb.def:centralizer-norm-one, I.topgrp.def:central-split-component, I.topgrp.thm:norm-one-splitting}
+\end{theorem}
+\begin{proof}
+$\AGplus$ lies in the centre of $G(\A)$ (\texttt{I.topgrp.def:central-split-component}), hence in $G_\gamma(\A)$. Let
+$\Phi\colon\AGplus\times G(\A)^1\to G(\A)$ be the isomorphism of \texttt{I.topgrp.thm:norm-one-splitting}. If $a\in\AGplus$ and $g\in G_\gamma(\A)^1$, then
+$ag\in G_\gamma(\A)$. Conversely, for $h\in G_\gamma(\A)$ let $(a,g)=\Phi^{-1}(h)\in\AGplus\times G(\A)^1$ (explicitly $a=a(\abs{\det h}_\A^{1/2})$). Then $g=a^{-1}h$ is a
+product of elements of $G_\gamma(\A)$, so $g\in G_\gamma(\A)\cap G(\A)^1$; only $h=ag$ and $\AGplus\subseteq G_\gamma(\A)$ are used. So $\Phi$ maps $\AGplus\times G_\gamma(\A)^1$ bijectively onto $G_\gamma(\A)$. The restriction of a
+homeomorphism to a subspace is a homeomorphism onto its image (with subspace topologies), and the restriction of a group isomorphism to a
+subgroup is an isomorphism onto its image.
+\end{proof}
+
+\section{Compactness of elliptic centralizers}\label{sec:orb-compact}
+
+\noindent\emph{Sources for this section:} \cite[Lecture II §2]{Gel} (Lemma ``compacity'' and Proposition on the integrability of
+elliptic $K_{\mathfrak o}$), \cite[p.~362]{A-R1}; \cite[§§10--11]{AIntro}; \cite[§16]{JL}. The proof follows decision D9, route ($\beta$)
+(details: \texttt{docs/sprints/M3e-plan.md}, D-ROUTE): the height bound below replaces the Bruhat-decomposition argument of
+\cite[p.~362]{A-R1} by the adelic Hadamard inequality \texttt{I.red.lem:adelic-hadamard}, and compactness of
+$G_\gamma(\Q)\backslash G_\gamma(\A)^1$ is reduced to the compactness criterion \texttt{I.red.thm:compactness-criterion}. No properness of maps
+between quotients is used.
+
+\emph{An operator bound.} For $y\in G(\A)$ put $\mathcal N(y)=\norm{y_\infty}_{\mathrm{op}}\prod_p\norm{y_p}_p$ (with $\norm{y_p}_p=\max_{ij}\abs{y_{ij,p}}_p$),
+a finite product of positive numbers, almost all equal to $1$. By the operator bounds (ii) of the conventions of \cref{ch:ch-0-08-reduction},
+$\norm{uy}_\A\le\mathcal N(y)\norm u_\A$ for every row $u$ of an element of $G(\A)$, and $\mathcal N$ is bounded on every compact subset of $G(\A)$
+(second part of the proof of \texttt{I.red.lem:height-locally-bounded}). Equivalently, $\mathcal N$ is continuous on $G(\A)$, which is how the Lean
+proof obtains the bound: $y_\infty\mapsto\norm{y_\infty}_{\mathrm{op}}$ is continuous, and $y_f\mapsto\prod_p\norm{y_p}_p$ is constant on each open coset
+$y_f\Kf$, since $\norm{y_pk}_p=\norm{y_p}_p$ for $k\in K_p$ (the entries of $y_pk$ are $\Zp$-combinations of those of $y_p$, and conversely via $k^{-1}$).
+
+\begin{lemma}[height bound for elliptic elements]
+\tfstmt{II.orb.lem:elliptic-height-bound}
+\uses{II.orb.def:elliptic, I.conv.def:simple-root, I.decomp.def:height-map, I.topgrp.def:norm-one-group}
+\end{lemma}
+\begin{proof}
+\uses{II.orb.thm:elliptic-iff-not-borel-conjugate, I.red.lem:adelic-hadamard, I.red.lem:height-locally-bounded}
+Let $M\ge1$ bound $\mathcal N$ on $\Omega$, and put $c=\log M$. Let $\delta\in G(\Q)$ and $x\in G(\A)^1$ with $y=x^{-1}\gamma x\in\Omega$. Put $\delta'=\delta\gamma\in G(\Q)$.
+Then $\delta'\delta^{-1}=\delta\gamma\delta^{-1}\notin B(\Q)$ by \cref{II.orb.thm:elliptic-iff-not-borel-conjugate}, so the adelic Hadamard inequality
+(\texttt{I.red.lem:adelic-hadamard}) gives
+\[
+  \norm{e_2\delta x}_\A\,\norm{e_2\delta\gamma x}_\A\ge\abs{\det x}_\A=1 .
+\]
+Since $\delta\gamma x=\delta x\,y$, the operator bound gives $\norm{e_2\delta\gamma x}_\A\le\mathcal N(y)\norm{e_2\delta x}_\A\le M\norm{e_2\delta x}_\A$. Hence
+$\norm{e_2\delta x}_\A^2\ge1/M$. As $\abs{\det(\delta x)}_\A=1$,
+\[
+  \alpha(\HB(\delta x))=\log\abs{\det(\delta x)}_\A-2\log\norm{e_2\delta x}_\A=-\log\norm{e_2\delta x}_\A^2\le\log M=c
+\]
+(\texttt{I.decomp.def:height-map}).
+\end{proof}
+\noindent \emph{The hypothesis is needed.} For $\gamma=\diag(2,1)$, $\Omega=\{\gamma\}$ and $x$ with $x_\infty=\diag(t,t^{-1})$, $x_p=1$, one has
+$x^{-1}\gamma x=\gamma$ and $\alpha(\HB(x))=2\log t$, which is unbounded.
+
+\begin{corollary}[height bound on $G_\gamma(\A)^1$]
+\tfstmt{II.orb.cor:centralizer-height-bound}
+\uses{II.orb.def:elliptic, II.orb.def:centralizer-norm-one, I.conv.def:simple-root, I.decomp.def:height-map}
+\end{corollary}
+\begin{proof}
+\uses{II.orb.lem:elliptic-height-bound}
+Apply \cref{II.orb.lem:elliptic-height-bound} with the compact set $\Omega=\{\gamma\}$: every $x\in G_\gamma(\A)^1$ lies in $G(\A)^1$ and satisfies
+$x^{-1}\gamma x=\gamma$.
+\end{proof}
+
+\begin{theorem}[relative compactness of the elliptic support]
+\tfstmt{II.orb.thm:elliptic-support-relatively-compact}
+\uses{II.orb.def:elliptic, I.topgrp.def:norm-one-group}
+\end{theorem}
+\begin{proof}
+\uses{II.orb.lem:elliptic-height-bound, I.red.thm:compactness-criterion}
+Let $S=\{x\in G(\A)^1:x^{-1}\gamma x\in\Omega\}$ and $c$ as in \cref{II.orb.lem:elliptic-height-bound}. An element of $p^{-1}(p(S))$ has the form
+$\eta s$ with $\eta\in G(\Q)$, $s\in S$, and for every $\delta\in G(\Q)$, $\alpha(\HB(\delta\eta s))\le c$ because $\delta\eta\in G(\Q)$. By the
+compactness criterion (\texttt{I.red.thm:compactness-criterion}), $p(S)$ has compact closure.
+\end{proof}
+\noindent This is the input for the elliptic part of the truncated kernel (\cite[Lecture II §2]{Gel}, the proposition on elliptic classes $\mathfrak o$;
+the geometric side of the trace formula).
+
+\begin{lemma}[conjugates in a compact set]
+\tfstmt{II.orb.lem:conjugates-meeting-compact-finite}
+\uses{II.orb.def:centralizer}
+\end{lemma}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-rat-discrete, II.orb.thm:centralizer-rat-points}
+(a) The set lies in $G(\Q)\cap C$. A discrete closed subgroup meets a compact set in a finite set (a compact set covered by the open
+sets of a discrete, closed subspace and its complement), and $G(\Q)$ is discrete and closed in $G(\A)$ (\texttt{I.topgrp.thm:gl2-rat-discrete}).
+(b) For $\delta,\delta'\in G(\Q)$, $\delta^{-1}\gamma\delta=\delta'^{-1}\gamma\delta'$ if and only if $\delta'\delta^{-1}$ commutes with $\gamma$, that is,
+$\delta'\in G_\gamma(\Q)\delta$ (\cref{II.orb.thm:centralizer-rat-points}(a)). So the fibres of $\delta\mapsto\delta^{-1}\gamma\delta$ are the cosets
+$G_\gamma(\Q)\delta$. The set in (b) is the union of the fibres over the finitely many elements $\gamma_1,\dots,\gamma_n$ of the set in (a); choose
+$\delta_i$ with $\delta_i^{-1}\gamma\delta_i=\gamma_i$.
+\end{proof}
+
+\begin{lemma}[a compact fundamental set]
+\tfstmt{II.orb.lem:centralizer-compact-fundamental-set}
+\uses{II.orb.def:elliptic, II.orb.def:centralizer-norm-one, II.orb.def:centralizer}
+\end{lemma}
+\begin{proof}
+\uses{II.orb.cor:centralizer-height-bound, I.red.thm:compactness-criterion, II.orb.lem:conjugates-meeting-compact-finite, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-rat-points, I.topgrp.thm:norm-one-splitting}
+\emph{Step 1: a compact $C\subseteq G(\A)^1$ with $G_\gamma(\A)^1\subseteq G(\Q)C$.} Let $p\colon G(\A)^1\to G(\Q)\backslash G(\A)^1$ be the quotient map and
+$c$ as in \cref{II.orb.cor:centralizer-height-bound}. An element of $p^{-1}(p(G_\gamma(\A)^1))$ has the form $\eta y$, $\eta\in G(\Q)$,
+$y\in G_\gamma(\A)^1$, and $\alpha(\HB(\delta\eta y))\le c$ for all $\delta\in G(\Q)$. By \texttt{I.red.thm:compactness-criterion}, $p(G_\gamma(\A)^1)$ has
+compact closure. Since $p$ is continuous and open and $G(\A)^1$ is locally compact, finitely many sets $p(U)$, $U$ open with compact
+closure, cover this closure; so it lies in $p(C)$ for the compact set $C=\bigcup\overline U$. Hence every $y\in G_\gamma(\A)^1$ is $y=\delta w$ with
+$\delta\in G(\Q)$, $w\in C$.
+
+\emph{Step 2.} Let $y=\delta w$ be as in Step 1. Since $y$ commutes with $\gamma$,
+\[
+  \delta^{-1}\gamma\delta=w\,y^{-1}\gamma y\,w^{-1}=w\gamma w^{-1}\in C\gamma C^{-1},
+\]
+a compact subset of $G(\A)$. By \cref{II.orb.lem:conjugates-meeting-compact-finite}(b) there are $\delta_1,\dots,\delta_n\in G(\Q)$, depending
+only on $\gamma$ and $C$, with $\delta\in G_\gamma(\Q)\delta_i$ for some $i$. Write $\delta=\sigma\delta_i$ with $\sigma\in G_\gamma(\Q)$. Then
+$\delta_iw=\sigma^{-1}y\in G_\gamma(\A)^1$, as $\sigma\in G_\gamma(\A)^1$ (\cref{II.orb.thm:centralizer-rat-points}(b)). So
+\[
+  G_\gamma(\A)^1=G_\gamma(\Q)\,C',\qquad C'=\bigcup_{i=1}^n\bigl(G_\gamma(\A)^1\cap\delta_iC\bigr)
+\]
+(the inclusion "$\supseteq$" is clear). Each $\delta_iC$ is a compact subset of $G(\A)^1$ (as $G(\Q)\subseteq G(\A)^1$,
+\texttt{I.topgrp.thm:norm-one-splitting}), and $G_\gamma(\A)^1$ is closed in $G(\A)^1$ (\cref{II.orb.thm:centralizer-closed}), so $C'$ is compact.
+\end{proof}
+
+\begin{theorem}[compactness of $G_\gamma(\Q)\backslash G_\gamma(\A)^1$]
+\tfstmt{II.orb.thm:elliptic-centralizer-compact}
+\uses{II.orb.def:elliptic, II.orb.def:centralizer-norm-one, II.orb.thm:centralizer-rat-points}
+\end{theorem}
+\begin{proof}
+\uses{II.orb.lem:centralizer-compact-fundamental-set}
+The quotient map is continuous, and by \cref{II.orb.lem:centralizer-compact-fundamental-set} it maps the compact set $C'$ onto the quotient.
+\end{proof}
+\noindent \emph{Examples.} For $\gamma_i$ and $\gamma_{\sqrt2}$ of the examples after \cref{II.orb.def:elliptic}, $E=\Q(i)$ resp.\ $E=\Q(\sqrt2)$. In the
+second case the unit group of the ring of integers is infinite, so compactness is not a consequence of finiteness of units.
+\emph{The hypothesis is needed.} For $\gamma=\diag(2,1)$, $G_\gamma(\A)^1$ is the diagonal subgroup with $\abs{t_1t_2}_\A=1$, and $x\mapsto\abs{x_{11}}_\A$
+descends to an unbounded continuous function on $G_\gamma(\Q)\backslash G_\gamma(\A)^1$ (product formula), so the quotient is not compact.
+Alternatively (the argument of the kernel-checked test): if the quotient were compact, then $G_\gamma(\A)^1=G_\gamma(\Q)C'$ for a compact $C'$, so the
+image of $G_\gamma(\A)^1$ in $G(\Q)\backslash G(\A)^1$ would have compact closure and, by the compactness criterion
+(\texttt{I.red.thm:compactness-criterion}), $\alpha(\HB(\delta x))$ would be bounded on $G(\Q)\times G_\gamma(\A)^1$; but $x_\infty=\diag(t,t^{-1})$, $x_p=1$
+gives $\alpha(\HB(x))=2\log t$, as in the remark after \cref{II.orb.lem:elliptic-height-bound}.
+

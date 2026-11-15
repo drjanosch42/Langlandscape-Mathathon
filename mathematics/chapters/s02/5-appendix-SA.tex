@@ -1,0 +1,356 @@
+% Stage 02, WP S02-M5 (optional): blueprint of thm:s02-SA for F = Q, S = {infty, q}, following L02.SA (a)--(f) of
+% plan/staged/stage-02-tree-quotients.tex. New labels carry the prefix s02-sa-. Labels of the stage tex are only referenced.
+\subsection{Appendix: a blueprint for strong approximation}\label{ss:s02-sa}
+
+This appendix is a proof of Theorem~\ref{thm:s02-SA}, written for $F=\Q$ and $S=\{\infty,q\}$ so that it can serve as the
+blueprint of the Lean milestone L02.SA (tex item L02.SA, steps (a)--(f); mathematics item M02.4). Every step comes with a precise
+statement, a proof, a status marker and the Mathlib situation at our pin (v4.35.0, checked by grep in the frozen Mathlib tree).
+The only input that is not proved here is the Hasse--Minkowski theorem over $\Q$, used once, in step~(d).
+\emph{Overall status of Thm.~\ref{thm:s02-SA} after this appendix:} \stpmc{}, modulo Hasse--Minkowski over $\Q$ (cited) and the
+finiteness of the class set (Prop.~\ref{prop:s01-finite}, formalized in the import).
+
+\paragraph{Conventions.} $B=(\alpha,\beta\mid\Q)$ is definite ($\alpha,\beta<0$) of discriminant $D$, $q\nmid D$ is prime,
+$\cO\subset B$ is a maximal order, and $\ell$ always denotes a prime. For $\ell\nmid D$ we fix
+$\iota_\ell:B_\ell\xrightarrow{\sim}M_2(\Q_\ell)$ with $\iota_\ell(\cO_\ell)=M_2(\Z_\ell)$ (as for $\iota_q$ in
+\S\ref{ss:s02-quotient}). $B^0$ is the space of pure quaternions ($\Trd=0$). We write $\mathbf i,\mathbf j$ for the standard
+generators of $B$ ($\mathbf i^2=\alpha$, $\mathbf j^2=\beta$, $\mathbf{ij}=-\mathbf{ji}$). Every $x\in B_\ell$ satisfies
+$x^2-\Trd(x)x+\Nrd(x)=0$, and $\bar x=\Trd(x)-x$. For $t$ in a field of characteristic $0$ put
+\[f_t(x):=x^2-tx+1 .\]
+$\Bhat^{1,(q)}=\prod'_{\ell\ne q}B^1_\ell$ (restricted with respect to the $\cO^1_\ell$) and
+$\Bhat^{\times,(q)}=\prod'_{\ell\ne q}B^\times_\ell$ (with respect to the $\cO^\times_\ell$), as in Thm.~\ref{thm:s02-SA}. The
+restricted-product topology on $\Bhat^{1,(q)}$ is the subspace topology from $\Bhat^{\times,(q)}$, because
+$\cO^1_\ell=B^1_\ell\cap\cO_\ell^\times$. So $\Bhat^{\times,(q)}$ acts continuously on $\Bhat^{1,(q)}$ by conjugation, and $B^\times$
+acts through the diagonal embedding. For a prime $\ell_0\ne q$ and $a\in B^1_{\ell_0}$ let $e_{\ell_0}(a)\in\Bhat^{1,(q)}$ be the
+element with component $a$ at $\ell_0$ and $1$ elsewhere. The map $e_{\ell_0}$ is a continuous homomorphism. Finally
+\[Z:=\overline{B^1}\subseteq\Bhat^{1,(q)}\qquad\text{(closure of the diagonal image).}\]
+$Z$ is a closed subgroup, and it is stable under conjugation by $B^\times$: conjugation by $b\in B^\times$ is a homeomorphism of
+$\Bhat^{1,(q)}$ that maps $B^1$ to itself. Theorem~\ref{thm:s02-SA} is the statement $Z=\Bhat^{1,(q)}$.
+
+\begin{remark}[route; comparison with Voight \S28.7 and with the tex]\label{rem:s02-sa-route}
+The tex follows Voight's first proof \lit{voight\_2021\_quaternion-algebras}{\S28.7, pp.~490--493} (Lemmas 28.7.1--28.7.4,
+Steps~1--5). We keep its core, Steps~1--2 (trace approximation, a global element with that trace, local conjugacy). For the
+final part we follow instead Vignéras' proof of the same theorem
+\lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~III, proof of Thm.~4.3, pp.~81--82}: reduce to elements
+supported at \emph{one} prime, then use compactness. The reason is that Voight's Steps~4--5 control the components only at the
+places of a fixed finite set $T$. At $v\notin S\cup T$ the global conjugators $\nu_n$ of (28.7.7) are not controlled, and we
+could not verify the convergence (28.7.9) in the restricted-product topology as written. With one-prime support this problem
+disappears, because the other components are exactly $1$, which is central. The tex steps (a)--(f) change as follows.
+\begin{itemize}
+\item[(a)] unchanged: Lemma~\ref{lem:s02-sa-step-a}.
+\item[(b)] only density of $B$ and $B^\times$ in $B_{\ell_0}$ and $B_{\ell_0}^\times$ at \emph{one} prime is used
+  (Lemma~\ref{lem:s02-sa-step-b}). Weak approximation for $B^1$, and with it the identity $B^1_\ell=[B^\times_\ell,B^\times_\ell]$
+  (Voight's ``Exercise~7.31'', whose number does not match the local copy), is \emph{not} needed. A proof is recorded anyway in
+  Remark~\ref{rem:s02-sa-weakB1}.
+\item[(c)] replaced by an explicit local trace lemma (Lemma~\ref{lem:s02-sa-step-c}). It \emph{constructs} local elements of
+  prescribed trace near a given element, and then irreducibility of $f_t$ at the ramified primes holds automatically. This also
+  makes precise Voight's remark that ``the reduced trace is an open map''. On $B_\ell^1$ that is false at $\pm1$ when $B_\ell$ is
+  a division algebra, which is why Lemma~\ref{lem:s02-sa-reduce} first reduces to $\Trd(a)^2\ne4$.
+\item[(d)] unchanged in substance, the dominant cost. Over $\Q$ it is exactly Hasse--Minkowski for one positive definite ternary
+  form plus one value (Prop.~\ref{prop:s02-sa-step-d}).
+\item[(e)] Skolem--Noether is replaced by an explicit local conjugacy lemma. It adds the statement, missing in Voight's write-up,
+  that the conjugator is \emph{integral at almost all primes}, so that it is an idele (Lemma~\ref{lem:s02-sa-step-e}(ii)).
+\item[(f)] Fujisaki's theorem is replaced by the finiteness of the class set, which is already formalized
+  (Lemma~\ref{lem:s02-sa-step-f}). The diagonal argument is replaced by a finite-intersection argument (step~2 in the proof of
+  Thm.~\ref{thm:s02-sa-main}).
+\end{itemize}
+The second proof \lit{voight\_2021\_quaternion-algebras}{\S28.8, pp.~493--494} (simplicity of $\mathrm{PSL}_2$, type sets) is not used.
+\end{remark}
+
+%----------------------------------------------------------------------
+\paragraph{Step 0: reduction to one prime and to separable elements.}
+
+\begin{lemma}[reduction]\label{lem:s02-sa-reduce}
+\begin{enumerate}[label=(\roman*)]
+\item For every prime $\ell$, the set $E_\ell:=\{a\in B^1_\ell:\Trd(a)^2\ne4\}$ is dense in $B^1_\ell$.
+\item If $e_{\ell_0}(a)\in Z$ for every prime $\ell_0\ne q$ and every $a\in E_{\ell_0}$, then $Z=\Bhat^{1,(q)}$.
+\end{enumerate}
+\stproved{}
+\end{lemma}
+
+\begin{proof}
+(i) Let $a\in B^1_\ell$ with $\Trd(a)=2\eta$, $\eta=\pm1$. \emph{Case $a=\eta$.} For $s\in\Q_\ell$ with $\alpha s^2\ne1$ put
+$x_s=\frac{1+\alpha s^2}{1-\alpha s^2}$, $y_s=\frac{2s}{1-\alpha s^2}$ and $\varepsilon_s=x_s+y_s\mathbf i$. Then
+$\Nrd(\varepsilon_s)=x_s^2-\alpha y_s^2=1$, and $\varepsilon_s\to1$ as $s\to0$. Also $\Trd(\eta\varepsilon_s)=2\eta x_s$, and
+$x_s=\pm1$ forces $s=0$ (characteristic $0$). So $\eta\varepsilon_s\in E_\ell$ tends to $a$.
+\emph{Case $a\ne\pm1$.} Put $n=\eta a-1\ne0$. Then $n^2=a^2-2\eta a+1=0$, because $a^2=2\eta a-1$. So $B_\ell$ has a non-zero
+nilpotent and is split, $\ell\nmid D$. Over a field, a non-scalar $2\times2$ matrix with characteristic polynomial $(x-\eta)^2$
+is conjugate to $\eta\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$, say by $g$. Then
+$\eta\,g\left(\begin{smallmatrix}1&1\\ s&1+s\end{smallmatrix}\right)g^{-1}$ has determinant $1$ and trace $\eta(2+s)$, it lies in
+$E_\ell$ for small $s\ne0$, and it tends to $\iota_\ell(a)$ as $s\to0$.
+
+(ii) $e_{\ell_0}$ is continuous, $Z$ is closed and $E_{\ell_0}$ is dense, so $e_{\ell_0}(B^1_{\ell_0})\subseteq Z$. Since $Z$ is a
+subgroup, it contains every finitely supported element (a finite product of commuting $e_\ell(a_\ell)$). These are dense:
+every basic open neighbourhood $\prod_{\ell\in T}W_\ell\times\prod_{\ell\notin T\cup\{q\}}\cO^1_\ell$ of $y$ contains the
+truncation of $y$ that is $1$ outside $T$. Hence $Z=\Bhat^{1,(q)}$.
+\end{proof}
+
+\begin{sloppypar}\noindent\emph{Mathlib.} Exists: \texttt{RestrictedProduct} with its topology and units
+(\Tpath{Topology/\allowbreak{}Algebra/\allowbreak{}RestrictedProduct/\allowbreak{}\{Basic,\allowbreak{}TopologicalSpace,\allowbreak{}Units\}.lean}, e.g.\ \pathtt{isOpenEmbedding\_structureMap},
+\pathtt{locallyCompactSpace\_of\_group}), \pathtt{Subgroup.topologicalClosure} (\Tpath{Topology/\allowbreak{}Algebra/\allowbreak{}Group/\allowbreak{}Subgroup.lean}).
+The import has its own \texttt{FinAdele} and \texttt{BHat a b := QuatAlg FinAdele a b} (\Tpath{VolIII/\allowbreak{}P2/\allowbreak{}Adelic.lean}).
+Missing: the away-from-$q$ group $\Bhat^{1,(q)}$, the maps $e_\ell$, and density of finitely supported elements (this overlaps
+with the infrastructure of L02.2). Cost: low to medium.\end{sloppypar}
+
+%----------------------------------------------------------------------
+\paragraph{Step (a): strong approximation for $\Q$ away from $q$.}
+
+\begin{lemma}[tex L02.SA(a)]\label{lem:s02-sa-step-a}
+Let $T$ be a finite set of primes with $q\notin T$, let $x_\ell\in\Q_\ell$ ($\ell\in T$), $x_\infty\in\R$, $N\ge1$ and $\varepsilon>0$.
+Then there is $r\in\Q$ with $r-x_\ell\in\ell^N\Z_\ell$ for $\ell\in T$, $|r-x_\infty|<\varepsilon$, and $r\in\Z_\ell$ for every
+prime $\ell\notin T\cup\{q\}$.
+\stproved{} (elementary). Cited form: \lit{voight\_2021\_quaternion-algebras}{Lemma~28.7.2, p.~490} (strong approximation
+for $F$, with reference to Neukirch).
+\end{lemma}
+
+\begin{proof}
+Write $x_\ell=p_\ell+y_\ell$ with $p_\ell\in\Z[1/\ell]$ (the principal part) and $y_\ell\in\Z_\ell$, and put
+$P=\sum_{\ell\in T}p_\ell$. Then $P-p_\ell\in\Z_\ell$ for $\ell\in T$, and $P\in\Z_\ell$ for $\ell\notin T$. By the Chinese
+remainder theorem and the density of $\Z$ in $\Z_\ell$, there is $n\in\Z$ with $n\equiv x_\ell-P\pmod{\ell^N\Z_\ell}$ for all
+$\ell\in T$. Then $r_0=P+n$ has the two $p$-adic properties. Put $M=\prod_{\ell\in T}\ell^N$. Every $r=r_0+Mk/q^m$
+($k\in\Z$, $m\ge0$) still has them, since $q\in\Z_\ell^\times$ for $\ell\ne q$. The set $\{Mk/q^m\}$ is dense in $\R$, so we can
+choose $k,m$ with $|r-x_\infty|<\varepsilon$.
+\end{proof}
+
+\noindent\emph{Remark.} The omitted place $q$ is what makes the archimedean approximation possible. With $S=\{\infty\}$ the
+lemma fails, since $\Z$ is discrete in $\R$. This is the only place where $q$ is used, besides the fact that $B_q$ is split,
+which enters in step~(d).
+
+\begin{sloppypar}\noindent\emph{Mathlib.} Exists: \pathtt{PadicInt.denseRange\_intCast} (\Tpath{NumberTheory/\allowbreak{}Padics/\allowbreak{}RingHoms.lean});
+\pathtt{IsDedekindDomain.HeightOneSpectrum.denseRange\_algebraMap}, which gives $K$ dense in a \emph{single} completion
+(\Tpath{RingTheory/\allowbreak{}DedekindDomain/\allowbreak{}AdicValuation.lean}); \pathtt{NumberField.InfiniteAdeleRing.denseRange\_algebraMap}, which gives
+$K$ dense in $K_\infty$; and the Chinese remainder theorem (\pathtt{Ideal.quotientInfRingEquivPiQuotient},
+\pathtt{ZMod.chineseRemainder}). Missing: simultaneous approximation at finitely many finite places with integrality elsewhere,
+i.e.\ density of $\Q$ in the adeles away from $q$. Grep finds no ``strong approximation'' in Mathlib. Cost: low to medium.\end{sloppypar}
+
+%----------------------------------------------------------------------
+\paragraph{Step (b): approximation in $B$ at one prime.}
+
+\begin{lemma}[tex L02.SA(b), reduced form]\label{lem:s02-sa-step-b}
+For every prime $\ell$, $B$ is dense in $B_\ell$ and $B^\times$ is dense in $B_\ell^\times$.
+\stproved{} Cited form: \lit{voight\_2021\_quaternion-algebras}{Prop.~28.7.3, pp.~490--491}.
+\end{lemma}
+
+\begin{proof}
+In the basis $1,\mathbf i,\mathbf j,\mathbf{ij}$ the topology of $B_\ell\cong\Q_\ell^4$ is the product topology, and $\Q$ is dense in
+$\Q_\ell$. $B_\ell^\times$ is open in $B_\ell$ (it is $\{\Nrd\ne0\}$), so $B\cap B^\times_\ell=B^\times$ is dense in it.
+\end{proof}
+
+\begin{remark}[weak approximation for $B^1$; not needed]\label{rem:s02-sa-weakB1}
+Voight's Prop.~28.7.3 also asserts that $B^1$ is dense in $\prod_{\ell\in T}B^1_\ell$. Its proof uses
+$B^1_\ell=[B^\times_\ell,B^\times_\ell]$, for which Voight refers to ``Exercise~7.31'' (mismatched in the local copy, see the tex). A
+self-contained proof: \emph{division case.} Let $x\in B_\ell^1$. Choose a quadratic subfield $L\ni x$ (if $x=\pm1$, any
+$L$). Then $N_{L/\Q_\ell}(x)=\Nrd(x)=1$, so $x=y/\sigma(y)$ with $y\in L^\times$ (Hilbert~90). Write $B_\ell=L\oplus Lk$ with
+$kzk^{-1}=\sigma(z)$ for $z\in L$. Then $x=y\,k\,y^{-1}k^{-1}$ is a single commutator. \emph{Split case.}
+$\SL_2(\Q_\ell)$ is generated by elementary matrices, and
+$\mathrm{diag}(c,1)\left(\begin{smallmatrix}1&y\\0&1\end{smallmatrix}\right)\mathrm{diag}(c,1)^{-1}
+\left(\begin{smallmatrix}1&y\\0&1\end{smallmatrix}\right)^{-1}=\left(\begin{smallmatrix}1&(c-1)y\\0&1\end{smallmatrix}\right)$
+(similarly for lower triangular matrices). Weak approximation for $B^1$ then follows, because the closure of $B^1$ in
+$\prod_TB^1_\ell$ is a subgroup containing all commutators of elements of $\prod_TB^\times_\ell$ (Lemma~\ref{lem:s02-sa-step-b} at
+each $\ell\in T$, together with weak approximation for $\Q$ for the product). \stproved{} (standard). Mathlib has Hilbert~90
+(\Tpath{RepresentationTheory/\allowbreak{}Homological/\allowbreak{}GroupCohomology/\allowbreak{}Hilbert90.lean}).
+\end{remark}
+
+\noindent\emph{Mathlib.} Exists: \pathtt{DenseRange.piMap}, \pathtt{Units.isOpen} (\Tpath{Analysis/\allowbreak{}Normed/\allowbreak{}Ring/\allowbreak{}Units.lean}), and the
+density of $\Q$ in $\Q_p$. The quaternion algebra type is Mathlib's \texttt{QuaternionAlgebra R a b c}
+(\Tpath{Algebra/\allowbreak{}Quaternion.lean}), and the import's \texttt{QuatAlg}. Missing: only the packaging of $B_\ell$ as a topological
+$\Q_\ell$-algebra. Cost: low.
+
+%----------------------------------------------------------------------
+\paragraph{Step (c): local trace lemma.}
+
+\begin{lemma}[tex L02.SA(c), constructive form]\label{lem:s02-sa-step-c}
+Let $\ell$ be a prime and $a\in B^1_\ell$ with $t_0:=\Trd(a)$ and $d_0:=t_0^2-4\ne0$. Put $j:=2a-t_0$. Then $j\in B_\ell^0$ and
+$j^2=d_0$. Moreover:
+\begin{enumerate}[label=(\roman*)]
+\item there is $\delta_0>0$ such that for every $t\in\Q_\ell$ with $|t-t_0|_\ell<\delta_0$ there is a unique
+  $s(t)\in1+\ell\Z_\ell$ (in $1+4\Z_2$ if $\ell=2$) with $s(t)^2=(t^2-4)/d_0$, and $s(t)\to1$ as $t\to t_0$;
+\item $u(t):=\tfrac12\big(t+s(t)\,j\big)$ satisfies $\Trd u(t)=t$, $\Nrd u(t)=1$ and $u(t)\to a$ as $t\to t_0$. Hence for
+  every neighbourhood $W$ of $a$ in $B^1_\ell$ there is $\delta>0$ such that every $t\in\Q_\ell$ with $|t-t_0|_\ell<\delta$ is
+  the reduced trace of an element of $W$;
+\item if $\ell\mid D$, then $f_t$ is irreducible over $\Q_\ell$ for all these $t$;
+\item (the place $\infty$) $f_t$ is irreducible over $\R$ if and only if $|t|<2$.
+\end{enumerate}
+\stproved{}
+\end{lemma}
+
+\begin{proof}
+From $a^2=t_0a-1$ we get $j^2=4a^2-4t_0a+t_0^2=t_0^2-4$, and $\Trd j=2t_0-2t_0=0$. Hence $\bar j=-j$, and for
+$x,y\in\Q_\ell$ we have $\Nrd(x+yj)=(x+yj)(x-yj)=x^2-y^2d_0$ and $\Trd(x+yj)=2x$.
+(i) For $\ell$ odd, $s\mapsto s^2$ is a bijection $1+\ell\Z_\ell\to1+\ell\Z_\ell$ (Hensel), with $|s-1|_\ell=|s^2-1|_\ell$,
+since $|s+1|_\ell=1$. For $\ell=2$ it is a bijection $1+4\Z_2\to1+8\Z_2$ with $|s-1|_2=2|s^2-1|_2$. The map
+$t\mapsto(t^2-4)/d_0$ is continuous with value $1$ at $t_0$, so it lands in $1+\ell\Z_\ell$ (resp.\ $1+8\Z_2$) near $t_0$.
+(ii) $\Trd u(t)=t$ and $\Nrd u(t)=\frac14\big(t^2-s(t)^2d_0\big)=\frac14\big(t^2-(t^2-4)\big)=1$. Since $a=\frac12(t_0+j)$,
+we get $u(t)-a=\frac12(t-t_0)+\frac12(s(t)-1)j\to0$.
+(iii) If $\ell\mid D$, then $B_\ell$ is a division algebra, and $u(t)\notin\Q_\ell$ (as $s(t)j\ne0$) is a root of $f_t$. So
+$\Q_\ell[u(t)]$ is a quadratic subfield, and $f_t$ is irreducible.
+(iv) The discriminant of $f_t$ is $t^2-4$.
+\end{proof}
+
+\noindent\emph{Mathlib.} Exists: \pathtt{hensels\_lemma} on $\Z_p$ (\Tpath{NumberTheory/\allowbreak{}Padics/\allowbreak{}Hensel.lean}). Missing: the
+square-root lemma (i) with its estimate, which is a short consequence. Cost: low. No implicit function theorem is needed. (Mathlib
+does have one over complete non-trivially normed fields, which would also give (ii) at non-central $a$.)
+
+%----------------------------------------------------------------------
+\paragraph{Step (d): a global element of prescribed trace (local--global).}
+
+\begin{proposition}[tex L02.SA(d)]\label{prop:s02-sa-step-d}
+Let $t\in\Q$ with $|t|<2$, and suppose that for every $\ell\mid D$ there is $u_\ell\in B^1_\ell$ with $\Trd(u_\ell)=t$. Then
+there is $h\in B^1$ with $\Trd(h)=t$.
+\stpmc{}: proved here modulo the Hasse--Minkowski theorem over $\Q$, \stcited{}
+\lit{voight\_2021\_quaternion-algebras}{Thm.~14.3.3, p.~223}. Voight proves that theorem in \S\S14.2--14.3 following Serre,
+assuming quadratic reciprocity and Dirichlet's theorem on primes in arithmetic progressions. Equivalent cited form: the
+local--global principle for embeddings \lit{voight\_2021\_quaternion-algebras}{Prop.~14.6.7, (iv)$\Leftrightarrow$(iii)$\Leftrightarrow$(v),
+p.~232}; \lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~III, Thm.~3.8, used on p.~80}.
+\end{proposition}
+
+\begin{proof}
+Put $c:=4-t^2>0$. If $j\in B^0$ has $\Nrd(j)=c$, then $j^2=-\Nrd(j)=t^2-4$, and $h:=\frac12(t+j)$ has $\Trd h=t$ and
+$\Nrd h=\frac14(t^2-j^2)=1$. So it suffices that the ternary form
+$Q_0:=\Nrd|_{B^0}=\langle-\alpha,-\beta,\alpha\beta\rangle$ (positive definite, since $B$ is definite) represents $c$ over $\Q$. Since
+$Q_0$ is anisotropic over $\Q$, this is equivalent to isotropy over $\Q$ of the quaternary form $Q:=Q_0\perp\langle-c\rangle$: from
+$Q_0(y)=cz^2$ with $(y,z)\ne0$ we get $z\ne0$ and $Q_0(y/z)=c$. By Hasse--Minkowski it suffices that $Q$ is isotropic over $\R$ and
+over every $\Q_\ell$, and for that it suffices that $Q_0$ represents $c$ locally.
+\emph{At $\infty$}: $Q_0$ is positive definite and $c>0$.
+\emph{At $\ell\nmid D$} (in particular at $\ell=q$): take
+$j_\ell:=2\iota_\ell^{-1}\left(\begin{smallmatrix}0&-1\\1&t\end{smallmatrix}\right)-t\in B^0_\ell$. The companion matrix has
+characteristic polynomial $f_t$, so $j_\ell^2=t^2-4$ as in Lemma~\ref{lem:s02-sa-step-c}, i.e.\ $\Nrd(j_\ell)=c$.
+\emph{At $\ell\mid D$}: $j_\ell:=2u_\ell-t$ works in the same way.
+\end{proof}
+
+\noindent\emph{Why $q\nmid D$ matters.} The approximation of step~(a) gives no control of $t$ at $q$. The local condition at $q$
+is automatic \emph{because} $B_q$ is split. If $q\mid D$, $B^1_q$ would be compact and the theorem false
+(\lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{p.~81, ``la condition est naturelle''}).
+
+\begin{sloppypar}\noindent\emph{Mathlib.} Absent: Hasse--Minkowski (no hit for \texttt{HasseMinkowski}, \pathtt{Hasse--Minkowski} or
+\texttt{hilbertSymbol}), Hilbert symbols, and the classification of quadratic forms over $\Q_p$. Present, as inputs to Serre's
+proof: quadratic forms and \pathtt{QuadraticMap.Anisotropic} (\Tpath{LinearAlgebra/\allowbreak{}QuadraticForm/\allowbreak{}Basic.lean}); quadratic
+reciprocity \pathtt{legendreSym.quadratic\_reciprocity} (\Tpath{NumberTheory/\allowbreak{}LegendreSymbol/\allowbreak{}QuadraticReciprocity.lean}); and
+Dirichlet's theorem \pathtt{Nat.forall\_exists\_prime\_gt\_and\_eq\_mod} (\Tpath{NumberTheory/\allowbreak{}LSeries/\allowbreak{}PrimesInAP.lean}). Cost:
+\textbf{high}. Serre's induction needs the cases of $2$, $3$ and $4$ variables. This step dominates L02.SA, as the tex says.
+\emph{Suggestion.} If L02.SA is attempted, register the single statement ``every positive definite ternary form over $\Q$
+represents every $c\in\Q_{>0}$ that it represents over all $\Q_\ell$'' (or simply Hasse--Minkowski over $\Q$) as a hypothesis.
+It is far narrower than $\HypSA$, and it also yields $\HypHS$ by the same embedding argument
+(\lit{voight\_2021\_quaternion-algebras}{proof of Main Thm.~14.7.4, p.~235 (via Prop.~14.6.7)}). \stexp{}\end{sloppypar}
+
+%----------------------------------------------------------------------
+\paragraph{Step (e): local conjugacy, with integrality at almost all primes.}
+
+\begin{lemma}[tex L02.SA(e), explicit form]\label{lem:s02-sa-step-e}
+Let $\ell$ be a prime and $h,u\in B^1_\ell$ with $\Trd h=\Trd u=t$ and $t^2\ne4$.
+\begin{enumerate}[label=(\roman*)]
+\item There is $x\in B_\ell^\times$ with $u=xhx^{-1}$.
+\item If moreover $\ell\nmid D$, $h,u\in\cO_\ell$ and $t^2-4\in\Z_\ell^\times$, then $x$ can be chosen in $\cO_\ell^\times$.
+\end{enumerate}
+\stproved{} Cited form, for irreducible $f_t$ only: \lit{voight\_2021\_quaternion-algebras}{Cor.~7.7.3, p.~109}
+(Skolem--Noether for elements). At split primes where $f_t$ has a root in $\Q_\ell$ that corollary does not apply, and (i) is
+needed there as well.
+\end{lemma}
+
+\begin{proof}
+(i) \emph{Division case ($\ell\mid D$).} Put $h_0=h-t/2$ and $u_0=u-t/2$. These lie in $B^0_\ell$, and
+$h_0^2=u_0^2=(t^2-4)/4=:c'\ne0$. For $y,z\in B^0_\ell$ one has $\overline{yz}=zy$, hence $yz+zy=\Trd(yz)$. If $u_0+h_0\ne0$, put
+$X=u_0+h_0$; then $u_0X=c'+u_0h_0=Xh_0$. If $u_0=-h_0$, choose $X\in B^0_\ell\smallsetminus0$ with $\Trd(Xh_0)=0$ (one linear
+condition on a $3$-dimensional space); then $h_0X=-Xh_0$, so $u_0X=Xh_0$. In both cases $uX=Xh$. Moreover $X\ne0$, so $X$ is
+invertible, since $B_\ell$ is a division algebra. Take $x=X$.
+\emph{Split case ($\ell\nmid D$).} $A=\iota_\ell(h)$ is not scalar: a scalar has characteristic polynomial $(x-c)^2$, but $f_t$ is
+separable. Choose $e$ with $e,Ae$ linearly independent (if every vector were an eigenvector, $A$ would be scalar). Put
+$P=(e\mid Ae)$. Cayley--Hamilton gives $A^2e=tAe-e$, so $P^{-1}AP=C_t:=\left(\begin{smallmatrix}0&-1\\1&t\end{smallmatrix}\right)$.
+Doing the same for $u$ gives $P'$, and $x=\iota_\ell^{-1}(P'P^{-1})$.
+(ii) Now $A\in M_2(\Z_\ell)$, and its reduction $\bar A$ is not scalar, since otherwise $\bar f_t$ would be a square and
+$t^2-4\equiv0\pmod\ell$. Choose $e\in\Z_\ell^2$ such that $\bar e,\bar A\bar e$ is a basis of $\F_\ell^2$. Then $\det P\in\Z_\ell^\times$,
+i.e.\ $P\in\GL_2(\Z_\ell)$. The same holds for $P'$, hence $x\in\iota_\ell^{-1}\GL_2(\Z_\ell)=\cO^\times_\ell$.
+\end{proof}
+
+\noindent\emph{Mathlib.} Exists: \pathtt{Matrix.charpoly} and Cayley--Hamilton \pathtt{Matrix.aeval\_self\_charpoly}
+(\Tpath{LinearAlgebra/\allowbreak{}Matrix/\allowbreak{}Charpoly/\allowbreak{}Basic.lean}). Absent: Skolem--Noether (no hit), and companion matrices of polynomials (no
+\texttt{Matrix} hit). The import supplies $\iota_\ell$ (\pathtt{maximalOrder\_local\_split}). Cost: low to medium. The proof
+above avoids Skolem--Noether entirely.
+
+%----------------------------------------------------------------------
+\paragraph{Step (f): compactness.}
+
+\begin{lemma}[tex L02.SA(f), definite form]\label{lem:s02-sa-step-f}
+There is a compact set $\mathcal D\subseteq\Bhat^{\times,(q)}$ with $\Bhat^{\times,(q)}=\mathcal D\cdot B^\times$.
+\stproved{} given Prop.~\ref{prop:s01-finite}, which is \stformal{} (import \pathtt{classSet\_finite},
+\Tpath{VolIII/\allowbreak{}P2/\allowbreak{}ClassSet.lean}).
+\end{lemma}
+
+\begin{proof}
+By Prop.~\ref{prop:s01-finite}, $\Bhat^\times=\bigcup_{i=1}^hB^\times x_i\hat\cO^\times$. Taking inverses,
+$\Bhat^\times=\bigcup_i\hat\cO^\times x_i^{-1}B^\times$. The projection $\Bhat^\times\to\Bhat^{\times,(q)}$ is a continuous surjective
+homomorphism compatible with the diagonal embeddings of $B^\times$. Let $\mathcal D$ be the image of the compact set
+$\bigcup_i\hat\cO^\times x_i^{-1}$.
+\end{proof}
+
+\noindent This replaces Fujisaki's lemma (\lit{voight\_2021\_quaternion-algebras}{Main Thm.~27.6.14, p.~470}, used in Voight's
+Step~4). For definite $B$ over $\Q$, the finiteness of the class set is enough. (The import's \pathtt{quotient\_compact},
+\Tpath{VolIII/\allowbreak{}P2/\allowbreak{}Compact.lean}, is itself derived from \pathtt{classSet\_finite}.) \emph{Mathlib.}
+\pathtt{IsCompact.image}, \pathtt{IsCompact.inter\_iInter\_nonempty} (\Tpath{Topology/\allowbreak{}Compactness/\allowbreak{}Compact.lean}). Cost: low.
+
+%----------------------------------------------------------------------
+\paragraph{Assembly.}
+
+\begin{theorem}[Thm.~\ref{thm:s02-SA}, proof]\label{thm:s02-sa-main}
+$Z=\Bhat^{1,(q)}$, i.e.\ $B^1$ is dense in $\Bhat^{1,(q)}$.
+\stpmc{} (modulo Hasse--Minkowski over $\Q$, through Prop.~\ref{prop:s02-sa-step-d}).
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:s02-sa-reduce}(ii), fix a prime $\ell_0\ne q$ and $a\in E_{\ell_0}$, and show $e_{\ell_0}(a)\in Z$. Let $\mathcal N$ be
+the set of compact neighbourhoods of $e_{\ell_0}(a)$ of the form
+\[N=\prod_{\ell\in T}W_\ell\times\prod_{\ell\notin T\cup\{q\}}\cO^1_\ell,\]
+where $T$ is a finite set of primes with $q\notin T$ and $\{\ell_0\}\cup\{\ell\mid D\}\subseteq T$, $W_{\ell_0}$ is a compact
+neighbourhood of $a$, and $W_\ell$ is a compact neighbourhood of $1$ for $\ell\in T\smallsetminus\{\ell_0\}$. $\mathcal N$ is a
+neighbourhood basis of $e_{\ell_0}(a)$, and the intersection of two members of $\mathcal N$ contains a member.
+
+\emph{Step 1 (one neighbourhood: Voight's Step~2).} \emph{Claim:} for every $N\in\mathcal N$ there is $d\in\mathcal D$ with
+$d^{-1}Nd\cap B^1\ne\emptyset$. For $\ell\in T\smallsetminus\{\ell_0\}$ choose $a^*_\ell\in\mathring W_\ell\cap E_\ell$ (interior of $W_\ell$; it contains $1$)
+(Lemma~\ref{lem:s02-sa-reduce}(i)), and put $a^*_{\ell_0}=a$. Lemma~\ref{lem:s02-sa-step-c}(ii), applied to $a^*_\ell$ and its neighbourhood $W_\ell$, gives $\delta_\ell>0$ ($\ell\in T$). By
+Lemma~\ref{lem:s02-sa-step-a} there is $t\in\Q$ with $|t-\Trd a^*_\ell|_\ell<\delta_\ell$ ($\ell\in T$), $|t|<2$, and $t\in\Z_\ell$
+for $\ell\notin T\cup\{q\}$. Let $u_\ell\in W_\ell$ with $\Trd u_\ell=t$ for $\ell\in T$, and put $u_\ell:=\iota_\ell^{-1}(C_t)\in\cO^1_\ell$
+for $\ell\notin T\cup\{q\}$ (here $\ell\nmid D$). Then $u:=(u_\ell)_{\ell\ne q}\in N$. Since $T$ contains all $\ell\mid D$,
+Prop.~\ref{prop:s02-sa-step-d} gives $h\in B^1$ with $\Trd h=t$, and $t^2\ne4$. By Lemma~\ref{lem:s02-sa-step-e}(i) there are
+$x_\ell\in B_\ell^\times$ with $u_\ell=x_\ell hx_\ell^{-1}$ for all $\ell\ne q$. For $\ell$ outside the finite set
+$T\cup\{q\}\cup\{\ell:h\notin\cO_\ell\}\cup\{\ell:t^2-4\notin\Z_\ell^\times\}$, Lemma~\ref{lem:s02-sa-step-e}(ii) lets us take
+$x_\ell\in\cO^\times_\ell$. So $x:=(x_\ell)\in\Bhat^{\times,(q)}$ and $u=xhx^{-1}$. By Lemma~\ref{lem:s02-sa-step-f}, $x=d\gamma$ with
+$d\in\mathcal D$ and $\gamma\in B^\times$. Then $d^{-1}ud=\gamma h\gamma^{-1}\in B^1$, which proves the claim.
+
+\emph{Step 2 (compactness).} For $N\in\mathcal N$ let $C_N:=\{d\in\mathcal D:d^{-1}Nd\cap Z\ne\emptyset\}$. This is the projection to
+$\mathcal D$ of the closed subset $\{(d,n):d^{-1}nd\in Z\}$ of the compact space $\mathcal D\times N$, hence compact and closed. It is
+non-empty by Step~1, since $B^1\subseteq Z$. If $N''\subseteq N\cap N'$, then $C_{N''}\subseteq C_N\cap C_{N'}$, so the family has the
+finite intersection property. Since $\mathcal D$ is compact, there is $d\in\bigcap_{N\in\mathcal N}C_N$. Then
+$d^{-1}e_{\ell_0}(a)d\in Z$. Otherwise, some open $M\ni d^{-1}e_{\ell_0}(a)d$ is disjoint from $Z$. Then $dMd^{-1}$ is a
+neighbourhood of $e_{\ell_0}(a)$, so it contains some $N\in\mathcal N$, and $d^{-1}Nd\cap Z=\emptyset$ contradicts $d\in C_N$.
+
+\emph{Step 3 (harmonising, with support at one prime).} The components of $e_{\ell_0}(a)$ away from $\ell_0$ are $1$. Hence
+$d^{-1}e_{\ell_0}(a)d=e_{\ell_0}(d_{\ell_0}^{-1}ad_{\ell_0})$, and conjugation by any $b\in B^\times$ gives
+$e_{\ell_0}(b\,d_{\ell_0}^{-1}ad_{\ell_0}b^{-1})\in Z$. By Lemma~\ref{lem:s02-sa-step-b}, choose $b_m\in B^\times$ with
+$b_m\to d_{\ell_0}$ in $B^\times_{\ell_0}$. Then $e_{\ell_0}(b_md_{\ell_0}^{-1}ad_{\ell_0}b_m^{-1})\to e_{\ell_0}(a)$, and since $Z$ is
+closed, $e_{\ell_0}(a)\in Z$.
+\end{proof}
+
+\noindent The consequence (SA$_U$) of Thm.~\ref{thm:s02-SA} then follows as in \S\ref{ss:s02-quotient}.
+
+\begin{remark}[Mathlib and import summary for L02.SA]\label{rem:s02-sa-mathlib}
+Status at the pin (grep of the frozen Mathlib v4.35.0 tree; import =
+\Tpath{lean/\allowbreak{}trace-formula-project-import}). Cost scale as in the tex.
+\begin{center}\small
+\begin{tabular}{|p{2.1cm}|p{5.3cm}|p{4.2cm}|p{1.3cm}|}
+\hline
+step & available & missing & cost\\\hline
+0 (reduce) & \texttt{RestrictedProduct} (+\texttt{Units}), \pathtt{Subgroup.topologicalClosure}; import \texttt{FinAdele}, \texttt{BHat} &
+$\Bhat^{1,(q)}$, $e_\ell$, density of finite support & low--med\\\hline
+(a) & \pathtt{PadicInt.denseRange\_intCast}, single-place \pathtt{denseRange\_algebraMap}, CRT & simultaneous/strong approximation for $\Q$ & low--med\\\hline
+(b) & \pathtt{DenseRange.piMap}, \pathtt{Units.isOpen}, \texttt{QuaternionAlgebra}; import \texttt{QuatAlg} & topology on $B_\ell$ & low\\\hline
+(c) & \pathtt{hensels\_lemma} & square roots near $1$ & low\\\hline
+(d) & \pathtt{QuadraticMap.Anisotropic}, quadratic reciprocity, Dirichlet (\texttt{PrimesInAP}) & Hilbert symbol, forms over $\Q_p$, \textbf{Hasse--Minkowski} & \textbf{high}\\\hline
+(e) & \pathtt{Matrix.charpoly}, Cayley--Hamilton; import \pathtt{maximalOrder\_local\_split} & companion-matrix lemma (no Skolem--Noether needed) & low--med\\\hline
+(f) & import \pathtt{classSet\_finite}, \pathtt{quotient\_compact}; \texttt{IsCompact.\allowbreak{}inter\_iInter\_nonempty} & --- & low\\\hline
+assembly & --- & Thm.~\ref{thm:s02-sa-main} & medium\\\hline
+\end{tabular}
+\end{center}
+Without (d), the remaining steps are an estimated 1.5--3k lines. With (d) the total order of the tex (5--10k lines) stands.
+\stexp{} The tex recommendation is unchanged: keep $\HypSA$ (and $\HypHS$) registered during the hackathon. If L02.SA is ever
+started, the cheapest honest intermediate is to prove Thm.~\ref{thm:s02-sa-main} from a registered Hasse--Minkowski hypothesis for
+quaternary forms over $\Q$, with steps 0, (a)--(c), (e), (f) and the assembly proved.
+\end{remark}

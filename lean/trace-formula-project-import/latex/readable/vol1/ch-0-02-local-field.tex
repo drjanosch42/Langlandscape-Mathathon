@@ -1,0 +1,204 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P0/LocalField.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §1 written (M1, unit U2); §§2-3 written (M3, unit U2).
+% Fork algebraic_jl: §2 without the Haar-measure items, §3 (characters, Fourier analysis) dropped; see ../../EDITS.md.
+
+\chapter{Non-archimedean local fields}\label{ch:ch-0-02-local-field}
+
+\noindent\emph{Sources:} \cite{Corv-ptIII-1}; Cassels--Fr\"ohlich Ch.~XV; \cite[§1]{Cas-p}.
+
+\section{\texorpdfstring{The interface \texttt{NALF}}{The interface NALF}}\label{sec:lf-interface}
+
+\noindent\emph{Sources for this section:} \cite[§1]{Corv-ptIII-1}; for the library side, Mathlib's
+\texttt{IsNonarchimedean\allowbreak LocalField} (\texttt{NumberTheory/\allowbreak LocalField/\allowbreak Basic.lean}).
+
+Throughout the project a non-archimedean local field is described intrinsically, by a field, a topology and a
+valuation; no completion of a global field is built into the definition. The $p$-adic fields $\Qp$ are the only
+instances used in Part~I; other instances (the completions of $\Q$) enter through the adeles.
+
+\begin{definition}[non-archimedean local field]
+\tfstmt{I.lf.def:nalf}
+\end{definition}
+
+\begin{remark}[standard facts]\label{rem:lf-standard-facts}
+Let $F$ be a non-archimedean local field. The following facts are standard \cite[§1]{Corv-ptIII-1} and are
+available in the library; we use them without restating them as items.
+\begin{enumerate}[label=(\alph*)]
+\item\label{lf-fact-topfield} $F$ is a Hausdorff topological field: addition and multiplication are continuous, and
+  inversion is continuous on $F^\times$. In particular, for $c\in F^\times$ the maps $x\mapsto x+c$ and $x\mapsto cx$
+  are homeomorphisms of $F$.
+\item\label{lf-fact-compact} $\Ocal_F$ is a compact open subring of $F$.
+\item\label{lf-fact-dvr} $\Ocal_F$ is a discrete valuation ring with maximal ideal $\mathfrak p_F\neq0$; its group of
+  units is $\Ocal_F^\times=\{x:v(x)=1\}=\Ocal_F\setminus\mathfrak p_F$, and $F$ is its field of fractions: for
+  $x\in F\setminus\Ocal_F$ one has $x^{-1}\in\mathfrak p_F$. Every non-zero element of $\Ocal_F$ is a unit times a
+  power of any generator of $\mathfrak p_F$.
+\item\label{lf-fact-finite} The residue field $k_F$ is finite.
+\end{enumerate}
+\end{remark}
+
+\begin{definition}[$\Qp$ as a non-archimedean local field]
+\tfstmt{I.lf.def:padic-nalf-instance}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{proof}
+The $p$-adic absolute value is a non-archimedean valuation with values in $p^{\Z}\cup\{0\}\subset\R_{\ge0}$. The open
+balls $\{x:\abs{x-x_0}_p<r\}$, $r>0$, form a neighbourhood base of $x_0$ for the metric topology, and since every
+$r>0$ lies between two consecutive powers $p^{k}<r\le p^{k+1}$ of $p$, the balls with radius in the value group
+$p^\Z$ form a base as well; this is condition~(i). Condition~(ii) holds since $\abs{p}_p=p^{-1}$. For~(iii), the
+closed unit ball $\Zp=\{\abs{x}_p\le1\}$ is compact and it is open (it equals the open ball of radius $p$), so every
+$x_0$ has the compact neighbourhood $x_0+\Zp$.
+\end{proof}
+\noindent The residue field of $\Qp$ is $\Zp/p\Zp=\mathbb F_p$, so $q_{\Qp}=p$; this is recorded later, with the
+normalized absolute value (\cref{sec:lf-abs-haar}).
+
+\begin{definition}[uniformizer]
+\tfstmt{I.lf.def:uniformizer}
+\uses{I.lf.def:nalf}
+\end{definition}
+\noindent A uniformizer exists because $\Ocal_F$ is a discrete valuation ring
+(\cref{rem:lf-standard-facts}\ref{lf-fact-dvr}), so its maximal ideal is principal. Every statement of this project
+is independent of the choice of $\unif$; for $\Qp$ one may take $\unif=p$. Since $\mathfrak p_F\neq0$, we have
+$\unif\neq0$, so $\unif^n\in F^\times$ for all $n\in\Z$, and $\unif\in\mathfrak p_F$ is not a unit.
+
+\begin{definition}[residue cardinality]
+\tfstmt{I.lf.def:residue-cardinality}
+\uses{I.lf.def:nalf}
+\end{definition}
+\noindent By \cref{rem:lf-standard-facts}\ref{lf-fact-finite}, $q$ is a natural number, and $q\ge2$ because
+$k_F$ is a field.
+
+\begin{theorem}[unit--uniformizer decomposition]
+\tfstmt{I.lf.thm:unit-uniformizer-decomposition}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{theorem}
+\begin{proof}
+\uses{I.lf.def:uniformizer}
+\emph{Existence.} If $x\in\Ocal_F$, then $x=u\unif^n$ with $u\in\Ocal_F^\times$ and $n\ge0$ by
+\cref{rem:lf-standard-facts}\ref{lf-fact-dvr}, applied to the generator $\unif$ of $\mathfrak p_F$. If
+$x\notin\Ocal_F$, then $x^{-1}\in\Ocal_F\setminus\{0\}$, so $x^{-1}=u\unif^{m}$ as before, and
+$x=u^{-1}\unif^{-m}$.
+
+\emph{Uniqueness.} Let $u\unif^n=u'\unif^{n'}$ with $u,u'\in\Ocal_F^\times$, and assume $n\ge n'$ (otherwise
+exchange the two sides). Then $\unif^{n-n'}=u'u^{-1}\in\Ocal_F^\times$. If $n>n'$, then
+$\unif^{n-n'}\in\unif\Ocal_F=\mathfrak p_F$, which contains no unit, a contradiction. Hence $n=n'$, and then
+$u=u'$ because $\unif^n\neq0$.
+\end{proof}
+
+\begin{remark}[the order]\label{rem:lf-ord}
+For $x\in F^\times$ write $\operatorname{ord}(x)\in\Z$ for the exponent $n$ of
+\cref{I.lf.thm:unit-uniformizer-decomposition}. Multiplying two decompositions gives
+$\operatorname{ord}(xy)=\operatorname{ord}(x)+\operatorname{ord}(y)$. For $m\in\Z$ and $x\in F^\times$,
+\[
+  x\in\unif^m\Ocal_F\iff\operatorname{ord}(x)\ge m,\qquad x\in\unif^m\Ocal_F^\times\iff\operatorname{ord}(x)=m .
+\]
+Indeed, if $x=u\unif^n$ with $n\ge m$, then $x=\unif^m\cdot u\unif^{n-m}\in\unif^m\Ocal_F$. Conversely, if
+$x=\unif^m y$ with $y\in\Ocal_F\setminus\{0\}$, write $y=u'\unif^{k}$ with $k\ge0$
+(\cref{rem:lf-standard-facts}\ref{lf-fact-dvr}); by uniqueness $\operatorname{ord}(x)=m+k\ge m$. The second
+equivalence is the uniqueness statement itself. In particular $\Ocal_F\setminus\{0\}=\{\operatorname{ord}\ge0\}$ and
+$\Ocal_F^\times=\{\operatorname{ord}=0\}$. A consequence used repeatedly below: if $x,y\in F^\times$ and
+$\operatorname{ord}(x)\le\operatorname{ord}(y)$, then $y/x\in\Ocal_F$; and $\unif^{m'}\Ocal_F\subseteq\unif^m\Ocal_F$
+for $m'\ge m$.
+\end{remark}
+
+\begin{theorem}[second countability]
+\tfstmt{I.lf.thm:nalf-second-countable}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{theorem}
+\begin{proof}
+\uses{I.lf.def:uniformizer, I.lf.thm:unit-uniformizer-decomposition}
+Write $\Ocal=\Ocal_F$. For $m\in\Z$ the set $\unif^m\Ocal$ is an additive subgroup of $F$ which is compact and open,
+being the image of $\Ocal$ under the homeomorphism $x\mapsto\unif^m x$
+(\cref{rem:lf-standard-facts}\ref{lf-fact-topfield}, \ref{lf-fact-compact}). An open subgroup of a topological
+group is also closed (its complement is a union of cosets, which are open).
+
+\emph{Step 1: the sets $\unif^n\Ocal$, $n\ge0$, form a neighbourhood base of $0$.} First,
+$\bigcap_{n\ge0}\unif^n\Ocal=\{0\}$: a non-zero $x$ lies in $\unif^n\Ocal$ only for $n\le\operatorname{ord}(x)$
+(\cref{rem:lf-ord}). Let $W$ be an open neighbourhood of $0$. The sets $C_n=\unif^n\Ocal\setminus W$, $n\ge0$, are
+closed subsets of the compact set $\Ocal$, they decrease with $n$, and their intersection is
+$\{0\}\setminus W=\emptyset$. By compactness some $C_n$ is empty, that is, $\unif^n\Ocal\subseteq W$.
+
+\emph{Step 2: $F/\unif^n\Ocal$ is countable for every $n\ge0$.} Every $x\in F^\times$ equals $u\unif^k$ with
+$u\in\Ocal^\times$ (\cref{I.lf.thm:unit-uniformizer-decomposition}), so $x\in\unif^{-m}\Ocal$ for every
+$m\ge\max(0,-k)$; hence $F=\bigcup_{m\ge0}\unif^{-m}\Ocal$. For fixed $m$, the cosets $y+\unif^n\Ocal$,
+$y\in\unif^{-m}\Ocal$, form an open cover of the compact set $\unif^{-m}\Ocal$ by pairwise disjoint sets, so
+$\unif^{-m}\Ocal$ meets only finitely many cosets of $\unif^n\Ocal$. Therefore $F/\unif^n\Ocal$ is a countable union
+of finite sets.
+
+\emph{Step 3.} For each $n\ge0$ choose a countable set $S_n\subset F$ of representatives of $F/\unif^n\Ocal$. The
+family $\mathcal B=\{s+\unif^n\Ocal:n\ge0,\ s\in S_n\}$ is countable and consists of open sets. It is a base of the
+topology: if $W\subseteq F$ is open and $x\in W$, then $W-x$ is an open neighbourhood of $0$, so
+$\unif^n\Ocal\subseteq W-x$ for some $n$ by Step~1, and for the representative $s\in S_n$ of $x+\unif^n\Ocal$ we get
+$x\in s+\unif^n\Ocal=x+\unif^n\Ocal\subseteq W$.
+\end{proof}
+
+\begin{tfoutline}
+  \tfplanned{I.lf.def:adic-completion-nalf-instance}{$v$\texttt{.adicCompletion} $\Q$ is an \texttt{NALF} (optional, M12: not needed on the working model of the adeles, decisions D17, D18)}
+\end{tfoutline}
+
+\section{The normalized absolute value}\label{sec:lf-abs-haar}
+
+\noindent\emph{Sources for this section:} \cite[§2.2]{Corv-ptIII-1}; \cite[§§1.1--1.5]{GH}; the definition of $\abs{\cdot}_F$
+as a Haar modulus is Mathlib's \texttt{distribHaarChar} (\texttt{MeasureTheory/\allowbreak Measure/\allowbreak Haar/\allowbreak DistribChar.lean}).
+
+Throughout this section $F$ is a non-archimedean local field with ring of integers $\Ocal=\Ocal_F$, uniformizer $\unif$
+and residue cardinality $q$, and $F$ carries its Borel $\sigma$-algebra. $F$ is a locally compact, Hausdorff and second
+countable abelian group (\cref{I.lf.def:nalf}, \cref{I.lf.thm:nalf-second-countable}). We use the standard facts on
+Haar measure from Mathlib (the only place where a measure enters this volume: $\abs{\cdot}_F$ is \emph{defined} as a
+Haar modulus, decision D-d of the fork; the parent develops Haar measures in its Vol.~I, Ch.~0.6): an additive Haar measure $\mu$ on $F$ exists, any two differ by a
+factor in $\R_{>0}$, and $0<\mu(C)<\infty$ for every compact set $C$ with non-empty interior. In particular
+$0<\mu(\unif^n\Ocal)<\infty$ for all $n\in\Z$, since $\unif^n\Ocal$ is compact and open.
+
+\begin{definition}[normalized absolute value]
+\tfstmt{I.lf.def:normalized-abs}
+\uses{I.lf.def:nalf}
+\end{definition}
+\noindent\emph{Well defined.} Let $a\in F^\times$. Multiplication by $a$ is a homeomorphism of $F$ which is additive,
+so $\mu_a(E)=\mu(aE)$ is again a Borel measure, invariant under translations ($a(E+y)=aE+ay$), finite on compact sets and
+positive on non-empty open sets: an additive Haar measure. By uniqueness $\mu_a=c\,\mu$ for a unique $c\in\R_{>0}$
+(evaluate on $\Ocal$: $c=\mu(a\Ocal)/\mu(\Ocal)$). If $\mu'=\lambda\mu$ is another Haar measure, then
+$\mu'(aE)=\lambda c\mu(E)=c\mu'(E)$, so $c$ does not depend on $\mu$.
+
+\begin{theorem}[absolute value of the uniformizer]
+\tfstmt{I.lf.thm:abs-uniformizer}
+\uses{I.lf.def:normalized-abs, I.lf.def:uniformizer, I.lf.def:residue-cardinality, I.lf.def:nalf}
+\end{theorem}
+\begin{proof}
+\uses{I.lf.def:normalized-abs, I.lf.thm:unit-uniformizer-decomposition, I.lf.def:residue-cardinality, I.lf.thm:nalf-second-countable}
+Fix an additive Haar measure $\mu$. For $u\in\Ocal^\times$, $u\Ocal=\Ocal$, so $\mu(\Ocal)=\abs{u}_F\mu(\Ocal)$ and
+$\abs{u}_F=1$ since $0<\mu(\Ocal)<\infty$. The subgroup $\unif\Ocal=\mathfrak p_F$ has index $q$ in $\Ocal$
+(\cref{I.lf.def:residue-cardinality}), so $\Ocal$ is the disjoint union of $q$ cosets $r_j+\unif\Ocal$, each of
+measure $\mu(\unif\Ocal)$ by translation invariance. Hence $\mu(\Ocal)=q\,\mu(\unif\Ocal)=q\abs{\unif}_F\mu(\Ocal)$ and
+$\abs{\unif}_F=q^{-1}$.
+
+The map $a\mapsto\abs{a}_F$ is multiplicative on $F^\times$: $\mu(abE)=\abs{a}_F\mu(bE)=\abs{a}_F\abs{b}_F\mu(E)$.
+So $\abs{u\unif^n}_F=\abs{u}_F\abs{\unif}_F^n=q^{-n}$ for $n\in\Z$. By \cref{rem:lf-ord}, $x\in\Ocal\setminus\{0\}$
+if and only if $\operatorname{ord}(x)\ge0$, i.e.\ $\abs{x}_F\le1$ (as $q\ge2$), and $x\in\Ocal^\times$ if and only
+if $\operatorname{ord}(x)=0$, i.e.\ $\abs{x}_F=1$; for $x=0$ both sides of the first equivalence hold.
+\end{proof}
+
+\begin{theorem}[multiplicativity and the ultrametric inequality]
+\tfstmt{I.lf.thm:abs-multiplicative}
+\uses{I.lf.def:normalized-abs, I.lf.def:nalf}
+\end{theorem}
+\begin{proof}
+\uses{I.lf.thm:abs-uniformizer}
+Multiplicativity on $F^\times$ was shown in the proof of \cref{I.lf.thm:abs-uniformizer}; if $a=0$ or $b=0$ both
+sides vanish. $\abs{a}_F>0$ for $a\neq0$ by definition. For the ultrametric inequality we may assume $a,b,a+b\neq0$.
+By \cref{I.lf.thm:abs-uniformizer}, $\abs{x}_F=q^{-\operatorname{ord}(x)}$ for $x\in F^\times$. Let
+$m=\min(\operatorname{ord}(a),\operatorname{ord}(b))$. Then $a,b\in\unif^m\Ocal$ (\cref{rem:lf-ord}), so
+$a+b\in\unif^m\Ocal$ and $\operatorname{ord}(a+b)\ge m$, i.e.\ $\abs{a+b}_F\le q^{-m}=\max(\abs{a}_F,\abs{b}_F)$.
+\end{proof}
+
+\begin{theorem}[the absolute value on $\Qp$]
+\tfstmt{I.lf.thm:abs-padic-eq}
+\uses{I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance}
+\end{theorem}
+\begin{proof}
+\uses{I.lf.thm:abs-uniformizer, I.lf.def:padic-nalf-instance}
+For $\Qp$ we have $\Ocal=\Zp$ and $q=p$ (remark after \cref{I.lf.def:padic-nalf-instance}). Both sides vanish at
+$0$. A non-zero $x$ is $x=up^n$ with $u\in\Zp^\times$, $n\in\Z$ (as $p$ is a uniformizer); writing $p=u_0\unif$ with
+$u_0\in\Zp^\times$, $x=uu_0^n\unif^n$, so $\abs{x}_{\Qp}=p^{-n}$ by \cref{I.lf.thm:abs-uniformizer}. And
+$\norm{x}_p=\norm{u}_p\norm{p}_p^n=p^{-n}$, since $\norm{\cdot}_p$ is multiplicative and $\norm{u}_p=1$ for units of
+$\Zp$.
+\end{proof}
+

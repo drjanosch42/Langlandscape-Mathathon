@@ -1,0 +1,29 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 16: new vs known vs open (also the conclusion).
+% Sources: known: thm:s05-G, thm:s02-SA, if:s01-targets, thm:s06-KO, rem:s06-open(iii) (BKM), rem:s03-mazur, thm:s01-chenevier (all cited);
+% ours: prop:s02-BG / prop:s02-quot (SA-free given connectivity), thm:s03-ribet, cor:s03-ihara, thm:s04-control, thm:s04-lambdaribet,
+% thm:s06-E (proved), thm:s06-defect + cor:s06-allweights (pmc; k >= p "goes beyond [KO]", s06-m3.tex after the proof), prop:s06-levM (F0, F1, F1'),
+% final-report sections/hsieh.tex; lean.tex; HACS Lane B closure sec. 2 (37 at (13, 8)); open: final-report sections/open.tex.
+\begin{frame}{New, known, open}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{0.9}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{6.35cm} >{\raggedright\arraybackslash}p{3.2cm}@{}}\toprule
+    known \stattag{cited} & ours \stattag{status as on the slides} & open\\\midrule
+    classical JL; first-case JL via Ribet (D--R, Deuring); Ihara, Serre; SA &
+      its tree/Brandt-graph form and the defect extension; integral framework; SA at one level $\Leftrightarrow$ connectivity of $\mathrm{BG}$ (a finite check); Ribet sequence, Ihara on the tree (given connectivity; Ribet's, Livn\'e's, Edixhoven's method) &
+      JL input beyond $D=q$ (routes 1, 2); Hyp.X; (c2); O2\\
+    Hida; $\Lambda$-adic JL (Longo--Vigni, Hsieh); Chenevier &
+      elementary $\Lambda$-freeness, control; $\Lambda$-adic Ribet sequence &
+      beyond ordinary (O7)\\
+    Wiles, Ribet--Takahashi, Kim--Ota, B\"ockle--Khare--Manning; Mazur &
+      Thm~E \stattag{abstract; proved}; $\Lambda$-adic defect formula, all $k\ge3$ incl.\ $k\ge p$; $q\equiv-1$ for $M=1$, (F1), (F1$'$, in our reading of Kim--Ota) \stattag{proved modulo cited results} &
+      $N(\bar\rho)>1$ at $q\equiv-1$; trivial primes; several $q\mid D$\\
+    sign error in [Hs] (our reading) &
+      $+\Pi_q$ \stattag{proved mod.\ cited, trivial central char.; erratum} Lean ($\GateAudited/\GateAudited$, hypothesis discipline); HACS: $37$ at $(13,8)$ \stattag{computed} &
+      $\number\numexpr\NumHypRegistered-\NumHypDischarged-\NumHypCondDischarged\relax$ open registered hypotheses\\\bottomrule
+  \end{tabular}
+
+  \vspace{-2pt}{\footnotesize ``Ours'': written and checked here; where unsure of novelty, we did not find it in the literature we checked.
+  \textbf{Upshot:} \emph{congruences are obstructions} becomes \emph{cokernel $=$ congruence module}.}
+\end{frame}

@@ -1,0 +1,60 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolII/Parabolic.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% Written (M7a, unit U4; docs/sprints/M7a-plan.md §1.2 items 25--35; decisions D-GMF, D-NORMS).
+% Fork algebraic_jl: §2 reduced to theta; (G,T)-families and weights dropped; chapter title and overview rewritten (../../EDITS.md).
+
+\chapter{Parabolic subgroups of \texorpdfstring{$\GL(2)$}{GL(2)}}\label{ch:ch-02-parabolic}
+
+\noindent\emph{Scope:} area \texttt{par}. \emph{Sources:} \cite[§§5, 11, 17]{AIntro}; \cite[Lecture IV §1, Lecture VII §1]{Gel}.
+
+\noindent\emph{Overview.} §1 fixes the two parabolic subgroups $B$, $\Bbar$ containing $T$, their height maps and the points
+$Y_P(x,T)\in\aBG$. §2 records the linear functions $\theta_P$ on $(\aBG)^*$. In the parent project this chapter continues with Arthur's
+$(G,T)$-families and the weight $v(x,T)$ of the weighted orbital integrals; that material is analytic (derivatives, Haar measures) and
+not part of this volume. The parameter of $(\aBG)^*$ is the real number $\lambda=\Lambda(\alpha^\vee)$, and the lattice $\Z\alpha^\vee$ is
+given covolume $1$ (decisions D-GMF and D-NORMS of the parent's sprint note M7a); this fixes $\theta_P$.
+
+\section{Parabolic subgroups and heights}\label{sec:par-heights}
+
+\noindent\emph{Sources for this section:} \cite[§§5, 11]{AIntro}; \cite[Lecture II §1, Lecture IV §1]{Gel}. References to Vol.~I by item ID:
+$\aB$, $\aBG$ and the projection $h\mapsto h_B^G$ (\texttt{I.conv.def:space-a-b}, \texttt{I.conv.def:space-a-b-g}), the simple root $\alpha$
+(\texttt{I.conv.def:simple-root}), the Weyl element $w$ (\texttt{I.conv.def:weyl-element}), the height map $\HB$ (\texttt{I.decomp.def:height-map}) and
+its equivariance $\HB(ntxk)=\HB(t)+\HB(x)$ (\texttt{I.decomp.thm:height-map-equivariance}), with $\HB(\diag(t_1,t_2))=(\log\abs{t_1}_\A,\log\abs{t_2}_\A)$
+(\texttt{I.decomp.thm:height-map-iwasawa}).
+
+\begin{definition}[standard parabolic subgroups]
+\tfstmt{II.par.def:standard-parabolics}
+\uses{I.conv.def:borel, I.conv.def:opposite-borel, I.conv.def:gl2}
+\end{definition}
+\noindent For $\GL_2$, $B$ is the only proper standard parabolic subgroup, and $T$ is the Levi component of both $B$ and $\Bbar$.
+Conjugation by $w$ exchanges them: $w\,\diag(t_1,t_2)\,w^{-1}=\diag(t_2,t_1)$ and $w\,n(u)\,w^{-1}=\bar n(-u)$, so $wB(R)w^{-1}=\Bbar(R)$.
+
+\begin{definition}[height maps]
+\tfstmt{II.par.def:parabolic-height}
+\uses{II.par.def:standard-parabolics, I.decomp.def:height-map, I.conv.def:weyl-element}
+\end{definition}
+\noindent\emph{Properties.} (i) $w^{-1}=\diag(-1,-1)\,w$ and $\HB(\diag(-1,-1)y)=\HB(y)$ (as $\abs{-1}_\A=1$), so $H_{\Bbar}(x)=w\HB(wx)$. (ii) For
+$\bar n\in\Nbar(\A)$, $t=\diag(t_1,t_2)\in T(\A)$ and $k\in K$, $H_{\Bbar}(\bar ntk)=(\log\abs{t_1}_\A,\log\abs{t_2}_\A)$: indeed
+$w^{-1}\bar ntk=(w^{-1}\bar nw)(w^{-1}tw)(w^{-1}k)$ with $w^{-1}\bar nw\in N(\A)$, $w^{-1}tw=\diag(t_2,t_1)$ and $w^{-1}k\in K$ ($w\in\GL_2(\Z)$ and
+$w_\infty\in\Ort(2)$), so $\HB(w^{-1}\bar ntk)=(\log\abs{t_2}_\A,\log\abs{t_1}_\A)$. Thus $H_{\Bbar}$ is the height map attached to the decomposition
+$G(\A)=\Bbar(\A)K$, as in \cite[§5]{AIntro}, and $H_P(\gamma x)=H_P(x)$ for $\gamma\in P(\Q)$. In Arthur's notation for $s=w$, $H_{\Bbar}(x)=w^{-1}H_B(w_sx)$ is
+the point $s^{-1}H_{P'}(w_sx)$ of \cite[(11.9)]{AIntro}.
+
+\begin{definition}[the points $Y_P(x,T)$]
+\tfstmt{II.par.def:y-vector}
+\uses{II.par.def:standard-parabolics, II.par.def:parabolic-height, I.conv.def:space-a-b-g}
+\end{definition}
+\noindent For $x=1$: $Y_B(1,T)=T_B^G$ and $Y_{\Bbar}(1,T)=(wT)_B^G=-T_B^G$, since $\HB(1)=0$ and $H_{\Bbar}(1)=w\HB(w^{-1})=0$. If $\alpha(T)>0$, the segment from
+$Y_{\Bbar}$ to $Y_B$ points in the direction of $\alpha^\vee$: $\{Y_B,Y_{\Bbar}\}$ is a positive $(G,T)$-orthogonal set in the sense of \cite[§17, p.~95]{AIntro}.
+
+\section{\texorpdfstring{The functions $\theta_P$}{The functions θP}}\label{sec:par-families}
+
+\noindent\emph{Sources for this section:} \cite[§17, p.~93]{AIntro}; \cite[Lecture VII §1, Def.~1.1]{Gel}.
+
+\begin{definition}[the functions $\theta_P$]
+\tfstmt{II.par.def:theta}
+\uses{II.par.def:standard-parabolics, I.conv.def:space-a-b-g, I.conv.def:simple-root}
+\end{definition}
+\noindent In Arthur's notation $\theta_P(\Lambda)=\vol(\mathfrak a_M^G/\Z(\Delta_P^\vee))^{-1}\prod_{\beta\in\Delta_P}\Lambda(\beta^\vee)$ \cite[§17, p.~93]{AIntro}: here
+$\Delta_B=\{\alpha\}$, $\Delta_{\Bbar}=\{-\alpha\}$, $(-\alpha)^\vee=-\alpha^\vee$, and the volume is $1$. Note $\alpha(\alpha^\vee)=2$, and for $Y=r\alpha^\vee$,
+$\Lambda_\lambda(Y)=r\lambda$, $\alpha(Y)=2r$.
+

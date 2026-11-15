@@ -1,0 +1,567 @@
+\section{Trees, $S$-arithmetic quaternion groups and quotient graphs}\label{sec:stage-02}
+% Stage 02 (tree-quotients). Drafter: Opus stage drafter, 2026-11-14.
+% Source: seed Sec. 5 (sec:tree), Sec. 12 (sec:lean), tests T2, T3, T6.
+% Local macros (not in preamble.tex; requested in missing/stage-02.md):
+\providecommand{\BG}{\mathrm{BG}}          % bipartite Brandt graph of (U,q)
+\providecommand{\Xone}{X^1_B}              % norm-one class set
+\providecommand{\HypSA}{\mathrm{Hyp.SA}}   % strong approximation hypothesis
+\providecommand{\HypHS}{\mathrm{Hyp.HS}}   % Hasse--Schilling norm hypothesis
+
+%----------------------------------------------------------------------
+\subsection{Goals}
+%----------------------------------------------------------------------
+Stage 02 turns the definite class sets of stage 01 into a $1$-dimensional object: the quotient graph of
+groups $\GU\quot\cT_q$ of the Bruhat--Tits tree at the auxiliary prime $q$ by the norm-one $S$-arithmetic
+group $\GU=\cO_U[\frac1q]^1$, $S=\{\infty,q\}$. Concretely, stage 02 must deliver:
+\begin{enumerate}[label=(G\arabic*)]
+\item the tree $\cT_q$, its types, the base cells $v_0,v_1=\alpha v_0,e_0$ and Lemma~\ref{lem:s02-tree}
+  (transitivity and stabilisers for $\SL_2(\Qq)$);
+\item a precise form of strong approximation for $B^1$ at $S=\{\infty,q\}$ (Theorem~\ref{thm:s02-SA}),
+  and an \emph{SA-free} reformulation for a single level $U$ as a finite connectivity condition
+  (Proposition~\ref{prop:s02-BG}). The second is new to this plan and is what the Lean and HACS tracks can
+  use before $\HypSA$ is proved;
+\item Proposition~\ref{prop:s02-quot} (seed Prop.~quot): $\GU\backslash\cT_q$ has two copies of $\XB{U}$ as
+  vertices and $\XB{\Uzero{q}U}$ as edges, with the degeneracies $s_0[x]=[x]$, $s_1[x]=[x\alpha]$, stabilisers
+  $\Gamma_x$, and Hecke equivariance away from $q$;
+\item the two-term complexes for $H^*(\GU,V)$ and $H_*(\GU,V)$ (Prop.~\ref{prop:s02-coh}), harmonic
+  cochains (Prop.~\ref{prop:s02-harm}), the free case (Prop.~\ref{prop:s02-free}), and the definition of the
+  tree model $\cX^{(q)}_{Dq}(U;V)$ of the indefinite discriminant $Dq$ (Def.~\ref{def:s02-indef});
+\item an honest account of the one deep input (strong approximation for $B^1$). Contrary to seed~\S12,
+  it is \emph{not} available in Lean in the required shape (Risk~R1). It has a separate Lean milestone
+  with a cost estimate (\S\ref{ss:s02-tracks}, milestone L02.SA).
+\end{enumerate}
+Two hidden or imprecise points in the seed are made explicit here. (1) The seed's proof of Prop.~quot
+silently uses the Hasse--Schilling norm theorem $\Nrd(B^\times)=\Q_{>0}$ (Lemma~\ref{lem:s02-normone}).
+(2) For $V=\Z$ the group $H_1(\GU,\Z)$ has $2$- and $3$-torsion from the vertex groups. So
+Def.~indef with $V=\Z$ is not the character group (Remark~\ref{rem:s02-torsion}, Interface deviation~D1).
+
+\paragraph{Standing notation.} As in the shared conventions: $B=\Bd$ is definite of discriminant $D$, and
+$q\nmid D$, $q\neq p$, $p\ge5$, $p\nmid D$. Fix a maximal order $\cO$ and
+$\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$ for $\ell\nmid D$. For a subgroup $H$ of $\Bhat^\times$
+(or of $B^\times$, $B_\ell^\times$) put $H^1:=H\cap\ker\Nrd$. For an idele or subgroup, a superscript
+${}^{(q)}$ means the components away from $q$. We identify $B_q^\times$ with the elements of $\Bhat^\times$
+that are $1$ away from $q$, and $\Bhat^{(q)}$ with those that are $1$ at $q$.
+$\alpha:=\iota_q^{-1}\mathrm{diag}(1,q)\in B_q^\times$ (seed notation; the clash with the Ribet map $\alpha$ of
+stage 03 is noted in Risk~R6).
+$\Iw_q=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Zq):q\mid c\}$.
+
+%----------------------------------------------------------------------
+\subsection{Definitions and statements}
+%----------------------------------------------------------------------
+
+\subsubsection*{The tree}
+\begin{definition}[Bruhat--Tits tree, types, base cells]\label{def:s02-tree}
+$\cT_q$ is the graph whose vertices are the homothety classes $[L]$ of $\Zq$-lattices $L\subset\Qq^2$.
+$[L]\ne[L']$ are adjacent iff there are representatives with $qL\subsetneq L'\subsetneq L$.
+$\GL_2(\Qq)$ acts by $g[L]=[gL]$. The \emph{type} is $\tau[g\Zq^2]:=\ord_q\det g\bmod 2$; it is well defined
+because changing $g$ by $\GL_2(\Zq)$ on the right or by a scalar $\lambda$ changes $\ord_q\det g$ by
+$0$ or by $2\ord_q\lambda$.
+Put $v_0=[\Zq^2]$, $v_1=\alpha v_0=[\Zq\oplus q\Zq]$ and $e_0=\{v_0,v_1\}$. Every edge has one vertex of
+each type. We orient every edge from its type-$0$ end $o(e)$ to its type-$1$ end $t(e)$.
+\end{definition}
+\begin{remark}[conventions in the literature]\label{rem:s02-treeconv}
+Serre uses the same base edge: $L=e_1\cO\oplus e_2\cO$, $L'=e_1\cO\oplus e_2\pi\cO$, edge stabiliser the
+matrices with $c\equiv0\bmod\pi$ \lit{serre\_1980\_trees}{II.1.3, ``Stabilizers of the edges: Iwahori
+subgroups'', p.~77}. Casselman calls the two types ``even'' and ``odd'', with $\alpha=\mathrm{diag}(1,\varpi)$ and
+$K_1=\alpha K\alpha^{-1}$ \lit{casselman\_2014\_bruhat-tits-tree-of-sl2\_preprint}{\S2, p.~5 and \S3, pp.~7--8}.
+Ludwig--Merten have the same base edge, with $I_1$ ``upper triangular modulo $\varpi$'', i.e.\ $c\equiv0$.
+Their edges are \emph{unordered} pairs, and their Laplacian carries the parity sign $w_{\rm par}(v)=\pm1$
+\lit{ludwig-merten\_2026\_formalising-the-bruhat-tits-tree}{\S3.6, p.~70--71; Def.~4.1, p.~72}. So
+our oriented harmonicity (Prop.~\ref{prop:s02-harm}) agrees with their $\ker\Delta$. All three conventions
+agree with the seed.
+\end{remark}
+
+\begin{lemma}[seed Lemma~tree]\label{lem:s02-tree}
+\begin{enumerate}[label=(\alph*)]
+\item $\cT_q$ is a $(q+1)$-regular tree; the neighbours of $[L]$ correspond to $\mathbb P^1(L/qL)$.
+  \stcited{} \lit{serre\_1980\_trees}{II.1.1, Thm.~1, p.~70}; formalised (on Lean v4.19) as \texttt{BTtree}
+  \lit{ludwig-merten\_2026\_formalising-the-bruhat-tits-tree}{\S3.4 and \S3.5, p.~69--70}.
+\item $g\in\GL_2(\Qq)$ preserves types iff $\ord_q\det g$ is even. In particular $\SL_2(\Qq)$, and hence
+  $\iota_q(B^1_q)$, acts without inversion. \stproved{} (also \lit{serre\_1980\_trees}{II.1.3, p.~76}).
+\item $\SL_2(\Qq)$ acts transitively on type-$0$ vertices, on type-$1$ vertices and on edges, with
+  stabilisers $\SL_2(\Zq)$, $\SL_2(\Qq)\cap\alpha\GL_2(\Zq)\alpha^{-1}$ and $\SL_2(\Qq)\cap\Iw_q$.
+\item $\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\Iw_q$ and $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$.
+\end{enumerate}
+(b)--(d) \stproved{} (seed proof, completed below). The stabiliser statements with scalars removed are
+\lit{serre\_1980\_trees}{II.1.3, Lemma~1, p.~76}.
+\end{lemma}
+
+\subsubsection*{The $S$-arithmetic group and strong approximation}
+\begin{definition}[admissible levels; $\GU$]\label{def:s02-GU}
+A level $U\subseteq\hat\cO^\times$ is \emph{$q$-admissible} if it is compact open, $U=U_q\times U^{(q)}$ with
+$U_q=\iota_q^{-1}\GL_2(\Zq)$, and $\Nrd(U)=\Zhat^\times$. All levels $\Uzero{N},\Uone{N}$ with $q\nmid N$ and
+$U_s=\Uone{Mp^s}$ are $q$-admissible (stage 01, \texttt{if:s01-classset}).
+For such $U$ put
+\[\GU:=B^1\cap\big(B^1_q\times U^{(q)}\big)=\{\gamma\in B^\times:\Nrd\gamma=1,\ \gamma_\ell\in U_\ell\ (\ell\ne q)\}
+=\cO_U[\tfrac1q]^1.\]
+It acts on $\cT_q$ through $\iota_q$. By Lemma~\ref{lem:s02-tree}(b) the action is type-preserving and has
+no inversions. It acts on a $\Zp[U_p]$-module $V$ through $\gamma\mapsto\gamma_p\in U_p$ ($p\ne q$, $p\nmid D$).
+The levels attached to the cells are $U$ (type $0$), $\alpha U\alpha^{-1}$ (type $1$; conjugation at $q$
+only) and $\Uzero{q}U:=U\cap\Uzero{q}$ (edges). All three are of the form $U'=U'_q\times U^{(q)}$ with
+$\Nrd U'=\Zhat^\times$.
+\end{definition}
+
+\begin{definition}[norm-one class set]\label{def:s02-Xone}
+For $U'$ as above, $\Xone(U'):=B^1\backslash\Bhat^1/U'^1$. For $x\in\Bhat^\times$, $\Gamma_x=B^\times\cap xU'x^{-1}$
+as in \texttt{if:s01-classset}.
+\end{definition}
+
+\begin{lemma}[norm reduction]\label{lem:s02-normone}
+Let $U'$ be compact open with $\Nrd U'\subseteq\Zhat^\times$.
+\begin{enumerate}[label=(\alph*)]
+\item The natural map $\Xone(U')\to\XB{U'}$ is injective, and for $x\in\Bhat^1$ one has
+  $B^1\cap xU'^1x^{-1}=\Gamma_x$.\quad\stproved{} (uses only $\Nrd(B^\times)\subseteq\Q_{>0}$, which holds
+  because $B$ is definite, and Lemma~stab~(a) of \texttt{if:s01-classset}).
+\item If $\Nrd U'=\Zhat^\times$ and $\Nrd(B^\times)=\Q_{>0}$, the map is bijective.\quad\stproved{} given
+  the Hasse--Schilling norm theorem, which is \stcited{}
+  \lit{voight\_2021\_quaternion-algebras}{Main Thm.~14.7.4, p.~234};
+  \lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~III, Thm.~4.1, p.~80}.
+\end{enumerate}
+\end{lemma}
+
+\begin{theorem}[strong approximation for $B^1$ at $S=\{\infty,q\}$]\label{thm:s02-SA}
+Since $q\nmid D$, $B_q$ is split and $B^1_q\cong\SL_2(\Qq)$ is non-compact. Hence $B^1$ is dense in
+$\Bhat^{1,(q)}=\prod'_{\ell\ne q}B^1_\ell$.
+\stcited{} \lit{voight\_2021\_quaternion-algebras}{Main Thm.~28.5.3, p.~485, applied with $R=\Z[1/q]$; ``$S$-indefinite'' is Def.~28.5.1};
+\lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~III, Thm.~4.3, p.~81};
+\lit{platonov-rapinchuk\_1994\_algebraic-groups-and-number-theory\_2up}{\S7.4, Thm.~7.12, p.~427}.
+(Kneser's Tata lectures \lit{kneser\_1969\_lectures-on-galois-cohomology-of-classical-groups}{\S5.5, Sublemma~b, p.~94} only \emph{state} the result without proof; they are listed for orientation and are not relied upon.)
+\smallskip
+
+\noindent\emph{Consequence (the shape used; this is \texttt{if:s02-SA}).} For every $q$-admissible $U$,
+\[\Bhat^1=B^1\big(B^1_q\times U^{1,(q)}\big).\tag{SA$_U$}\]
+\stproved{} from the theorem: given $y\in\Bhat^1$, the set $y^{(q)}U^{1,(q)}$ is open in $\Bhat^{1,(q)}$, so it
+contains some $\beta\in B^1$ (here $U^{1,(q)}=\prod_{\ell\ne q}U^1_\ell$ with $U^1_\ell=B^1_\ell$ for almost all $\ell$, so it is open in the restricted product). Then $y=\beta\cdot(\beta_q^{-1}y_q)\cdot(\beta^{-1}y)^{(q)}$. This is
+\lit{voight\_2021\_quaternion-algebras}{28.4.8, p.~484 and Cor.~28.5.12, p.~486} for a general open subgroup.
+\end{theorem}
+
+\begin{definition}[bipartite Brandt graph]\label{def:s02-BG}
+For $q$-admissible $U$, $\BG(U,q)$ is the finite bipartite multigraph with vertex set
+$\XB{U}\times\{0,1\}$ and edge set $\XB{\Uzero{q}U}$. The edge $[y]$ joins $(s_0[y],0)$ to $(s_1[y],1)$, where
+\[s_0[y]=[y],\qquad s_1[y]=[y\alpha]\qquad(\XB{\Uzero{q}U}\to\XB{U}).\]
+$s_1$ is well defined by Lemma~\ref{lem:s02-tree}(d), since $y u\alpha=y\alpha(\alpha^{-1}u\alpha)$. The
+weights are $w_{(x,j)}=w_x$ and $w_e=w_y$, with $w$ as in the conventions. This is the graph that HACS
+computes.
+\end{definition}
+
+\begin{proposition}[SA for one level as a finite check]\label{prop:s02-BG}
+For a $q$-admissible $U$ the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item the map $\GU\backslash\{\text{type-}0\text{ vertices}\}\to\XB{U}$, $g v_0\mapsto[g]$ ($g\in B^1_q$), is
+  surjective;
+\item (SA$_U$) holds and $\Xone(U)\to\XB{U}$ is surjective;
+\item $\BG(U,q)$ is connected.
+\end{enumerate}
+Moreover, in all cases the maps of Prop.~\ref{prop:s02-quot}(a) are injective, and the graph map
+$\GU\backslash\cT_q\to\BG(U,q)$ is an isomorphism onto the connected component of $(1,0)$.
+\stproved{} (new in this plan; no strong approximation is used. Proof in \S\ref{ss:s02-proofs}.)
+In particular, Thm.~\ref{thm:s02-SA} together with Hasse--Schilling implies (iii) for every $U$. Conversely,
+for an explicit $(B,U,q)$ the condition (iii) is a finite computation that discharges SA for that level.
+The classical use of SA at this point is the definite Ihara lemma \lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{Lemma~2, pp.~445--446}.
+\end{proposition}
+
+\begin{proposition}[quotient graph; seed Prop.~quot]\label{prop:s02-quot}
+Let $U$ be $q$-admissible and assume (iii) of Prop.~\ref{prop:s02-BG}. By Prop.~\ref{prop:s02-BG} this holds
+unconditionally given Thm.~\ref{thm:s02-SA} \emph{and} Hasse--Schilling ($\HypSA\wedge\HypHS\Rightarrow$ (iii)); SA alone does not suffice. (iii) itself is the working hypothesis here.
+\begin{enumerate}[label=(\alph*)]
+\item There are bijections
+  \[\GU\backslash\{\text{type-}0\text{ vertices}\}\ \xrightarrow{\ gv_0\mapsto[g]\ }\ \XB{U},\qquad
+    \GU\backslash\{\text{type-}1\text{ vertices}\}\ \xrightarrow{\ g\alpha v_0\mapsto[g\alpha]\ }\ \XB{U},\qquad
+    \GU\backslash\{\text{edges}\}\ \xrightarrow{\ ge_0\mapsto[g]\ }\ \XB{\Uzero{q}U}\]
+  ($g\in B^1_q$). Under these bijections the endpoint maps $o,t$ become $s_0,s_1$. In other words,
+  $\GU\backslash\cT_q\cong\BG(U,q)$ as graphs.
+\item For $g\in B^1_q$, $\Stab_{\GU}(gv_0)=\Gamma_g$ (level $U$), $\Stab_{\GU}(g\alpha v_0)=\Gamma_{g\alpha}$
+  (level $U$) and $\Stab_{\GU}(ge_0)=\Gamma_g$ (level $\Uzero{q}U$). For another representative
+  $x'=\gamma xu$ one has $\Gamma_{x'}=\gamma\Gamma_x\gamma^{-1}$. Each $\Gamma_x$ has norm $1$
+  (Lemma~stab~(a)), so it lies in $\GU$ after conjugation.
+\item Let $T$ be any Hecke operator supported away from $q$ ($T_\ell,S_\ell,U_\ell$ for $\ell\mid M$,
+  $\langle d\rangle$, $U_p$ with the normalisation $N_{U_p}$ of stage 01, and $\Pi_\ell$ for $\ell\mid D$),
+  acting compatibly on levels $U$ and $\Uzero{q}U$. Then $s_0^*,s_1^*,s_{0*},s_{1*}$ commute with $T$ on
+  Brandt modules $\Brandt{\cdot}{V}$ and on their homological versions.
+\end{enumerate}
+(a), (b): \stproved{} given (iii); \stpmc{} via Thm.~\ref{thm:s02-SA} and Hasse--Schilling.
+(c): \stproved{} (unconditional).
+\end{proposition}
+
+\begin{remark}[why norm one; seed Remark~normone]\label{rem:s02-normone}
+Let $\Gamma^{\rm full}:=\{\gamma\in B^\times:\gamma_\ell\in U_\ell\ (\ell\ne q)\}$. Its norms lie in $q^{\Z}$. Its
+elements of odd norm valuation exchange the types, and the centre $\Qq^\times$ acts trivially on $\cT_q$. Hence
+$\Gamma^{\rm full}\backslash\{\text{vertices}\}=B^\times\backslash\Bhat^\times/\Qq^\times U$. This is the
+quotient of $\XB{U}$ by right multiplication with the central idele $q_q$ ($q$ at $q$, $1$ elsewhere). Modulo
+$\Q^\times$ that idele equals $(q^{(q)})^{-1}$, which acts on $\XB{U}$ as the diamond operator
+$\langle q\rangle^{-1}$ at the primes dividing the level. So the full group gives \emph{one} copy of
+$\XB{U}/\langle q\rangle$. At maximal level this is the classical picture with $h$ vertices
+\lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~V, \S3.B, Prop.~3.3, p.~147}; see also
+\lit{voight\_2021\_quaternion-algebras}{41.2.13, p.~769 and Example 28.5.19, p.~487}. The norm-one group gives
+two copies of $\XB{U}$, which is what the Ribet sequence needs. \stsketch.
+The seed wording ``the central element $q$ acts trivially'' is imprecise: $q\in\Gamma^{\rm full}$ only if
+$q\in U_\ell$ for all $\ell\ne q$, which fails at $\Uone{N}$-levels. What is true is that the centre of
+$\GL_2(\Qq)$ acts trivially on $\cT_q$.
+\end{remark}
+
+\subsubsection*{(Co)homology}
+\begin{definition}[homological Brandt module]\label{def:s02-Mhom}
+For $q$-admissible $U'$ and a $\Zp[U_p]$-module $V$, choose representatives $x$ of $\XB{U'}$ and put
+$\Brandt{U'}{V}_*:=\bigoplus_{[x]}V_{x_p^{-1}\Gamma_xx_p}$ (coinvariants); up to canonical isomorphism this does
+not depend on the choices. Cohomologically, $\Brandt{U'}{V}\cong\bigoplus_{[x]}V^{x_p^{-1}\Gamma_xx_p}$
+(\texttt{if:s01-brandt}). For the tree representatives $x\in B^1_q$ or $x\in B^1_q\alpha$ one has $x_p=1$.
+Pushforward $s_{j*}$ on $\Brandt{\cdot}{V}_*$ is induced by $\Gamma_e\hookrightarrow\Gamma_{s_j e}$. Pullback
+$s_j^*$ on $\Brandt{\cdot}{V}$ is restriction $V^{\Gamma_{s_je}}\hookrightarrow V^{\Gamma_e}$. On
+$\Brandt{\cdot}{V}$, the \emph{trace} $s_{j*}$ is $\sum_{\gamma\in\Gamma_{s_je}/\Gamma_e}\gamma$.
+If $p\nmid|\Gamma_x|$ for all cells, the norm maps $\nu_V=N_x:V_{\Gamma_x}\to V^{\Gamma_x}$, $v\mapsto\sum_{\gamma\in\Gamma_x/\pm1}\gamma v$
+(stage 01, Def.~\ref{def:s01-pairing}; $V$ with $-1$ acting trivially),
+are isomorphisms. For the degeneracies $s_j$ the sum over $\Gamma_x$ would differ from this one by the same unit (the factor $2$ iff $-1\in U$) at every cell.
+\provisional{F8: norm map now sums over $\Gamma_x/\pm1$, as in stage 01 (\texttt{if:s01-brandt}), with the remark on the common unit; before: $N_x=\sum_{\gamma\in\Gamma_x}\gamma v$ over all of $\Gamma_x$.}
+They carry the homological $s_{j*}$ to the trace $s_{j*}$ and are compatible with $s_j^*$ up to
+the index factors.
+\end{definition}
+
+\begin{proposition}[seed Prop.~coh]\label{prop:s02-coh}
+Let $U$ be $q$-admissible and assume (iii) of Prop.~\ref{prop:s02-BG}.
+\begin{enumerate}[label=(\alph*)]
+\item For every $\GU$-module $A$ there are long exact sequences
+  \[\cdots\to\textstyle\bigoplus_{e}H_i(\Gamma_e,A)\to\bigoplus_{v}H_i(\Gamma_v,A)\to H_i(\GU,A)\to
+  \bigoplus_eH_{i-1}(\Gamma_e,A)\to\cdots\]
+  and dually for $H^i$, where $v$ and $e$ run over representatives of the vertex and edge orbits. The maps
+  $H_i(\Gamma_e)\to H_i(\Gamma_v)$ are induced by inclusion if $v=t(e)$ and by minus the inclusion if $v=o(e)$.
+  \stcited{} \lit{serre\_1980\_trees}{II.2.8, Prop.~13 and Remark~1, p.~127}; equivalently the equivariant
+  spectral sequence \lit{brown\_1982\_cohomology-of-groups}{VII.7, (7.10), p.~174}.
+\item Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Then
+  $p\nmid|\Gamma_x|$ (Lemma~stab~(c)), and $H^*(\GU,V)$ is the cohomology of
+  \[0\to\Brandt{U}{V}^{\oplus2}\xrightarrow{\ (f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0\ }\Brandt{\Uzero{q}U}{V}\to0.\]
+  $H_*(\GU,V)$ is the homology of
+  $0\to\Brandt{\Uzero{q}U}{V}_*\xrightarrow{\partial=(-s_{0*},\,s_{1*})}(\Brandt{U}{V}_*)^{\oplus2}\to0$.
+  In particular $H^i=H_i=0$ for $i\ge2$. \stproved{} from (a) and Prop.~\ref{prop:s02-quot}.
+\item $H_0(\GU,V)=V_{U_p^1}$, the coinvariants under $U_p^1=U_p\cap\ker\det$. \stpmc{}: it needs the density of
+  $\GU$ in $U^1_p$, i.e.\ Thm.~\ref{thm:s02-SA}. A single-level hypothesis (iii) is not enough.
+\item For $V=V_k$ with $k>2$: $H^0(\GU,V_k)=0$, $H_0(\GU,V_k)$ is finite, and
+  $\rk_{\Zp}H_1(\GU,V_k)=\rk\Brandt{\Uzero{q}U}{V_k}-2\rk\Brandt{U}{V_k}$. \stpmc{} (density of $\GU$ in $U^1_p$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proposition}[harmonic cochains; seed Prop.~harm]\label{prop:s02-harm}
+Under the hypotheses of Prop.~\ref{prop:s02-coh}(b), let $c$ be a function on oriented edges with values in $V$
+such that $c(\gamma e)=\gamma_p\,c(e)$ for $\gamma\in\GU$, $c(\bar e)=-c(e)$, and $\sum_{o(e)=v}c(e)=0$ for all
+$v$. The $\GU$-invariant $V$-valued harmonic cochains of this kind are
+\[\ker\Big(\Brandt{\Uzero{q}U}{V}\xrightarrow{(s_{0*},s_{1*})}\Brandt{U}{V}^{2}\Big)\ \cong\ H_1(\GU,V),\]
+with the trace maps $s_{j*}$ of Def.~\ref{def:s02-Mhom}. This is the \emph{$q$-new} submodule of the Brandt
+module of level $\Uzero{q}U$; the term is defined here as this kernel. \stproved.
+\end{proposition}
+
+\begin{proposition}[the free case]\label{prop:s02-free}
+Assume (iii) of Prop.~\ref{prop:s02-BG} and that all $\Gamma_x$ are trivial at levels $U$ and $\Uzero{q}U$;
+e.g.\ $U_p\subseteq\Uone{p^s}_p$ with $s\ge1$ and $p\ge5$, by Lemma~stab~(b). Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\GU$ acts freely on $\cT_q$ and is a free group of rank $(q-1)|\XB{U}|+1$. Its fundamental groupoid is
+  that of $\BG(U,q)$.
+  \stpmc{} \lit{serre\_1980\_trees}{I.3.3, Thm.~4 and 4$'$, p.~27; II.1.5, Thm.~4, p.~82}; for the
+  general structure theorem $\GU\cong\pi_1(\GU\quot\cT_q)$ see \lit{bass\_1993\_covering-theory-for-graphs-of-groups}{\S3, Thm.~3.6, Cor.~3.7, pp.~27--29}.
+\item $|\XB{\Uzero{q}U}|=(q+1)|\XB{U}|$, and for every $\GU$-module $A$, $H_*(\GU,A)$ is the homology of $\BG(U,q)$
+  with the local system $A$. For $A=\Z$ this is $H_*(\BG(U,q),\Z)$. \stproved.
+\end{enumerate}
+Here no spectral sequence and no stabiliser cohomology is needed. This is the case the seed (\S12) calls
+``avoidable input''.
+\end{proposition}
+
+\begin{definition}[tree model of the indefinite stage; seed Def.~indef]\label{def:s02-indef}
+For $q$-admissible $U$, $p\ge5$ and $V$ as in Prop.~\ref{prop:s02-coh}(b),
+\[\cX^{(q)}_{Dq}(U;V):=H_1(\GU,V)\quad\Big(=\ker\partial\ \text{in Prop.~\ref{prop:s02-coh}(b)}\Big).\]
+Over $\Z$ (deviation D1) put $\cX^{(q)}_{Dq}(U):=H_1(|\GU\quot\cT_q|,\Z)=H_1(\BG(U,q),\Z)$, which is
+$H_1(\GU,\Z)/\mathrm{torsion}$ (Remark~\ref{rem:s02-torsion}). Then
+$\cX^{(q)}_{Dq}(U)\otimes\Zp=\cX^{(q)}_{Dq}(U;\Zp)$ for $p\ge5$.
+\emph{Ranks} (\stproved{} given (iii)):
+$\rk\cX^{(q)}_{Dq}(U)=|\XB{\Uzero{q}U}|-2|\XB{U}|+1$. At a free level, $\rk\cX^{(q)}_{Dq}(U)=(q-1)|\XB{U}|+1$ and
+$\rk\cX^{(q)}_{Dq}(U;V_k)=(q-1)(k-1)|\XB{U}|$ for $k>2$; the second formula is false at non-free levels.
+\provisional{F17: both rank formulas now explicitly restricted to a free level, with the warning; before: ``At a free level this is $(q-1)|\XB{U}|+1$, and $\rk(\cdot;V_k)=(q-1)(k-1)|\XB{U}|$ for $k>2$'', with no warning about non-free levels.}
+\end{definition}
+
+\begin{remark}[torsion in $H_1(\GU,\Z)$]\label{rem:s02-torsion}
+By Prop.~\ref{prop:s02-coh}(a) with $A=\Z$, the group $H_1(\GU,\Z)$ is an extension of
+$H_1(\BG,\Z)\subseteq\Z[E]$ (free) by $\coker\big(\bigoplus_eH_1(\Gamma_e,\Z)\to\bigoplus_vH_1(\Gamma_v,\Z)\big)$
+(finite, killed by $24$). This cokernel is non-zero in general. Example: $D=2$, $\cO$ the Hurwitz order,
+$U=\hat\cO^\times$, $q=3$. There is one vertex orbit per type, with $\Gamma_v\cong\SL_2(\F_3)$ and
+$H_1=\Z/3$, and the edge mass is $(q+1)/24=1/6$. If, as expected, there is one edge orbit with $\Gamma_e$ cyclic of order $6$, then
+$\GU\cong\SL_2(\F_3)*_{C_6}\SL_2(\F_3)$ and $H_1(\GU,\Z)\cong\Z/3$, while $H_1(\BG,\Z)=0$, which is the genus
+of the Shimura curve $X^6$. The numerical values are \stsketch{} and are to be checked by HACS (H02.2). Hence
+the seed's Def.~indef with $V=\Z$ is \emph{not} torsion-free and is not the character group. The fix is D1.
+\end{remark}
+
+\begin{remark}[\v{C}erednik--Drinfeld; cited, never used]\label{rem:s02-CD}
+For $\Gamma_0$-type $U$ (scalars $\Zhat^{\times,(q)}\subseteq U^{(q)}$), the group
+$\{\gamma\in\cO_U[\frac1q]^\times:\ord_q\Nrd\gamma\text{ even}\}/\Z[\frac1q]^\times$ equals $\GU/\{\pm1\}$ (divide by
+$q^{k}$). So $\BG(U,q)$ is the dual graph of the special fibre at $q$ of the Shimura curve of discriminant $Dq$,
+and $\cX^{(q)}_{Dq}(U)$ is its character group at $q$. \stcited{}
+\lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Boutot--Carayol, Ch.~III, Thm.~5.2,
+pp.~139--140}. At $\Uone{N}$-levels the scalars are not in $U$ and the comparison needs more care. The tree
+route never uses this remark.
+\end{remark}
+
+%----------------------------------------------------------------------
+\subsection{Proof strategy}\label{ss:s02-proofs}
+%----------------------------------------------------------------------
+\paragraph{Lemma~\ref{lem:s02-tree}.} (a) is cited. (b): $\det(\lambda g k)=\lambda^2\det g\det k$. (c): if
+$\ord\det g=2m$, $\det g=q^{2m}u$, then $g'=q^{-m}g\,\mathrm{diag}(u^{-1},1)\in\SL_2(\Qq)$ and $g'v_0=gv_0$. If
+$\ord\det g=2m+1$, then $g'=q^{-m}g\,\mathrm{diag}(u^{-1},1)\alpha^{-1}\in\SL_2(\Qq)$ and $g'v_1=gv_0$. Edge
+transitivity holds because $\SL_2(\Zq)\to\SL_2(\F_q)$ is surjective and acts transitively on
+$\mathbb P^1(\F_q)$, which is the set of neighbours of $v_0$. Stabilisers: $\Stab_{\GL_2}(v_1)=\Qq^\times\alpha\GL_2(\Zq)\alpha^{-1}$,
+and $\det(\lambda\alpha k\alpha^{-1})=1$ forces $\lambda\in\Zq^\times$ (Serre's Lemma~1). An element of
+$\SL_2$ fixing $e_0$ fixes both ends, since there are no inversions. (d):
+$\alpha^{-1}\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\alpha=\left(\begin{smallmatrix}a&qb\\c/q&d\end{smallmatrix}\right)$.
+
+\paragraph{Lemma~\ref{lem:s02-normone}.} (a) If $x,x'\in\Bhat^1$ and $x'=\gamma xu$ with $\gamma\in B^\times$,
+$u\in U'$, then $\Nrd\gamma=\Nrd u^{-1}\in\Q_{>0}\cap\Zhat^\times=\{1\}$, so $\gamma\in B^1$ and $u\in U'^1$. The
+stabiliser statement is the same computation. (b) $\Nrd x\in\Qhat^\times=\Q_{>0}\Zhat^\times$. Write
+$\Nrd x=rz$, choose $\gamma$ with $\Nrd\gamma=r^{-1}$ (Hasse--Schilling) and $u\in U'$ with $\Nrd u=z^{-1}$;
+then $\gamma xu\in\Bhat^1$. \emph{Remark:} the seed's proof of Prop.~quot uses (b) in the sentence ``every class
+has a representative of norm in $\Zhat^\times$''. That sentence is exactly Hasse--Schilling, and the seed does
+not cite it.
+
+\paragraph{Proposition~\ref{prop:s02-BG}.} Let $\phi:\GU\backslash\cT_q\to\BG(U,q)$ be the map of
+Prop.~\ref{prop:s02-quot}(a). On type-$0$ vertices it is $\GU\backslash B^1_q/U_q^1\hookrightarrow\Xone(U)\hookrightarrow\XB{U}$,
+which is injective by Lemma~\ref{lem:s02-normone}(a). The type-$1$ vertices are treated in the same way via
+$\XB{\alpha U\alpha^{-1}}\xrightarrow{\cdot\alpha}\XB{U}$, and the edges with $U'=\Uzero{q}U$. The endpoints of
+$ge_0$ are $gv_0\mapsto[g]=s_0[g]$ and $g\alpha v_0\mapsto[g\alpha]=s_1[g]$, so $\phi$ is a morphism of graphs.
+\emph{Local surjectivity:} the edges of $\BG$ at $([g],0)$ are $s_0^{-1}[g]=\{[gu]:u\in U_q/\Iw_q\}$. Since
+$\SL_2(\Zq)\to\GL_2(\Zq)/\Iw_q=\mathbb P^1(\F_q)$ is onto ($\SL_2(\F_q)$ is transitive on $\mathbb P^1(\F_q)$, the neighbours of $v_0$; \lit{serre\_1980\_trees}{II.1.1}), we may take $u\in U_q^1$, so $[gu]=\phi(gue_0)$.
+The type-$1$ case is the same with $\alpha U_q\alpha^{-1}$. An injective, locally surjective graph map from a
+connected graph has as image a connected component. This gives (i)$\Leftrightarrow$(iii).
+(i)$\Rightarrow$(ii): (i) says $\Bhat^\times=B^\times B^1_qU$; for $y\in\Bhat^1$ write $y=\gamma gu$ and argue as in
+Lemma~\ref{lem:s02-normone}(a); then $u\in U^1=U^1_q\times U^{1,(q)}$. (ii)$\Rightarrow$(i) is the seed's
+argument.
+
+\paragraph{Proposition~\ref{prop:s02-quot}.} (a) is Prop.~\ref{prop:s02-BG}. (b):
+$\Stab_{\GU}(gv_0)=\GU\cap gU_qg^{-1}=B^1\cap xUx^{-1}$ with $x=g$, which equals $\Gamma_x$ by
+Lemma~\ref{lem:s02-normone}(a); type $1$ and edges are the same. (c): the coset representatives of
+$[UhU]=\coprod h_iU$ can be taken supported away from $q$, and the same representatives serve for $\Uzero{q}U$
+because $\Uzero{q}U$ and $U$ agree away from $q$. Right translation by $h_i$ commutes with right translation by
+$\alpha$, and $\alpha_p=1$, so the coefficient twist $h_{i,p}$ is untouched. Hence $T s_j^*=s_j^*T$; the
+statement for $s_{j*}$ follows by adjunction, or by the same computation on coinvariants.
+
+\paragraph{Propositions~\ref{prop:s02-coh}, \ref{prop:s02-harm}, \ref{prop:s02-free}.}
+(a) is Serre's Prop.~13: the augmented cellular chain complex $0\to C_1(\cT_q)\to C_0(\cT_q)\to\Z\to0$ is exact,
+$C_i\cong\bigoplus\Z[\GU/\Gamma_\sigma]$, and Shapiro's lemma applies. The sign of Remark~1 gives
+$\partial=(-s_{0*},s_{1*})$, with $o=$ type $0$ and $t=$ type $1$. (b): $H_{i}(\Gamma_\sigma,V)=0$ for $i>0$ when
+$|\Gamma_\sigma|\in\Zp^\times$. (c): the $\Zp$-span $I_V$ of $\{(g-1)v\}$ is closed in $V$ (finitely generated
+$\Zp$-modules), and $g\mapsto(g-1)v$ is continuous. So $V_{\GU}=V_{\overline{\GU}}$, and
+$\overline{\GU}=U_p^1$ in $U_p$: by Thm.~\ref{thm:s02-SA}, $B^1$ meets $B^1_q\times W\times U^{1,(q,p)}$ for every
+open $W\subseteq U_p^1$. (d): $U_p^1$ contains $\left(\begin{smallmatrix}1&p^m\Zp\\0&1\end{smallmatrix}\right)$ and its
+transpose. On $V_k$ (torsion-free, $k>2$) their common invariants are $0$, and over $\Qp$ the coinvariants of the
+irreducible $\Sym^{k-2}$ vanish; the rank formula is the Euler characteristic of (b).
+Prop.~\ref{prop:s02-harm}: an alternating cochain is determined by its values on edges oriented $0\to1$. A
+$\GU$-equivariant function on those edges is an element of $\Brandt{\Uzero{q}U}{V}$: if $f$ is in the Brandt
+module and $g\in B^1_q$, then $\gamma g=(\gamma_qg)\cdot\gamma^{(q)}$ with $\gamma^{(q)}\in U^{(q)}$, which gives
+$f(\gamma_qg)=\gamma_pf(g)$. Harmonicity at a type-$0$ vertex is $s_{0*}c=0$; at a type-$1$ vertex, by
+$c(\bar e)=-c(e)$, it is $s_{1*}c=0$. Summing over the $q+1$ edges at $v$ equals summing over the
+$\Gamma_v$-orbits with the trace. Under the norm isomorphisms this is $\ker\partial=H_1$.
+Prop.~\ref{prop:s02-free}: a finite subgroup acting on a tree fixes a vertex
+\lit{serre\_1980\_trees}{I.4.3, Prop.~19, p.~36}, so trivial vertex stabilisers give a free action. Then apply
+Serre I.3.3, Thm.~4$'$. The count $|E|=(q+1)|V_0|$ follows from local surjectivity together with
+$|\mathbb P^1(\F_q)|=q+1$; the rank is $|E|-|V|+1$.
+\emph{Mass check} (for HACS): in general $\sum_{e}1/|\Gamma_e|=(q+1)\sum_{x}1/|\Gamma_x|$, so
+$\chi(\GU)=(1-q)\sum_x1/|\Gamma_x|$ with the full-unit mass of \texttt{if:s01-mass}.
+
+%----------------------------------------------------------------------
+\subsection{Dependencies and interfaces}
+%----------------------------------------------------------------------
+\paragraph{Imported} (restated from \texttt{SPLIT.md}, \status{imported from stage 01}):
+\begin{itemize}
+\item \texttt{if:s01-classset}. $X_B(U)$, $\Gamma_x$ and $w_x$ as in the conventions. $X_B(U)$ is finite,
+  $\Gamma_x$ is finite, $\Nrd(U)=\Zhat^\times$ for all standard levels, and Lemma~stab~(a)--(c) holds.
+  \status{imported from stage 01}
+\item \texttt{if:s01-brandt}. $\Brandt{U}{V}$ with the Brandt pairing $\langle[x],[y]\rangle=w_x\delta_{xy}$, the
+  norm-map identification $\Zp[X]\cong\Zp^X$ when $p\nmid|\Gamma_x|$, and the right-translation maps $x\mapsto xg$
+  for $g\in B_q^\times$. \status{imported from stage 01}
+\item \texttt{if:s01-hecke}. The Hecke operators $T_\ell,S_\ell,U_\ell,\langle d\rangle$, $U_p$ (with fixed
+  normalisation $N_{U_p}$) and $\Pi_\ell$ ($\ell\mid D$). All operators supported away from $q$ commute with
+  right translation by $B_q^\times$. $T^*=T_{g^{-1}}$; $T_\ell$ is self-adjoint only at level $\Uzero{M}$.
+  \provisional{F15: exporter's sentence from stage 01; before: ``Self-adjointness for the pairing''.}
+  \status{imported from stage 01}
+\item \texttt{if:s01-mass} (only for the HACS mass check). \status{imported from stage 01}
+\end{itemize}
+Stage 02 does not need classical JL or any Hida theory.
+
+\paragraph{Exported.}
+\begin{interface}[\texttt{if:s02-tree}]\label{if:s02-tree}
+$\cT_q$, its types, $v_0$, $v_1=\alpha v_0$, $e_0$ and the orientation type~$0\to$~type~$1$
+(Def.~\ref{def:s02-tree}). Lemma~tree = Lemma~\ref{lem:s02-tree}.
+\end{interface}
+\begin{interface}[\texttt{if:s02-SA}]\label{if:s02-SA}
+Strong approximation: $\Bhat^1=B^1(B^1_q\times U^{1,(q)})$ for $q\nmid D$, with $U$ as in Prop.~quot
+($q$-admissible). Status: cited (Voight Ch.~28: Main Thm.~28.5.3 with Cor.~28.5.12), or a hypothesis $\HypSA$
+in Lean. \emph{Addendum:} the per-level equivalence Prop.~\ref{prop:s02-BG} ((i)$\Leftrightarrow$(ii)$\Leftrightarrow$(iii)),
+and the Hasse--Schilling input of Lemma~\ref{lem:s02-normone}(b) ($\HypHS$ in Lean).
+\end{interface}
+\begin{interface}[\texttt{if:s02-quot}]\label{if:s02-quot}
+Prop.~quot (a)--(c) = Prop.~\ref{prop:s02-quot}: the bijections, the degeneracies $s_0[x]=[x]$, $s_1[x]=[x\alpha]$,
+the stabilisers, and Hecke equivariance. Also $\GU\backslash\cT_q\cong\BG(U,q)$.
+\end{interface}
+\begin{interface}[\texttt{if:s02-coh}]\label{if:s02-coh}
+Prop.~coh (the two-term complex) = Prop.~\ref{prop:s02-coh}, and Prop.~harm = Prop.~\ref{prop:s02-harm}.
+$H_0(\GU,V)=V_{U_p^1}$ (and consequences (c),(d) of Prop.~coh) need the full SA of Thm.~\ref{thm:s02-SA}; they are not derivable from (iii) at one level. Signs: $\partial=(-s_{0*},s_{1*})$, $\delta(f_0,f_1)=s_1^*f_1-s_0^*f_0$.
+\end{interface}
+\begin{interface}[\texttt{if:s02-indef}]\label{if:s02-indef}
+The definition $\cX^{(q)}_{Dq}(U;V):=H_1(\GU,V)$ (for $\Zp$-modules $V$, $p\ge5$). The rank at a free level
+is $(q-1)|\XB{U}|+1$. Over $\Z$: $\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)$ (see D1); this is $H_1(\GU,\Z)/\mathrm{torsion}$, and the version $H_1(\GU,\Z)$ is deprecated (it agrees after $\otimes\Zp$, $p\ge5$). Stages 03/05 must import this line.
+\emph{Hecke action:} the Hecke action on $H_*(\GU,V)$ is the one induced from the homological complex $\Brandt{\cdot}{V}_*$ with the transposed (right-translation) operators, so $U_p=N_{U_p}$ commutes with pushforward. Under $\nu$ this is the complex of traces on cohomological modules with the adjoint operators $T_{g^{-1}}$.
+\provisional{F9: normative sentence on the Hecke structure of $H_1(\Gamma_U,V)$ added; before: the Hecke structure on $H_1(\GU,V)$ was not fixed in the interface.}
+\end{interface}
+
+\paragraph{Interface deviations.}
+\begin{enumerate}[label=D\arabic*.]
+\item \texttt{if:s02-indef} over $\Z$. \texttt{SPLIT.md} allows any $V$. For $V=\Z$ and non-free levels,
+  $H_1(\GU,\Z)$ has torsion of exponent dividing $24$ (Remark~\ref{rem:s02-torsion}). Stage 03
+  (Thm.~ribet~(a) uses $H_1(|\G|,\Z)$) and stage 05 (character groups) should therefore use
+  $\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)$ over $\Z$. Over $\Zp$, $p\ge5$, the two definitions agree.
+\item \texttt{if:s02-SA} is \emph{extended}, not changed. It also exports Prop.~\ref{prop:s02-BG} and names the
+  Hasse--Schilling input, which the seed uses silently.
+\item \texttt{if:s02-coh}(c),(d) need the full density statement Thm.~\ref{thm:s02-SA} at $p$; the
+  per-level condition (iii) does not imply them. Stages 03/04 must not discharge $H_0=V_{U_p^1}$ by a finite
+  check at one level.
+\item Prop.~quot~(c) is stated as ``$s_j^*,s_{j*}$ commute with Hecke operators away from $q$''. The seed's
+  ``the bijections are equivariant'' is a tautology once the Hecke action on the tree side is defined by
+  transport.
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\subsection{Lean, HACS, talk}\label{ss:s02-tracks}
+%----------------------------------------------------------------------
+The tracks are decoupled; each milestone below depends only on statements already written in this section.
+
+\paragraph{Mathematics track.}
+\begin{itemize}
+\item[M02.1] Write out the proofs of Lemma~\ref{lem:s02-tree}, Lemma~\ref{lem:s02-normone}, Prop.~\ref{prop:s02-BG}
+  and Prop.~\ref{prop:s02-quot} in full (\S\ref{ss:s02-proofs} is close to final).
+\item[M02.2] Prop.~\ref{prop:s02-coh}: write out Serre's Prop.~13 with our signs and the norm-map comparison of
+  Def.~\ref{def:s02-Mhom}, including the index factors in $s_j^*$ under $N_x$; this matters for stage 03's adjoint
+  $\alpha^*$ and the weighted versus unweighted adjoint in T2(c).
+\item[M02.3] Settle Remark~\ref{rem:s02-torsion} (HACS H02.2), then fix D1 with stages 03 and 05.
+\item[M02.4] Optional: a $\Q$-specific proof of Thm.~\ref{thm:s02-SA} for our $S=\{\infty,q\}$, as a blueprint
+  for L02.SA. Follow Voight's first proof \S28.7 (after Vignéras, and Miyake Thms.~5.2.9--5.2.10 for $F=\Q$, not in
+  \texttt{literature/}), and record which steps reduce to finite or elementary statements.
+\end{itemize}
+
+\paragraph{Lean track.}
+Reuse: the import (\texttt{lean/trace-formula-project-import}) has $\GL_2$ local structure (Iwahori, Cartan and
+Bruhat decompositions, \texttt{AlgJL/VolI/P0/Decompositions.lean}), \texttt{BHat}, \texttt{classSet},
+\texttt{classStabilizer}, \texttt{stabilizer\_units}, \texttt{nrd\_definite} ($\Nrd>0$, which gives
+Lemma~\ref{lem:s02-normone}(a)), \texttt{maximalOrder\_local\_split} (gives $\iota_q$), and \texttt{quotient\_compact}
+($\Gamma_B\backslash B_\A^1$ compact). \texttt{FinAdele} is a restricted product over primes, so the projection to
+the $q$-component is direct. Mathlib v4.35.0 has \texttt{Submodule.IsLattice} (Ludwig--Merten's first upstreamed
+piece; its docstring mentions the Bruhat--Tits tree), but \emph{not} the tree itself, \emph{not} Skolem--Noether
+and \emph{not} Hasse--Minkowski (checked by grep in the frozen Mathlib tree).
+\begin{itemize}
+\item[L02.1] \emph{Tree in coset form.} Vertices $\SL_2(\Qq)/\SL_2(\Zq)\sqcup\SL_2(\Qq)/K_1$ and edges
+  $\SL_2(\Qq)/(\SL_2(\Qq)\cap\Iw_q)$, built from the import's Iwahori material. Lemma~\ref{lem:s02-tree}(b)--(d).
+  Tree-ness (a) is either ported from Ludwig--Merten (about 8000 lines on Lean v4.19.0, so an API-drift port) or
+  registered as \texttt{Hyp.BTtree}. Cost: low for (b)--(d); medium to high for porting (a). \emph{Not} needed for
+  L02.3.
+\item[L02.2] \emph{Statement layer.} $q$-admissible levels, $\GU$, $\Xone(U)$, $s_0,s_1$ on \texttt{classSet}-style
+  double cosets, $\BG(U,q)$ as an incidence structure (quiver or a pair of maps $E\rightrightarrows V$, not
+  \texttt{SimpleGraph}). Then \texttt{def Hyp.SA (a b : Int) (q : Nat) : Prop} (the shape (SA$_U$) for all admissible
+  $U$) and \texttt{def Hyp.HS : Prop} ($\Nrd(B^\times)=\Q_{>0}$). Both are registered hypotheses, never axioms.
+  Cost: low to medium (about 300--600 lines of infrastructure for components at $q$ and away from $q$).
+\item[L02.3] \emph{SA-free core.} Lemma~\ref{lem:s02-normone}(a) and Prop.~\ref{prop:s02-BG}: injectivity,
+  local surjectivity, and ``(iii) $\Rightarrow$ bijections''. Then Prop.~\ref{prop:s02-quot}(a),(b) under the
+  hypothesis \texttt{BGConnected U q}, and under \texttt{Hyp.SA} $\wedge$ \texttt{Hyp.HS}. Cost: medium. This is the main Lean
+  deliverable of stage 02.
+\item[L02.4] Prop.~\ref{prop:s02-quot}(c) (commutation of right translations at disjoint places). Cost: low.
+\item[L02.5] Free case Prop.~\ref{prop:s02-free}: $H_1$ of the finite graph; Def.~\ref{def:s02-indef} over $\Z$ as
+  $H_1(\BG)$ (stage 03 can work with the finite graph alone). The identification with $H_1(\GU,\Z)$ needs the
+  tree (L02.1(a)) and Serre I.3.3. Cost: medium to high; optional.
+\item[L02.6] Prop.~\ref{prop:s02-coh} in general (Serre II.2.8, Prop.~13: equivariant chains plus Shapiro; Mathlib
+  has group (co)homology in low degrees and Shapiro for cohomology). Cost: high. It is deferred, because by the
+  seed's \S12 it is avoidable at free levels.
+\item[L02.SA] \emph{Strong approximation for $B^1$ (separate milestone; the real gap).}
+  \emph{Status of the seed claim.} Seed \S12 says that existing Lean developments contain SA for $B^1$ ``in
+  this shape''. This is \emph{false} for our import. It contains only \texttt{sl2\_strong\_approximation}
+  ($\SL_2(\Q)$ dense in $\SL_2(\A_f)$, $S=\{\infty\}$) and \texttt{strong\_approximation}
+  ($\GL_2(\A)=\GL_2(\Q)\GL_2(\R)^+K'$ for $\det K'=\Zhat^\times$), both in
+  \texttt{AlgJL/VolI/P0/TopGroups.lean}. Neither applies. For definite $B$, $B^1_\infty$ is compact, so the
+  non-compact place must be $q$. And $B^1(\Q)$ is anisotropic and has no unipotent elements, so the
+  elementary-matrix proof used for $\SL_2$ does not transfer.
+  \emph{Sub-milestones and cost} (following Voight \S28.7, $F=\Q$, $S=\{\infty,q\}$):
+  \begin{enumerate}[label=(\alph*)]
+  \item weak approximation for $\Q$ at finitely many primes and density of $\Z[1/q]$ in $\prod_{\ell\in T}\Z_\ell$
+    (CRT): low to medium;
+  \item weak approximation for $B$, $B^\times$ and $B^1$ in $\prod_{\ell\in T}B_\ell$. The $B^1$ case uses
+    $B_\ell^1=[B_\ell^\times,B_\ell^\times]$; Voight's cross-reference for this (``Exercise 7.31'') does not
+    match the exercise of that number in the local copy, so a proof must be supplied: medium;
+  \item openness of ``$x^2-tx+1$ irreducible over $\Q_\ell$'' (non-squares are open, by Hensel; Mathlib has
+    Hensel for $\Zp$): medium;
+  \item the local--global principle for embeddings of quadratic fields into $B$
+    \lit{voight\_2021\_quaternion-algebras}{Prop.~14.6.7, p.~232}, which is equivalent to Hasse--Minkowski for
+    the ternary norm form on $B^0$. \textbf{High}; this is the dominant cost and is absent from Mathlib;
+  \item Skolem--Noether for elements \lit{voight\_2021\_quaternion-algebras}{Cor.~7.7.3, p.~109}. For a
+    \emph{division} algebra $B$ this is elementary: the solution space of $\beta\alpha_1=\alpha_2\beta$ is
+    non-zero and every non-zero element is invertible. Low;
+  \item the compactness/harmonising step (Fujisaki, \lit{voight\_2021\_quaternion-algebras}{Main Thm.~27.6.14,
+    p.~470}): reuse the import's \texttt{quotient\_compact}, plus the diagonal argument over finite sets $T$.
+    Medium.
+  \end{enumerate}
+  Hasse--Schilling ($\HypHS$) needs the same input (d). Total estimate: several person-weeks (order 5--10k lines),
+  dominated by (d). \emph{Recommendation:} keep $\HypSA$ and $\HypHS$ as registered hypotheses for the whole
+  hackathon. Discharge them per instance through \texttt{BGConnected} (L02.3) on the HACS test cases, by checking a
+  certificate. Note that certified class-set enumeration in Lean is itself unfinished (the import's small-instance
+  mass example \texttt{III.qcls.ex:eichler-mass-instances-small} still has a \texttt{sorry}). Attempt (a)--(f) only
+  after the hackathon.
+\end{itemize}
+
+\paragraph{HACS / computation track.}
+HACS has no quaternion algebras, so this track consumes the definite module of stage 01: class sets with
+stabilisers, and Brandt modules with $\Sym^n$. As an independent cross-check for prime $D$, it can use
+supersingular $q$-isogeny graphs as in seed C4(ii).
+\begin{itemize}
+\item[H02.1] \emph{Tree-quotient builder.} Input $(B,\cO,U,q)$. Output: $\XB{U}$, $\XB{\Uzero{q}U}$ with $|\Gamma|$
+  and $w$; the maps $s_0,s_1$ ($s_1$ = class of the $q$-neighbour sublattice
+  $x_q\alpha\Zq^2\subset x_q\Zq^2$); and the matrices of $s_j^*$, $s_{j*}$ on $\Brandt{\cdot}{V_k}$ over $\Z/p^m$.
+\item[H02.2] \emph{Validation.} (a) connectivity of $\BG(U,q)$ (the finite SA check, Prop.~\ref{prop:s02-BG}).
+  (b) Fibre counts $\sum_{e\in s_j^{-1}(x)}|\Gamma_x|/|\Gamma_e|=q+1$ and the mass identity
+  $\sum_e1/|\Gamma_e|=(q+1)\sum_x1/|\Gamma_x|$. (c) $\rk H_1=|E|-2|X|+1$. (d) The torsion example of
+  Remark~\ref{rem:s02-torsion} ($D=2$, $q=3$).
+\item[H02.3] \emph{Test T2} (seed): $B_2,q=7$: $\rk H_1=1$; $B_2,q=13$: $\rk H_1=2$; $B_{11},q=2$: two vertices per
+  type, $\rk H_1=0$. By the rank formula $|E|=2,3,3$ respectively; check against the edge masses $8/24$, $14/24$, $3\cdot10/24$.
+  Stage 03 owns the $\coker(\alpha\alpha^*)$ part of T2(c).
+\item[H02.4] \emph{Counts for T3}: $B_3$, tree at $2$, $U_s=\Uone{5^s}$: $|S_s|=2\cdot25^{s-1}$, $|E_s|=3|S_s|$,
+  $\rk H_1=|S_s|+1$ (Prop.~\ref{prop:s02-free}). Stage 04 owns the ordinary part.
+\item[H02.5] $H_*(\GU,V_k)$ via the two-term complex: the rank formula of Def.~\ref{def:s02-indef}, and the
+  finite group $H_0$ as input to T6 (stage 03).
+\end{itemize}
+
+\paragraph{Talk track.}
+\begin{itemize}
+\item[T02.1] A picture of $\BG(U_1(5),2)$ for $B_3$: $2+2$ vertices, $6$ edges, a free group of rank $3$
+  (genus~$3$, matching seed T3), drawn above a piece of the $3$-regular tree $\cT_2$.
+\item[T02.2] Slogan slide: ``$0$-dimensional orbifolds glue to a $1$-dimensional one''. Two copies of the class
+  set, edges from Eichler level $q$, and $\GU$ in the middle.
+\item[T02.3] One honest line: strong approximation for $B^1$ is the single deep input, and it is checked per
+  example as connectivity of a finite graph.
+\end{itemize}
+
+%----------------------------------------------------------------------
+\subsection{Risks}
+%----------------------------------------------------------------------
+\begin{enumerate}[label=R\arabic*.]
+\item \emph{SA for $B^1$ in Lean (seed \S12 is wrong).} There is no Lean proof in our import or in Mathlib.
+  Mitigation: registered hypotheses $\HypSA$ and $\HypHS$, the per-level finite criterion
+  Prop.~\ref{prop:s02-BG}, and milestone L02.SA (several person-weeks; dominated by Hasse--Minkowski-type
+  input).
+\item \emph{Hidden Hasse--Schilling input.} The seed's proof of Prop.~quot uses $\Nrd(B^\times)=\Q_{>0}$ without
+  saying so (Lemma~\ref{lem:s02-normone}(b)). In Lean it is a second hypothesis unless one works with
+  $\Xone(U)$ or with \texttt{BGConnected}.
+\item \emph{Torsion over $\Z$} (Remark~\ref{rem:s02-torsion}, D1). If stages 03 and 05 keep
+  $H_1(\GU,\Z)$, then statements about character groups and $\Phicomb$ pick up spurious $2,3$-torsion at
+  $\Gamma_0$-levels.
+\item \emph{Norm-map factors.} The identifications $V_{\Gamma}\cong V^{\Gamma}$ and $\Zp[X]\cong\Zp^X$ introduce
+  factors $|\Gamma_x|$; the Brandt pairing uses $w_x=|\Gamma_x/\pm1|$. These are units in $\Zp$ ($p\ge5$), but they
+  change the adjoints used in stage 03 (T2(c), weighted versus unweighted). Def.~\ref{def:s02-Mhom} now uses the norm over $\Gamma_x/\pm1$ as stage 01 does, so
+  no mismatch with \texttt{if:s01-brandt} remains; M02.2 only bookkeeps the index factors in $s_j^*$.
+  \provisional{F8: dropped ``M02.2 must fix them'' (the norm mismatch is fixed in Def.~\ref{def:s02-Mhom}); before: the factors were left for M02.2 to fix.}
+\item \emph{Ludwig--Merten availability.} Their tree is on Lean v4.19.0 in a separate repository; only lattices are
+  in Mathlib v4.35.0. Their edges are unordered and their Laplacian carries a parity sign. Our toolchain is
+  frozen, so a port is a separate cost (L02.1).
+\item \emph{Notation clash.} The seed uses $\alpha$ both for $\iota_q^{-1}\mathrm{diag}(1,q)$ (stage 02) and for the
+  Ribet map $(-s_{0*},s_{1*})$ (stage 03). Not renamed, as the conventions require; stage 03 must disambiguate
+  in prose.
+\item \emph{$H_0$ needs global density.} Prop.~\ref{prop:s02-coh}(c),(d) cannot be checked at one level
+  (D3); the Hecke action on $H_0$ (seed Cor.~ihara~(iii), T6) depends on it.
+\end{enumerate}

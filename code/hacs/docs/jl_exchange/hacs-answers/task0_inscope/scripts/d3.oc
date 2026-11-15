@@ -1,0 +1,6 @@
+set coefficient_ring = "Z";
+d = descent(3, 10, [2, 5, 7, 11, 13]);
+print("groups", d.groups);
+M = d.module_Z();
+print("status", M.status, " free_rank", M.free_rank, " invfac", M.invariant_factors, " free_block", M.free_block);
+for o in M.ops { print("p=", o.p, " charpoly_Z=", o.charpoly_Z); print("F=", o.F); }

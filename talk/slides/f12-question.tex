@@ -1,0 +1,24 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 12: the question (a)-(e): what we achieved, what is open.
+% Sources: (a) thm:s01-JLclassical (cited), thm:s03-ribet, cor:s03-ihara, thm:s05-G (cited), conj:s05-O2 (open);
+% (b) chapters/s05/simplicial.tex rem:s05-O7 (sketch on the ordinary locus; beyond: open), thm:s01-chenevier (cited);
+% (c) thm:s04-control, thm:s04-lambdaribet, hyp:s05-X, prop:s05-Xlambda (c2 open); (d) thm:s06-E, thm:s06-defect, rem:s06-open, conj:s06-several;
+% (e) code/results/, HACS Lane B closure; open column: mathematics/final-report/sections/open.tex.
+\begin{frame}{Our question (a)--(e): what we have, what is open}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}l >{\raggedright\arraybackslash}p{7.1cm} >{\raggedright\arraybackslash}p{3.8cm}@{}}\toprule
+    & we have (stage, status) & open\\\midrule
+    (a) $\mathbb C$ & integral Hecke-equivariant maps on the tree: Ribet sequence, Ihara \stattag{S02--03; proved and formalized given connectivity}; via Ribet, JL in the first case \stattag{proved modulo cited geometry}; else \stattag{cited} &
+      simplicial realisation of the comparison (O2)\\
+    (b) Chenevier & only remarked: on the ordinary locus our maps induce $\T^{\mathrm{ord}}(qM)\twoheadrightarrow\T^{\mathrm{ord}}_{B_q}(M)$ \stattag{sketch} &
+      beyond the ordinary locus (O7)\\
+    (c) $\Lambda$-adic & $\Lambda$-free ordinary Brandt module, finite-level control \stattag{S04; proved}; $\Lambda$-adic Ribet sequence \stattag{proved given connectivity} &
+      $\mathrm{Hyp.X}$ \stattag{S05; registered hypothesis}; (c2)\\
+    (d) congr.\ modules & Thm~E \stattag{proved; formalized, abstract}; $\eta=\cc_q\,\eta^B$, $\cc_q=\tq_q$ \stattag{S06; proved modulo cited results; Lean modulo registered hypotheses} &
+      $N(\bar\rho)>1$ at $q\equiv-1$; trivial primes; several $q\mid D$\\
+    (e) computable & Brandt modules, $\Phicomb$, ordinary ranks, defects ($7/7$ triples; regression partial, $131/319$); Mazur through HACS, $q\le600$ \stattag{computed} &
+      full census to $q=2777$; HACS census leftovers\\\bottomrule
+  \end{tabular}
+\end{frame}

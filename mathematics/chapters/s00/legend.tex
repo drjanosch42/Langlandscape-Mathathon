@@ -1,0 +1,25 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Status-tag legend (round R5). Shared: start of chapter s00 (main.tex), after the abstract of the article and of the
+% submission report. No \input; uses only the status macros of preamble.tex / submission/src/macros.tex.
+\begin{sloppypar}
+\noindent\textbf{Status tags.} Every result carries its status as a tag in brackets, printed exactly as follows.
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item \stproved: the proof is written out in our chapters.
+\item \stpmc: proved, using the named cited results as black boxes; \status{proved modulo cited geometry}: the same, where
+  the cited inputs are the geometric results named there (Deligne--Rapoport, Deuring, Grothendieck's character group).
+\item \stcited: taken from the literature with a precise pointer, not reproved; \stknown: standard or textbook, with a
+  reference.
+\item \status{definition}: a definition, nothing to prove; \sthyp: a named hypothesis, assumed only where stated and never
+  claimed.
+\item \stcomp: checked by machine computation over the stated range; a computation is never part of a proof.
+\item \stformal: a Lean~4 declaration with this content compiles with the standard axioms only, named next to it as
+  \textup{\small(Lean: \dots)}; \emph{formalized modulo $H$} (\emph{Lean-conditional}): the same, with the registered
+  hypotheses $H$ as explicit arguments; \textup{\small(Lean: planned)}: not yet formalized. In the claims table of the
+  submission report, \emph{Lean-verified} means formalized without qualifier, with no difference recorded.
+\item \stsketch, \stexp, \stconj, \stopen, \sttoprove: no proof is claimed (a sketch is given; expected to hold; a
+  conjecture; an open question; a proof still to be written).
+\item Notes on changes after internal audits are printed as \textup{\textsf{\small[provisional: \dots]}} in the chapters and
+  as \textup{\textsf{\small[revision note: \dots]}} in the submission report.
+\end{itemize}
+\end{sloppypar}

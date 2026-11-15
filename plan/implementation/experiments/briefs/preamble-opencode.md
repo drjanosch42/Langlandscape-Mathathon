@@ -1,0 +1,1 @@
+Write only <files>. Do not run lake, elan, git, the tools/ wrappers or any network command. Do not touch any other file. Read nothing outside your worktree except the frozen import, Mathlib and the brief inputs; no git command other than add/commit (you are not to run git at all: a wrapper commits for you).

@@ -1,0 +1,1044 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-iii-01-explicit (parent commit 84818d0); kept items only.
+\chapter{Explicit formulas and local factors}\label{ch:ch-iii-01-explicit}
+
+\noindent\emph{Scope:} area \texttt{ef}. Every item of A appears here with the same \texttt{\textbackslash label};
+four B-only items (\cref{III.ef.lem:order-index-set-divisors,III.ef.lem:cohen-mu-averaged,III.ef.lem:conductor-relation-iterate,III.ef.def:d2-weight-h0})
+carry steps that A states inline in prose or as part of an example.
+\emph{Junk conventions of the Lean code} (the same in all items): every arithmetic function is total, so natural-number subtraction is truncated
+(exponents $k-1$, $k-2$), \texttt{Finset} products over \texttt{primeFactors} are empty at $0$ and $1$, and division and \texttt{/} on integers are Lean's
+(exact whenever it is used on a divisible argument). The local symbols \texttt{kroneckerPrime}, \texttt{dividesConductor}, \texttt{eichlerSymbol} and the two local factors
+take an arbitrary natural number $p$ and are meaningful only at primes; no statement of this chapter applies them at a non-prime except through a
+product over \texttt{primeFactors}.
+%----------------------------------------------------------------------------------------------------
+\section{Arithmetic functions and signed divisor sums}\label{sec:ef-arith}
+
+\begin{definition}[Dedekind's function]
+\tfstmt{III.ef.def:dedekind-psi}
+\lean{GL2TF.Explicit.dedekindPsi}
+\end{definition}
+\begin{tfformal}{III.ef.def:dedekind-psi}
+\tfsem{III.ef.def:dedekind-psi}{5c0bc68639a9449a5d9531992b4735a933651e14b495b66487821d789b6e0378}
+\tfhyps{III.ef.def:dedekind-psi}{}
+\tfbinder{III.ef.def:dedekind-psi}{0}{52ee410f}{the argument $N$}
+\begin{tffidelity}
+$\dedpsi(N)=N\prod_{p\mid N}(1+1/p)\in\Q$ as \texttt{N * \(\prod\) p \(\in\) N.primeFactors, (1 + 1/p)} in \texttt{ℚ}. Same junk as A: $\dedpsi(0)=0$ (empty product, factor $0$) and $\dedpsi(1)=1$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{III.ef.lem:dedekind-psi-multiplicative}
+\lean{GL2TF.Explicit.dedekindPsi_nat_mul_prime}
+\uses{III.ef.def:dedekind-psi}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:dedekind-psi-multiplicative}
+\tfsem{III.ef.lem:dedekind-psi-multiplicative}{4f34d666c99009e173af8e3af63644a94d8b038eda39643da186cbdcf47cb1dd}
+\tfhyps{III.ef.lem:dedekind-psi-multiplicative}{}
+\begin{tffidelity}
+The three claims (a)--(c) of A are one conjunction. (a) is \texttt{∃ m : ℕ, dedekindPsi N = m} for every $N$ (including $0$); (b) holds for all coprime $N_1,N_2\in\N$ without positivity hypotheses (the cases $N_i=0$ force the other to be $1$ and are the case treated separately in A's proof); (c) is for primes $p$. No binders: all quantifiers are inside the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) Private helper \texttt{dedekindPsi\_eq\_div\_mul}: $\dedpsi(N)=(N/\mathrm{rad}\,N)\prod_{p\mid N}(p+1)$ (write $N=\mathrm{rad}(N)\,q$ via \texttt{Nat.prod\_primeFactors\_dvd}, then \texttt{Finset.prod\_mul\_distrib} and $p\cdot(1+1/p)=p+1$); the witness is that natural number. (b) Helper \texttt{dedekindPsi\_mul\_of\_coprime}: unfold, \texttt{Nat.Coprime.primeFactors\_mul} and \texttt{Finset.prod\_union} (disjoint prime sets), \texttt{push\_cast; ring}; no case split is needed for $N_i=0$ since the cases are covered by the same rewriting. (c) Helper \texttt{dedekindPsi\_of\_squarefree} ($\dedpsi(d)=\prod_{p\mid d}(p+1)$ from the first helper with $\mathrm{rad}\,d=d$), at $d=p$ with \texttt{hp.primeFactors} and \texttt{Finset.prod\_singleton}.
+\end{proof}
+
+\begin{lemma}[signed divisor sums]
+\tfstmt{III.ef.lem:signed-divisor-sum}
+\lean{GL2TF.Explicit.sum_divisors_prod_eq_prod_add}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:signed-divisor-sum}
+\tfsem{III.ef.lem:signed-divisor-sum}{56d1b732d41ea0ebb7b92a69ebb5ec07a7b5a50faa06cea466a457fac62cfbba}
+\tfhyps{III.ef.lem:signed-divisor-sum}{}
+\tfbinder{III.ef.lem:signed-divisor-sum}{0}{fe5aea28}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.ef.lem:signed-divisor-sum}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.ef.lem:signed-divisor-sum}{2}{a00fc439}{the function $a\colon\N\to R$}
+\tfbinder{III.ef.lem:signed-divisor-sum}{3}{1e4c5949}{the function $b\colon\N\to R$}
+\tfbinder{III.ef.lem:signed-divisor-sum}{4}{5b09f8d2}{$D$}
+\tfbinder{III.ef.lem:signed-divisor-sum}{5}{24cf62ae}{$D$ is squarefree}
+\begin{tffidelity}
+The ring $R$ is a \texttt{Type u\_1} with \texttt{CommRing}, and $a,b\colon\N\to R$ are total functions (A: functions on the primes dividing $D$; values at non-primes are never used because the products run over \texttt{primeFactors}). The index of the first product is \texttt{(D / d).primeFactors}, using natural-number division, which is exact for $d\mid D$. \texttt{Squarefree D} is Mathlib's, which excludes $D=0$ and includes $D=1$ (all sides $1$ or empty products).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Expand the right side with \texttt{Finset.prod\_add}, a sum over \texttt{D.primeFactors.powerset}. Then \texttt{Finset.sum\_nbij'} with $d\mapsto$ \texttt{d.primeFactors} and $s\mapsto\prod_{p\in s}p$: membership by \texttt{Nat.primeFactors\_mono} and \texttt{Finset.prod\_dvd\_prod\_of\_subset}; the two inverse laws by \texttt{Nat.prod\_primeFactors\_of\_squarefree} (squarefreeness of divisors via \texttt{Squarefree.squarefree\_of\_dvd}) and \texttt{Nat.primeFactors\_prod}; the summands agree because $(D/d)$ has prime factors \texttt{D.primeFactors \textbackslash\ d.primeFactors} (\texttt{Nat.primeFactors\_div\_gcd}, $\gcd(D,d)=d$), followed by \texttt{mul\_comm}.
+\end{proof}
+
+\begin{corollary}[the three constants]
+\tfstmt{III.ef.cor:signed-divisor-sum-constants}
+\lean{GL2TF.Explicit.signedDivisorSum_constants}
+\uses{III.ef.def:dedekind-psi,III.ef.lem:dedekind-psi-multiplicative,III.ef.lem:signed-divisor-sum}
+\end{corollary}
+\begin{tfformal}{III.ef.cor:signed-divisor-sum-constants}
+\tfsem{III.ef.cor:signed-divisor-sum-constants}{f127b5540d2512af9aadce129de86d471869af8666aa5d1da31165257e7319a7}
+\tfhyps{III.ef.cor:signed-divisor-sum-constants}{}
+\tfbinder{III.ef.cor:signed-divisor-sum-constants}{0}{cf3d1075}{$D$}
+\tfbinder{III.ef.cor:signed-divisor-sum-constants}{1}{4653a60f}{$D$ is squarefree}
+\begin{tffidelity}
+One conjunction (a), (b), (c). The signs are $(-2)^{\omega(D/d)}$ with $\omega=$ \texttt{ArithmeticFunction.cardDistinctFactors}; (a) and (b) are stated in \texttt{ℤ}, (c) in \texttt{ℚ} (it involves $\dedpsi$). The level $M$ of (c) is quantified inside the third conjunct (\texttt{∀ M, D.Coprime M → \dots}), not a binder of the declaration; the hypothesis $1<D$ of (b) is the inner implication.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Helper: $c^{\omega(m)}=\prod_{p\mid m}c$ (\texttt{omega\_eq\_card}, \texttt{Finset.prod\_const}). Each part is one instance of \cref{III.ef.lem:signed-divisor-sum}. (a) $a=1$, $b=-2$: the right side is $\prod_p(1-2)=(-1)^{\omega(D)}$ (\texttt{norm\_num}). (b) $a=2$, $b=-2$: the product has the factor $0$ at any prime $p\mid D$ (exists as $D>1$, \texttt{Nat.nonempty\_primeFactors}; \texttt{Finset.prod\_eq\_zero}). (c) $a(p)=p+1$, $b=-2$; termwise $\dedpsi(dM)=\dedpsi(d)\dedpsi(M)$ by \texttt{dedekindPsi\_mul\_of\_coprime} and $\dedpsi(d)=\prod_{p\mid d}(p+1)$ (\texttt{dedekindPsi\_of\_squarefree}); factor out $\dedpsi(M)$ (\texttt{Finset.mul\_sum}); the right side is $\prod_p(p+1-2)=\prod_p(p-1)$ (\texttt{ring} per prime).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{Discriminants, class numbers of forms, and the polynomials \texorpdfstring{$P_k$}{P\_k}}\label{sec:ef-discr}
+
+\begin{definition}[the orders containing a root]
+\tfstmt{III.ef.def:order-index-set}
+\lean{GL2TF.Explicit.orderIndexSet}
+\end{definition}
+\begin{tfformal}{III.ef.def:order-index-set}
+\tfsem{III.ef.def:order-index-set}{e2ac2473f092317a2850331d4d8d14ae42dd4ae28631ca0d5ef17a45e613f006}
+\tfhyps{III.ef.def:order-index-set}{}
+\tfbinder{III.ef.def:order-index-set}{0}{2722ba5a}{the trace $t$}
+\tfbinder{III.ef.def:order-index-set}{1}{818304fd}{the norm $n$}
+\begin{tffidelity}
+\texttt{Finset ℕ} defined by filtering \texttt{Finset.Icc 1 (t\^{}2 - 4n).natAbs}, so the bound $f\le\abs{t^2-4n}$ of A is explicit. It is total in $(t,n)$: for $t^2=4n$ the interval is empty and the set is $\emptyset$; for $t^2>4n$ it is defined by the same formula (A states it for all $t,n$ and uses it only for $t^2<4n$). The quotient $(t^2-4n)/f^2$ is Lean's integer division, exact since $f^2\mid t^2-4n$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{III.ef.lem:order-index-set-divisors}
+\bonly
+\lean{GL2TF.Explicit.orderIndexSet_eq_divisors}
+\uses{III.ef.def:conductor-prime,III.ef.def:order-index-set}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:order-index-set-divisors}
+\tfsem{III.ef.lem:order-index-set-divisors}{913bcb69f34cc57440eb8cc18505162a720fc493ac40b584054e2d16dad5dd63}
+\tfhyps{III.ef.lem:order-index-set-divisors}{}
+\tfbinder{III.ef.lem:order-index-set-divisors}{0}{9f2c4084}{$t$}
+\tfbinder{III.ef.lem:order-index-set-divisors}{1}{ed582572}{$n$}
+\tfbinder{III.ef.lem:order-index-set-divisors}{2}{62c79f69}{$t^2<4n$}
+\begin{tffidelity}
+B-only. This is the structure of $\Ford(t,n)$ that A uses implicitly (fact of A's \S2, proved with, and the first step of its proof of \cref{III.ef.thm:d2-sum-form}). The existential is over $c\in\N$ with $1\le c$. ``Fundamental discriminant'' is spelled as in \cref{III.ef.def:d2-weight-h0}: $\Delta_0<0$, $\Delta_0\bmod4\in\{0,1\}$ and \texttt{dividesConductor p Δ₀ = false} for all primes $p$ (Mathlib's \texttt{Int.IsFundamentalDiscr} has no sign condition and is not used). The last conjunct is stated with the \texttt{Bool}-valued conductor test as \texttt{(\dots = true ↔ p ∣ c / f)}, for every divisor $f$ of $c$ and prime $p$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Helpers: \texttt{mem\_orderIndexSet\_iff} (membership without the search bound $f\le|t^2-4n|$, using $\Delta\ne0$), \texttt{idx\_of\_dvd} ($\Ford$ is closed under divisors), \texttt{idx\_mul\_odd} and \texttt{idx\_lcm} (closed under lcm), all resting on \texttt{disc\_mul\_sq} (if $\Delta\equiv0,1\pmod4$ then $\Delta m^2\equiv0,1\pmod4$). Proof: $1\in\Ford$ (\texttt{disc\_mul\_sq} at $\Delta=1$ and \texttt{omega}), take $c:=\max'\Ford$ (\texttt{Finset.max'}); closure under lcm and divisors makes every element a divisor of $c$ and every divisor of $c$ an element, so $\Ford=$ \texttt{c.divisors}. $\Delta_0<0$ and $\Delta_0\bmod4$ come from membership of $c$; if some prime divided the conductor of $\Delta_0$ then $pc\in\Ford$ (helper \texttt{dividesConductor\_iff\_idx}: $p\mid\mathrm{cond}\,\Delta_f\iff pf\in\Ford$), contradicting maximality. The same helper gives the last conjunct, applied to $c/f$.
+\end{proof}
+
+\begin{definition}[class numbers of binary quadratic forms]
+\tfstmt{III.ef.def:class-number-forms}
+\lean{GL2TF.Explicit.classNumberForms}
+\end{definition}
+\begin{tfformal}{III.ef.def:class-number-forms}
+\tfsem{III.ef.def:class-number-forms}{8672884c82b99c37b648e9aa8534ddabf0971859381f422fb7ea6cdcca4c4231}
+\tfhyps{III.ef.def:class-number-forms}{}
+\tfbinder{III.ef.def:class-number-forms}{0}{2722ba5a}{the discriminant $\Delta$}
+\begin{tffidelity}
+A defines $h(\Delta)$ as the number of reduced triples. Lean counts the triples in the finite box $[1,\abs\Delta]\times[-\abs\Delta,\abs\Delta]\times[1,\abs\Delta]$, which contains every solution ($3a^2\le4ac-b^2=\abs\Delta$, $\abs b\le a$, $c=(b^2+\abs\Delta)/4a\le\abs\Delta$); the triples are filtered by the four conditions of A, the gcd is \texttt{Int.gcd}. $h(\Delta)=0$ for $\Delta\ge0$ is an explicit \texttt{if}. For $\Delta<0$ with $\Delta\not\equiv0,1\pmod4$ the count is $0$ as well, since $b^2-4ac\equiv0,1\pmod4$. Value in \texttt{ℕ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[unit numbers]
+\tfstmt{III.ef.def:unit-number}
+\lean{GL2TF.Explicit.unitNumber}
+\end{definition}
+\begin{tfformal}{III.ef.def:unit-number}
+\tfsem{III.ef.def:unit-number}{4adc36994bbf82e1624336dbc40726df8c703b389b962077d630be22acf9d2c8}
+\tfhyps{III.ef.def:unit-number}{}
+\tfbinder{III.ef.def:unit-number}{0}{2722ba5a}{the discriminant $\Delta$}
+\begin{tffidelity}
+$w(\Delta)\in\N$ is $6$ at $\Delta=-3$, $4$ at $\Delta=-4$ and $2$ for every other integer $\Delta$ (including non-discriminants and $\Delta\ge0$); A defines it for discriminants and the other values are junk.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[weighted class numbers]
+\tfstmt{III.ef.def:weighted-class-number}
+\lean{GL2TF.Explicit.weightedClassNumber}
+\uses{III.ef.def:class-number-forms,III.ef.def:unit-number}
+\end{definition}
+\begin{tfformal}{III.ef.def:weighted-class-number}
+\tfsem{III.ef.def:weighted-class-number}{0e4c8139b76a0dcc99104d711d3b9b38086268ee2ff3105358051f8ee69166fc}
+\tfhyps{III.ef.def:weighted-class-number}{}
+\tfbinder{III.ef.def:weighted-class-number}{0}{2722ba5a}{the discriminant $\Delta$}
+\begin{tffidelity}
+$h_w(\Delta)=2h(\Delta)/w(\Delta)\in\Q$ with $h$ and $w$ cast from \texttt{ℕ}; $w\ne0$, so no division junk. Junk values: $h_w(\Delta)=0$ for $\Delta\ge0$ and for $\Delta<0$ not a discriminant.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the polynomials $P_k$]
+\tfstmt{III.ef.def:hecke-polynomial}
+\lean{GL2TF.Explicit.heckePoly}
+\end{definition}
+\begin{tfformal}{III.ef.def:hecke-polynomial}
+\tfsem{III.ef.def:hecke-polynomial}{92e42a6ac0a7f53402fff3b4cda8c8f2f5746b813c2802361fa420e0287d9885}
+\tfhyps{III.ef.def:hecke-polynomial}{}
+\tfbinder{III.ef.def:hecke-polynomial}{0}{52ee410f}{the index $k$}
+\tfbinder{III.ef.def:hecke-polynomial}{1}{c6513842}{the trace $t$}
+\tfbinder{III.ef.def:hecke-polynomial}{2}{18782426}{the norm $n$}
+\begin{tffidelity}
+$P_k(t,n)\in\Z$ by structural recursion on the index $k$ with the three base cases $P_0=P_1=0$, $P_2=1$ and $P_{k+3}=tP_{k+2}-nP_{k+1}$; the argument order is $(k,t,n)$. The value $P_0=0$ is a junk convention (A fixes it). The recursion is in $\Z$ with $n\in\N$ cast.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{III.ef.lem:hecke-polynomial-roots}
+\lean{GL2TF.Explicit.heckePoly_mul_sub}
+\uses{III.ef.def:hecke-polynomial}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:hecke-polynomial-roots}
+\tfsem{III.ef.lem:hecke-polynomial-roots}{606c6dd098813d863033d98a6328d04e6f146e7cbb51847cccbe8202ad4bdaed}
+\tfhyps{III.ef.lem:hecke-polynomial-roots}{}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{0}{fe5aea28}{the commutative ring $R$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{2}{37c43f62}{the trace $t$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{3}{f7bc01e4}{the norm $n$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{4}{4fcf3e1c}{the root $\rho$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{5}{a6a506ac}{the root $\bar\rho$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{6}{619bc9b9}{$\rho+\bar\rho=t$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{7}{b5fc44f4}{$\rho\bar\rho=n$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{8}{d71f0cc6}{the index $k$}
+\tfbinder{III.ef.lem:hecke-polynomial-roots}{9}{327dec83}{$k\ge1$}
+\begin{tffidelity}
+The ring $R$ is an arbitrary commutative ring (universe-polymorphic); $t\in\Z$ and $n\in\N$ are cast into $R$ by the Lean casts, and $P_k(t,n)\in\Z$ is cast to $R$. The hypothesis $k\ge1$ is explicit (for $k=0$ the exponent $k-1$ is truncated).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Induction (private \texttt{heckePoly\_mul\_sub\_aux}, indexed by $k+1$, two-step recursion following the definition of \texttt{heckePoly}). Base cases $k=0,1$ by \texttt{simp [heckePoly]}. Step: rewrite the recursion, replace $t$ by $\rho+\bar\rho$ and $n$ by $\rho\bar\rho$ (\texttt{hsum}, \texttt{hprod}), regroup $(\rho-\bar\rho)(\ldots)=(\rho+\bar\rho)\,[(\rho-\bar\rho)P_{k+1}]-\rho\bar\rho\,[(\rho-\bar\rho)P_k]$ by \texttt{ring}, apply the two induction hypotheses, and close by \texttt{ring}. The statement is the aux lemma at $k-1$ (\texttt{Nat.exists\_eq\_add\_of\_le'}), so $hk$ is used only to subtract.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{The Kronecker symbol, the Eichler symbol and the local factors}\label{sec:ef-local}
+
+\begin{definition}[the Kronecker symbol at a prime]
+\tfstmt{III.ef.def:kronecker-prime}
+\lean{GL2TF.Explicit.kroneckerPrime}
+\end{definition}
+\begin{tfformal}{III.ef.def:kronecker-prime}
+\tfsem{III.ef.def:kronecker-prime}{4dde763aa035476c7db62e404f30845594054fc05a54c3424e0fe389b639f167}
+\tfhyps{III.ef.def:kronecker-prime}{}
+\tfbinder{III.ef.def:kronecker-prime}{0}{2722ba5a}{the discriminant $\Delta$}
+\tfbinder{III.ef.def:kronecker-prime}{1}{818304fd}{the prime $p$ (here an arbitrary natural number)}
+\begin{tffidelity}
+Takes $p\in\N$ and no primality hypothesis. At $p=2$ the definition is the explicit case split of A; for every other $p$ it is \texttt{jacobiSym Δ p}, the Jacobi symbol of Mathlib, which at an odd prime equals the Legendre symbol (never \texttt{legendreSym}, which needs \texttt{Fact p.Prime}). Junk values at non-primes: $p=0$ and $p=1$ give $1$, and at odd composite $p$ it is the Jacobi symbol. A defines $\chi_\Delta(p)$ for primes only and every statement of the chapter applies it at primes. Value in \texttt{ℤ} (cast to \texttt{ℚ} where used).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[primes dividing the conductor]
+\tfstmt{III.ef.def:conductor-prime}
+\lean{GL2TF.Explicit.dividesConductor}
+\end{definition}
+\begin{tfformal}{III.ef.def:conductor-prime}
+\tfsem{III.ef.def:conductor-prime}{bb66701a1b2a5c31712efea4724eecc959363fb55ee42fe916b9519b217f76b0}
+\tfhyps{III.ef.def:conductor-prime}{}
+\tfbinder{III.ef.def:conductor-prime}{0}{52ee410f}{the prime $p$ (here an arbitrary natural number)}
+\tfbinder{III.ef.def:conductor-prime}{1}{c6513842}{the discriminant $\Delta$}
+\begin{tffidelity}
+A predicate in A; in Lean a \texttt{Bool}-valued function (\texttt{decide}), used only as the test in \texttt{if} and in \texttt{= true/false} statements, so that no Prop-valued project constant occurs in a binder. Takes any $p\in\N$. Junk at non-primes: for $p=1$ it is $\Delta\bmod4\in\{0,1\}$ and for $p=0$ it holds iff $\Delta=0$. The quotient $\Delta/p^2$ is Lean's integer division, exact because the first conjunct $p^2\mid\Delta$ is checked.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Eichler symbol]
+\tfstmt{III.ef.def:eichler-symbol}
+\lean{GL2TF.Explicit.eichlerSymbol}
+\uses{III.ef.def:conductor-prime,III.ef.def:kronecker-prime}
+\end{definition}
+\begin{tfformal}{III.ef.def:eichler-symbol}
+\tfsem{III.ef.def:eichler-symbol}{c30c404e514837f7c84ab1c94c76bc0c22f4d8638b042b6f7a2aa29a1852723f}
+\tfhyps{III.ef.def:eichler-symbol}{}
+\tfbinder{III.ef.def:eichler-symbol}{0}{52ee410f}{the prime $p$ (here an arbitrary natural number)}
+\tfbinder{III.ef.def:eichler-symbol}{1}{c6513842}{the discriminant $\Delta$}
+\begin{tffidelity}
+$e_p(\Delta)\in\Z$: $1$ if \texttt{dividesConductor p Δ = true}, else \texttt{kroneckerPrime Δ p}. Takes any $p\in\N$; meaningful at primes (A defines it for primes only).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the local factor at a ramified prime]
+\tfstmt{III.ef.def:local-factor-ramified}
+\lean{GL2TF.Explicit.localFactorRamified}
+\uses{III.ef.def:eichler-symbol}
+\end{definition}
+\begin{tfformal}{III.ef.def:local-factor-ramified}
+\tfsem{III.ef.def:local-factor-ramified}{13f27c6e411444a3a12d006d8ba60b64a1d1a84049ea44c7150c23607cf027ee}
+\tfhyps{III.ef.def:local-factor-ramified}{}
+\tfbinder{III.ef.def:local-factor-ramified}{0}{52ee410f}{the prime $p$ (here an arbitrary natural number)}
+\tfbinder{III.ef.def:local-factor-ramified}{1}{c6513842}{the discriminant $\Delta$}
+\begin{tffidelity}
+$m^D_p(\Delta)=1-e_p(\Delta)\in\Z$; any $p\in\N$ (A: primes $p\mid D$). Cast to \texttt{ℚ} when it appears in $E^{\mathbb B}$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the local factor at a prime of level one]
+\tfstmt{III.ef.def:local-factor-eichler-prime}
+\lean{GL2TF.Explicit.localFactorEichler}
+\uses{III.ef.def:eichler-symbol}
+\end{definition}
+\begin{tfformal}{III.ef.def:local-factor-eichler-prime}
+\tfsem{III.ef.def:local-factor-eichler-prime}{8460344365e7e94211975593fb36409c0596d103175e980f33c4300e42f476a5}
+\tfhyps{III.ef.def:local-factor-eichler-prime}{}
+\tfbinder{III.ef.def:local-factor-eichler-prime}{0}{52ee410f}{the prime $p$ (here an arbitrary natural number)}
+\tfbinder{III.ef.def:local-factor-eichler-prime}{1}{c6513842}{the discriminant $\Delta$}
+\begin{tffidelity}
+$m^{(1)}_p(\Delta)=1+e_p(\Delta)\in\Z$, the local factor at a prime $p\,\|\,$level (exponent $e=1$ only); any $p\in\N$ (A: primes). Cast to \texttt{ℚ} when used as a value of the weight $F$.
+\end{tffidelity}
+\end{tfformal}
+
+%----------------------------------------------------------------------------------------------------
+\section{Cohen's root count and Eichler's sum form}\label{sec:ef-cohen}
+
+\begin{definition}[Cohen's root count]
+\tfstmt{III.ef.def:cohen-mu}
+\lean{GL2TF.Explicit.cohenMu}
+\uses{III.ef.def:dedekind-psi}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-mu}
+\tfsem{III.ef.def:cohen-mu}{2a5f69952b79c1c57aa25b226cc1efecfdc774e1d1c8ee44bffaa6ed0bab2d6c}
+\tfhyps{III.ef.def:cohen-mu}{}
+\tfbinder{III.ef.def:cohen-mu}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:cohen-mu}{1}{c6513842}{the trace $t$}
+\tfbinder{III.ef.def:cohen-mu}{2}{18782426}{the index $f$}
+\tfbinder{III.ef.def:cohen-mu}{3}{f7bc01e4}{the norm $n$}
+\begin{tffidelity}
+$\mu_N(t,f,n)\in\Q$ is $0$ for $N=0$ (junk, as in A) and otherwise $\dedpsi(N)/\dedpsi(N/N_f)\cdot\#\{x\in\{0,\dots,N-1\}:NN_f\mid x^2-tx+n\}$, with $N_f=$ \texttt{Nat.gcd N f}, \texttt{N / N\_f} natural-number division (exact since $N_f\mid N$) and the count a \texttt{Finset.card} of a filter of \texttt{Finset.range N} cast to \texttt{ℚ}; divisibility is in \texttt{ℤ}. The definition does not require $f\in\Ford(t,n)$ (A's statement includes the condition $f^2\mid t^2-4n$ only in the lemmas that use $\mu$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{III.ef.lem:cohen-mu-averaged}
+\bonly
+\lean{GL2TF.Explicit.card_roots_zmod_eq}
+\uses{III.ef.def:cohen-mu}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:cohen-mu-averaged}
+\tfsem{III.ef.lem:cohen-mu-averaged}{aec3cd2f7b9e65d93d8f1066fb6141490c6f316ddb865c4581fb57f037c2598c}
+\tfhyps{III.ef.lem:cohen-mu-averaged}{}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{0}{cf3d1075}{$N$}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{1}{ed582572}{$f$}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{2}{399ffcae}{$t$}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{3}{97b94027}{$n$}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{4}{f454905f}{$N\ge1$}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{5}{e36013d4}{$f\ge1$}
+\tfbinder{III.ef.lem:cohen-mu-averaged}{6}{f5465afd}{$f^2\mid t^2-4n$}
+\begin{tffidelity}
+B-only; the averaging step in A's proof of \cref{III.ef.thm:cohen-mu-multiplicative}. The left side is \texttt{Nat.card} of the subtype $\{x\in\texttt{ZMod}(N\cdot N_f)\mid x^2-tx+n=0\}$ (a noncomputable cardinality, not a \texttt{Finset.card}); $t,n$ are cast into \texttt{ZMod (N * Nat.gcd N f)}. The hypotheses $N\ge1$, $f\ge1$ are explicit; $f^2\mid t^2-4n$ is in \texttt{ℤ}. The proof does not use the binder $f\ge1$ (the identity also holds at $f=0$); A has no separate statement of this item (the averaging is prose in the proof of the cited theorem), so there is no A statement to compare.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Set $g=N_f$, $M=Ng$. Step A: \texttt{Nat.card} of the roots in \texttt{ZMod M} equals the number of $x\in\{0,\dots,M-1\}$ with $M\mid x^2-tx+n$ (\texttt{Finset.card\_nbij'} via \texttt{ZMod.val} and \texttt{ZMod.natCast\_zmod\_val}, \texttt{ZMod.intCast\_zmod\_eq\_zero\_iff\_dvd}). Step B: $x\mapsto(x/N,\,x\bmod N)$ is a bijection from $\{0..M-1\}\cap\{M\mid\cdots\}$ onto $\{0..g-1\}\times(\{0..N-1\}\cap\{M\mid\cdots\})$ (\texttt{Finset.card\_nbij'}), because the helper \texttt{roots\_shift} says the divisibility $M\mid x^2-tx+n$ is invariant under $x\mapsto x+Ni$; it uses $g\mid N$ and $g^2\mid t^2-4n$ (from $g\mid f$ and $f^2\mid t^2-4n$). Hence the count is $g$ times the count over $\{0..N-1\}$. The binder \texttt{hf : 1 ≤ f} is not used (the identity also holds at $f=0$, where $N_f=N$).
+\end{proof}
+
+\begin{theorem}[multiplicativity of the root count]
+\tfstmt{III.ef.thm:cohen-mu-multiplicative}
+\lean{GL2TF.Explicit.cohenMu_mul}
+\uses{III.ef.def:cohen-mu,III.ef.def:dedekind-psi,III.ef.def:order-index-set,III.ef.lem:cohen-mu-averaged,III.ef.lem:dedekind-psi-multiplicative}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:cohen-mu-multiplicative}
+\tfsem{III.ef.thm:cohen-mu-multiplicative}{b2118895d3ac288cf2cea6f7c8bf569a6fbc44a929a7a955c5987d8b397a433c}
+\tfhyps{III.ef.thm:cohen-mu-multiplicative}{}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{0}{9f2c4084}{$t$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{1}{ed582572}{$n$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{2}{48b1c944}{$f$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{3}{93bef854}{$f\in\Ford(t,n)$ (a membership statement about a defined finite set, not a hypothesis constant)}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{4}{5b09f8d2}{$N_1$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{5}{7c9e60af}{$N_2$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{6}{2f0d35c0}{$N_1\ge1$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{7}{76862ce7}{$N_2\ge1$}
+\tfbinder{III.ef.thm:cohen-mu-multiplicative}{8}{c2ff37d5}{$N_1,N_2$ coprime}
+\begin{tffidelity}
+The index $f$ is implicit and the condition $f\in\Ford(t,n)$ is a hypothesis of \texttt{Finset} membership; the levels $N_1,N_2\ge1$ are explicit hypotheses (as in A), with \texttt{Nat.Coprime}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $g_i=\gcd(N_i,f)$. Facts: $\gcd(N_1N_2,f)=g_1g_2$ (\texttt{Nat.Coprime.gcd\_mul}), and $N_1g_1$, $N_2g_2$ are coprime. Counting: apply \cref{III.ef.lem:cohen-mu-averaged} at $N_1N_2$, $N_1$, $N_2$; the CRT count \texttt{card\_roots\_mul\_of\_eq} (via \texttt{ZMod.chineseRemainder}) gives the number of roots mod $N_1N_2g_1g_2$ as the product of those mod $N_1g_1$ and $N_2g_2$; cancel $g_1g_2>0$ (\texttt{Nat.eq\_of\_mul\_eq\_mul\_left}). Normalisation: $\dedpsi(N_1N_2)=\dedpsi(N_1)\dedpsi(N_2)$ (\cref{III.ef.lem:dedekind-psi-multiplicative}), $\dedpsi(N_1N_2/g)=\dedpsi(N_1/g_1)\dedpsi(N_2/g_2)$ with coprime quotients (\texttt{Nat.div\_mul\_div\_comm}), then \texttt{push\_cast; ring}. $N_i\ge1$ enters through $g_i>0$.
+\end{proof}
+
+\begin{proposition}[the root count at a prime]
+\tfstmt{III.ef.prop:cohen-mu-local-prime}
+\lean{GL2TF.Explicit.cohenMu_prime}
+\uses{III.ef.def:cohen-mu,III.ef.def:dedekind-psi,III.ef.def:kronecker-prime,III.ef.def:order-index-set,III.ef.lem:dedekind-psi-multiplicative}
+\end{proposition}
+\begin{tfformal}{III.ef.prop:cohen-mu-local-prime}
+\tfsem{III.ef.prop:cohen-mu-local-prime}{4347df8162286f0e5ef25eb3ec92092fab42d676536592b96172e4f2c79686fd}
+\tfhyps{III.ef.prop:cohen-mu-local-prime}{}
+\tfbinder{III.ef.prop:cohen-mu-local-prime}{0}{9f2c4084}{$t$}
+\tfbinder{III.ef.prop:cohen-mu-local-prime}{1}{ed582572}{$n$}
+\tfbinder{III.ef.prop:cohen-mu-local-prime}{2}{48b1c944}{$f$}
+\tfbinder{III.ef.prop:cohen-mu-local-prime}{3}{93bef854}{$f\in\Ford(t,n)$}
+\tfbinder{III.ef.prop:cohen-mu-local-prime}{4}{5b09f8d2}{the prime $p$}
+\tfbinder{III.ef.prop:cohen-mu-local-prime}{5}{070adafb}{$p$ is prime}
+\begin{tffidelity}
+One conjunction of two implications, as in A ($p\nmid f$ and $p\mid f$). The symbol $\chi_{t^2-4n}(p)$ is \texttt{kroneckerPrime (t\^{}2 - 4 * n) p} cast to \texttt{ℚ}; $f\in\Ford(t,n)$ is a membership hypothesis.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Unfold \texttt{cohenMu} at $N=p$ and use $\dedpsi(p)=p+1$ and $\dedpsi(1)=1$. Case $p\nmid f$: $N_f=1$, the count is over $x\in\{0,\dots,p-1\}$ with $p\mid x^2-tx+n$. For $p=2$ the two values are checked directly (helper \texttt{sq\_mod\_sixteen}, then \texttt{omega} after generalising $t^2$) against $1+\chi_{t^2-4n}(2)$. For $p$ odd, helper \texttt{count\_roots\_odd\_prime}: the bijection $x\mapsto2x-t$ onto the square roots of $t^2-4n$ mod $p$ and \texttt{legendreSym.card\_sqrts} (with \texttt{Fact p.Prime} inside the proof) give $1+\left(\frac{t^2-4n}{p}\right)$. Case $p\mid f$: $N_f=p$, one must show exactly one root mod $p^2$ among $0..p-1$. For $p=2$: write $f=2f'$, $\Delta_f=D$, so $t^2-4n=4Df'^2$ with $D\equiv0,1\pmod4$ (\texttt{disc\_mul\_sq}), and check the two residues by \texttt{omega}. For odd $p$, helper \texttt{count\_roots\_odd\_prime\_sq}, using $p^2\mid t^2-4n$ (from $p\mid f$ and $f^2\mid t^2-4n$). The value is then $(p+1)\cdot1/1$.
+\end{proof}
+
+\begin{lemma}[the local identity]
+\tfstmt{III.ef.lem:d2-local-identity}
+\lean{GL2TF.Explicit.d2_local_identity}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:d2-local-identity}
+\tfsem{III.ef.lem:d2-local-identity}{6f98fa9ba7931a53e23ee7dd9074d34861a7084c9c7950520c526e54a2ed8edb}
+\tfhyps{III.ef.lem:d2-local-identity}{}
+\tfbinder{III.ef.lem:d2-local-identity}{0}{cf3d1075}{the prime $p$}
+\tfbinder{III.ef.lem:d2-local-identity}{1}{20041491}{$p$ is prime}
+\tfbinder{III.ef.lem:d2-local-identity}{2}{37c43f62}{$\chi$}
+\tfbinder{III.ef.lem:d2-local-identity}{3}{f7bc01e4}{$\nu$}
+\tfbinder{III.ef.lem:d2-local-identity}{4}{68f0e99e}{the function $g$}
+\tfbinder{III.ef.lem:d2-local-identity}{5}{4595a2c2}{the function $X$}
+\tfbinder{III.ef.lem:d2-local-identity}{6}{bd7bf4f2}{the function $Y$}
+\tfbinder{III.ef.lem:d2-local-identity}{7}{9f72f05e}{$g(0)=1$}
+\tfbinder{III.ef.lem:d2-local-identity}{8}{d5c8a33e}{$g(j)=p^{j-1}(p-\chi)$ for $j\ge1$}
+\tfbinder{III.ef.lem:d2-local-identity}{9}{45140322}{$X(0)=1+\chi$ if $\nu=0$ and $1$ otherwise}
+\tfbinder{III.ef.lem:d2-local-identity}{10}{2e9c3260}{$X(a)=p+1$ for $a\ge1$}
+\tfbinder{III.ef.lem:d2-local-identity}{11}{af481415}{$Y(0)=1+\chi$}
+\tfbinder{III.ef.lem:d2-local-identity}{12}{e2ea78c2}{$Y(j)=2$ for $j\ge1$}
+\begin{tffidelity}
+The functions $g,X,Y\colon\N\to\Z$ are universally quantified binders constrained by their defining equations (hypotheses, one binder each), not definitions; $\chi\in\Z$ and $\nu\in\N$ are free. The condition $X(0)=1+[\nu=0]\chi$ is \texttt{if ν = 0 then 1 + χ else 1}. All the equations of A are stated, none is dropped; they are hypotheses of the lemma and therefore appear as binders here. The proof does not use the binder ``$p$ is prime'': the identity is algebra in $p$; it stays as a binder because it is part of A's statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Pure algebra over $\Z$; the primality hypothesis is not used. Write $g(j+1)=p^j(p-\chi)$. Case $\nu=0$: both sides reduce by \texttt{simp} to $1+\chi$. Case $\nu=m+1$: auxiliary $T$: $(p-1)\sum_{j\le m}g(j)=g(m+1)-1+\chi$, by induction on $m$ (\texttt{pow\_succ}, \texttt{ring}). Left side: reflect the index (\texttt{Finset.sum\_range\_reflect}), split off $a=0$ (\texttt{Finset.sum\_range\_succ'}) to get $g(m+1)+(p+1)\sum_{j\le m}g(j)$ using $X(0)=1$ and $X(a)=p+1$. Right side: reflect, split off $j=0$, to get $(1+\chi)+2\bigl(\sum_{j\le m}g(j)-1+g(m+1)\bigr)$ using $Y(0)=1+\chi$, $Y(j)=2$. The two agree by $T$ and \texttt{linarith}.
+\end{proof}
+
+\begin{lemma}
+\tfstmt{III.ef.lem:conductor-relation-iterate}
+\bonly
+\lean{GL2TF.Explicit.conductor_relation_iterate}
+\uses{III.ef.def:conductor-prime,III.ef.def:kronecker-prime}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:conductor-relation-iterate}
+\tfsem{III.ef.lem:conductor-relation-iterate}{1a5651380629907084c5da083e497ddcf3ad5b54508976a7bd67149bc4273d43}
+\tfhyps{III.ef.lem:conductor-relation-iterate}{}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{0}{e01e2425}{the abstract weight $H$}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{1}{17cec5c3}{the conductor relation for $H$ (an inline $\forall$-binder; no project hypothesis)}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{2}{399ffcae}{$\Delta_0$}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{3}{7eff7eca}{$\Delta_0<0$}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{4}{af079801}{$\Delta_0\equiv0,1\pmod4$}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{5}{e80a39a0}{no prime divides the conductor of $\Delta_0$}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{6}{6f93b58a}{$m$}
+\tfbinder{III.ef.lem:conductor-relation-iterate}{7}{43282514}{$m\ge1$}
+\begin{tffidelity}
+B-only; fact (C) of A's \S4. The weight $H\colon\Z\to\Q$ is an abstract binder and the conductor relation is an inline $\forall$-hypothesis in the signature, with the Lean symbol \texttt{kroneckerPrime} cast to \texttt{ℚ}; no project class or Hyp constant occurs (same shape as in \cref{III.ef.thm:d2-sum-form}). The exponent $v_p(m)-1$ is \texttt{m.factorization p - 1} with truncated subtraction, exact since $p\mid m$ on \texttt{m.primeFactors}. The proof does not use $\Delta_0$ fundamental (the iteration holds for every negative discriminant once the relation holds at all discriminants), so the statement is stronger than needed. A has no separate statement of this item (fact (C) is prose), and the consumer supplies the hypothesis.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Strong induction on $m$ (\texttt{Nat.strong\_induction\_on}). For $m=1$ both sides are $H(\Delta_0)$ (empty product). For $m>1$ let $p=\mathrm{minFac}\,m$ and $m=pm'$. The hypothesis \texttt{hH} at $\Delta=\Delta_0m'^2$ (negative, a discriminant by \texttt{disc\_mul\_sq}) gives $H(\Delta_0m^2)=(p-\chi_{\Delta_0m'^2}(p))\,H(\Delta_0m'^2)$; \texttt{kroneckerPrime\_mul\_sq\_of\_dvd} and \texttt{kroneckerPrime\_mul\_sq\_of\_not\_dvd} give $\chi_{\Delta_0m'^2}(p)=\chi_{\Delta_0}(p)$ if $p\nmid m'$ and $0$ otherwise, matching the factor $p^{v_p-1}(p-\chi)$ of the product (helper \texttt{condProd\_prime\_mul}: the product for $pm'$ from that for $m'$, by cases $p\mid m'$). The binder \texttt{hfund} (fundamental) is not used by the proof: the iteration holds for any negative discriminant $\Delta_0$; the statement is kept as in A, and \cref{III.ef.thm:d2-sum-form} supplies \texttt{hfund} from \cref{III.ef.lem:order-index-set-divisors}.
+\end{proof}
+
+\begin{theorem}[Eichler's sum form of the elliptic local factors]
+\tfstmt{III.ef.thm:d2-sum-form}
+\lean{GL2TF.Explicit.d2_sum_form}
+\uses{III.ef.def:cohen-mu,III.ef.def:conductor-prime,III.ef.def:dedekind-psi,III.ef.def:eichler-symbol,III.ef.def:kronecker-prime,III.ef.def:local-factor-eichler-prime,III.ef.def:order-index-set,III.ef.lem:conductor-relation-iterate,III.ef.lem:d2-local-identity,III.ef.lem:order-index-set-divisors,III.ef.prop:cohen-mu-local-prime,III.ef.thm:cohen-mu-multiplicative}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:d2-sum-form}
+\tfsem{III.ef.thm:d2-sum-form}{1b72c887d03e05bc2c5b80d96203e0c9941f548cddb2859a8a865d24d2d1d535}
+\tfhyps{III.ef.thm:d2-sum-form}{}
+\tfbinder{III.ef.thm:d2-sum-form}{0}{cf3d1075}{the level $N$}
+\tfbinder{III.ef.thm:d2-sum-form}{1}{4653a60f}{$N$ is squarefree}
+\tfbinder{III.ef.thm:d2-sum-form}{2}{399ffcae}{$t$}
+\tfbinder{III.ef.thm:d2-sum-form}{3}{97b94027}{$n$}
+\tfbinder{III.ef.thm:d2-sum-form}{4}{f307085a}{$t^2<4n$}
+\tfbinder{III.ef.thm:d2-sum-form}{5}{006d65b1}{the abstract weight $H$}
+\tfbinder{III.ef.thm:d2-sum-form}{6}{c08064af}{the conductor relation for $H$ (an inline $\forall$-binder; no project hypothesis)}
+\begin{tffidelity}
+\textbf{Abstract weight.} The weight $H\colon\Z\to\Q$ (binder~5) is a free variable: the statement says nothing about class numbers, and the choice $H=h_w$ is made only in a later chapter. The relation $H(p^2\Delta)=(p-\chi_\Delta(p))H(\Delta)$ (binder~6, the same text as in A) is an \emph{inline} $\forall$-binder over $\Delta,p$ and uses no project hypothesis (no \texttt{Hyp} constant); it is a hypothesis of the theorem and is not discharged by it. The binder phrases of the other rows match A: $N$ squarefree (so $N\ne0$; $N=1$ gives empty products), $t^2<4n$. No coprimality of $n$ and $N$ is assumed. Both sides sum over \texttt{orderIndexSet t n}; $\Delta_f$ is integer division, exact on $\Ford(t,n)$; the local factor $m^{(1)}_p(\Delta_f)\in\Z$ is cast to \texttt{ℚ}. The exit statement is non-vacuous by \cref{III.ef.ex:d2-weight-instance}. The Lean proof uses the B-only items \cref{III.ef.lem:order-index-set-divisors,III.ef.lem:conductor-relation-iterate} directly, and \cref{III.ef.lem:cohen-mu-averaged} only through \cref{III.ef.thm:cohen-mu-multiplicative}; A's proof does these steps inline.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Obtain $c,\Delta_0$ from \cref{III.ef.lem:order-index-set-divisors}, so $\Ford=$ \texttt{c.divisors}, $\Delta_f=\Delta_0(c/f)^2$ (\texttt{Int.mul\_ediv\_cancel\_left}). Let $P=$ \texttt{c.primeFactors} $\cup$ \texttt{N.primeFactors}. Local data: $g_p(j)$ as in \cref{III.ef.lem:d2-local-identity} with $\chi=\chi_{\Delta_0}(p)$, $X_p(a)$ (the Cohen local value, $p\in N$) and $Y_p(j)$ (Eichler local value). Three rewrites: (i) $H(\Delta_f)=H(\Delta_0)\prod_{p\in P}g_p(v_p(c)-v_p(f))$ by \cref{III.ef.lem:conductor-relation-iterate} (the product over \texttt{primeFactors} is extended to $P$, factors outside being $1$); (ii) $\mu_N(t,f,n)=\prod_{p\in P}X_p(v_p f)$ by multiplicativity \cref{III.ef.thm:cohen-mu-multiplicative} (helper \texttt{cohenMu\_prod\_primes}, $N$ squarefree) and \cref{III.ef.prop:cohen-mu-local-prime}; (iii) $\prod_{p\mid N}m^{(1)}_p(\Delta_f)=\prod_{p\in P}Y_p(v_p(c/f))$, using the conductor test $p\mid\mathrm{cond}\,\Delta_f\iff p\mid c/f$ (last conjunct of the B-only lemma) and \texttt{kroneckerPrime\_mul\_sq\_of\_not\_dvd}. Then the private lemma \texttt{sum\_divisors\_prod\_local}, $\sum_{f\mid c}\prod_{p\in P}\varphi_p(v_p f)=\prod_{p\in P}\sum_{a\le v_p c}\varphi_p(a)$ (applied to arbitrary local data $\varphi$; this is the factored step of the plan), turns both sums into products over $P$; the primes are compared one by one: for $p\in N$ by \cref{III.ef.lem:d2-local-identity} (with $X_p(0)=1+\chi_{t^2-4n}(p)$ rewritten through \texttt{kroneckerPrime\_mul\_sq\_of\_dvd}), for $p\notin N$ both local factors are $1$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{The boundary sum and the Eisenstein expression}\label{sec:ef-boundary}
+
+\begin{definition}[the boundary divisor sum]
+\tfstmt{III.ef.def:boundary-divisor-sum}
+\lean{GL2TF.Explicit.boundaryDivisorSum}
+\end{definition}
+\begin{tfformal}{III.ef.def:boundary-divisor-sum}
+\tfsem{III.ef.def:boundary-divisor-sum}{a8aa776a3b4a129e8a8dd03e6e6853bf18775a80fdd904bff81d049d0ffa952c}
+\tfhyps{III.ef.def:boundary-divisor-sum}{}
+\tfbinder{III.ef.def:boundary-divisor-sum}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:boundary-divisor-sum}{1}{c6513842}{the integer $m$}
+\begin{tffidelity}
+$c_N(m)\in\N$ is $\sum_{\tau\mid N,\ \gcd(\tau,N/\tau)\mid m}\varphi(\gcd(\tau,N/\tau))$ as a sum over \texttt{N.divisors} filtered by divisibility in \texttt{ℤ}; $N/\tau$ is exact. Junk: $c_0(m)=0$ (\texttt{Nat.divisors 0 = ∅}), as in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[multiplicativity of the boundary sum]
+\tfstmt{III.ef.thm:boundary-multiplicative}
+\lean{GL2TF.Explicit.boundary_multiplicative}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:boundary-multiplicative}
+\tfsem{III.ef.thm:boundary-multiplicative}{66e4fcd194472fc3c1a3a4c0851a2c59ea1eb90cd2ded799966b0ee2cfe721e5}
+\tfhyps{III.ef.thm:boundary-multiplicative}{}
+\tfbinder{III.ef.thm:boundary-multiplicative}{0}{52ee410f}{$N_1$}
+\tfbinder{III.ef.thm:boundary-multiplicative}{1}{818304fd}{$N_2$}
+\tfbinder{III.ef.thm:boundary-multiplicative}{2}{7be49e5a}{$N_1,N_2$ coprime}
+\tfbinder{III.ef.thm:boundary-multiplicative}{3}{d4710ca0}{the integer $m$}
+\begin{tffidelity}
+Both $N_1,N_2\in\N$ are arbitrary with \texttt{Nat.Coprime}; the case $N_i=0$ (then the other is $1$) holds because $c_0=0$. $m\in\Z$ is the last binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Expand $\mathrm{Divisors}(ab)=\mathrm{Divisors}(a)\cdot\mathrm{Divisors}(b)$ (\texttt{Nat.divisors\_mul}, \texttt{Finset.mul\_def}); the map $(d_1,d_2)\mapsto d_1d_2$ is injective on the product (\texttt{Nat.Coprime.mul\_injOn\_divisors}), so \texttt{Finset.sum\_image} and \texttt{Finset.sum\_product} turn the double sum into a product of sums (\texttt{Finset.sum\_mul\_sum}). Termwise: $\gcd(ab,a'b')=\gcd(a,a')\gcd(b,b')$, $\varphi$ multiplicative (\texttt{Nat.totient\_mul}), and for coprime $g_1,g_2$: $g_1g_2\mid m\iff g_1\mid m\wedge g_2\mid m$, whence the indicator factorises (\texttt{ite\_zero\_mul\_ite\_zero}).
+\end{proof}
+
+\begin{theorem}[the local boundary factor]
+\tfstmt{III.ef.thm:boundary-local-factor}
+\lean{GL2TF.Explicit.boundary_local_factor}
+\uses{III.ef.def:boundary-divisor-sum,III.ef.thm:boundary-multiplicative}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:boundary-local-factor}
+\tfsem{III.ef.thm:boundary-local-factor}{1a077d737c4a4563e93b36fcc5550ff94cbdc4de81e363189708d627dbd46b30}
+\tfhyps{III.ef.thm:boundary-local-factor}{}
+\tfbinder{III.ef.thm:boundary-local-factor}{0}{2722ba5a}{the integer $m$}
+\begin{tffidelity}
+One conjunction (a) $c_{p^e}(m)=\sum_{j=0}^{e}[p^{\min(j,e-j)}\mid m]\varphi(p^{\min(j,e-j)})$ for all primes $p$ and $e\in\N$ (the indicator is an \texttt{if}, divisibility in \texttt{ℤ}), (b) $c_p(m)=2$, (c) $c_N(m)=2^{\omega(N)}$ for squarefree $N$, as one statement quantified over $m\in\Z$ (the only binder). Exit item; in (c) the squarefree hypothesis is Mathlib's \texttt{Squarefree}, so $N=0$ is excluded and $N=1$ gives $2^0=1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) The prime-power case from \texttt{Nat.divisors\_prime\_pow}, \texttt{Nat.pow\_div} and $\gcd(p^a,p^b)=p^{\min(a,b)}$; (b) is (a) at $e=1$; (c) for squarefree $M$, \texttt{Nat.prod\_primeFactors\_of\_squarefree} and Finset induction on the prime set, with multiplicativity \cref{III.ef.thm:boundary-multiplicative} for the induction step and \texttt{cardDistinctFactors\_mul} for the exponent $2^{\omega}$.
+\end{proof}
+
+\begin{definition}[the corrected Eisenstein expression]
+\tfstmt{III.ef.def:eisenstein-expression-corrected}
+\lean{GL2TF.Explicit.eisensteinCorrected}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{definition}
+\begin{tfformal}{III.ef.def:eisenstein-expression-corrected}
+\tfsem{III.ef.def:eisenstein-expression-corrected}{1e0445f4e9574ce502cab023f1f89d0ce0393a8540921d825916c970d28f6a97}
+\tfhyps{III.ef.def:eisenstein-expression-corrected}{}
+\tfbinder{III.ef.def:eisenstein-expression-corrected}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:eisenstein-expression-corrected}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:eisenstein-expression-corrected}{2}{18782426}{the index $n$}
+\begin{tffidelity}
+$\tilde{\mathrm{Eis}}(N,k,n)=\sum_{aa'=n}a'^{k-1}c_N(a-a')\in\Q$ as a sum over \texttt{n.divisorsAntidiagonal} (pairs $(a,a')$ of positive integers); the exponent $k-1$ is truncated at $0$ and the integer $a-a'$ is formed in \texttt{ℤ}. Junk: $\tilde{\mathrm{Eis}}(N,k,0)=0$ since \texttt{Nat.divisorsAntidiagonal 0 = ∅}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Eisenstein expression]
+\tfstmt{III.ef.def:eisenstein-expression}
+\lean{GL2TF.Explicit.eisensteinExpr}
+\uses{III.ef.def:eisenstein-expression-corrected}
+\end{definition}
+\begin{tfformal}{III.ef.def:eisenstein-expression}
+\tfsem{III.ef.def:eisenstein-expression}{9a3e1fe025a1b969e75343fb0bccd73c82d35c6014e85225025692b515af2b94}
+\tfhyps{III.ef.def:eisenstein-expression}{}
+\tfbinder{III.ef.def:eisenstein-expression}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:eisenstein-expression}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:eisenstein-expression}{2}{18782426}{the index $n$}
+\begin{tffidelity}
+$\mathrm{Eis}(N,k,n)=\tilde{\mathrm{Eis}}(N,k,n)-\delta_{k,2}\sigma_1(n)$, with $\delta_{k,2}\sigma_1(n)$ written \texttt{if k = 2 then σ 1 n else 0} (\texttt{ArithmeticFunction.sigma 1}). It is an expression, not a trace or a dimension.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[doubling]
+\tfstmt{III.ef.thm:eisenstein-doubling}
+\lean{GL2TF.Explicit.eisenstein_doubling}
+\uses{III.ef.def:boundary-divisor-sum,III.ef.def:eisenstein-expression,III.ef.def:eisenstein-expression-corrected,III.ef.thm:boundary-local-factor,III.ef.thm:boundary-multiplicative}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:eisenstein-doubling}
+\tfsem{III.ef.thm:eisenstein-doubling}{30ffd61faa347b17d52b8fa0f1502b12dff39e88af4d310605da04af4e0d1f31}
+\tfhyps{III.ef.thm:eisenstein-doubling}{}
+\tfbinder{III.ef.thm:eisenstein-doubling}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.thm:eisenstein-doubling}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.thm:eisenstein-doubling}{2}{18782426}{the index $n$}
+\tfbinder{III.ef.thm:eisenstein-doubling}{3}{f7bc01e4}{the prime $p$}
+\tfbinder{III.ef.thm:eisenstein-doubling}{4}{c5284209}{$p$ is prime}
+\tfbinder{III.ef.thm:eisenstein-doubling}{5}{25ed5089}{$p\nmid N$}
+\begin{tffidelity}
+One conjunction (the $\tilde{\mathrm{Eis}}$ identity for all $k$, and the $\mathrm{Eis}$ identity at $k=2$). No coprimality of $n$ and $N$; $N$ is unrestricted in $\N$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+First clause: unfold \texttt{eisensteinCorrected}; the sum is over the pairs $aa'=n$ (\texttt{n.divisorsAntidiagonal}) and the level enters only through $c_{pN}(a-a')$. Termwise, $c_{pN}=c_pc_N=2c_N$ by \cref{III.ef.thm:boundary-multiplicative} (\texttt{boundary\_multiplicative}, $p$ coprime to $N$) and the private \texttt{boundaryDivisorSum\_prime}; then \texttt{Finset.mul\_sum}, \texttt{push\_cast}, \texttt{ring}. Second clause: unfold \texttt{eisensteinExpr}, rewrite by the first clause at $k=2$, and close by \texttt{ring}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{Cohen's expression, Eichler's expressions and the Lefschetz expression}\label{sec:ef-expressions}
+
+\begin{definition}[Cohen's identity term]
+\tfstmt{III.ef.def:cohen-a1}
+\lean{GL2TF.Explicit.cohenA1}
+\uses{III.ef.def:dedekind-psi}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-a1}
+\tfsem{III.ef.def:cohen-a1}{ad78d9946ec2df6221fc0d741e27b23114e1a1b006a43ef74ccd00c5d09239e6}
+\tfhyps{III.ef.def:cohen-a1}{}
+\tfbinder{III.ef.def:cohen-a1}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:cohen-a1}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:cohen-a1}{2}{18782426}{the index $n$}
+\begin{tffidelity}
+$A_1(N,k,n)\in\Q$, with the central term written \texttt{if IsSquare n then (k - 1)/12 * ψ N * (Nat.sqrt n)\^{}(k - 2) else 0}: $r$ is \texttt{Nat.sqrt n}, the exponent $k-2$ is truncated (A's junk remark), and $(k-1)$ is computed in \texttt{ℚ}, so that the value at $k=0$ is $-\tfrac1{12}\dedpsi(N)\cdot r^0$ for squares and $0$ otherwise. This is one definition for all $k\ge1$ (meaningful range $k\ge2$ even), as in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Cohen's elliptic term]
+\tfstmt{III.ef.def:cohen-a2}
+\lean{GL2TF.Explicit.cohenA2}
+\uses{III.ef.def:cohen-mu,III.ef.def:hecke-polynomial,III.ef.def:order-index-set,III.ef.def:weighted-class-number}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-a2}
+\tfsem{III.ef.def:cohen-a2}{fb4c0158044735dd9765889278efe993244f80392ffa53cc6c106c7862b23513}
+\tfhyps{III.ef.def:cohen-a2}{}
+\tfbinder{III.ef.def:cohen-a2}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:cohen-a2}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:cohen-a2}{2}{18782426}{the index $n$}
+\begin{tffidelity}
+$A_2(N,k,n)\in\Q$. The sum over integers $t$ with $t^2<4n$ is a sum over \texttt{(Finset.Icc (-2n) (2n)).filter (t\^{}2 < 4n)}; this is the same set because $\abs t<2\sqrt n\le2n$ for $n\ge1$, and for $n=0$ both are empty ($t^2<0$ is false). $P_k(t,n)\in\Z$ is cast to \texttt{ℚ}; $h_w(\Delta_f)$ and $\mu_N(t,f,n)$ are the defined items with $\Delta_f=(t^2-4n)/f^2$ in integer division.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Cohen's boundary term]
+\tfstmt{III.ef.def:cohen-a3}
+\lean{GL2TF.Explicit.cohenA3}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-a3}
+\tfsem{III.ef.def:cohen-a3}{c4db84e8a6e21ec732bb819195f3b7eedf89b5d6d908697b7c60921e95ef2a17}
+\tfhyps{III.ef.def:cohen-a3}{}
+\tfbinder{III.ef.def:cohen-a3}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:cohen-a3}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:cohen-a3}{2}{18782426}{the index $n$}
+\begin{tffidelity}
+$A_3(N,k,n)\in\Q$: $-\tfrac12\sum_{aa'=n}\min(a,a')^{k-1}c_N(a-a')$ over \texttt{n.divisorsAntidiagonal}; the minimum is taken in \texttt{ℕ} and cast to \texttt{ℚ}, and the exponent $k-1$ is truncated.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Cohen's term at weight two]
+\tfstmt{III.ef.def:cohen-a4}
+\lean{GL2TF.Explicit.cohenA4}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-a4}
+\tfsem{III.ef.def:cohen-a4}{dd6c8f146f1a3b5833ea934ca85314d916e6f4483fbede7263c621cef2c55e33}
+\tfhyps{III.ef.def:cohen-a4}{}
+\tfbinder{III.ef.def:cohen-a4}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.def:cohen-a4}{1}{818304fd}{the index $n$}
+\begin{tffidelity}
+$A_4(k,n)=\sigma_1(n)$ if $k=2$ and $0$ otherwise, in \texttt{ℚ}; the level does not occur. A states the qualifier $(n,N)=1$ for the trace meaning only.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Cohen's expression]
+\tfstmt{III.ef.def:cohen-trace-expression}
+\lean{GL2TF.Explicit.cohenTraceExpr}
+\uses{III.ef.def:cohen-a1,III.ef.def:cohen-a2,III.ef.def:cohen-a3,III.ef.def:cohen-a4}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-trace-expression}
+\tfsem{III.ef.def:cohen-trace-expression}{57e5cd88703f9defbb6f46168fa6891deffe18849c4967253071d957a7dbfa34}
+\tfhyps{III.ef.def:cohen-trace-expression}{}
+\tfbinder{III.ef.def:cohen-trace-expression}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:cohen-trace-expression}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:cohen-trace-expression}{2}{18782426}{the index $n$}
+\begin{tffidelity}
+$T^C(N,k,n)=A_1+A_2+A_3+A_4\in\Q$ as the sum of the four defined terms. An \emph{expression}: in this chapter it is not asserted to be a trace; its trace meaning ($k\ge2$ even, $(n,N)=1$) is the subject of later chapters.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Eichler's elliptic expression]
+\tfstmt{III.ef.def:eichler-elliptic-expression}
+\lean{GL2TF.Explicit.eichlerElliptic}
+\uses{III.ef.def:hecke-polynomial,III.ef.def:order-index-set,III.ef.def:weighted-class-number}
+\end{definition}
+\begin{tfformal}{III.ef.def:eichler-elliptic-expression}
+\tfsem{III.ef.def:eichler-elliptic-expression}{7eeed541e0142b2191fbaaad50ce825f61900f719158626dee60e1c14b89c88d}
+\tfhyps{III.ef.def:eichler-elliptic-expression}{}
+\tfbinder{III.ef.def:eichler-elliptic-expression}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.def:eichler-elliptic-expression}{1}{818304fd}{the index $n$}
+\tfbinder{III.ef.def:eichler-elliptic-expression}{2}{31f959e8}{the abstract local-factor function $F$}
+\begin{tffidelity}
+$A_2^E(k,n;F)\in\Q$. \textbf{The weight $F$ is an abstract function $\Z\to\Q$} (binder~2): no relation to any local factor, level or class number is imposed here; the local factors enter only through the specific functions that later statements substitute for $F$. The sum over $t$ is as in \cref{III.ef.def:cohen-a2}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Eichler--Selberg Lefschetz expression]
+\tfstmt{III.ef.def:lefschetz-es-expression}
+\lean{GL2TF.Explicit.lefschetzES}
+\uses{III.ef.def:cohen-a1,III.ef.def:cohen-a3,III.ef.def:cohen-a4,III.ef.def:eichler-elliptic-expression,III.ef.def:eisenstein-expression}
+\end{definition}
+\begin{tfformal}{III.ef.def:lefschetz-es-expression}
+\tfsem{III.ef.def:lefschetz-es-expression}{ac22193271c8694a2fd167f43216a6824e2bad836412f1a335a0a9b73c1197cc}
+\tfhyps{III.ef.def:lefschetz-es-expression}{}
+\tfbinder{III.ef.def:lefschetz-es-expression}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.def:lefschetz-es-expression}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:lefschetz-es-expression}{2}{18782426}{the index $n$}
+\tfbinder{III.ef.def:lefschetz-es-expression}{3}{41df10ea}{the abstract local-factor function $F$}
+\begin{tffidelity}
+$\Lambda^{ES}(N,k,n;F)\in\Q$ with the abstract weight $F\colon\Z\to\Q$ (binder~3). Written as $\delta_{k,2}\sigma_1(n)-2(A_1+A_2^E+A_3+A_4)-\mathrm{Eis}(N,k,n)$, with the Eisenstein part unchanged and with no dependence of $F$ on $N$. It is an expression, not a Lefschetz number.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Eichler's expression]
+\tfstmt{III.ef.def:eichler-b-expression}
+\lean{GL2TF.Explicit.eichlerB}
+\uses{III.ef.def:class-number-forms,III.ef.def:dedekind-psi,III.ef.def:hecke-polynomial,III.ef.def:local-factor-ramified,III.ef.def:order-index-set,III.ef.def:unit-number}
+\end{definition}
+\begin{tfformal}{III.ef.def:eichler-b-expression}
+\tfsem{III.ef.def:eichler-b-expression}{86364f93e54a9530dd682811685a0813e5e2274cee3447eb625b170ffb379a8a}
+\tfhyps{III.ef.def:eichler-b-expression}{}
+\tfbinder{III.ef.def:eichler-b-expression}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.def:eichler-b-expression}{1}{818304fd}{the level $M$}
+\tfbinder{III.ef.def:eichler-b-expression}{2}{18782426}{the weight $k$}
+\tfbinder{III.ef.def:eichler-b-expression}{3}{f7bc01e4}{the index $n$}
+\tfbinder{III.ef.def:eichler-b-expression}{4}{e1d83ac9}{the abstract level-$M$ local-factor function $F$}
+\begin{tffidelity}
+$E^{\mathbb B}(D,M,k,n;F)\in\Q$. $F\colon\Z\to\Q$ is the abstract local-factor function at the primes of $M$ (binder~4); $M$ occurs only through $\dedpsi(M)$ in the central term, and $D$ through \texttt{D.primeFactors} (so $D=0$ and $D=1$ give empty products). The central term is \texttt{C(k,n) * ∏ (p - 1) * ψ M} with $C(k,n)=(k-1)/12\cdot r^{k-2}$ for squares (same junk as \cref{III.ef.def:cohen-a1}), the elliptic term uses $(h/w)(\Delta_f)$ as a quotient in \texttt{ℚ} of the casts of \texttt{classNumberForms} and \texttt{unitNumber}, and the product of the local factors $m^D_p(\Delta_f)$ cast to \texttt{ℚ}. Not a trace.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the boundary split]
+\tfstmt{III.ef.lem:lefschetz-es-boundary-split}
+\lean{GL2TF.Explicit.lefschetz_es_boundary_split}
+\uses{III.ef.def:cohen-a1,III.ef.def:cohen-a3,III.ef.def:cohen-a4,III.ef.def:eichler-elliptic-expression,III.ef.def:eisenstein-expression,III.ef.def:eisenstein-expression-corrected,III.ef.def:lefschetz-es-expression}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:lefschetz-es-boundary-split}
+\tfsem{III.ef.lem:lefschetz-es-boundary-split}{76d27f45ea5eddd52103f71bde2c6d7aa736948b8b15b010203a95ae9278e517}
+\tfhyps{III.ef.lem:lefschetz-es-boundary-split}{}
+\tfbinder{III.ef.lem:lefschetz-es-boundary-split}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.lem:lefschetz-es-boundary-split}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.lem:lefschetz-es-boundary-split}{2}{18782426}{the index $n$}
+\tfbinder{III.ef.lem:lefschetz-es-boundary-split}{3}{41df10ea}{the abstract local-factor function $F$}
+\begin{tffidelity}
+No hypotheses on $N,k,n$ or $F$: an identity of total functions. Written $\Lambda^{ES}(N,k,n;F)=-2A_1-2A_2^E-2A_3-\tilde{\mathrm{Eis}}(N,k,n)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Unfold the three definitions, case-split the conditionals with \texttt{split\_ifs}, and close by \texttt{ring}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{The formula-level Jacquet--Langlands identity}\label{sec:ef-identity}
+
+\begin{theorem}[the formula-level identity $(*_{\mathrm{EF}})$]
+\tfstmt{III.ef.thm:jl-formula-identity}
+\lean{GL2TF.Explicit.jl_formula_identity}
+\uses{III.ef.cor:signed-divisor-sum-constants,III.ef.def:boundary-divisor-sum,III.ef.def:class-number-forms,III.ef.def:cohen-a1,III.ef.def:cohen-a3,III.ef.def:dedekind-psi,III.ef.def:eichler-b-expression,III.ef.def:eichler-elliptic-expression,III.ef.def:eichler-symbol,III.ef.def:eisenstein-expression-corrected,III.ef.def:hecke-polynomial,III.ef.def:lefschetz-es-expression,III.ef.def:local-factor-eichler-prime,III.ef.def:local-factor-ramified,III.ef.def:order-index-set,III.ef.def:unit-number,III.ef.def:weighted-class-number,III.ef.lem:lefschetz-es-boundary-split,III.ef.lem:signed-divisor-sum,III.ef.thm:boundary-local-factor,III.ef.thm:boundary-multiplicative}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:jl-formula-identity}
+\tfsem{III.ef.thm:jl-formula-identity}{44d08ecfcfb707e5f52c13ae1ad650dbb86fc8108757ee951b85a1cc0d91597d}
+\tfhyps{III.ef.thm:jl-formula-identity}{}
+\tfbinder{III.ef.thm:jl-formula-identity}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.thm:jl-formula-identity}{1}{818304fd}{the level $M$}
+\tfbinder{III.ef.thm:jl-formula-identity}{2}{18782426}{the weight $k$}
+\tfbinder{III.ef.thm:jl-formula-identity}{3}{f7bc01e4}{the index $n$}
+\tfbinder{III.ef.thm:jl-formula-identity}{4}{e1d83ac9}{the abstract level-$M$ local-factor function $F$}
+\tfbinder{III.ef.thm:jl-formula-identity}{5}{af76bedd}{$D$ is squarefree}
+\tfbinder{III.ef.thm:jl-formula-identity}{6}{cebf0ee6}{$\omega(D)$ is odd}
+\tfbinder{III.ef.thm:jl-formula-identity}{7}{014b5ac5}{$(D,M)=1$}
+\tfbinder{III.ef.thm:jl-formula-identity}{8}{75122bb1}{$k\ge1$}
+\tfbinder{III.ef.thm:jl-formula-identity}{9}{79f28fce}{$n\ge1$}
+\begin{tffidelity}
+\textbf{Exit; the weight $F$.} $F\colon\Z\to\Q$ (binder~4) is an abstract parameter standing for the level-$M$ local factor. Nothing relates it to $M$ or to any class number; the right side contains $F$ multiplied by $\prod_{p\mid d}m^{(1)}_p(\Delta)$ (\texttt{fun Δ => F Δ * ∏ p ∈ d.primeFactors, ↑(localFactorEichler p Δ)}), exactly the function $F_d$ of A. \textbf{Hypotheses.} The statement carries the minimal hypotheses: $D$ squarefree with $\omega(D)$ odd ($\omega=$ \texttt{cardDistinctFactors}), $\gcd(D,M)=1$, $k\ge1$, $n\ge1$. There is no binder $M\ge1$: it follows from $(D,M)=1$ and $D>1$ (as in A). The meaningful range ($k\ge2$ even, $(n,DM)=1$) is a remark in A only. The signs are $(-2)^{\omega(D/d)}$ with $D/d$ natural-number division, exact on \texttt{D.divisors}. No project hypothesis occurs; the theorem is unconditional. The proof does not use $k\ge1$ and $n\ge1$ (they mark the range only).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Follows A's outline of \S7. Rewrite the right side with \cref{III.ef.lem:lefschetz-es-boundary-split} inside the sum over $d$; for squarefree $d$ coprime to $M$ the boundary terms are $c_{dM}=2^{\omega(d)}c_M$ (\cref{III.ef.thm:boundary-multiplicative,III.ef.thm:boundary-local-factor}c, via \texttt{cohenA3\_sqfree\_mul} and \texttt{eisensteinCorrected\_sqfree\_mul}), and the central term is $\mathrm{cohenA1\_eq}\cdot\dedpsi(dM)$. The Eisenstein/boundary part carries the coefficient $\sum_d s_d2^{\omega(d)}=0$ (\cref{III.ef.cor:signed-divisor-sum-constants}b; $D>1$ because $\omega(D)$ is odd, \texttt{cardDistinctFactors\_pos}), which kills it; the central part is $C\prod_{p\mid D}(p-1)\,\dedpsi(M)$ by 4(c). The elliptic part: exchange the sums (\texttt{sum\_mul\_eichlerElliptic}) and apply \cref{III.ef.lem:signed-divisor-sum} with $a=m^{(1)}_p$, $b=-2$, $m^{(1)}_p-2=-m^D_p$, \texttt{Finset.prod\_neg} and \texttt{Odd.neg\_one\_pow} (private \texttt{sum\_signed\_localFactorEichler}), giving $-\prod m^D_p$; finally $h_w/2=h/w$ by \texttt{unfold weightedClassNumber; ring}. The binders $k\ge1$ and $n\ge1$ are not used by the proof (linter warnings only; as in A they only mark the range).
+\end{proof}
+
+\begin{corollary}[squarefree level]
+\tfstmt{III.ef.cor:jl-formula-identity-squarefree}
+\lean{GL2TF.Explicit.jl_formula_identity_squarefree}
+\uses{III.ef.def:eichler-b-expression,III.ef.def:lefschetz-es-expression,III.ef.def:local-factor-eichler-prime,III.ef.thm:jl-formula-identity}
+\end{corollary}
+\begin{tfformal}{III.ef.cor:jl-formula-identity-squarefree}
+\tfsem{III.ef.cor:jl-formula-identity-squarefree}{7f8b7d8de47e0b7d94614a1f2d9054f62656af6636f99026682d0ca3327980fc}
+\tfhyps{III.ef.cor:jl-formula-identity-squarefree}{}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{1}{818304fd}{the level $M$}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{2}{18782426}{the weight $k$}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{3}{f7bc01e4}{the index $n$}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{4}{40501632}{$D$ is squarefree}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{5}{59893d29}{$\omega(D)$ is odd}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{6}{8ef8c3f6}{$M$ is squarefree}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{7}{014b5ac5}{$(D,M)=1$}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{8}{75122bb1}{$k\ge1$}
+\tfbinder{III.ef.cor:jl-formula-identity-squarefree}{9}{79f28fce}{$n\ge1$}
+\begin{tffidelity}
+The weight is the specific function $F_M(\Delta)=\prod_{p\mid M}m^{(1)}_p(\Delta)$, written inline (\texttt{fun Δ => ∏ p ∈ M.primeFactors, ↑(localFactorEichler p Δ)}; no tagged definition), and on the right the weight at level $dM$ is $\prod_{p\mid dM}m^{(1)}_p(\Delta)$ over \texttt{(d * M).primeFactors}; the equality of this with $F_M\cdot\prod_{p\mid d}m^{(1)}_p$ is the coprimality of $d$ and $M$, used in the proof. The hypothesis that $M$ is squarefree is not used by the proof; it marks the range where all local factors at $dM$ are the explicit ones (as in A). The proof does not use $M$ squarefree.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Item 39 with $F=F_M$; for $d\mid D$ with $(D,M)=1$, \texttt{Nat.Coprime.primeFactors\_mul} and \texttt{Finset.prod\_union} (disjoint prime sets) identify $\prod_{p\mid dM}m^{(1)}_p$ with $F_M\cdot\prod_{p\mid d}m^{(1)}_p$. The binder \texttt{hM : Squarefree M} is not used (linter warning).
+\end{proof}
+
+\begin{example}[the golden values at $D=11$]
+\tfstmt{III.ef.ex:jl-formula-golden-d11}
+\lean{GL2TF.Explicit.jl_formula_golden_d11}
+\uses{III.ef.def:cohen-a1,III.ef.def:cohen-a3,III.ef.def:eichler-b-expression,III.ef.def:eichler-elliptic-expression,III.ef.def:eisenstein-expression-corrected,III.ef.def:lefschetz-es-expression,III.ef.def:local-factor-eichler-prime,III.ef.def:local-factor-ramified,III.ef.def:weighted-class-number,III.ef.lem:lefschetz-es-boundary-split,III.ef.thm:boundary-local-factor}
+\end{example}
+\begin{tfformal}{III.ef.ex:jl-formula-golden-d11}
+\tfsem{III.ef.ex:jl-formula-golden-d11}{14e2606c107dc65a8a36e02490b6b2ba6885454aaed4dacd7e22083f91615f45}
+\tfhyps{III.ef.ex:jl-formula-golden-d11}{}
+\begin{tffidelity}
+A closed statement with no binders, a conjunction of nine numerical equalities (kernel computation). The constant function $1$ is \texttt{fun \_ => 1}, and the function $m^{(1)}_{11}$ is \texttt{fun Δ => ↑(localFactorEichler 11 Δ)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{decide +kernel}: kernel evaluation of the closed term (no \texttt{native\_decide}); about 25 s for this and the next item together.
+\end{proof}
+
+\begin{example}[Cohen's golden values]
+\tfstmt{III.ef.ex:cohen-golden-values}
+\lean{GL2TF.Explicit.cohen_golden_values}
+\uses{III.ef.def:cohen-a1,III.ef.def:cohen-a2,III.ef.def:cohen-a3,III.ef.def:cohen-a4,III.ef.def:cohen-trace-expression,III.ef.def:hecke-polynomial,III.ef.prop:cohen-mu-local-prime,III.ef.thm:boundary-local-factor}
+\end{example}
+\begin{tfformal}{III.ef.ex:cohen-golden-values}
+\tfsem{III.ef.ex:cohen-golden-values}{80f61e2601953982cea1d7ce5df41cfc52ab743bb5647ffd830bbdccb66cacfd}
+\tfhyps{III.ef.ex:cohen-golden-values}{}
+\begin{tffidelity}
+A closed statement with no binders: $T^C(11,2,2)=-2$, $T^C(11,2,3)=-1$, $T^C(1,12,2)=-24$ as a conjunction (kernel computation).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{decide +kernel}, as for \cref{III.ef.ex:jl-formula-golden-d11}.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.ef.def:d2-weight-h0}
+\bonly
+\lean{GL2TF.Explicit.d2WeightH0}
+\uses{III.ef.def:conductor-prime,III.ef.def:kronecker-prime}
+\end{definition}
+\begin{tfformal}{III.ef.def:d2-weight-h0}
+\tfsem{III.ef.def:d2-weight-h0}{55a53323cd08bfb4eab52470c71b4a92ac0df7af705a404c31671fe868b43cc4}
+\tfhyps{III.ef.def:d2-weight-h0}{}
+\tfbinder{III.ef.def:d2-weight-h0}{0}{2722ba5a}{the discriminant $\Delta$}
+\begin{tffidelity}
+B-only; the weight $H_0$ of A's \cref{III.ef.ex:d2-weight-instance}, which A defines inside the example. Lean: a \emph{noncomputable} definition by \texttt{if h : ∃ Δ₀ m, \dots then \dots else 0}, which \emph{chooses} the decomposition $\Delta=\Delta_0m^2$ with \texttt{Classical.choose}. A states that $\Delta_0,m$ are unique when they exist, so the value does not depend on the choice; this uniqueness is not part of the definition and is used in the proof of the example. The product is over \texttt{m.primeFactors} with the truncated exponent \texttt{m.factorization p - 1} (exact on prime factors); \texttt{kroneckerPrime} is cast to \texttt{ℚ}. The declaration is tagged \texttt{tf\_aux} and is not part of A's statements.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{example}[an admissible weight]
+\tfstmt{III.ef.ex:d2-weight-instance}
+\lean{GL2TF.Explicit.d2_weight_instance}
+\uses{III.ef.def:conductor-prime,III.ef.def:d2-weight-h0,III.ef.def:kronecker-prime,III.ef.thm:d2-sum-form}
+\end{example}
+\begin{tfformal}{III.ef.ex:d2-weight-instance}
+\tfsem{III.ef.ex:d2-weight-instance}{d846e12bacc7414f8477e087361e8f7824ee6e75db0d56cb550f895d402288ef}
+\tfhyps{III.ef.ex:d2-weight-instance}{}
+\begin{tffidelity}
+A closed statement with no binders: a conjunction of (i) the inline conductor relation for $H_0=$ \texttt{d2WeightH0} (the hypothesis of \cref{III.ef.thm:d2-sum-form}; same inline text), (ii) $H_0(\Delta_0)=1$ for every fundamental discriminant $\Delta_0<0$ (A's added clause), (iii) $H_0(-3)=1$. The weight $H_0$ is the B-only \cref{III.ef.def:d2-weight-h0}; A defines it inline in the statement, so the example's A text and its Lean statement differ only in that the definition has been factored out. The Lean proof is self-contained and does not use \cref{III.ef.lem:order-index-set-divisors} or \cref{III.ef.lem:conductor-relation-iterate}; it re-proves the existence and uniqueness of the decomposition.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Self-contained: does not use \cref{III.ef.lem:order-index-set-divisors} or \cref{III.ef.lem:conductor-relation-iterate}. Helpers: \texttt{decomp\_exists} (existence of $\Delta=\Delta_0m^2$ with $\Delta_0$ fundamental, by strong induction on $|\Delta|$), the uniqueness lemma (via \texttt{Nat.exists\_coprime} and a mod-$4$ lemma: if a prime $p\mid a$ with $\Delta_0a^2=\Delta_1b^2$ then $p$ divides the conductor of $\Delta_1$; $p=2$ and odd $p$ treated separately), and the formula \texttt{d2WeightH0\_eq} ($H_0(\Delta_0m^2)=\prod_{p\mid m}p^{v_p-1}(p-\chi_{\Delta_0}(p))$ for any admissible decomposition, so the choice in the definition is irrelevant). (ii) is \texttt{d2WeightH0\_eq} at $m=1$. (i): decompose $\Delta=\Delta_0m^2$, then $H_0(p^2\Delta)$ is the product at $pm$; \texttt{prod\_mul\_prime} ($G(pm)=p\,G(m)$ if $p\mid m$ and $(p-\chi)G(m)$ otherwise, from \texttt{Nat.factorization\_mul}) and \texttt{kroneckerPrime\_mul\_sq} ($\chi_{\Delta_0m^2}(p)=[p\nmid m]\chi_{\Delta_0}(p)$: Jacobi \texttt{mul\_left}, \texttt{pow\_left}, \texttt{sq\_one}, and $m^2\equiv1\pmod8$ for $p=2$) finish by \texttt{split\_ifs; ring}. (iii): (ii) at $\Delta_0=-3$, with a direct check that no prime divides the conductor of $-3$ (\texttt{decide}; $p\mid3$ forces $p=3$).
+\end{proof}
+
+
+%----------------------------------------------------------------------------------------------------
+\section{The identity with general parameters}\label{sec:ef-identity-general}
+
+\noindent Unit JLG; Lean module \texttt{GL2TF.VolIII.P1.JLFormulaGen}. Purely additive: the items of \S\S1--7 are unchanged.
+
+\begin{definition}[general elliptic expression]
+\tfstmt{III.ef.def:eichler-elliptic-expression-general}
+\lean{GL2TF.Explicit.eichlerEllipticGen}
+\uses{III.ef.def:hecke-polynomial,III.ef.def:order-index-set,III.ef.def:weighted-class-number}
+\end{definition}
+\begin{tfformal}{III.ef.def:eichler-elliptic-expression-general}
+\tfsem{III.ef.def:eichler-elliptic-expression-general}{f4e9355f7c13bbcf3f5b01381f9d4952c474d7853119502d92e3bb50ac2350df}
+\tfhyps{III.ef.def:eichler-elliptic-expression-general}{}
+\tfbinder{III.ef.def:eichler-elliptic-expression-general}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.def:eichler-elliptic-expression-general}{1}{818304fd}{the index $n$}
+\tfbinder{III.ef.def:eichler-elliptic-expression-general}{2}{d0b1a03e}{the abstract elliptic factor $F(t,f,\Delta)$}
+\begin{tffidelity}
+$A_{2,\mathrm{gen}}^{\mathrm E}(k,n;F)\in\Q$. \textbf{The factor $F\colon\Z\to\N\to\Z\to\Q$ is an abstract function of three arguments} (binder~2), evaluated at $(t,f,\Delta_f)$; nothing relates it to local factors. The sum over $t$ runs over \texttt{Finset.Icc (-2n) (2n)} filtered by $t^2<4n$ (the same finite range as \cref{III.ef.def:eichler-elliptic-expression}); $\Delta_f=(t^2-4n)/f^2$ is integer division in \texttt{ℤ}, exact for $f\in\Ford(t,n)$; $\hw$ is \texttt{weightedClassNumber} and $P_k$ is \texttt{heckePoly} cast to \texttt{ℚ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[general boundary term]
+\tfstmt{III.ef.def:cohen-a3-general}
+\lean{GL2TF.Explicit.cohenA3Gen}
+\end{definition}
+\begin{tfformal}{III.ef.def:cohen-a3-general}
+\tfsem{III.ef.def:cohen-a3-general}{45482d1120daa217a4bd7875c8c9e692ef22dc080e978cef73622299cc1c9676}
+\tfhyps{III.ef.def:cohen-a3-general}{}
+\tfbinder{III.ef.def:cohen-a3-general}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.def:cohen-a3-general}{1}{818304fd}{the index $n$}
+\tfbinder{III.ef.def:cohen-a3-general}{2}{888f55c7}{the abstract boundary function $\beta(a,a')$}
+\begin{tffidelity}
+$A_{3,\mathrm{gen}}(k,n;\beta)\in\Q$ with an abstract $\beta\colon\N\to\N\to\Q$ (binder~2). The sum is over \texttt{n.divisorsAntidiagonal} (empty for $n=0$); \texttt{min} is taken in \texttt{ℚ}; the exponent \texttt{k - 1} is truncated subtraction in \texttt{ℕ}, i.e.\ $\max(k-1,0)$, as stated in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[general Eisenstein expression]
+\tfstmt{III.ef.def:eisenstein-expression-corrected-general}
+\lean{GL2TF.Explicit.eisensteinCorrectedGen}
+\end{definition}
+\begin{tfformal}{III.ef.def:eisenstein-expression-corrected-general}
+\tfsem{III.ef.def:eisenstein-expression-corrected-general}{d3a113a887b5361a5723add7cf441c7420e26592241159dedaa1ac7a12c76cb7}
+\tfhyps{III.ef.def:eisenstein-expression-corrected-general}{}
+\tfbinder{III.ef.def:eisenstein-expression-corrected-general}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.def:eisenstein-expression-corrected-general}{1}{818304fd}{the index $n$}
+\tfbinder{III.ef.def:eisenstein-expression-corrected-general}{2}{888f55c7}{the abstract boundary function $\beta(a,a')$}
+\begin{tffidelity}
+$\tilde E^{\beta}_{\mathrm{gen}}(k,n;\beta)\in\Q$, summed over \texttt{n.divisorsAntidiagonal} (empty for $n=0$) with $a'^{k-1}$ and the truncated exponent $\max(k-1,0)$, as in A. $\beta$ is abstract (binder~2).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[general Lefschetz expression]
+\tfstmt{III.ef.def:lefschetz-es-expression-general}
+\lean{GL2TF.Explicit.lefschetzESGen}
+\uses{III.ef.def:eichler-elliptic-expression-general,III.ef.def:cohen-a3-general,III.ef.def:cohen-a4,III.ef.def:eisenstein-expression-corrected-general}
+\end{definition}
+\begin{tfformal}{III.ef.def:lefschetz-es-expression-general}
+\tfsem{III.ef.def:lefschetz-es-expression-general}{618fa7081d91db5eef40e1057658e29da75c2bce8fd038a58d53290ea95bf3f6}
+\tfhyps{III.ef.def:lefschetz-es-expression-general}{}
+\tfbinder{III.ef.def:lefschetz-es-expression-general}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.def:lefschetz-es-expression-general}{1}{818304fd}{the index $n$}
+\tfbinder{III.ef.def:lefschetz-es-expression-general}{2}{f839bd4b}{the central coefficient $\kappa$}
+\tfbinder{III.ef.def:lefschetz-es-expression-general}{3}{4efbf952}{the abstract elliptic factor $F(t,f,\Delta)$}
+\tfbinder{III.ef.def:lefschetz-es-expression-general}{4}{b4dfbc38}{the abstract boundary function $\beta(a,a')$}
+\begin{tffidelity}
+$\Lambda^{ES}_{\mathrm{gen}}(k,n;\kappa,F,\beta)\in\Q$ with three abstract parameters (binders~2--4); no level occurs. The constant $C(k,n)$ is written inline as \texttt{if IsSquare n then (k-1)/12 * (Nat.sqrt n)\^{}(k-2) else 0} ($k-1$ in \texttt{ℚ}, exponent $k-2$ truncated in \texttt{ℕ} as in A), the same text as in \cref{III.ef.def:cohen-a1}; $\delta_{k,2}\sigma_1(n)$ is \texttt{if k = 2 then σ 1 n else 0}. The term $A_4$ is the existing \texttt{cohenA4}. Written as in A, with the Eisenstein part $\tilde E^\beta_{\mathrm{gen}}-\delta_{k,2}\sigma_1(n)$ not packaged separately.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[general Eichler expression]
+\tfstmt{III.ef.def:eichler-b-expression-general}
+\lean{GL2TF.Explicit.eichlerBGen}
+\uses{III.ef.def:lefschetz-es-expression-general,III.ef.def:hecke-polynomial,III.ef.def:order-index-set,III.ef.def:class-number-forms,III.ef.def:unit-number,III.ef.def:local-factor-ramified}
+\end{definition}
+\begin{tfformal}{III.ef.def:eichler-b-expression-general}
+\tfsem{III.ef.def:eichler-b-expression-general}{abb0e5a851d4653dd7f1bb5d64ad427d2d14edfc73d5633478698b9d2a370e60}
+\tfhyps{III.ef.def:eichler-b-expression-general}{}
+\tfbinder{III.ef.def:eichler-b-expression-general}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.def:eichler-b-expression-general}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.def:eichler-b-expression-general}{2}{18782426}{the index $n$}
+\tfbinder{III.ef.def:eichler-b-expression-general}{3}{2c5f988c}{the central coefficient $c$}
+\tfbinder{III.ef.def:eichler-b-expression-general}{4}{434e865d}{the abstract elliptic factor $F(t,f,\Delta)$}
+\begin{tffidelity}
+$E^{\mathbb B}_{\mathrm{gen}}(D,k,n;c,F)\in\Q$. Same conventions as \cref{III.ef.def:eichler-b-expression}: $D$ enters only through \texttt{D.primeFactors} (so $D=0,1$ give empty products), $(h/w)(\Delta_f)$ is the quotient in \texttt{ℚ} of the casts of \texttt{classNumberForms} and \texttt{unitNumber}, and $m^D_p$ is \texttt{localFactorRamified} cast to \texttt{ℚ}. There is no level $M$: the central coefficient $c$ and the factor $F\colon\Z\to\N\to\Z\to\Q$ (binders~3, 4) are abstract. $C(k,n)$ is the same inline expression as in \cref{III.ef.def:lefschetz-es-expression-general}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the boundary split, general form]
+\tfstmt{III.ef.lem:lefschetz-es-general-boundary-split}
+\lean{GL2TF.Explicit.lefschetz_es_general_boundary_split}
+\uses{III.ef.def:cohen-a3-general,III.ef.def:cohen-a4,III.ef.def:eichler-elliptic-expression-general,III.ef.def:eisenstein-expression-corrected-general,III.ef.def:lefschetz-es-expression-general}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:lefschetz-es-general-boundary-split}
+\tfsem{III.ef.lem:lefschetz-es-general-boundary-split}{3997352c190a2a18ae9a0ba78607ce34cbd9aa4e4e20b2b34b55660b5640b9fb}
+\tfhyps{III.ef.lem:lefschetz-es-general-boundary-split}{}
+\tfbinder{III.ef.lem:lefschetz-es-general-boundary-split}{0}{52ee410f}{the weight $k$}
+\tfbinder{III.ef.lem:lefschetz-es-general-boundary-split}{1}{818304fd}{the index $n$}
+\tfbinder{III.ef.lem:lefschetz-es-general-boundary-split}{2}{f839bd4b}{the central coefficient $\kappa$}
+\tfbinder{III.ef.lem:lefschetz-es-general-boundary-split}{3}{4efbf952}{the abstract elliptic factor $F(t,f,\Delta)$}
+\tfbinder{III.ef.lem:lefschetz-es-general-boundary-split}{4}{b4dfbc38}{the abstract boundary function $\beta(a,a')$}
+\begin{tffidelity}
+No hypotheses: an identity of total functions. The central term $-2C(k,n)\kappa$ is written with the inline expression for $C(k,n)$ (\texttt{-2 * (C * κ)}); the remaining terms are the tagged definitions.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Unfold \texttt{lefschetzESGen} and \texttt{cohenA4}, case-split the two conditionals (\texttt{IsSquare n}, \texttt{k = 2}) with \texttt{split\_ifs}, and close by \texttt{ring}. As in the non-general \cref{III.ef.lem:lefschetz-es-boundary-split}.
+\end{proof}
+
+\begin{lemma}[Eichler's expression as a special value]
+\tfstmt{III.ef.lem:eichler-b-eq-general}
+\lean{GL2TF.Explicit.eichlerB_eq_general}
+\uses{III.ef.def:eichler-b-expression,III.ef.def:eichler-b-expression-general,III.ef.def:dedekind-psi}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:eichler-b-eq-general}
+\tfsem{III.ef.lem:eichler-b-eq-general}{69fc76f023caee6604af348708b1684d53bfeb3e34c17781fb638f244de0de2f}
+\tfhyps{III.ef.lem:eichler-b-eq-general}{}
+\tfbinder{III.ef.lem:eichler-b-eq-general}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.lem:eichler-b-eq-general}{1}{818304fd}{the level $M$}
+\tfbinder{III.ef.lem:eichler-b-eq-general}{2}{18782426}{the weight $k$}
+\tfbinder{III.ef.lem:eichler-b-eq-general}{3}{f7bc01e4}{the index $n$}
+\tfbinder{III.ef.lem:eichler-b-eq-general}{4}{e1d83ac9}{the abstract level-$M$ local-factor function $F$}
+\begin{tffidelity}
+No hypotheses. $F'(t,f,\Delta)=F(\Delta)$ is the inline lambda \texttt{fun \_ \_ Δ => F Δ}, and $\dedpsi(M)$ is \texttt{dedekindPsi M} (a rational number).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{rfl}: the two sides agree by unfolding \texttt{eichlerB} and \texttt{eichlerBGen} (definitional).
+\end{proof}
+
+\begin{lemma}[the Lefschetz expression as a special value]
+\tfstmt{III.ef.lem:lefschetz-es-eq-general}
+\lean{GL2TF.Explicit.lefschetzES_eq_general}
+\uses{III.ef.def:lefschetz-es-expression,III.ef.def:lefschetz-es-expression-general,III.ef.def:dedekind-psi,III.ef.def:boundary-divisor-sum,III.ef.def:cohen-a3-general,III.ef.def:cohen-a4,III.ef.def:eichler-elliptic-expression-general,III.ef.def:eisenstein-expression-corrected-general,III.ef.def:hecke-polynomial,III.ef.def:order-index-set,III.ef.def:weighted-class-number}
+\end{lemma}
+\begin{tfformal}{III.ef.lem:lefschetz-es-eq-general}
+\tfsem{III.ef.lem:lefschetz-es-eq-general}{b072877665734e0ef7888be31eb3e38bb390ab20dd6c87311c1e557637e85174}
+\tfhyps{III.ef.lem:lefschetz-es-eq-general}{}
+\tfbinder{III.ef.lem:lefschetz-es-eq-general}{0}{52ee410f}{the level $N$}
+\tfbinder{III.ef.lem:lefschetz-es-eq-general}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.lem:lefschetz-es-eq-general}{2}{18782426}{the index $n$}
+\tfbinder{III.ef.lem:lefschetz-es-eq-general}{3}{41df10ea}{the abstract local-factor function $F$}
+\begin{tffidelity}
+No hypotheses. $\beta_N(a,a')=\cbd_N(a-a')$ is the inline lambda \texttt{fun a a' => (boundaryDivisorSum N ((a:ℤ) - a') : ℚ)}: the difference is formed in \texttt{ℤ} (no truncation) and the integer value of the boundary divisor sum is cast to \texttt{ℚ}. $F'$ is \texttt{fun \_ \_ Δ => F Δ}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Unfold \texttt{lefschetzES}, \texttt{eisensteinExpr}, \texttt{cohenA1}, \texttt{eichlerElliptic}, \texttt{cohenA3}, \texttt{eisensteinCorrected} and the general counterparts (\texttt{simp only}), then \texttt{split\_ifs} and \texttt{ring}.
+\end{proof}
+
+\begin{theorem}[the identity with general parameters]
+\tfstmt{III.ef.thm:jl-formula-identity-general}
+\lean{GL2TF.Explicit.jl_formula_identity_general}
+\uses{III.ef.def:eichler-b-expression-general,III.ef.def:lefschetz-es-expression-general,III.ef.def:dedekind-psi,III.ef.def:local-factor-eichler-prime,III.ef.cor:signed-divisor-sum-constants,III.ef.def:class-number-forms,III.ef.def:cohen-a3-general,III.ef.def:eichler-elliptic-expression-general,III.ef.def:eichler-symbol,III.ef.def:eisenstein-expression-corrected-general,III.ef.def:hecke-polynomial,III.ef.def:local-factor-ramified,III.ef.def:order-index-set,III.ef.def:unit-number,III.ef.def:weighted-class-number,III.ef.lem:lefschetz-es-general-boundary-split,III.ef.lem:signed-divisor-sum}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:jl-formula-identity-general}
+\tfsem{III.ef.thm:jl-formula-identity-general}{43602eb7b1756ef885d036de4575403f1847c79d24154a96cbe1f4bc35fe89e1}
+\tfhyps{III.ef.thm:jl-formula-identity-general}{}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{1}{818304fd}{the weight $k$}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{2}{18782426}{the index $n$}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{3}{2c5f988c}{the central coefficient $c$}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{4}{434e865d}{the abstract elliptic factor $F(t,f,\Delta)$}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{5}{d9f4b81f}{the abstract boundary function $G(a,a')$}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{6}{fbd77294}{$D$ is squarefree}
+\tfbinder{III.ef.thm:jl-formula-identity-general}{7}{2e4fe6a1}{$\omega(D)$ is odd}
+\begin{tffidelity}
+\textbf{Parameters.} $F$, $G$ and $c$ are abstract (binders~3--5); nothing links them to a level, a class number or a boundary divisor sum. The right side substitutes $\kappa=\dedpsi(d)\,c$ (\texttt{dedekindPsi d * c}), $F_d=\texttt{fun t f Δ => F t f Δ * ∏ p ∈ d.primeFactors, ↑(localFactorEichler p Δ)}$ and $G_d=\texttt{fun a a' => 2\^{}ω d * G a a'}$, exactly as in A. \textbf{Hypotheses.} Only $D$ squarefree and $\omega(D)$ odd ($\omega=$ \texttt{cardDistinctFactors}); no hypothesis on $k$, $n$, $c$, and no coprimality. The sign $(-2)^{\omega(D/d)}$ uses natural-number division, exact on \texttt{D.divisors}. No project hypothesis occurs; unconditional.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Follows the outline of A. Write $s_d=(-2)^{\omega(D/d)}$. (1) By \cref{III.ef.lem:lefschetz-es-general-boundary-split} at each $d$, together with the helpers \texttt{cohenA3Gen\_const\_mul} and \texttt{eisensteinCorrectedGen\_const\_mul} (the factor $2^{\omega(d)}$ pulls out of $A_3$ and $\tilde{\mathrm{Eis}}$), the right side splits into a central part, an elliptic part and $\bigl(\sum_d s_d2^{\omega(d)}\bigr)\bigl(A_3^G+\tfrac12\tilde{\mathrm{Eis}}^G\bigr)$. (2) The boundary coefficient vanishes by \cref{III.ef.cor:signed-divisor-sum-constants}b ($D>1$ since $\omega(D)$ is odd, \texttt{one\_lt\_of\_odd\_omega}). (3) Central part: $\sum_ds_d\dedpsi(d)=\prod_{p\mid D}(p-1)$ is part~c of the same corollary at $M=1$ (with $\dedpsi(1)=1$), giving $C(k,n)\prod_{p\mid D}(p-1)\,c$. (4) Elliptic part: exchange the sums (\texttt{sum\_mul\_eichlerEllipticGen}, the analogue of \texttt{sum\_mul\_eichlerElliptic}) and apply \cref{III.ef.lem:signed-divisor-sum} at each $\Delta$ (private \texttt{sum\_signed\_localFactorEichler\_gen}, with $m^{(1)}_p-2=-m^D_p$), giving $-\prod_{p\mid D}m^D_p$. (5) Unfold \texttt{eichlerBGen}, compare the $t$ and $f$ sums termwise, and \texttt{unfold weightedClassNumber; ring}. No divergence from A's proof; A's step on the boundary part is the same linearity argument.
+\end{proof}
+
+\begin{theorem}[the identity at an index sharing primes with $D$]
+\tfstmt{III.ef.thm:jl-formula-identity-ramified-index}
+\lean{GL2TF.Explicit.jl_formula_identity_ramified_index}
+\uses{III.ef.def:eichler-b-expression-general,III.ef.def:lefschetz-es-expression-general,III.ef.def:dedekind-psi,III.ef.def:eichler-symbol,III.ef.def:local-factor-eichler-prime,III.ef.def:class-number-forms,III.ef.def:cohen-a3-general,III.ef.def:eichler-elliptic-expression-general,III.ef.def:eisenstein-expression-corrected-general,III.ef.def:hecke-polynomial,III.ef.def:local-factor-ramified,III.ef.def:order-index-set,III.ef.def:unit-number,III.ef.def:weighted-class-number,III.ef.lem:lefschetz-es-general-boundary-split,III.ef.lem:signed-divisor-sum}
+\end{theorem}
+\begin{tfformal}{III.ef.thm:jl-formula-identity-ramified-index}
+\tfsem{III.ef.thm:jl-formula-identity-ramified-index}{60fc6bb48f5322d54b78f4b641415528b7a5ab94bbd7521075b38a1e76f1d52a}
+\tfhyps{III.ef.thm:jl-formula-identity-ramified-index}{}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{1}{818304fd}{the index factor $m$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{2}{18782426}{the weight $k$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{3}{f7bc01e4}{the index $n$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{4}{53fa8100}{the central coefficient $c$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{5}{0216473a}{the abstract elliptic factor $F(t,f,\Delta)$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{6}{44c38f4b}{the abstract boundary function $G(a,a')$}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{7}{367361c0}{$D$ is squarefree}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{8}{2933a1cb}{$\omega(D)$ is odd}
+\tfbinder{III.ef.thm:jl-formula-identity-ramified-index}{9}{059ee9bb}{$n$ is not a square or $c=0$}
+\begin{tffidelity}
+\textbf{Hypotheses.} $D$ squarefree, $\omega(D)$ odd, and \texttt{¬ IsSquare n ∨ c = 0} (binder~9); $m$ is arbitrary in \texttt{ℕ} (no $m\mid D$, no coprimality). \textbf{Exponent subtraction.} $\omega(D/d)-\omega(\gcd(D/d,m))$ and $\omega(d)-\omega(\gcd(d,m))$ are truncated subtractions in \texttt{ℕ}; they never truncate, since $\gcd(e,m)\mid e$ gives $\omega(\gcd(e,m))\le\omega(e)$. The coefficient $s_d(m)$ is written \texttt{(-1)\^{}ω(D/d) * 2\^{}(…)} in \texttt{ℚ}. The elliptic factor at $p\mid d$ is \texttt{if p ∣ m then ↑(eichlerSymbol p Δ) else ↑(localFactorEichler p Δ)}, a case split inside the product, as the cases in A. No project hypothesis occurs; unconditional.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Same shape as the proof of \cref{III.ef.thm:jl-formula-identity-general}, with the local identity replaced. (1) Split each summand by \cref{III.ef.lem:lefschetz-es-general-boundary-split}; the central term at $d$ is $C(k,n)\,\dedpsi(d)\,c$, which vanishes since $C(k,n)c=0$ by the hypothesis \texttt{¬ IsSquare n ∨ c = 0} (\texttt{hCc}); this replaces the evaluation of $\sum_ds_d\dedpsi(d)$. (2) The exponents are rewritten as products over primes with \texttt{prod\_ite\_dvd}, using $\mathrm{primeFactors}(\gcd(e,m))=\{p\mid e: p\mid m\}$ (\texttt{primeFactors\_gcd\_eq\_filter}) and $\omega(\gcd(e,m))\le\omega(e)$ (\texttt{omega\_gcd\_le}, so the truncated subtractions are exact): $s_d(m)=\prod_{p\mid D/d}(p\mid m\,?\,-1:-2)$ (\texttt{signed\_coeff\_eq\_prod}, via \texttt{neg\_one\_pow\_mul\_two\_pow}) and $2^{\omega(d)-\omega(\gcd(d,m))}=\prod_{p\mid d}(p\mid m\,?\,1:2)$ (\texttt{boundary\_coeff\_eq\_prod}). (3) The boundary coefficient is $\sum_d\prod_{p\mid D/d}(\cdot)\prod_{p\mid d}(\cdot)=\prod_{p\mid D}\bigl((p\mid m\,?\,1:2)+(p\mid m\,?\,-1:-2)\bigr)=0$ (\texttt{sum\_divisors\_prod\_eq\_prod\_add}); a prime of $D$ exists since $D>1$. (4) The elliptic part: exchange the sums and apply the local identity \texttt{sum\_signed\_ramified\_index}: at each prime $e_p-1=-m^D_p$ if $p\mid m$ and $m^{(1)}_p-2=-m^D_p$ otherwise (\texttt{split\_ifs; ring} after unfolding), so the sum is $-\prod_{p\mid D}m^D_p$. (5) Conclude as in the previous proof. The proof follows A; the product form of the coefficients (steps 2--3) is the Lean packaging of A's prime-by-prime argument.
+\end{proof}
+
+\begin{corollary}[\cref{III.ef.thm:jl-formula-identity} from the general form]
+\tfstmt{III.ef.cor:jl-formula-identity-from-general}
+\lean{GL2TF.Explicit.jl_formula_identity_from_general}
+\uses{III.ef.def:boundary-divisor-sum,III.ef.def:dedekind-psi,III.ef.def:eichler-b-expression,III.ef.def:eichler-b-expression-general,III.ef.def:lefschetz-es-expression,III.ef.def:lefschetz-es-expression-general,III.ef.def:local-factor-eichler-prime,III.ef.lem:dedekind-psi-multiplicative,III.ef.lem:eichler-b-eq-general,III.ef.lem:lefschetz-es-eq-general,III.ef.thm:boundary-local-factor,III.ef.thm:boundary-multiplicative,III.ef.thm:jl-formula-identity-general}
+\end{corollary}
+\begin{tfformal}{III.ef.cor:jl-formula-identity-from-general}
+\tfsem{III.ef.cor:jl-formula-identity-from-general}{43ebe18c5bf8d9e83d33363e64282391c3a6b1cdd3696e4beba573f45b12c567}
+\tfhyps{III.ef.cor:jl-formula-identity-from-general}{}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{0}{52ee410f}{the discriminant $D$}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{1}{818304fd}{the level $M$}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{2}{18782426}{the weight $k$}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{3}{f7bc01e4}{the index $n$}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{4}{e1d83ac9}{the abstract level-$M$ local-factor function $F$}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{5}{af76bedd}{$D$ is squarefree}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{6}{cebf0ee6}{$\omega(D)$ is odd}
+\tfbinder{III.ef.cor:jl-formula-identity-from-general}{7}{014b5ac5}{$(D,M)=1$}
+\begin{tffidelity}
+Same statement as \cref{III.ef.thm:jl-formula-identity} without the binders $k\ge1$, $n\ge1$ (as in A, which drops them), and with the weight $F_d=\texttt{fun Δ => F Δ * ∏ p ∈ d.primeFactors, ↑(localFactorEichler p Δ)}$ written inline. Consequently the corollary also holds on the slice $k\le1$ or $n=0$, which \cref{III.ef.thm:jl-formula-identity} excludes by its range binders (the proof of that theorem did not use them either). The level of $\Lambda^{ES}$ is \texttt{d * M}; no hypothesis beyond squarefreeness of $D$, parity of $\omega(D)$ and $D,M$ coprime.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Rewrite the left side by \cref{III.ef.lem:eichler-b-eq-general} and apply \cref{III.ef.thm:jl-formula-identity-general} with $c=\dedpsi(M)$, $F'(t,f,\Delta)=F(\Delta)$ and $G(a,a')=\cbd_M(a-a')$. Then compare the summands for $d\mid D$: $d$ is squarefree and coprime to $M$ (from $(D,M)=1$); \cref{III.ef.lem:lefschetz-es-eq-general} at $N=dM$ rewrites $\Lambda^{ES}(dM,\dots)$ as the general expression at $\kappa=\dedpsi(dM)$, and $\dedpsi(dM)=\dedpsi(d)\dedpsi(M)$ (\texttt{dedekindPsi\_nat\_mul\_prime}) and $\cbd_{dM}=2^{\omega(d)}\cbd_M$ (\cref{III.ef.thm:boundary-multiplicative,III.ef.thm:boundary-local-factor}c) match the parameters of the theorem. This route replaces the direct proof of \cref{III.ef.thm:jl-formula-identity}, which A keeps as a separate statement.
+\end{proof}

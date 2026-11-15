@@ -1,0 +1,22 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 2: the problem (verbatim, shortened) and classical JL as an identity of spectra; it transports congruences B -> GL(2).
+% Sources: submission brief (PROBLEM TEXT); chapters/s01/6-targets.tex thm:s01-JLclassical (cited), if:s01-targets (U_l -> +Pi_l);
+% chapters/s05/sign.tex prop:s05-sign(a) (pmc, Gamma_0, weight 2); code/results/s05/T05-1.json (144/144, q in {11,23,37,43}, k in {2,4,6,8});
+% code/results/s01/brandt_w2.json (D = 11: T_2 = [[1,2],[3,0]], eigenvalues 3, -2; a_2(11a) = -2);
+% final-report sections/hsieh.tex, mathematics/notes/hsieh-sign.tex (sign in [Hs]).
+\begin{frame}{The problem, and what classical JL transports}
+  \small
+  {\footnotesize ``The Jacquet--Langlands correspondence [\dots] links automorphic representations of $\GL(2)$ with those of the multiplicative
+  group of a quaternion algebra, matching representations that share the same local data and $L$-functions.''
+  \hfill[JL 1970; Bergeron, Ch.~8]}
+  Classical JL is an \emph{identity of spectra} (previous frame), proved via the trace formula. What it transports:
+  \begin{itemize}\setlength{\itemsep}{0pt}
+    \item At $\ell\mid D$: $U_\ell\mapsto+\Pi_\ell$ \stattag{proved modulo cited results at $\Gamma_0$, weight $2$; computed on $144/144$ eigenlines}.
+      So congruent quaternionic eigensystems give congruent $D$-new $\GL_2$ eigensystems.
+    \item $D=11$ \stattag{computed}: the eigenvalues $3$ (constants) and $-2=a_2(11a)$ of $B(2)$ satisfy
+      $3\equiv-2\bmod5=\operatorname{num}\frac{11-1}{12}$: Mazur's Eisenstein congruence, seen on the Brandt side.
+  \end{itemize}
+  {\footnotesize In our reading, a sign in [Hs] should be corrected: $\mathrm{JL}(U_q)=-U_q$ to $+U_q$ \stattag{proved modulo cited results for trivial central
+  character at $q$; treated as an erratum by a team decision; to be sent to the author}.}
+\end{frame}

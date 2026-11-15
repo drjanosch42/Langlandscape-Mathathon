@@ -1,0 +1,454 @@
+\subsection{(Co)homology of $\GU$: the two-term complex}\label{ss:s02-coh}
+
+Throughout, $U$ is $q$-admissible (Def.~\ref{def:s02-GU}), $U':=\Uzero{q}U$ is the edge level and
+$U'_\alpha:=\alpha^{-1}U'\alpha$; by Lemma~\ref{lem:s02-tree}(d), $U'\subseteq U$ and $U'_\alpha\subseteq U$, and both
+differ from $U$ only at $q$. $\Gamma_x$ always means $B^\times\cap xU''x^{-1}$ for the level $U''$ of the class in question. The
+degeneracies are $s_0[y]=[y]$ and $s_1[y]=[y\alpha]$ (Def.~\ref{def:s02-BG}). The group $\GU$ acts on $\cT_q$ through
+$\gamma\mapsto\gamma_q$ and on a $\Zp[U_p]$-module $V$ through $\gamma\mapsto\gamma_p$. A \emph{tree representative} of a class is
+an element $g\in B^1_q$ (type $0$ and edges) or $g\alpha$ with $g\in B^1_q$ (type $1$), viewed in $\Bhat^\times$ with
+component $1$ away from $q$; it has $x_p=1$. Since $\{\pm1\}$ is central and $-1\in\Iw_q$, the number
+\[\varepsilon:=|\{\pm1\}\cap U|=|\{\pm1\}\cap U'|=|\{\pm1\}\cap U'_\alpha|\in\{1,2\}\]
+is the same for all cells, and $w_x=|\Gamma_x|/\varepsilon$ at every level involved (\pathtt{if:s01-classset}).
+
+\paragraph{The transport identity.} For $\gamma\in\GU$ and $g\in B_q^\times$ one has in $\Bhat^\times$
+\begin{equation}\label{eq:s02-transport}
+\gamma_q\,g\;=\;\gamma\cdot g\cdot(\gamma^{(q)})^{-1},\qquad (\gamma^{(q)})^{-1}\in U^{(q)},\quad\big((\gamma^{(q)})^{-1}\big)_p=\gamma_p^{-1}.
+\end{equation}
+Indeed both sides have $q$-component $\gamma_qg$ and component $\gamma_\ell\gamma_\ell^{-1}=1$ at $\ell\ne q$. Here $\gamma\in B^\times$ is
+embedded diagonally, $g$ commutes with $\gamma^{(q)}$ (disjoint supports), and $\gamma^{(q)}\in U^{(q)}$ by the
+definition of $\GU$. \stproved. This identity converts the action of $\GU$ on the tree into the twist $u_p^{-1}$ in Brandt modules.
+It is the computation ``$\gamma g=(\gamma_qg)\cdot\gamma^{(q)}$'' of the plan's proof strategy (stage-02 tex).
+
+\begin{definition}[homological Brandt module]\label{def:s02-Mhom}
+Let $U''$ be one of $U,U',U'_\alpha$ and let $V$ be a $\Zp[U_p]$-module. If $-1\in U$, assume that $-1$ acts trivially on $V$
+(otherwise all modules below are $0$, see Remark~\ref{rem:s02-minusone}).
+\begin{enumerate}[label=(\roman*)]
+\item (\emph{Modules.}) $\Brandt{U''}{V}_*:=\Z[B^\times\backslash\Bhat^\times]\otimes_{\Z[U'']}V$, where $U''$ acts on
+  $B^\times\backslash\Bhat^\times$ from the right and on $V$ through $u\mapsto u_p$. Its elements are sums of symbols
+  $[x]\otimes v$ with $[xu]\otimes v=[x]\otimes u_pv$. The cohomological module $\Brandt{U''}{V}$ is that of
+  Def.~\ref{def:s01-brandt}.
+\item (\emph{Pushforward, homological.}) $s_{0*}:\Brandt{U'}{V}_*\to\Brandt{U}{V}_*$, $[y]\otimes v\mapsto[y]\otimes v$, and
+  $s_{1*}:[y]\otimes v\mapsto[y\alpha]\otimes v$.
+\item (\emph{Pullback, cohomological.}) $s_0^*,s_1^*:\Brandt{U}{V}\to\Brandt{U'}{V}$, $(s_0^*f)(y)=f(y)$, $(s_1^*f)(y)=f(y\alpha)$.
+\item (\emph{Trace, cohomological.}) $\mathrm{tr}_0,\mathrm{tr}_1:\Brandt{U'}{V}\to\Brandt{U}{V}$,
+  \[(\mathrm{tr}_0f)(x)=\sum_{u\in U/U'}u_p\,f(xu),\qquad(\mathrm{tr}_1f)(x)=\sum_{u\in U/U'_\alpha}u_p\,f(xu\alpha^{-1}).\]
+  These are the maps called ``the trace $s_{j*}$ on $\Brandt{\cdot}{V}$'' in the plan; we write $\mathrm{tr}_j$ to keep them apart
+  from (ii).
+\item (\emph{Transfer, homological.}) $s_0^!,s_1^!:\Brandt{U}{V}_*\to\Brandt{U'}{V}_*$,
+  $s_0^!([x]\otimes v)=\sum_{u\in U/U'}[xu]\otimes u_p^{-1}v$ and
+  $s_1^!([x]\otimes v)=\sum_{u\in U/U'_\alpha}[xu\alpha^{-1}]\otimes u_p^{-1}v$.
+\item (\emph{Norm map.}) $\nu=\nu_{U''}:\Brandt{U''}{V}_*\to\Brandt{U''}{V}$,
+  \[\nu([x]\otimes v)(y):=\sum_{\gamma\in P(x,y)/(\{\pm1\}\cap U'')}\big(x^{-1}\gamma^{-1}y\big)_p^{-1}\,v,\qquad
+    P(x,y):=\{\gamma\in B^\times:\gamma^{-1}y\in xU''\}.\]
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[properties of Def.~\ref{def:s02-Mhom}]\label{prop:s02-Mhomprops}
+In (c) assume $p\nmid|\Gamma_x|$ for all classes at the three levels (e.g.\ $p\ge5$, Lemma~\ref{lem:s01-stab}(c)).
+\begin{enumerate}[label=(\alph*)]
+\item All maps (ii)--(vi) are well defined and $\Zp$-linear, and $\Brandt{U''}{V}_*\cong\bigoplus_{[x]}V_{x_p^{-1}\Gamma_xx_p}$,
+  $[x]\otimes v\mapsto\bar v$ in the summand of $x$, for any set of representatives $x$. For tree representatives $x_p=1$, and
+  $s_{j*}$ is induced on the summands by $\Gamma_e\hookrightarrow\Gamma_{s_je}$, $s_j^*$ by restriction
+  $V^{\Gamma_{s_je}}\hookrightarrow V^{\Gamma_e}$.
+\item In terms of representatives, $\nu([x]\otimes v)$ is supported on $B^\times xU''$ with value
+  $N_xv:=\sum_{\gamma\in\Gamma_x/(\Gamma_x\cap\{\pm1\})}(x_p^{-1}\gamma x_p)v$ at $x$. For $V=R$ with trivial action
+  ($R=\Z,\Zp,\Z/p^m$) this is $\nu[x]=w_x\mathbf 1_{[x]}$, the norm map of Def.~\ref{def:s01-pairing}.
+\item If $p\nmid|\Gamma_x|$, then $N_x:V_{x_p^{-1}\Gamma_xx_p}\to V^{x_p^{-1}\Gamma_xx_p}$ and hence $\nu$ are isomorphisms.
+\item (\emph{no index factor for pushforward}) $\nu_U\circ s_{j*}=\mathrm{tr}_j\circ\nu_{U'}$ for $j=0,1$.
+\item (\emph{index factors for pullback}) $\nu_{U'}\circ s_j^!=s_j^*\circ\nu_U$ for $j=0,1$. For trivial $V=R$,
+  \[s_j^![x]=\sum_{[e]\in s_j^{-1}[x]}[\Gamma_x:\Gamma_e]\,[e],\qquad [\Gamma_x:\Gamma_e]=w_x/w_e,\]
+  so the multiplicity-free fibre sum $s_j^\sharp[x]:=\sum_{[e]\in s_j^{-1}[x]}[e]$ (the matrix transpose of $s_{j*}$) satisfies
+  $\nu_{U'}\circ s_j^\sharp=s_j^*\circ\nu_U$ only if all these indices are $1$.
+\item (\emph{orbit sums at tree representatives}) Assume $p\nmid|\Gamma_x|$. Let $e=g$ be a tree representative of a class in $\XB{U'}$, $x=s_je$ the tree representative
+  $g$ ($j=0$) resp.\ $g\alpha$ ($j=1$) of its image, and $f\in\Brandt{U'}{V}$ supported on $[e]$ with $f(e)=w\in V^{\Gamma_e}$. Then
+  $(\mathrm{tr}_jf)$ is supported on $[x]$ with $(\mathrm{tr}_jf)(x)=\sum_{\gamma\in\Gamma_x/\Gamma_e}\gamma_p\,w$. This is the plan's ``trace
+  $\sum_{\gamma\in\Gamma_{s_je}/\Gamma_e}\gamma$''. For trivial $V$: $\mathrm{tr}_j\mathbf 1_e=[\Gamma_{s_je}:\Gamma_e]\mathbf 1_{s_je}$.
+\end{enumerate}
+\end{proposition}
+\noindent\stproved{} (all parts; (a), (b), (d), (e) for $V$ arbitrary, (c), (f) with the hypothesis). The plan's Def.~\ref{def:s02-Mhom} says
+``compatible with $s_j^*$ up to the index factors''; (e) is the precise form. The factor $2$ of
+Prop.~\ref{prop:s01-adjoint}(c) never occurs here, since $\varepsilon$ is the same at all three levels.
+\emph{Lean status.} For trivial coefficients $V=R$, (d) is \stformal: \lean{Langlandscape.Tree.normMap\_comp\_s0Push},
+\lean{Langlandscape.Tree.normMap\_comp\_s1Push} (the maps of Def.~\ref{def:s02-Mhom} are \texttt{s0Push}, \texttt{s1Push},
+\texttt{s0Pull}, \texttt{s1Pull}, \lean{Langlandscape.Tree.s0Tr}, \lean{Langlandscape.Tree.s1Tr}, \pathtt{Brandt.normMap}; table below).
+General $V$ is not formalised in stage 02.
+\begin{proof}
+(a) For $f\in\Brandt{U}{V}$, $u'\in U'$: $(s_1^*f)(yu')=f(y\alpha\cdot\alpha^{-1}u'\alpha)=(\alpha^{-1}u'\alpha)_p^{-1}f(y\alpha)=u_p'^{-1}(s_1^*f)(y)$,
+since $\alpha^{-1}u'\alpha\in U$ and $\alpha_p=1$; left $B^\times$-invariance is clear. Likewise $s_{1*}$ respects
+$[yu']\otimes v=[y]\otimes u'_pv$: $[yu'\alpha]\otimes v=[y\alpha\cdot\alpha^{-1}u'\alpha]\otimes v=[y\alpha]\otimes u'_pv$. For $\mathrm{tr}_0$, the summand
+$u_pf(xu)$ only depends on $uU'$ because $(uu')_pf(xuu')=u_pu'_pu_p'^{-1}f(xu)$, and $(\mathrm{tr}_0f)(xw)=w_p^{-1}(\mathrm{tr}_0f)(x)$ for $w\in U$
+by reindexing $u\mapsto wu$; $\mathrm{tr}_1$ is $\mathrm{tr}_0$ for the pair $U'_\alpha\subseteq U$, applied to $y\mapsto f(y\alpha^{-1})\in\Brandt{U'_\alpha}{V}$.
+The transfer is checked in the same way: $[xuu']\otimes(uu')_p^{-1}v=[xu]\otimes u_p^{-1}v$, and $s_0^!([xw]\otimes v)=s_0^!([x]\otimes w_pv)$
+by reindexing $u\mapsto w^{-1}u$. For $\nu$: replacing $\gamma$ by $-\gamma$ (if $-1\in U''$) does not change the summand, as $-1$ acts
+trivially on $V$, so the sum is well defined; it is finite because $P(x,y)$ is a coset of the finite group $\Gamma_x$ or empty.
+Left $B^\times$-invariance in $y$ is the substitution $\gamma\mapsto\beta\gamma$, and for $u\in U''$,
+$\nu([x]\otimes v)(yu)=u_p^{-1}\nu([x]\otimes v)(y)$ because $P(x,yu)=P(x,y)$. Compatibility with $[xw]\otimes v=[x]\otimes w_pv$:
+$P(xw,y)=P(x,y)$ and $\big((xw)^{-1}\gamma^{-1}y\big)_p^{-1}v=(x^{-1}\gamma^{-1}y)_p^{-1}w_pv$.
+
+The decomposition: $B^\times\backslash\Bhat^\times=\coprod_{[x]}(B^\times x)\cdot U''$ as right $U''$-sets, and the stabiliser of $B^\times x$
+is $\{u\in U'':xux^{-1}\in B^\times\}=x^{-1}\Gamma_xx$. Hence $\Z[B^\times\backslash\Bhat^\times]\cong\bigoplus_{[x]}\Z[x^{-1}\Gamma_xx\backslash U'']$, and
+$\Z[H\backslash U'']\otimes_{\Z[U'']}V=V_H$, with $H=x^{-1}\Gamma_xx$ acting through $(x^{-1}\gamma x)_p=x_p^{-1}\gamma_px_p$. For tree representatives
+$e=g$ (level $U'$) and $s_0e=g$ (level $U$) the map $s_{0*}$ is $\bar v\mapsto\bar v$, $V_{\Gamma_e}\to V_{\Gamma_{s_0e}}$; for $s_1e=g\alpha$ the same holds with
+$\Gamma_g\subseteq\Gamma_{g\alpha}$ (as $gU'g^{-1}\subseteq g\alpha U\alpha^{-1}g^{-1}$). The statement for $s_j^*$ is the dual one, using the isomorphism
+of Def.~\ref{def:s01-brandt}.
+
+(b) $P(x,x)=\Gamma_x$, and for $\gamma\in\Gamma_x$, $(x^{-1}\gamma^{-1}x)_p^{-1}=x_p^{-1}\gamma_px_p$. If $y\notin B^\times xU''$ then $P(x,y)=\emptyset$. For trivial
+$V=R$ the value is $|\Gamma_x/(\Gamma_x\cap\{\pm1\})|=w_x$.
+
+(c) Write $H=x_p^{-1}\Gamma_xx_p$ (acting on $V$), $\bar H=H/(H\cap\{\pm1\})$ and $n=|\bar H|$, a unit in $\Zp$ since $n\mid|\Gamma_x|$. On $V^H$, the
+composite $V^H\to V\to V_H\xrightarrow{N_x}V^H$ is multiplication by $n$. On $V_H$, the composite $V_H\xrightarrow{N_x}V^H\to V_H$ is
+$\bar v\mapsto\sum_{h\in\bar H}\overline{hv}=n\bar v$. So $N_x$ is bijective, and $\nu$ is the direct sum of the $N_x$ by (a), (b).
+
+(d) For $j=0$ and $[y]\otimes v\in\Brandt{U'}{V}_*$:
+\[\mathrm{tr}_0\nu_{U'}([y]\otimes v)(x)=\sum_{u\in U/U'}\ \sum_{\gamma\in P'(y,xu)/\pm}u_p\big(y^{-1}\gamma^{-1}xu\big)_p^{-1}v
+=\sum_{(uU',\gamma)}\big(y^{-1}\gamma^{-1}x\big)_p^{-1}v ,\]
+over pairs with $\gamma^{-1}xu\in yU'$; here $P'$ is $P$ at level $U'$ and $\pm$ is $\{\pm1\}\cap U'=\{\pm1\}\cap U$. The pair is determined by $\gamma$: if
+$\gamma^{-1}x\in yU$, say $\gamma^{-1}x=yw$, then $uU'=w^{-1}U'$ is the unique coset with $\gamma^{-1}xu\in yU'$; conversely every pair has
+$\gamma^{-1}x\in yU$. So the sum equals $\sum_{\gamma\in P_U(y,x)/\pm}(y^{-1}\gamma^{-1}x)_p^{-1}v=\nu_U([y]\otimes v)(x)=\nu_Us_{0*}([y]\otimes v)(x)$.
+For $j=1$ write $s_{1*}=\pi_*\circ\rho_\alpha$ with $\rho_\alpha([y]\otimes v)=[y\alpha]\otimes v\in\Brandt{U'_\alpha}{V}_*$ and $\pi_*$ the pushforward for
+$U'_\alpha\subseteq U$, and $\mathrm{tr}_1=\mathrm{tr}_{U'_\alpha\to U}\circ\rho^\alpha$ with $(\rho^\alpha f)(z)=f(z\alpha^{-1})$. Then $\nu_{U'_\alpha}\circ\rho_\alpha=\rho^\alpha\circ\nu_{U'}$, since
+$P_{U'_\alpha}(y\alpha,z)=P_{U'}(y,z\alpha^{-1})$ and $\big((y\alpha)^{-1}\gamma^{-1}z\big)_p=(y^{-1}\gamma^{-1}z\alpha^{-1})_p$ ($\alpha_p=1$), and the case $j=0$ applies to
+$U'_\alpha\subseteq U$.
+
+(e) For $j=0$: $\nu_{U'}s_0^!([x]\otimes v)(y)=\sum_{u\in U/U'}\sum_{\gamma\in P'(xu,y)/\pm}\big((xu)^{-1}\gamma^{-1}y\big)_p^{-1}u_p^{-1}v=\sum_{(uU',\gamma)}(x^{-1}\gamma^{-1}y)_p^{-1}v$
+over pairs with $\gamma^{-1}y\in xuU'$; as in (d) these pairs correspond to $\gamma\in P_U(x,y)$, so the sum is $\nu_U([x]\otimes v)(y)=(s_0^*\nu_U([x]\otimes v))(y)$.
+The case $j=1$ follows by conjugating with $\rho_\alpha,\rho^\alpha$ as in (d). For trivial $V$, the coefficient of $[e]'$ in $s_0^![x]=\sum_{u\in U/U'}[xu]'$
+is $\#\{uU':[xu]'=[e]'\}=[\Gamma_x:\Gamma_e]$ for a representative $e\in xU$ of $[e]'$; this is the count in the proof of Prop.~\ref{prop:s01-adjoint}(c)
+(transfer part). Since $\varepsilon$ is common, $[\Gamma_x:\Gamma_e]=w_x/w_e$. Then $\nu_{U'}s_0^\sharp[x]=\sum_ew_e\mathbf 1_e$, while
+$s_0^*\nu_U[x]=\sum_ew_x\mathbf 1_e$.
+
+(f) By (c), $w=N_ev$ for some $v\in V_{\Gamma_e}$, so $f=\nu_{U'}([e]\otimes v)$ by (b). By (d), $\mathrm{tr}_jf=\nu_U(s_{j*}([e]\otimes v))=\nu_U([x]\otimes v)$
+(note $[e\alpha]=[x]$ for $j=1$), which by (b) is supported on $[x]$ with value $N_xv$ at $x$ ($x_p=1$). Since $\Gamma_e\subseteq\Gamma_x$ and both contain the same
+$\{\pm1\}\cap U$, $N_x=\big(\sum_{\gamma\in\Gamma_x/\Gamma_e}\gamma_p\big)\circ N_e$, whence the formula. For trivial $V$ the sum is $[\Gamma_x:\Gamma_e]$; this does not need
+$p\nmid|\Gamma_x|$: it is the coset count $\#\{uU':[xu]'=[e]'\}=[\Gamma_x:\Gamma_e]$ of (e), read through the transpose $\langle s_j^![x],\mathbf 1_e\rangle_{\rm ev}=(\mathrm{tr}_j\mathbf 1_e)(x)$
+(Prop.~\ref{prop:s02-duality}(a)).
+\end{proof}
+
+\begin{remark}[the case $-1\in U$ acting by $-1$]\label{rem:s02-minusone}
+If $-1\in U$ acts on $V$ by $-1$ (e.g.\ $V=V_k$ with $k$ odd), then $-1\in\Gamma_x$ for every class at every level, and
+$V^{\Gamma_x}=0=V_{\Gamma_x}$ because $2$ is invertible on the $\Zp$-module $V$ ($p$ odd). So all Brandt modules and both complexes of
+Prop.~\ref{prop:s02-coh}(b) vanish. Also $H_*(\GU,V)=0=H^*(\GU,V)$: the central element $-1\in\GU$ acts on these groups trivially (conjugation by an element of
+the group itself, \lit{brown\_1982\_cohomology-of-groups}{III.8, Prop.~(8.1), p.~79 (homology) and Prop.~(8.3), p.~80 (cohomology)}) and by $-1$ (through the coefficients), so they are killed by $2$, a unit.
+In general ($p$ odd, $-1\in U$ central in the $U_p$-action) $V=V^+\oplus V^-$ with $V^\pm=\{v:(-1)v=\pm v\}$, as $U_p$-modules, and $V^-$ contributes $0$
+everywhere. So the standing assumption of Def.~\ref{def:s02-Mhom} loses nothing: all statements below hold for $V$ by applying them to $V^+$. \stproved.
+\end{remark}
+
+\paragraph{Sign and index table (= \texttt{if:s02-coh}).}\label{if:s02-coh} The following table fixes all conventions of this section. Its first two rows are
+the sign line of \texttt{if:s02-coh}, verbatim. The Lean column gives the names of S02-L9 in the namespace
+\pathtt{Langlandscape.Tree} (trivial coefficients $V=R$; stage 03, S03-L14, generalises to $V$); they are \stformal{} for $V=R$.
+
+\begin{center}\small\setlength{\tabcolsep}{4pt}
+\begin{longtable}{>{\raggedright}p{2.6cm}>{\raggedright}p{4.9cm}>{\raggedright}p{4.4cm}>{\raggedright\arraybackslash}p{2.9cm}}
+\toprule
+map & trivial coefficients $V=R$ & general $V$ & Lean (S02-L9)\\\midrule
+$\partial=(-s_{0*},s_{1*})$ & $R[X']\to R[X]^2$, $[e]\mapsto(-[s_0e],[s_1e])$ & $[y]\otimes v\mapsto(-[y]\otimes v,\ [y\alpha]\otimes v)$ &
+  \texttt{partialHom} $=$ \texttt{(-s0Push).\allowbreak{}prod s1Push}\\
+$\delta(f_0,f_1)=s_1^*f_1-s_0^*f_0$ & $R^X\times R^X\to R^{X'}$, $e\mapsto f_1(s_1e)-f_0(s_0e)$ & $y\mapsto f_1(y\alpha)-f_0(y)$ &
+  \texttt{deltaCoh}\\
+$\mathrm{tr}_0$ & $f\mapsto\big(x\mapsto\sum_{u\in U/U'}f[xu]'\big)$; $\mathrm{tr}_0\mathbf 1_e=[\Gamma_{s_0e}:\Gamma_e]\mathbf 1_{s_0e}$ (Prop.~\ref{prop:s02-Mhomprops}(f)) & $\sum_{u\in U/U'}u_pf(xu)$ &
+  \texttt{s0Tr}\\
+$\mathrm{tr}_1$ & $f\mapsto\big(x\mapsto\sum_{u\in U/U'_\alpha}f[xu\alpha^{-1}]'\big)$; $\mathrm{tr}_1\mathbf 1_e=[\Gamma_{s_1e}:\Gamma_e]\mathbf 1_{s_1e}$ (ibid.) &
+  $\sum_{u\in U/U'_\alpha}u_pf(xu\alpha^{-1})$ & \texttt{s1Tr} (\pathtt{s1Tr\_apply\_mk})\\
+$\nu$ & $[x]\mapsto w_x\mathbf 1_{[x]}$, $w_x=|\Gamma_x/\pm1|$ & $N_x=\sum_{\Gamma_x/(\Gamma_x\cap\{\pm1\})}\gamma$ (tree representatives, $x_p=1$) & \texttt{normMap}\\\midrule
+\multicolumn{4}{l}{\emph{Relations} (Prop.~\ref{prop:s02-Mhomprops}, Prop.~\ref{prop:s02-duality}):}\\
+$\nu\circ s_{j*}=\mathrm{tr}_j\circ\nu'$ & no index factor; no factor $2$ ($\varepsilon$ common) & same & \texttt{normMap\_\allowbreak{}comp\_\allowbreak{}s0Push}, \texttt{\dots s1Push}\\
+$\nu'\circ s_j^!=s_j^*\circ\nu$ & $s_j^![x]=\sum_{e\in s_j^{-1}x}[\Gamma_x:\Gamma_e][e]$; index $=w_x/w_e$ & same & ---\\
+$\nu\,\partial\,\nu'^{-1}$ & $=(-\mathrm{tr}_0,\mathrm{tr}_1)$ & same (needs $-1$ trivial on $V$ if $-1\in U$; else Rem.~\ref{rem:s02-minusone}) & \texttt{qNewEquiv\allowbreak{}KerPartial}\\
+naive transpose & $\partial^{\mathsf T}=\delta$ exactly & --- & ---\\
+Brandt adjoint & $\partial^{\natural}(b_0,b_1)=s_1^!b_1-s_0^!b_0=\nu'^{-1}\delta\,\nu$ (needs $\nu'$ invertible: all $w_e$ units in $R$) & --- & ---\\\bottomrule
+\end{longtable}
+\end{center}
+\noindent Here $X=\XB{U}$, $X'=\XB{U'}$, $\nu'=\nu_{U'}$, and $\mathbf 1_e$ is the indicator of the class $e$. Orientation: $o(e)$ is the type-$0$ end and
+$t(e)$ the type-$1$ end (Def.~\ref{def:s02-tree}); on the quotient, $o=s_0$ and $t=s_1$ (Prop.~\ref{prop:s02-quot}(a)). So $\partial e=t(e)-o(e)$,
+which is Serre's $\partial(y)=t(y)-o(y)$ \lit{serre\_1980\_trees}{II.2.8, p.~126}.
+
+\begin{proposition}[the two pairings]\label{prop:s02-duality}
+Let $V=R$ be trivial, $R$ a commutative ring, and let $\langle\,,\rangle_{\rm ev}:R[X]\times R^X\to R$ be naive evaluation. Then
+\begin{enumerate}[label=(\alph*)]
+\item $\langle s_{j*}a,f\rangle_{\rm ev}=\langle a,s_j^*f\rangle_{\rm ev}$ and $\langle s_j^!b,f'\rangle_{\rm ev}=\langle b,\mathrm{tr}_jf'\rangle_{\rm ev}$; hence
+  $\langle\partial a,(f_0,f_1)\rangle_{\rm ev}=\langle a,\delta(f_0,f_1)\rangle_{\rm ev}$, i.e.\ $\delta=\partial^{\mathsf T}$, with no index factor
+(the identity for $s_{1*}$ is \lean{Langlandscape.Tree.evalPairing\_s1Push}, \stformal; for $s_{0*}$ it is the level-change case
+\lean{Langlandscape.Tree.evalPairing\_pushforward});
+\item for the Brandt pairings $\langle a,b\rangle=\langle a,\nu b\rangle_{\rm ev}$ on $R[X]$ and $R[X']$ (Def.~\ref{def:s01-pairing}):
+  $\langle\partial a,(b_0,b_1)\rangle=\langle a,s_1^!b_1-s_0^!b_0\rangle$. Under $\nu$ this adjoint is $\delta$, but in the bases $\{[x]\}$, $\{[e]\}$ its matrix is
+  the transpose of that of $\partial$ multiplied by the index factors $[\Gamma_x:\Gamma_e]$.
+\end{enumerate}
+\end{proposition}
+\noindent\stproved. This is the ``weighted versus unweighted adjoint'' of the plan (M02.2, Risk~R4): the unweighted adjoint of
+$\partial$ is $(b_0,b_1)\mapsto s_1^\sharp b_1-s_0^\sharp b_0$, the weighted one has $s_j^!$. They agree at levels where all
+$[\Gamma_x:\Gamma_e]=1$, e.g.\ free levels.
+\begin{proof}
+(a) $\langle s_{j*}[e],f\rangle_{\rm ev}=f(s_je)=(s_j^*f)(e)$. $\langle s_0^![x],f'\rangle_{\rm ev}=\sum_{u\in U/U'}f'[xu]'=(\mathrm{tr}_0f')(x)$, and the same with $\alpha$ for
+$j=1$. Then $\langle\partial[e],(f_0,f_1)\rangle_{\rm ev}=-f_0(s_0e)+f_1(s_1e)=\delta(f_0,f_1)(e)$. (b) $\langle\partial a,b\rangle=\langle\partial a,\nu b\rangle_{\rm ev}
+=\langle a,\delta\nu b\rangle_{\rm ev}$ by (a), and $\delta\nu(b_0,b_1)=s_1^*\nu b_1-s_0^*\nu b_0=\nu'(s_1^!b_1-s_0^!b_0)$ by Prop.~\ref{prop:s02-Mhomprops}(e). The
+matrix statement is Prop.~\ref{prop:s02-Mhomprops}(e).
+\end{proof}
+
+\subsubsection*{Serre's exact sequence and the two-term complex}
+
+Let $C_0=\Z[\mathrm{vert}\,\cT_q]$ and $C_1=\Z[\mathrm{edge}^+\cT_q]$, with $\mathrm{edge}^+$ the edges oriented from type $0$ to type $1$. This orientation is
+$\GU$-stable because $\GU$ preserves types (Lemma~\ref{lem:s02-tree}(b)). The augmented complex
+\begin{equation}\label{eq:s02-chains}
+0\to C_1\xrightarrow{\ \partial\ }C_0\xrightarrow{\ \deg\ }\Z\to0,\qquad\partial e=t(e)-o(e),
+\end{equation}
+is exact because $\cT_q$ is a tree (Lemma~\ref{lem:s02-tree}(a)) \lit{serre\_1980\_trees}{II.2.8, p.~126}. It consists of free $\Z$-modules, so it stays
+exact after $\otimes_\Z V$ and after $\Hom_\Z(-,V)$, for any $\GU$-module $V$ (diagonal action, resp.\ $(\gamma F)(c)=\gamma F(\gamma^{-1}c)$).
+
+\begin{lemma}[cell modules]\label{lem:s02-cellmod}
+Assume (iii) of Prop.~\ref{prop:s02-BG} and let $V$ be a $\Zp[U_p]$-module, viewed as a $\GU$-module through $\gamma\mapsto\gamma_p$. For $g\in B^1_q$ put
+\[\Phi_1(ge_0\otimes v)=[g]\otimes v,\qquad\Phi_0(gv_0\otimes v)=([g]\otimes v,\,0),\qquad\Phi_0(g\alpha v_0\otimes v)=(0,\,[g\alpha]\otimes v),\]
+\[\Psi_1(f)(ge_0)=f(g),\qquad\Psi_0(f_0,f_1)(gv_0)=f_0(g),\qquad\Psi_0(f_0,f_1)(g\alpha v_0)=f_1(g\alpha).\]
+\begin{enumerate}[label=(\alph*)]
+\item These are well defined. $\Phi_1$, $\Phi_0$ induce isomorphisms $(C_1\otimes V)_{\GU}\cong\Brandt{U'}{V}_*$ and $(C_0\otimes V)_{\GU}\cong(\Brandt{U}{V}_*)^{\oplus2}$, and
+  $\Psi_1,\Psi_0$ are isomorphisms $\Brandt{U'}{V}\cong\Hom_{\GU}(C_1,V)$ and $\Brandt{U}{V}^{\oplus2}\cong\Hom_{\GU}(C_0,V)$.
+\item $\Phi_0\circ(\partial\otimes1)=(-s_{0*},s_{1*})\circ\Phi_1$ and $\Psi_1^{-1}\big(\Psi_0(f_0,f_1)\circ\partial\big)=s_1^*f_1-s_0^*f_0$.
+\item For $i\ge1$: $H_i(\GU,C_j\otimes V)\cong\bigoplus_{\sigma}H_i(\Gamma_\sigma,V)$ and $H^i(\GU,\Hom(C_j,V))\cong\prod_\sigma H^i(\Gamma_\sigma,V)$, over finitely many orbit
+  representatives $\sigma$ of $j$-cells, $\Gamma_\sigma=\Stab_{\GU}(\sigma)$.
+\end{enumerate}
+\end{lemma}
+\noindent (a), (b) \stproved{} given (iii); (c) \stcited{}
+\lit{brown\_1982\_cohomology-of-groups}{III.5.6(a), p.~69 ($\Z[G/H]\otimes V\cong\mathrm{Ind}$) and III.6.2, p.~73 (Shapiro's lemma)}.
+\begin{proof}
+(a) Every edge is $ge_0$ and every vertex is $gv_0$ or $g\alpha v_0$ with $g\in B^1_q$ (Lemma~\ref{lem:s02-tree}(c)); $g$ is determined up to right multiplication
+by $k$ in $\SL_2(\Zq)\cap\Iw_q$, $\SL_2(\Zq)$, resp.\ $\alpha\SL_2(\Zq)\alpha^{-1}$ (via $\iota_q$). These $k$ lie in $U'$, $U$, resp.\ $\alpha U\alpha^{-1}$ at $q$ and have
+$k_p=1$, so $[gk]\otimes v=[g]\otimes v$ and $f(gk)=f(g)$ (for type $1$: $g\alpha\cdot\alpha^{-1}k\alpha$ with $\alpha^{-1}k\alpha\in U$). By \eqref{eq:s02-transport},
+\begin{gather*}\Phi_1(\gamma ge_0\otimes\gamma_pv)=[\gamma\,g\,(\gamma^{(q)})^{-1}]\otimes\gamma_pv=[g]\otimes\gamma_p^{-1}\gamma_pv=[g]\otimes v,\\
+\Psi_1(f)(\gamma ge_0)=f(\gamma\,g\,(\gamma^{(q)})^{-1})=\gamma_p\Psi_1(f)(ge_0).\end{gather*}
+So $\Phi_1$ factors through the coinvariants and $\Psi_1(f)$ is $\GU$-equivariant; the same holds for $\Phi_0,\Psi_0$ (for type $1$ use $\gamma_qg\alpha=\gamma\,g\alpha\,(\gamma^{(q)})^{-1}$).
+Bijectivity: choose orbit representatives $g_ie_0$. By Prop.~\ref{prop:s02-quot}(a), $[g_i]$ runs once through $\XB{U'}$, and by Prop.~\ref{prop:s02-quot}(b),
+$\Stab_{\GU}(g_ie_0)=\Gamma_{g_i}$. Now $C_1\otimes V=\bigoplus_i\Z[\GU/\Gamma_{g_i}]\otimes V$, and $(\Z[\GU/H]\otimes V)_{\GU}\cong V_H$ via $\gamma\sigma\otimes v\mapsto\overline{\gamma_p^{-1}v}$.
+Under these identifications $\Phi_1$ is the identity $V_{\Gamma_{g_i}}\to V_{\Gamma_{g_i}}$ on the summand of $[g_i]$ in
+Prop.~\ref{prop:s02-Mhomprops}(a) (tree representatives, $g_{i,p}=1$). Similarly $\Hom_{\GU}(\Z[\GU/H],V)\cong V^H$ by evaluation at the base point, and $\Psi_1$
+becomes the isomorphism of Def.~\ref{def:s01-brandt} with these representatives. The vertex case is identical, using both type-$0$ and type-$1$ bijections of
+Prop.~\ref{prop:s02-quot}(a),(b).
+
+(b) $t(ge_0)=gv_1=g\alpha v_0$ and $o(ge_0)=gv_0$. Hence $\Phi_0(\partial ge_0\otimes v)=(-[g]\otimes v,\,[g\alpha]\otimes v)=(-s_{0*},s_{1*})\Phi_1(ge_0\otimes v)$, and
+$\Psi_0(f_0,f_1)(\partial ge_0)=f_1(g\alpha)-f_0(g)=(s_1^*f_1-s_0^*f_0)(g)$.
+
+(c) $C_j=\bigoplus_\sigma\Z[\GU/\Gamma_\sigma]$, a finite sum by Prop.~\ref{prop:s02-quot}(a). Then $\Z[\GU/H]\otimes V\cong\mathrm{Ind}_H^{\GU}V$, and
+$\Hom(\Z[\GU/H],V)\cong\mathrm{Coind}_H^{\GU}V$; now apply Shapiro's lemma.
+\end{proof}
+
+\begin{proposition}[seed Prop.~coh]\label{prop:s02-coh}
+Let $U$ be $q$-admissible and assume (iii) of Prop.~\ref{prop:s02-BG}.
+\begin{enumerate}[label=(\alph*)]
+\item For every $\GU$-module $A$ there are long exact sequences
+  \[\cdots\to\textstyle\bigoplus_{e}H_i(\Gamma_e,A)\to\bigoplus_{v}H_i(\Gamma_v,A)\to H_i(\GU,A)\to
+  \bigoplus_eH_{i-1}(\Gamma_e,A)\to\cdots\]
+  and dually for $H^i$, where $v$ and $e$ run over representatives of the vertex and edge orbits. The maps
+  $H_i(\Gamma_e)\to H_i(\Gamma_v)$ are induced by inclusion $\Gamma_e\subseteq\Gamma_{t(e)}$ if $t(e)=\gamma v$ and by minus the inclusion $\Gamma_e\subseteq\Gamma_{o(e)}$ if $o(e)=\gamma v$, in each case composed with conjugation $c_{\gamma^{-1}}:\gamma\Gamma_v\gamma^{-1}\to\Gamma_v$ by the $\gamma\in\GU$ in question (the representatives cannot always be chosen with $\gamma=1$ when $\BG$ has cycles), and are $0$ if $v$ is not in the orbit of an end of $e$;
+  dually $H^i(\Gamma_v)\to H^i(\Gamma_e)$ is restriction if $v=t(e)$ and minus restriction if $v=o(e)$.
+\item Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Then
+  $p\nmid|\Gamma_x|$ (Lemma~\ref{lem:s01-stab}(c)), and $H^*(\GU,V)$ is the cohomology of
+  \[0\to\Brandt{U}{V}^{\oplus2}\xrightarrow{\ \delta:\ (f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0\ }\Brandt{\Uzero{q}U}{V}\to0\]
+  (degrees $0,1$). $H_*(\GU,V)$ is the homology of
+  $0\to\Brandt{\Uzero{q}U}{V}_*\xrightarrow{\partial=(-s_{0*},\,s_{1*})}(\Brandt{U}{V}_*)^{\oplus2}\to0$ (degrees $1,0$).
+  In particular $H^i=H_i=0$ for $i\ge2$.
+\item Assume in addition that $U$ is \emph{factorisable at $p$}, $U=U_p\times U^{(p)}$ (true for all standard levels,
+  Def.~\ref{def:s01-levels}). Then $H_0(\GU,V)=V_{U_p^1}$, the coinvariants under $U_p^1=U_p\cap\ker\det$.
+\item Assume $U$ factorisable at $p$ as in (c). For $V=V_k$ with $k>2$: $H^0(\GU,V_k)=0$, $H_0(\GU,V_k)$ is finite, and
+  $\rk_{\Zp}H_1(\GU,V_k)=\rk\Brandt{\Uzero{q}U}{V_k}-2\rk\Brandt{U}{V_k}$.
+\end{enumerate}
+\end{proposition}
+\noindent (a) \stcited{} \lit{serre\_1980\_trees}{II.2.8, Prop.~13 and Remark~1, pp.~126--127}; equivalently the equivariant
+spectral sequence \lit{brown\_1982\_cohomology-of-groups}{VII.7, (7.10), p.~174 ($E^1$); VII.8, p.~175ff.\ ($d^1$)}; Brown gives $d^1$ only up to sign (the orientation character is trivial for an action without inversion on a tree), so the signs are taken from Serre. (b) \stpmc{} given (iii) (it uses Lemma~\ref{lem:s02-cellmod},
+i.e.\ Lemma~\ref{lem:s02-tree}(a) and Shapiro's lemma, both cited, but not the sign Remark of (a)). For trivial coefficients $R$,
+(b) is registered in Lean as the hypothesis \lean{Langlandscape.Hyp.SerreCoh} ($H_1\cong\ker\partial$, $H_0\cong\coker\partial$ when all
+$|\Gamma_x|$ are units in $R$); this is a registered hypothesis, not a proof.
+The combinatorial part, $\ker(\mathrm{tr}_0,\mathrm{tr}_1)=\nu'(\ker\partial)$, is \stproved{} and, for $V=R$, \stformal{}
+\lean{Langlandscape.Tree.qNewEquivKerPartial}; $\partial$ is the boundary of $\BG(U,q)$ by
+\lean{Langlandscape.Tree.partialHom\_eq\_boundary}. (c), (d) \stpmc{}: they need the density of $\GU$ in
+$U^1_p$, i.e.\ Thm.~\ref{thm:s02-SA}; a single-level hypothesis (iii) is not enough (deviation D3). The factorisability at $p$ is needed
+for the density: for non-factorisable $U$ the closure of $\GU$ in $U_p$ is the projection of $U^{1,(q)}$, which can be a proper subgroup of $U^1_p$
+(factorisability is not implied by $q$-admissibility; the plan tex omits it).
+
+\emph{Page check of (a)} (local copy of Serre, \emph{Trees}): the chain groups and $\partial(y)=t(y)-o(y)$, $\varepsilon(x)=1$ are on p.~126 (\S II.2.8,
+``Homology''); Prop.~13 and Remark~1 are on p.~127. Remark~1 says that $H_i(G_y,M)\to H_i(G_x,M)$ is zero unless $x$ is an extremity of $y$, and is
+``induced (resp.\ opposite to induced) by the injections $G_y\to G_x$ if $x=t(y)$ (resp.\ $x=o(y)$)'', and that ``the situation is dual for
+cohomology''. With our orientation ($o$ = type $0$, $t$ = type $1$) and $o=s_0$, $t=s_1$ on the quotient (Prop.~\ref{prop:s02-quot}(a)), this is
+$\partial=(-s_{0*},s_{1*})$ in degree $0$, and $\delta=s_1^*(\cdot)-s_0^*(\cdot)$ dually. Lemma~\ref{lem:s02-cellmod}(b) re-derives the same signs directly
+in degree $0$, which is the only degree used in (b).
+
+\begin{proof}
+(a) is Serre's Prop.~13 applied to $G=\GU$ acting on $X=\cT_q$ without inversion (Lemma~\ref{lem:s02-tree}(b)) with the orientation $\mathrm{edge}^+$; the
+long exact sequence is the one of $0\to C_1\otimes A\to C_0\otimes A\to A\to0$ combined with Shapiro's lemma (Lemma~\ref{lem:s02-cellmod}(c)).
+
+(b) By Prop.~\ref{prop:s01-finite}, $|\Gamma_\sigma|$ divides $24$ (and $p\nmid|\Gamma_\sigma|$, Lemma~\ref{lem:s01-stab}(c)), hence is a unit in $\Zp$ for $p\ge5$. So $H_i(\Gamma_\sigma,V)=0=H^i(\Gamma_\sigma,V)$ for $i\ge1$ ($V$ is a
+$\Zp$-module and these groups are killed by $|\Gamma_\sigma|$). By Lemma~\ref{lem:s02-cellmod}(c) the long exact homology sequence of
+$0\to C_1\otimes V\to C_0\otimes V\to V\to0$ becomes
+\[0\to H_1(\GU,V)\to(C_1\otimes V)_{\GU}\xrightarrow{(\partial\otimes1)_*}(C_0\otimes V)_{\GU}\to H_0(\GU,V)\to0,\qquad H_i(\GU,V)=0\ (i\ge2),\]
+since for $i\ge2$, $H_i(\GU,V)$ lies between $H_i(\GU,C_0\otimes V)=0$ and $H_{i-1}(\GU,C_1\otimes V)=0$, and the term $H_1(\GU,C_0\otimes V)$ before $H_1(\GU,V)$ is $0$.
+Transport by $\Phi_1,\Phi_0$ and Lemma~\ref{lem:s02-cellmod}(b) turns $(\partial\otimes1)_*$ into $\partial=(-s_{0*},s_{1*})$. Dually,
+$0\to V\to\Hom(C_0,V)\to\Hom(C_1,V)\to0$ gives
+$0\to H^0(\GU,V)\to\Hom_{\GU}(C_0,V)\xrightarrow{\partial^*}\Hom_{\GU}(C_1,V)\to H^1(\GU,V)\to0$ and $H^i=0$ for $i\ge2$, and $\Psi_0,\Psi_1$ turn $\partial^*$ into $\delta$.
+
+(c) $H_0(\GU,V)=V_{\GU}=V/I$ with $I$ the $\Zp$-span of all $(\gamma_p-1)v$. Since $\gamma^{(q)}\in U^{(q)}$ and $\Nrd\gamma=1$, $\gamma_p\in U^1_p$.
+\emph{Density:} let $W\subseteq U_p^1$ be non-empty open. As $U=U_p\times U^{(p)}$, we have $U^{(q)}=U_p\times U^{(p,q)}$, and $W\times U^{1,(p,q)}$ (with
+$U^{1,(p,q)}=U^{(p,q)}\cap\Bhat^{1,(p,q)}$) is open in $\Bhat^{1,(q)}$ and contained in $U^{(q)}$. So by Thm.~\ref{thm:s02-SA} it contains some $\beta\in B^1$.
+Then $\beta\in\GU$ and $\beta_p\in W$. Hence the image of $\GU$ in $U^1_p$ is dense.
+\emph{Closedness:} $I$ is a submodule of the finitely generated $\Zp$-module $V$, hence finitely generated and closed, and $g\mapsto(g-1)v$ is continuous on $U_p$. So
+$(g-1)v\in I$ for all $g\in U_p^1$, i.e.\ $I$ is also the span of the $(g-1)v$, $g\in U^1_p$, and $V_{\GU}=V_{U^1_p}$.
+
+(d) $U_p$ is open in $\GL_2(\Zp)$, so for some $m$ the groups $N^\pm=\{(\begin{smallmatrix}1&t\\0&1\end{smallmatrix})\},\{(\begin{smallmatrix}1&0\\t&1\end{smallmatrix})\}$, $t\in p^m\Zp$, lie in
+$U^1_p$. With the action \eqref{eq:s01-Vk}, $P\in V_k\otimes\Qp$ is $N^+$-invariant iff $P(X,tX+Y)=P(X,Y)$ for infinitely many $t$, iff $P\in\Qp X^n$; and $N^-$-invariant iff
+$P\in\Qp Y^n$ ($n=k-2>0$). So $(V_k\otimes\Qp)^{U^1_p}=0$. By the density in (c) and continuity, $V_k^{\GU}=V_k^{U^1_p}\subseteq(V_k\otimes\Qp)^{U^1_p}=0$, which is $H^0$. For $H_0$:
+$(V_k\otimes\Qp)_{U^1_p}$ is dual to $\big((V_k\otimes\Qp)^*\big)^{U_p^1}$, and $(\Sym^n\Qp^2)^*\cong\Sym^n\Qp^2$ as representations of $\SL_2(\Zp)$ (char.\ $0$; the standard
+representation of $\SL_2$ is self-dual), so this is $0$ by the same computation. Coinvariants commute with $\otimes\Qp$ (right exactness), so
+$H_0(\GU,V_k)=(V_k)_{U^1_p}$ (by (c)) is a finitely generated $\Zp$-module with $H_0\otimes\Qp=0$, i.e.\ finite. Finally (b) and additivity of ranks give
+$\rk H_1-\rk H_0=\rk\Brandt{\Uzero qU}{V_k}_*-2\rk\Brandt U{V_k}_*$, and $\rk\Brandt{\cdot}{V_k}_*=\rk\Brandt\cdot{V_k}$ by Prop.~\ref{prop:s02-Mhomprops}(c).
+\end{proof}
+
+\begin{proposition}[harmonic cochains; seed Prop.~harm]\label{prop:s02-harm}
+Under the hypotheses of Prop.~\ref{prop:s02-coh}(b), let $c$ be a function on oriented edges with values in $V$
+such that $c(\gamma e)=\gamma_p\,c(e)$ for $\gamma\in\GU$, $c(\bar e)=-c(e)$, and $\sum_{o(e)=v}c(e)=0$ for all
+$v$. The $\GU$-invariant $V$-valued harmonic cochains of this kind are
+\[\ker\Big(\Brandt{\Uzero{q}U}{V}\xrightarrow{(\mathrm{tr}_0,\,\mathrm{tr}_1)}\Brandt{U}{V}^{2}\Big)\ \cong\ H_1(\GU,V),\]
+with the trace maps $\mathrm{tr}_j$ (the plan's ``$s_{j*}$'') of Def.~\ref{def:s02-Mhom}. If $-1\in U$, assume $-1$ acts trivially on $V$
+(the standing hypothesis of Def.~\ref{def:s02-Mhom}, needed for $\nu$); otherwise replace $V$ by $V^+$, as $V^-$ contributes $0$ to both sides
+(Remark~\ref{rem:s02-minusone}). This is the \emph{$q$-new} submodule of the Brandt
+module of level $\Uzero{q}U$; the term is defined here as this kernel. The isomorphism is $\nu_{U'}^{-1}$ followed by
+Prop.~\ref{prop:s02-coh}(b), $H_1(\GU,V)=\ker\partial$.
+\end{proposition}
+\noindent The description of the harmonic cochains as $\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ is \stproved{} given (iii); the isomorphism with
+$H_1(\GU,V)$ is \stpmc{} given (iii) (via Prop.~\ref{prop:s02-coh}(b); registered in Lean as hypothesis \pathtt{Hyp.SerreCoh}). (In
+the sum, ``$o(e)=v$'' runs over all oriented edges with origin $v$, in both orientation classes.)
+\emph{Lean status.} For trivial coefficients $V=R$ the $q$-new module $\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ is
+\lean{Langlandscape.Tree.qNew}, and $\nu_{U'}:\ker\partial\cong\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ is \stformal{}
+\lean{Langlandscape.Tree.qNewEquivKerPartial} (also \lean{Langlandscape.Tree.normMap\_restrict\_bijective}), assuming all $w_x$
+at level $U$ are units in $R$ (remark below); no (iii) is needed for it. The identification with harmonic cochains on the tree is not
+formalised.
+\begin{proof}
+An alternating cochain is determined by its restriction to $\mathrm{edge}^+$, and every $\GU$-equivariant function on $\mathrm{edge}^+$ extends uniquely by
+$c(\bar e)=-c(e)$. So these cochains are $\Hom_{\GU}(C_1,V)$, which is $\Brandt{U'}{V}$ via $f=\Psi_1^{-1}(c)$, $c(ge_0)=f(g)$ (Lemma~\ref{lem:s02-cellmod}(a)).
+
+\emph{Type $0$.} The oriented edges with origin $gv_0$ ($g\in B^1_q$) all lie in $\mathrm{edge}^+$ and are $gue_0$ for $u$ in $\SL_2(\Zq)/(\SL_2(\Zq)\cap\Iw_q)$, each once:
+$\SL_2(\Zq)$ is the stabiliser of $v_0$ in $\SL_2(\Qq)$, it is transitive on the $q+1$ neighbours, and $\SL_2(\Zq)/(\SL_2(\Zq)\cap\Iw_q)\to\GL_2(\Zq)/\Iw_q=\mathbb P^1(\F_q)$ is
+bijective (surjective as $\SL_2(\F_q)$ is transitive on $\mathbb P^1(\F_q)$). Since $U/U'=U_q/\Iw_q$ and these $u$ have $u_p=1$,
+\[\sum_{o(e)=gv_0}c(e)=\sum_uf(gu)=\sum_{u\in U/U'}u_pf(gu)=(\mathrm{tr}_0f)(g).\]
+\emph{Type $1$.} The oriented edges with origin $g\alpha v_0$ are the reverses $\bar e$ of the $e\in\mathrm{edge}^+$ with $t(e)=g\alpha v_0$. These are
+$e=g\alpha k\alpha^{-1}e_0$, $k\in\SL_2(\Zq)/(\SL_2(\Zq)\cap\alpha^{-1}\Iw_q\alpha)$, each once (conjugate the type-$0$ statement by $\alpha$, using
+$\Stab(e_0)=\Stab(v_0)\cap\Stab(v_1)$ and $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$). As $g\alpha k\alpha^{-1}\in B^1_q$ and $U/U'_\alpha=U_q/\alpha^{-1}\Iw_q\alpha$,
+\[\sum_{o(e')=g\alpha v_0}c(e')=-\sum_kf(g\alpha k\alpha^{-1})=-(\mathrm{tr}_1f)(g\alpha).\]
+Every vertex is $\GU$-equivalent to one of these, and both sums are $\GU$-equivariant. So $c$ is harmonic iff $\mathrm{tr}_0f=0$ and $\mathrm{tr}_1f=0$ on all tree
+representatives, iff $f\in\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ (by (iii) the tree representatives exhaust $\XB U$). Finally $\nu_U,\nu_{U'}$ are isomorphisms
+(Prop.~\ref{prop:s02-Mhomprops}(c), $p\ge5$) and $\nu_U\circ s_{j*}=\mathrm{tr}_j\circ\nu_{U'}$ (Prop.~\ref{prop:s02-Mhomprops}(d)), so $\nu_{U'}$ maps
+$\ker(-s_{0*},s_{1*})=\ker\partial$ onto $\ker(-\mathrm{tr}_0,\mathrm{tr}_1)=\ker(\mathrm{tr}_0,\mathrm{tr}_1)$. Now apply Prop.~\ref{prop:s02-coh}(b).
+\end{proof}
+\noindent\emph{Remark on the Lean hypothesis.} For trivial coefficients, $\nu_{U'}$ is invertible as soon as all $w_x$ at level $U$ are units: every
+$e\in\XB{U'}$ has $\Gamma_e\subseteq\Gamma_{s_0e}$ and the same $\varepsilon$, so $w_e\mid w_{s_0e}$. This is why \texttt{qNewEquivKerPartial} only assumes
+\texttt{IsUnit (wx U \_)} at level $U$.
+
+\begin{proposition}[the free case]\label{prop:s02-free}
+Assume (iii) of Prop.~\ref{prop:s02-BG} and that all $\Gamma_x$ are trivial at levels $U$ and $\Uzero{q}U$;
+e.g.\ $U_p\subseteq\Uone{p^s}_p$ with $s\ge1$ and $p\ge5$, by Lemma~\ref{lem:s01-stab}(b). Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\GU$ acts freely on $\cT_q$ and is a free group of rank $(q-1)|\XB{U}|+1$. The projection $\cT_q\to\GU\backslash\cT_q\cong\BG(U,q)$ is a universal
+  covering, and $\GU\cong\pi_1(\BG(U,q))$.
+\item $|\XB{\Uzero{q}U}|=(q+1)|\XB{U}|$, and for every $\GU$-module $A$, $H_*(\GU,A)$ is the homology of $\BG(U,q)$
+  with the local system $A$. For $A=\Z$ this is $H_*(\BG(U,q),\Z)$.
+\end{enumerate}
+Here no spectral sequence and no stabiliser cohomology is needed. This is the case the seed (\S12) calls
+``avoidable input''.
+\end{proposition}
+\noindent (a) \stpmc{} \lit{serre\_1980\_trees}{I.3.3, Thm.~4 and 4$'$, p.~27; II.1.5, Thm.~4, p.~82}; for the
+general structure theorem $\GU\cong\pi_1(\GU\quot\cT_q)$ see \lit{bass\_1993\_covering-theory-for-graphs-of-groups}{\S3, Thm.~3.6, p.~28; Cor.~3.7, pp.~28--29}.
+The freeness and rank statement of (a) is registered in Lean as the hypothesis \lean{Langlandscape.Hyp.SerreFree} (not a proof).
+(b) \stproved{} given (iii) and Lemma~\ref{lem:s02-tree}(a).
+\emph{Lean status of the count in (b).} $|\XB{\Uzero{q}U}|=(q+1)|\XB U|$ is \stformal{}
+\lean{Langlandscape.Tree.card\_XB\_U0q\_of\_free}, under weaker hypotheses than stated: it needs only $\Gamma_x=1$ for all $x$ at level
+$U$ (Lean \texttt{hfree}: \texttt{Gam U x} $=\bot$ for all $x$), and neither (iii) nor the tree. The proof is the mass formula
+$\sum_{\XB{U'}}1/|\Gamma_y|=[U:U']\sum_{\XB U}1/|\Gamma_x|$ with $[U:U']=q+1$; triviality at level $U'$ is automatic, since
+$\Gamma_e\subseteq\Gamma_{s_0e}$, so the hypothesis at level $\Uzero{q}U$ is redundant for the count. The homology statement of (b) is
+not formalised.
+\begin{proof}
+By Prop.~\ref{prop:s02-quot}(b) all vertex and edge stabilisers in $\GU$ are conjugates of trivial groups $\Gamma_x$, and there are no inversions
+(Lemma~\ref{lem:s02-tree}(b)), so the action is free. (In particular $-1\notin U$.)
+
+(a) By Serre's Thm.~4, $\GU$ is free. By Thm.~4$'$(b), with $s=|\mathrm{vert}\,\BG|=2|\XB U|$ vertices and $a=|\mathrm{edge}^+\BG|$ geometric edges of the quotient,
+the rank is $a-s+1$. With (b), $a=(q+1)|\XB U|$, so the rank is $(q-1)|\XB U|+1$. The covering statement is Serre I.3.3 (the realisation of a tree is
+contractible and $\GU$ acts freely).
+
+(b) \emph{Count.} The edges with origin $gv_0$ are the $q+1$ edges $gue_0$ (proof of Prop.~\ref{prop:s02-harm}). Two of them are $\GU$-equivalent only if the
+element involved fixes $gv_0$, hence is $1$. Every edge orbit with origin in $\GU gv_0$ has a representative with origin $gv_0$. So $|s_0^{-1}[g]|=q+1$ for every
+$[g]\in\XB U$ (by Prop.~\ref{prop:s02-quot}(a)), and $|\XB{U'}|=(q+1)|\XB U|$. (In general the same argument gives $\sum_{e\in s_0^{-1}x}|\Gamma_x|/|\Gamma_e|=q+1$, the
+fibre count of H02.2.)
+\emph{Homology.} Since all stabilisers are trivial, $C_j=\bigoplus_\sigma\Z[\GU]$ is a free $\Z[\GU]$-module, so \eqref{eq:s02-chains} is a free resolution of $\Z$
+over $\Z[\GU]$. By the definition of group homology \lit{brown\_1982\_cohomology-of-groups}{III.1, p.~56},
+$H_*(\GU,A)=H_*(C_\bullet\otimes_{\Z[\GU]}A)$. Choosing representatives $\tilde\sigma$ of the cells of $\BG(U,q)$, $C_j\otimes_{\Z[\GU]}A=\bigoplus_\sigma A$ and the differential
+is $e\otimes a\mapsto t(e)\otimes\gamma_{t,e}a-o(e)\otimes\gamma_{o,e}a$, where $t(\tilde e)=\gamma_{t,e}^{-1}\widetilde{t(e)}$ and similarly for $o$; this is the
+homology of $\BG(U,q)$ with the local system defined by $A$. For trivial $A=\Z$ all twists disappear and we get the cellular chain complex of $\BG(U,q)$.
+\end{proof}
+
+\begin{definition}[tree model of the indefinite stage; seed Def.~indef]\label{def:s02-indef}
+For $q$-admissible $U$, $p\ge5$ and $V$ as in Prop.~\ref{prop:s02-coh}(b),
+\[\cX^{(q)}_{Dq}(U;V):=H_1(\GU,V)\quad\Big(=\ker\partial\ \text{in Prop.~\ref{prop:s02-coh}(b)}\Big).\]
+Over $\Z$ (deviation D1) put $\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)=\ker\big(\partial:\Z[\XB{U'}]\to\Z[\XB U]^2\big)$ (unconditional;
+\stformal{} as a definition: \lean{Langlandscape.Tree.Xindef}, over a ring $R$ \lean{Langlandscape.Tree.XindefR}
+$=\ker\partial$, equal to $H_1(\BG(U,q),R)$ by \lean{Langlandscape.Tree.XindefR\_eq\_H1});
+given (iii) this is $H_1(|\GU\quot\cT_q|,\Z)$ (Prop.~\ref{prop:s02-quot}(a)).
+\emph{Hecke action} (F9, as in \pathtt{if:s02-indef}): for $T=[UgU]$ supported away from $p$ and $q$, $T$ acts on $\Brandt{\cdot}{V}_*$ by the transposed
+(right-translation) operator $[x]\otimes v\mapsto\sum_i[xg_i]\otimes v$, at both levels with the same $g_i$. It commutes with $s_{0*},s_{1*}$
+(Prop.~\ref{prop:s02-quot}(c)), hence acts on $\ker\partial$. Under $\nu$ it becomes the adjoint operator $T_{g^{-1}}$ on the cohomological modules,
+which commutes with $\mathrm{tr}_j$. \stproved: as in Prop.~\ref{prop:s02-Mhomprops}(d), $\nu(\sum_i[xg_i]\otimes v)(y)$ and $(T_{g^{-1}}\nu([x]\otimes v))(y)$ are both
+$\sum_\gamma(x^{-1}\gamma^{-1}y)_p^{-1}v$ over $\gamma\in B^\times/(\{\pm1\}\cap U)$ with $\gamma^{-1}y\in xUgU$, because $xUgU=\coprod_ixg_iU=\coprod_jxUh_j^{-1}$ for
+$Ug^{-1}U=\coprod_jh_jU$ and $g_{i,p}=h_{j,p}=1$ (for trivial $V$ this is Prop.~\ref{prop:s01-adjoint}(b)). Then $T_{g^{-1}}$ commutes with $\mathrm{tr}_j=\nu s_{j*}\nu'^{-1}$
+(Prop.~\ref{prop:s02-Mhomprops}(d)) when $p\nmid|\Gamma_x|$.
+\emph{$U_p$ (deviation from \pathtt{if:s02-indef}, recorded).} $U_p=N_{U_p}$ commutes with $s_{0*},s_{1*}$ by Prop.~\ref{prop:s02-quot}(c), so it acts on
+$\ker\partial$; its $\nu$-transform is $U_p^*$ by Lemma~\ref{lem:s01-Up}(d). That lemma is not re-proved here for the homological modules
+$\Brandt{\cdot}{V}_*$ with general $V$; this section only uses it as imported from stage 01.
+\emph{Ranks} (F17): the rank statements of the plan's Def.~indef are Prop.~\ref{prop:s02-indefprops}(c),(d) below; downstream stages should cite those.
+\end{definition}
+
+\begin{proposition}[properties of the tree model]\label{prop:s02-indefprops}
+Assume (iii) of Prop.~\ref{prop:s02-BG}.
+\begin{enumerate}[label=(\alph*)]
+\item $\cX^{(q)}_{Dq}(U)$ is free and equals $H_1(\GU,\Z)/\mathrm{torsion}$; the torsion of $H_1(\GU,\Z)$ is the finite group
+  $\coker\big(\bigoplus_eH_1(\Gamma_e,\Z)\to\bigoplus_vH_1(\Gamma_v,\Z)\big)$, killed by $24$ (Prop.~\ref{prop:s01-finite}; Remark~\ref{rem:s02-torsion}).
+\item $\cX^{(q)}_{Dq}(U)\otimes\Zp=\cX^{(q)}_{Dq}(U;\Zp)$ for $p\ge5$ ($\Zp$ with trivial action).
+\item $\rk\cX^{(q)}_{Dq}(U)=|\XB{\Uzero{q}U}|-2|\XB{U}|+1$.
+\item At a free level (Prop.~\ref{prop:s02-free}), $\rk\cX^{(q)}_{Dq}(U)=(q-1)|\XB{U}|+1$ and
+  $\rk\cX^{(q)}_{Dq}(U;V_k)=(q-1)(k-1)|\XB{U}|$ for $k>2$. The second formula is false at non-free levels in general, where
+  $\rk\Brandt{U}{V_k}<(k-1)|\XB U|$ is possible; there one only has Prop.~\ref{prop:s02-coh}(d).
+\end{enumerate}
+\end{proposition}
+\noindent (a) \stpmc{} (Prop.~\ref{prop:s02-coh}(a)). (b) \stpmc{} given (iii) (via Prop.~\ref{prop:s02-coh}(b)). (c) \stproved{} given (iii). (d) \stpmc{} given (iii), using only Prop.~\ref{prop:s02-free}(a) (Serre's
+freeness theorem), not Thm.~\ref{thm:s02-SA}. \emph{Lean status.} (c) \stformal{} \lean{Langlandscape.Tree.finrank\_Xindef\_of\_connected}
+(given \texttt{BGConnected}, i.e.\ (iii); the rank as $\Z$-\texttt{finrank}), from the graph lemma
+\lean{Langlandscape.Graph.finrank\_H1\_of\_connected} (any domain $R$) and \lean{Langlandscape.Graph.range\_boundary\_of\_connected}.
+(a), (b), (d) are not formalised.
+\begin{proof}
+(a) With $A=\Z$ in Prop.~\ref{prop:s02-coh}(a): $\bigoplus_eH_1(\Gamma_e)\to\bigoplus_vH_1(\Gamma_v)\to H_1(\GU,\Z)\to\bigoplus_eH_0(\Gamma_e,\Z)\to\bigoplus_vH_0(\Gamma_v,\Z)$. The last map
+is $\partial$ of $\BG(U,q)$ (Lemma~\ref{lem:s02-cellmod}(b) with $V=\Z$; its kernel does not depend on the sign conventions of Remark~1). So
+$0\to C\to H_1(\GU,\Z)\to H_1(\BG,\Z)\to0$ with $C$ the cokernel in the statement. $H_1(\Gamma_v,\Z)=\Gamma_v^{\rm ab}$ is finite of exponent dividing $|\Gamma_v|\mid24$,
+and $H_1(\BG,\Z)\subseteq\Z[\XB{U'}]$ is free. Hence the sequence splits and $C$ is the torsion subgroup.
+
+(b) $\Zp$ is flat over $\Z$, so $\ker(\partial)\otimes\Zp=\ker(\partial\otimes\Zp)$. For trivial $V=\Zp$, $\Brandt{U''}{\Zp}_*=\Zp[\XB{U''}]$ (coinvariants of a trivial module) and the complex of
+Prop.~\ref{prop:s02-coh}(b) is $\partial\otimes\Zp$.
+
+(c) $H_1$ of a finite connected graph is free of rank $|E|-|V|+1$; here $|V|=2|\XB U|$, $|E|=|\XB{U'}|$, and $\BG(U,q)$ is connected by (iii).
+
+(d) The first formula is (c) with Prop.~\ref{prop:s02-free}(b). For the second, at a free level $\Brandt{U''}{V_k}_*=\bigoplus_{\XB{U''}}V_k$ has rank $(k-1)|\XB{U''}|$, so by
+Prop.~\ref{prop:s02-coh}(b), $\rk H_1(\GU,V_k)=(k-1)(q-1)|\XB U|+\rk H_0(\GU,V_k)$. It remains to show that $H_0$ has rank $0$ without using SA. Put $W=V_k\otimes\Qp$ and
+$n=k-2>0$. By Prop.~\ref{prop:s02-free}(a), $\GU$ is free of rank $(q-1)|\XB U|+1\ge2$, so it is torsion-free and contains non-commuting $\gamma,\gamma'$. For $\gamma\ne1$
+in $\GU\subseteq B^1$: $\gamma$ is not $\pm1$-unipotent ($B$ is a division algebra), so $\iota_p(\gamma)$ has eigenvalues $\lambda\ne\lambda^{-1}$ in a finite extension $K/\Qp$ and is
+diagonalisable over $K$; $\lambda$ is not a root of unity since $\gamma$ has infinite order. On $W_K$ the eigenvalues of $\gamma$ are $\lambda^{n-2j}$, so $W_K^\gamma$ is $0$ for $n$ odd
+and the line $K(\ell_1\ell_2)^{n/2}$ for $n$ even, where $\ell_1,\ell_2$ are the eigen-linear forms of $\gamma$. If $(\ell_1\ell_2)^{n/2}$ and $(\ell_1'\ell_2')^{n/2}$ were proportional,
+unique factorisation would give $\{K\ell_1,K\ell_2\}=\{K\ell'_1,K\ell'_2\}$, so $\gamma,\gamma'$ would be simultaneously diagonal and would commute ($\iota_p$ is injective).
+Hence $W^{\GU}\subseteq W^\gamma\cap W^{\gamma'}=0$. Since $\iota_p(\GU)\subseteq\SL_2(\Qp)$ and $W^*\cong W$ as $\SL_2$-representations (char.\ $0$), $(W)_{\GU}$ is dual to
+$(W^*)^{\GU}\cong W^{\GU}=0$. So $H_0(\GU,V_k)\otimes\Qp=W_{\GU}=0$.
+\end{proof}
+
+\paragraph{Consistency with the Lean side (S02-L8, S02-L9).}
+\begin{itemize}\sloppy
+\item \pathtt{Graph.boundary} $e\mapsto(-\texttt{single}(s_0e)\,1,\ \texttt{single}(s_1e)\,1)$ and \texttt{partialHom} $=$ \texttt{(-s0Push).prod s1Push} are
+  $\partial=(-s_{0*},s_{1*})$ of the table. \pathtt{partialHom\_eq\_boundary} is the case $V=R$ of Lemma~\ref{lem:s02-cellmod}(b).
+\item \texttt{deltaCoh} $(f_0,f_1)\mapsto\texttt{s1Pull}\,f_1-\texttt{s0Pull}\,f_0$ is $\delta$, and equals the naive transpose of \texttt{partialHom}
+  (Prop.~\ref{prop:s02-duality}(a)), with no index factor.
+\item \texttt{s0Tr} $=\pathtt{Brandt.trace}\,(U_0(q)U)\,U$ and \texttt{s1Tr} $=\pathtt{Brandt.trace}(\texttt{s1Level})\circ\texttt{translateLin}(\alpha^{-1})$ with
+  \texttt{s1Level} $=U'_\alpha$ are $\mathrm{tr}_0,\mathrm{tr}_1$; \pathtt{s1Tr\_apply\_mk} ($f[xu\alpha^{-1}]$ over $U/U'_\alpha$) is the formula of
+  Def.~\ref{def:s02-Mhom}(iv).
+\item \pathtt{normMap\_comp\_s}$j$\texttt{Push}: $\nu\circ s_{j*}=\mathrm{tr}_j\circ\nu'$ holds with no factor $2$, because $-1\in U'$ iff $-1\in U$
+  (Prop.~\ref{prop:s02-Mhomprops}(d)). This is the ``automatic $-1$ condition'' of the L9 row.
+\item The normalisation $w_x=|\Gamma_x/\pm1|$ (F8) is the one of \texttt{normMap}; with the sum over all of $\Gamma_x$ every $\nu$ would be multiplied by the same $\varepsilon$, which
+  changes none of the relations in the table.
+\end{itemize}

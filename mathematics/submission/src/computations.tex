@@ -1,0 +1,77 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Section 9: computations. Adapted from mathematics/final-report/sections/computations.tex (audited; anonymised).
+\paragraph{What was computed, over what range (summary).} Brandt matrices and class sets of definite quaternion algebras
+over $\Q$ ($D\le 13$ at weights $k\le12$ for the classical JL check; all primes $D<10^4$ for Eichler's class number formula;
+all primes $q\le2777$ for the native class-set census), Brandt graphs and their homology (240 cases), the component group
+$\Phicomb$ against Mazur ($q\in\{11,23,37,101,131\}$ in Python/PARI; every prime $q\le600$ at $\ell\ge5$, and exactly including
+the $2$- and $3$-parts for the first 80 primes, $q\le409$, through the HACS engine), signs and normalisations of $U_q\mapsto\Pi_q$
+(144 eigenlines), the Betti determinant $\det\Psi^*\Psi$ (121 cases), congruence modules of Brandt lattices (74 cells), and the
+stage-06 congruence ideals ($\eta$, $\eta^B$, $\cc_q$, $t_f(q)$) on 7 triples and on 131 of 319 regression cases. Details follow.
+
+All numbers in this section are \stcomp{} and are read from the result files under \pathtt{code/results/} (index:
+\pathtt{code/results/INDEX.md}); each file records script, commit, parameters, date and runtime. Python~3.10.12 with
+PARI/GP~2.15.4 unless stated. Several provenance fields carry a \texttt{-dirty} commit (shared worktrees); this is disclosed
+in the closures. A computation validates a statement; it is never part of a proof.
+
+\subsection{Stages 01--05 (summary)}
+\begin{center}\small
+\begin{tabular}{@{}p{0.27\textwidth}p{0.67\textwidth}@{}}\toprule
+file & result\\\midrule
+\res{s01/symn.json} & $T_\ell$ on $M(\hat\cO^\times;V_k)$, $D\in\{2,3,5,7,11,13\}$, $k\le12$: JL characteristic polynomial $=S_k(\Gamma_0(D))^{\rm new}$, 66/66 cases\\
+\res{s01/pi_sign.json} & $\Pi_D$, $D\in\{11,13,17,19\}$, $k\in\{2,4\}$: $\Pi^2=D^{k-2}$, $\Pi$-eigenvalue $=+a_D$ ($U_\ell\mapsto+\Pi_\ell$); 8/8 cells (7 non-vacuous; $(13,2)$ has no newforms)\\
+\res{s01/levels.json} & $|S_s|=2,50,1250$ ($D=3$, $p=5$, $s=1,2,3$); \res{s01/up*.json}: the $N_{U_p}$ normalisation (R1) closed\\
+\res{s02/validation.json} & $\BG(U,q)$: connectivity, fibre sums $q+1$, mass identity, $\rk H_1=E-2X+1$; 240 cases, all pass\\
+\res{s02/torsion.json} & $D=2$, $q=3$: $H_1(\Gamma_U,\Z)=\Z/3$ although the graph has $H_1=0$ (vertex torsion)\\
+\res{s03/T1.json} & Mazur check, $q\in\{11,23,37,101,131\}$: $h=2,3,3,9,12$, $|\Phicomb|=5,11,3,25,65=\mathrm{num}\frac{q-1}{12}$, all cyclic, Eisenstein\\
+\res{s03/betti_det.json} & $\det\Psi^*\Psi=(q+1)^2-q^{2-k}T_q^2$, 121 cases, never $0$\\
+\res{s03/C3_rerun.json} & HACS~0.2.1 re-run of the seed check C3: 14 cases agree with \pathtt{betti\_det.json}\\
+\res{s04/H6_sign.json} & $U_p^*=\langle p\rangle_M U'_p$ exactly (sign $+1$; $-1$ fails), $D=2$, $M=7$, $p=5$\\
+\res{s04/C2.json} & ordinary rank 1 at $s=1$, matching the unique newform of level 15 (15a), which is ordinary and $3$-new\\
+\res{s05/T05-1.json} & $a_q=+\lambda(\Pi_q)$ on 144/144 eigenlines, 0 minus, 0 unmatched ($q\in\{11,23,37,43\}$, $k\in\{2,4,6,8\}$)\\
+\res{s05/T05-2.json} & $\Gamma_1$ dictionary $\theta$ with $U_q\mapsto+\Pi_q$, $\langle d\rangle\mapsto\langle d\rangle_{\rm ad}^{-1}$ matches all $q$-new eigensystems at $(q,N)\in\{(13,5),(11,7),(23,5),(23,7)\}$; $\varepsilon=-1$ fails everywhere\\\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Stage 06}
+Conventions as in \mainpdf, \S19--24; the triples are $(q,k,p)$ unless stated.
+
+\paragraph{T4, Hecke side} (\res{s06/T4_hecke.json}; S06-C3). $q=3$, $p=17$, $\delta=q^{k-2}(q+1)^2-T_q^2$. The length
+of the $\m$-part is $1,1,1,1,2$ at $k=12,28,44,60,124$, equal to the prediction (expected for $k\ge17$; $\dim\T=1,2,3,5,10$). Independent
+cross-check by a cross-account reviewer on a second team member's machine (\res{s06-xcheck/T4_hecke.json}, \pathtt{code/cas/s06-xcheck}): lengths $1,1,1,1,2$.
+
+\paragraph{T4, Betti side} (\res{s06/T4_betti.json}; HACS Lane~A, HJ-A3). $\coker(\Psi^*\Psi)_\m\cong(\Z/17)^2=(\T(1)_\m/\delta)^2$
+at $k=12,28,44,60$ (gating route: amalgam; the cokernel is computed by the amalgam route, HACS supplies the Hecke side $\T(1)_\m/\delta$
+through \texttt{descent}, and the HACS \texttt{module\_Z} route was not run); at $k=28,44,60$ the reading is tagged \emph{expected}, since $k\ge\ell=17$ lies
+outside the proven range $\ell>k$ of the amalgam; $k=124$ is not reachable on the HACS route (cap $n\le60$); off the route,
+$k=124$ gives $(\Z/17^2)^2$ (expected, not gating).
+
+\paragraph{T5} (\res{s06/T5_def.json}, \res{s06/T5_gl2.json}, \res{s06/T5.json}; S06-C4--C6). Seven triples
+$(q,k,p)=(13,18,19)$, $(5,18,23)$, $(5,16,31)$, $(13,12,31)$, $(3,18,53)$, $(3,18,61)$, $(13,16,101)$. Definite side (Gram matrices with
+$w_x$ and $|\Gamma_x|$): $v_p(\eta^B)=0$ in all seven, Brandt and newform dimensions agree. At weight $k$, 7/7: $\ord\eta=\ord\cc=t_f(q)=1$,
+$\eta^{\rm new}$ a unit, $\eta^B=\eta_f(1,q)$, and $\eta_f(q)=\cc_q(f)\,\eta^B$. At weight $k+p-1$: 4/7; the three level-13
+cases were not computed (PARI stack / runtime budget); HACS Lane~C computed two of them, $(13,18,19)$ and $(13,12,31)$, where Thm~E
+holds (\S\ref{ss:hacs-lanec}), and $(13,16,101)$ remains open. The planned check ``$\rk\T'_\m\ge2$'' is false: the rank is 1 (the full
+algebra has rank 2).
+
+\paragraph{C2: regression of seed C4(i)} (\res{s06/C4i.json}). \textbf{Partial}: 131 of 319 cases run (the others exceed
+dimension 60, the time budget, or the PARI stack). A row is one (case, Galois orbit, prime) record; the 131 cases give 882 rows. In scope (non-Eisenstein, DVR, Gorenstein): $v(h)=v(\cc_q)$ in
+225/225 rows. Eisenstein rows: $(h)\supseteq\cc_q$ on all 396 rows where $\cO_v$ is a DVR; it fails in 5 of the 46 non-DVR
+rows (at $p=2,3$; in all five $S_\m$ is not Gorenstein, observed, not proved). The chapter carries the corresponding caveat.
+
+\paragraph{C1: congruence toolkit} (\res{s06/C1.json}). Exact over $\Z$; toy cases $\eta=\cc=p^t$ ($t=1,2,3$), non-Gorenstein
+and ramified controls, and the seed case $S_{12}(\Gamma_0(3))$, $p=17$, with congruence-module length 1.
+
+\paragraph{H3: the case $q\equiv-1\bmod p$} (\res{s06-xcheck/H3.json}; cross-account check F4). The four $M=1$ triples
+are vacuous ($S_k(1)=0$ for $k=4,6$). The supplement at $M>1$, $(q,p,k,M)$ in
+$(13,7,4,9)$, $(13,7,6,11)$, $(97,7,2,11)$, $(19,5,2,53)$, $(41,7,2,31)$, $(89,5,2,17)$, $(41,7,4,6)$, $(19,5,4,18)$, is non-vacuous
+($S^{\rm old}\ne0$): $\ord\cc_q(f)-t^{\rm an}_f(q)=0$ for every form, and in particular the inclusion holds with equality in the
+5 cases with $t=2$, namely $(19,5,2,53)$, $(41,7,2,31)$, $(89,5,2,17)$, $(41,7,4,6)$, $(19,5,4,18)$, all with $N(\bar\rho)>1$.
+As the chapter says (Remark~23.9 of \mainpdf), this is numerical evidence in the open region, not a test of (F1); the case
+(F1) ($N(\bar\rho)=1$) is numerically untested.
+
+\paragraph{Definite local algebras} (\res{s06/definite_local.json}; HACS Lane~A, HJ-A2). At $D=11$, $k=2$ Mazur's prime $5$ is
+non-\'etale and Gorenstein; negative controls $D=3,5,7$, $k=12$ clean; generation over $\Z$ 14/14.
+
+\subsection{HACS}\label{ss:hacs-pointer}
+The HACS computations (the Jacquet--Langlands module, Lanes~A and~B, the Mazur census, worked examples and disclosed deviations) are reported in Section~\ref{sec:hacs}.

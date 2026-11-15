@@ -1,0 +1,53 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Macros for Appendix A (the hypotheses report as text): a copy of mathematics/report/hyp-preamble.tex without
+% tcolorbox, colortbl and placeins (the boxed environments become plain titled blocks). Loaded after macros.tex.
+\usetikzlibrary{shapes.geometric,fit,calc,backgrounds}
+
+% Okabe--Ito palette (colour-blind safe); every status also has a distinct line style, and the appendix
+% introduction describes both figures in words.
+\definecolor{oiBlue}{HTML}{0072B2}
+\definecolor{oiGreen}{HTML}{009E73}
+\definecolor{oiOrange}{HTML}{E69F00}
+\definecolor{oiVerm}{HTML}{D55E00}
+\definecolor{oiPurple}{HTML}{CC79A7}
+\definecolor{oiSky}{HTML}{56B4E9}
+\definecolor{oiGrey}{HTML}{6E6E6E}
+
+% Kind markers (the text label LIT, DIS, INF, OOS, CON, PLN carries the meaning; the box is decoration).
+\newcommand{\kindbox}[2]{\tikz[baseline=-0.6ex]\node[draw=#1,fill=#1!25,line width=0.8pt,inner sep=1.6pt,
+  rounded corners=1pt,font=\scriptsize\sffamily]{#2};}
+\newcommand{\kindlit}{\kindbox{oiBlue}{LIT}}
+\newcommand{\kinddis}{\kindbox{oiGreen}{DIS}}
+\newcommand{\kindinfra}{\kindbox{oiOrange}{INF}}
+\newcommand{\kindoos}{\kindbox{oiVerm}{OOS}}
+\newcommand{\kindcond}{\kindbox{oiPurple}{CON}}
+\newcommand{\kindplan}{\tikz[baseline=-0.6ex]\node[draw=oiSky!70!black,dashed,fill=oiSky!15,line width=0.8pt,
+  inner sep=1.6pt,rounded corners=1pt,font=\scriptsize\sffamily]{PLN};}
+
+% Lean names and paths: typewriter, breakable after '/' and '.'.
+\makeatletter
+\begingroup
+  \catcode`\/=\active \catcode`\.=\active
+  \gdef\lname@slash{\char`\/\penalty\exhyphenpenalty\hskip0pt\relax}
+  \gdef\lname@dot{\char`\.\penalty\exhyphenpenalty\hskip0pt\relax}
+  \gdef\lname@activate{\catcode`\/=\active \catcode`\.=\active \let/\lname@slash \let.\lname@dot
+    \def\_{\textunderscore\penalty500\hskip0pt\relax}}
+\endgroup
+\DeclareRobustCommand{\lname}{\begingroup\ttfamily\lname@activate\lname@aux}
+\newcommand{\lname@aux}[1]{#1\endgroup}
+\makeatother
+\providecommand{\brk}{\penalty0\hskip0pt\relax}
+
+% One entry per hypothesis: \begin{hypentry}{ShortName}{\kindlit}{S02-L4a} ... \end{hypentry}
+\newenvironment{hypentry}[3]
+  {\par\medskip\noindent\rule{\linewidth}{0.3pt}\par\nopagebreak
+   \noindent\texttt{#1}\hfill #2\ \ \textsf{\small introduced #3}\par\nopagebreak
+   \small\rightskip=0pt plus 4em\relax
+   \begin{description}[leftmargin=0pt,labelsep=0.4em,itemsep=1.5pt,topsep=2pt,font=\normalfont\bfseries]}
+  {\end{description}\par\noindent\rule{\linewidth}{0.3pt}\par\medskip}
+
+% A titled reading guide.
+\newenvironment{readbox}[1][]
+  {\par\medskip\noindent\textbf{#1}\par\nopagebreak\begin{quote}}
+  {\end{quote}\par\medskip}

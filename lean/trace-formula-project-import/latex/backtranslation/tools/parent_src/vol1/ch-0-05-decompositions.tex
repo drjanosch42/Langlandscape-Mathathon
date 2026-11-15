@@ -1,0 +1,400 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/Decompositions.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline: planned IDs (\tfplanned) only; no statements or proofs yet.
+
+\chapter{Bruhat, Iwasawa and Cartan decompositions}\label{ch:ch-0-05-decompositions}
+
+\noindent\emph{Sources:} \cite[§1]{Cas-p}; \cite[§2]{JL}; \cite{BumpH}.
+
+\section{Bruhat decomposition}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{theorem}[Bruhat decomposition]
+\tfstmt{I.decomp.thm:bruhat-decomposition}
+\lean{GL2TF.bruhat_decomposition}
+\uses{I.conv.def:borel, I.conv.def:unipotent, I.conv.def:weyl-element}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:bruhat-decomposition}
+\tfsem{I.decomp.thm:bruhat-decomposition}{a81fc1a1020902f2d4f40e606d957aca63351cde054e9f2d3eb6290c0160ce34}
+\tfhyps{I.decomp.thm:bruhat-decomposition}{}
+\tfbinder{I.decomp.thm:bruhat-decomposition}{0}{6b8b0c0f}{the underlying type of the field $k$}
+\tfbinder{I.decomp.thm:bruhat-decomposition}{1}{de6d288d}{the field structure of $k$}
+\begin{tffidelity}
+Four clauses: $g\in B(k)\iff g_{21}=0$ (Lean: \texttt{↑g 1 0 = 0}); every $g$ with $g_{21}\neq0$ is $bwn$ with $b\in B(k)$, $n\in N(k)$; the set $B(k)wN(k)$ (written \texttt{\{g | ∃ b ∈ borel k, ∃ n ∈ unipotent k, g = b * weylElement k * n\}}) is disjoint from $B(k)$; and the union of the two is the whole group. Together these are the disjoint-union statement of the snippet.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first clause is definitional (the Borel subgroup is the set $g_{21}=0$). For $g_{21}\ne0$ (helper \texttt{big\_cell\_exists}) put $x=g_{22}/g_{21}$ and $b=g\,n(-x)\,w^{-1}$; an entry computation (\texttt{field\_simp}, \texttt{ring}) shows $b_{21}=0$, so $b\in B(k)$, and $g=b\,w\,n(x)$ since $n(-x)^{-1}=n(x)$. Disjointness: for $b\in B(k)$, $n=n(x)$ one computes the bottom row of $bwn(x)$ (\texttt{bwn\_bottom}): its $(2,1)$ entry is $-b_{22}$, which is nonzero because $\det b=b_{11}b_{22}$ is a unit; so $bwn\notin B(k)$. Covering: either $g_{21}=0$ or the big cell applies.
+\end{proof}
+
+\begin{theorem}[uniqueness on the big cell]
+\tfstmt{I.decomp.thm:bruhat-big-cell-unique}
+\lean{GL2TF.bruhat_big_cell_unique}
+\uses{I.conv.def:borel, I.conv.def:unipotent, I.conv.def:weyl-element}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:bruhat-big-cell-unique}
+\tfsem{I.decomp.thm:bruhat-big-cell-unique}{e87fa30df1e75572835d7436d137c4f71a68155fa4178dede809785cdd2fe978}
+\tfhyps{I.decomp.thm:bruhat-big-cell-unique}{}
+\tfbinder{I.decomp.thm:bruhat-big-cell-unique}{0}{6b8b0c0f}{the underlying type of the field $k$}
+\tfbinder{I.decomp.thm:bruhat-big-cell-unique}{1}{de6d288d}{the field structure of $k$}
+\tfbinder{I.decomp.thm:bruhat-big-cell-unique}{2}{cbaa37a6}{the element $g\in\GL_2(k)$}
+\tfbinder{I.decomp.thm:bruhat-big-cell-unique}{3}{6b7958fa}{the assumption $g_{21}\neq0$ (A: $g_{21}\neq0$)}
+\begin{tffidelity}
+The pair $(b,x)$ is a pair $p$ in \texttt{borel k × k}, and uniqueness is \texttt{∃!} over such pairs with $g=p_1\,w\,n(p_2)$ ($n$ is Mathlib's \texttt{upperRightHom}). The formula $x=g_{22}/g_{21}$ is a separate clause, for every decomposition $g=bwn(x)$ with $b\in B(k)$. The hypothesis $g_{21}\ne0$ is \texttt{↑g 1 0 ≠ 0}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Formula for $x$ (\texttt{hx}): for $g=b\,w\,n(x)$ with $b\in B(k)$ the bottom row of $g$ is $(-b_{22},\,-b_{22}x)$ (\texttt{bwn\_bottom}), so $x=g_{22}/g_{21}$ (\texttt{field\_simp}). Existence is \texttt{big\_cell\_exists} with this $x$. Uniqueness: $x$ is determined by the formula, and then $b=g\,n(-x)\,w^{-1}$ is determined (\texttt{AddChar.map\_add\_eq\_mul} to cancel $n(x)n(-x)$).
+\end{proof}
+
+\section{Iwasawa decomposition and the height map}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{theorem}[local Iwasawa decomposition]
+\tfstmt{I.decomp.thm:iwasawa-local}
+\lean{GL2TF.Local.iwasawa_local}
+\uses{I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:iwasawa-local}
+\tfsem{I.decomp.thm:iwasawa-local}{3095d098a367e279c7c4e9041ac806b325776454477d85fde2a5cc2b57584433}
+\tfhyps{I.decomp.thm:iwasawa-local}{}
+\tfbinder{I.decomp.thm:iwasawa-local}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.decomp.thm:iwasawa-local}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.decomp.thm:iwasawa-local}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.decomp.thm:iwasawa-local}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.decomp.thm:iwasawa-local}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.decomp.thm:iwasawa-local}{5}{50eac7bf}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+``$g=bk$ with $b$ upper triangular, $b_{21}=0$'' is rendered as: there are $b\in\GL_2(F)$ and $k\in K_F$ with $b_{1,0}=0$ and $g=bk$ (Lean indices from $0$, so entry $(1,0)$ is $b_{21}$). $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Suffices to find $k\in K_F$ with $(gk)_{21}=0$ (then $b=gk$ and $k\mapsto k^{-1}$). If $\delta\neq0$ and $v(\gamma)\le v(\delta)$ take the elementary matrix $\begin{psmallmatrix}1&0\\-\gamma/\delta&1\end{psmallmatrix}$; otherwise $\gamma\neq0$ and $v(\delta)\le v(\gamma)$, take $\begin{psmallmatrix}-\delta/\gamma&1\\1&0\end{psmallmatrix}$. Membership in $K_F$ is checked with the valuation form of \cref{I.conv.lem:max-compact-local-mem} (\texttt{mem\_K\_iff}): entries of valuation $\le1$, determinant of valuation $1$. As in A.
+\end{proof}
+
+\begin{theorem}[real Iwasawa decomposition]
+\tfstmt{I.decomp.thm:iwasawa-real}
+\lean{GL2TF.iwasawa_real}
+\uses{I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:max-compact-real, I.conv.def:diag-element, I.conv.def:special-orthogonal-real, I.mcalc.def:det-ne-zero-set, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:iwasawa-real}
+\tfsem{I.decomp.thm:iwasawa-real}{e6c714f916ee8e0e05dd322ac668f842cc5c4c5ccfd371ee8b183339e280ea45}
+\tfhyps{I.decomp.thm:iwasawa-real}{}
+\tfbinder{I.decomp.thm:iwasawa-real}{0}{da0bab74}{the element $g\in\GL_2(\R)$}
+\begin{tffidelity}
+The coordinates are a tuple $p\in\R\times\R^\times\times\R^\times\times\mathrm{SO}(2)$ with $0<t_2$; A's $(c^2+d^2)^{1/2}$ is a real power.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, but organized around the untagged namespace \texttt{GL2TF.Iwasawa}, which defines $t_2,t_1,x,k$ as functions of a Pi-type matrix and proves: $c^2+d^2>0$ when $\det\neq0$ (\texttt{sumsq\_pos}), the matrix identity $X=n(x)\diag(t_1,t_2)k$ (\texttt{decomp\_matrix}, by \texttt{field\_simp} entrywise) and $k^{\mathsf T}k=1$, $\det k=1$ (\texttt{kc\_orth}). Existence packages these as the element \texttt{kGL g} of $\GL_2(\R)$ (\texttt{exists\_decomp}). Uniqueness differs from A: instead of comparing bottom rows, \texttt{coords\_of\_decomp} computes, for \emph{any} $x,t_1',t_2'>0$, $k\in\mathrm{SO}(2)$, the four entries of $n(x)\diag(t_1',t_2')k$ via \texttt{so2\_normal\_form}, and reads off that $t_2'=(c^2+d^2)^{1/2}$, $t_1'=\det/t_2'$, $x'$ and $k$ equal the explicit formulas (\texttt{coords\_of\_eq}). This gives the explicit-formula clause and uniqueness at once. Same content as A.
+\end{proof}
+
+
+\begin{theorem}[smoothness of the Iwasawa coordinates]
+\tfstmt{I.decomp.thm:iwasawa-real-smooth}
+\lean{GL2TF.iwasawa_real_smooth}
+\uses{I.decomp.thm:iwasawa-real, I.conv.def:diag-element, I.conv.def:special-orthogonal-real, I.conv.def:max-compact-real, I.mcalc.def:det-ne-zero-set, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:iwasawa-real-smooth}
+\tfsem{I.decomp.thm:iwasawa-real-smooth}{1f1272fadb1df24020be5a5ffe8d73a6e239cc6ad33582c48a860f610fa04ab3}
+\tfhyps{I.decomp.thm:iwasawa-real-smooth}{}
+\begin{tffidelity}
+Stated on the product-type matrix space (\cref{I.mcalc.def:matrix-pi}) with \texttt{ContDiffOn} $\R$ $\infty$ on the open set $\det\neq0$; $\infty$ means $C^\infty$, not analytic.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Follows A. The functions $t_2,t_1,x,k$ are \texttt{GL2TF.Iwasawa.t₂, t₁, xc, kc}; $c^2+d^2$ and $\det$ are smooth by \texttt{fun\_prop}, $t_2=\sqrt{c^2+d^2}$ is smooth on $\{\det\neq0\}$ by \texttt{ContDiff.sqrt} (\texttt{contDiffOn\_t₂}), and $t_1,x,k$ by \texttt{ContDiffOn.div}/\texttt{.inv}/\texttt{.mul} (entrywise for $k$ via \texttt{contDiffOn\_pi}). Positivity and $t_1\neq0$ are \texttt{t₂\_pos}, \texttt{t₁\_ne\_zero}; the last clause is \texttt{coords\_of\_eq} from the proof of \cref{I.decomp.thm:iwasawa-real}.
+\end{proof}
+
+\begin{theorem}[adelic Iwasawa decomposition]
+\tfstmt{I.decomp.thm:iwasawa-adelic}
+\lean{GL2TF.iwasawa_adelic}
+\uses{I.topgrp.def:adelic-subgroups, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.topgrp.def:max-compact-fin-adelic, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:special-orthogonal-real, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.decomp.thm:iwasawa-real, I.lf.def:padic-nalf-instance, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:iwasawa-adelic}
+\tfsem{I.decomp.thm:iwasawa-adelic}{21e4df70f6458f459b040a5af2f5eaba40273acbdf2dde8577f44fde638b76f8}
+\tfhyps{I.decomp.thm:iwasawa-adelic}{}
+\begin{tffidelity}
+Two clauses, for $G(\A)$ with $K=$ \texttt{maxCompactAdelic} and for $G(\Af)$ with $K_f=$ \texttt{maxCompactFin}: every $g$ is $bk$ with $b\in B$ (\texttt{borel Adele}, \texttt{borel FinAdele}) and $k$ in the maximal compact subgroup.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Finite part first (\texttt{iwasawa\_fin}). For each $p$, \cref{I.decomp.thm:iwasawa-local} gives $g_p=b_pk_p$ with $b_p\in B(\Q_p)$, $k_p\in K_p$; choose $b_p=1$, $k_p=g_p$ when $g_p\in K_p$ already, which holds for almost all $p$ (\cref{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}). So $(b_p)$ and $(k_p)$ are elements of the restricted product $\Pi'_p(\GL_2(\Q_p),K_p)$; pulling back along the isomorphism of \cref{I.topgrp.thm:gl2-adelic-restricted-product}(a) gives $b\in G(\A_f)$ with $b_{21}=0$ (componentwise) and $k\in K_f$ with $g=bk$. Infinite part: \cref{I.decomp.thm:iwasawa-real} gives $g_\infty=n(x)\mathrm{diag}(t_1,t_2)k_\infty$ with $k_\infty\in\mathrm{SO}(2)\subseteq K_\infty$. Combine along the isomorphism $G(\A)\simeq\GL_2(\R)\times G(\A_f)$ (\texttt{glProdEquiv}): $b=(b_\infty,b_f)$ has $b_{21}=0$ at both components, and $k=(k_\infty,k_f)\in K$ by \cref{I.topgrp.thm:max-compact-adelic-compact}; $g=bk$ is checked at each component (\texttt{gl\_adele\_ext}).
+\end{proof}
+
+\begin{definition}[the height map]
+\tfstmt{I.decomp.def:height-map}
+\lean{GL2TF.heightMap}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:space-a-b, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.decomp.def:bottom-row-norm}
+\end{definition}
+\begin{tfformal}{I.decomp.def:height-map}
+\tfsem{I.decomp.def:height-map}{c616fa4da5b00c2b04008f464b1dabaf09533bcd43489b2804f1c32c25baf400}
+\tfhyps{I.decomp.def:height-map}{}
+\tfbinder{I.decomp.def:height-map}{0}{a2aaccd5}{the element $g\in G(\A)$}
+\begin{tffidelity}
+The height map is a function \texttt{GL (Fin 2) Adele → SpaceAB}, given by the vector $(\log\abs{\det g}_\A-\log\norm{e_2g}_\A,\ \log\norm{e_2g}_\A)$ of two real numbers. The norm $\norm{e_2g}_\A$ is the B-only \cref{I.decomp.def:bottom-row-norm}, and the claims that its factors are positive and almost all $1$ are the B-only \cref{I.decomp.lem:bottom-row-norm-spec}. The hidden binder reported by the audit (\texttt{Fin 2}, via \texttt{SpaceAB}) is the index set of the vector space $\aB=\R^{\{1,2\}}$ (\cref{I.conv.def:space-a-b}); it is not an assumption. $\det g$ is regarded as an idele for the norm \texttt{ideleNorm}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the height map in Iwasawa coordinates]
+\tfstmt{I.decomp.thm:height-map-iwasawa}
+\lean{GL2TF.heightMap_iwasawa}
+\uses{I.decomp.def:height-map, I.topgrp.def:adelic-subgroups, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:space-a-b, I.adele.def:idele-norm-fun, I.adele.lem:idele-norm-spec, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-fin-adelic}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:height-map-iwasawa}
+\tfsem{I.decomp.thm:height-map-iwasawa}{ed227e95d3e6f9393403ef88bf33620034d632562db5ef96d14a6f17d76b451f}
+\tfhyps{I.decomp.thm:height-map-iwasawa}{}
+\tfbinder{I.decomp.thm:height-map-iwasawa}{0}{21f67fc1}{the adele $x\in\A$}
+\tfbinder{I.decomp.thm:height-map-iwasawa}{1}{8c3d8c92}{the idele $t_1$}
+\tfbinder{I.decomp.thm:height-map-iwasawa}{2}{de6ec88a}{the idele $t_2$}
+\tfbinder{I.decomp.thm:height-map-iwasawa}{3}{05457b44}{the element $k\in G(\A)$}
+\tfbinder{I.decomp.thm:height-map-iwasawa}{4}{94200113}{the assumption $k\in K$ (A: $k\in K$)}
+\begin{tffidelity}
+For $n=n(x)$ with $x\in\A$, $t=\diag(t_1,t_2)$ with $t_1,t_2\in\A^\times$ and $k\in K$ (hypothesis \texttt{k ∈ maxCompactAdelic}). The elements $n$ and $t$ of $N(\A)$ and $T(\A)$ are written in coordinates \texttt{upperRightHom x} and \texttt{diagElt t₁ t₂}; the right side is the vector \texttt{![log (ideleNorm t₁), log (ideleNorm t₂)]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Put $g=n(x)\mathrm{diag}(t_1,t_2)k$. The bottom row of $g$ is $t_2$ times the bottom row of $k$ (matrix product). At each finite place, the bottom row of $k_p\in K_p$ has maximum norm $1$ (\texttt{Kp\_bottom\_max}: the determinant of $k_p$ has norm $1$ and the ultrametric inequality is applied to $k_{11}k_{22}-k_{12}k_{21}$), so $\max(|g_{21}|_p,|g_{22}|_p)=|t_{2,p}|_p$ (\texttt{mul\_max\_of\_nonneg}). At $\infty$, the bottom row of an orthogonal $k_\infty$ has $c^2+d^2=1$ (\texttt{orth\_row\_one}), so $\sqrt{(t_{2,\infty}c)^2+(t_{2,\infty}d)^2}=|t_{2,\infty}|$. Hence $\|e_2g\|_\A=|t_2|_\A$. Also $\det g=t_1t_2\det k$ with $|\det k|_\A=1$ (\texttt{ideleNorm\_det\_K}: norm $1$ at all finite places by \texttt{Kp\_det\_norm}, and $|\det k_\infty|=1$ by \texttt{orth\_row\_one}). So $\log|\det g|-\log\|e_2g\|=\log|t_1|_\A$ and the second coordinate is $\log|t_2|_\A$.
+\end{proof}
+
+\begin{theorem}[equivariance of the height map]
+\tfstmt{I.decomp.thm:height-map-equivariance}
+\lean{GL2TF.heightMap_equivariance}
+\uses{I.decomp.def:height-map, I.topgrp.def:adelic-subgroups, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:gl2, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-ideles-embedding, I.adele.lem:idele-norm-spec, I.adele.thm:product-formula, I.conv.def:center, I.conv.def:diag-element, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.lem:diag-elt-hom, I.conv.lem:subgroups-functorial, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:height-map-iwasawa, I.decomp.thm:iwasawa-adelic, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.topgrp.def:max-compact-fin-adelic}
+\end{theorem}
+\begin{tfformal}{I.decomp.thm:height-map-equivariance}
+\tfsem{I.decomp.thm:height-map-equivariance}{4bed4d1a8f0d482957a35ed88fd23d460e6440fd3027f815d9be8016d49ed2c7}
+\tfhyps{I.decomp.thm:height-map-equivariance}{}
+\begin{tffidelity}
+Two clauses. First, for $n\in N(\A)$, $t\in T(\A)$ (membership in \texttt{unipotent Adele}, \texttt{torus Adele}), $x\in G(\A)$ and $k\in K$ (hypothesis \texttt{k ∈ maxCompactAdelic}): $\HB(ntxk)=\HB(t)+\HB(x)$ in $\aB$. Second, for $\gamma$ in the image of $B(\Q)$ in $G(\A)$ (\texttt{Subgroup.map (gl2Map (algebraMap ℚ Adele)) (borel ℚ)}) and every $x$: $\HB(\gamma x)=\HB(x)$ and $\HB(\gamma)=0$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Main identity (\texttt{hmain}): for $n=n(y)$, $t=\mathrm{diag}(t_1,t_2)$ (\texttt{exists\_diagElt\_of\_mem\_torus'}) and $x$ arbitrary, write $x=n(y')\mathrm{diag}(s_1,s_2)k'$ by \cref{I.decomp.thm:iwasawa-adelic} (with \texttt{borel\_eq\_n\_t}). Commuting $\mathrm{diag}(t_1,t_2)$ past $n(y')$ with \cref{I.conv.lem:torus-normalizes-unipotent} gives $n\,t\,x\,k=n(y+t_1t_2^{-1}y')\,\mathrm{diag}(t_1s_1,t_2s_2)\,(k'k)$ with $k'k\in K$. By \cref{I.decomp.thm:height-map-iwasawa} its height is $(\log|t_1s_1|,\log|t_2s_2|)$, which is $H(t)+H(x)$ by multiplicativity of $|\cdot|_\A$ and of $\log$ (and the same theorem applied to $t$ and to $x$). Second part: an element of $B(\Q)$ is $n(y)\mathrm{diag}(q_1,q_2)$ with rational $q_i$, whose image in $G(\A)$ is $n(y)\mathrm{diag}(\mathrm{ratIdele}\,q_1,\mathrm{ratIdele}\,q_2)$ (functoriality \cref{I.conv.lem:subgroups-functorial}); the product formula (\cref{I.adele.thm:product-formula}) gives $|q_i|_\A=1$, so $H(\mathrm{diag})=0$ and the main identity with $x$ and $k=1$ yields $H(\gamma x)=H(x)$; $H(\gamma)=0$ is the case $x=1=\mathrm{diag}(1,1)$.
+\end{proof}
+
+\begin{definition}[the norm of the bottom row]
+\tfstmt{I.decomp.def:bottom-row-norm}
+\bonly
+\lean{GL2TF.bottomRowNorm}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.lf.def:nalf, I.lf.def:normalized-abs}
+\end{definition}
+\begin{tfformal}{I.decomp.def:bottom-row-norm}
+\tfsem{I.decomp.def:bottom-row-norm}{97763cb49131a99b68eaf7562875a4718bcdb99869a91251864ff52e12dc0947}
+\tfhyps{I.decomp.def:bottom-row-norm}{}
+\tfbinder{I.decomp.def:bottom-row-norm}{0}{a2aaccd5}{the element $g\in G(\A)$}
+\begin{tffidelity}
+B-only. The real number $(c_\infty^2+d_\infty^2)^{1/2}\prod_p\max(\abs{c_p}_p,\abs{d_p}_p)$ for the bottom row $(c,d)$ of $g$: the square root is Mathlib's \texttt{Real.sqrt}, and the infinite product is a \texttt{finprod} over \texttt{Nat.Primes} (equal to $1$ when infinitely many factors differ from $1$, which does not happen by \cref{I.decomp.lem:bottom-row-norm-spec}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the factors of the norm of the bottom row]
+\tfstmt{I.decomp.lem:bottom-row-norm-spec}
+\bonly
+\lean{GL2TF.bottomRowNorm_spec}
+\uses{I.decomp.def:bottom-row-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\end{lemma}
+\begin{tfformal}{I.decomp.lem:bottom-row-norm-spec}
+\tfsem{I.decomp.lem:bottom-row-norm-spec}{fe83176f08644d49da173e30b9ee505984a32364077a508382dd879221f11a37}
+\tfhyps{I.decomp.lem:bottom-row-norm-spec}{}
+\tfbinder{I.decomp.lem:bottom-row-norm-spec}{0}{a2aaccd5}{the element $g\in G(\A)$}
+\begin{tffidelity}
+B-only. For every $g\in G(\A)$: $c_\infty^2+d_\infty^2>0$; each factor $\max(\abs{c_p}_p,\abs{d_p}_p)$ is positive; and the set of primes with $\max(\abs{c_p}_p,\abs{d_p}_p)\ne1$ is finite.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(i) $c_\infty^2+d_\infty^2>0$: otherwise $c_\infty=d_\infty=0$ (\texttt{nlinarith}) and $\det g_\infty=0$, contradicting invertibility. (ii) At a prime $p$: if $\max(|c_p|,|d_p|)=0$ then the bottom row of $g_p$ vanishes and $\det g_p=0$; the value $\mathrm{normAbs}$ is $\|\cdot\|_p$ by \cref{I.lf.thm:abs-padic-eq}. (iii) The set of $p$ with maximum $\ne1$ is contained in the finite set of $p$ with $g_p\notin K_p$ (\cref{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}), since for $g_p\in K_p$ the maximum equals $1$ (\texttt{Kp\_bottom\_max}).
+\end{proof}
+
+\section{Cartan decomposition}
+\begin{lemma}[the maximal ideal is generated by the uniformizer]
+\tfstmt{I.cartan.lem:maximal-ideal-eq-span-unif}
+\bonly
+\lean{GL2TF.Local.maximalIdeal_eq_span_unif}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{lemma}
+\begin{tfformal}{I.cartan.lem:maximal-ideal-eq-span-unif}
+\tfsem{I.cartan.lem:maximal-ideal-eq-span-unif}{116d8da3d759991261b3ea028384fd05748bb20e9d9b470f8e21c5585e7ea5ac}
+\tfhyps{I.cartan.lem:maximal-ideal-eq-span-unif}{}
+\tfbinder{I.cartan.lem:maximal-ideal-eq-span-unif}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.lem:maximal-ideal-eq-span-unif}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.lem:maximal-ideal-eq-span-unif}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.lem:maximal-ideal-eq-span-unif}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.lem:maximal-ideal-eq-span-unif}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. Lean states \texttt{𝓂[F] = Ideal.span \{unif F\}} in the ring $\Ocal_F$, i.e.\ $\mathfrak p_F=\unif\Ocal_F$; this is the defining property of the fixed uniformizer. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The specification of \texttt{Classical.choose} (\texttt{Classical.choose\_spec}) in the definition of \cref{I.lf.def:uniformizer}.
+\end{proof}
+
+\begin{lemma}[the uniformizer is non-zero]
+\tfstmt{I.cartan.lem:unif-ne-zero}
+\bonly
+\lean{GL2TF.Local.unif_ne_zero}
+\uses{I.cartan.lem:maximal-ideal-eq-span-unif, I.lf.def:nalf, I.lf.def:uniformizer}
+\end{lemma}
+\begin{tfformal}{I.cartan.lem:unif-ne-zero}
+\tfsem{I.cartan.lem:unif-ne-zero}{4ccd44e364a532cef4537840e1873a9a0562c3eb41b4f73393d25832d2b3f89d}
+\tfhyps{I.cartan.lem:unif-ne-zero}{}
+\tfbinder{I.cartan.lem:unif-ne-zero}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.lem:unif-ne-zero}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.lem:unif-ne-zero}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.lem:unif-ne-zero}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.lem:unif-ne-zero}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The Lean statement is that the image of \texttt{unif F} in $F$ is non-zero.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+If $\unif=0$ then \cref{I.cartan.lem:maximal-ideal-eq-span-unif} gives $\mathfrak p_F=0$, so $\Ocal_F$ would be a field, contradicting \texttt{IsDiscreteValuationRing.not\_a\_field}.
+\end{proof}
+
+\begin{definition}[Cartan elements]
+\tfstmt{I.cartan.def:cartan-element}
+\lean{GL2TF.Local.cartanElement}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{definition}
+\begin{tfformal}{I.cartan.def:cartan-element}
+\tfsem{I.cartan.def:cartan-element}{bd0668629aecc116c9c530adc0881eaa86b164e9080c645f2dcc0fd65ccbbfc6}
+\tfhyps{I.cartan.def:cartan-element}{}
+\tfbinder{I.cartan.def:cartan-element}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.def:cartan-element}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.def:cartan-element}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.def:cartan-element}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.def:cartan-element}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.cartan.def:cartan-element}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.cartan.def:cartan-element}{6}{5e8c6863}{the integer $b$}
+\begin{tffidelity}
+$t_{a,b}$ is the element of $\GL_2(F)$ whose matrix is \texttt{Matrix.diagonal ![ϖ\^{}a, ϖ\^{}b]}, with the integer powers taken in $F$ of the image of \texttt{unif F}, and whose inverse is the diagonal matrix with exponents $-a,-b$; the proofs that this pair is a unit use \cref{I.cartan.lem:unif-ne-zero}. No difference with the snippet. The uniformizer is the fixed one of \cref{I.lf.def:uniformizer}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A \texttt{GL} element built from the matrix \texttt{diagonal ![ϖ\^{}a, ϖ\^{}b]} and the matrix with exponents $-a,-b$; both inverse laws reduce to $\unif^{n}\unif^{-n}=1$, from $\unif\neq0$ (\cref{I.cartan.lem:unif-ne-zero}).
+\end{proof}
+
+\begin{lemma}[existence of the Cartan decomposition]
+\tfstmt{I.cartan.lem:cartan-exists}
+\lean{GL2TF.Local.cartan_exists}
+\uses{I.cartan.def:cartan-element, I.cartan.lem:unif-ne-zero, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:uniformizer, I.lf.thm:unit-uniformizer-decomposition}
+\end{lemma}
+\begin{tfformal}{I.cartan.lem:cartan-exists}
+\tfsem{I.cartan.lem:cartan-exists}{4e36780b88a932e56b9e92d895f31323f5978535f58cbfe58cacec1438a0e287}
+\tfhyps{I.cartan.lem:cartan-exists}{}
+\tfbinder{I.cartan.lem:cartan-exists}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.lem:cartan-exists}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.lem:cartan-exists}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.lem:cartan-exists}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.lem:cartan-exists}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.cartan.lem:cartan-exists}{5}{50eac7bf}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+``There are integers $a\ge b$'' is \texttt{∃ a, ∃ b ≤ a}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$. The double coset $K_F\,t_{a,b}\,K_F$ is \texttt{DoubleCoset.doubleCoset (cartanElement F a b) K K} with $K$ coerced to a set.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Of the four entries pick one of maximal valuation (\texttt{Finite.exists\_max}); it is non-zero since $\det g\neq0$. \emph{Core case} (\texttt{cartan\_exists\_core}): the $(1,1)$ entry $e=u\unif^m$ has maximal valuation. Put $y=\delta-\gamma\beta/e=u'\unif^{m'}$ (\cref{I.lf.thm:unit-uniformizer-decomposition}); $v(y)\le v(e)$ gives $m\le m'$, and $g=k_1\,t_{m',m}\,k_2$ with explicit $k_1=\begin{psmallmatrix}0&u\\u'&\gamma u/e\end{psmallmatrix}$, $k_2=\begin{psmallmatrix}0&1\\1&\beta/e\end{psmallmatrix}$ in $K_F$ (entries of valuation $\le1$, determinant a unit), checked by \texttt{field\_simp}. The other three positions are reduced to the core case by multiplying with the swap $s=\begin{psmallmatrix}0&1\\1&0\end{psmallmatrix}\in K_F$ on the right, on the left, or on both sides (\texttt{mem\_doubleCoset\_of\_mul}). The route is that of A.
+\end{proof}
+
+\begin{lemma}[invariants of the Cartan double cosets]
+\tfstmt{I.cartan.lem:cartan-invariants}
+\lean{GL2TF.Local.cartan_invariants}
+\uses{I.cartan.def:cartan-element, I.cartan.lem:cartan-exists, I.cartan.lem:unif-ne-zero, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:uniformizer}
+\end{lemma}
+\begin{tfformal}{I.cartan.lem:cartan-invariants}
+\tfsem{I.cartan.lem:cartan-invariants}{e926644fa67876191eb07d261bea6265813e9cec686fe42696abfc950eff6636}
+\tfhyps{I.cartan.lem:cartan-invariants}{}
+\tfbinder{I.cartan.lem:cartan-invariants}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.lem:cartan-invariants}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.lem:cartan-invariants}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.lem:cartan-invariants}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.lem:cartan-invariants}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.cartan.lem:cartan-invariants}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.cartan.lem:cartan-invariants}{6}{5e8c6863}{the integer $b$}
+\tfbinder{I.cartan.lem:cartan-invariants}{7}{1d041944}{the hypothesis $b\le a$}
+\tfbinder{I.cartan.lem:cartan-invariants}{8}{85f6cb8e}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+The $\Ocal_F$-submodule generated by the four entries is \texttt{Submodule.span 𝒪[F] (Set.range fun ij => g ij.1 ij.2)}, a submodule of $F$; $\unif^b\Ocal_F$ is \texttt{𝒪[F] ∙ ϖ\^{}b}, the span of the integer power in $F$. The condition $\det g\in\unif^{a+b}\Ocal_F^\times$ is: there is a unit $u\in\Ocal_F^\times$ with $\det g=\unif^{a+b}\cdot u$. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$. The double coset $K_F\,t_{a,b}\,K_F$ is \texttt{DoubleCoset.doubleCoset (cartanElement F a b) K K} with $K$ coerced to a set. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Two invariants of the double coset: the entry module $I(g)=\sum\Ocal_Fg_{ij}$, with $I(k_1gk_2)\subseteq I(g)$ for $k_i\in K_F$ (\texttt{entrySpan\_mul\_le}, so equality by symmetry), and $\det g$ up to $\Ocal_F^\times$. For $t_{a,b}$, $a\ge b$: $I(t_{a,b})=\unif^b\Ocal_F$ (\texttt{entrySpan\_cartanElement}) and $\det=\unif^{a+b}$. ($\Rightarrow$) follows. ($\Leftarrow$) By \cref{I.cartan.lem:cartan-exists}, $g\in K_Ft_{a',b'}K_F$; the invariants of $g$ computed both ways agree, so $(a',b')=(a,b)$ (\texttt{eq\_of\_invariants}, comparing valuations).
+\end{proof}
+
+\begin{lemma}[uniqueness of the Cartan decomposition]
+\tfstmt{I.cartan.lem:cartan-unique}
+\lean{GL2TF.Local.cartan_unique}
+\uses{I.cartan.def:cartan-element, I.cartan.lem:unif-ne-zero, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:uniformizer}
+\end{lemma}
+\begin{tfformal}{I.cartan.lem:cartan-unique}
+\tfsem{I.cartan.lem:cartan-unique}{a8303a478f853cf7571f3a1fc1a20860e86bb537b85856e4670611f99062c5f3}
+\tfhyps{I.cartan.lem:cartan-unique}{}
+\tfbinder{I.cartan.lem:cartan-unique}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.lem:cartan-unique}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.lem:cartan-unique}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.lem:cartan-unique}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.lem:cartan-unique}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.cartan.lem:cartan-unique}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.cartan.lem:cartan-unique}{6}{5e8c6863}{the integer $b$}
+\tfbinder{I.cartan.lem:cartan-unique}{7}{902044c7}{the integer $a'$}
+\tfbinder{I.cartan.lem:cartan-unique}{8}{1a1c2fcb}{the integer $b'$}
+\tfbinder{I.cartan.lem:cartan-unique}{9}{43f79e4b}{the hypothesis $b\le a$}
+\tfbinder{I.cartan.lem:cartan-unique}{10}{e4546d3a}{the hypothesis $b'\le a'$}
+\tfbinder{I.cartan.lem:cartan-unique}{11}{38fd1c2e}{the hypothesis $K_F\,t_{a,b}\,K_F=K_F\,t_{a',b'}\,K_F$}
+\begin{tffidelity}
+The hypotheses $a\ge b$, $a'\ge b'$ and $K_Ft_{a,b}K_F=K_Ft_{a',b'}K_F$ are binders (the last one an equality of sets), the conclusion is the equality of pairs $(a,b)=(a',b')$. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$. The double coset $K_F\,t_{a,b}\,K_F$ is \texttt{DoubleCoset.doubleCoset (cartanElement F a b) K K} with $K$ coerced to a set.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Since $t_{a',b'}\in K_Ft_{a,b}K_F$, the invariants of $t_{a',b'}$ and $t_{a,b}$ coincide (\cref{I.cartan.lem:cartan-invariants}); \texttt{eq\_of\_invariants} gives $(a,b)=(a',b')$.
+\end{proof}
+
+\begin{theorem}[Cartan decomposition]
+\tfstmt{I.cartan.thm:cartan-decomposition}
+\lean{GL2TF.Local.cartan_decomposition}
+\uses{I.cartan.def:cartan-element, I.cartan.lem:cartan-exists, I.cartan.lem:cartan-unique, I.conv.def:max-compact-local, I.lf.def:nalf}
+\end{theorem}
+\begin{tfformal}{I.cartan.thm:cartan-decomposition}
+\tfsem{I.cartan.thm:cartan-decomposition}{8c41eadeb97b79edea1d1493fa96e66641890c27288e399ff35d7857e6782b62}
+\tfhyps{I.cartan.thm:cartan-decomposition}{}
+\tfbinder{I.cartan.thm:cartan-decomposition}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.thm:cartan-decomposition}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.thm:cartan-decomposition}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.thm:cartan-decomposition}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.thm:cartan-decomposition}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.cartan.thm:cartan-decomposition}{5}{50eac7bf}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+``Exactly one pair $(a,b)\in\Z\times\Z$ with $a\ge b$ and $g\in K_Ft_{a,b}K_F$'' is \texttt{∃! p : ℤ × ℤ, p.2 ≤ p.1 ∧ g ∈ K t(p.1,p.2) K}. The second sentence of the snippet (disjoint union) is a paraphrase of this statement and has no separate Lean counterpart. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$. The double coset $K_F\,t_{a,b}\,K_F$ is \texttt{DoubleCoset.doubleCoset (cartanElement F a b) K K} with $K$ coerced to a set.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Existence is \cref{I.cartan.lem:cartan-exists}. Uniqueness: if $g$ lies in the double cosets of $(a,b)$ and $(a',b')$, these double cosets share an element and are equal (\texttt{DoubleCoset.doubleCoset\_eq\_of\_mem}), so \cref{I.cartan.lem:cartan-unique} applies.
+\end{proof}
+
+\begin{theorem}[index of the Cartan double cosets]
+\tfstmt{I.cartan.thm:double-coset-index}
+\lean{GL2TF.Local.double_coset_index}
+\uses{I.cartan.def:cartan-element, I.cartan.lem:cartan-invariants, I.cartan.lem:maximal-ideal-eq-span-unif, I.cartan.lem:unif-ne-zero, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.lf.def:nalf, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.thm:unit-uniformizer-decomposition, I.satake.def:upper-coset-matrix}
+\end{theorem}
+\begin{tfformal}{I.cartan.thm:double-coset-index}
+\tfsem{I.cartan.thm:double-coset-index}{7f395fad11ac0fbbc9a898061e799f25a6d4c1ee4fdacf742c58634e028a0dc1}
+\tfhyps{I.cartan.thm:double-coset-index}{}
+\tfbinder{I.cartan.thm:double-coset-index}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.cartan.thm:double-coset-index}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.cartan.thm:double-coset-index}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.cartan.thm:double-coset-index}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.cartan.thm:double-coset-index}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.cartan.thm:double-coset-index}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.cartan.thm:double-coset-index}{6}{5e8c6863}{the integer $b$}
+\tfbinder{I.cartan.thm:double-coset-index}{7}{1d041944}{the hypothesis $b\le a$}
+\begin{tffidelity}
+The set of left cosets $hK_F\subseteq K_Ft_{a,b}K_F$ is the image of the double coset under \texttt{QuotientGroup.mk : GL₂(F) → GL₂(F) ⧸ K}, so a subset of the coset space. Finiteness is \texttt{Set.Finite}. The count is \texttt{Nat.card} of this image set, equal to $1$ if $a=b$ and to $q^{a-b}+q^{a-b-1}$ otherwise, with $n=a-b\ge1$ written as \texttt{(a - b).toNat} (a natural number) and $q^{n-1}$ as \texttt{q F \^{} (a - b - 1).toNat}; for $n\ge1$ the exponents agree with the snippet. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$. The double coset $K_F\,t_{a,b}\,K_F$ is \texttt{DoubleCoset.doubleCoset (cartanElement F a b) K K} with $K$ coerced to a set. The cardinality $q$ is \cref{I.lf.def:residue-cardinality}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Steps 0--5 as in A. Step 0: the central shift $t_{b+n,b}=\unif^b\cdot t_{n,0}$ (\texttt{cartanElement\_mul}, \texttt{doubleCoset\_cartanElement\_shift}) reduces to $b=0$, $a=n$. Step 1 (\texttt{exists\_hmat}): by \cref{I.decomp.thm:iwasawa-local} every left coset $gK_F$ is $h(\alpha,\beta,x)K_F$ with $h(\alpha,\beta,x)=\begin{psmallmatrix}\unif^\alpha&x\\0&\unif^\beta\end{psmallmatrix}$ (units absorbed into $K_F$). Step 2 (\texttt{hmat\_mk\_eq\_iff}): when $h(\alpha,\beta,x)K_F=h(\alpha',\beta',x')K_F$. Step 3 (\texttt{hmat\_mem\_iff}): by \cref{I.cartan.lem:cartan-invariants} (entry module via \texttt{entrySpan\_eq\_iff}), $h(\alpha,\beta,x)K_F\subseteq K_Ft_{n,0}K_F$ iff $0\le\alpha\le n$, $\beta=n-\alpha$ and $x$ integral, with the class of $x$ in $\Ocal/\unif^\alpha$ a unit when $0<\alpha<n$. Step 4: the parameter set of pairs $(\alpha,\xi)$ with $\xi\in\Ocal_F/\unif^\alpha\Ocal_F$ is mapped injectively (\texttt{cosetParamMap\_injective}) onto the set of cosets (\texttt{range\_cosetParamMap}). Step 5: $\#(\Ocal/\unif^k)=q^k$ and $\#$units $=q^k-q^{k-1}$ (\texttt{card\_quot\_span\_pow}, \texttt{card\_nonunit}, \texttt{card\_unit}), and the sum $1+q^n+\sum_{\alpha=1}^{n-1}(q^\alpha-q^{\alpha-1})$ telescopes to $q^n+q^{n-1}$ (\texttt{sum\_range\_count}, \texttt{card\_cosetParam}); the case $n=0$ gives $1$.
+\end{proof}
+
+\begin{tfoutline}
+  \tfplanned{I.cartan.thm:cartan-real}{$\GL_2(\R)=KA^+K$}
+\end{tfoutline}
+

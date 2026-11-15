@@ -1,0 +1,2 @@
+# latexmk configuration for mathematics/ (run from this directory: latexmk -pdf main.tex)
+$pdf_mode = 1;   # pdflatex; biblatex backend biber is picked up from main.bcf by latexmk

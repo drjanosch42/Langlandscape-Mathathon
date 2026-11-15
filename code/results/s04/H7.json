@@ -1,0 +1,110 @@
+{
+ "data": {
+  "11": {
+   "D": 11,
+   "h": 2,
+   "levels": {
+    "1": {
+     "Up_star_acts_as_p": true,
+     "col_sums": [
+      5
+     ],
+     "colsum_p": true,
+     "cyclic": true,
+     "divisors": [
+      10
+     ],
+     "e_zero_on_phi_p": true,
+     "order": 10,
+     "order_is_size": true,
+     "ordinary_rank_Zp_XB": 6,
+     "size": 10,
+     "v_p_order": 1,
+     "v_p_size_ge_2s_minus_2": true
+    },
+    "2": {
+     "Up_commutes_pi": true,
+     "Up_star_acts_as_p": true,
+     "col_sums": [
+      5
+     ],
+     "colsum_p": true,
+     "cyclic": true,
+     "divisors": [
+      250
+     ],
+     "e_zero_on_phi_p": true,
+     "order": 250,
+     "order_is_size": true,
+     "ordinary_rank_Zp_XB": 30,
+     "size": 250,
+     "v_p_order": 3,
+     "v_p_size_ge_2s_minus_2": true
+    }
+   },
+   "p": 5
+  },
+  "23": {
+   "D": 23,
+   "h": 3,
+   "levels": {
+    "1": {
+     "Up_star_acts_as_p": true,
+     "col_sums": [
+      5
+     ],
+     "colsum_p": true,
+     "cyclic": true,
+     "divisors": [
+      22
+     ],
+     "e_zero_on_phi_p": true,
+     "order": 22,
+     "order_is_size": true,
+     "ordinary_rank_Zp_XB": 14,
+     "size": 22,
+     "v_p_order": 0,
+     "v_p_size_ge_2s_minus_2": true
+    },
+    "2": {
+     "Up_commutes_pi": true,
+     "Up_star_acts_as_p": true,
+     "col_sums": [
+      5
+     ],
+     "colsum_p": true,
+     "cyclic": true,
+     "divisors": [
+      550
+     ],
+     "e_zero_on_phi_p": true,
+     "order": 550,
+     "order_is_size": true,
+     "ordinary_rank_Zp_XB": 70,
+     "size": 550,
+     "v_p_order": 2,
+     "v_p_size_ge_2s_minus_2": true
+    }
+   },
+   "p": 5
+  }
+ },
+ "provenance": {
+  "commit": "417dc65c16c1c4a355f95297f20a279da7f14be5-dirty",
+  "date": "2026-11-14T21:59:34+00:00",
+  "notes": "H7: Phi^comb(G_DR(UU_s)) (x) Z_5 = Z/5^{v_5|S_s|}; U_p^* = 5 on it (hence e = 0); U_p commutes with pi_*.",
+  "params": {
+   "command": "python3 -m langlandscape.ordinary.phicomb (cwd code/python)",
+   "p": 5,
+   "q": [
+    11,
+    23
+   ],
+   "s_max": 2
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 13.017457632995502,
+  "script": "code/python/langlandscape/ordinary/phicomb.py"
+ }
+}

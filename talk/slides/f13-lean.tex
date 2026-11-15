@@ -1,0 +1,19 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 13: Lean summary. Sources: mathematics/final-report/sections/lean.tex (gates, status words), counts.tex;
+% lean/Langlandscape/HYPOTHESES.md; final gate bsf-gate-1 on tree c70ef3a9 (955/955, from scratch, logs fa755069; previous: dc61af50 / 28d2b091, 950/950); SORRIES.md.
+% Slide source line (moved to comment): \src{Sources: final report, \S\ ``The Lean formalization''; \texttt{lean/Langlandscape/HYPOTHESES.md}; axiom log of ramnrd-final-2.}
+\begin{frame}{Lean 4: what is formalized, and how hypotheses are handled}
+  \small
+  \begin{itemize}\setlength{\itemsep}{4pt}
+    \item Lean~4 \texttt{v4.35.0}, frozen Mathlib. \textbf{Final gate} (from scratch):
+      $\GateAudited/\GateAudited$ \texttt{\#print axioms} rows standard (\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound});
+      $0$ \texttt{sorry} in our code (the build reports $1$, in the frozen import, in no audited declaration).
+    \item \textbf{Hypothesis discipline.} Every unproved input is a \texttt{def \dots : Prop} taken as an \emph{explicit argument},
+      never an \texttt{axiom}: each type shows exactly which hypotheses a theorem uses (``\emph{formalized modulo} $H$'').
+    \item $\NumHypRegistered$ registered hypotheses; $\NumHypDischarged$ discharged (\texttt{PadicOrdDecomp}, \texttt{RamNrdSurj}, \texttt{BrandtStabFree}),
+      $\NumHypCondDischarged$ conditionally (\texttt{ResidualBurnside}); none is called known.
+    \item Headlines: tree quotients, Ribet sequence, Ihara (i),(ii) (given connectivity); Thm~E (abstract);
+      \texttt{Defect.defect\_formula} (modulo registered hypotheses, abstract setting).
+  \end{itemize}
+\end{frame}

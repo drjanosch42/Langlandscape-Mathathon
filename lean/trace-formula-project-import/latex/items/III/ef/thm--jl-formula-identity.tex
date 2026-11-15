@@ -1,0 +1,8 @@
+Let $D\in\N$ be squarefree with $\omega(D)$ odd, where $\omega(D)$ is the number of distinct primes dividing $D$. Let $M\in\N$ with $\gcd(D,M)=1$,
+let $k,n\ge1$, and let $F\colon\Z\to\Q$ be any function. For a positive divisor $d$ of $D$ define $F_d\colon\Z\to\Q$ by
+$F_d(\Delta)=F(\Delta)\prod_{p\mid d}\mone_p(\Delta)$, the product over the primes dividing $d$. Then
+\[
+  \EichB(D,M,k,n;F)=-\frac12\sum_{d\mid D}(-2)^{\omega(D/d)}\,\LamES(dM,k,n;F_d),
+\]
+the sum over the positive divisors $d$ of $D$, with $\EichB$, $\LamES$ and $\mone_p$ as in
+\cref{III.ef.def:eichler-b-expression,III.ef.def:lefschetz-es-expression,III.ef.def:local-factor-eichler-prime}.

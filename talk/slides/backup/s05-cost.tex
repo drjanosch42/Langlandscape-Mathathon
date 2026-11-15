@@ -1,0 +1,38 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S05-T1: cost of the geometric route vs our route. Data source: code/results/s05/T05-1.json (data.total_plus = data.total_eigenlines = 144; q in {11,23,37,43}, k in {2,4,6,8}).
+% math: plan/staged/stage-05-comparison-hypothesis.tex thm:s05-G (G1)-(G4) (all cited, not formalised; SGA7 not in literature/)
+% math: mathematics/chapters/s05/hypX.tex hyp:s05-X, rem:s05-Xstatus (Hyp.X: hypothesis, not formalised)
+% math: mathematics/chapters/s05/sign.tex prop:s05-sign (U_q = +Pi_q; (a) proved modulo cited at Gamma_0-level, weight 2)
+\begin{frame}{Why the geometric route is expensive}
+  \footnotesize
+  \begin{columns}[T]
+  \begin{column}{0.49\textwidth}
+  {\bfseries Geometric route}
+  \begin{itemize}
+    \item Deligne--Rapoport models: special fibre of $X_0(qM')$ (thm.\ s05-G(G1), cited)
+    \item N\'eron models, character groups $\mathcal X_q(J)$ of tori (G2, cited)
+    \item SGA\,7 monodromy pairing, thicknesses (G3, G4, cited)
+    \item \v Cerednik--Drinfeld uniformisation
+    \item Each input is a deep cited theorem: none of thm.\ s05-G is formalised.
+  \end{itemize}
+  \end{column}
+  \begin{column}{0.49\textwidth}
+  {\bfseries Our route}
+  \begin{itemize}
+    \item Bruhat--Tits trees and $S$-arithmetic groups (SA)
+    \item Brandt modules on definite quaternion class sets
+    \item Elementary objects: Lean formalisation of the Brandt side (stages 01--04) and computations (\texttt{code/results})
+  \end{itemize}
+  \vspace{0.5mm}
+  {\bfseries The bridge to geometry is Hyp.X}\\
+  a \emph{hypothesis, not formalised}: $\mathcal X_q(J_s)\cong\ZZ[S_s]^0$, Hecke-equivariant, with the monodromy pairing (hyp.\ s05-X, rem.\ s05-Xstatus).
+  \end{column}
+  \end{columns}
+  \vspace{0.5mm}
+  \begin{block}{Sign}
+    We find $U_q\mapsto{+}\Pi_q$: $a_q=+\lambda(\Pi_q)$ on $144/144$ Brandt eigenlines, $q\in\{11,23,37,43\}$, $k\in\{2,4,6,8\}$ (\emph{computed}; prop.\ s05-sign(a) is proved modulo cited results at $\Gamma_0$-level, weight $2$).
+  \end{block}
+  \vfill
+  {\tiny Sources: \texttt{geometric.tex} (thm.\ s05-G); \texttt{hypX.tex} (hyp.\ s05-X, rem.\ s05-Xstatus); \texttt{sign.tex} (prop.\ s05-sign); \texttt{code/results/s05/T05-1.json}.}
+\end{frame}

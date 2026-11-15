@@ -1,0 +1,390 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-04-orbital (parent commit 84818d0); kept items only.
+\chapter{Orbital integrals (local and global)}\label{ch:ch-04-orbital}
+
+\noindent\emph{Scope:} area \texttt{orb}. \emph{Sources:} \cite[§8]{A-I}; \cite[§§10--11]{AIntro}; \cite[Lecture II §§1--2, Lecture IV §1]{Gel}; \cite{A-WOI}; \cite[§16]{JL}.
+
+\noindent\emph{Lean conventions of this chapter.} $\iota$ is the local notation \texttt{ι := gl2Map (algebraMap ℚ Adele)} of
+\texttt{Centralizer.lean} ($\iota_\A$ of A); $\iota_R$ is \texttt{gl2Map (algebraMap ℚ R)}. $G(\A)^1$ is the subgroup \texttt{normOneGroup} of
+$G(\A)$, $G_\gamma(\A)^1$ the subgroup \texttt{centralizerNormOne γ} of \texttt{normOneGroup} (a subgroup of a subgroup), and $G_\gamma(\Q)$
+inside $G_\gamma(\A)^1$ the B-only subgroup \texttt{centralizerRatNormOne γ}. Quotients $\Gamma\backslash H$ are
+\texttt{MulAction.orbitRel.Quotient Γ H} with the quotient topology, as in Ch.~0.7 and Ch.~0.8.
+
+\section{Elliptic elements and their centralizers}\label{sec:orb-centralizer}
+
+\begin{definition}[elliptic elements]
+\tfstmt{II.orb.def:elliptic}
+\lean{GL2TF.IsElliptic}
+\end{definition}
+\begin{tfformal}{II.orb.def:elliptic}
+\tfsem{II.orb.def:elliptic}{d681c0335c0e1c1d96488c343de5f946c031f5e4c21afff6970ceb39402c58ae}
+\tfhyps{II.orb.def:elliptic}{}
+\tfbinder{II.orb.def:elliptic}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.def:elliptic}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.def:elliptic}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\begin{tffidelity}
+\texttt{IsElliptic γ} is \texttt{Irreducible (Matrix.charpoly γ)} for $\gamma\in\GL_2(K)$, $K$ any field (implicit binder), with \texttt{Matrix.charpoly} applied to the underlying matrix of $\gamma$. Mathlib's \texttt{Matrix.charpoly} is $\det(X\cdot1-\gamma)$ (the determinant of \texttt{charmatrix}); the explicit form $X^2-\tr(\gamma)X+\det\gamma$ of A is the Mathlib lemma \texttt{Matrix.charpoly\_fin\_two} and is not part of the definition. Name note: Mathlib has an unrelated \texttt{Matrix.IsElliptic} (negative discriminant, real matrices); the project constant is \texttt{GL2TF.IsElliptic}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[elliptic elements have no eigenvector]
+\tfstmt{II.orb.thm:elliptic-iff-no-eigenvector}
+\lean{GL2TF.elliptic_iff_no_eigenvector}
+\uses{I.conv.def:center,II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-iff-no-eigenvector}
+\tfsem{II.orb.thm:elliptic-iff-no-eigenvector}{298016ec82c1abe5abee48078aaaaa78bc94589dd9b131bf9a78885cec08891b}
+\tfhyps{II.orb.thm:elliptic-iff-no-eigenvector}{}
+\tfbinder{II.orb.thm:elliptic-iff-no-eigenvector}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.thm:elliptic-iff-no-eigenvector}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.thm:elliptic-iff-no-eigenvector}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\begin{tffidelity}
+A conjunction of three clauses: (a)$\Leftrightarrow$(b) with (b) stated as \texttt{∀ x : K, ¬ (charpoly γ).IsRoot x}; (a)$\Leftrightarrow$(c) with (c) stated as \texttt{∀ v ≠ 0, det (Matrix.of ![v, vecMul v γ]) ≠ 0}, i.e.\ the matrix with rows $v$ and $v\gamma$ (row vector times matrix, \texttt{vecMul}); and \texttt{IsElliptic γ → γ ∉ center K} (\texttt{I.conv.def:center}). A's chain (a)$\Leftrightarrow$(b)$\Leftrightarrow$(c) is rendered as two equivalences with (a); A's gloss ``linearly independent'' is not formalized separately, the determinant form being the one A gives as its meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. (a)$\Leftrightarrow$(b) (\texttt{isElliptic\_iff\_no\_root}): $P_\gamma$ is monic of degree $2$ (\texttt{Matrix.charpoly\_natDegree\_eq\_dim}); an irreducible polynomial with a root has degree $1$ (\texttt{degree\_eq\_one\_of\_irreducible\_of\_root}), and a polynomial of degree $\le3$ without roots is irreducible (\texttt{irreducible\_of\_degree\_le\_three\_of\_not\_isRoot}). (a)$\Leftrightarrow$(c): $c$ is a root of $P_\gamma=\det(X\cdot1-\gamma)$ iff some row vector $v\ne0$ has $v\gamma=cv$ (\texttt{isRoot\_iff\_eigen}, from \texttt{Matrix.eval\_charpoly} and \texttt{Matrix.exists\_vecMul\_eq\_zero\_iff}), so $\gamma$ is not elliptic iff it has an eigen row vector (\texttt{not\_elliptic\_iff\_eigen}); for $v\ne0$ the matrix with rows $v,w$ has determinant $0$ iff $w=cv$ for some $c$ (\texttt{det\_rows\_eq\_zero\_iff}, a $2\times2$ computation with the cases $v_0=0$, $v_0\ne0$). Non-centrality: a central $\gamma=u\cdot1$ has the root $u$ of $P_\gamma$ (\texttt{not\_elliptic\_of\_scalar}).
+\end{proof}
+
+\begin{theorem}[elliptic means not conjugate into $B$]
+\tfstmt{II.orb.thm:elliptic-iff-not-borel-conjugate}
+\lean{GL2TF.elliptic_iff_not_borel_conjugate}
+\uses{I.conv.def:borel,II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-iff-not-borel-conjugate}
+\tfsem{II.orb.thm:elliptic-iff-not-borel-conjugate}{8fa2b787de76505086ce5c01357f5c75bcb59767481908d14d348a7bc8c6c573}
+\tfhyps{II.orb.thm:elliptic-iff-not-borel-conjugate}{}
+\tfbinder{II.orb.thm:elliptic-iff-not-borel-conjugate}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.thm:elliptic-iff-not-borel-conjugate}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.thm:elliptic-iff-not-borel-conjugate}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\begin{tffidelity}
+Two clauses: \texttt{IsElliptic γ ↔ ∀ δ, δ * γ * δ⁻¹ ∉ borel K} (\texttt{I.conv.def:borel}, the upper triangular subgroup of $\GL_2(K)$), and \texttt{IsElliptic γ → ∀ δ, IsElliptic (δ * γ * δ⁻¹)}. As in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (same idea, different last step).} Write $M=\delta\gamma\delta^{-1}$; the basic identity is $(e_2\delta)\gamma=(e_2M)\delta$ (\texttt{row\_conj}, from $M\delta=\delta\gamma$). ($\Rightarrow$) If $M\in B(K)$, i.e.\ $M_{10}=0$, then $e_2M=M_{11}e_2$, so the second row $e_2\delta$ of $\delta$ (non-zero since $\det\delta\ne0$) is an eigen row vector of $\gamma$, contradicting ellipticity (\texttt{not\_elliptic\_iff\_eigen}). ($\Leftarrow$) If $\gamma$ is not elliptic, take $v\ne0$ with $v\gamma=cv$, complete it by $u\in\{e_1,e_2\}$ to rows $(u,v)$ with $\det\ne0$ and let $\delta$ be the matrix with these rows. The basic identity gives $M_{10}u+(M_{11}-c)v=0$ componentwise, hence $M_{10}\det\delta=0$ and $M_{10}=0$, i.e.\ $\delta\gamma\delta^{-1}\in B(K)$. (A computes $e_2\delta\gamma\delta^{-1}=ce_2$ instead.) Conjugation invariance: $\delta\gamma\delta^{-1}$ has the same characteristic polynomial (\texttt{Matrix.charpoly\_units\_conj}).
+\end{proof}
+
+\begin{theorem}[the quadratic field $K{[\gamma]}$]
+\tfstmt{II.orb.thm:elliptic-quadratic-field}
+\lean{GL2TF.elliptic_quadratic_field}
+\uses{II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-quadratic-field}
+\tfsem{II.orb.thm:elliptic-quadratic-field}{77a720322eea7d1cceff12a6493b73c028ac608b4b38bc7be12556284c679ebe}
+\tfhyps{II.orb.thm:elliptic-quadratic-field}{}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{3}{93c375cd}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+``$E$ is a subring of $\Mat_2(K)$'' is rendered as the existence of a $K$-subalgebra \texttt{E : Subalgebra K (Matrix (Fin 2) (Fin 2) K)} whose underlying set is $\{a\cdot1+b\gamma:a,b\in K\}$; since this set determines $E$, this is the subring of A (a $K$-subalgebra is in particular a subring). The further clauses: \texttt{IsField E}; \texttt{LinearIndependent K ![1, γ]}; an isomorphism of $K$-algebras \texttt{e : K[X] ⧸ span \{charpoly γ\} ≃ₐ[K] E} with $e(p\bmod P_\gamma)=p(\gamma)$ (\texttt{aeval}), which is ``induced by $X\mapsto\gamma$''; and every $\eta\in E$, $\eta\ne0$, has $\eta'\in E$ with $\eta\eta'=\eta'\eta=1$ in $\Mat_2(K)$. ``$\dim_KE=2$'' is the parenthetical consequence of linear independence (A: ``so'') and is not a separate clause. Stated over an arbitrary field $K$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (route).} Let $\varphi=\texttt{aeval}\,\gamma\colon K[X]\to\Mat_2(K)$ and $E=\varphi(K[X])$ (\texttt{φ.range}). $(P_\gamma)$ is maximal in the principal ideal ring $K[X]$ (\texttt{PrincipalIdealRing.isMaximal\_of\_irreducible}), contained in $\ker\varphi$ by Cayley--Hamilton (\texttt{Matrix.aeval\_self\_charpoly}), and $\ker\varphi\ne K[X]$ as $\varphi(1)=1\ne0$; so $(P_\gamma)=\ker\varphi$. The isomorphism is $K[X]/(P_\gamma)\cong K[X]/\ker\varphi\cong E$ (\texttt{Ideal.quotientEquivAlgOfEq}, \texttt{Ideal.quotientKerEquivRange}); $e(p\bmod P_\gamma)=p(\gamma)$ holds by definition. $E$ is a field as the image of the field $K[X]/(P_\gamma)$ (\texttt{Ideal.Quotient.maximal\_ideal\_iff\_isField\_quotient}, transported along $e$). Underlying set: $\subseteq$ by induction on polynomials, using $\gamma^2=\tr(\gamma)\gamma-\det(\gamma)\cdot1$ (\texttt{sq\_eq\_trace\_det}, Cayley--Hamilton with \texttt{Matrix.charpoly\_fin\_two}) for the monomial step; $\supseteq$ by $a\cdot1+b\gamma=\varphi(a+bX)$. This replaces A's ``dividing with remainder by $P_\gamma$''. Linear independence, by A's direct argument: $s\cdot1+t\gamma=0$ with $t\ne0$ makes $\gamma=-(s/t)\cdot1$ scalar, which is not elliptic (\texttt{not\_elliptic\_of\_scalar}); so $t=0$ and then $s=0$. Inverses: the field inverse $\eta'$ of $\eta\ne0$ in $E$, two-sided by commutativity of the field $E$.
+\end{proof}
+
+\begin{definition}[centralizers]
+\tfstmt{II.orb.def:centralizer}
+\lean{GL2TF.centralizerGL}
+\uses{I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer}
+\tfsem{II.orb.def:centralizer}{4a753b501b4432f3937f2f505f499b14dcf24eabde00dcc9a0e1ca430f6fc55a}
+\tfhyps{II.orb.def:centralizer}{}
+\tfbinder{II.orb.def:centralizer}{0}{6b8b0c0f}{the type of the commutative $\Q$-algebra $R$}
+\tfbinder{II.orb.def:centralizer}{1}{63738b18}{the commutative ring structure of $R$ (A: ``commutative'')}
+\tfbinder{II.orb.def:centralizer}{2}{3d40dd65}{the $\Q$-algebra structure of $R$ (A: ``$\Q$-algebra'')}
+\tfbinder{II.orb.def:centralizer}{3}{b16172ee}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+\texttt{centralizerGL R γ} is Mathlib's \texttt{Subgroup.centralizer \{ι\_R γ\}} in \texttt{GL (Fin 2) R}, where $\iota_R=\texttt{gl2Map (algebraMap ℚ R)}$ (\texttt{I.conv.def:gl2}); its elements are the $g$ with $\iota_R(\gamma)g=g\iota_R(\gamma)$. $R$ is any commutative ring with a $\Q$-algebra structure (binders \texttt{[CommRing R] [Algebra ℚ R]}), i.e.\ a commutative $\Q$-algebra. The cases used are $R=\Q$ ($\iota_\Q$ is the identity map up to \texttt{algebraMap ℚ ℚ = id}) and $R=\A$ (\texttt{Adele}, \texttt{I.topgrp.def:gl2-adelic}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[centralizers of non-central elements]
+\tfstmt{II.orb.thm:centralizer-explicit}
+\lean{GL2TF.centralizer_explicit}
+\uses{I.conv.def:center,I.conv.def:gl2,II.orb.def:centralizer}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-explicit}
+\tfsem{II.orb.thm:centralizer-explicit}{81da4d4bf2601487f7bb25ac051561a195e81d1cec34e8969ed81729ae7fe672}
+\tfhyps{II.orb.thm:centralizer-explicit}{}
+\tfbinder{II.orb.thm:centralizer-explicit}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:centralizer-explicit}{1}{07d6aa89}{the assumption $\gamma\notin Z(\Q)$ (A: ``$\gamma\notin Z(\Q)$'')}
+\tfbinder{II.orb.thm:centralizer-explicit}{2}{b28bf9f1}{the type of the commutative $\Q$-algebra $R$}
+\tfbinder{II.orb.thm:centralizer-explicit}{3}{c282c992}{the commutative ring structure of $R$ (A: ``commutative'')}
+\tfbinder{II.orb.thm:centralizer-explicit}{4}{8769dd56}{the $\Q$-algebra structure of $R$ (A: ``$\Q$-algebra'')}
+\begin{tffidelity}
+The hypothesis $\gamma\notin Z(\Q)$ is \texttt{γ ∉ center ℚ} (\texttt{I.conv.def:center}). The set $\{a\cdot1+b\,\iota_R(\gamma)\}\cap\GL_2(R)$ is rendered as the set of units $g\in\GL_2(R)$ whose underlying matrix is $a\cdot1+b\,\iota_R(\gamma)$ for some $a,b\in R$, as an equality of subsets of $\GL_2(R)$. Commutativity is \texttt{∀ g h ∈ centralizerGL R γ, g * h = h * g}. The quantifier ``for every commutative $\Q$-algebra $R$'' is the binder $R$ (with its instance binders) after $\gamma$ and $h_\gamma$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (route).} Instead of A's conjugation to the companion matrix, Lean works with the entries. Write $\gamma=(p\ q;r\ s)$ and $g=(x\ y;z\ w)\in\GL_2(R)$; the entries of $\iota_R(\gamma)$ are the images $f(p),\dots,f(s)$ under $f=\texttt{algebraMap ℚ R}$. A non-central $\gamma$ has $q\ne0$, or $r\ne0$, or $q=r=0$ and $p\ne s$ (\texttt{noncentral\_cases}; otherwise $\gamma=s\cdot1$, $s\ne0$ as $\det\gamma\ne0$). If $g\iota_R(\gamma)=\iota_R(\gamma)g$, the four entry equations give $g=a\cdot1+b\,\iota_R(\gamma)$ with, respectively, $b=y\,f(q^{-1})$, $b=z\,f(r^{-1})$, $b=(x-w)\,f((p-s)^{-1})$, and $a=x-b\,f(p)$ (\texttt{linear\_combination}, using $f(t)f(t^{-1})=1$ for rational $t\ne0$). Conversely, and for commutativity, any two elements $a\cdot1+b\,\iota_R(\gamma)$, $c\cdot1+d\,\iota_R(\gamma)$ commute (\texttt{comm\_lin}). A's proof is not used.
+\end{proof}
+
+\begin{definition}[the norm-one centralizer]
+\tfstmt{II.orb.def:centralizer-norm-one}
+\lean{GL2TF.centralizerNormOne}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.topgrp.def:norm-one-group,II.orb.def:centralizer}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer-norm-one}
+\tfsem{II.orb.def:centralizer-norm-one}{c58ea9934b55619b2a273f7f71f9cade53b9ddde8f0cc0a266eb00197a5a8e6b}
+\tfhyps{II.orb.def:centralizer-norm-one}{}
+\tfbinder{II.orb.def:centralizer-norm-one}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+\texttt{centralizerNormOne γ = (centralizerGL Adele γ).subgroupOf normOneGroup}: the subgroup of $G(\A)^1$ (\texttt{normOneGroup}, \texttt{I.topgrp.def:norm-one-group}, itself a subgroup of $G(\A)$) of those elements whose image in $G(\A)$ lies in $G_\gamma(\A)$. Its topology is Lean's subtype topology of the subtype $G(\A)^1$ of $G(\A)$, which is the subspace topology of A. Arthur's intrinsic definition (common kernel of the $\abs\chi_\A$) is not formalized (A remark).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$G_\gamma(\Q)$ inside $G_\gamma(\A)^1$]
+\tfstmt{II.orb.def:centralizer-rat-norm-one}
+\bonly
+\lean{GL2TF.centralizerRatNormOne}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:gl2-rat-norm-one,I.topgrp.def:norm-one-group,II.orb.def:centralizer-norm-one}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer-rat-norm-one}
+\tfsem{II.orb.def:centralizer-rat-norm-one}{321647af468a1b799bdacec234a5f26d9b658e33e5a2941118f4ccd48dc6fd19}
+\tfhyps{II.orb.def:centralizer-rat-norm-one}{}
+\tfbinder{II.orb.def:centralizer-rat-norm-one}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{centralizerRatNormOne γ = gl2RatNormOne.subgroupOf (centralizerNormOne γ)}, the trace on $G_\gamma(\A)^1$ of the subgroup $G(\Q)\subseteq G(\A)^1$ (\texttt{gl2RatNormOne}, \texttt{I.quot.def:gl2-rat-norm-one}). By \cref{II.orb.thm:centralizer-rat-points} its elements are exactly the $\iota(\delta)$, $\delta\in G_\gamma(\Q)$: this is how A's ``$G_\gamma(\Q)$, regarded as a subgroup of $G_\gamma(\A)^1$ via $\iota$'' is formalized.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[rational points]
+\tfstmt{II.orb.thm:centralizer-rat-points}
+\lean{GL2TF.centralizer_rat_points}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.quot.def:gl2-rat-norm-one,I.quot.lem:gl2-rat-norm-one-discrete,I.topgrp.def:central-element,I.topgrp.def:central-split-component,I.topgrp.def:gl2-adelic,I.topgrp.def:norm-one-group,I.topgrp.thm:gl2-rat-discrete,I.topgrp.thm:norm-one-splitting,II.orb.def:centralizer,II.orb.def:centralizer-norm-one,II.orb.def:centralizer-rat-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-rat-points}
+\tfsem{II.orb.thm:centralizer-rat-points}{2f4dfc086a55d1562e7b81d7d0c0c99942053078dbc6778fba7b2530bc2a80cf}
+\tfhyps{II.orb.thm:centralizer-rat-points}{}
+\tfbinder{II.orb.thm:centralizer-rat-points}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+Four clauses. (a) \texttt{∀ δ, ι δ ∈ centralizerGL Adele γ ↔ δ ∈ centralizerGL ℚ γ}. (b) For $\delta\in G_\gamma(\Q)$: $\iota(\delta)\in G(\A)^1$ (an existential proof \texttt{h}) and $\langle\iota\delta,h\rangle\in G_\gamma(\A)^1$. (c) is split in two: the B-only subgroup \texttt{centralizerRatNormOne γ} (\cref{II.orb.def:centralizer-rat-norm-one}) has exactly the elements $x$ with $x=\iota(\delta)$ in $G(\A)$ for some $\delta\in G_\gamma(\Q)$ (so it is $\iota(G_\gamma(\Q))$), and it is discrete (\texttt{DiscreteTopology}, subspace topology of $G_\gamma(\A)^1$). ``Subgroup'' is automatic (\texttt{Subgroup}). The B-only \cref{II.orb.lem:centralizer-rat-discrete-instance} repeats discreteness as an instance.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. (a) (\texttt{iota\_mem\_centralizer\_iff}): $\iota$ is an injective homomorphism (first clause of the vol.~I item \texttt{I.topgrp.thm:gl2-rat-discrete}) and $\iota_\Q$ is the identity (\texttt{gl2Map\_rat\_self}), so $\iota(\delta)\iota(\gamma)=\iota(\gamma)\iota(\delta)$ iff $\delta\gamma=\gamma\delta$. (b): $\iota(G(\Q))\subseteq G(\A)^1$ (second clause of the vol.~I item \texttt{I.topgrp.thm:norm-one-splitting}, the product formula), then (a). (c), elements: unfolding the two \texttt{subgroupOf} layers, $x\in\texttt{gl2RatNormOne}$ gives $\delta$ with $\iota(\delta)=x$, and $\delta\in G_\gamma(\Q)$ by (a) since $x\in G_\gamma(\A)$; the converse is immediate. (c), discreteness: as for \cref{II.orb.lem:centralizer-rat-discrete-instance}, a continuous injection into the discrete \texttt{gl2RatNormOne} (\texttt{DiscreteTopology.of\_continuous\_injective}).
+\end{proof}
+
+\begin{lemma}[discreteness of $G_\gamma(\Q)$, as an instance]
+\tfstmt{II.orb.lem:centralizer-rat-discrete-instance}
+\bonly
+\lean{GL2TF.centralizerRatNormOne_discrete}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:gl2-rat-norm-one,I.quot.lem:gl2-rat-norm-one-discrete,I.topgrp.def:norm-one-group,II.orb.def:centralizer-norm-one,II.orb.def:centralizer-rat-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-rat-discrete-instance}
+\tfsem{II.orb.lem:centralizer-rat-discrete-instance}{4f14820bd56b6d9b7bf5a942ba213403aa8f79859dd1902618e8728795cae303}
+\tfhyps{II.orb.lem:centralizer-rat-discrete-instance}{}
+\tfbinder{II.orb.lem:centralizer-rat-discrete-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : DiscreteTopology (centralizerRatNormOne γ)}; Lean plumbing for the measure statements, which need discreteness as an instance argument (\texttt{X.quot.def:quotient-measure} and \texttt{X.quot.thm:compact-quotient-volume}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $x\mapsto x$ from \texttt{centralizerRatNormOne γ} to \texttt{gl2RatNormOne} (forget the two subtype layers, keep the membership in $G(\Q)$) is continuous and injective, and \texttt{gl2RatNormOne} is discrete (\texttt{gl2RatNormOne\_discrete}); \texttt{DiscreteTopology.of\_continuous\_injective}.
+\end{proof}
+
+\begin{theorem}[closedness]
+\tfstmt{II.orb.thm:centralizer-closed}
+\lean{GL2TF.centralizer_closed}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal,I.topgrp.thm:gl2-adelic-locally-compact,II.orb.def:centralizer,II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-closed}
+\tfsem{II.orb.thm:centralizer-closed}{cd8c27f2703d9f874c77d875004ff48f7181553da5fc840291ae6939227cb691}
+\tfhyps{II.orb.thm:centralizer-closed}{}
+\tfbinder{II.orb.thm:centralizer-closed}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+A conjunction of six clauses: \texttt{IsClosed} of $G_\gamma(\A)$ as a subset of $G(\A)$; \texttt{IsClosed} of $G_\gamma(\A)^1$ as a subset of $G(\A)^1$; and for $G_\gamma(\A)^1$ with its subtype topology \texttt{IsTopologicalGroup}, \texttt{LocallyCompactSpace}, \texttt{T2Space}, \texttt{SecondCountableTopology}. ``Subgroup'' is automatic. The topological statements are also available as the B-only instances \cref{II.orb.lem:centralizer-norm-one-locally-compact-instance} and \cref{II.orb.lem:centralizer-norm-one-second-countable-instance} (Hausdorff and topological group are Mathlib instances on subgroups), and local compactness of $G_\gamma(\A)$ itself is the B-only \cref{II.orb.lem:centralizer-locally-compact-instance} (A uses it in the proof of \texttt{II.orb.lem:centralizer-unimodular}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. $G_\gamma(\A)$ is the centralizer of one point in the Hausdorff topological group $G(\A)$, hence closed (\texttt{Set.isClosed\_centralizer}); $G_\gamma(\A)^1$ is its preimage under the continuous inclusion $G(\A)^1\to G(\A)$. Topological group and Hausdorff: Mathlib's subgroup instances. Locally compact: a closed subset of the locally compact $G(\A)^1$ (\texttt{normOneGroup\_topology}; \texttt{IsClosedEmbedding.locallyCompactSpace}). Second countable: a subspace of the second countable $G(\A)^1$ (\texttt{TopologicalSpace.Subtype.secondCountableTopology}).
+\end{proof}
+
+\begin{lemma}[$G_\gamma(\A)$ is locally compact, as an instance]
+\tfstmt{II.orb.lem:centralizer-locally-compact-instance}
+\bonly
+\lean{GL2TF.centralizerGL_locallyCompactSpace}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.topgrp.lem:gl2-adelic-locally-compact-instance,II.orb.def:centralizer}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-locally-compact-instance}
+\tfsem{II.orb.lem:centralizer-locally-compact-instance}{2a730b0bc98844c68e0fb20e7b7b6cf17ccb7b3537f30d6a224d1df417a24e32}
+\tfhyps{II.orb.lem:centralizer-locally-compact-instance}{}
+\tfbinder{II.orb.lem:centralizer-locally-compact-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : LocallyCompactSpace (centralizerGL Adele γ)} (subtype topology of $G(\A)$). Needed by the statement of \texttt{II.orb.lem:centralizer-unimodular} (\texttt{IsUnimodular} takes \texttt{LocallyCompactSpace} as an instance argument).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G_\gamma(\A)$ is closed in $G(\A)$ (\texttt{Set.isClosed\_centralizer}, used through the untagged \texttt{centralizerGL\_adele\_isClosed}), so the inclusion is a closed embedding into the locally compact $G(\A)$ (\texttt{IsClosedEmbedding.locallyCompactSpace}).
+\end{proof}
+
+\begin{lemma}[$G_\gamma(\A)^1$ is locally compact, as an instance]
+\tfstmt{II.orb.lem:centralizer-norm-one-locally-compact-instance}
+\bonly
+\lean{GL2TF.centralizerNormOne_locallyCompactSpace}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal,I.topgrp.thm:gl2-adelic-locally-compact,II.orb.def:centralizer,II.orb.def:centralizer-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-norm-one-locally-compact-instance}
+\tfsem{II.orb.lem:centralizer-norm-one-locally-compact-instance}{ba0b3c6aed814f720004eae905278970a424b02eb0196495be6f78d537a2875c}
+\tfhyps{II.orb.lem:centralizer-norm-one-locally-compact-instance}{}
+\tfbinder{II.orb.lem:centralizer-norm-one-locally-compact-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : LocallyCompactSpace (centralizerNormOne γ)} (subtype topology of $G(\A)^1$); the third topological clause of \cref{II.orb.thm:centralizer-closed} as an instance, needed by the statements of \texttt{II.orb.lem:centralizer-unimodular} and \texttt{II.orb.thm:elliptic-volume-finite}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is locally compact (\texttt{normOneGroup\_topology}), and $G_\gamma(\A)^1$ is the preimage of the closed set $G_\gamma(\A)$ under the continuous inclusion $G(\A)^1\to G(\A)$, hence closed; a closed embedding into a locally compact space has locally compact domain.
+\end{proof}
+
+\begin{lemma}[$G_\gamma(\A)^1$ is second countable, as an instance]
+\tfstmt{II.orb.lem:centralizer-norm-one-second-countable-instance}
+\bonly
+\lean{GL2TF.centralizerNormOne_secondCountableTopology}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal,I.topgrp.thm:gl2-adelic-locally-compact,II.orb.def:centralizer-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-norm-one-second-countable-instance}
+\tfsem{II.orb.lem:centralizer-norm-one-second-countable-instance}{37e2dd95893805860f529ce8a706cf3501637bf919ca5a2a57cd3978f5b9c6e6}
+\tfhyps{II.orb.lem:centralizer-norm-one-second-countable-instance}{}
+\tfbinder{II.orb.lem:centralizer-norm-one-second-countable-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : SecondCountableTopology (centralizerNormOne γ)}; the fifth topological clause of \cref{II.orb.thm:centralizer-closed} as an instance, needed by \texttt{II.orb.thm:elliptic-volume-finite} (the quotient measure requires a second countable group).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is second countable (\texttt{normOneGroup\_topology}), and subspaces of second countable spaces are second countable (\texttt{TopologicalSpace.Subtype.secondCountableTopology}).
+\end{proof}
+
+\begin{theorem}[the split centre in $G_\gamma(\A)$]
+\tfstmt{II.orb.thm:centralizer-norm-one-splitting}
+\lean{GL2TF.centralizer_norm_one_splitting}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.conv.def:diag-element,I.conv.def:gl2,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:central-element,I.topgrp.def:central-split-component,I.topgrp.def:gl2-adelic,I.topgrp.def:norm-one-group,I.topgrp.lem:central-split-component,I.topgrp.thm:norm-one-splitting,II.orb.def:centralizer,II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-norm-one-splitting}
+\tfsem{II.orb.thm:centralizer-norm-one-splitting}{86058eaf2edaf2ec42071aab1d7a2f4bf7a208b8c3bb695d28462150e809a9be}
+\tfhyps{II.orb.thm:centralizer-norm-one-splitting}{}
+\tfbinder{II.orb.thm:centralizer-norm-one-splitting}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+Two clauses: \texttt{splitComponent ≤ centralizerGL Adele γ} ($\AGplus$, \texttt{I.topgrp.def:central-split-component}); and there is an isomorphism of topological groups \texttt{e : splitComponent × centralizerNormOne γ ≃ₜ* centralizerGL Adele γ} with $e(a,g)=ag$ in $G(\A)$. The isomorphism of \texttt{I.topgrp.thm:norm-one-splitting} is given by the same formula $(a,g)\mapsto ag$, so A's ``it is the restriction of the isomorphism $\AGplus\times G(\A)^1\cong G(\A)$'' is rendered by the formula, not by a reference to that isomorphism. Products and subgroups carry the product and subtype topologies.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (explicit inverse not needed).} $\AGplus$ is central in $G(\A)$ (\texttt{splitComponent\_spec}), so $\AGplus\le G_\gamma(\A)$. Let $e_0\colon\AGplus\times G(\A)^1\cong G(\A)$, $e_0(a,g)=ag$, be the isomorphism of the vol.~I item \texttt{I.topgrp.thm:norm-one-splitting}. $F(a,g)=ag$ maps $\AGplus\times G_\gamma(\A)^1$ into $G_\gamma(\A)$ (product of two elements of $G_\gamma(\A)$). The inverse is $h\mapsto e_0^{-1}(h)=(a,g)$; only $h=ag$ is used, so $g=a^{-1}h\in G_\gamma(\A)^1$ because $a\in G_\gamma(\A)$ (A's formulas $a=a(|\det h|^{1/2})$, $g=a^{-1}h$ are not needed). $F$ is multiplicative by centrality of $\AGplus$; $F$ and its inverse are continuous as composites of multiplication, $e_0^{-1}$, projections and subtype inclusions. The formula $e(a,g)=ag$ holds by definition.
+\end{proof}
+
+\section{Compactness and volume of elliptic centralizers}\label{sec:orb-compact}
+
+\begin{lemma}[height bound for elliptic elements]
+\tfstmt{II.orb.lem:elliptic-height-bound}
+\lean{GL2TF.elliptic_height_bound}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:idele-norm-spec,I.adele.lem:primes-fact-instance,I.adele.thm:product-formula,I.conv.def:borel,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:simple-root,I.conv.def:space-a-b,I.conv.lem:max-compact-local-mem,I.decomp.def:bottom-row-norm,I.decomp.def:height-map,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.lem:adelic-hadamard,I.red.lem:simple-root-height-map,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact,I.topgrp.thm:max-compact-adelic-compact,II.orb.def:elliptic,II.orb.thm:elliptic-iff-not-borel-conjugate}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:elliptic-height-bound}
+\tfsem{II.orb.lem:elliptic-height-bound}{911e7d5ac2bfa5cb9e27144204cc78243560791b091015a638749ba6cb4ed35c}
+\tfhyps{II.orb.lem:elliptic-height-bound}{}
+\tfbinder{II.orb.lem:elliptic-height-bound}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:elliptic-height-bound}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\tfbinder{II.orb.lem:elliptic-height-bound}{2}{0bb1352b}{the set $\Omega\subseteq G(\A)$}
+\tfbinder{II.orb.lem:elliptic-height-bound}{3}{bdeb81db}{the assumption that $\Omega$ is compact (A: ``compact'')}
+\begin{tffidelity}
+$\gamma$ in $G(\A)$ is \texttt{ι γ} with $\iota=\texttt{gl2Map (algebraMap ℚ Adele)}$; $x$ ranges over the subtype \texttt{normOneGroup} ($G(\A)^1$) and $x^{-1}\gamma x$ is \texttt{(↑x)⁻¹ * ι γ * ↑x}; $\delta x$ is \texttt{ι δ * ↑x}; $\alpha(\HB(\cdot))$ is \texttt{simpleRoot (heightMap ·)} (\texttt{I.conv.def:simple-root}, \texttt{I.decomp.def:height-map}). The conclusion is \texttt{∃ c : ℝ, ∀ δ x, x⁻¹γx ∈ Ω → α(H\_B(δx)) ≤ c}, as in A. $\Omega$ is a set with an explicit compactness hypothesis.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (precision).} The function $\mathcal N=\texttt{adelicEntryNorm}$ is continuous on $G(\A)$ (\texttt{continuous\_adelicEntryNorm}), so $\mathcal N(\Omega)\le M$ for some $M$; put $M'=\max(M,1)$ and $c=\log M'$. Let $\delta\in G(\Q)$, $x\in G(\A)^1$ with $y=x^{-1}\gamma x\in\Omega$, and $b=\norm{e_2\delta x}_\A>0$ (\texttt{bottomRowNorm\_pos}). Since $\gamma$ is elliptic, $\delta\gamma\delta^{-1}\notin B(\Q)$ (\cref{II.orb.thm:elliptic-iff-not-borel-conjugate}), so the vol.~I item \texttt{I.red.lem:adelic-hadamard} with $(\delta,\delta'=\delta\gamma)$ and $|\det x|_\A=1$ gives $1\le b\,\norm{e_2\delta\gamma x}_\A$. From $\delta\gamma x=(\delta x)y$ and $\norm{e_2gy}_\A\le\mathcal N(y)\norm{e_2g}_\A$ (\texttt{bottomRowNorm\_mul\_le}) follows $1\le M'b^2$, i.e.\ $0\le\log M'+2\log b$. Finally $\alpha(H_B(\delta x))=\log|\det\delta x|_\A-2\log b=-2\log b\le c$ (\texttt{simpleRoot\_heightMap}, \texttt{ideleNorm\_det\_rat\_mul}). A's ``bounded on compact sets'' is obtained from continuity of $\mathcal N$.
+\end{proof}
+
+\begin{corollary}[height bound on $G_\gamma(\A)^1$]
+\tfstmt{II.orb.cor:centralizer-height-bound}
+\lean{GL2TF.centralizer_height_bound}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:simple-root,I.conv.def:space-a-b,I.decomp.def:height-map,I.topgrp.def:norm-one-group,II.orb.def:centralizer-norm-one,II.orb.def:elliptic,II.orb.lem:elliptic-height-bound}
+\end{corollary}
+\begin{tfformal}{II.orb.cor:centralizer-height-bound}
+\tfsem{II.orb.cor:centralizer-height-bound}{b4c3fe3bb2e804d69ec49f496d0900329d6299e528cf3cba2b885a0ef724a1a7}
+\tfhyps{II.orb.cor:centralizer-height-bound}{}
+\tfbinder{II.orb.cor:centralizer-height-bound}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.cor:centralizer-height-bound}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+\texttt{∃ c : ℝ, ∀ x : centralizerNormOne γ, ∀ δ, simpleRoot (heightMap (ι δ * x)) ≤ c}, with $x$ coerced to $G(\A)$ through $G(\A)^1$. As in A (the quantifiers over $x$ and $\delta$ commute).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Apply \cref{II.orb.lem:elliptic-height-bound} with the compact set $\Omega=\{\iota(\gamma)\}$ (\texttt{isCompact\_singleton}): for $x\in G_\gamma(\A)^1$, $x\iota(\gamma)=\iota(\gamma)x$, so $x^{-1}\iota(\gamma)x=\iota(\gamma)\in\Omega$.
+\end{proof}
+
+\begin{theorem}[relative compactness of the elliptic support]
+\tfstmt{II.orb.thm:elliptic-support-relatively-compact}
+\lean{GL2TF.elliptic_support_relatively_compact}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:simple-root,I.conv.def:space-a-b,I.decomp.def:height-map,I.quot.def:gl2-rat-norm-one,I.red.thm:compactness-criterion,I.topgrp.def:gl2-adelic,I.topgrp.def:norm-one-group,II.orb.def:elliptic,II.orb.lem:elliptic-height-bound}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-support-relatively-compact}
+\tfsem{II.orb.thm:elliptic-support-relatively-compact}{a3b46cf8143aab7414f95dcaff1e3f64906b497055bbcd30c538f4787f68338f}
+\tfhyps{II.orb.thm:elliptic-support-relatively-compact}{}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{2}{0bb1352b}{the set $\Omega\subseteq G(\A)$}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{3}{bdeb81db}{the assumption that $\Omega$ is compact (A: ``compact'')}
+\begin{tffidelity}
+$G(\Q)\backslash G(\A)^1$ is \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} with the quotient topology (\texttt{I.quot.def:gl2-rat-norm-one}, as in \texttt{I.red.thm:compactness-criterion}), and $p$ is \texttt{Quotient.mk}. The conclusion is \texttt{IsCompact (closure (p '' \{x : normOneGroup | (↑x)⁻¹ * ι γ * ↑x ∈ Ω\}))}, ``has compact closure''.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Let $c$ be the constant of \cref{II.orb.lem:elliptic-height-bound}. By the vol.~I item \texttt{I.red.thm:compactness-criterion} it suffices to bound $\alpha(H_B(\delta x))\le c$ for all $\delta\in G(\Q)$ and all $x\in G(\A)^1$ with $p(x)\in p(S)$, $S=\{x:x^{-1}\gamma x\in\Omega\}$. Such $x$ is $\iota(\eta)s$ with $s\in S$, $\eta\in G(\Q)$ (\texttt{exists\_rat\_of\_quot\_eq}), so $\delta x=\iota(\delta\eta)s$ and the lemma applies to $\delta\eta$ and $s$.
+\end{proof}
+
+\begin{lemma}[conjugates in a compact set]
+\tfstmt{II.orb.lem:conjugates-meeting-compact-finite}
+\lean{GL2TF.conjugates_meeting_compact_finite}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.topgrp.def:gl2-adelic,I.topgrp.thm:gl2-rat-discrete,II.orb.def:centralizer}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:conjugates-meeting-compact-finite}
+\tfsem{II.orb.lem:conjugates-meeting-compact-finite}{ad55445d371bcc293d49e00bc2bd27c1bf8d896b33003366a1898c92e1a344c7}
+\tfhyps{II.orb.lem:conjugates-meeting-compact-finite}{}
+\tfbinder{II.orb.lem:conjugates-meeting-compact-finite}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:conjugates-meeting-compact-finite}{1}{ea8f3523}{the set $C\subseteq G(\A)$}
+\tfbinder{II.orb.lem:conjugates-meeting-compact-finite}{2}{98992c93}{the assumption that $C$ is compact (A: ``compact'')}
+\begin{tffidelity}
+$C$ is a subset of $G(\A)$ with an explicit compactness hypothesis; $\delta^{-1}\gamma\delta$ is \texttt{(ι δ)⁻¹ * ι γ * ι δ} in $G(\A)$. (a) is \texttt{(Set.range (fun δ ↦ (ι δ)⁻¹ * ι γ * ι δ) ∩ C).Finite}. (b): there are $n\in\N$ and \texttt{δs : Fin n → GL (Fin 2) ℚ} with $\{\delta:\delta^{-1}\gamma\delta\in C\}=\{\delta:\exists i,\ \exists\sigma\in G_\gamma(\Q),\ \delta=\sigma\,\delta_i\}$, which is $\bigcup_iG_\gamma(\Q)\delta_i$ written elementwise; $n=0$ (empty set) is allowed, as in A (``finitely many'').
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. $\iota(G(\Q))$ is closed and discrete in $G(\A)$ (the vol.~I item \texttt{I.topgrp.thm:gl2-rat-discrete}), so $\iota(G(\Q))\cap C$ is compact (preimage under a closed embedding) and discrete, hence finite (\texttt{IsCompact.finite\_of\_discrete}); the conjugates $\iota(\delta)^{-1}\iota(\gamma)\iota(\delta)=\iota(\delta^{-1}\gamma\delta)$ (\texttt{iota\_conj}) lie in $\iota(G(\Q))$, which gives (a). (b): enumerate the finite set of (a) by $\mathrm{Fin}\,n$ and choose $\delta_i$ with $\iota(\delta_i^{-1}\gamma\delta_i)$ the $i$-th element. If $\iota(\delta^{-1}\gamma\delta)\in C$, it is some $i$-th element, so $\delta^{-1}\gamma\delta=\delta_i^{-1}\gamma\delta_i$ by injectivity of $\iota$, i.e.\ $\delta\delta_i^{-1}\in G_\gamma(\Q)$ (\texttt{conj\_eq\_iff}) and $\delta=\sigma\delta_i$. Conversely $\sigma\delta_i$ with $\sigma\in G_\gamma(\Q)$ has the same conjugate as $\delta_i$.
+\end{proof}
+
+\begin{lemma}[a compact fundamental set]
+\tfstmt{II.orb.lem:centralizer-compact-fundamental-set}
+\lean{GL2TF.centralizer_compact_fundamental_set}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:simple-root,I.conv.def:space-a-b,I.decomp.def:height-map,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.quot.def:gl2-rat-norm-one,I.red.thm:compactness-criterion,I.topgrp.def:central-element,I.topgrp.def:central-split-component,I.topgrp.def:gl2-adelic,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal,I.topgrp.thm:gl2-adelic-locally-compact,I.topgrp.thm:norm-one-splitting,II.orb.cor:centralizer-height-bound,II.orb.def:centralizer,II.orb.def:centralizer-norm-one,II.orb.def:centralizer-rat-norm-one,II.orb.def:elliptic,II.orb.lem:conjugates-meeting-compact-finite,II.orb.thm:centralizer-rat-points}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-compact-fundamental-set}
+\tfsem{II.orb.lem:centralizer-compact-fundamental-set}{dfe06bd78b50ad6ed2846f3e859b284a90bad1ac8ae31310b3a0c45759031f5d}
+\tfhyps{II.orb.lem:centralizer-compact-fundamental-set}{}
+\tfbinder{II.orb.lem:centralizer-compact-fundamental-set}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:centralizer-compact-fundamental-set}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+\texttt{∃ C' : Set (centralizerNormOne γ), IsCompact C' ∧ ∀ y, ∃ σ ∈ centralizerRatNormOne γ, ∃ w ∈ C', y = σ * w}. $C'\subseteq G_\gamma(\A)^1$ is automatic ($C'$ is a set of elements of the subtype), and $G_\gamma(\Q)$ acts through the B-only \cref{II.orb.def:centralizer-rat-norm-one}, i.e.\ through $\iota$ (\cref{II.orb.thm:centralizer-rat-points}). Only ``$\subseteq$'' of $G_\gamma(\A)^1=G_\gamma(\Q)C'$ is stated: ``$\supseteq$'' holds by closure of the subgroup under multiplication.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (Steps 1 and 2). Step 1: let $Y=p(G_\gamma(\A)^1)\subseteq G(\Q)\backslash G(\A)^1$. By \cref{II.orb.cor:centralizer-height-bound} and the vol.~I item \texttt{I.red.thm:compactness-criterion} (argument as in \cref{II.orb.thm:elliptic-support-relatively-compact}) $\overline Y$ is compact. The quotient map $p$ is open (\texttt{MulAction.isOpenQuotientMap\_quotientMk}) and surjective, so there is a compact $C\subseteq G(\A)^1$ with $p(C)\supseteq\overline Y$ (\texttt{exists\_compact\_image\_superset}). Step 2: $C_\gamma=\{w\gamma w^{-1}:w\in C\}$ is compact, and \cref{II.orb.lem:conjugates-meeting-compact-finite}(b) gives $\delta_1,\dots,\delta_n$ with $\{\delta:\delta^{-1}\gamma\delta\in C_\gamma\}=\bigcup_iG_\gamma(\Q)\delta_i$. Put $C'=\bigcup_i\bigl(G_\gamma(\A)^1\cap\iota(\delta_i)C\bigr)$, compact since $G_\gamma(\A)^1$ is closed in $G(\A)^1$. For $y\in G_\gamma(\A)^1$: $p(y)\in p(C)$ gives $y=\iota(\delta)w$ with $w\in C$; as $y$ commutes with $\iota(\gamma)$, $\iota(\delta)^{-1}\iota(\gamma)\iota(\delta)=w\gamma w^{-1}\in C_\gamma$, so $\delta=\sigma\delta_i$ with $\sigma\in G_\gamma(\Q)$. Then $\iota(\sigma)\in G_\gamma(\Q)\subseteq G_\gamma(\A)^1$ (\cref{II.orb.thm:centralizer-rat-points}(b),(c)) and $y=\iota(\sigma)\cdot\iota(\sigma)^{-1}y$ with $\iota(\sigma)^{-1}y=\iota(\delta_i)w\in C'$.
+\end{proof}
+
+\begin{theorem}[compactness of $G_\gamma(\Q)\backslash G_\gamma(\A)^1$]
+\tfstmt{II.orb.thm:elliptic-centralizer-compact}
+\lean{GL2TF.elliptic_centralizer_compact}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.topgrp.def:norm-one-group,II.orb.def:centralizer-norm-one,II.orb.def:centralizer-rat-norm-one,II.orb.def:elliptic,II.orb.lem:centralizer-compact-fundamental-set}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-centralizer-compact}
+\tfsem{II.orb.thm:elliptic-centralizer-compact}{af3e7e71f17ab7501f6d807d7b61ca94ffb81d0554f2c81c804389b946159949}
+\tfhyps{II.orb.thm:elliptic-centralizer-compact}{}
+\tfbinder{II.orb.thm:elliptic-centralizer-compact}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-centralizer-compact}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+\texttt{CompactSpace (MulAction.orbitRel.Quotient (centralizerRatNormOne γ) (centralizerNormOne γ))}: the space of orbits $G_\gamma(\Q)x$ of the left multiplication action of the B-only subgroup \cref{II.orb.def:centralizer-rat-norm-one} on $G_\gamma(\A)^1$, with Mathlib's quotient topology, as in the topology chapters.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. With $C'$ from \cref{II.orb.lem:centralizer-compact-fundamental-set}, the image of $C'$ under the continuous quotient map is compact, and it is the whole quotient: each orbit $G_\gamma(\Q)y$ with $y=\sigma w$, $w\in C'$, is the orbit of $w$ (\texttt{quot\_mk\_eq\_iff'}).
+\end{proof}

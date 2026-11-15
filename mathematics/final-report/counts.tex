@@ -1,0 +1,13 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Single source of the Lean status numbers used in the report. Update ONLY here.
+\newcommand{\NumHypRegistered}{29}      % registered hypotheses
+\newcommand{\NumHypDischarged}{3}       % discharged
+\newcommand{\NumHypCondDischarged}{1}   % conditionally discharged
+\newcommand{\HypDischargedNames}{\texttt{PadicOrdDecomp}, \texttt{RamNrdSurj}, \texttt{BrandtStabFree}}
+\newcommand{\HypCondDischargedNames}{\texttt{ResidualBurnside}, from absolute irreducibility}
+\newcommand{\NumHypOpen}{\number\numexpr\NumHypRegistered-\NumHypDischarged-\NumHypCondDischarged\relax}
+\newcommand{\NumHypRows}{\number\numexpr\NumHypRegistered-1\relax}   % Langlandscape.Hyp.* rows (the import's EichlerMass is the extra one)
+\newcommand{\NumHypTableRows}{26}       % rows of the summary table of the hypotheses report
+\newcommand{\GateAudited}{955}          % final gate bsf-gate-1 (tree c70ef3a9, logs fa755069); previous gates: submission bundle 950 (28d2b091), 2323a252: 840
+\newcommand{\NumAuditedRows}{955}      % rows of Audit/PrintAxioms.lean at the final gate bsf-gate-1 (c70ef3a9); \GateAudited here stays the bundle-gate figure 950 of this (earlier) report

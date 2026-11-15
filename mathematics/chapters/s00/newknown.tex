@@ -1,0 +1,125 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction): what is new and what is known, stage by stage. No \input; reusable in the report.
+% Novelty statements are limited to "we did not find this in the literature we checked"; the checked sources are the
+% local literature notes (mathematics/litnotes/) and the citation checks in the chapters.
+\section{What is new and what is known}\label{ss:s00-newknown}
+
+\paragraph{How to read this section.} \emph{Known} lists the results we use from the literature, with the precise place; they
+are \stcited{} or \stknown{} wherever they occur. \emph{Ours} lists what the chapters prove or formalize, with the status printed
+there. A novelty statement is never stronger than ``we did not find this in the literature we checked''; the literature checked
+is the one cited in the chapters, whose locators were verified against local copies (scans by OCR) during the stages.
+\emph{Open} lists what is not claimed.
+
+\paragraph{The known framework.} Classical JL \cite[Thm.~16.1]{JL}, in Brandt-module form \cite{Gr99}; for $\GL_n$ \cite[Thm.~5.1]{Bad08},
+\cite[Thm.~18.1]{BR10}. Ribet's sequence and its Shimura-curve term \cite[Prop.~3.1, Thm.~3.15, Thm.~4.1]{Ri90} (\S\ref{ss:s00-ribet}); with
+Deligne--Rapoport and Deuring it gives classical JL in the first case ($D=q$, weight~$2$) modulo this geometry, a known argument (for $D=q$ at $\Gamma_1(Mp^s)$-level the same geometry is expected to give $\HypX$,
+\stexp; beyond $D=q$, JL enters at the Shimura-curve comparison \cite[\S3.10.1]{RS});
+what is ours there is its combinatorial incarnation on the Bruhat--Tits tree and the Brandt graph and the integral (defect)
+extension (\S\ref{ss:s00-whycited}).
+Ihara's lemma: \cite{Ih75}; its definite form \cite[Thm.~3.15, Rem.~3.18]{Ri90} and, via strong approximation, \cite[Lemma~2,
+pp.~445--446]{DT}. Trees and amalgams: \cite[Ch.~II, \S1]{Se}. Mazur's Eisenstein ideal and the component group of $J_0(q)$
+\cite[Appendix, Thm.~A.1(b), p.~173]{Mz}; $\Phi$ Eisenstein \cite[Thm.~3.12]{Ri90}. Hida theory: freeness and control
+\cite[Thm.~3.1, Cor.~3.2]{Hi86b}; $\Lambda$-adic JL \cite[Prop.~6.1]{LV}, \cite[\S4.5]{Hs}; Gorenstein and freeness on the definite side
+\cite[Thm.~4.5]{Hs}. $p$-adic JL \cite[Thm.~3, \S4.6]{Ch}. Congruence modules and defects: Wiles' numerical criterion
+\cite[Appendix, Props.~1, 2, pp.~545--547]{Wi95}; Ribet--Takahashi for degrees of parametrizations by Shimura curves versus modular
+curves \cite[Thm.~1, p.~11111]{RT97}; Diamond's $\Lambda$-adic old/new congruence module, computed along the old branch
+\cite[Thm.~6A--6C, p.~80]{Dia89}; Kim--Ota at fixed weight, $\ord\eta_f(N)=\ord\eta_f(N^+,N^-)+\sum_{q\mid N^-}t_f(q)$ under their
+condition (6) that $\bar\rho$ is ramified at every $q\mid N^-$ with $q\equiv\pm1\bmod p$ \cite[Thm.~1.1, p.~1]{KO}; the Wiles defect at
+trivial primes \cite[Thm.~1.2]{BKM}.
+
+\paragraph{Ours, in general.} (1) The assembly of these pieces into one integral framework with a single fixed set of
+normalisations ($\NUp$, adelic diamonds, the sign $U_q\mapsto+\Pi_q$, the model FD1), stated once and checked across the stages
+(Def.~\ref{def:s01-NUp}, \S\ref{ss:s05-sign}). (2) Proofs on the definite side that use only finite checks on graphs (``given
+(iii)'') instead of strong approximation. (3) The isolation of all geometry at $\Gamma_1(Mp^s)$-level in one hypothesis $\HypX$, and a
+main theorem (Thm.~\ref{thm:s06-defect}) that does not use it. (4) A Lean~4 formalization in which every cited or geometric input is
+a named \texttt{Prop}-valued hypothesis passed as an explicit argument (\S\ref{ss:s00-outline}). (5) Computations, including a
+Jacquet--Langlands module for HACS (doi:10.5281/zenodo.24231446).
+
+\subsection{Stage by stage}
+One table per stage, in the order of the chapters, and one for the computations.
+\newcommand{\sOOrow}[2]{\textbf{#1} & #2\\}
+\newcommand{\sOOtab}[2]{\par\smallskip\noindent{\small\begin{tabular}{@{}>{\raggedright}p{0.1\textwidth}>{\raggedright\arraybackslash}p{0.84\textwidth}@{}}\toprule\multicolumn{2}{@{}l}{\textbf{#1}}\\\midrule #2\bottomrule\end{tabular}}\par\smallskip}
+
+\sOOtab{Stage 01}{
+\sOOrow{known}{Class sets, Eichler orders, the mass formula, Brandt modules (\cite{Vo}, \cite{Gr99}; Prop.~\ref{prop:s01-eichler},
+  Prop.~\ref{prop:s01-finite} \stknown; Thm.~\ref{thm:s01-mass} \stcited); the JL targets (Thms.~\ref{thm:s01-JLclassical}--\ref{thm:s01-lambdaJL}, \stcited).}
+\sOOrow{ours}{The normalisation $\NUp$ and the dictionary of conventions, with corrections to the planning text (e.g.\ $e=0$ at a
+  fixed level for $D=2$, $p=5$, Def.~\ref{def:s01-NUp}, \stproved); Lean formalization of the class-set, Brandt-pairing and Hecke
+  layer (\stformal{} where marked). Not new mathematics.}
+\sOOrow{open}{In Lean, classical and $\Lambda$-adic JL are schematic interfaces only.}
+}
+
+\sOOtab{Stage 02}{
+\sOOrow{known}{The tree and its stabilisers \cite[II.1]{Se}; strong approximation (Thm.~\ref{thm:s02-SA}, \stcited, \cite{Vo});
+  \v{C}erednik--Drinfeld (Remark~\ref{rem:s02-CD}, \stcited).}
+\sOOrow{ours}{Strong approximation at one level is equivalent to the connectivity of the finite Brandt graph, and the tree
+  quotient is that graph (Prop.~\ref{prop:s02-BG}, \stproved, marked ``new in this plan'' in the chapter; no strong approximation is
+  used). We did not find this formulation in the literature we checked; the underlying facts are standard. The torsion example
+  $H_1(\GU,\Z)=\Z/3$ for $D=2$, $q=3$ (Remark~\ref{rem:s02-torsion}, \stcomp).}
+\sOOrow{open}{In Lean: \texttt{Hyp.SA}, \texttt{Hyp.HS}, \texttt{Hyp.BTtree}, \pathtt{Hyp.SerreCoh}, \pathtt{Hyp.SerreFree} are open; parts of
+  Props.~\ref{prop:s02-quot}, \ref{prop:s02-coh} are not formalized.}
+}
+
+\sOOtab{Stage 03}{
+\sOOrow{known}{Ribet's sequence and the surjectivity of $\delta$, with the graph-connectivity proof attributed to Livn\'e and
+  Edixhoven \cite[Thm.~3.15, Rem.~3.18]{Ri90}; $\Phi$ Eisenstein \cite[Thm.~3.12]{Ri90}; Mazur \cite{Mz}; the definite Ihara lemma via
+  strong approximation \cite[Lemma~2]{DT}; Ihara for Shimura curves \cite[Thm.~1.1]{MS19}.}
+\sOOrow{ours}{Complete written proofs of the definite Ribet sequence over every ring and of Ihara (i), (ii) given (iii)
+  (Thm.~\ref{thm:s03-ribet}(a), Cor.~\ref{cor:s03-ihara}, \stproved), with coefficients (Thm.~\ref{thm:s03-ribet}(b), \stpmc), the Hecke action on
+  $H_0$ (Thm.~\ref{thm:s03-iharaH0}, \stpmc), the Mazur check as a statement about weighted graphs (Prop.~\ref{prop:s03-mazur}, \stpmc), and
+  their Lean formalization (\stformal{} as marked). The method is Ribet's; the coefficient and $H_0$ versions in this form we did
+  not find in the literature we checked.}
+\sOOrow{open}{The $\GL_2$ Ihara lemma in Betti form (Conj.~\ref{conj:s03-iharaGL2}, \stexp); in Lean, Ihara (iii)(a) is the hypothesis
+  \texttt{Hyp.IharaH0} and (b) is not formalized; \pathtt{Hyp.EllipticCount} open (\pathtt{Hyp.BrandtStabFree} is discharged).}
+}
+
+\sOOtab{Stage 04}{
+\sOOrow{known}{Hida's freeness and control \cite{Hi86b}; the definite $\Lambda$-adic Brandt module is $\Lambda$-free \cite[Thm.~4.2]{Hs};
+  Gorenstein and self-pairing on the definite side \cite[Thm.~4.5]{Hs} (Thms.~\ref{thm:s04-Gor}, \ref{thm:s04-etaB}, \stcited); control at
+  weights \cite{LV11}.}
+\sOOrow{ours}{An elementary proof of $\Lambda$-freeness and finite-level control from stage~01 and commutative algebra
+  (Thm.~\ref{thm:s04-control}(a), \stproved); the $\Lambda$-adic definite Ribet sequence (Thm.~\ref{thm:s04-lambdaribet}, \stproved{} given
+  connectivity), which we did not find in the literature we checked (\cite{Hs}, \cite{LV}, \cite{LV11}, \cite{Hi86b}); the $\eta$-principle in
+  abstract form (Prop.~\ref{prop:s04-etaprinciple}, \stproved, \stformal); the dictionary to Hsieh's and Longo--Vigni's conventions.}
+\sOOrow{open}{In Lean: \pathtt{Hyp.MordLambdaFree}, \pathtt{Hyp.HidaControl}, \pathtt{Hyp.InvLimExact} open; control at weights for
+  general $U$ is \stexp.}
+}
+
+\sOOtab{Stage 05}{
+\sOOrow{known}{At $\Gamma_0$-type level: (G1)--(G4) (Thm.~\ref{thm:s05-G}, \stcited: Deligne--Rapoport, Ribet, Grothendieck); Ribet's
+  sequence at level $\Gamma_H$ is stated in \cite{Hel} with a proof for $D=1$ by reference to \cite[Thm.~4.1]{Ri90} (literature note
+  on $\Gamma_1$-level).}
+\sOOrow{ours}{The formulation of $\HypX$ at $\Gamma_1(Mp^s)$-level with all normalisations fixed; we found no reference that states
+  it (\S\ref{ss:s05-status}). Its formal consequences: Prop.~\ref{prop:s05-subquot} (\stproved, \stformal), Prop.~\ref{prop:s05-Xiso} (\stpmc),
+  Prop.~\ref{prop:s05-Xlambda} (statuses as printed), Prop.~\ref{prop:s05-nochain} (\stproved). The sign: \cite[\S4.5]{Hs} states
+  $\JL(U_q)=-U_q$ for $q\mid N^-$; we use $U_q\mapsto+\Pi_q$ and treat Hsieh's sign as an erratum (team decision FD2;
+  Remark~\ref{rem:s05-hsieh}; Prop.~\ref{prop:s05-sign}, \stpmc; supported by the computation $a_q=+\lambda(\Pi_q)$ on $144/144$
+  eigenlines, \stcomp).}
+\sOOrow{open}{$\HypX$ itself at $\Gamma_1(Mp^s)$-level; (c2) of Prop.~\ref{prop:s05-Xlambda} (\stopen); O2 (Conj.~\ref{conj:s05-O2},
+  \stconj); O7 beyond the ordinary locus. No closed Lean term inhabits the $\HypX$ context.}
+}
+
+\sOOtab{Stage 06}{
+\sOOrow{known}{Kim--Ota at fixed weight \cite[Thm.~1.1]{KO} (Thm.~\ref{thm:s06-KO}, \stcited), with their condition (6); Diamond's
+  $\Lambda$-adic old/new module along the old branch \cite{Dia89}; Gorenstein inputs \cite{Hs}, \cite{Wi95}, \cite{MW86}; the numerical
+  criterion \cite[Appendix]{Wi95}; \cite{RT97}, \cite{BKM} as context for defects.}
+\sOOrow{ours}{The $\Lambda$-adic defect formula $(h_F)=\cc_q(F)=\tq_q(F)$ along the $q$-new branch (Thm.~\ref{thm:s06-defect}, \stpmc), which
+  we did not find in the literature we checked (\cite{Dia89}, \cite{Hs}, \cite{KO}, \cite{BKM}); its commutative-algebra half in abstract
+  form with explicit hypotheses (Thm.~\ref{thm:s06-E}, \stproved; \stformalized{} in abstract form, (i)--(iv), with the exceptions listed after the theorem); the extension to $q\equiv-1\bmod p$ with $\bar\rho$ unramified
+  at $q$, which Kim--Ota's Thm.~1.1 excludes, in the cases (F0) $M=1$, (F1), (F1$'$) (Prop.~\ref{prop:s06-levM}, \stpmc; it rests on
+  \cite[Thm.~2.9, Lemma~2.4, Thm.~3.14]{KO}, and (F1$'$) on our sign-fixed reading of \cite[Thm.~3.14]{KO}, not on its text); the
+  all-weights corollary (Cor.~\ref{cor:s06-allweights}, \stpmc) and the Betti incarnation (Prop.~\ref{prop:s06-betti}).}
+\sOOrow{open}{$q\equiv-1\bmod p$ outside (Lev): $N(\bar\rho)>1$, non-squarefree $M$ (\stopen); (F1) is numerically untested; several
+  ramified primes (Conj.~\ref{conj:s06-several}, \stconj); eight of the nine stage-06 Lean hypotheses are open.}
+}
+
+\sOOtab{Computations}{
+\sOOrow{known}{Mazur's order $\mathrm{num}\frac{q-1}{12}$ \cite{Mz}; Eichler's class number formula.}
+\sOOrow{ours}{All \stcomp: the checks listed in \S\ref{ss:s00-outline}; a native quaternion core and exact integral congruence modules
+  of Brandt lattices in HACS; the Mazur order recovered for every prime $q\le600$ at $\ell\ge5$; beyond Mazur, among the non-zero
+  integral $\Sym^n$ cells with $k>2$ the only non-trivial lattice congruence module is $|C|=37$ at $D=13$, $k=8$, consistent with
+  (not a confirmation of) the factor $37$ of a resultant of the $T_2$ factors on the $\GL_2$ side. We did not compare this value
+  with published tables; its factor $37$ reappears on Lane~C's intrinsic lattice, where such modules are invariants away from $D$.}
+\sOOrow{open}{C2 partial ($131/319$); the remaining HACS validation steps.}
+}

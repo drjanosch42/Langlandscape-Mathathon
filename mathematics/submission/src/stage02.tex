@@ -1,0 +1,448 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 02 section of the submission report (proof outlines condensed from mathematics/chapters/s02; statements verbatim).
+% Note: the literature pointers (lit macro) of the chapter (also inside the verbatim boxes) were mechanically
+% converted to \cite[loc]{KEY} with the keys of report.bib; nothing else in the quoted text was changed apart from
+% replacing cross-references by their main.pdf numbers and dropping \label.
+\subsection{Stage 02: tree quotients}\label{ss:stage02}
+
+Stage 02 realises the definite class sets $\XB U$ of stage 01 as quotients of the Bruhat--Tits tree $\cT_q$ of
+$\GL_2(\Qq)$ ($q\nmid D$, $q\ne p$) by the norm-one $S$-arithmetic group $\GU=\cO_U[\tfrac1q]^1$, builds the finite
+bipartite Brandt graph $\BG(U,q)$, and identifies the group (co)homology of $\GU$ with a two-term complex of Brandt
+modules. This is the bridge from the definite side to the ``indefinite'' character group at $q$: stage 03 (Ribet's exact
+sequence, level raising) and stage 04 (the ordinary tower) work with $\ker\partial$, $H_1(\GU,V)$ and the $q$-new
+submodule $\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ defined here, never with \v{C}erednik--Drinfeld. The new point of the stage is
+that strong approximation is needed only in the form ``$\BG(U,q)$ is connected'', which for a single explicit level is a
+finite check. In main.pdf the stage is \S7, pp.~50--76.
+
+\subsubsection*{Key definitions}
+\emph{Standing notation} (main.pdf, \S7, p.~50). $B=\Bd$ is definite of discriminant $D$, $q\nmid D$, $q\ne p$, $p\ge5$,
+$p\nmid D$; $\cO$ is a maximal order with $\iota_\ell:\cO_\ell\cong M_2(\Z_\ell)$ for $\ell\nmid D$; $\alpha:=\iota_q^{-1}\mathrm{diag}(1,q)$,
+$\Iw_q=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Zq):q\mid c\}$; $H^1:=H\cap\ker\Nrd$.
+
+\emph{The tree} (main.pdf, Def.~7.1). $\cT_q$ has as vertices the homothety classes $[L]$ of $\Zq$-lattices in $\Qq^2$,
+$[L]\ne[L']$ adjacent iff $qL\subsetneq L'\subsetneq L$ for suitable representatives. The type of $[g\Zq^2]$ is
+$\ord_q\det g\bmod 2$; $v_0=[\Zq^2]$, $v_1=\alpha v_0$, $e_0=\{v_0,v_1\}$; each edge has one end of each type and is oriented
+from its type-$0$ end $o(e)$ to its type-$1$ end $t(e)$.
+
+\emph{Admissible levels and $\GU$} (main.pdf, Def.~7.4). A level $U\subseteq\hat\cO^\times$ is \emph{$q$-admissible} if it is
+compact open, $U=U_q\times U^{(q)}$ with $U_q=\iota_q^{-1}\GL_2(\Zq)$, and $\Nrd(U)=\Zhat^\times$ (all $\Uzero N,\Uone N$ with $q\nmid N$ and
+$U_s=\Uone{Mp^s}$ are). Then
+\[\GU:=B^1\cap\big(B^1_q\times U^{(q)}\big)=\{\gamma\in B^\times:\Nrd\gamma=1,\ \gamma^{(q)}\in U^{(q)}\}=\cO_U[\tfrac1q]^1\]
+(the last expression is notation; no order $\cO_U$ is asserted). $\GU$ acts on $\cT_q$ through $\iota_q(\gamma_q)$, type-preservingly
+and without inversion, and on a $\Zp[U_p]$-module $V$ through $\gamma\mapsto\gamma_p$. The levels attached to the cells are $U$
+(type $0$), $\alpha U\alpha^{-1}$ (type $1$) and $U':=\Uzero qU=U\cap\Uzero q$ (edges). \stproved; the definitions are \stformal{}
+(\pathtt{Langlandscape.Tree.IsQAdmissible}, \pathtt{Langlandscape.Tree.GammaU}).
+
+\emph{Norm-one class set} (main.pdf, Def.~7.5, Lemma~7.6). $\Xone(U'):=B^1\backslash\Bhat^1/U'^1$. The map $\Xone(U')\to\XB{U'}$ is
+injective (\stproved, using only $\Nrd(B^\times)\subseteq\Q_{>0}$ and $\Q_{>0}\cap\Zhat^\times=\{1\}$; \stformal), and bijective if
+$\Nrd U'=\Zhat^\times$, given the Hasse--Schilling norm theorem $\Nrd(B^\times)=\Q_{>0}$, which is \stcited{}
+\cite[Main Thm.~14.7.4, p.~234]{Vo} (Lean: \stformal{} modulo the registered hypothesis $\HypHS$).
+
+\emph{Bipartite Brandt graph} (main.pdf, Def.~7.8). For $q$-admissible $U$, $\BG(U,q)$ is the finite bipartite multigraph with
+$V_0=V_1=\XB U$, edge set $\XB{U'}$, and $o[y]=(s_0[y],0)$, $t[y]=(s_1[y],1)$, where $s_0[y]=[y]$, $s_1[y]=[y\alpha]$; weights
+$w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$. Well defined because $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$; finite by the finiteness of class sets.
+\stproved, \stformal{} (\pathtt{Langlandscape.Tree.BG}). This is the graph that HACS and the Python track compute.
+
+\emph{Brandt modules and the maps between them} (main.pdf, Def.~7.13). For $U''\in\{U,U',\alpha^{-1}U'\alpha\}$:
+the homological module $\Brandt{U''}{V}_*=\Z[B^\times\backslash\Bhat^\times]\otimes_{\Z[U'']}V$ (symbols $[x]\otimes v$ with $[xu]\otimes v=[x]\otimes u_pv$) and
+the cohomological module $\Brandt{U''}{V}$ of stage 01; pushforwards $s_{0*}[y]\otimes v=[y]\otimes v$, $s_{1*}[y]\otimes v=[y\alpha]\otimes v$;
+pullbacks $s_0^*f(y)=f(y)$, $s_1^*f(y)=f(y\alpha)$; traces
+$(\mathrm{tr}_0f)(x)=\sum_{u\in U/U'}u_pf(xu)$, $(\mathrm{tr}_1f)(x)=\sum_{u\in U/\alpha^{-1}U'\alpha}u_pf(xu\alpha^{-1})$; and the norm map
+$\nu:\Brandt{U''}{V}_*\to\Brandt{U''}{V}$, which for trivial $V=R$ is $[x]\mapsto w_x\mathbf 1_{[x]}$. The boundary is
+$\partial=(-s_{0*},s_{1*})$, its naive transpose $\delta(f_0,f_1)=s_1^*f_1-s_0^*f_0$. Main.pdf, Prop.~7.14 records:
+$\nu\circ s_{j*}=\mathrm{tr}_j\circ\nu'$ (no index factor), $\nu'\circ s_j^!=s_j^*\circ\nu$ with the transfers $s_j^!$, and $\nu$ is an
+isomorphism if $p\nmid|\Gamma_x|$ (all \stproved; Lean: formalized in part, only (d) for $V=R$, \pathtt{Langlandscape.Tree.normMap\_comp\_s0Push},
+\texttt{\dots s1Push}, audited since the submission bundle, Table~L1).
+
+\emph{Tree model of the indefinite stage} (main.pdf, Def.~7.21). $\cX^{(q)}_{Dq}(U;V):=H_1(\GU,V)$ $(=\ker\partial)$, and over $\Z$
+$\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)=\ker(\partial:\Z[\XB{U'}]\to\Z[\XB U]^2)$ (unconditional; \stformal{} as a definition,
+\pathtt{Langlandscape.Tree.Xindef}). Over $\Z$ the graph homology, not $H_1(\GU,\Z)$, is used, because $H_1(\GU,\Z)$ has torsion
+(main.pdf, Remark~7.23: for $D=2$, Hurwitz order, $q=3$, $H_1(\GU,\Z)\cong\Z/3$ while $H_1(\BG,\Z)=0$; \stcomp, \res{s02/torsion.json}).
+
+\subsubsection*{Main results and proof outlines}
+\begingroup\sloppy
+Statements are quoted verbatim from main.pdf; each outline condenses the chapter's proof and keeps its status markers.
+
+\begin{quoted}{Lemma}{7.3}{50}{lem:s02-tree}{seed Lemma~tree}{chapters/s02/1-tree.tex}\label{rpt:lem:s02-tree}
+\begin{enumerate}[label=(\alph*)]
+\item $\cT_q$ is a $(q+1)$-regular tree; the neighbours of $[L]$ correspond to $\mathbb P^1(L/qL)$.
+  \stcited{} \cite[II.1.1, Thm.~1, p.~70 (tree); ``Projective lines'', p.~72 (regularity, neighbours)]{Se}; formalised (on Lean v4.19) as \texttt{BTtree}
+  \cite[\S3.4 and \S3.5, p.~69--70]{LM}.
+\item $g\in\GL_2(\Qq)$ preserves types iff $\ord_q\det g$ is even. In particular $\SL_2(\Qq)$, and hence
+  $\iota_q(B^1_q)$, acts without inversion. \stproved{} (also \cite[II.1.3, p.~76]{Se}).
+\item $\SL_2(\Qq)$ acts transitively on type-$0$ vertices, on type-$1$ vertices and on edges, with
+  stabilisers $\SL_2(\Zq)$, $\SL_2(\Qq)\cap\alpha\GL_2(\Zq)\alpha^{-1}$ and $\SL_2(\Qq)\cap\Iw_q$.
+\item $\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\Iw_q$ and $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$.
+\end{enumerate}
+(b)--(d) \stproved{} (seed proof, completed below). The stabiliser statements with scalars removed are
+\cite[II.1.3, Lemma~1, p.~76]{Se}.
+\end{quoted}
+\begin{outline}
+(a) is \stcited{} and is the only input about the tree that is not proved in the chapter; in Lean it is the registered
+hypothesis \texttt{Hyp.BTtree}. (b) \stproved: $\tau(g[L])=\tau[L]+\ord_q\det g\bmod2$; adjacent lattices have index $q$, so
+$\ord_q\det$ of the transition matrix is $1$ and adjacent vertices have different types; a type-preserving automorphism therefore
+never swaps the ends of an edge. (c) \stproved: a type-$0$ vertex $[g\Zq^2]$ with $\det g=q^{2m}u$ is $g'v_0$ for
+$g'=q^{-m}g\,\mathrm{diag}(u^{-1},1)\in\SL_2(\Qq)$, similarly for type $1$ with an extra $\alpha^{-1}$; edges: move the type-$0$ end to
+$v_0$, then use that $\SL_2(\Zq)\to\SL_2(\F_q)$ is surjective (explicit lift) and $\SL_2(\F_q)$ is transitive on $\mathbb P^1(\F_q)$;
+stabilisers: $\Stab(v_0)=\Qq^\times\GL_2(\Zq)$ and $\det=1$ forces the scalar into $\Zq^\times$; the edge stabiliser is the
+intersection of the two vertex stabilisers, which is $\SL_2(\Qq)\cap\Iw_q$ by (d). (d) \stproved{} by the explicit conjugation
+$\alpha^{\mp1}k\alpha^{\pm1}$. (b)--(d) are \stformal{} in the \emph{coset model} of the tree (vertices
+$\GL_2(\Qq)/\Qq^\times\GL_2(\Zq)$), e.g.\ \pathtt{Langlandscape.Tree.preserves\_vtype\_iff}, \pathtt{Langlandscape.Tree.SLq\_transitive\_edge},
+\pathtt{Langlandscape.Tree.stabilizer\_e0}; the identification of the lattice model with the coset model is not formalised.
+All proofs below use only (b)--(d), except at the one place marked \textbf{[tree]}, where connectedness from (a) enters.
+\end{outline}
+
+\begin{quoted}{Theorem}{7.7}{54}{thm:s02-SA}{strong approximation for $B^1$ at $S=\{\infty,q\}$}{chapters/s02/2-quotient.tex}\label{rpt:thm:s02-SA}
+Since $q\nmid D$, $B_q\cong M_2(\Qq)$ is split and $B^1_q\cong\SL_2(\Qq)$ is non-compact. Hence $B^1$ (embedded diagonally) is
+dense in the restricted product $\Bhat^{1,(q)}:=\prod'_{\ell\ne q}B^1_\ell$ (with respect to the $\cO^1_\ell$).
+\smallskip
+
+\noindent\emph{Consequence (the shape used; \texttt{if:s02-SA}).} For every $q$-admissible $U$,
+\[\Bhat^1=B^1\big(B^1_q\times U^{1,(q)}\big).\tag{SA$_U$}\]
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent\emph{Status.} The theorem is \stcited{}:
+\cite[Main Thm.~28.5.3, p.~485]{Vo}, applied to the global ring $R=\Z[1/q]$ with eligible set
+$S=\{\infty,q\}$. In Voight's notation $\Bhat=\Bhat^S=\prod'_{v\notin S}B_v$ is the $S$-finite adele ring
+(\cite[27.6.4, p.~469]{Vo}; there, when $S$ is clear from the context, the superscript $S$ is dropped and replaced by hats), so his
+$\Bhat^1$ is our $\Bhat^{1,(q)}$. The hypothesis ``$B$ is $S$-indefinite'' (\cite[Def.~28.5.1,
+p.~485]{Vo}: $S$ contains a place unramified in $B$) holds because $q\in S$ and $q\nmid D$.
+Equivalently \cite[Ch.~III, Thm.~4.3, p.~81]{Vigneras1980} ($H^1_KH^1_S$ dense in
+$H^1_{\A}$ if $H^1_S$ is not compact; page-checked) and
+\cite[\S7.4, Thm.~7.12, p.~427]{PlatonovRapinchuk1994} (page-checked in the M8 litnote).
+Kneser \cite[\S5.5, Sublemma~b, p.~94 (Tata pagination; p.~72 of the scan)]{Kneser1969} only states the result;
+it is listed for orientation and not relied upon. The consequence (SA$_U$) is \stproved{} below from the theorem. It is
+\cite[28.4.8, p.~484]{Vo} (density implies $\Bhat^1\subseteq B^1\hat\cO^1$) and
+\cite[Cor.~28.5.12, p.~486]{Vo}; the shape (SA$_U$), with the factor $B^1_q$, is the projection away from $\infty$ of the \emph{second}
+equality of (28.5.13) there (which multiplies in $B^1_S=B^1_\infty\times B^1_q$). Both are stated only for the norm-one units $\hat\cO^1$ of an
+$R$-order $\cO$, not for a general open subgroup; the same proof extends, since it uses only that $\hat\cO^1$ is open (proof below); this matters because $U^{(q)}$ need not be the unit group of an order (e.g.\ $\Uone{N}$-levels).
+In Lean, (SA$_U$) for all admissible $U$ is registered as the hypothesis $\HypSA$, \lean{Langlandscape.Hyp.SA} (shape
+\lean{Langlandscape.Tree.SAat}, quantified over \pathtt{Tree.IsQAdmissible}); this is a registered hypothesis, not a proof, and the
+theorem stays \stcited. The derivation of (SA$_U$) from density below is not formalised. Per level, $\HypSA$ is replaced by
+Prop.~7.9.
+\end{quoted}
+\begin{outline}
+\emph{Density} is \stcited{} \cite[Main Thm.~28.5.3, p.~485]{Vo}. \emph{(SA$_U$) from density}, \stproved:
+\begin{enumerate}
+\item $U^{1,(q)}=U^{(q)}\cap\Bhat^{1,(q)}$ is open in $\Bhat^{1,(q)}$ (the subspace and restricted-product topologies agree since
+$\cO_\ell^\times\cap B^1_\ell=\cO_\ell^1$).
+\item Given $y=y_qy^{(q)}\in\Bhat^1$, density gives $\beta\in B^1$ with $\beta^{(q)}\in y^{(q)}U^{1,(q)}$; put
+$u:=(\beta^{(q)})^{-1}y^{(q)}\in U^{1,(q)}$ and $h:=\beta_q^{-1}y_q\in B^1_q$.
+\item Ideles with disjoint supports commute, so $y=\beta\cdot h\cdot u\in B^1(B^1_q\times U^{1,(q)})$.
+\end{enumerate}
+Only openness of $U^{(q)}$ is used, which is why the statement holds for all admissible $U$, not only for unit groups of orders.
+The chapter's appendix additionally proves density itself, modulo Hasse--Minkowski: Theorem~7.34 below.
+\end{outline}
+
+\begin{quoted}{Theorem}{7.34}{74}{thm:s02-sa-main}{Thm.~7.7, proof}{chapters/s02/5-appendix-SA.tex}\label{rpt:thm:s02-sa-main}
+$Z=\Bhat^{1,(q)}$, i.e.\ $B^1$ is dense in $\Bhat^{1,(q)}$.
+\stpmc{} (modulo Hasse--Minkowski over $\Q$, through Prop.~7.31).
+\end{quoted}
+\begin{outline}
+Here $Z:=\overline{B^1}\subseteq\Bhat^{1,(q)}$, a closed subgroup stable under conjugation by $B^\times$. The chapter states the
+overall status of Thm.~7.7 after the appendix as \stpmc{} modulo Hasse--Minkowski over $\Q$ (\stcited{} \cite[Thm.~14.3.3, p.~223]{Vo}) and
+the finiteness of the class set (\stformal{} in the import); the route follows the reduction to one prime of
+\cite[Ch.~III, proof of Thm.~4.3, pp.~81--82]{Vigneras1980} rather than Voight's Steps~4--5. Nothing of it is formalised; Lean keeps $\HypSA$.
+\begin{enumerate}
+\item (Main.pdf, Lemma~7.26, \stproved.) $E_\ell=\{a\in B^1_\ell:\Trd(a)^2\ne4\}$ is dense in $B^1_\ell$, and it suffices to show
+$e_{\ell_0}(a)\in Z$ for every $\ell_0\ne q$, $a\in E_{\ell_0}$ (finitely supported elements are dense).
+\item (Lemmas~7.27--7.30, \stproved.) Strong approximation for $\Q$ away from $q$ (elementary: CRT plus density of
+$\{Mk/q^m\}$ in $\R$); density of $B^\times$ in $B^\times_\ell$; a constructive local trace lemma: near $a$ with
+$\Trd(a)^2\ne4$ every nearby $t$ is the trace of a nearby norm-one element $u(t)=\frac12(t+s(t)j)$, $j=2a-\Trd a$.
+\item (Prop.~7.31, \stpmc{} modulo Hasse--Minkowski.) If $|t|<2$ and $t$ is a local trace of norm-one elements at all
+$\ell\mid D$, there is $h\in B^1$ with $\Trd h=t$: one needs the positive definite ternary form $\Nrd|_{B^0}$ to represent $4-t^2$
+over $\Q$; locally it does (at $\infty$ by definiteness, at split $\ell$ including $q$ by the companion matrix of $x^2-tx+1$, at $\ell\mid D$
+by hypothesis), and Hasse--Minkowski concludes.
+\item (Lemma~7.32, \stproved.) Elements of $B^1_\ell$ with the same separable trace are conjugate, and by an element of
+$\cO_\ell^\times$ at almost all $\ell$ (explicit cyclic-vector argument; no Skolem--Noether).
+\item (Lemma~7.33, \stproved{} given finiteness of the class set.) $\Bhat^{\times,(q)}=\mathcal D\cdot B^\times$ with $\mathcal D$ compact.
+\item (Assembly.) For each basic compact neighbourhood $N$ of $e_{\ell_0}(a)$, steps 2--5 give $d\in\mathcal D$ with
+$d^{-1}Nd\cap B^1\ne\emptyset$; a finite-intersection argument in the compact $\mathcal D$ yields one $d$ with
+$d^{-1}e_{\ell_0}(a)d\in Z$; since this element is supported at $\ell_0$ only, approximating $d_{\ell_0}$ by $b_m\in B^\times$ and
+conjugating gives $e_{\ell_0}(a)\in Z$.
+\end{enumerate}
+\end{outline}
+
+\begin{quoted}{Proposition}{7.9}{55}{prop:s02-BG}{SA for one level as a finite check}{chapters/s02/2-quotient.tex}\label{rpt:prop:s02-BG}
+Let $U$ be $q$-admissible. The maps
+\begin{gather*}
+\phi_0:\GU\backslash V_0(\cT_q)\to\XB U,\ \GU gv_0\mapsto[g];\\
+\phi_1:\GU\backslash V_1(\cT_q)\to\XB U,\ \GU g\alpha v_0\mapsto[g\alpha];\\
+\phi_E:\GU\backslash E(\cT_q)\to\XB{U'},\ \GU ge_0\mapsto[g]
+\end{gather*}
+($g\in B^1_q$) are well defined and \emph{injective}, and $\phi=(\phi_0,\phi_1,\phi_E):\GU\backslash\cT_q\to\BG(U,q)$ is a locally
+surjective morphism of graphs. The following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $\phi_0$ is surjective;
+\item (SA$_U$) holds and $\Xone(U)\to\XB{U}$ is surjective;
+\item $\BG(U,q)$ is connected.
+\end{enumerate}
+Moreover:
+\begin{enumerate}[label=(\alph*)]
+\item (i) implies that $\phi_0,\phi_1,\phi_E$ are all bijective, so $\phi$ is an isomorphism of graphs $\GU\backslash\cT_q\cong\BG(U,q)$.
+  This implication does not use the connectedness of $\cT_q$.
+\item In all cases, $\phi$ is an isomorphism of $\GU\backslash\cT_q$ onto a union of connected components of $\BG(U,q)$ containing
+  $([1],0)$; using that $\cT_q$ is connected, onto the connected component of $([1],0)$.
+\end{enumerate}
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent\emph{Status.} \stproved{} (new in this plan). No strong approximation is used. The connectedness of $\cT_q$
+(Lemma~7.3(a), \stcited) enters only in (i)$\Rightarrow$(iii) and in the last clause of (b); the implications
+(iii)$\Rightarrow$(i)$\Leftrightarrow$(ii), the injectivity, local surjectivity, and (a) are tree-free.
+In particular Thm.~7.7 together with Hasse--Schilling (Lemma~7.6(b)) implies (ii), hence (i) and the
+bijections of (a) (tree-free), and hence (iii) (using connectedness of $\cT_q$). As hypotheses, SA alone does not give (ii).
+Conversely, for an explicit $(B,U,q)$ the condition (iii) is a finite computation, and it discharges (SA$_U$) and the surjectivity
+of $\Xone(U)\to\XB U$ for that level. Classically, SA enters at this point through the definite analogue of Ihara's lemma:
+\cite[Lemma~2 and Cor.~1, pp.~445--446]{DT} show that $T_\ell-2$, $S_\ell-1$ annihilate $A[l]$, $A$ the kernel of
+$(f_1,f_2)\mapsto f_1+\varphi_pf_2$ on $S_k(U;\Q_l/\Z_l)^2$, for almost all $\ell\equiv1\bmod d$ (Lemma~2; hypotheses $p\nmid N_U l$), whence the Eisenstein statement (Cor.~1), and the paper says this lemma ``plays the role of Ihara's result'' (p.~445).
+\emph{Lean status.} \stformal{} (all tree-free parts; in the coset model of Lemma~7.3, with $\phi_0,\phi_1$ combined
+into one map \texttt{phiV} on all vertex orbits to $\XB U\sqcup\XB U$):
+\lean{Langlandscape.Tree.phiV\_injective}, \lean{Langlandscape.Tree.phiE\_injective},
+\lean{Langlandscape.Tree.phiV\_oO}, \lean{Langlandscape.Tree.phiV\_tO} (Step~3),
+\lean{Langlandscape.Tree.phi\_locSurj\_type0}, \lean{Langlandscape.Tree.phi\_locSurj\_type1} (Step~4);
+(i) is \lean{Langlandscape.Tree.surjType0} (every class of $\XB U$ is $[g]$ with $g\in\SL_2(\Qq)$), and
+\lean{Langlandscape.Tree.surjType0\_iff} identifies it with the surjectivity of $\phi_0$;
+\lean{Langlandscape.Tree.surjType0\_of\_BGConnected} ((iii)$\Rightarrow$(i)),
+\lean{Langlandscape.Tree.bijective\_of\_BGConnected} ((iii)$\Rightarrow$ bijections),
+\lean{Langlandscape.Tree.bijective\_of\_surjType0} ((a)), \lean{Langlandscape.Tree.surj\_of\_SA} ((ii)$\Rightarrow$(i)),
+\lean{Langlandscape.Tree.SA\_of\_surj} ((i)$\Rightarrow$(ii)). None of these takes a \texttt{Hyp.*} argument.
+(i)$\Rightarrow$(iii) is \lean{Langlandscape.Tree.BGConnected\_of\_surj}, formalized modulo \texttt{Hyp.BTtree}; the ``in particular''
+is \lean{Langlandscape.Tree.BGConnected\_of\_SA\_HS}, formalized modulo $\HypSA$, $\HypHS$, \texttt{Hyp.BTtree} (and
+\lean{Langlandscape.Tree.surjType0\_of\_SA\_HS} for (i), modulo $\HypSA$, $\HypHS$ only). The last clause of (b) (image $=$ the
+component of $([1],0)$) also uses connectedness of $\cT_q$; it has no separate Lean declaration (not formalised; it would take
+\texttt{Hyp.BTtree}).
+\emph{Hypothesis on $U$ in Lean} (audit note): all of these except \pathtt{BGConnected\_of\_SA\_HS} and \pathtt{surjType0\_of\_SA\_HS}
+assume only that $U$ is a $q$-level (\texttt{IsQLevel}: $U\le\hat\cO^\times$ of finite index, factoring at $q$), not that $U$ is
+$q$-admissible; the condition $\Nrd U=\Zhat^\times$ is not needed for the proposition, in line with the proof above (Step~2 uses only
+$\Nrd U\subseteq\Zhat^\times$).
+\emph{Deviation from the plan tex (refinement).} The tex's ``Moreover, in all cases the maps are injective and $\phi$ is an isomorphism
+onto the component of $(1,0)$'' is split here into the injectivity/local surjectivity in the statement, (a) ((i)$\Rightarrow$ bijections,
+tree-free) and (b) (union of components, tree-free; single component, with the tree).
+\end{quoted}
+\begin{outline}
+\stproved{} throughout (tree-free except where marked). Write the three cells uniformly as $c\in\{v_0,v_1,e_0\}$ with
+$a_c\in\{1,\alpha,1\}$, $U_c\in\{U,U,U'\}$; then $S_c=\SL_2(\Qq)\cap a_cU_{c,q}a_c^{-1}$ (Lemma~7.3(c),(d)) and $\phi_c(\GU gc)=[ga_c]$.
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item \emph{Transport identity.} For $\gamma\in\GU$, $h\in B_q^\times$: $\gamma_qh=\gamma\cdot h\cdot(\gamma^{(q)})^{-1}$ with
+$(\gamma^{(q)})^{-1}\in U^{(q)}$, so $[\gamma_qh]=[h]$ in $\XB U$ and $\XB{U'}$.
+\item \emph{Well defined}: $gc=g'c$ gives $g^{-1}g'\in S_c$, hence $[g'a_c]=[ga_c]$; $\GU$-invariance is Step~0.
+\item \emph{Injective} (the norm argument): $g'a_c=\beta ga_cu$ with $\beta\in B^\times$, $u\in U_c$ forces
+$\Nrd\beta=\Nrd u^{-1}\in\Q_{>0}\cap\Zhat^\times=\{1\}$ (definiteness), so $\beta\in\GU$ and $a_cu_qa_c^{-1}\in S_c$, i.e.\ $g'c=\beta_qgc$.
+\item \emph{Graph morphism}: $o(ge_0)=gv_0$, $t(ge_0)=g\alpha v_0$ give $\phi\circ\bar o=o\circ\phi_E$, $\phi\circ\bar t=t\circ\phi_E$.
+\item \emph{Local surjectivity}: an edge $[y]$ of $\BG$ at $([g],0)$ has $[y]=[gu_q]$ in $\XB{U'}$ ($u\in U$); splitting
+$u_q=kd$ with $d=\mathrm{diag}(\det u_q,1)\in U'_q$ and $k\in U^1_q$ gives $[y]=\phi_E(\GU gke_0)$ with $o(gke_0)=gv_0$; type~$1$ is
+the same after conjugating by $\alpha$.
+\item \emph{Graph lemma}: the image of a locally surjective morphism is a union of connected components; if the morphism is
+injective it is an isomorphism onto its image; the image of a connected graph is connected.
+\end{enumerate}
+Then: (b) from Steps 2--5 (image contains $\phi_0(\GU v_0)=([1],0)$), and \textbf{[tree]} connectedness of $\cT_q$ for the last
+clause. (iii)$\Rightarrow$(i): a non-empty union of components of a connected graph is everything. (i)$\Rightarrow$(a): every
+type-$1$ vertex and every edge of $\BG$ has an end in the image, so lies in the image by Step~5(1); with Step~2 all three maps are
+bijective. (i)$\Rightarrow$(iii): by (a) and \textbf{[tree]} (the only use of connectedness of $\cT_q$; Lemma~7.3(a), \stcited).
+(i)$\Rightarrow$(ii): $y=\beta gu$ with $g\in B^1_q$; the norm argument gives $\beta\in B^1$, $u\in U^1$, so $y\in B^1(B^1_q\times U^{1,(q)})$.
+(ii)$\Rightarrow$(i): by (SA$_U$) every $y\in\Bhat^1$ is $\beta hu$ with $h\in B^1_q$, so $[y]=[h]=\phi_0(\GU hv_0)$. The ``in particular'':
+Thm.~7.7 (\stcited) gives (SA$_U$) and Hasse--Schilling (\stcited) the surjectivity of $\Xone(U)\to\XB U$, i.e.\ (ii).
+
+\emph{The finite check.} Condition (iii) is decidable from the finite graph $\BG(U,q)$. As a computation (not a proof of any
+general statement), connectivity holds in all $240$ cases of the stage-02 validation run ($D\le53$, $q\le13$, maximal,
+$\Uzero M$ and, for $D\le23$, $\Uone N$ levels), together with the fibre counts and mass formula of Remark~7.11: \stcomp,
+\res{s02/validation.json}.
+\end{outline}
+
+\begin{quoted}{Proposition}{7.10}{57}{prop:s02-quot}{quotient graph; seed Prop.~quot}{chapters/s02/2-quotient.tex}\label{rpt:prop:s02-quot}
+Let $U$ be $q$-admissible and assume (iii) of Prop.~7.9. By Prop.~7.9 this holds given
+Thm.~7.7, Hasse--Schilling \emph{and} the connectedness of $\cT_q$ (Lemma~7.3(a), \stcited; \textbf{[tree]}):
+$\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}\Rightarrow$ (iii) (Lean \pathtt{Tree.BGConnected\_of\_SA\_HS}, which takes \texttt{Hyp.BTtree});
+the bijections of (a) need only $\HypSA\wedge\HypHS$. As hypotheses, SA alone does not suffice.
+(iii) itself is the working hypothesis here.
+\begin{enumerate}[label=(\alph*)]
+\item There are bijections
+  \begin{gather*}
+    \GU\backslash\{\text{type-}0\text{ vertices}\}\ \xrightarrow{\ gv_0\mapsto[g]\ }\ \XB{U},\\
+    \GU\backslash\{\text{type-}1\text{ vertices}\}\ \xrightarrow{\ g\alpha v_0\mapsto[g\alpha]\ }\ \XB{U},\\
+    \GU\backslash\{\text{edges}\}\ \xrightarrow{\ ge_0\mapsto[g]\ }\ \XB{\Uzero{q}U}
+  \end{gather*}
+  ($g\in B^1_q$). Under these bijections the endpoint maps $o,t$ become $s_0,s_1$. In other words,
+  $\GU\backslash\cT_q\cong\BG(U,q)$ as graphs.
+\item For $g\in B^1_q$, $\Stab_{\GU}(gv_0)=\Gamma_g$ (level $U$), $\Stab_{\GU}(g\alpha v_0)=\Gamma_{g\alpha}$
+  (level $U$) and $\Stab_{\GU}(ge_0)=\Gamma_g$ (level $\Uzero{q}U$). For another representative
+  $x'=\gamma xu$ one has $\Gamma_{x'}=\gamma\Gamma_x\gamma^{-1}$. Each $\Gamma_x$ has norm $1$
+  (Lemma~1.7(a)), so it lies in $\GU$ after conjugation.
+\item Let $T$ be any Hecke operator supported away from $q$ ($T_\ell,S_\ell,U_\ell$ for $\ell\mid M$,
+  $\langle d\rangle$, $U_p$ with the normalisation $\NUp$ of stage 01, and $\Pi_\ell$ for $\ell\mid D$),
+  acting compatibly on levels $U$ and $\Uzero{q}U$. Then $s_0^*,s_1^*,s_{0*},s_{1*}$ commute with $T$ on
+  Brandt modules $\Brandt{\cdot}{V}$ and on their homological versions (on $\Brandt{\cdot}{V}$, $s_{j*}$ means the trace
+  $\mathrm{tr}_j$ of Def.~7.13).
+\end{enumerate}
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent\emph{Status.} (a): \stproved{} given (iii); \stpmc{} via Thm.~7.7 and Hasse--Schilling (through
+(ii)$\Rightarrow$(i)$\Rightarrow$(a), which does not use connectedness of the tree). (b): \stproved; \emph{refinement of the plan tex} (which has ``given (iii)''): the three stabiliser identities
+hold for every $g\in B^1_q$ without (iii); (iii) is used only to know that every class of $\XB U$, $\XB{U'}$ has such a tree
+representative. (c): \stproved{} (unconditional).
+\end{quoted}
+\begin{outline}
+\begin{enumerate}
+\item (a) \stproved{} given (iii): it is (iii)$\Rightarrow$(i)$\Rightarrow$ bijections of Prop.~7.9, with $o,t\leftrightarrow s_0,s_1$ from
+Step~3 there. \stformal{} given (iii) (\pathtt{Langlandscape.Tree.quotVEquiv}, \pathtt{Langlandscape.Tree.quotEEquiv}) and modulo
+$\HypSA$, $\HypHS$ without \texttt{Hyp.BTtree} (\pathtt{Langlandscape.Tree.quotVEquiv\_of\_SA\_HS}).
+\item (b) \stproved: with $x=ga_c$, $\Stab_{\SL_2(\Qq)}(gc)=\SL_2(\Qq)\cap x_qU_{c,q}x_q^{-1}$ by Lemma~7.3(c); an element of $\GU$
+fixing $gc$ therefore lies in $B^\times\cap xU_cx^{-1}=\Gamma_x$; conversely $\gamma\in\Gamma_x$ has norm $1$ (Lemma~1.7(a)), lies in $\GU$
+and fixes $gc$. No (iii) is used for the identities themselves. \stformal{} (\pathtt{Langlandscape.Tree.stab\_ge0\_eq\_Gam} and the
+two vertex versions).
+\item (c) \stproved: all four maps are double-coset operators $[W_1gW_2]$ with $g\in\{1,\alpha,\alpha^{-1}\}$ and representatives
+supported at $q$ with $p$-component $1$; the Hecke operator has representatives $h_i$ supported on a finite set $\Sigma\not\ni q$,
+the same at both levels (this is what ``acting compatibly'' means; it uses $U=U_\Sigma\times U^\Sigma$, true for the standard
+factorisable levels). Disjoint supports give $g_jh_i=h_ig_j$, whence commutation. \stformal{} only for trivial coefficients and the
+pull/push maps (\pathtt{Langlandscape.Tree.heckeT\_comm\_s1Pull}, \pathtt{Langlandscape.Tree.heckeTHom\_comm\_s1Push}, \dots); the
+traces, general $V$ and $\Pi_\ell$ are not formalised.
+\end{enumerate}
+Remark~7.11 adds, given (iii), that $\{\pm1\}\cap U$ is exactly the kernel of the action, and the fibre counts
+$\sum_{[y]\in s_j^{-1}[x]}|\Gamma_x|/|\Gamma_y|=q+1$ (\stproved{} given (iii)).
+\end{outline}
+
+\begin{quoted}{Proposition}{7.18}{65}{prop:s02-coh}{seed Prop.~coh}{chapters/s02/3-cohomology.tex}\label{rpt:prop:s02-coh}
+Let $U$ be $q$-admissible and assume (iii) of Prop.~7.9.
+\begin{enumerate}[label=(\alph*)]
+\item For every $\GU$-module $A$ there are long exact sequences
+  \[\cdots\to\textstyle\bigoplus_{e}H_i(\Gamma_e,A)\to\bigoplus_{v}H_i(\Gamma_v,A)\to H_i(\GU,A)\to
+  \bigoplus_eH_{i-1}(\Gamma_e,A)\to\cdots\]
+  and dually for $H^i$, where $v$ and $e$ run over representatives of the vertex and edge orbits. The maps
+  $H_i(\Gamma_e)\to H_i(\Gamma_v)$ are induced by inclusion $\Gamma_e\subseteq\Gamma_{t(e)}$ if $t(e)=\gamma v$ and by minus the inclusion $\Gamma_e\subseteq\Gamma_{o(e)}$ if $o(e)=\gamma v$, in each case composed with conjugation $c_{\gamma^{-1}}:\gamma\Gamma_v\gamma^{-1}\to\Gamma_v$ by the $\gamma\in\GU$ in question (the representatives cannot always be chosen with $\gamma=1$ when $\BG$ has cycles), and are $0$ if $v$ is not in the orbit of an end of $e$;
+  dually $H^i(\Gamma_v)\to H^i(\Gamma_e)$ is restriction if $v=t(e)$ and minus restriction if $v=o(e)$.
+\item Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Then
+  $p\nmid|\Gamma_x|$ (Lemma~1.7(c)), and $H^*(\GU,V)$ is the cohomology of
+  \[0\to\Brandt{U}{V}^{\oplus2}\xrightarrow{\ \delta:\ (f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0\ }\Brandt{\Uzero{q}U}{V}\to0\]
+  (degrees $0,1$). $H_*(\GU,V)$ is the homology of
+  $0\to\Brandt{\Uzero{q}U}{V}_*\xrightarrow{\partial=(-s_{0*},\,s_{1*})}(\Brandt{U}{V}_*)^{\oplus2}\to0$ (degrees $1,0$).
+  In particular $H^i=H_i=0$ for $i\ge2$.
+\item Assume in addition that $U$ is \emph{factorisable at $p$}, $U=U_p\times U^{(p)}$ (true for all standard levels,
+  Def.~1.2). Then $H_0(\GU,V)=V_{U_p^1}$, the coinvariants under $U_p^1=U_p\cap\ker\det$.
+\item Assume $U$ factorisable at $p$ as in (c). For $V=V_k$ with $k>2$: $H^0(\GU,V_k)=0$, $H_0(\GU,V_k)$ is finite, and
+  $\rk_{\Zp}H_1(\GU,V_k)=\rk\Brandt{\Uzero{q}U}{V_k}-2\rk\Brandt{U}{V_k}$.
+\end{enumerate}
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent (a) \stcited{} \cite[II.2.8, Prop.~13 and Remark~1, pp.~126--127]{Se}; equivalently the equivariant
+spectral sequence \cite[VII.7, (7.10), p.~174 ($E^1$); VII.8, p.~175ff.\ ($d^1$)]{Br}; Brown gives $d^1$ only up to sign (the orientation character is trivial for an action without inversion on a tree), so the signs are taken from Serre. (b) \stpmc{} given (iii) (it uses Lemma~7.17,
+i.e.\ Lemma~7.3(a) and Shapiro's lemma, both cited, but not the sign Remark of (a)). For trivial coefficients $R$,
+(b) is registered in Lean as the hypothesis \lean{Langlandscape.Hyp.SerreCoh} ($H_1\cong\ker\partial$, $H_0\cong\coker\partial$ when all
+$|\Gamma_x|$ are units in $R$); this is a registered hypothesis, not a proof.
+The combinatorial part, $\ker(\mathrm{tr}_0,\mathrm{tr}_1)=\nu'(\ker\partial)$, is \stproved{} and, for $V=R$, \stformal{}
+\lean{Langlandscape.Tree.qNewEquivKerPartial}; $\partial$ is the boundary of $\BG(U,q)$ by
+\lean{Langlandscape.Tree.partialHom\_eq\_boundary}. (c), (d) \stpmc{}: they need the density of $\GU$ in
+$U^1_p$, i.e.\ Thm.~7.7; a single-level hypothesis (iii) is not enough (deviation D3). The factorisability at $p$ is needed
+for the density: for non-factorisable $U$ the closure of $\GU$ in $U_p$ is the projection of $U^{1,(q)}$, which can be a proper subgroup of $U^1_p$
+(factorisability is not implied by $q$-admissibility; the plan tex omits it).
+\end{quoted}
+\begin{outline}
+\begin{enumerate}
+\item (a) \stcited: Serre's Prop.~13 for $\GU$ acting without inversion on the tree, i.e.\ the long exact sequence of
+$0\to C_1\otimes A\to C_0\otimes A\to A\to0$ (exact because $\cT_q$ is a tree, \cite[II.2.8, p.~126]{Se}) combined with Shapiro's lemma.
+\item \emph{Cell modules} (main.pdf, Lemma~7.17; (a),(b) \stproved{} given (iii), (c) \stcited{} \cite[III.5.6(a), p.~69 and III.6.2, p.~73]{Br}).
+By the transport identity, $ge_0\otimes v\mapsto[g]\otimes v$ and $gv_0\otimes v\mapsto([g]\otimes v,0)$, $g\alpha v_0\otimes v\mapsto(0,[g\alpha]\otimes v)$
+induce $(C_1\otimes V)_{\GU}\cong\Brandt{U'}{V}_*$, $(C_0\otimes V)_{\GU}\cong(\Brandt UV_*)^2$, dually $\Hom_{\GU}(C_j,V)$ are the
+cohomological Brandt modules; bijectivity uses the orbit bijections and stabilisers of Prop.~7.10(a),(b). Under these, $\partial\otimes1$
+becomes $(-s_{0*},s_{1*})$ and $\partial^*$ becomes $\delta$ (signs re-derived directly in degree $0$).
+\item (b) \stpmc{} given (iii): all $|\Gamma_\sigma|$ divide $24$ and $p\ge5$, so $H_i(\Gamma_\sigma,V)=0=H^i(\Gamma_\sigma,V)$ for $i\ge1$; by
+Shapiro the long exact sequence collapses to $0\to H_1(\GU,V)\to(C_1\otimes V)_{\GU}\to(C_0\otimes V)_{\GU}\to H_0(\GU,V)\to0$ and
+$H_i=0$ for $i\ge2$; transport by step~2.
+\item (c) \stpmc: from Thm.~7.7 and $U=U_p\times U^{(p)}$, the image of $\GU$ in $U^1_p$ is dense (an open $W\times U^{1,(p,q)}$ meets $B^1$);
+$I=\langle(\gamma_p-1)v\rangle$ is closed in the finitely generated $V$, so $V_{\GU}=V_{U_p^1}$.
+\item (d) \stpmc: $U^1_p$ contains $p^m$-congruence unipotents of both kinds, which have no common invariant in $V_k\otimes\Qp$
+($k>2$); self-duality of $\Sym^{k-2}$ handles coinvariants; then (b) and additivity of ranks, with $\rk\Brandt\cdot{V_k}_*=\rk\Brandt\cdot{V_k}$.
+\end{enumerate}
+\end{outline}
+
+\begin{quoted}{Proposition}{7.19}{66}{prop:s02-harm}{harmonic cochains; seed Prop.~harm}{chapters/s02/3-cohomology.tex}\label{rpt:prop:s02-harm}
+Under the hypotheses of Prop.~7.18(b), let $c$ be a function on oriented edges with values in $V$
+such that $c(\gamma e)=\gamma_p\,c(e)$ for $\gamma\in\GU$, $c(\bar e)=-c(e)$, and $\sum_{o(e)=v}c(e)=0$ for all
+$v$. The $\GU$-invariant $V$-valued harmonic cochains of this kind are
+\[\ker\Big(\Brandt{\Uzero{q}U}{V}\xrightarrow{(\mathrm{tr}_0,\,\mathrm{tr}_1)}\Brandt{U}{V}^{2}\Big)\ \cong\ H_1(\GU,V),\]
+with the trace maps $\mathrm{tr}_j$ (the plan's ``$s_{j*}$'') of Def.~7.13. If $-1\in U$, assume $-1$ acts trivially on $V$
+(the standing hypothesis of Def.~7.13, needed for $\nu$); otherwise replace $V$ by $V^+$, as $V^-$ contributes $0$ to both sides
+(Remark~7.15). This is the \emph{$q$-new} submodule of the Brandt
+module of level $\Uzero{q}U$; the term is defined here as this kernel. The isomorphism is $\nu_{U'}^{-1}$ followed by
+Prop.~7.18(b), $H_1(\GU,V)=\ker\partial$.
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent The description of the harmonic cochains as $\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ is \stproved{} given (iii); the isomorphism with
+$H_1(\GU,V)$ is \stpmc{} given (iii) (via Prop.~7.18(b); registered in Lean as hypothesis \pathtt{Hyp.SerreCoh}). (In
+the sum, ``$o(e)=v$'' runs over all oriented edges with origin $v$, in both orientation classes.)
+\emph{Lean status.} For trivial coefficients $V=R$ the $q$-new module $\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ is
+\lean{Langlandscape.Tree.qNew}, and $\nu_{U'}:\ker\partial\cong\ker(\mathrm{tr}_0,\mathrm{tr}_1)$ is \stformal{}
+\lean{Langlandscape.Tree.qNewEquivKerPartial} (also \lean{Langlandscape.Tree.normMap\_restrict\_bijective}), assuming all $w_x$
+at level $U$ are units in $R$ (remark below); no (iii) is needed for it. The identification with harmonic cochains on the tree is not
+formalised.
+\end{quoted}
+\begin{outline}
+\begin{enumerate}
+\item \stproved{} given (iii): alternating $\GU$-equivariant cochains are $\Hom_{\GU}(C_1,V)\cong\Brandt{U'}{V}$ via $c(ge_0)=f(g)$ (Lemma~7.17(a)).
+\item At a type-$0$ vertex $gv_0$ the $q+1$ edges are $gue_0$, $u\in\SL_2(\Zq)/(\SL_2(\Zq)\cap\Iw_q)\cong U/U'$ with $u_p=1$, so the
+harmonicity sum is $(\mathrm{tr}_0f)(g)$; at $g\alpha v_0$ the outgoing oriented edges are the reverses of $g\alpha k\alpha^{-1}e_0$, and the sum
+is $-(\mathrm{tr}_1f)(g\alpha)$. By (iii) tree representatives exhaust $\XB U$, so harmonic $\Leftrightarrow f\in\ker(\mathrm{tr}_0,\mathrm{tr}_1)$.
+\item $\nu_U,\nu_{U'}$ are isomorphisms ($p\ge5$) and $\nu_U s_{j*}=\mathrm{tr}_j\nu_{U'}$ (Prop.~7.14(c),(d), \stproved), so
+$\nu_{U'}(\ker\partial)=\ker(\mathrm{tr}_0,\mathrm{tr}_1)$; then $\ker\partial=H_1(\GU,V)$ by Prop.~7.18(b) (\stpmc).
+\end{enumerate}
+For $V=R$ the Lean statement only needs the weights at level $U$ to be units, since $w_e\mid w_{s_0e}$.
+\end{outline}
+
+\begin{quoted}{Proposition}{7.22}{68}{prop:s02-indefprops}{properties of the tree model}{chapters/s02/3-cohomology.tex}\label{rpt:prop:s02-indefprops}
+Assume (iii) of Prop.~7.9.
+\begin{enumerate}[label=(\alph*)]
+\item $\cX^{(q)}_{Dq}(U)$ is free and equals $H_1(\GU,\Z)/\mathrm{torsion}$; the torsion of $H_1(\GU,\Z)$ is the finite group
+  $\coker\big(\bigoplus_eH_1(\Gamma_e,\Z)\to\bigoplus_vH_1(\Gamma_v,\Z)\big)$, killed by $24$ (Prop.~1.6; Remark~7.23).
+\item $\cX^{(q)}_{Dq}(U)\otimes\Zp=\cX^{(q)}_{Dq}(U;\Zp)$ for $p\ge5$ ($\Zp$ with trivial action).
+\item $\rk\cX^{(q)}_{Dq}(U)=|\XB{\Uzero{q}U}|-2|\XB{U}|+1$.
+\item At a free level (Prop.~7.20), $\rk\cX^{(q)}_{Dq}(U)=(q-1)|\XB{U}|+1$ and
+  $\rk\cX^{(q)}_{Dq}(U;V_k)=(q-1)(k-1)|\XB{U}|$ for $k>2$. The second formula is false at non-free levels in general, where
+  $\rk\Brandt{U}{V_k}<(k-1)|\XB U|$ is possible; there one only has Prop.~7.18(d).
+\end{enumerate}
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent (a) \stpmc{} (Prop.~7.18(a)). (b) \stpmc{} given (iii) (via Prop.~7.18(b)). (c) \stproved{} given (iii). (d) \stpmc{} given (iii), using only Prop.~7.20(a) (Serre's
+freeness theorem), not Thm.~7.7. \emph{Lean status.} (c) \stformal{} \lean{Langlandscape.Tree.finrank\_Xindef\_of\_connected}
+(given \texttt{BGConnected}, i.e.\ (iii); the rank as $\Z$-\texttt{finrank}), from the graph lemma
+\lean{Langlandscape.Graph.finrank\_H1\_of\_connected} (any domain $R$) and \lean{Langlandscape.Graph.range\_boundary\_of\_connected}.
+(a), (b), (d) are not formalised.
+\end{quoted}
+\begin{outline}
+\begin{enumerate}
+\item (a) \stpmc: Prop.~7.18(a) with $A=\Z$ gives $0\to C\to H_1(\GU,\Z)\to H_1(\BG,\Z)\to0$, $C$ the stated cokernel (the last map
+$\bigoplus_eH_0(\Gamma_e)\to\bigoplus_vH_0(\Gamma_v)$ is $\partial$ of $\BG$); $C$ is finite of exponent dividing $24$, $H_1(\BG,\Z)$ is free, so the
+sequence splits.
+\item (b) \stpmc{} given (iii): flatness of $\Zp$ over $\Z$ and Prop.~7.18(b) for trivial $V=\Zp$.
+\item (c) \stproved{} given (iii): $H_1$ of a finite connected graph has rank $|E|-|V|+1$, $|V|=2|\XB U|$, $|E|=|\XB{U'}|$.
+\item (d) \stpmc{} given (iii): at a free level $|\XB{U'}|=(q+1)|\XB U|$ (Prop.~7.20(b)); for $V_k$, ranks of the two-term complex give
+$\rk H_1=(k-1)(q-1)|\XB U|+\rk H_0$, and $H_0\otimes\Qp=0$ \emph{without} SA: $\GU$ is free of rank $\ge2$ (Serre's freeness theorem, cited),
+two non-commuting elements of $\GU\subseteq B^1$ are regular semisimple of infinite order at $p$, with no common invariant line in
+$\Sym^{k-2}$; self-duality gives the coinvariants.
+\end{enumerate}
+\end{outline}
+
+\noindent\emph{Omitted secondary statements} (statuses from the chapter): Prop.~7.14 (properties of the Brandt-module maps;
+\stproved; Lean: formalized in part, only (d) for $V=R$, audited, Table~L1), Prop.~7.16 (the two pairings, $\delta=\partial^{\mathsf T}$ for naive evaluation and the
+weighted adjoint $s_1^!b_1-s_0^!b_0$ for the Brandt pairing; \stproved; Lean: formalized in part, only the pushforward identity of (a), audited, Table~L1), Prop.~7.20 (the free case: (a) $\GU$ free
+of rank $(q-1)|\XB U|+1$ and $\GU\cong\pi_1(\BG(U,q))$, \stpmc{} \cite[I.3.3, Thm.~4 and 4$'$, p.~27; II.1.5, Thm.~4, p.~82]{Se}, Lean
+hypothesis \pathtt{Hyp.SerreFree}; (b) $|\XB{\Uzero qU}|=(q+1)|\XB U|$ and $H_*(\GU,A)=H_*(\BG,A)$, \stproved{} given (iii) and
+Lemma~7.3(a), the count \stformal{} \pathtt{Langlandscape.Tree.card\_XB\_U0q\_of\_free}), Remarks~7.11, 7.12 (index bookkeeping;
+why norm one: the full $S$-arithmetic group gives one copy of $\XB U/\langle q\rangle$ with the types mixed, the norm-one group
+two copies of $\XB U$, which the Ribet sequence needs), Remark~7.23 (torsion, \stcomp), Remark~7.24 (\v{C}erednik--Drinfeld,
+\stcited{} \cite{BC}, never used).
+
+\endgroup
+
+\subsubsection*{What this stage does not prove}
+\begin{itemize}
+\item \emph{Strong approximation} (Thm.~7.7) is \stcited; the appendix proof (Thm.~7.34) is \stpmc{} modulo Hasse--Minkowski over
+$\Q$ (\stcited); in Lean it is the open registered hypothesis $\HypSA$. Per explicit level it is replaced by the finite check (iii)
+of Prop.~7.9; for statements about all levels of a tower (stage 04) connectivity still comes from $\HypSA$, $\HypHS$ (and, for
+(i)$\Rightarrow$(iii), $\mathrm{Hyp.BTtree}$).
+\item \emph{Hasse--Schilling} $\Nrd(B^\times)=\Q_{>0}$ (Lemma~7.6(b)) is \stcited{} (Lean: $\HypHS$, open).
+\item \emph{The tree property} of $\cT_q$ (Lemma~7.3(a)) is \stcited{} (Lean: \texttt{Hyp.BTtree}, open in this project; formalised
+elsewhere on another Lean version \cite{LM}).
+\item \emph{Serre's long exact sequence} (Prop.~7.18(a)) and Shapiro's lemma are \stcited; the identification
+$H_1(\GU,V)=\ker\partial$ is \stpmc{} and enters Lean as the open hypothesis \pathtt{Hyp.SerreCoh}; Serre's freeness theorem is
+\pathtt{Hyp.SerreFree}.
+\item \emph{Not formalised}: the derivation of (SA$_U$) from density; the last clause of Prop.~7.9(b); the traces $\mathrm{tr}_j$,
+general coefficients $V$ and $\Pi_\ell$ in Prop.~7.10(c); Prop.~7.18(c),(d); the harmonic-cochain identification in Prop.~7.19;
+Prop.~7.22(a),(b),(d); the lattice model of the tree.
+\item The homological $U_p$ on $\Brandt\cdot V_*$ for general $V$ is not spelled out in this stage; its $\nu$-transform is imported
+from stage 01 (main.pdf, Def.~7.21). The \v{C}erednik--Drinfeld description of the character group is cited and never used.
+\end{itemize}

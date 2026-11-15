@@ -1,0 +1,722 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolII/Kernel.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% Mirrored from A (M4 W1a); formal blocks follow from G1 on.
+
+\chapter{The kernel and its decompositions}\label{ch:ch-03-kernel}
+
+\noindent\emph{Scope:} area \texttt{kernel}. \emph{Sources:} \cite[§§1--2]{A-I}; \cite[§§4, 6, 7, 10, 12]{AIntro}; \cite[Lectures II--III]{Gel}; \cite[§§1--3]{A-R1}.
+
+
+\section{\texorpdfstring{The kernel of $R(f)$}{The kernel of R(f)}}\label{sec:kernel-kernel}
+
+\begin{definition}[the kernel]
+\tfstmt{II.kernel.def:kernel}
+\lean{GL2TF.kernel}
+\uses{I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one}
+\end{definition}
+\begin{tfformal}{II.kernel.def:kernel}
+\tfsem{II.kernel.def:kernel}{7b3a40efe305d3fb28ffedd761b957bb91ddfc25cff1cfa7ac4d37e7835f9c5e}
+\tfhyps{II.kernel.def:kernel}{}
+\tfbinder{II.kernel.def:kernel}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:kernel}{1}{f9c94f64}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:kernel}{2}{11894aa1}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\texttt{kernel f x y} is the \texttt{tsum} $\sum'_{\gamma\in G(\Q)}f(x^{-1}\gamma y)$ over the subtype $G(\Q)\le G(\A)^1$ (\texttt{gl2RatNormOne}), with the group operations of $G(\A)^1$ (summability in the sense of Mathlib, value $0$ if not summable: the convention of A). The function $f$ is arbitrary; continuity and compact support enter only in \cref{II.kernel.thm:kernel-locally-finite}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[local finiteness of the kernel]
+\tfstmt{II.kernel.thm:kernel-locally-finite}
+\lean{GL2TF.kernel_locally_finite}
+\uses{II.kernel.def:kernel, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, I.adele.lem:finadele-topological-ring-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:kernel-locally-finite}
+\tfsem{II.kernel.thm:kernel-locally-finite}{733c617d03a5d3e14727be3db2bbb0db6965932cab97b0b96bface8aef938e3d}
+\tfhyps{II.kernel.thm:kernel-locally-finite}{}
+\tfbinder{II.kernel.thm:kernel-locally-finite}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:kernel-locally-finite}{1}{7ac0e291}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:kernel-locally-finite}{2}{9158493d}{the assumption that $f$ has compact support (A: ``compact support'')}
+\begin{tffidelity}
+A conjunction of the four parts: (a) for compact $C\subseteq G(\A)^1$ the set $\{\gamma:\exists x,y\in C,\ f(x^{-1}\gamma y)\ne0\}$ is \texttt{Set.Finite}; (b) the map $(x,y)\mapsto\texttt{kernel f x y}$ is continuous on the product; (c) $K_f(\delta x,\delta'y)=K_f(x,y)$ for $\delta,\delta'\in G(\Q)$; (d) for compact $C$ there are $c\ge0$ and a compact $C'$ with $\norm{K_f(x,y)}\le c$ for $x\in C$, all $y$, and $K_f(x,y)\ne0$, $x\in C$ implies $y=\delta y'$ with $\delta\in G(\Q)$, $y'\in C'$, i.e.\ $y\in G(\Q)C'$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) The set is the image of the compact set $C\times\operatorname{supp}f\times C$ under $(x,z,y)\mapsto xzy^{-1}$ (\texttt{kernel\_finite}); if $f(x^{-1}\gamma y)\ne0$ then $\gamma=x\,(x^{-1}\gamma y)\,y^{-1}$ lies in this compact set, and a discrete subgroup meets a compact set in a finite set (\texttt{finite\_gl2RatNormOne\_inter}: $G(\Q)\cap G(\A)^1$ is closed and discrete, so its intersection with a compact set is compact and discrete, hence finite). (b) Near $(x_0,y_0)$ take compact neighbourhoods $C_1,C_2$ and $C=C_1\cup C_2$; by (a) the $\gamma$ with a non-zero term for $x,y\in C$ form a finite set $F$, so $K_f(x,y)=\sum_{\gamma\in F}f(x^{-1}\gamma y)$ on $C\times C$, a finite sum of continuous functions (\texttt{kernel\_eventually\_finite\_sum}, \texttt{kernel\_continuous}). (c) Reindex the \texttt{tsum} by the bijection $\gamma\mapsto\delta^{-1}\gamma\delta'$ of $G(\Q)\cap G(\A)^1$ (\texttt{kernel\_invariant}). (d) (D-L1-9, adopted by A.) The proof counts the non-zero terms. Put $C'=C\cdot\operatorname{supp}f$ (compact) and $F_0=G(\Q)\cap C'C'^{-1}$ (finite by the argument of (a)). If $f(x^{-1}\gamma_0y)\neq0$ then every $\gamma$ with a non-zero term has $\gamma y$ and $\gamma_0y$ in $C'$ (\texttt{hmem}), so $\gamma\gamma_0^{-1}\in F_0$. Hence at most $|F_0|$ terms are non-zero, uniformly in $y$, and $|K_f(x,y)|\le|F_0|\cdot\sup|f|$ (\texttt{kernel\_bound}). If $K_f(x,y)\ne0$, some term is non-zero, and $\gamma_0y\in C'$ gives $y\in G(\Q)C'$. (a)--(d) are as in A.
+\end{proof}
+
+\begin{definition}[the kernel on the quotient]
+\tfstmt{II.kernel.def:kernel-quotient}
+\bonly
+\lean{GL2TF.kernelQuotient}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.kernel.def:kernel}
+\end{definition}
+\begin{tfformal}{II.kernel.def:kernel-quotient}
+\tfsem{II.kernel.def:kernel-quotient}{1637d4926b1e6e7b5f84b22c1097db741a4fa9f35080e31c4e2f8ba16a5fd32f}
+\tfhyps{II.kernel.def:kernel-quotient}{}
+\tfbinder{II.kernel.def:kernel-quotient}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:kernel-quotient}{1}{e947e9a6}{the class $\dot x\in G(\Q)\backslash G(\A)^1$}
+\tfbinder{II.kernel.def:kernel-quotient}{2}{de5b3b5b}{the class $\dot y\in G(\Q)\backslash G(\A)^1$}
+\begin{tffidelity}
+B-only. \texttt{kernelQuotient f x y = kernel f x.out y.out} with the representatives chosen by \texttt{Quotient.out}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$R(f)$ is an integral operator]
+\tfstmt{II.kernel.thm:integral-operator}
+\lean{GL2TF.integral_operator}
+\uses{II.kernel.def:kernel, I.rep.def:automorphic-test-function-action, I.quot.def:automorphic-quotient-measure, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.topgrp.def:norm-one-group, II.kernel.def:kernel-quotient, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.lem:finadele-topological-ring-instance, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:automorphic-right-action, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:automorphic-quotient-invariant-instance, I.quot.lem:automorphic-right-action-continuous-instance, I.quot.lem:gl2-rat-norm-one-discrete, I.quot.thm:automorphic-quotient-second-countable, I.red.lem:automorphic-quotient-finite-instance, I.rep.def:automorphic-regular-rep, I.rep.def:integrated-rep, I.rep.def:right-regular-rep, I.rep.lem:automorphic-regular-apply, I.rep.lem:integrated-rep-bounded, I.rep.thm:automorphic-regular-unitary, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.quot.def:quotient-measure, X.quot.thm:unfolding-discrete}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:integral-operator}
+\tfsem{II.kernel.thm:integral-operator}{6032923bcaf52364e304cd3eac79d78eef8b95704c0b2dc855156d3d4797c88c}
+\tfhyps{II.kernel.thm:integral-operator}{}
+\tfbinder{II.kernel.thm:integral-operator}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.kernel.thm:integral-operator}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{II.kernel.thm:integral-operator}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:integral-operator}{3}{3e157d78}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:integral-operator}{4}{9fa2c18f}{the assumption that $f$ has compact support (A: ``compact support'')}
+\tfbinder{II.kernel.thm:integral-operator}{5}{80548d9a}{the vector $\varphi\in L^2(G(\Q)\backslash G(\A)^1)$}
+\begin{tffidelity}
+The descended kernel $K_f(\dot x,\dot y)$ is the B-only \cref{II.kernel.def:kernel-quotient} (through chosen representatives; independent of the choice by \cref{II.kernel.thm:kernel-locally-finite}(c)). $R(f)\varphi$ is \texttt{automorphicTestAction μ f φ} (\texttt{I.rep.def:automorphic-test-function-action}). The statement is a conjunction: for every class $\dot x$ the function $\dot y\mapsto K_f(\dot x,\dot y)\varphi(\dot y)$ is integrable for \texttt{automorphicQuotientMeasure μ} (for a representative \texttt{↑↑φ} of $\varphi\in L^2$); and for almost every $\dot x$ the class of $R(f)\varphi$ at $\dot x$ equals the integral $\int K_f(\dot x,\dot y)\varphi(\dot y)\,\dd\dot y$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence D-L1-10.} The proof uses the vol.\ I item \texttt{I.rep.thm:automorphic-regular-unitary} (strong continuity of the regular representation, for the Bochner integrability of $y\mapsto f(y)R(y)\varphi$ in \texttt{integratedRep\_bounded}). The proof has three steps.
+
+\emph{Integrability.} By \cref{II.kernel.thm:kernel-locally-finite}(d) with $C=\{x\}$ (\texttt{kernelQuotient\_bound}), $\dot y\mapsto K_f(\dot x,\dot y)$ is continuous (\texttt{continuous\_kernelQuotient}, via \texttt{kernelQuotient\_mk}: the value is independent of the representative of $\dot y$ by (c)) and bounded by a constant, and $\varphi\in\Ltwo\subseteq L^1$ because the quotient measure is finite (the vol.\ I item \texttt{I.red.lem:automorphic-quotient-finite-instance}); a bounded measurable function times an $L^1$ function is integrable (\texttt{integrable\_kernel\_mul}).
+
+\emph{Pointwise form of $R(f)\varphi$.} As in A (D-L1-10, A fixed), the proof identifies $R(f)\varphi$ with $\Phi(\dot x)=\int f(y)\varphi(\dot xy)\,\dd\mu^1(y)$ by testing only against indicators $1_E$ of Borel sets (\texttt{automorphicTestAction\_ae\_eq}); then $\langle 1_E,R(f)\varphi\rangle=\int_ER(f)\varphi$ and only $\Phi\in L^1$ is needed. $\Phi\in L^1(X)$ follows by Fubini from $\int\!\!\int|f(y)||\varphi(\dot xy)|=\norm f_1\norm\varphi_1$ on the finite-measure quotient (\texttt{integrable\_rightAction\_prod}, using that $\dot x\mapsto\dot xy$ preserves the quotient measure). Then $R(f)\varphi=\int f(y)R(y)\varphi\,\dd y$ (Bochner integral in $\Ltwo$, \texttt{integratedRep\_bounded}), pairing with $1_E$ commutes with the integral (\texttt{integral\_inner}), $\langle 1_E,R(y)\varphi\rangle=\int_E\varphi(\dot xy)$ since $R(y)\varphi=\varphi(\cdot\,y)$ a.e., and the order of the two integrals is swapped by Fubini; so $\int_ER(f)\varphi=\int_E\Phi$ for all $E$ of finite measure, and the two $L^1$ functions agree a.e.\ (uniqueness of densities, \texttt{ae\_eq\_of\_forall\_setIntegral\_eq\_of\_sigmaFinite}).
+
+\emph{Unfolding.} For every $\dot x$, $\int f(y)\varphi'(\dot xy)\,\dd\mu^1(y)=\int_XK_f(\dot x,\dot y)\varphi'(\dot y)\,\dd\dot y$ (\texttt{integral\_rightAction\_eq\_kernel}), for a strongly measurable representative $\varphi'$: substitute $g=x_0^{-1}y$ (left invariance), write $F_2(y)=f(x_0^{-1}y)\varphi'(\dot y)$, and unfold the integral over $G(\A)^1$ to the quotient by $G(\Q)$ (\texttt{unfolding\_discrete}): the fibre sum is $\sum_\gamma f(x_0^{-1}\gamma y)\varphi'(\dot y)=K_f(x_0,y)\varphi'(\dot y)$. Integrability of $F_2$ is the unfolding of $|F_2|$ together with the uniform bound $\sum_\gamma|f(x_0^{-1}\gamma y)|\le c$ (\texttt{kernel\_enorm\_bound}, which applies \cref{II.kernel.thm:kernel-locally-finite}(d) to $|f|$ and $C=\{x_0\}$), and $\varphi'\in L^1$ (A's Cauchy--Schwarz is replaced by this bound and $\Ltwo\subseteq L^1$). Finally the two representatives $\varphi,\varphi'$ agree a.e.\ and the statement follows.
+\end{proof}
+
+\section{Geometric classes and the class kernels}\label{sec:kernel-classes}
+
+\noindent\emph{Lean counterpart:} \texttt{lean/GL2TF/VolII/KernelClasses.lean} (milestone M7a, unit U5). \emph{Conventions.} A geometric class is a pair
+\texttt{c : ℚ × ℚˣ}; its fibre is \texttt{classFibre c ⊆ GL (Fin 2) ℚ}; ``$\gamma$ has class $\mathcal O$'' is \texttt{γ ∈ classFibre c}. Elements of $G(\Q)$ and of
+$N(\A)$ act on $G(\A)^1$ through the B-only homomorphism and map \cref{II.kernel.def:rat-norm-one,II.kernel.def:unip-norm-one}. Sums over infinite index sets are
+\texttt{tsum}s ($0$ if not summable) and integrals Bochner integrals ($0$ if not integrable), as A's conventions.
+
+\begin{definition}
+\tfstmt{II.kernel.def:rat-norm-one}
+\bonly
+\lean{GL2TF.ratNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.kernel.def:rat-norm-one}
+\tfsem{II.kernel.def:rat-norm-one}{6fdb73548c1e7341bc9bb4864ed9ab71694a1c1fad97f467f01b9a6e1f3e4bd0}
+\tfhyps{II.kernel.def:rat-norm-one}{}
+\begin{tffidelity}
+B-only. \texttt{ratNormOne : GL (Fin 2) ℚ →* normOneGroup}, $\gamma\mapsto\iota(\gamma)$ with $\iota$ = \texttt{gl2Map (algebraMap ℚ Adele)}, co-restricted to $G(\A)^1$ (the norm-one splitting of Vol.~I); its image is the B-only \texttt{I.quot.def:gl2-rat-norm-one}. It renders A's ``$G(\Q)\subseteq G(\A)^1$''.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.kernel.def:unip-norm-one}
+\bonly
+\lean{GL2TF.unipNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.kernel.def:unip-norm-one}
+\tfsem{II.kernel.def:unip-norm-one}{31b8d38d9c5b23ae142e8d613a483d00a6af65097ef8b9af34d6acf13b7550fc}
+\tfhyps{II.kernel.def:unip-norm-one}{}
+\tfbinder{II.kernel.def:unip-norm-one}{0}{21f67fc1}{the point $u\in\A$}
+\begin{tffidelity}
+B-only. \texttt{unipNormOne u := ⟨upperRightHom u, …⟩ : normOneGroup}: $n(u)$ as an element of $G(\A)^1$ ($\det n(u)=1$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[geometric classes]
+\tfstmt{II.kernel.def:geometric-class}
+\lean{GL2TF.classFibre}
+\end{definition}
+\begin{tfformal}{II.kernel.def:geometric-class}
+\tfsem{II.kernel.def:geometric-class}{67b9ce762d55cce9f6d6064aa93ab328742cb96065e13fc66ac81cd393fb26a9}
+\tfhyps{II.kernel.def:geometric-class}{}
+\tfbinder{II.kernel.def:geometric-class}{0}{aed448f7}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\begin{tffidelity}
+\texttt{classFibre c := \{γ | trace γ = c.1 ∧ det γ = c.2\}} for \texttt{c : ℚ × ℚˣ}. Only the fibre is the tagged definition: the class itself is the pair $c$ (the type \texttt{ℚ × ℚˣ}); A's identification with $X^2-tX+d$ is the B-only \cref{II.kernel.def:class-polynomial}; ``the class of $\gamma$'' is the pair $(\tr\gamma,\det\gamma)$, i.e.\ the $c$ with $\gamma\in$ \texttt{classFibre c}; the embedding $\mathcal O\subseteq G(\A)$ is through $\iota$ (in this chapter through \cref{II.kernel.def:rat-norm-one}). \emph{Arthur's $\mathcal O$ vs ours:} \cite[§10]{AIntro} defines the classes $\mathfrak o$ as equivalence classes of $G(\Q)$ (semisimple parts conjugate); for $\GL_2$ two elements are equivalent iff they have the same characteristic polynomial, so Arthur's classes are exactly the non-empty fibres here. A pair $(t,d)$ always has a non-empty fibre (the companion matrix), so the two parametrizations agree.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.kernel.def:class-polynomial}
+\bonly
+\lean{GL2TF.classPoly}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-polynomial}
+\tfsem{II.kernel.def:class-polynomial}{e1763efa1b04c2cf1c888195f1f97609bbb5232204bc5745d78ccfbfac3edeaf}
+\tfhyps{II.kernel.def:class-polynomial}{}
+\tfbinder{II.kernel.def:class-polynomial}{0}{aed448f7}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\begin{tffidelity}
+B-only. \texttt{classPoly c := X \^{} 2 - C c.1 * X + C c.2 : ℚ[X]}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.kernel.def:class-type-index}
+\bonly
+\lean{GL2TF.ClassType}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-type-index}
+\tfsem{II.kernel.def:class-type-index}{5fb1faa1faa32a9a91305df3f6960de0770509da60363e90c8db87f574168e8d}
+\tfhyps{II.kernel.def:class-type-index}{}
+\begin{tffidelity}
+B-only. \texttt{inductive ClassType | centralUnipotent | hyperbolic | elliptic} (with \texttt{DecidableEq}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[types of classes]
+\tfstmt{II.kernel.def:class-types}
+\lean{GL2TF.HasClassType}
+\uses{II.kernel.def:class-polynomial, II.kernel.def:class-type-index}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-types}
+\tfsem{II.kernel.def:class-types}{e1b0f41b0e05d95fb871e4c8c2d272cedfbcbb2181111d510521d513c16e4153}
+\tfhyps{II.kernel.def:class-types}{}
+\tfbinder{II.kernel.def:class-types}{0}{aed448f7}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\tfbinder{II.kernel.def:class-types}{1}{b75e27b3}{the type $\tau$ (central-unipotent, hyperbolic or elliptic)}
+\begin{tffidelity}
+One predicate \texttt{HasClassType c : ClassType → Prop} indexed by the B-only \cref{II.kernel.def:class-type-index} instead of three predicates: \texttt{.centralUnipotent ↦ ∃ z : ℚˣ, classPoly c = (X − z)²}, \texttt{.hyperbolic ↦ ∃ a b : ℚˣ, a ≠ b ∧ classPoly c = (X − a)(X − b)}, \texttt{.elliptic ↦ Irreducible (classPoly c)}, as polynomial identities in $\Q[X]$ for the B-only \cref{II.kernel.def:class-polynomial}. The notations $\mathcal O_z$, $\mathcal O_{a,b}$ are A's; Lean names $z$, $a$, $b$ where needed (\cref{II.kernel.thm:semisimple-class-conjugacy}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[trichotomy]
+\tfstmt{II.kernel.thm:class-trichotomy}
+\lean{GL2TF.class_trichotomy}
+\uses{II.kernel.def:class-polynomial, II.kernel.def:class-type-index, II.kernel.def:class-types, II.kernel.def:geometric-class, II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:class-trichotomy}
+\tfsem{II.kernel.thm:class-trichotomy}{81c928c6752e4667086220bff208c3bb9b7967cb5995ff29db80e003713901c7}
+\tfhyps{II.kernel.thm:class-trichotomy}{}
+\begin{tffidelity}
+Two conjuncts: \texttt{∀ c, ∃! τ : ClassType, HasClassType c τ} (exactly one type), and for $\gamma\in$ \texttt{classFibre c}: \texttt{IsElliptic γ ↔ HasClassType c .elliptic} (\texttt{II.orb.def:elliptic}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L2-divergences.md}, item 38: same). $P=X^2-tX+d$ is monic of degree $2$ (\texttt{compute\_degree!}, \texttt{monicity!}). Existence (\texttt{KerAux.type\_exists}): if $P$ has a root $a$, then $a\ne0$ (as $d\ne0$), $b=t-a$ satisfies $ab=d$, $b\ne0$ and $P=(X-a)(X-b)$; the class is central-unipotent if $a=b$ and hyperbolic otherwise; if $P$ has no root it is irreducible (\texttt{irreducible\_of\_degree\_le\_three\_of\_not\_isRoot}). Uniqueness (\texttt{KerAux.type\_unique}): a polynomial with a root is not irreducible (\texttt{degree\_eq\_one\_of\_irreducible\_of\_root}), and $(X-z)^2=(X-a)(X-b)$ with $a\ne b$ is impossible by evaluating at $a$ and at $b$. The last clause: for $\gamma\in\mathcal O$, $P$ is the characteristic polynomial of $\gamma$ (\texttt{Matrix.charpoly\_fin\_two}), so ellipticity of $\gamma$ (\cref{II.orb.def:elliptic}) is irreducibility of $P$.
+\end{proof}
+
+\begin{theorem}[conjugacy within a class]
+\tfstmt{II.kernel.thm:semisimple-class-conjugacy}
+\lean{GL2TF.semisimple_class_conjugacy}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:torus, II.kernel.def:class-polynomial, II.kernel.def:class-type-index, II.kernel.def:class-types, II.kernel.def:geometric-class}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:semisimple-class-conjugacy}
+\tfsem{II.kernel.thm:semisimple-class-conjugacy}{4aa50817bfb6363537135a3f529e082e7f78c6f5799c94bee5f5e74838f09d70}
+\tfhyps{II.kernel.thm:semisimple-class-conjugacy}{}
+\begin{tffidelity}
+Four conjuncts (a)--(d). (a) for $c$ hyperbolic or elliptic and $\gamma\in\mathcal O$: \texttt{classFibre c = \{γ' | ∃ δ, γ' = δ⁻¹ γ δ\}}. (b) is stated for $a\ne b$ with \texttt{classPoly c = (X − a)(X − b)} (i.e.\ $\mathcal O=\mathcal O_{a,b}$): $\mathcal O\cap T(\Q)=\{\diag(a,b),\diag(b,a)\}$ with $\diag$ = \texttt{diagElt} (B-only \texttt{I.conv.def:diag-element}) and $T(\Q)$ = \texttt{torus ℚ}. (c) $\mathcal O\cap B(\Q)=\emptyset$ for $\mathcal O$ elliptic (\texttt{borel ℚ}). (d) for \texttt{classPoly c = (X − z)²}: $\mathcal O=\{z\cdot1\}\cup\{\delta^{-1}(z\,n(1))\delta\}$ with $z\cdot1$ = \texttt{diagElt z z} and $z\,n(1)$ = \texttt{diagElt z z * upperRightHom 1}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L2-divergences.md}, item 39: same). \emph{Companion form} (\texttt{KerAux.conj\_companion}): for non-scalar $\gamma$ and a row vector $v$ with $v,v\gamma$ linearly independent, the matrix $\delta$ with rows $v$, $v\gamma$ satisfies $\delta\gamma=C(\tr\gamma,\det\gamma)\delta$, $C(t,d)=\left(\begin{smallmatrix}0&1\\-d&t\end{smallmatrix}\right)$ (an identity in the entries that contains Cayley--Hamilton); $v\in\{e_1,e_2,e_1+e_2\}$ is chosen by cases on the entries ($\gamma_{01}\ne0$, $\gamma_{10}\ne0$, or $\gamma_{00}\ne\gamma_{11}$), as in A's parenthetical. Two non-scalar elements with the same trace and determinant are conjugate to the same companion matrix, hence to each other (\texttt{KerAux.conj\_of\_same}). (a): a scalar element of $\mathcal O$ would make $\mathcal O$ central-unipotent (\texttt{KerAux.scalar\_centralUnipotent}), which is excluded by \cref{II.kernel.thm:class-trichotomy}; so all elements of a hyperbolic or elliptic class are non-scalar and mutually conjugate; conversely conjugation preserves trace and determinant (\texttt{KerAux.conj\_trace\_det}). (b): for diagonal $\gamma\in\mathcal O_{a,b}$, $\gamma_{00}+\gamma_{11}=a+b$ and $\gamma_{00}\gamma_{11}=ab$ (coefficients of $P$, \texttt{KerAux.poly\_coeffs}), so $(\gamma_{00}-a)(\gamma_{00}-b)=0$. (c): $\gamma\in B(\Q)$ has $\gamma_{10}=0$, so $\gamma_{00}$ is a root of $P$, contradicting irreducibility. (d): a scalar element of $\mathcal O_z$ is $\mathrm{diag}(z,z)$; a non-scalar one is conjugate to the non-scalar element $z\,n(1)\in\mathcal O_z$ by the companion argument.
+\end{proof}
+
+\begin{definition}[the class kernel]
+\tfstmt{II.kernel.def:class-kernel}
+\lean{GL2TF.classKernel}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.kernel.def:geometric-class, II.kernel.def:rat-norm-one}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-kernel}
+\tfsem{II.kernel.def:class-kernel}{2641c954ec79eb4a62c45c5988d383261775c391194d5899a746ffc8e81d2529}
+\tfhyps{II.kernel.def:class-kernel}{}
+\tfbinder{II.kernel.def:class-kernel}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:class-kernel}{1}{492617aa}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\tfbinder{II.kernel.def:class-kernel}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:class-kernel}{3}{c91b8544}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\texttt{classKernel f c x y := ∑' γ : classFibre c, f (x⁻¹ * ratNormOne γ * y)}: the \texttt{tsum} ($0$ if not summable) over the fibre, with $\gamma$ in $G(\A)^1$ through \cref{II.kernel.def:rat-norm-one}. Defined for every $f\colon G(\A)^1\to\C$; ``continuous with compact support'' is A's context, carried by the consumers.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[finitely many classes meet a compact set]
+\tfstmt{II.kernel.thm:finitely-many-classes}
+\lean{GL2TF.finitely_many_classes}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.adele.thm:rat-discrete, I.conv.def:gl2, I.topgrp.def:norm-one-group, II.kernel.def:class-kernel, II.kernel.def:geometric-class, II.kernel.def:rat-norm-one}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:finitely-many-classes}
+\tfsem{II.kernel.thm:finitely-many-classes}{5e9cbcff5256d23e3cc0a9519db8f432f3034c0632e7f62aaf79493565e46ac6}
+\tfhyps{II.kernel.thm:finitely-many-classes}{}
+\tfbinder{II.kernel.thm:finitely-many-classes}{0}{9de33417}{the set $\Omega\subseteq G(\A)$}
+\tfbinder{II.kernel.thm:finitely-many-classes}{1}{1948fb3c}{the assumption that $\Omega$ is compact (A: ``compact'')}
+\tfbinder{II.kernel.thm:finitely-many-classes}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:finitely-many-classes}{3}{3e157d78}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:finitely-many-classes}{4}{9fa2c18f}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\begin{tffidelity}
+\emph{Exit of milestone M7a.} Proved. One theorem with the leading binders $(\Omega,h_\Omega,f,h_f,h_{fc})$ and two conjuncts: \texttt{\{c | ∃ γ ∈ classFibre c, ∃ x : GL (Fin 2) Adele, x⁻¹ * ι γ * x ∈ Ω\}.Finite} (with $x$ ranging over \emph{all} of $G(\A)$, as in A, and $\Omega\subseteq G(\A)$ any compact set), and \texttt{\{c | ∃ x : normOneGroup, classKernel f c x x ≠ 0\}.Finite}. The binder $h_f$ (continuity) is A's wording ``continuous $f$''; the proof does not need it (only the compact support). \emph{``Meet $\operatorname{supp}f$'':} A's second sentence is the consequence for the kernel, phrased with $K_{\mathcal O}(x,x)\ne0$ rather than with classes meeting the support of $f$; the proof applies the first part to the image of the support of $f$ in $G(\A)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (statement and proof from W1; \texttt{docs/notes/M7a-L2-divergences.md}, item 41). $\tr$ and $\det$ are continuous on $G(\A)$, so $\tr(\Omega)$, $\det(\Omega)$ are compact, and $\tr(x^{-1}\iota(\gamma)x)=\tr\gamma$, $\det(x^{-1}\iota(\gamma)x)=\det\gamma$ in $\Q\subseteq\A$ (\texttt{KerAux.trace\_det\_conj}, \texttt{Matrix.trace\_mul\_cycle}, \texttt{RingHom.map\_det}). The image of $\Q$ meets a compact set in a finite set (\texttt{KerAux.rat\_inter\_compact\_finite}, from \texttt{I.adele.thm:rat-discrete}), so the classes lie in a finite product set (\texttt{KerAux.finite\_classes}). Second assertion (\texttt{KerAux.finite\_classes\_kernel}): a non-zero $K_{\mathcal O}(x,x)$ has a non-zero term, so $x^{-1}\iota(\gamma)x$ lies in the image in $G(\A)$ of $\operatorname{supp}f$, which is compact. The continuity binder \texttt{hf} is not used (Lean's unused-variable linter reports it; the binder is kept, G1-a m-5).
+\end{proof}
+
+\begin{theorem}[decomposition of the kernel by classes]
+\tfstmt{II.kernel.thm:class-decomposition}
+\lean{GL2TF.class_decomposition}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:gl2-rat-norm-one, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-rat-discrete, II.kernel.def:class-kernel, II.kernel.def:geometric-class, II.kernel.def:kernel, II.kernel.def:rat-norm-one, II.kernel.thm:kernel-locally-finite}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:class-decomposition}
+\tfsem{II.kernel.thm:class-decomposition}{166dbdcb87edce2334076b44406a3444d50da5cd12b67be2aafb253c1efe53dc}
+\tfhyps{II.kernel.thm:class-decomposition}{}
+\tfbinder{II.kernel.thm:class-decomposition}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:class-decomposition}{1}{7ac0e291}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:class-decomposition}{2}{9158493d}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\begin{tffidelity}
+Three conjuncts. (a) for compact $C\subseteq G(\A)^1$: a finite set $S$ of classes with $K_{\mathcal O}=0$ on $C\times C$ for $\mathcal O\notin S$, and, for every class, finiteness of $\{\gamma\in\mathcal O:\exists x,y\in C,\ f(x^{-1}\gamma y)\ne0\}$. (b) for all $x,y$: \texttt{\{c | classKernel f c x y ≠ 0\}.Finite} and $K_f(x,y)=\sum_cK_{\mathcal O}(x,y)$ (\texttt{tsum} over \texttt{ℚ × ℚˣ}; $K_f$ = \texttt{kernel f}, \texttt{II.kernel.def:kernel}). (c) for every class: continuity of $K_{\mathcal O}$ on $G(\A)^1\times G(\A)^1$ and $K_{\mathcal O}(\delta x,\delta y)=K_{\mathcal O}(x,y)$ for $\delta\in\GL_2(\Q)$ acting through \cref{II.kernel.def:rat-norm-one} (diagonal invariance, as in A; the plan's $G(\Q)\times G(\Q)$-invariance is false and is not stated).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L2-divergences.md}, item 42: same). The sums over $G(\Q)\subseteq G(\A)^1$ of \cref{II.kernel.def:kernel} are rewritten as sums over $\GL_2(\Q)$ through the bijection $\GL_2(\Q)\to G(\Q)$, $\gamma\mapsto\iota(\gamma)$ (injective by \texttt{I.topgrp.thm:gl2-rat-discrete}; \texttt{KerAux.ratEquiv}, \texttt{KerAux.kernel\_eq\_tsum\_rat}). (a): \cref{II.kernel.thm:kernel-locally-finite}(a) gives a finite set of $\gamma\in\GL_2(\Q)$ contributing on $C\times C$ (\texttt{KerAux.finite\_rat\_support}); its image under $\gamma\mapsto(\tr\gamma,\det\gamma)$ is the finite set $S$ of classes, and the contributing elements of each fibre form a finite set. (b): the fibres partition $\GL_2(\Q)$, i.e.\ $\bigsqcup_{\mathcal O}\mathcal O\simeq\GL_2(\Q)$ (\texttt{KerAux.fibreEquiv}, from \texttt{Equiv.sigmaFiberEquiv}); with finitely many non-zero terms (case $C=\{x,y\}$) the \texttt{tsum} over the disjoint union splits as an iterated sum (\texttt{Summable.tsum\_sigma'}), giving $K_f=\sum_{\mathcal O}K_{\mathcal O}$ with finitely many non-zero terms. (c): continuity, locally a finite sum of continuous functions on $K_x\times K_y$ with compact neighbourhoods $K_x$, $K_y$ (by (a) for $K_x\cup K_y$); invariance, by reindexing the fibre with the permutation $\gamma\mapsto\delta^{-1}\gamma\delta$ (\texttt{KerAux.conjEquiv}).
+\end{proof}
+
+\begin{theorem}[unfolding the class kernel]
+\tfstmt{II.kernel.thm:class-kernel-unfolding}
+\lean{GL2TF.class_kernel_unfolding}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:torus, I.topgrp.def:norm-one-group, II.kernel.def:class-kernel, II.kernel.def:class-polynomial, II.kernel.def:class-type-index, II.kernel.def:class-types, II.kernel.def:geometric-class, II.kernel.def:kernel, II.kernel.def:rat-norm-one, II.kernel.thm:class-decomposition, II.kernel.thm:semisimple-class-conjugacy, II.orb.def:centralizer}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:class-kernel-unfolding}
+\tfsem{II.kernel.thm:class-kernel-unfolding}{a765d9d308ca02dac6fd22ac255a1b91d9ba3baa71c6796584324937d1594a19}
+\tfhyps{II.kernel.thm:class-kernel-unfolding}{}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{1}{7ac0e291}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{2}{9158493d}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{3}{c19139c4}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{4}{fadbc446}{the assumption that $\mathcal O$ is hyperbolic or elliptic (A: ``a hyperbolic or elliptic class'')}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{5}{7e199584}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{6}{80a5e3dd}{the assumption $\gamma\in\mathcal O$ (A: ``$\gamma\in\mathcal O$'')}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{7}{f6cb26f6}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.thm:class-kernel-unfolding}{8}{4d877856}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+$G_\gamma(\Q)\backslash G(\Q)$ is \texttt{MulAction.orbitRel.Quotient (centralizerGL ℚ γ) (GL (Fin 2) ℚ)} (right cosets $G_\gamma(\Q)\delta$; \texttt{II.orb.def:centralizer}). Three conjuncts, for the fixed $x,y$ (binders; A: ``for all $x,y$''): the term $f(x^{-1}\delta^{-1}\gamma\delta y)$ depends only on the coset of $\delta$; its support (as a function of the coset, at the representative \texttt{Quotient.out}) is finite; and $K_{\mathcal O}(x,y)=\sum_{\delta}f(x^{-1}\mathrm{out}(\delta)^{-1}\gamma\,\mathrm{out}(\delta)\,y)$ (\texttt{tsum}). Stated for all $x,y$, as A (not only on the diagonal).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L2-divergences.md}, item 47: same). The map $G_\gamma(\Q)\delta\mapsto\delta^{-1}\gamma\delta$, through the chosen representative, is a bijection from $G_\gamma(\Q)\backslash\GL_2(\Q)$ onto $\mathcal O$: well defined and injective because $\delta^{-1}\gamma\delta=\delta'^{-1}\gamma\delta'$ iff $\delta\delta'^{-1}\in G_\gamma(\Q)$ (\texttt{KerAux.orbitRel\_conj}, \texttt{KerAux.orbitRel\_of\_conj}), surjective by \cref{II.kernel.thm:semisimple-class-conjugacy}(a). The first clause is the well-definedness; the finiteness of the support is the finiteness in \cref{II.kernel.thm:class-decomposition}(a) for $C=\{x,y\}$, pulled back along the injection; the sum formula is the reindexing of the \texttt{tsum} along the bijection (\texttt{Equiv.tsum\_eq}).
+\end{proof}
+
+\section{The constant-term kernel}\label{sec:kernel-constant-term}
+
+\begin{definition}[the constant-term kernel]
+\tfstmt{II.kernel.def:constant-term-kernel}
+\lean{GL2TF.constTermKernel}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:torus, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.kernel.def:constant-term-kernel}
+\tfsem{II.kernel.def:constant-term-kernel}{06f2c19a8a34450310c1a3eb522a1ac407e49e7ce868a9d02e32985addd72d64}
+\tfhyps{II.kernel.def:constant-term-kernel}{}
+\tfbinder{II.kernel.def:constant-term-kernel}{0}{63a2c474}{the measure $\dd u$ on $\A$ (A: ``a Haar measure on $\A$''; the Haar property is a binder of the consumers)}
+\tfbinder{II.kernel.def:constant-term-kernel}{1}{1ca60fe5}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:constant-term-kernel}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:constant-term-kernel}{3}{c91b8544}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\texttt{constTermKernel lam f x y := ∫ u, ∑' γ : torus ℚ, f (x⁻¹ * ratNormOne γ * unipNormOne u * y) ∂lam}: the Haar measure $\dd u$ on $\A$ is an explicit argument (decision D13), the sum over $T(\Q)$ = \texttt{torus ℚ} (\texttt{I.conv.def:torus}) a \texttt{tsum}, the integral a Bochner integral, with A's $0$ conventions. $n(u)$ is the B-only \cref{II.kernel.def:unip-norm-one}. A's parenthetical ``its image $\dd n$ is a Haar measure on $N(\A)$'' is not formalized (the $\dd n$-form is a test, \texttt{constTermKernel\_eq\_N}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[properties of the constant-term kernel]
+\tfstmt{II.kernel.thm:constant-term-kernel-properties}
+\lean{GL2TF.constant_term_kernel_properties}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:product-formula, I.adele.thm:rat-discrete, I.adele.thm:rat-quotient-compact, I.conv.def:gl2, I.conv.def:torus, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.kernel.def:constant-term-kernel, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:constant-term-kernel-properties}
+\tfsem{II.kernel.thm:constant-term-kernel-properties}{964ef6746ca816a5b4446e8cb653db11b19cf2df5234731a159123bc12157b14}
+\tfhyps{II.kernel.thm:constant-term-kernel-properties}{}
+\tfbinder{II.kernel.thm:constant-term-kernel-properties}{0}{63a2c474}{the measure $\dd u$ on $\A$}
+\tfbinder{II.kernel.thm:constant-term-kernel-properties}{1}{da8beea4}{$\lambda$ is a Haar measure on $\A$ (A: ``Haar measure on $\A$'')}
+\tfbinder{II.kernel.thm:constant-term-kernel-properties}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:constant-term-kernel-properties}{3}{3e157d78}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:constant-term-kernel-properties}{4}{9fa2c18f}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\begin{tffidelity}
+Four conjuncts. (a) for compact $C$: a finite $S\subseteq T(\Q)$ and a compact $U\subseteq\A$ with $f(x^{-1}\gamma n(u)y)\ne0$, $x,y\in C$ $\Rightarrow$ $\gamma\in S\wedge u\in U$; and, for all $x,y$, the integrand $u\mapsto\sum_\gamma f(x^{-1}\gamma n(u)y)$ is continuous with compact support (A's ``in particular'', stated for all $x,y$). (b) continuity of $K_B$. (c) $\eta=n(u)t$, $\eta'=n(u')t'$ with $u,u'\in\A$, $t,t'\in T(\Q)$: $K_B(\eta x,\eta'y)=K_B(x,y)$ (A's $N(\A)T(\Q)$ written out as products).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a), (b) as in A; (c) with a minor change of bookkeeping (see \texttt{docs/notes/M7a-L2-divergences.md}, item 44). (a) (\texttt{KerAux.constTerm\_support}): if $f(x^{-1}\gamma n(u)y)\ne0$ with $x,y\in C$, then $\iota(\gamma)n(u)$ lies in the compact image $\Omega$ of $C\times\operatorname{supp}f\times C$; its diagonal entries $\gamma_{00},\gamma_{11}$ lie in the rational points of the compact sets of entries of $\Omega$, finite by \texttt{I.adele.thm:rat-discrete} (so $\gamma$ lies in a finite set $S$), and its entry $\gamma_{00}u$ lies in a compact set, so $u$ lies in the compact union $U$ of its finitely many rescalings by $\gamma_{00}^{-1}$. Hence the integrand is a finite sum of continuous functions of $u$ supported in $U$. (b): on $K_x\times K_y$ (compact neighbourhoods) the integral is over the compact set $U$ of a function jointly continuous in $((x,y),u)$, hence continuous (\texttt{continuous\_parametric\_integral\_of\_continuous}). (c): Lean writes $K_B(x,y)=\sum_{\gamma\in T(\Q)}\int_\A f(x^{-1}\gamma n(v)y)\,\dd v$ (the sum is finite, \texttt{KerAux.integral\_tsum\_of\_finite}) and treats $\eta=n(u)t$ and $\eta'=n(u')t'$ at once, instead of A's one side at a time with $\eta,\eta'\in N(\A)\cup T(\Q)$: the identity $n(u)\iota(\gamma)=\iota(\gamma)n(q_\gamma u)$ for $\gamma\in T(\Q)$, $q_\gamma=\gamma_{11}/\gamma_{00}$ (\texttt{KerAux.unip\_mul\_rat}) turns the $\gamma$-term of $K_B(\eta x,\eta'y)$ into the $t^{-1}\gamma t'$-term of $K_B(x,y)$ after the substitution $v\mapsto q_{t'}(v+c)$, a translation followed by a dilation by $q_{t'}\in\Q^\times$, which preserves $\dd v$ by the scaling lemma \texttt{adele\_haar\_scaling} and the product formula \texttt{I.adele.thm:product-formula} (\texttt{KerAux.integral\_scale\_shift}); finally $\gamma\mapsto t^{-1}\gamma t'$ is a bijection of $T(\Q)$.
+\end{proof}
+
+\begin{definition}[class parts of the constant-term kernel]
+\tfstmt{II.kernel.def:class-constant-term-kernel}
+\lean{GL2TF.classConstTermKernel}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:torus, I.topgrp.def:norm-one-group, II.kernel.def:geometric-class, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-constant-term-kernel}
+\tfsem{II.kernel.def:class-constant-term-kernel}{5ccbddc1008f46b9839e93583d5d773d65f92bb2285aef9a658011819c634bb5}
+\tfhyps{II.kernel.def:class-constant-term-kernel}{}
+\tfbinder{II.kernel.def:class-constant-term-kernel}{0}{63a2c474}{the measure $\dd u$ on $\A$}
+\tfbinder{II.kernel.def:class-constant-term-kernel}{1}{1ca60fe5}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:class-constant-term-kernel}{2}{7bc17798}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\tfbinder{II.kernel.def:class-constant-term-kernel}{3}{c91b8544}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:class-constant-term-kernel}{4}{1545b40b}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\texttt{classConstTermKernel lam f c x y := ∫ u, ∑' γ : (torus ℚ ∩ classFibre c), f (x⁻¹ γ n(u) y) ∂lam}, with the conventions of \cref{II.kernel.def:constant-term-kernel}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[decomposition of $K_B$ by classes]
+\tfstmt{II.kernel.thm:constant-term-class-decomposition}
+\lean{GL2TF.constant_term_class_decomposition}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.adele.thm:rat-discrete, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:torus, I.topgrp.def:norm-one-group, II.kernel.def:class-constant-term-kernel, II.kernel.def:class-polynomial, II.kernel.def:class-type-index, II.kernel.def:class-types, II.kernel.def:constant-term-kernel, II.kernel.def:geometric-class, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.kernel.thm:semisimple-class-conjugacy, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:constant-term-class-decomposition}
+\tfsem{II.kernel.thm:constant-term-class-decomposition}{0d1b3a034b1551680fc08ab58bc85eeb45382cda897f2d3c094e9750ce760857}
+\tfhyps{II.kernel.thm:constant-term-class-decomposition}{}
+\tfbinder{II.kernel.thm:constant-term-class-decomposition}{0}{63a2c474}{the measure $\dd u$ on $\A$}
+\tfbinder{II.kernel.thm:constant-term-class-decomposition}{1}{da8beea4}{$\lambda$ is a Haar measure on $\A$ (A: ``Haar measure on $\A$'')}
+\tfbinder{II.kernel.thm:constant-term-class-decomposition}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:constant-term-class-decomposition}{3}{3e157d78}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.kernel.thm:constant-term-class-decomposition}{4}{9fa2c18f}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\begin{tffidelity}
+Two conjuncts: for all $x,y$, finiteness of \texttt{\{c | classConstTermKernel lam f c x y ≠ 0\}} and $K_B(x,y)=\sum_cK_{B,\mathcal O}(x,y)$ (\texttt{tsum}); and $K_{B,\mathcal O}=0$ for elliptic $\mathcal O$ (\texttt{HasClassType c .elliptic}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Minor change of bookkeeping} (see \texttt{docs/notes/M7a-L2-divergences.md}, item 46). A splits the integrand pointwise in $u$ and integrates term by term; Lean writes both $K_B$ and $K_{B,\mathcal O}$ as sums over $\gamma$ of $\int_\A f(x^{-1}\gamma n(u)y)\,\dd u$ (finitely many non-zero terms by \cref{II.kernel.thm:constant-term-kernel-properties}(a); \texttt{KerAux.constTermKernel\_eq\_tsum}, \texttt{KerAux.classConstTermKernel\_eq\_tsum}) and splits the $\gamma$-sum along $T(\Q)\simeq\bigsqcup_{\mathcal O}(T(\Q)\cap\mathcal O)$ (\texttt{KerAux.torusFibreEquiv}, \texttt{Summable.tsum\_sigma'}). The classes with $K_{B,\mathcal O}(x,y)\ne0$ lie in the image of the finite set of contributing $\gamma$. Ellipticity: $T(\Q)\cap\mathcal O\subseteq B(\Q)\cap\mathcal O=\emptyset$ by \cref{II.kernel.thm:semisimple-class-conjugacy}(c), so the inner sum is empty and $K_{B,\mathcal O}=0$.
+\end{proof}
+
+% M9b JW1 (B1): block for M9b item 12 (proved by L2, commit 74c0864). PENDING REGENERATION: no tfaudit has run on it; \tfsem and the
+% \tfbinder hashes read `pending', binder positions follow the declaration header, \uses is a build-free scan of the statement and of the
+% KerPoissonAux proof (reconciled with deps_statement/deps_proof at the next `tools/lbuild.sh --audit').
+\begin{lemma}[slices of smooth functions are Schwartz--Bruhat]
+\tfstmt{II.kernel.lem:kernel-slice-schwartz-bruhat}
+\lean{GL2TF.kernel_slice_schwartz_bruhat}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:schwartz-bruhat, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:reduction-to-indicators, I.adele.lem:zhat-units-explicit, I.conv.def:gl2, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, II.kernel.def:kernel, II.kernel.def:unip-norm-one}
+\end{lemma}
+\begin{tfformal}{II.kernel.lem:kernel-slice-schwartz-bruhat}
+\tfsem{II.kernel.lem:kernel-slice-schwartz-bruhat}{a0b15586a351617ec184e19a9967df93691c105b44f1e917f0f48d45bb6e4194}
+\tfhyps{II.kernel.lem:kernel-slice-schwartz-bruhat}{}
+\tfbinder{II.kernel.lem:kernel-slice-schwartz-bruhat}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.lem:kernel-slice-schwartz-bruhat}{1}{761fbdfe}{the assumption $f\in C_c^\infty(G(\A)^1)$ (A: ``$f\in C_c^\infty(G(\A)^1)$'')}
+\tfbinder{II.kernel.lem:kernel-slice-schwartz-bruhat}{2}{11894aa1}{the point $a\in G(\A)^1$}
+\tfbinder{II.kernel.lem:kernel-slice-schwartz-bruhat}{3}{c91b8544}{the point $b\in G(\A)^1$}
+\begin{tffidelity}
+\texttt{(fun u : Adele ↦ f (a * unipNormOne u * b)) ∈ schwartzBruhatAdele}. $f\in C_c^\infty(G(\A)^1)$ is \texttt{f ∈ smoothCompactNormOne}
+(\texttt{I.hecke.def:smooth-compact-norm-one}: compact support, and the lift $f\circ N$ to $G(\A)$ lies in \texttt{smoothAdelic}, A's
+``$F=f\circ N$ is smooth''); $n(u)$ is the B-only \cref{II.kernel.def:unip-norm-one}; $\Schw(\A)$ is the submodule \texttt{schwartzBruhatAdele}
+(\texttt{I.adele.def:schwartz-bruhat}). Stated for arbitrary $a,b$, as in A (S9's general form, M9b lead decision L-JW0). No difference in content.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, in four steps (\texttt{KerPoissonAux}). Write $\Phi=$ \texttt{slice f a b}. \emph{Periodicity} (\texttt{slice\_periodic}): from the open subgroup
+$K'\subseteq\Kf$ fixing $f\circ N$ on the right, the open subgroup of $v\in\Af$ with $b_f^{-1}n(v)b_f\in K'$ contains some $M\Zhat$, $M\ge1$
+(\texttt{exists\_natCast\_mul\_zhat\_mem}); then $\Phi(u+(0,Mz))=\Phi(u)$ for $z\in\Zhat$, since $a\,n(u+(0,Mz))\,b=a\,n(u)\,b\cdot b^{-1}n((0,Mz))b$.
+\emph{Compact support} (\texttt{slice\_hasCompactSupport}): $\{\Phi\neq0\}$ lies in the image of $\operatorname{tsupport}f$ under the continuous map
+$g\mapsto(a^{-1}gb^{-1})_{12}$. \emph{Smoothness in $u_\infty$} (\texttt{slice\_contDiff\_real}): $r\mapsto\Phi((r,v))$ is the restriction of the smooth
+archimedean section of $f\circ N$ along the polynomial curve $r\mapsto a_\infty n(r)a_\infty^{-1}$ (\texttt{contDiff\_matToPi\_curv}, \texttt{curv\_mem\_detNeZeroSet},
+the $C^\infty$ clause of \texttt{smoothAdelic}). \emph{Decomposition} (\texttt{slice\_mem\_schwartzBruhat}): the finite-adele shadow of $\operatorname{tsupport}\Phi$
+is compact, so it meets finitely many classes of $\Af/M\Zhat$ (\texttt{finite\_classes}); every class has a rational representative $\rho_c$
+(\texttt{exists\_rat\_sub\_mem\_latt}, A's $\Af=\Q+\Zhat$); with $g_c(r)=\Phi((r,\rho_c))$, smooth with compact support, hence a Schwartz function
+(\texttt{HasCompactSupport.toSchwartzMap}), $\Phi=\sum_c g_c\otimes1_{\rho_c+M\Zhat}$ by periodicity, and each term is a generator of
+\texttt{schwartzBruhatAdele} (\texttt{schwartzBruhatAdele\_eq\_span\_indicators}, \texttt{I.adele.lem:reduction-to-indicators}).
+\end{proof}
+
+\begin{theorem}[Poisson summation for the constant-term kernel]
+\tfstmt{II.kernel.thm:constant-term-kernel-poisson}
+\lean{GL2TF.constant_term_kernel_poisson}
+\uses{I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.kernel.def:constant-term-kernel, I.conv.def:torus, I.adele.def:adele-haar, I.adele.def:fourier-transform, I.hecke.def:smooth-compact-norm-one, I.adele.thm:poisson-summation, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, X.topgrp.def:restricted-product-measurable-space, I.adele.def:standard-character, I.adele.thm:character-trivial-on-rat, I.adele.thm:rat-discrete, II.kernel.def:kernel, II.kernel.lem:kernel-slice-schwartz-bruhat, I.adele.def:finite-adele-haar, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:gl2, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-fin-adelic, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:constant-term-kernel-poisson}
+\tfsem{II.kernel.thm:constant-term-kernel-poisson}{8ca41464f3990e144b4c8f971a560afa17ee140e2a7fb0e16c1b9252e0c6a1cb}
+\tfhyps{II.kernel.thm:constant-term-kernel-poisson}{}
+\tfbinder{II.kernel.thm:constant-term-kernel-poisson}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:constant-term-kernel-poisson}{1}{761fbdfe}{the assumption $f\in C_c^\infty(G(\A)^1)$ (A: ``$f\in C_c^\infty(G(\A)^1)$'')}
+\tfbinder{II.kernel.thm:constant-term-kernel-poisson}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.thm:constant-term-kernel-poisson}{3}{c91b8544}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+The measure $\dd x$ on $\A$ is the explicit \texttt{adeleHaar} (\texttt{I.adele.def:adele-haar}), so no measure binder remains; the Fourier transform is \texttt{fourierAdele adeleHaar} (\texttt{I.adele.def:fourier-transform}), evaluated at $\xi\in\Q$ through the algebra map $\Q\to\A$, and $\Phi_t(u)=f(x^{-1}\,t\,n(u)\,y)$ with $t$ read in $G(\A)^1$ by \texttt{ratNormOne} and $n(u)$ the B-only \cref{II.kernel.def:unip-norm-one}. The statement is a conjunction of (I) for every $t\in T(\Q)$ (\texttt{torus ℚ}): absolute summability of $(\Phi_t(\nu))_{\nu\in\Q}$ (\texttt{Summable} of the norms) and of $(\hat\Phi_t(\xi))_{\xi\in\Q}$, equality of the two \texttt{tsum}s, and $\hat\Phi_t(0)=\int_\A\Phi_t$; and (II) $\sum'_{t}\hat\Phi_t(0)=$ \texttt{constTermKernel adeleHaar f x y}. Part (II) is an equality of a \texttt{tsum} over $T(\Q)$ with the Bochner integral of \cref{II.kernel.def:constant-term-kernel}, both with the junk-value-$0$ convention; summability over $t$ is not a separate conjunct (finiteness of the non-zero terms is \cref{II.kernel.thm:constant-term-kernel-properties}(a)). No Haar assumption appears because $\dd x$ is fixed. \emph{Status:} milestone M9b (statement unchanged since M7a, sem\_hash as recorded); no M6 consumer (lead ruling of 2026-10-20: Godement's estimate no longer uses it). A typesets it with its proof since M9b JW1 (from \cref{II.kernel.lem:kernel-slice-schwartz-bruhat}, Poisson summation \texttt{I.adele.thm:poisson-summation} and \cref{II.kernel.thm:constant-term-kernel-properties}(a)); the Lean proof is complete (M9b JW3, formalizer L2; see the proof sketch below).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. For fixed $t\in T(\Q)$, \cref{II.kernel.lem:kernel-slice-schwartz-bruhat} (with $a=x^{-1}t$, $b=y$) shows that the slice $\Phi_t$ is in $\mathcal S(\A)$, and \texttt{I.adele.thm:poisson-summation} (\texttt{poisson\_summation}) gives the summability of both families and $\sum_{\nu\in\Q}\Phi_t(\nu)=\sum_{\xi\in\Q}\hat\Phi_t(\xi)$. The identity $\hat\Phi_t(0)=\int_\A\Phi_t$ is \texttt{stdCharAdele 0 = 1} (\texttt{stdCharAdele\_rat}). Part~(II) rewrites $K_B(x,y)$ as the \texttt{tsum} over $T(\Q)$ of these integrals (\texttt{KerAux.constTermKernel\_eq\_tsum}, from \cref{II.kernel.thm:constant-term-kernel-properties}(a)) and applies the previous identity termwise (\texttt{tsum\_congr}).
+\end{proof}
+
+% ======================================================================================================================
+% M10a W1-b (B1; D25 append-only section).
+% Lean: lean/GL2TF/VolII/KernelSpectral.lean. Proof sketches (M10a W3, B1) follow the formal blocks of the proved items.
+\section{The kernel and the cuspidal data}\label{sec:kernel-spectral}
+
+\noindent\emph{Lean conventions of this section} (module \texttt{GL2TF.VolII.KernelSpectral}). $X=G(\Q)\backslash G(\A)^1$ is \texttt{X₁}; a left $G(\Q)$-invariant function $F$ on $G(\A)^1$ is read on $X$ as $q\mapsto F(\texttt{Quotient.out }q)$ (D-REP). The measure is the standard measure \texttt{stdHaarAdelic} throughout (D-MEAS10; no measure binder, except the additive Haar measure of $K_B$, D13). Hypotheses H3 (\texttt{Hyp.LanglandsL2}) and H2a (the family \texttt{∀ μ n N, Hyp.EisContinuation μ n N}) are explicit binders in this order, as in exit 52; H2b does not occur (D-ROUTE10). $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ is \texttt{CuspidalDatum = Option 𝔒} (D-CUSP: the cuspidal data are grouped into \texttt{none}); \texttt{𝔒} and $X$ are local notations of the Lean file, not constants. The three conditions on a function and its datum, ``$f\in\mathcal H\cap\mathcal H^{(2)}$ with a level datum $(N,F)$ and bases $B_\mu$'', are the binders \texttt{f ∈ testFunctions}, \texttt{f ∈ convolutionSpan stdHaarAdelic}, \texttt{N}, \texttt{F}, \texttt{IsHeckeLevelDatum f N F}, \texttt{B}, \texttt{∀ μ, IsEisKernelBasis μ N F (B μ)}. Bochner integrals, \texttt{tsum}s and \texttt{finsum}s take the value $0$ outside their domains of summability; the A statements assert the relevant integrability, or it follows from the earlier items.
+
+\begin{definition}[the Eisenstein part of the orbit kernel]
+\tfstmt{II.kernel.def:eisenstein-orbit-kernel}
+\bonly
+\lean{GL2TF.eisOrbitKernel}
+\uses{I.hecke.def:test-function, I.eis.def:eisenstein-continued, I.eis.def:induced-rep-hecke, I.spec.def:continuous-measure, I.adele.def:dirichlet-pair, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.spec.def:standard-haar}
+\end{definition}
+\begin{tfformal}{II.kernel.def:eisenstein-orbit-kernel}
+\tfsem{II.kernel.def:eisenstein-orbit-kernel}{94aedef4b9d6d9e94b621d2621e576a989f377853dacf9a3b84ed1c4045a38b9}
+\tfhyps{II.kernel.def:eisenstein-orbit-kernel}{}
+\tfbinder{II.kernel.def:eisenstein-orbit-kernel}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:eisenstein-orbit-kernel}{1}{fc1ef5e7}{the families of bases $B=(B_\mu)_\mu$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.def:eisenstein-orbit-kernel}{2}{a3dab54e}{the set $o$ of Dirichlet pairs (\texttt{Set DirichletPair}; in the uses an orbit)}
+\tfbinder{II.kernel.def:eisenstein-orbit-kernel}{3}{c91b8544}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:eisenstein-orbit-kernel}{4}{1545b40b}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+B-only (no A counterpart; A writes the $\mathrm{Eis}$-part of $K_{o,f}$ inline in \cref{II.kernel.def:spectral-kernel}). The orbit-restricted analogue of the Eisenstein kernel of \texttt{I.spec.def:eisenstein-kernel}: $\int_{\R}\sum_{\mu\in o}\sum_{\varphi\in B_\mu}\widetilde E(x,I_\mu(it,f)\varphi,it)\overline{\widetilde E(y,\varphi,it)}\,\dd\nu(t)$ with $\nu=$ \texttt{contMeasure} ($\dd t/4\pi^2$) and $I_\mu(it,f)=$ \texttt{inducedRepHecke stdHaarAdelic (t*I) f}. The sum over $\mu\in o$ is a \texttt{tsum} over the subtype \texttt{↥o} (finite: $o$ has at most two elements; in the Lean statement $o$ is any set, for which $0$ is the junk value of a non-summable family). Bochner integrals take the value $0$ when the integrand is not integrable (junk value). Total in $(f,B,o)$: no standing assumption on $f$ or $B$ is a binder here; they are binders of the items using it.
+\end{tffidelity}
+\end{tfformal}
+\noindent\emph{Lean body.} \texttt{eisOrbitKernel f B o x y} is the Bochner integral over \texttt{contMeasure} of $\sum_{\mu\in o}\sum_{\varphi\in B_\mu}\widetilde E(x,I_\mu(it,f)\varphi,it)\overline{\widetilde E(y,\varphi,it)}$, written with \texttt{eisensteinCont} and \texttt{inducedRepHecke stdHaarAdelic}; the sum over $\mu$ is a \texttt{tsum} over the subtype \texttt{↥o}. The per-$\mu$ integrand is the untagged helper \texttt{KSAux.kmu}, and \texttt{KSAux.eisOrbitKernel\_eq} (by \texttt{rfl}) restates the definition as $\int\sum'_{\mu\in o}k_\mu\,\dd\nu$ with $k_\mu=$ \texttt{KSAux.kmu}. No proof.
+
+\begin{definition}[the $\nu$-term of the residual kernel]
+\tfstmt{II.kernel.def:residual-character-kernel}
+\bonly
+\lean{GL2TF.residualCharKernel}
+\uses{I.hecke.def:test-function, I.spec.def:residual-fourier, I.spec.def:residual-character, I.quot.def:automorphic-quotient-measure, I.spec.def:standard-haar, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.kernel.def:residual-character-kernel}
+\tfsem{II.kernel.def:residual-character-kernel}{9135a4fc51bbd52d89f3c9fd74dde2a40aab4b26821da35f14f335fb827e4ec3}
+\tfhyps{II.kernel.def:residual-character-kernel}{}
+\tfbinder{II.kernel.def:residual-character-kernel}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:residual-character-kernel}{1}{9444f555}{the continuous homomorphism $\nu\colon\widehat{\mathbb Z}^\times\to\C^\times$ (\texttt{ContinuousMonoidHom Zhatˣ ℂˣ})}
+\tfbinder{II.kernel.def:residual-character-kernel}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:residual-character-kernel}{3}{c91b8544}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\emph{Finite volume guard:} $\operatorname{vol}(X)<\infty$ (\texttt{I.red.thm:finite-volume}), so \texttt{ENNReal.toReal} of $\operatorname{vol}(X)$ is faithful (no junk value $0$ from an infinite volume).
+B-only. The $\nu$-term $\operatorname{vol}(X)^{-1}\hat f(\nu)\eta_\nu(x)\overline{\eta_\nu(y)}$ of the residual kernel (\texttt{I.spec.def:residual-kernel}) for the standard measure; $\hat f(\nu)=$ \texttt{residualFourier stdHaarAdelic f ν} (B-only), $\eta_\nu=$ \texttt{residualChar ν}, and $\operatorname{vol}(X)=$ \texttt{ENNReal.toReal} of \texttt{automorphicQuotientMeasure stdHaarAdelic Set.univ}, cast into $\C$; since $\operatorname{vol}(X)<\infty$ (finite volume, \texttt{I.red.thm:finite-volume}) the \texttt{toReal} is faithful (finite-volume guard). \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. Total in $f$.
+\end{tffidelity}
+\end{tfformal}
+\noindent\emph{Lean body.} \texttt{residualCharKernel f ν x y} is $\operatorname{vol}(X)^{-1}\cdot(\hat f(\nu)\,\eta_\nu(x)\,\overline{\eta_\nu(y)})$ with $\hat f(\nu)=$ \texttt{residualFourier stdHaarAdelic f ν}, $\eta_\nu=$ \texttt{residualChar ν} and $\operatorname{vol}(X)=$ \texttt{ENNReal.toReal} of \texttt{automorphicQuotientMeasure stdHaarAdelic Set.univ} cast into $\C$. Properties used later are untagged helpers: \texttt{KSAux.continuous\_residualCharKernel}, \texttt{KSAux.residualCharKernel\_invariant} (left $G(\Q)$-invariance), \texttt{KSAux.residualCharKernel\_adjoint} and \texttt{KSAux.residualCharKernel\_mul\_right}. No proof.
+
+\begin{definition}[the orbit projection $P_o$]
+\tfstmt{II.kernel.def:orbit-projection}
+\bonly
+\lean{GL2TF.orbitProj}
+\uses{I.adele.def:dirichlet-pair, I.spec.def:eisenstein-transform, I.spec.def:m-symmetric-part, I.spec.def:residual-class, I.quot.def:l2-automorphic, I.spec.def:standard-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.eis.def:induced-hilbert, I.eis.def:k-haar-probability, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.spec.def:continuous-fibre-space, I.spec.def:continuous-measure, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.kernel.def:orbit-projection}
+\tfsem{II.kernel.def:orbit-projection}{e938d4f880675c3eca35934a89830b4c920a4854c1843aebdcf078a06a394359}
+\tfhyps{II.kernel.def:orbit-projection}{}
+\tfbinder{II.kernel.def:orbit-projection}{0}{8b9108b4}{the set $o$ of Dirichlet pairs (\texttt{Set DirichletPair})}
+\begin{tffidelity}
+B-only (SCR-L2-7). A defines $P_o$ inline, in the proof-side fact (P) before \cref{II.kernel.thm:spectral-decomposition} and in the statement of \cref{II.kernel.thm:spectral-kernel-operator}; A never cites this item. $P_o$ is \texttt{starProjection} onto the topological closure of $\operatorname{span}(J(S|_o)\cup\{[\eta_\nu]:(\nu,\nu)\in o\})$, where $J=$ \texttt{eisensteinTransform} on \texttt{mSymmetric} and $S|_o$ is the set of $F$ vanishing almost everywhere (for \texttt{contMeasure}) off $o$. The completeness instance needed by \texttt{starProjection} is built inside the definition from the closedness of the closure. The statement uses it for $o\in\mathfrak O$ only. \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. 
+\end{tffidelity}
+\end{tfformal}
+\noindent\emph{Lean body.} \texttt{orbitProj o} is \texttt{Submodule.starProjection} onto \texttt{Submodule.topologicalClosure} of the \texttt{Submodule.span} of $J(S|_o)\cup\{[\eta_\nu]\}$; the completeness instance is built inside the definition from \texttt{Submodule.isClosed\_topologicalClosure} (\texttt{IsClosed.completeSpace\_coe}). The range is the helper \texttt{KSAux.orbitSpace} with the same body, \texttt{KSAux.orbitProj\_eq} is \texttt{rfl}, and \texttt{KSAux.gen\_J\_mem}, \texttt{KSAux.gen\_res\_mem} say that the generators lie in it. No proof.
+
+\begin{lemma}[finite Fourier inversion on $\widehat{\mathbb Z}^\times\times\widehat{\mathbb Z}^\times$]
+\tfstmt{II.kernel.lem:torus-character-average}
+\bonly
+\lean{GL2TF.torus_character_average}
+\uses{I.adele.def:zhat-reduction, I.adele.def:zhat-units-haar, I.adele.def:dirichlet-pair, I.eis.def:conductor, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, X.topgrp.def:restricted-product-measurable-space, I.adele.def:zhat-to-padic-int, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:zhat-compact-instance, I.adele.lem:zhat-units-borel-instance, I.eis.def:dirichlet-character-of, I.eis.lem:conductor-spec}
+\end{lemma}
+\begin{tfformal}{II.kernel.lem:torus-character-average}
+\tfsem{II.kernel.lem:torus-character-average}{a93744cbdbce736981631798f1f11a9f4da71bb8a88f2b05526442fe2c397e4d}
+\tfhyps{II.kernel.lem:torus-character-average}{}
+\tfbinder{II.kernel.lem:torus-character-average}{0}{34a6074d}{the level $N\ge1$ (\texttt{ℕ+})}
+\tfbinder{II.kernel.lem:torus-character-average}{1}{7e2ce6c8}{the function $F\colon\widehat{\mathbb Z}^\times\times\widehat{\mathbb Z}^\times\to\C$}
+\tfbinder{II.kernel.lem:torus-character-average}{2}{c443f53d}{$F$ is continuous}
+\tfbinder{II.kernel.lem:torus-character-average}{3}{1bcb806b}{invariance of $F$ under translation by $\ker(\mathrm{red}_N)\times\ker(\mathrm{red}_N)$ (both components of $v$ map to $1$ under \texttt{Units.map (zhatReduction N)})}
+\begin{tffidelity}
+B-only (D-KBCHI, as refined in L5; A uses this finite Fourier inversion inside the proof of \cref{II.kernel.thm:constant-term-spectral-decomposition} and does not cite it). The sum is the \texttt{finsum} over Dirichlet pairs $\mu$ with $\operatorname{cond}\mu_1,\operatorname{cond}\mu_2\mid N$, the integral is a Bochner integral for the product of the two Haar probability measures \texttt{zhatUnitsHaar} (the junk value $0$ is not attained: $F$ is continuous on a compact group). Total in $F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{KSAux.torus\_avg}. (i) Orthogonality of the characters of level $N$: with \texttt{KSAux.condFin N} the finite set of $\nu$ with $\operatorname{cond}\nu\mid N$ (\texttt{KSAux.mem\_condFin}, \texttt{KSAux.cond\_dvd\_iff}), \texttt{KSAux.sum\_condFin} gives $\sum_{\nu}\nu(v)=|\texttt{condFin }N|$ if $v\in U(N)=\ker\mathrm{red}_N$ and $0$ otherwise; the vanishing (\texttt{KSAux.sum\_condFin\_eq\_zero}) picks a character separating $v$ from $1$ (\texttt{DirichletCharacter.exists\_apply\_ne\_one\_of\_hasEnoughRootsOfUnity}, lifted by \texttt{exists\_zhatChar\_of\_dirichlet}) and reindexes the sum by $\nu\mapsto\nu_0\nu$ (\texttt{Finset.sum\_nbij'}). (ii) \texttt{KSAux.torus\_avg\_aux}: by \texttt{integral\_finsetSum} the sum over $\mu=(\mu_1,\mu_2)\in\texttt{condFin }N\times\texttt{condFin }N$ of $\int F(u)\mu_1(u_1)\mu_2(u_2)$ is the integral of $F\cdot\sum_\mu\mu_1\mu_2$, which pointwise (\texttt{Finset.sum\_product}, \texttt{Finset.sum\_mul\_sum}) is the indicator of $U(N)^2$ (\texttt{KSAux.unitsU}, open by \texttt{KSAux.isOpen\_unitsU}) times the constant $|\texttt{condFin }N|^2F(1)$, since $F=F(1)$ on $U(N)^2$ by the invariance hypothesis; \texttt{integral\_indicator\_const} gives $|\texttt{condFin }N|^2F(1)\,\mathrm{vol}(U(N)^2)$. (iii) Applying (ii) to $F\equiv1$ and using \texttt{integral\_zhatChar\_ite}, \texttt{integral\_prod\_mul} and \texttt{zhatUnitsHaar\_prob} gives $|\texttt{condFin }N|^2\mathrm{vol}(U(N)^2)=1$ (no cardinality count of $((\Z/N)^\times)^2$), and \texttt{linear\_combination} concludes; \texttt{KSAux.finsum\_pairs} turns the \texttt{Finset.sum} over $\texttt{condFin }N\times\texttt{condFin }N$ into the \texttt{finsum} of the statement. \emph{Divergence from A:} D-L2-4 (Fourier inversion on $\widehat{\Z}^\times\times\widehat{\Z}^\times$ itself).
+\end{proof}
+
+\begin{definition}[cuspidal data]
+\tfstmt{II.kernel.def:cuspidal-datum}
+\lean{GL2TF.CuspidalDatum}
+\uses{I.spec.thm:cuspidal-data-orthogonality, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{II.kernel.def:cuspidal-datum}
+\tfsem{II.kernel.def:cuspidal-datum}{0afc74d1ad219b1fbb4ba0035c1fc0d7ff780cff4e595083a860037a42319d5e}
+\tfhyps{II.kernel.def:cuspidal-datum}{}
+\begin{tffidelity}
+\emph{D-CUSP:} $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ is \texttt{CuspidalDatum = Option 𝔒}; \texttt{none} is the one cuspidal datum, all cuspidal data being grouped (so the cuspidal part is $\operatorname{tr}R_{\mathrm{cusp}}(f)$, with no sum over cuspidal data), and \texttt{some o} is the datum of the orbit $o=\{\mu,\mu.\texttt{swap}\}$; the residual line $\eta_\nu$ belongs to the orbit $\{(\nu,\nu)\}$. \texttt{𝔒} is a local notation in Lean, not a constant. The type is an \texttt{abbrev} with no binders: $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ with \texttt{none} as the cuspidal datum. A's remark that isotypic blocks of the cuspidal spectrum are not needed is the content of the grouping.
+\end{tffidelity}
+\end{tfformal}
+\noindent\emph{Lean body.} \texttt{CuspidalDatum} is the \texttt{abbrev} \texttt{Option} of the subtype of \texttt{Set DirichletPair} of sets of the form $\{\mu,\mu.\texttt{swap}\}$; \texttt{none} is the cuspidal datum. No proof.
+
+\begin{definition}[the spectral kernels]
+\tfstmt{II.kernel.def:spectral-kernel}
+\lean{GL2TF.spectralKernel}
+\uses{II.kernel.def:cuspidal-datum, I.tcl.def:cuspidal-kernel, I.spec.def:eisenstein-kernel, I.spec.def:residual-kernel, I.eis.def:eisenstein-continued, I.eis.def:induced-rep, I.quot.def:automorphic-quotient-measure, I.haar.def:haar-adelic, I.hecke.def:test-function, II.kernel.def:eisenstein-orbit-kernel, II.kernel.def:residual-character-kernel, I.adele.def:dirichlet-pair, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.spec.def:standard-haar, I.spec.lem:standard-haar-instance, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.kernel.def:spectral-kernel}
+\tfsem{II.kernel.def:spectral-kernel}{93aa65493f321e11089f4ee39d6883b6a302e1cd82e9301a4b43a030a5834352}
+\tfhyps{II.kernel.def:spectral-kernel}{}
+\tfbinder{II.kernel.def:spectral-kernel}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:spectral-kernel}{1}{fc1ef5e7}{the families of bases $B=(B_\mu)_\mu$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.def:spectral-kernel}{2}{72acf0c5}{the cuspidal datum $\mathfrak x$ (\texttt{CuspidalDatum})}
+\tfbinder{II.kernel.def:spectral-kernel}{3}{c91b8544}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:spectral-kernel}{4}{1545b40b}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\emph{Finite volume guard:} $\operatorname{vol}(X)<\infty$ (\texttt{I.red.thm:finite-volume}), so \texttt{ENNReal.toReal} of $\operatorname{vol}(X)$ is faithful (no junk value $0$ from an infinite volume).
+\emph{D-CUSP:} $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ is \texttt{CuspidalDatum = Option 𝔒}; \texttt{none} is the one cuspidal datum, all cuspidal data being grouped (so the cuspidal part is $\operatorname{tr}R_{\mathrm{cusp}}(f)$, with no sum over cuspidal data), and \texttt{some o} is the datum of the orbit $o=\{\mu,\mu.\texttt{swap}\}$; the residual line $\eta_\nu$ belongs to the orbit $\{(\nu,\nu)\}$. \texttt{𝔒} is a local notation in Lean, not a constant. \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. The remaining three arguments $\chi,x,y$ are not binders but the arrow type of the codomain (\texttt{CuspidalDatum → normOneGroup → normOneGroup → ℂ}), defined by matching on $\chi$: $K_{\mathrm{cusp},f}=$ \texttt{cuspKernel stdHaarAdelic f}, and $K_{o,f}=$ \texttt{eisOrbitKernel} $+\sum'_{\nu:(\nu,\nu)\in o}$ \texttt{residualCharKernel} (B-only items \cref{II.kernel.def:eisenstein-orbit-kernel}, \cref{II.kernel.def:residual-character-kernel}). \emph{Total definition:} the standing assumptions on $(f,N,F,B)$ are not binders of the definition (they are binders of the theorems), so $K_{o,f}$ is a total function of arbitrary $(f,B)$; the arbitrary finite sets $B_\mu$ are junk off the standing assumptions. The sum over $\nu$ is a \texttt{tsum} over a subtype (finite, at most one $\nu$ per orbit) with junk value $0$. Bochner integrals take the value $0$ when the integrand is not integrable (junk value). 
+\end{tffidelity}
+\end{tfformal}
+\noindent\emph{Lean body.} \texttt{spectralKernel f B} is defined by cases on \texttt{CuspidalDatum}: \texttt{none} gives \texttt{cuspKernel stdHaarAdelic f}; \texttt{some o} gives \texttt{eisOrbitKernel f B o.1 x y} plus the \texttt{tsum} over the subtype of $\nu$ with $(\nu,\nu)\in o$ of \texttt{residualCharKernel f ν x y}. The helper \texttt{KSAux.spectralKernel\_some\_eq} rewrites the \texttt{some} case as $\sum'_{\mu\in o}\bigl(\int k_\mu\,\dd\nu+\texttt{KSAux.diagR}\,(\nu\mapsto\texttt{residualCharKernel f ν x y})\,\mu\bigr)$ when every $k_\mu$ is integrable, where \texttt{KSAux.diagR R μ} is $R\,\mu_1$ if $\mu_1=\mu_2$ and $0$ otherwise (\texttt{KSAux.resid\_tsum\_orbit} moves the residual sum from the subtype of diagonal characters to the orbit; \texttt{KSAux.integral\_tsum\_fin} exchanges $\int$ and the finite $\sum'$). No proof.
+
+\begin{theorem}[finite spectral support]
+\tfstmt{II.kernel.thm:finite-spectral-support}
+\lean{GL2TF.kernel_finite_spectral_support}
+\uses{II.kernel.def:spectral-kernel, II.kernel.def:cuspidal-datum, I.spec.def:eisenstein-kernel, I.eis.def:conductor, I.hecke.def:test-function, I.spec.def:hecke-level-datum, I.spec.def:eisenstein-kernel-basis, I.adele.def:adele-ring, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.def:zhat-reduction, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.eis.def:character-sign, I.eis.def:dirichlet-character-of, I.eis.def:eisenstein-continued, I.eis.def:induced-inner-product, I.eis.def:induced-law, I.eis.def:induced-rep-hecke, I.eis.def:induced-space-level, I.eis.def:k-haar-probability, I.eis.def:k-type, I.eis.def:weight-projection-left, I.eis.def:weight-projection-right, I.eis.lem:conductor-spec, I.eis.thm:induced-space-level-finite, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.rep.def:automorphic-test-function-action, I.spec.def:continuous-measure, I.spec.def:eisenstein-kernel-space, I.spec.def:residual-character, I.spec.def:residual-class, I.spec.def:residual-fourier, I.spec.def:residual-kernel, I.spec.def:residual-projection, I.spec.def:standard-haar, I.spec.lem:residual-kernel-claims, I.spec.lem:standard-haar-instance, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:congruence-kf, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, II.kernel.def:eisenstein-orbit-kernel, II.kernel.def:residual-character-kernel, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:finite-spectral-support}
+\tfsem{II.kernel.thm:finite-spectral-support}{6dce5a182b50cc9e5747baea689785b29e83d53a9766d427aa9f5edd2780977b}
+\tfhyps{II.kernel.thm:finite-spectral-support}{}
+\tfbinder{II.kernel.thm:finite-spectral-support}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:finite-spectral-support}{1}{6bf91802}{$f\in\mathcal H$ (\texttt{f ∈ testFunctions}, \texttt{I.hecke.def:test-function})}
+\tfbinder{II.kernel.thm:finite-spectral-support}{2}{dc571e2e}{the level $N\ge1$ of the datum (\texttt{ℕ+})}
+\tfbinder{II.kernel.thm:finite-spectral-support}{3}{b151a9f4}{the finite set $F\subseteq\Z$ of the datum (\texttt{Finset ℤ})}
+\tfbinder{II.kernel.thm:finite-spectral-support}{4}{43ef291d}{$(N,F)$ is a level datum of $f$ (\texttt{IsHeckeLevelDatum f N F}, B-only \texttt{I.spec.def:hecke-level-datum})}
+\tfbinder{II.kernel.thm:finite-spectral-support}{5}{0113118f}{the families of bases $B=(B_\mu)_\mu$, $B_\mu$ a finite set of functions $G(\A)\to\C$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.thm:finite-spectral-support}{6}{8da37d9d}{$B_\mu$ is a basis as in \texttt{I.spec.def:eisenstein-kernel} for every $\mu$ (\texttt{∀ μ, IsEisKernelBasis μ N F (B μ)}, B-only)}
+\begin{tffidelity}
+Unconditional (no H binder). A's ``$f\in\mathcal H$ with level datum $(N,F)$ and bases $B_\mu$'' is the five binders $f,\ f\in\mathcal H,\ N,F,\ \texttt{IsHeckeLevelDatum},\ B,\ \texttt{IsEisKernelBasis}$; here only $f\in\mathcal H$ (not $\mathcal H^{(2)}$) is assumed. Two conjuncts: (i) $K_{o,f}=0$ for every $o\in\mathfrak O$ having some pair $\mu\in o$ with $\operatorname{cond}\mu_1\nmid N$ or $\operatorname{cond}\mu_2\nmid N$ (the orbit-wise form: by \texttt{orbit\_not\_dvd} this is the same as ``every pair of $o$ has a bad conductor''); (ii) $S(N)$, the set of orbits all of whose pairs have conductors dividing $N$, is \texttt{Set.Finite}. \emph{D-CUSP:} $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ is \texttt{CuspidalDatum = Option 𝔒}; \texttt{none} is the one cuspidal datum, all cuspidal data being grouped (so the cuspidal part is $\operatorname{tr}R_{\mathrm{cusp}}(f)$, with no sum over cuspidal data), and \texttt{some o} is the datum of the orbit $o=\{\mu,\mu.\texttt{swap}\}$; the residual line $\eta_\nu$ belongs to the orbit $\{(\nu,\nu)\}$. \texttt{𝔒} is a local notation in Lean, not a constant. Only the Eisenstein-orbit data enter (the cuspidal kernel has no finiteness statement).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(i) Let $o$ contain a pair with a bad conductor; by \texttt{KernelSpectralAux.orbit\_not\_dvd} every pair of $o$ is bad. For $\mu\in o$ the space \texttt{eisKernelSpace μ N F} is $\bot$ (each \texttt{inducedSpaceLevel μ m N} is $\bot$, otherwise \texttt{induced\_space\_level\_finite} would give $\operatorname{cond}\mid N$; \texttt{iSup₂\_le}), so $B_\mu=\emptyset$ by the two basis clauses of \texttt{IsEisKernelBasis} (\texttt{Finset.eq\_empty\_of\_forall\_notMem}) and the Eisenstein part vanishes (\texttt{integral\_congr\_ae}, \texttt{integral\_zero}, \texttt{tsum\_congr}, \texttt{tsum\_zero}). For $(\nu,\nu)\in o$ one has $\hat f(\nu)=0$, because $\hat f(\nu)\ne0$ forces $\operatorname{cond}\nu\mid N$ (\texttt{residualKernel\_spec}, using that $f$ is right $K_f(N)$-invariant, from \texttt{hNF.1}; continuity from \texttt{continuous\_of\_smoothCompactNormOne}), so the residual terms vanish too and \texttt{add\_zero} closes. (ii) $\{\mu:\operatorname{cond}\mu_i\mid N\}$ is finite (\texttt{PWAux.finite\_conductor\_dvd}, \texttt{Set.Finite.prod}, \texttt{Set.Finite.subset}); $S(N)$ is contained in its image under $\mu\mapsto\{\mu,\mu.\texttt{swap}\}$. As A.
+\end{proof}
+
+\begin{theorem}[spectral decomposition of the kernel by cuspidal data, conditional on H2a and H3]
+\tfstmt{II.kernel.thm:spectral-decomposition}
+\lean{GL2TF.spectral_decomposition}
+\uses{I.spec.hyp:langlands-l2, I.eis.hyp:eis-continuation, II.kernel.def:kernel, II.kernel.def:spectral-kernel, II.kernel.thm:finite-spectral-support, I.spec.def:eisenstein-kernel, I.hecke.def:test-function, I.hecke.def:convolution-span, I.haar.def:haar-adelic, II.kernel.def:cuspidal-datum, I.eis.def:conductor, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.eis.def:k-type, I.spec.def:eisenstein-kernel-basis, I.spec.def:hecke-level-datum, I.spec.def:standard-haar, I.spec.lem:standard-haar-instance, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat-reduction, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-reduction-spec, I.adele.lem:zhat-units-explicit, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:rotation, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:special-orthogonal-real, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:rotation-surjective, I.cusp.def:cuspidal-kernel-row, I.cusp.def:cuspidal-projection, I.cusp.def:cuspidal-rep, I.cusp.def:kernel-row, I.cusp.def:l2-cusp-submodule, I.cusp.def:quotient-lift, I.cusp.lem:l2-cusp-complete-instance, I.cusp.thm:cuspidal-discrete-finite-multiplicity, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:height-map-iwasawa, I.decomp.thm:iwasawa-adelic, I.decomp.thm:iwasawa-real, I.eis.def:borel-coset-index, I.eis.def:character-sign, I.eis.def:continuous-functions-adelic, I.eis.def:continuous-sections, I.eis.def:dirichlet-character-of, I.eis.def:eisenstein-continued, I.eis.def:eisenstein-series, I.eis.def:half-plane, I.eis.def:idele-class-character, I.eis.def:idele-unit-part, I.eis.def:induced-factor, I.eis.def:induced-hilbert, I.eis.def:induced-inner-product, I.eis.def:induced-law, I.eis.def:induced-rep, I.eis.def:induced-rep-hecke, I.eis.def:induced-space, I.eis.def:induced-space-level, I.eis.def:intertwining-continued, I.eis.def:intertwining-global, I.eis.def:intertwining-level-map, I.eis.def:k-haar-probability, I.eis.def:k-span-adelic, I.eis.def:lambda-exp, I.eis.def:level-invariant, I.eis.def:local-component-inf, I.eis.def:right-k-finite-adelic, I.eis.def:shifted-section, I.eis.def:weight-projection-left, I.eis.def:weight-projection-right, I.eis.def:weight-submodule, I.eis.lem:conductor-spec, I.eis.lem:induced-inner-product-spec, I.eis.lem:intertwining-continued-level-compatible, I.eis.thm:convergence, I.eis.thm:induced-rep-unitary, I.eis.thm:induced-space-level-finite, I.gk.def:principal-series-weight-vector, I.gk.def:quasi-character-real, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:diag-elt-mem-torus, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:norm-one-unimodular, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.hecke.lem:gl2-padic-totally-disconnected, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.quot.def:automorphic-quotient-measure, I.quot.def:l2-automorphic, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:gl2-rat-norm-one-discrete, I.red.lem:automorphic-quotient-finite-instance, I.red.lem:simple-root-height-map, I.rep.def:automorphic-regular-rep, I.rep.def:automorphic-test-function-action, I.rep.def:integrated-rep, I.rep.def:k-finite, I.rep.def:left-translate, I.rep.def:right-translate, I.rep.def:unitary-rep, I.rep.def:weight-vector, I.rep.lem:integrated-rep-bounded, I.rep.thm:integrated-rep-convolution, I.spec.def:block-element, I.spec.def:block-hilbert, I.spec.def:block-image, I.spec.def:compact-block-datum, I.spec.def:continuous-fibre, I.spec.def:continuous-fibre-space, I.spec.def:continuous-measure, I.spec.def:eisenstein-kernel-space, I.spec.def:eisenstein-transform, I.spec.def:induced-class, I.spec.def:induced-section, I.spec.def:induced-unitary, I.spec.def:m-symmetric-part, I.spec.def:residual-character, I.spec.def:residual-class, I.spec.def:residual-fourier, I.spec.def:residual-kernel, I.spec.def:residual-line, I.spec.def:residual-projection, I.spec.lem:block-hilbert-complete-instance, I.spec.lem:induced-hilbert-complete-instance, I.spec.lem:residual-kernel-claims, I.spec.lem:residual-spectrum-claims, I.spec.thm:kernel-expansion, I.tcl.def:cuspidal-kernel, I.tcl.def:cuspidal-kernel-representing, I.tcl.def:test-function-adjoint, I.tcl.thm:cuspidal-kernel-continuous, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:congruence-k1, I.topgrp.def:congruence-kf, I.topgrp.def:congruence-subgroups, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:congruence-subgroups-explicit, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.thm:max-compact-real-compact, II.kernel.def:eisenstein-orbit-kernel, II.kernel.def:kernel-quotient, II.kernel.def:residual-character-kernel, II.simple.def:fin-restricted-equiv, II.simple.def:finite-box-subgroup, II.simple.def:integer-to-padic-int, II.simple.def:kp-equiv, II.simple.def:local-congruence-subgroup, II.simple.def:reduction-mod-pow, X.haar.def:group-convolution, X.haar.def:is-unimodular, X.mero.def:analytic-at-fin, X.mero.def:continuation-set, X.mero.def:continuation-set-fin, X.mero.def:meromorphic-continuation, X.mero.def:meromorphic-continuation-fin, X.mero.lem:meromorphic-continuation-unique, X.op.def:discrete-decomposition, X.op.def:equivalent-on, X.op.def:irreducible-on, X.quot.def:quotient-measure, X.quot.thm:unfolding-discrete, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:spectral-decomposition}
+\tfsem{II.kernel.thm:spectral-decomposition}{f720424a548fe365370d8bae8a83841dd06b79aaaa1a9d6d070abfa86ffc8aee}
+\tfhyps{II.kernel.thm:spectral-decomposition}{LanglandsL2,EisContinuation}
+\tfbinder{II.kernel.thm:spectral-decomposition}{0}{6576550e}{H3 (\texttt{Hyp.LanglandsL2}; hypothesis binder)}
+\tfbinder{II.kernel.thm:spectral-decomposition}{1}{bccbd906}{H2a for all indices (\texttt{∀ μ n N, Hyp.EisContinuation μ n N}; hypothesis binder; no H2b, D-ROUTE10)}
+\tfbinder{II.kernel.thm:spectral-decomposition}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:spectral-decomposition}{3}{8d536d94}{$f\in\mathcal H$ (\texttt{f ∈ testFunctions}, \texttt{I.hecke.def:test-function})}
+\tfbinder{II.kernel.thm:spectral-decomposition}{4}{e36bb9a7}{$f\in\mathcal H^{(2)}$ (\texttt{f ∈ convolutionSpan stdHaarAdelic}; together with the previous binder $f\in\mathcal H\cap\mathcal H^{(2)}$)}
+\tfbinder{II.kernel.thm:spectral-decomposition}{5}{1f489fc1}{the level $N\ge1$ of the datum (\texttt{ℕ+})}
+\tfbinder{II.kernel.thm:spectral-decomposition}{6}{cfeb38fc}{the finite set $F\subseteq\Z$ of the datum (\texttt{Finset ℤ})}
+\tfbinder{II.kernel.thm:spectral-decomposition}{7}{664a50a2}{$(N,F)$ is a level datum of $f$ (\texttt{IsHeckeLevelDatum f N F}, B-only \texttt{I.spec.def:hecke-level-datum})}
+\tfbinder{II.kernel.thm:spectral-decomposition}{8}{2d5c21f7}{the families of bases $B=(B_\mu)_\mu$, $B_\mu$ a finite set of functions $G(\A)\to\C$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.thm:spectral-decomposition}{9}{5c7033ea}{$B_\mu$ is a basis as in \texttt{I.spec.def:eisenstein-kernel} for every $\mu$ (\texttt{∀ μ, IsEisKernelBasis μ N F (B μ)}, B-only)}
+\begin{tffidelity}
+\emph{Hypotheses:} H3 and H2a (the $\forall$-family over all $(\mu,n,N)$, not a single index) are explicit binders in this order, exactly as in exit 52 (\texttt{kernel\_expansion}); there is no H2b binder, and no bound of $\widetilde E$ or $\widetilde M$ in $\lambda$ enters (D-ROUTE10, L0 Q3). \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. \emph{D-CUSP:} $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ is \texttt{CuspidalDatum = Option 𝔒}; \texttt{none} is the one cuspidal datum, all cuspidal data being grouped (so the cuspidal part is $\operatorname{tr}R_{\mathrm{cusp}}(f)$, with no sum over cuspidal data), and \texttt{some o} is the datum of the orbit $o=\{\mu,\mu.\texttt{swap}\}$; the residual line $\eta_\nu$ belongs to the orbit $\{(\nu,\nu)\}$. \texttt{𝔒} is a local notation in Lean, not a constant. $\sum_{o\in S(N)}$ is \texttt{∑ᶠ (o : 𝔒) (\_ : ∀ μ ∈ o.1, conductor μ.1 ∣ N ∧ conductor μ.2 ∣ N)}, a \texttt{finsum} (junk value $0$ off finite support; the support is finite by \cref{II.kernel.thm:finite-spectral-support}); $S(N)$ is written inline, not a constant. Two conjuncts, (a) and (b)/(c)/(d) of A: first $K_f=K_{\mathrm{cusp},f}+\sum_{o\in S(N)}K_{o,f}$ for all $x,y$; second, for every $\chi\in\mathfrak X$ (cusp included): joint continuity on $G(\A)^1\times G(\A)^1$, independence of the datum (\texttt{∀ N' F' B', IsHeckeLevelDatum f N' F' → … → spectralKernel f B' χ = spectralKernel f B χ}, equality of functions), and invariance under left translation of each variable by \texttt{gl2RatNormOne}, i.e.\ by $G(\Q)\cap G(\A)^1$. The kernel $K_f$ is \texttt{kernel f} (\texttt{II.kernel.def:kernel}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjunct 1 is \texttt{KSAux.decomp\_a}; for $\chi=\mathrm{cusp}$ the continuity is \texttt{kernel\_expansion} (exit 52, second component), independence of $(N',F',B')$ is \texttt{rfl} (\texttt{cuspKernel} does not involve the datum) and invariance is \texttt{cuspidal\_kernel\_continuous}; for $\chi=o$ it is \texttt{KSAux.decomp\_b}. \emph{\texttt{decomp\_a}.} Take a level-type factorization $f=\sum g_i\ast h_i$ (\texttt{EisKernelAux.factorization}). \texttt{KSAux.integrable\_kmu\_and} gives integrability of every $k_\mu$ (\emph{Divergence from A:} D-L2-1, per pair $\mu$ rather than per orbit). With $P=\texttt{condFin }N\times\texttt{condFin }N$ (\texttt{KSAux.condFin}, \texttt{KSAux.finsum\_pairs}), $B_\mu=\emptyset$ off $P$ (\texttt{KSAux.B\_empty}) and $\hat f(\mu_1)=0$ for $\mu\notin P$ (\texttt{residualKernel\_spec}) turn the Eisenstein and residual kernels of \texttt{kernel\_expansion} ($K_f=K_{\mathrm{cusp}}+K_{\mathrm{Eis}}+K_{\mathrm{res}}$) into finite sums over $P$ (\texttt{integral\_finsetSum}, \texttt{KSAux.resid\_tsum\_all}); \texttt{KSAux.regroup} regroups the sum over $P$ by orbits, and \texttt{KSAux.spectralKernel\_some\_eq} identifies each orbit sum with \texttt{spectralKernel f B (some o)}. \emph{\texttt{decomp\_b}.} \texttt{KSAux.spectralKernel\_rows} writes $K_{o,f}(x,y)=\sum'_{\mu\in o}(\sum_i\langle E_\mu J^*k^0_{g_i,x},E_\mu J^*k^0_{h_i^*,y}\rangle+\texttt{diagR}\cdots)$ with $E_\mu=$ \texttt{KSAux.rowMu}; continuity is then \texttt{KSAux.continuous\_rowMu}, \texttt{KSAux.continuous\_residualCharKernel} and \texttt{continuous\_finsetSum}; left invariance is \texttt{KSAux.rowMu\_invariant}, \texttt{KSAux.residualCharKernel\_invariant}. Independence of the datum: for a.e.\ $t$ and every $\mu$, $k^B_\mu(t)=\langle e''_x,\pi_t(f)e''_y\rangle$ for the Riesz vectors of the common refinement $(N N',F\cup F')$ (\texttt{KSAux.kmu\_riesz}, via \texttt{levelType\_mono}), hence $k^B_\mu=k^{B'}_\mu$ a.e.\ (\texttt{KSAux.kmu\_indep}) and \texttt{integral\_congr\_ae} gives equality of the Eisenstein parts. \emph{Divergence from A:} D-L2-2 (independence via the refinement, not Step 4 with (P2) and (Z)); D-L2-3 (continuity and invariance from the row formula).
+\end{proof}
+
+\begin{corollary}[spectral decomposition for all test functions, conditional on H1, H2a and H3]
+\tfstmt{II.kernel.cor:spectral-decomposition-h1}
+\lean{GL2TF.spectral_decomposition_h1}
+\uses{I.hecke.hyp:convolution-factorization, I.spec.hyp:langlands-l2, I.eis.hyp:eis-continuation, II.kernel.thm:spectral-decomposition, I.hecke.def:test-function, II.kernel.def:spectral-kernel, II.kernel.def:cuspidal-datum, II.kernel.def:kernel, I.eis.def:conductor, I.adele.def:adele-ring, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.eis.def:k-type, I.quot.def:gl2-rat-norm-one, I.spec.def:eisenstein-kernel-basis, I.spec.def:hecke-level-datum, I.spec.def:standard-haar, I.spec.lem:standard-haar-instance, I.topgrp.def:norm-one-group}
+\end{corollary}
+\begin{tfformal}{II.kernel.cor:spectral-decomposition-h1}
+\tfsem{II.kernel.cor:spectral-decomposition-h1}{b2d35312aa5d23a1ab86d4e3cf47dd8128c5f09d6f4ca5a957d0d63b71dbe147}
+\tfhyps{II.kernel.cor:spectral-decomposition-h1}{ConvolutionFactorization,LanglandsL2,EisContinuation}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{0}{75fc4c3b}{H1 (\texttt{Hyp.ConvolutionFactorization}, quantified over the Haar measure; hypothesis binder)}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{1}{ad1d8626}{H3 (\texttt{Hyp.LanglandsL2}; hypothesis binder)}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{2}{a16fe587}{H2a for all indices (\texttt{∀ μ n N, Hyp.EisContinuation μ n N}; hypothesis binder; no H2b, D-ROUTE10)}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{3}{2768f443}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{4}{150cb5e8}{$f\in\mathcal H$ (\texttt{f ∈ testFunctions}, \texttt{I.hecke.def:test-function})}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{5}{1f489fc1}{the level $N\ge1$ of the datum (\texttt{ℕ+})}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{6}{cfeb38fc}{the finite set $F\subseteq\Z$ of the datum (\texttt{Finset ℤ})}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{7}{6aac2e5a}{$(N,F)$ is a level datum of $f$ (\texttt{IsHeckeLevelDatum f N F}, B-only \texttt{I.spec.def:hecke-level-datum})}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{8}{2d5c21f7}{the families of bases $B=(B_\mu)_\mu$, $B_\mu$ a finite set of functions $G(\A)\to\C$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.cor:spectral-decomposition-h1}{9}{5c7033ea}{$B_\mu$ is a basis as in \texttt{I.spec.def:eisenstein-kernel} for every $\mu$ (\texttt{∀ μ, IsEisKernelBasis μ N F (B μ)}, B-only)}
+\begin{tffidelity}
+Conditional on H1, H3 and H2a (all-index family; no H2b, D-ROUTE10), binders in this order. The conclusions are those of \cref{II.kernel.thm:spectral-decomposition} for every $f\in\mathcal H$: the Lean proof applies that theorem to $f\in\mathcal H\cap\mathcal H^{(2)}$ obtained from H1 (\texttt{h1 stdHaarAdelic hf}), so no \texttt{convolutionSpan} binder remains. \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. 
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Apply \texttt{spectral\_decomposition} to $f\in\mathcal H\cap\mathcal H^{(2)}$, where $f\in\mathcal H^{(2)}$ is \texttt{h1 stdHaarAdelic hf}. No further argument.
+\end{proof}
+
+\begin{theorem}[the orbit kernel represents $R(f)P_o$, conditional on H2a and H3]
+\tfstmt{II.kernel.thm:spectral-kernel-operator}
+\lean{GL2TF.spectral_kernel_operator}
+\uses{I.spec.hyp:langlands-l2, I.eis.hyp:eis-continuation, II.kernel.def:spectral-kernel, II.kernel.def:cuspidal-datum, I.spec.def:m-symmetric-part, I.spec.def:eisenstein-transform, I.spec.def:residual-spectrum, I.rep.def:automorphic-test-function-action, I.spec.def:eisenstein-kernel, I.hecke.def:test-function, I.hecke.def:convolution-span, II.kernel.def:orbit-projection, I.quot.def:l2-automorphic, I.quot.def:automorphic-quotient-measure, I.spec.def:standard-haar, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.eis.def:k-type, I.quot.def:gl2-rat-norm-one, I.spec.def:eisenstein-kernel-basis, I.spec.def:hecke-level-datum, I.spec.lem:standard-haar-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat-reduction, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-reduction-spec, I.adele.lem:zhat-units-explicit, I.adele.thm:zhat-characters-finite-order, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:rotation, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:special-orthogonal-real, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:rotation-surjective, I.cusp.def:cuspidal-rep, I.cusp.def:kernel-row, I.cusp.def:l2-cusp-submodule, I.cusp.def:quotient-lift, I.cusp.lem:l2-cusp-complete-instance, I.cusp.thm:cuspidal-discrete-finite-multiplicity, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:height-map-iwasawa, I.decomp.thm:iwasawa-adelic, I.decomp.thm:iwasawa-real, I.eis.def:borel-coset-index, I.eis.def:character-sign, I.eis.def:conductor, I.eis.def:continuous-functions-adelic, I.eis.def:continuous-sections, I.eis.def:dirichlet-character-of, I.eis.def:eisenstein-continued, I.eis.def:eisenstein-series, I.eis.def:half-plane, I.eis.def:idele-class-character, I.eis.def:idele-unit-part, I.eis.def:induced-factor, I.eis.def:induced-hilbert, I.eis.def:induced-inner-product, I.eis.def:induced-law, I.eis.def:induced-rep, I.eis.def:induced-rep-hecke, I.eis.def:induced-space, I.eis.def:induced-space-level, I.eis.def:intertwining-continued, I.eis.def:intertwining-global, I.eis.def:intertwining-level-map, I.eis.def:k-haar-probability, I.eis.def:k-span-adelic, I.eis.def:lambda-exp, I.eis.def:level-invariant, I.eis.def:local-component-inf, I.eis.def:right-k-finite-adelic, I.eis.def:shifted-section, I.eis.def:weight-projection-left, I.eis.def:weight-projection-right, I.eis.def:weight-submodule, I.eis.lem:conductor-spec, I.eis.lem:induced-inner-product-spec, I.eis.lem:intertwining-continued-level-compatible, I.eis.thm:convergence, I.eis.thm:induced-rep-unitary, I.eis.thm:induced-space-level-finite, I.gk.def:principal-series-weight-vector, I.gk.def:quasi-character-real, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:diag-elt-mem-torus, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:norm-one-unimodular, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.hecke.lem:gl2-padic-totally-disconnected, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.quot.def:automorphic-right-action, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:automorphic-quotient-invariant-instance, I.quot.lem:automorphic-right-action-continuous-instance, I.quot.lem:automorphic-right-action-spec, I.quot.lem:gl2-rat-norm-one-discrete, I.red.lem:automorphic-quotient-finite-instance, I.red.lem:simple-root-height-map, I.red.thm:finite-volume, I.rep.def:automorphic-regular-rep, I.rep.def:integrated-rep, I.rep.def:k-finite, I.rep.def:left-translate, I.rep.def:right-regular-rep, I.rep.def:right-translate, I.rep.def:unitary-rep, I.rep.def:weight-vector, I.rep.lem:automorphic-regular-apply, I.rep.lem:automorphic-test-function-action-bounded, I.rep.lem:integrated-rep-bounded, I.rep.thm:automorphic-regular-unitary, I.rep.thm:integrated-rep-convolution, I.spec.def:block-element, I.spec.def:block-hilbert, I.spec.def:block-image, I.spec.def:compact-block-datum, I.spec.def:continuous-fibre, I.spec.def:continuous-fibre-space, I.spec.def:continuous-measure, I.spec.def:eisenstein-kernel-space, I.spec.def:induced-class, I.spec.def:induced-section, I.spec.def:induced-unitary, I.spec.def:residual-character, I.spec.def:residual-class, I.spec.def:residual-line, I.spec.lem:block-hilbert-complete-instance, I.spec.lem:induced-hilbert-complete-instance, I.spec.lem:residual-spectrum-claims, I.tcl.def:test-function-adjoint, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:congruence-k1, I.topgrp.def:congruence-kf, I.topgrp.def:congruence-subgroups, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:congruence-subgroups-explicit, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.thm:max-compact-real-compact, II.kernel.def:eisenstein-orbit-kernel, II.kernel.def:kernel, II.kernel.def:kernel-quotient, II.kernel.def:residual-character-kernel, II.kernel.thm:integral-operator, II.simple.def:fin-restricted-equiv, II.simple.def:finite-box-subgroup, II.simple.def:integer-to-padic-int, II.simple.def:kp-equiv, II.simple.def:local-congruence-subgroup, II.simple.def:reduction-mod-pow, X.haar.def:group-convolution, X.haar.def:is-unimodular, X.haar.lem:unimodular-iff-modular-character, X.mero.def:analytic-at-fin, X.mero.def:continuation-set, X.mero.def:continuation-set-fin, X.mero.def:meromorphic-continuation, X.mero.def:meromorphic-continuation-fin, X.mero.lem:meromorphic-continuation-unique, X.op.def:discrete-decomposition, X.op.def:equivalent-on, X.op.def:irreducible-on, X.op.def:spectral-decomposition, X.op.lem:discrete-decomposition-iff, X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec, X.quot.thm:unfolding-discrete, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:spectral-kernel-operator}
+\tfsem{II.kernel.thm:spectral-kernel-operator}{443cf8e167798e1ab174607db0d87be2557f6628d882cb4e5dc8d4ebaf756ab4}
+\tfhyps{II.kernel.thm:spectral-kernel-operator}{LanglandsL2,EisContinuation}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{0}{6576550e}{H3 (\texttt{Hyp.LanglandsL2}; hypothesis binder)}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{1}{bccbd906}{H2a for all indices (\texttt{∀ μ n N, Hyp.EisContinuation μ n N}; hypothesis binder; no H2b, D-ROUTE10)}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{3}{8d536d94}{$f\in\mathcal H$ (\texttt{f ∈ testFunctions}, \texttt{I.hecke.def:test-function})}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{4}{e36bb9a7}{$f\in\mathcal H^{(2)}$ (\texttt{f ∈ convolutionSpan stdHaarAdelic}; together with the previous binder $f\in\mathcal H\cap\mathcal H^{(2)}$)}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{5}{1f489fc1}{the level $N\ge1$ of the datum (\texttt{ℕ+})}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{6}{cfeb38fc}{the finite set $F\subseteq\Z$ of the datum (\texttt{Finset ℤ})}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{7}{664a50a2}{$(N,F)$ is a level datum of $f$ (\texttt{IsHeckeLevelDatum f N F}, B-only \texttt{I.spec.def:hecke-level-datum})}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{8}{2d5c21f7}{the families of bases $B=(B_\mu)_\mu$, $B_\mu$ a finite set of functions $G(\A)\to\C$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{9}{5c7033ea}{$B_\mu$ is a basis as in \texttt{I.spec.def:eisenstein-kernel} for every $\mu$ (\texttt{∀ μ, IsEisKernelBasis μ N F (B μ)}, B-only)}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{10}{75e5487f}{the orbit $o=\{\mu,w\mu\}\in\mathfrak O$ (the subtype \texttt{𝔒} of \texttt{Set DirichletPair})}
+\tfbinder{II.kernel.thm:spectral-kernel-operator}{11}{861bec79}{the function $\psi\in L^2(X)$ (\texttt{l2Automorphic stdHaarAdelic})}
+\begin{tffidelity}
+\emph{Hypotheses:} H3 and H2a (the $\forall$-family over all $(\mu,n,N)$, not a single index) are explicit binders in this order, exactly as in exit 52 (\texttt{kernel\_expansion}); there is no H2b binder, and no bound of $\widetilde E$ or $\widetilde M$ in $\lambda$ enters (D-ROUTE10, L0 Q3). \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. Functions on $X$ are $q\mapsto F(\texttt{Quotient.out }q)$ (D-REP). The orbit projection $P_o$ is the B-only \texttt{orbitProj} (\cref{II.kernel.def:orbit-projection}); A defines it inline (SCR-L2-7). Two conjuncts: (i) for every $x\in G(\A)^1$ the function $\dot y\mapsto K_{o,f}(x,\texttt{Quotient.out}\,\dot y)\psi(\dot y)$ is \texttt{Integrable} on $X$; (ii) $R(f)P_o\psi=\bigl(\dot x\mapsto\int_XK_{o,f}(\texttt{out}\,\dot x,\texttt{out}\,\dot y)\psi(\dot y)\,\dd\dot y\bigr)$ almost everywhere, with $R(f)=$ \texttt{automorphicTestAction stdHaarAdelic f} (\texttt{I.rep.def:automorphic-test-function-action}). The class $\psi\in L^2$ is coerced to a function on $X$ by a representative (the integrals do not depend on it); the integral is Bochner (junk $0$, but integrability is conjunct (i)). The statement is for $o\in\mathfrak O$ only; $\chi=\mathrm{cusp}$ is item~37's business.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{KSAux.kernel\_operator}. Take a level-type factorization $f=\sum_ig_i\ast h_i$ (\texttt{EisKernelAux.factorization}). The row formula \texttt{KSAux.orbit\_rows} gives $K_{o,f}(x,y)=\sum_i\langle P_ok^0_{g_i,x},P_ok^0_{h_i^*,y}\rangle$ (with \texttt{KSAux.inner\_orbitProj\_proj} one $P_o$ may be dropped). By \texttt{CuspKernelAux.testAction\_ae\_eq\_inner\_row}, $y\mapsto K_{o,f}(x,y)$ is a.e.\ equal to $q\mapsto\sum_i\langle(R(h_i^*)P_ok^0_{g_i,x})(q),\psi(q)\rangle$ (\texttt{KSAux.inner\_aux}), a sum of $L^2$-inner products, so integrable (\texttt{L2.integrable\_inner}, \texttt{integrable\_finsetSum}) with explicit integral. For the second conjunct, $R(f)=\sum R(g_i)R(h_i)$ (\texttt{integratedRep\_convolution}, \texttt{TraceClassAux.integratedRep\_finsum}), then \texttt{TraceClassAux.testAction\_adjoint}, self-adjointness of $P_o$ (\texttt{KSAux.inner\_orbitProj\_left}) and (P2) \texttt{KSAux.orbitProj\_testAction} move $R(h_i)$ and $P_o$ across. \emph{(P1), explicit formula:} \texttt{KSAux.orbitProj\_apply} shows $P_oa=\texttt{projFormula}\,o\,a=J(\Pi_oJ^*a)+\sum_{\nu}\operatorname{vol}^{-1}\langle[\eta_\nu],a\rangle[\eta_\nu]$ by \texttt{Submodule.eq\_starProjection\_of\_mem\_of\_inner\_eq\_zero} (membership \texttt{KSAux.projFormula\_mem}; orthogonality \texttt{KSAux.projFormula\_perp\_J}, \texttt{KSAux.projFormula\_perp\_res}, using \texttt{KSAux.res\_perp\_J}), whence \texttt{KSAux.inner\_orbitProj}. \emph{(P2):} \texttt{KSAux.regular\_J} (H3's $R(g)J=JU_g$), \texttt{KSAux.regular\_orbitSpace} (via \texttt{KSAux.closure\_span\_invariant}) and \texttt{KSAux.testAction\_orbitSpace} show $R(u)W_o\subseteq W_o$, then \texttt{KSAux.orbitProj\_testAction}. \emph{Divergence from A:} D-L2-7 ((P1) as an explicit formula, not through $Q_o=J\Pi_oJ^*$ being a projection; (P2) only for $R(u)$, $u\in C_c^\infty$).
+\end{proof}
+
+\begin{definition}[the constant-term kernels of the cuspidal data]
+\tfstmt{II.kernel.def:datum-constant-term-kernel}
+\lean{GL2TF.datumConstTermKernel}
+\uses{II.kernel.def:constant-term-kernel, II.kernel.def:cuspidal-datum, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, I.adele.def:zhat-units-haar, I.conv.def:diag-element, I.topgrp.def:gl2-zhat, I.adele.def:dirichlet-pair, I.conv.def:max-compact-real, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.topgrp.def:fin-embedding, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.kernel.def:datum-constant-term-kernel}
+\tfsem{II.kernel.def:datum-constant-term-kernel}{c1705bcd5083a7f568a20f02b8b03224cfee58d44d2d0b6879c7f6b8de7976c7}
+\tfhyps{II.kernel.def:datum-constant-term-kernel}{}
+\tfbinder{II.kernel.def:datum-constant-term-kernel}{0}{63a2c474}{the additive Haar measure (any measure, \texttt{Measure Adele}) $\dd u$ on $\A$ used for $K_B$ (explicit, D13; the Haar condition is not a binder of the definition)}
+\tfbinder{II.kernel.def:datum-constant-term-kernel}{1}{1ca60fe5}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.def:datum-constant-term-kernel}{2}{72acf0c5}{the cuspidal datum $\mathfrak x$ (\texttt{CuspidalDatum})}
+\tfbinder{II.kernel.def:datum-constant-term-kernel}{3}{c91b8544}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.def:datum-constant-term-kernel}{4}{1545b40b}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+\emph{D-CUSP:} $\mathfrak X=\{\mathrm{cusp}\}\sqcup\mathfrak O$ is \texttt{CuspidalDatum = Option 𝔒}; \texttt{none} is the one cuspidal datum, all cuspidal data being grouped (so the cuspidal part is $\operatorname{tr}R_{\mathrm{cusp}}(f)$, with no sum over cuspidal data), and \texttt{some o} is the datum of the orbit $o=\{\mu,\mu.\texttt{swap}\}$; the residual line $\eta_\nu$ belongs to the orbit $\{(\nu,\nu)\}$. \texttt{𝔒} is a local notation in Lean, not a constant. \emph{Item~21 as an integral over $\widehat{\mathbb Z}^\times\times\widehat{\mathbb Z}^\times$:} the integral over $T(\Q)\backslash T(\A)^1\cong\widehat{\mathbb Z}^\times\times\widehat{\mathbb Z}^\times$ is the Bochner integral over \texttt{Zhatˣ × Zhatˣ} with the product of the Haar probability measures \texttt{zhatUnitsHaar}, the representative of $u$ being $m(u)=(1,\operatorname{diag}(u_1,u_2))\in G(\A)^1$ (\texttt{finEmb (gl2Zhat (diagElt u.1 u.2))}, a norm-one element by \texttt{finEmb\_mem\_normOneGroup}). \emph{$\mu(m)$ convention on the $y$-side:} the character is $\mu_1(u_1)\mu_2(u_2)$ (not $\overline{\mu(u)}$), and $m(u)$ multiplies $y$ from the left, \texttt{constTermKernel lam f x (m(u) * y)} (L5, as in A, whose remark explains why $\bar\mu$ would lose the residual line). The sum over $\mu\in o$ is a \texttt{tsum} over \texttt{↥o} (at most two terms). For \texttt{none} the value is $0$ (D-CUSP: no constant term for the cuspidal datum in the sense used here). Bochner integrals take the value $0$ when the integrand is not integrable (junk value). Total in $(\dd u,f)$; the measure is a plain \texttt{Measure Adele} binder, instantiated by \texttt{adeleHaar} in \cref{II.specc.def:spectral-modified-kernel}.
+\end{tffidelity}
+\end{tfformal}
+\noindent\emph{Lean body.} \texttt{datumConstTermKernel lam f} is by cases: \texttt{none} gives the zero function; \texttt{some o} gives the \texttt{tsum} over $\mu\in o$ of the Bochner integral over \texttt{zhatUnitsHaar.prod zhatUnitsHaar} of \texttt{constTermKernel lam f x (m(u) * y)} times $\mu_1(u_1)\mu_2(u_2)$, with $m(u)\in G(\A)^1$ the element built from \texttt{finEmb (gl2Zhat (diagElt u.1 u.2))} (the helper \texttt{KSAux.mZ}; \texttt{KSAux.mZ\_mul}, \texttt{KSAux.mZ\_one}, \texttt{KSAux.continuous\_mZ}); \texttt{KSAux.datumCT\_some} restates the \texttt{some} case with \texttt{mZ} (by \texttt{rfl}). No proof.
+
+\begin{theorem}[decomposition of the constant-term kernel by cuspidal data]
+\tfstmt{II.kernel.thm:constant-term-spectral-decomposition}
+\lean{GL2TF.constant_term_spectral_decomposition}
+\uses{II.kernel.def:constant-term-kernel, II.kernel.def:datum-constant-term-kernel, II.kernel.thm:finite-spectral-support, I.hecke.def:test-function, I.topgrp.def:congruence-subgroups, I.eis.def:conductor, II.kernel.def:cuspidal-datum, I.topgrp.def:congruence-kf, I.adele.def:adele-ring, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.topgrp.def:fin-embedding, I.topgrp.def:norm-one-group, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat-reduction, I.adele.def:zhat-to-padic-int, I.adele.def:zhat-units-haar, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-compact-instance, I.adele.lem:zhat-reduction-spec, I.adele.lem:zhat-units-borel-instance, I.adele.lem:zhat-units-explicit, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:iwasawa-adelic, I.eis.def:dirichlet-character-of, I.eis.lem:conductor-spec, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:congruence-k1, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:congruence-subgroups-explicit, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.kernel.thm:constant-term-kernel-properties}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:constant-term-spectral-decomposition}
+\tfsem{II.kernel.thm:constant-term-spectral-decomposition}{ae52e45cda4f327de2a66569bafac3df986b3c35b1089f7be9f45b1303342078}
+\tfhyps{II.kernel.thm:constant-term-spectral-decomposition}{}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{0}{63a2c474}{the measure $\dd u$ on $\A$ (\texttt{Measure Adele}, explicit, D13)}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{1}{da8beea4}{$\dd u$ is an additive Haar measure (instance binder \texttt{lam.IsAddHaarMeasure})}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{3}{8d536d94}{$f\in\mathcal H$ (\texttt{f ∈ testFunctions})}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{4}{675f5509}{the level $N\ge1$ (\texttt{ℕ+})}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{5}{1cd00033}{$f$ is right $K_f(N)$-invariant: $f(yz)=f(y)$ whenever $z=\mathtt{finEmb}\,k$ with $k\in K_f(N)$ (\texttt{congruenceKf N})}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{6}{be6be050}{the point $x\in G(\A)^1$}
+\tfbinder{II.kernel.thm:constant-term-spectral-decomposition}{7}{f6cb26f6}{the point $y\in G(\A)^1$}
+\begin{tffidelity}
+Unconditional. A's ``$f\in\mathcal H$ right $K_f(N)$-invariant'' is the binders $f$, $f\in\mathcal H$, $N$ and the invariance clause; no level datum $(N,F,B)$ is involved. Two conjuncts: (i) $K_{B,o,f}(x,y)=0$ for $o\in\mathfrak O$ with a pair of conductor not dividing $N$; (ii) $K_{B,f}(x,y)=\sum_{o\in S(N)}K_{B,o,f}(x,y)$ for all $x,y$. $\sum_{o\in S(N)}$ is \texttt{∑ᶠ (o : 𝔒) (\_ : ∀ μ ∈ o.1, conductor μ.1 ∣ N ∧ conductor μ.2 ∣ N)}, a \texttt{finsum} (junk value $0$ off finite support; the support is finite by \cref{II.kernel.thm:finite-spectral-support}); $S(N)$ is written inline, not a constant. No cuspidal term appears ($K_{B,\mathrm{cusp}}=0$ in the Lean definition). The statement holds for every Haar measure $\dd u$ (instance binder); the conclusion is an equality of Bochner integrals with the junk-value convention.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{KSAux.ct\_decomp}. Put $\Phi(u)=K_B(x,m(u)y)$, continuous on $\widehat{\Z}^\times\times\widehat{\Z}^\times$ (\texttt{KSAux.continuous\_ct\_mZ}, from \texttt{constant\_term\_kernel\_properties}). \emph{Invariance under $U(N)^2$} (\texttt{KSAux.ct\_invariant}): for $v$ with both components in $\ker\mathrm{red}_N$, the Iwasawa move \texttt{KSAux.diag\_move} gives $\mathtt{finEmb}(\mathrm{diag}\,v)\,w=n(s)\,w\,k'$ with $k'\in K_f(N)$ (using \texttt{iwasawa\_adelic}, \texttt{borel\_eq\_n\_t}, \texttt{torus\_normalizes\_unipotent}, \texttt{KSAux.finEmb\_conj\_K}); the left $N(\A)$-invariance of $K_B$ in the second variable (\texttt{constant\_term\_kernel\_properties}, with $\mathtt{unipNormOne}\,0=1$) removes $n(s)$ and the right $K_f(N)$-invariance of $f$ removes $k'$. (i) For $o$ with a bad pair, \texttt{KSAux.int\_char\_zero}: pick $v\in U(N)^2$ with $\mu_1(v_1)\mu_2(v_2)\ne1$, then left-translation invariance of the Haar measure (\texttt{integral\_mul\_left\_eq\_self}) gives $(\mu_1(v_1)\mu_2(v_2)-1)\int=0$; \texttt{KernelSpectralAux.orbit\_not\_dvd} supplies the bad pair for every $\mu\in o$. (ii) $K_B(x,y)=\Phi(1)$ (\texttt{KSAux.mZ\_one}) and \texttt{KSAux.torus\_avg} (item (c)) expand $\Phi(1)$ as the sum over $P=\texttt{condFin }N\times\texttt{condFin }N$; \texttt{KSAux.regroup} regroups it by orbits and \texttt{KSAux.datumCT\_some} identifies the terms. No cuspidal term appears since $K_{B,\mathrm{cusp}}=0$ by definition.
+\end{proof}
+
+\begin{theorem}[symmetries of the orbit kernels, conditional on H2a and H3]
+\tfstmt{II.kernel.thm:spectral-kernel-invariance}
+\lean{GL2TF.spectral_kernel_invariance}
+\uses{I.spec.hyp:langlands-l2, I.eis.hyp:eis-continuation, II.kernel.def:spectral-kernel, II.kernel.def:cuspidal-datum, I.spec.def:eisenstein-kernel, I.hecke.def:test-function, I.hecke.def:convolution-span, I.topgrp.def:max-compact-adelic, I.tcl.def:test-function-adjoint, I.topgrp.def:adelic-component-inf, I.conv.def:max-compact-real, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:dirichlet-pair, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.eis.def:k-type, I.spec.def:eisenstein-kernel-basis, I.spec.def:hecke-level-datum, I.spec.def:standard-haar, I.spec.lem:standard-haar-instance, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat-reduction, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-reduction-spec, I.adele.lem:zhat-units-explicit, I.adele.thm:zhat-characters-finite-order, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:rotation, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:special-orthogonal-real, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:rotation-surjective, I.cusp.def:cuspidal-rep, I.cusp.def:kernel-row, I.cusp.def:l2-cusp-submodule, I.cusp.def:quotient-lift, I.cusp.lem:l2-cusp-complete-instance, I.cusp.thm:cuspidal-discrete-finite-multiplicity, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:height-map-iwasawa, I.decomp.thm:iwasawa-adelic, I.decomp.thm:iwasawa-real, I.eis.def:borel-coset-index, I.eis.def:character-sign, I.eis.def:conductor, I.eis.def:continuous-functions-adelic, I.eis.def:continuous-sections, I.eis.def:dirichlet-character-of, I.eis.def:eisenstein-continued, I.eis.def:eisenstein-series, I.eis.def:half-plane, I.eis.def:idele-class-character, I.eis.def:idele-unit-part, I.eis.def:induced-factor, I.eis.def:induced-hilbert, I.eis.def:induced-inner-product, I.eis.def:induced-law, I.eis.def:induced-rep, I.eis.def:induced-rep-hecke, I.eis.def:induced-space, I.eis.def:induced-space-level, I.eis.def:intertwining-continued, I.eis.def:intertwining-global, I.eis.def:intertwining-level-map, I.eis.def:k-haar-probability, I.eis.def:k-span-adelic, I.eis.def:lambda-exp, I.eis.def:level-invariant, I.eis.def:local-component-inf, I.eis.def:right-k-finite-adelic, I.eis.def:shifted-section, I.eis.def:weight-projection-left, I.eis.def:weight-projection-right, I.eis.def:weight-submodule, I.eis.lem:conductor-spec, I.eis.lem:induced-inner-product-spec, I.eis.lem:intertwining-continued-level-compatible, I.eis.thm:convergence, I.eis.thm:induced-rep-unitary, I.eis.thm:induced-space-level-finite, I.gk.def:principal-series-weight-vector, I.gk.def:quasi-character-real, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:diag-elt-mem-torus, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:norm-one-unimodular, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.hecke.lem:gl2-padic-totally-disconnected, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:gl2-rat-norm-one-discrete, I.red.lem:automorphic-quotient-finite-instance, I.red.lem:simple-root-height-map, I.rep.def:automorphic-regular-rep, I.rep.def:integrated-rep, I.rep.def:k-finite, I.rep.def:left-translate, I.rep.def:right-translate, I.rep.def:unitary-rep, I.rep.def:weight-vector, I.rep.lem:integrated-rep-bounded, I.rep.thm:integrated-rep-convolution, I.spec.def:block-element, I.spec.def:block-hilbert, I.spec.def:block-image, I.spec.def:compact-block-datum, I.spec.def:continuous-fibre, I.spec.def:continuous-fibre-space, I.spec.def:continuous-measure, I.spec.def:eisenstein-kernel-space, I.spec.def:eisenstein-transform, I.spec.def:induced-class, I.spec.def:induced-section, I.spec.def:induced-unitary, I.spec.def:m-symmetric-part, I.spec.def:residual-character, I.spec.def:residual-class, I.spec.def:residual-fourier, I.spec.def:residual-line, I.spec.lem:block-hilbert-complete-instance, I.spec.lem:induced-hilbert-complete-instance, I.spec.lem:residual-spectrum-claims, I.topgrp.def:adelic-component-fin, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:congruence-k1, I.topgrp.def:congruence-kf, I.topgrp.def:congruence-subgroups, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:congruence-subgroups-explicit, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.thm:max-compact-real-compact, II.kernel.def:eisenstein-orbit-kernel, II.kernel.def:kernel, II.kernel.def:kernel-quotient, II.kernel.def:residual-character-kernel, II.simple.def:fin-restricted-equiv, II.simple.def:finite-box-subgroup, II.simple.def:integer-to-padic-int, II.simple.def:kp-equiv, II.simple.def:local-congruence-subgroup, II.simple.def:reduction-mod-pow, X.haar.def:group-convolution, X.haar.def:is-unimodular, X.haar.lem:unimodular-iff-modular-character, X.mero.def:analytic-at-fin, X.mero.def:continuation-set, X.mero.def:continuation-set-fin, X.mero.def:meromorphic-continuation, X.mero.def:meromorphic-continuation-fin, X.mero.lem:meromorphic-continuation-unique, X.op.def:discrete-decomposition, X.op.def:equivalent-on, X.op.def:irreducible-on, X.quot.def:quotient-measure, X.quot.thm:unfolding-discrete, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:spectral-kernel-invariance}
+\tfsem{II.kernel.thm:spectral-kernel-invariance}{15d102343c91e520930e154e61e0b943b7a5dee12f4f10c94f1fdd457134f528}
+\tfhyps{II.kernel.thm:spectral-kernel-invariance}{LanglandsL2,EisContinuation}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{0}{6576550e}{H3 (\texttt{Hyp.LanglandsL2}; hypothesis binder)}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{1}{bccbd906}{H2a for all indices (\texttt{∀ μ n N, Hyp.EisContinuation μ n N}; hypothesis binder; no H2b, D-ROUTE10)}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{3}{8d536d94}{$f\in\mathcal H$ (\texttt{f ∈ testFunctions}, \texttt{I.hecke.def:test-function})}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{4}{e36bb9a7}{$f\in\mathcal H^{(2)}$ (\texttt{f ∈ convolutionSpan stdHaarAdelic}; together with the previous binder $f\in\mathcal H\cap\mathcal H^{(2)}$)}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{5}{1f489fc1}{the level $N\ge1$ of the datum (\texttt{ℕ+})}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{6}{cfeb38fc}{the finite set $F\subseteq\Z$ of the datum (\texttt{Finset ℤ})}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{7}{664a50a2}{$(N,F)$ is a level datum of $f$ (\texttt{IsHeckeLevelDatum f N F}, B-only \texttt{I.spec.def:hecke-level-datum})}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{8}{2d5c21f7}{the families of bases $B=(B_\mu)_\mu$, $B_\mu$ a finite set of functions $G(\A)\to\C$ (\texttt{DirichletPair → Finset (GL (Fin 2) Adele → ℂ)})}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{9}{5c7033ea}{$B_\mu$ is a basis as in \texttt{I.spec.def:eisenstein-kernel} for every $\mu$ (\texttt{∀ μ, IsEisKernelBasis μ N F (B μ)}, B-only)}
+\tfbinder{II.kernel.thm:spectral-kernel-invariance}{10}{75e5487f}{the orbit $o=\{\mu,w\mu\}\in\mathfrak O$ (the subtype \texttt{𝔒} of \texttt{Set DirichletPair})}
+\begin{tffidelity}
+\emph{Hypotheses:} H3 and H2a (the $\forall$-family over all $(\mu,n,N)$, not a single index) are explicit binders in this order, exactly as in exit 52 (\texttt{kernel\_expansion}); there is no H2b binder, and no bound of $\widetilde E$ or $\widetilde M$ in $\lambda$ enters (D-ROUTE10, L0 Q3). \emph{Measure:} the standard measure, \texttt{stdHaarAdelic} and \texttt{automorphicQuotientMeasure stdHaarAdelic} (D-MEAS10); no measure binder. Three conjuncts. (a) $K_{o,f}$ is jointly continuous. (b) For every datum $(N',F',B')$ of $f^*$ (\texttt{testFunctionAdjoint f}, B-only, $f^*(g)=\overline{f(g^{-1})}$): $K_{o,f^*}(x,y)=\overline{K_{o,f}(y,x)}$. (c) \emph{Restricted to $g_\infty\in K_\infty$:} for $g\in G(\A)^1$ with \texttt{compInf g ∈ maxCompactReal} and every datum $(N',F',B')$ of $\rho(g)f=f(\cdot\,g)$: $K_{o,f}(x,yg)=K_{o,\rho(g)f}(x,y)$ (S-KSM change, L-W0-a, L5); A states exactly this restriction. The restriction is needed because for $g_\infty\notin K_\infty$ the function $\rho(g)f$ in general has no level datum (it is no longer $K_\infty$-finite of the required type), so clause (c) would be vacuous or meaningless there. The data of $f^*$ and $\rho(g)f$ are universally quantified binders inside the conclusion (A: ``for any datum''), so no datum of $f^*$ or $\rho(g)f$ is assumed to exist. Functions on $X$ are $q\mapsto F(\texttt{Quotient.out }q)$ (D-REP). 
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) is \texttt{KSAux.inv\_a} $=$ \texttt{(decomp\_b\ldots).1}. (b) \texttt{KSAux.inv\_b}: for a level-type factorization $f=\sum g_i\ast h_i$, $f^*=\sum h_i^*\ast g_i^*$ is again of level type for the same $(N,F)$ (\texttt{KSAux.convolutionSpan\_adjoint}, \texttt{KSAux.groupConv\_adjoint}, \texttt{KSAux.heckeDatum\_adjoint}); by 18 (b) (\texttt{decomp\_b}, datum independence) any datum of $f^*$ may be replaced by $(N,F,B)$, and \texttt{KSAux.spectralKernel\_rows} for $f^*$ and for $f$ at $(y,x)$ gives, row by row, $\langle a,b\rangle=\overline{\langle b,a\rangle}$ (\texttt{inner\_conj\_symm}, \texttt{KSAux.tfa\_tfa}) and, for the residual term, \texttt{KSAux.residualCharKernel\_adjoint} (via \texttt{KSAux.residualFourier\_adjoint}, inversion invariance of the Haar measure). \emph{Divergence from A:} D-L2-5 (through the factorization of $f^*$ and 18 (b), not Step 4 of 18). (c) \texttt{KSAux.inv\_c}: with $h'_i(z)=h_i(zg)$ (\texttt{KSAux.smooth\_mul\_right}), $\rho(g)f=\sum g_i\ast h'_i$ (\texttt{groupConv}, \texttt{mul\_assoc}), and $(h'_i)^*=\lambda(g)h_i^*$ is of level type for some $N_2$ with $g_f^{-1}K_f(N_2)g_f\subseteq K_f(N)$ (\texttt{KSAux.exists\_conj\_level}, \texttt{KSAux.levelType\_left}); the weight set is preserved because $g^{-1}k_\theta g=k_{\pm\theta}$ for $g_\infty\in O(2)$ (\texttt{KSAux.o2\_conj\_rotation}, \texttt{KSAux.weightL\_left}, \texttt{KSAux.normOne\_conj\_rot}) and $F=-F$. The rows of $K_{o,\rho(g)f}$ for the datum $(N',F',B')$ are taken for the common refinement $(NN_2N',F\cup F')$ (\texttt{KSAux.spectralKernel\_rows'}, via \texttt{KSAux.kmu\_riesz} and \texttt{KSAux.rows\_riesz}, \texttt{KSAux.levelType\_mono}); row by row $k^0_{h^*,yg}=k^0_{(\rho(g)h)^*,y}$ (\texttt{KSAux.rowMu\_tfa\_mul\_right}), and the residual term picks up $\overline{\eta_\nu(g)}$ (\texttt{KSAux.residualCharKernel\_mul\_right}, \texttt{KSAux.residualFourier\_mul\_right}). \emph{Divergence from A:} D-L2-8 (no Step 4/(Z) argument; common refinement of the data).
+\end{proof}
+

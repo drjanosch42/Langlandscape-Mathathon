@@ -1,0 +1,3 @@
+set coefficient_ring = "Z";
+R = hecke_structure(3, 10);
+for l in R.body { print(l); }

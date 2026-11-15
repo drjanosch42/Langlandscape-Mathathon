@@ -1,0 +1,109 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Section 11: AI use. Sources: agents/rules/model-selection.md, agents/rules/opencode.md, docs/agentic-process/,
+% RELEASE-NOTES.md (disclosure sentence, anonymised as approved), code/python/langlandscape/pari.py.
+\paragraph{Tools.} The AI tools were Claude Code and opencode; the computational tools were PARI/GP (via \texttt{cypari2}), Python and HACS.
+\begin{itemize}
+\item \emph{Claude Code} (Anthropic), as a hierarchy of agents coordinated through git: a global coordinating session
+  delegated all work to subagents. Models: Opus~5.5 (coordinators of stages and planning, hard Lean proofs, hard \LaTeX{} proofs,
+  work-package audits), Sonnet~5.5 (routine Lean, routine \LaTeX, Python/PARI code), Haiku~5.5 (mechanical tasks: vendoring,
+  logging, axiom lists, polling), Fable~5.2 (all chapter audits and Lean audits, adversarial audits, and cases where Opus failed).
+  The assignment of models to task classes was set by a small controlled study during stage~01--05
+  (\pathtt{agents/rules/model-selection.md}); in particular Fable was not used as an implementer. Two build machines (A and B) and a second
+  team member's machine, running under a separate account, ran agent sessions too; the latter took work packages and
+  \emph{cross-account blind reviews}.
+\item \emph{opencode} with the models \emph{Muse Spark Open} and \emph{Mistral Large 4}: question answering and cheap first-pass
+  checklists, always behind a verifier. In the planning phase Muse Spark Open was a first-pass auditor of the plans (staged plan: 7 of 70 findings fully confirmed, 22 partly, 41 rejected;
+  implementation plans: 15 of 89 fully confirmed, 43 partly, 31 rejected). In stage~01 both models were tried as implementers in four
+  controlled comparisons and lost each to a Claude model (Muse Spark Open failed two \LaTeX/Lean work packages, Mistral Large 4 timed out
+  on a code package and passed a vendoring package, more slowly than Haiku); afterwards they were used for Q\&A only.
+  \textbf{Two disclosed exceptions.} The discharge of \pathtt{Hyp.RamNrdSurj} was drafted by an external model
+  (mistral-large-4-0 via opencode), run by a team member on another team member's machine, outside our agent process (where
+  opencode is Q\&A-only); it was integrated into the library, independently audited (PASS WITH REMARKS) and gated from scratch
+  by the agents. Likewise, the discharge of \pathtt{Hyp.BrandtStabFree} was drafted by an external model (mistral-large-4-0 via opencode) on the second team member's machine, outside our agent process; integrated into the library, independently audited (Fable, PASS) and gated by our agents.
+\item \emph{PARI/GP} 2.15.4, through the Python binding \texttt{cypari2} (\pathtt{code/python/langlandscape/pari.py}) and as
+  GP scripts run through \texttt{cypari2} (\pathtt{code/cas/s06-xcheck/}); Python 3.10.12. Used for class sets, Brandt
+  matrices, modular-symbol spaces, newforms, Hecke algebras and congruence modules (\S\ref{sec:comp}). Every result file records
+  the PARI version.
+\item \emph{HACS} (C++/AVX-512/CUDA) v0.2.1, with a Jacquet--Langlands module written during the event (\S\ref{ss:hacs}).
+\end{itemize}
+
+\paragraph{What the tools did.} Within the frame designed by the two team members (\S\ref{ss:human}), the agents drafted the
+chapters, implemented the Lean library, the Python code and the HACS module, ran the computations and the builds, audited
+each other's output and orchestrated the work packages. The critical decisions, among them the model choice FD1 for
+$\HypX$, the sign FD2, the treatment of the case $q\equiv-1\bmod p$ and the relaxed HACS protocol, were taken by the team
+(list in \S\ref{ss:human}); human review is the final check.
+
+\paragraph{Session transcripts.} Redacted transcripts of the agent sessions (Claude Code main and subagent sessions, and the
+opencode sessions) are published in the repository under \pathtt{supplementary/agent-logs/}, one directory per machine, with a
+manifest per machine and the redaction and post-filter tools; the README there lists the machines covered with their session counts (all four machines) and the redaction policy
+(model reasoning, literature excerpts and credentials are not exported). They cover the work in this repository only. Freeze times (latest session end per machine): this machine and build machine~A 08:38\,PST on 15 November, build machine~B 22:36\,PST on 14 November, the second team member's machine 08:56\,PST on 15 November; later work is not included in the logs. A stricter post-filter then removed every tool result whose call mentions a literature-like file or tool, from the logs of all four machines (it over-removes on purpose), so that no excerpt of third-party literature is published (the development history with the unfiltered logs is not public).
+
+\paragraph{How the output was checked.}
+\begin{itemize}
+\item \emph{Audits.} Every stage closed with parallel Fable audits of the chapter and of the Lean code
+  (\pathtt{agents/roles/mathematics\_chapter\_audit.md}, \pathtt{lean\_audit.md}); findings were fixed before the stage was merged
+  (for example, the stage-02 Lean audit found a vacuous instance of the norm hypothesis, which led to \pathtt{Hyp.RamNrdSurj};
+  the stage-06 Lean audit found that \pathtt{Hyp.FreeRankTwo} is equivalent to the conclusion of its use, which is now disclosed in
+  the statement). The final report of the previous integration step was audited twice (\pathtt{mathematics/audits/}).
+\item \emph{Cross-account reviews.} Blind reviews by agents under a separate account on a second team member's machine, of the
+  chapters of stages 01, 02, 03 and 05, of the stage-06 case $q\equiv-1\bmod p$ (second reader; it found the counterexample B2
+  to a proof step), and of the previous report and the talk.
+\item \emph{Lean gates.} Each stage ended with a from-scratch build on build machine A with \texttt{\#print axioms} on
+  every headline declaration, a forbidden-token grep, a \texttt{sorry} count and a check that the toolchain and Mathlib are
+  unchanged; from stage 02 on it was cross-checked from a fresh checkout on build machine B (the final gate of the
+  \texttt{RamNrdSurj} discharge only by a quick check of the affected modules there) (\S\ref{sec:lean}).
+\item \emph{Independent recomputation.} The T4 and H3 checks of stage~06 were recomputed independently in GP scripts by the
+  cross-account reviewer (\res{s06-xcheck/}); HACS Lane~A reproduced the Python/PARI results of stages~01 and~05 through HACS;
+  in Lane~B the native C++ quaternion core and a Python$+$\texttt{cypari2} reference agree on 69/69 orbit Smith lists.
+\end{itemize}
+
+\subsection{Human contributions and responsibility}\label{ss:human}
+This subsection is the team's statement. It separates what the two team members contributed from what the AI agents did;
+neither side's role is meant to be enlarged.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Prior work (the seed).} The list of requirements for an integral approach is the two team members' own (prior
+  work, prepared before the event): the seed document \pathtt{plan/seed/towards\_simplicial\_jl.tex}, Introduction, items
+  (i)--(v) (Hecke-equivariant maps in both directions via a zig-zag of simplicial orbifolds; integrality at least over
+  $\Z_{(p)}$ or $\Zp$; specialisation to classical JL over $\C$; mod $p^k$, in the limit over $p$-power levels, specialisation to
+  Chenevier's $p$-adic JL; a (nearly) ordinary $\Lambda$-adic version preserving congruences), together with the caveat, after
+  Ichino--Prasanna, that any integral comparison must produce, not ignore, a defect. The question (a)--(e) of
+  \S\ref{ss:s00-hope} is the refined form of that list.
+\item \emph{Identifying the route.} In particular, the idea of replacing the heavy arithmetic geometry of modular curves in
+  the standard Ribet route (bad reduction of Shimura and modular curves) by the combinatorics of the Bruhat--Tits tree, so that
+  the argument becomes computable, formalizable and easier to digest, is due to the two team members. Using Bruhat--Tits trees in
+  this area is not a novel idea per se; this was preliminary work, prepared before the event (same seed document, subsection
+  ``The idea of the tree route'').
+\item \emph{Orchestration.} The setup for parallel mathematical, Lean and implementation development (the agent hierarchy,
+  roles, rules and branches of \S\ref{sec:agentic}) was designed by the two team members. Its details were augmented by Claude
+  in real time (process optimisation), together with interventions by the team members.
+\item \emph{Steering and critical decisions} were made by the two team members. All times PST (UTC$-$8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted. Examples, with the time recorded in
+  the process log \pathtt{agents/status/master\_log.md} (converted to PST; process logs cover the work in this repository only) or in \pathtt{agents/status/STATE.md}
+  (``Decisions''); each is a team decision:
+  \begin{itemize}
+  \item the Lean code is licensed under Apache-2.0 (14 November, 13:33\,PST);
+  \item the frozen toolchain (Lean \texttt{v4.35.0} with a fixed Mathlib) and the policy of no \texttt{lake update}
+    (team statement; the rule was committed before the agent run, 14 November, 00:08\,PST, and kept when a tool that would
+    have built inside the frozen tree was requested, 14:16\,PST);
+  \item FD1, the $\mu_N$-model with Picard functoriality for $\HypX$, and FD2, accepting the reading $U_q\mapsto+\Pi_q$ of
+    Hsieh's sign (\S\ref{ss:hsieh}) (14 November, 17:03\,PST);
+  \item for $q\equiv-1\bmod p$: first the policy ``option~2'' (apply the repairs, lift the provisional status for $M>1$ only
+    after a second reader and a numerical check confirm; otherwise $M=1$ only; 17:00\,PST), then the lift of the cases (F1),
+    (F1$'$), with $N(\bar\rho)>1$ left open (17:32\,PST);
+  \item the relaxed HACS protocol (answers to the plan questions Q2--Q6), with ``implementation over long runs'' and
+    targeted validation only, the full battery only at major milestones (16:45, 16:50 and 16:53\,PST; Q4 at 17:46\,PST);
+  \item the disclosure wording for \pathtt{Hyp.FreeRankTwo} and the lemma \pathtt{Defect.freeRankTwo\_iff\_le}
+    (team statement; implemented in the commit of 14 November, 17:50\,PST);
+  \item to run the external draft of the \pathtt{Hyp.RamNrdSurj} discharge (opencode, outside the agent process, run by a team
+    member; announced 18:22\,PST, merged after audit and gate 19:03\,PST);
+  \item the narrative of the submission (Ribet's sequence central; hope $\to$ Ribet $\to$ Bruhat--Tits tree) (team statement);
+  \item the structure of the submission (team statement).
+  \end{itemize}
+  Steering was not continuous. The team set the frame and took the critical decisions above; between interventions the agents
+  worked within that frame without continuous supervision (for example, after the recorded instruction of 14 November,
+  02:09\,PST, to continue through planning and implementation; process log). Decisions reserved for the team that came up
+  meanwhile were taken provisionally by the orchestrating agent, marked as such, and later reviewed by the team
+  (\pathtt{agents/status/STATE.md}); the examples above are those the team took.
+\item \emph{Responsibility.} Responsibility for the mathematics, the Lean code, the implementation and the submission remains
+  with the two team members. All final review was and is their responsibility.
+\end{enumerate}

@@ -1,0 +1,128 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-03-kernel (parent commit 84818d0); kept items only.
+\chapter{The kernel and its decompositions}\label{ch:ch-03-kernel}
+
+\noindent\emph{Scope:} area \texttt{kernel}. \emph{Sources:} \cite[§§1--2]{A-I}; \cite[§§4, 6, 7, 10, 12]{AIntro}; \cite[Lectures II--III]{Gel}; \cite[§§1--3]{A-R1}.
+
+
+\section{Geometric classes and the class kernels}\label{sec:kernel-classes}
+
+\noindent\emph{Lean counterpart:} \texttt{lean/AlgJL/VolII/KernelClasses.lean}. \emph{Conventions.} A geometric class is a pair
+\texttt{c : ℚ × ℚˣ}; its fibre is \texttt{classFibre c ⊆ GL (Fin 2) ℚ}; ``$\gamma$ has class $\mathcal O$'' is \texttt{γ ∈ classFibre c}. Elements of $G(\Q)$ and of
+$N(\A)$ act on $G(\A)^1$ through the B-only homomorphism and map \cref{II.kernel.def:rat-norm-one,II.kernel.def:unip-norm-one}. Sums over infinite index sets are
+\texttt{tsum}s ($0$ if not summable) and integrals Bochner integrals ($0$ if not integrable), as A's conventions.
+
+\begin{definition}
+\tfstmt{II.kernel.def:rat-norm-one}
+\bonly
+\lean{GL2TF.ratNormOne}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.kernel.def:rat-norm-one}
+\tfsem{II.kernel.def:rat-norm-one}{6fdb73548c1e7341bc9bb4864ed9ab71694a1c1fad97f467f01b9a6e1f3e4bd0}
+\tfhyps{II.kernel.def:rat-norm-one}{}
+\begin{tffidelity}
+B-only. \texttt{ratNormOne : GL (Fin 2) ℚ →* normOneGroup}, $\gamma\mapsto\iota(\gamma)$ with $\iota$ = \texttt{gl2Map (algebraMap ℚ Adele)}, co-restricted to $G(\A)^1$ (the norm-one splitting of Vol.~I); its image is the B-only \texttt{I.quot.def:gl2-rat-norm-one}. It renders A's ``$G(\Q)\subseteq G(\A)^1$''.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.kernel.def:unip-norm-one}
+\bonly
+\lean{GL2TF.unipNormOne}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.kernel.def:unip-norm-one}
+\tfsem{II.kernel.def:unip-norm-one}{31b8d38d9c5b23ae142e8d613a483d00a6af65097ef8b9af34d6acf13b7550fc}
+\tfhyps{II.kernel.def:unip-norm-one}{}
+\tfbinder{II.kernel.def:unip-norm-one}{0}{21f67fc1}{the point $u\in\A$}
+\begin{tffidelity}
+B-only. \texttt{unipNormOne u := ⟨upperRightHom u, …⟩ : normOneGroup}: $n(u)$ as an element of $G(\A)^1$ ($\det n(u)=1$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[geometric classes]
+\tfstmt{II.kernel.def:geometric-class}
+\lean{GL2TF.classFibre}
+\end{definition}
+\begin{tfformal}{II.kernel.def:geometric-class}
+\tfsem{II.kernel.def:geometric-class}{67b9ce762d55cce9f6d6064aa93ab328742cb96065e13fc66ac81cd393fb26a9}
+\tfhyps{II.kernel.def:geometric-class}{}
+\tfbinder{II.kernel.def:geometric-class}{0}{aed448f7}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\begin{tffidelity}
+\texttt{classFibre c := \{γ | trace γ = c.1 ∧ det γ = c.2\}} for \texttt{c : ℚ × ℚˣ}. Only the fibre is the tagged definition: the class itself is the pair $c$ (the type \texttt{ℚ × ℚˣ}); A's identification with $X^2-tX+d$ is the B-only \cref{II.kernel.def:class-polynomial}; ``the class of $\gamma$'' is the pair $(\tr\gamma,\det\gamma)$, i.e.\ the $c$ with $\gamma\in$ \texttt{classFibre c}; the embedding $\mathcal O\subseteq G(\A)$ is through $\iota$ (in this chapter through \cref{II.kernel.def:rat-norm-one}). \emph{Arthur's $\mathcal O$ vs ours:} \cite[§10]{AIntro} defines the classes $\mathfrak o$ as equivalence classes of $G(\Q)$ (semisimple parts conjugate); for $\GL_2$ two elements are equivalent iff they have the same characteristic polynomial, so Arthur's classes are exactly the non-empty fibres here. A pair $(t,d)$ always has a non-empty fibre (the companion matrix), so the two parametrizations agree.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.kernel.def:class-polynomial}
+\bonly
+\lean{GL2TF.classPoly}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-polynomial}
+\tfsem{II.kernel.def:class-polynomial}{e1763efa1b04c2cf1c888195f1f97609bbb5232204bc5745d78ccfbfac3edeaf}
+\tfhyps{II.kernel.def:class-polynomial}{}
+\tfbinder{II.kernel.def:class-polynomial}{0}{aed448f7}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\begin{tffidelity}
+B-only. \texttt{classPoly c := X \^{} 2 - C c.1 * X + C c.2 : ℚ[X]}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.kernel.def:class-type-index}
+\bonly
+\lean{GL2TF.ClassType}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-type-index}
+\tfsem{II.kernel.def:class-type-index}{5fb1faa1faa32a9a91305df3f6960de0770509da60363e90c8db87f574168e8d}
+\tfhyps{II.kernel.def:class-type-index}{}
+\begin{tffidelity}
+B-only. \texttt{inductive ClassType | centralUnipotent | hyperbolic | elliptic} (with \texttt{DecidableEq}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[types of classes]
+\tfstmt{II.kernel.def:class-types}
+\lean{GL2TF.HasClassType}
+\uses{II.kernel.def:class-polynomial,II.kernel.def:class-type-index}
+\end{definition}
+\begin{tfformal}{II.kernel.def:class-types}
+\tfsem{II.kernel.def:class-types}{e1b0f41b0e05d95fb871e4c8c2d272cedfbcbb2181111d510521d513c16e4153}
+\tfhyps{II.kernel.def:class-types}{}
+\tfbinder{II.kernel.def:class-types}{0}{aed448f7}{the geometric class $\mathcal O=(t,d)\in\Q\times\Q^\times$}
+\tfbinder{II.kernel.def:class-types}{1}{b75e27b3}{the type $\tau$ (central-unipotent, hyperbolic or elliptic)}
+\begin{tffidelity}
+One predicate \texttt{HasClassType c : ClassType → Prop} indexed by the B-only \cref{II.kernel.def:class-type-index} instead of three predicates: \texttt{.centralUnipotent ↦ ∃ z : ℚˣ, classPoly c = (X − z)²}, \texttt{.hyperbolic ↦ ∃ a b : ℚˣ, a ≠ b ∧ classPoly c = (X − a)(X − b)}, \texttt{.elliptic ↦ Irreducible (classPoly c)}, as polynomial identities in $\Q[X]$ for the B-only \cref{II.kernel.def:class-polynomial}. The notations $\mathcal O_z$, $\mathcal O_{a,b}$ are A's; Lean names $z$, $a$, $b$ where needed (\cref{II.kernel.thm:semisimple-class-conjugacy}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[trichotomy]
+\tfstmt{II.kernel.thm:class-trichotomy}
+\lean{GL2TF.class_trichotomy}
+\uses{II.kernel.def:class-polynomial,II.kernel.def:class-type-index,II.kernel.def:class-types,II.kernel.def:geometric-class,II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:class-trichotomy}
+\tfsem{II.kernel.thm:class-trichotomy}{81c928c6752e4667086220bff208c3bb9b7967cb5995ff29db80e003713901c7}
+\tfhyps{II.kernel.thm:class-trichotomy}{}
+\begin{tffidelity}
+Two conjuncts: \texttt{∀ c, ∃! τ : ClassType, HasClassType c τ} (exactly one type), and for $\gamma\in$ \texttt{classFibre c}: \texttt{IsElliptic γ ↔ HasClassType c .elliptic} (\texttt{II.orb.def:elliptic}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see the parent repository's notes, item 38: same). $P=X^2-tX+d$ is monic of degree $2$ (\texttt{compute\_degree!}, \texttt{monicity!}). Existence (\texttt{KerAux.type\_exists}): if $P$ has a root $a$, then $a\ne0$ (as $d\ne0$), $b=t-a$ satisfies $ab=d$, $b\ne0$ and $P=(X-a)(X-b)$; the class is central-unipotent if $a=b$ and hyperbolic otherwise; if $P$ has no root it is irreducible (\texttt{irreducible\_of\_degree\_le\_three\_of\_not\_isRoot}). Uniqueness (\texttt{KerAux.type\_unique}): a polynomial with a root is not irreducible (\texttt{degree\_eq\_one\_of\_irreducible\_of\_root}), and $(X-z)^2=(X-a)(X-b)$ with $a\ne b$ is impossible by evaluating at $a$ and at $b$. The last clause: for $\gamma\in\mathcal O$, $P$ is the characteristic polynomial of $\gamma$ (\texttt{Matrix.charpoly\_fin\_two}), so ellipticity of $\gamma$ (\cref{II.orb.def:elliptic}) is irreducibility of $P$.
+\end{proof}
+
+\begin{theorem}[conjugacy within a class]
+\tfstmt{II.kernel.thm:semisimple-class-conjugacy}
+\lean{GL2TF.semisimple_class_conjugacy}
+\uses{I.conv.def:borel,I.conv.def:diag-element,I.conv.def:torus,II.kernel.def:class-polynomial,II.kernel.def:class-type-index,II.kernel.def:class-types,II.kernel.def:geometric-class}
+\end{theorem}
+\begin{tfformal}{II.kernel.thm:semisimple-class-conjugacy}
+\tfsem{II.kernel.thm:semisimple-class-conjugacy}{4aa50817bfb6363537135a3f529e082e7f78c6f5799c94bee5f5e74838f09d70}
+\tfhyps{II.kernel.thm:semisimple-class-conjugacy}{}
+\begin{tffidelity}
+Four conjuncts (a)--(d). (a) for $c$ hyperbolic or elliptic and $\gamma\in\mathcal O$: \texttt{classFibre c = \{γ' | ∃ δ, γ' = δ⁻¹ γ δ\}}. (b) is stated for $a\ne b$ with \texttt{classPoly c = (X − a)(X − b)} (i.e.\ $\mathcal O=\mathcal O_{a,b}$): $\mathcal O\cap T(\Q)=\{\diag(a,b),\diag(b,a)\}$ with $\diag$ = \texttt{diagElt} (B-only \texttt{I.conv.def:diag-element}) and $T(\Q)$ = \texttt{torus ℚ}. (c) $\mathcal O\cap B(\Q)=\emptyset$ for $\mathcal O$ elliptic (\texttt{borel ℚ}). (d) for \texttt{classPoly c = (X − z)²}: $\mathcal O=\{z\cdot1\}\cup\{\delta^{-1}(z\,n(1))\delta\}$ with $z\cdot1$ = \texttt{diagElt z z} and $z\,n(1)$ = \texttt{diagElt z z * upperRightHom 1}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see the parent repository's notes, item 39: same). \emph{Companion form} (\texttt{KerAux.conj\_companion}): for non-scalar $\gamma$ and a row vector $v$ with $v,v\gamma$ linearly independent, the matrix $\delta$ with rows $v$, $v\gamma$ satisfies $\delta\gamma=C(\tr\gamma,\det\gamma)\delta$, $C(t,d)=\left(\begin{smallmatrix}0&1\\-d&t\end{smallmatrix}\right)$ (an identity in the entries that contains Cayley--Hamilton); $v\in\{e_1,e_2,e_1+e_2\}$ is chosen by cases on the entries ($\gamma_{01}\ne0$, $\gamma_{10}\ne0$, or $\gamma_{00}\ne\gamma_{11}$), as in A's parenthetical. Two non-scalar elements with the same trace and determinant are conjugate to the same companion matrix, hence to each other (\texttt{KerAux.conj\_of\_same}). (a): a scalar element of $\mathcal O$ would make $\mathcal O$ central-unipotent (\texttt{KerAux.scalar\_centralUnipotent}), which is excluded by \cref{II.kernel.thm:class-trichotomy}; so all elements of a hyperbolic or elliptic class are non-scalar and mutually conjugate; conversely conjugation preserves trace and determinant (\texttt{KerAux.conj\_trace\_det}). (b): for diagonal $\gamma\in\mathcal O_{a,b}$, $\gamma_{00}+\gamma_{11}=a+b$ and $\gamma_{00}\gamma_{11}=ab$ (coefficients of $P$, \texttt{KerAux.poly\_coeffs}), so $(\gamma_{00}-a)(\gamma_{00}-b)=0$. (c): $\gamma\in B(\Q)$ has $\gamma_{10}=0$, so $\gamma_{00}$ is a root of $P$, contradicting irreducibility. (d): a scalar element of $\mathcal O_z$ is $\mathrm{diag}(z,z)$; a non-scalar one is conjugate to the non-scalar element $z\,n(1)\in\mathcal O_z$ by the companion argument.
+\end{proof}

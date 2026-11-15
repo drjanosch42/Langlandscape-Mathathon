@@ -1,0 +1,67 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/Common/DiscreteQuotient.lean (§1), lean/GL2TF/VolI/P0/Quotient.lean (§§2-4)
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% Written (M3, unit U9); M4: end of §4 (unit U8, item 50) and §5 (unit U10). Lean: §5 lean/GL2TF/Common/WeilFormula.lean.
+% M3e: end of §1 (item 18 of docs/sprints/M3e-plan.md, X.quot.thm:compact-quotient-volume; Lean: end of Common/WeilFormula.lean, lead decision L-1).
+% M7a: §6 (unit U2, docs/sprints/M7a-plan.md §1.2 items 8--12; Lean: lean/GL2TF/Common/QuotientTower.lean).
+% Fork algebraic_jl: only the topological items are kept (torus-quotient-compact, automorphic-quotient-second-countable,
+% automorphic-right-action); quotient measures, unfolding, Weil's formula, quotient towers and volumes are dropped (../../EDITS.md).
+
+\chapter{Discrete subgroups and compact quotients}\label{ch:ch-0-07-quotient}
+
+\noindent\emph{Sources:} \cite[§1]{AIntro}; \cite[§1]{A-R1}.
+
+\noindent All quotients in this chapter are by \emph{discrete} subgroups (decision D-QUOT of the sprint note M3). Cosets are right
+cosets $\Gamma g$, as for automorphic forms, which are left $\Gamma$-invariant functions. In the parent project this chapter also
+constructs the quotient measures, the unfolding formula and Weil's formula; that material is analytic and not part of this volume
+(see, e.g., \cite[§1]{AIntro}). Only the topological statements are kept.
+
+\section{\texorpdfstring{The compact quotient $T(\Q)\backslash T(\A)^1$}{The compact quotient T(Q)\textbackslash T(A)1}}\label{sec:quot-compact}
+
+\noindent\emph{Sources for this section:} \cite[§1]{AIntro}; \cite[§§1.4, 1.7]{GH}.
+
+\begin{theorem}[$T(\Q)\backslash T(\A)^1$ is compact]
+\tfstmt{I.quot.thm:torus-quotient-compact}
+\uses{I.topgrp.def:adelic-subgroups, I.adele.def:idele-norm, I.adele.thm:idele-decomposition, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.def:zhat}
+\end{theorem}
+\begin{proof}
+\uses{I.adele.thm:product-formula, I.adele.thm:norm-one-quotient, I.adele.thm:idele-decomposition, I.topgrp.thm:adelic-subgroups-closed, I.topgrp.thm:gl2-rat-discrete}
+The map $\tau\colon\diag(t_1,t_2)\mapsto(t_1,t_2)$ is a bijective homomorphism $T(\A)\to\A^\times\times\A^\times$. It is
+continuous for the units topology of $\A^\times$: $t\mapsto t_i$ and $t\mapsto t_i^{-1}=(t^{-1})_{ii}$ are continuous into
+$\A$. Its inverse $(t_1,t_2)\mapsto\diag(t_1,t_2)$ is continuous into $G(\A)$ (entries and inverse entries). By definition
+of $T(\A)^1$ (\cref{I.topgrp.def:adelic-subgroups}), $\tau$ restricts to an isomorphism of topological groups
+$T(\A)^1\cong\A^1\times\A^1$. By the product formula (\cref{I.adele.thm:product-formula}) $T(\Q)\subseteq T(\A)^1$, and
+$\tau(T(\Q))=\Q^\times\times\Q^\times$. $T(\Q)$ is discrete, as a subgroup of the discrete group $G(\Q)$
+(\cref{I.topgrp.thm:gl2-rat-discrete}). Hence
+$T(\Q)\backslash T(\A)^1\cong(\Q^\times\backslash\A^1)\times(\Q^\times\backslash\A^1)\cong\Zhat^\times\times\Zhat^\times$
+by \cref{I.adele.thm:norm-one-quotient}, the isomorphism being induced by $x\mapsto u(x)$ in each factor. $\Zhat^\times$ is
+compact.
+\end{proof}
+\noindent So the characters of $T(\Q)\backslash T(\A)^1$ are the pairs of continuous characters of $\Zhat^\times$, i.e.\ pairs of
+Dirichlet characters (\cref{I.adele.thm:zhat-characters-finite-order}).
+
+\section{The automorphic quotient}\label{sec:quot-automorphic}
+
+\noindent\emph{Sources for this section:} \cite[§1]{AIntro}; \cite[§1]{A-R1}.
+
+\begin{theorem}[topology of the automorphic quotient]
+\tfstmt{I.quot.thm:automorphic-quotient-second-countable}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-rat-discrete, I.topgrp.thm:norm-one-splitting}
+$G(\A)^1$ is closed in $G(\A)$ (\cref{I.topgrp.def:norm-one-group}), so it is locally compact, Hausdorff and second
+countable (\cref{I.topgrp.thm:gl2-adelic-locally-compact}), and $G(\Q)$ is a discrete, hence closed, subgroup of it. The
+quotient of such a group by a closed subgroup is locally compact, Hausdorff and second countable: the quotient map $p$ is
+open, so images of a countable base form a countable base; $p(V)$ for a relatively compact open $V$ has compact closure
+$p(\overline V)$; and the quotient is Hausdorff because the subgroup is closed (standard facts on quotients of topological groups by closed subgroups).
+\end{proof}
+
+\begin{definition}[the right action of $G(\A)^1$]
+\tfstmt{I.quot.def:automorphic-right-action}
+\uses{I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{proof}[Proof of the claims]
+If $G(\Q)x=G(\Q)x'$ then $G(\Q)xg=G(\Q)x'g$, and $(\dot x\cdot g)\cdot g'=\dot x\cdot gg'$, $\dot x\cdot1=\dot x$. Continuity: the map
+$G(\A)^1\times G(\A)^1\to G(\Q)\backslash G(\A)^1$, $(x,g)\mapsto p(xg)$, is continuous, and $p\times\mathrm{id}$ is an open continuous surjection
+($p$ is open), hence a quotient map, so the induced map on $(G(\Q)\backslash G(\A)^1)\times G(\A)^1$ is continuous.
+\end{proof}

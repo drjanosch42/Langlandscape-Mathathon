@@ -1,0 +1,87 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction), part 2: Ribet's exact sequence, its combinatorial form, and what one could hope for.
+% Page numbers of [Ri90] are journal pages, checked against the local scan by OCR (litnotes/s03.md and this pass).
+% No \input; reusable in the report.
+\section{The first case: Ribet's exact sequence}\label{ss:s00-ribet}
+
+In the first case, one ramified prime $D=q$, weight~$2$ and level $\Gamma_0(qM)$, the hope of \S\ref{ss:s00-hope} is realised:
+Ribet's exact sequence \cite{Ri90} is an integral, Hecke-equivariant comparison between the character group of the toric part
+of $J_0(qM)$ at $q$ (degree~$1$ on the $\GL_2$ side) and degree-zero functions on the supersingular set, i.e.\ on the class set of
+$B_q$ (degree~$0$ on the quaternionic side), and the component group is its cokernel. This is what makes it the starting point
+of the project. Every statement in \S\ref{ss:s00-ribet-seq} is \stcited{} from \cite{Ri90} (Invent.\ Math.\ 100 (1990), no.~1,
+431--476, doi:10.1007/BF01231195), at $\Gamma_0$-type level only.
+
+\subsection{The sequence}\label{ss:s00-ribet-seq}
+Let $p\ne q$ be primes and $M\ge1$ prime to $pq$. Let $\Sigma(M)$ be the set of supersingular points of $X_0(M)_{\bar\F_q}$.
+\begin{enumerate}[label=(R\arabic*)]
+\item \emph{Character groups of semistable curves} \cite[Prop.~2.2, Thm.~2.3, p.~436]{Ri90}. For a semistable curve with dual
+  graph $\G$, the character group $X$ of the torus of the N\'eron model of its Jacobian is $H_1(\G,\Z)$, the monodromy pairing is
+  the restriction of the (weighted) Euclidean pairing on edges, and the component group is
+  $\Phi=\coker\big(X\to\Hom(X,\Z)\big)$; so there is an exact sequence $0\to X\to\Hom(X,\Z)\to\Phi\to0$.
+\item \emph{The definite side} \cite[Prop.~3.1, p.~439; Prop.~3.3 and Variant~3.4, p.~440]{Ri90}. For $X_0(qM)$ at $q$ the dual
+  graph has two vertices and edge set $\Sigma(M)$, so $X_q(J_0(qM))$ is the group of degree-zero divisors on $\Sigma(M)$; and
+  $\Sigma(M)$ is in bijection with the right ideal classes of an Eichler order of level $M$ in the definite quaternion algebra
+  ramified at $\{q,\infty\}$, i.e.\ with the class set $\XBq{\Uzero M}$. Hence
+  \[X_q(J_0(qM))\ \cong\ \Z[\XBq{\Uzero M}]^0,\]
+  with the weights $e(x)=\#\mathrm{Aut}(x)/2$ in the monodromy pairing. The Hecke operators $T_\ell$, $\ell\nmid qM$, act through
+  Brandt matrices, and $T_q$ acts as the Frobenius permutation \cite[Prop.~3.8(ii), p.~446]{Ri90}. The component group
+  $\Phi_q(J_0(qM))$ is Eisenstein \cite[Thm.~3.12, p.~449]{Ri90}; for $M=1$ it is cyclic of order $\mathrm{num}\frac{q-1}{12}$
+  \cite[Appendix, Thm.~A.1(b), p.~173]{Mz}.
+\item \emph{Ribet's sequence} \cite[\S3, Thm.~3.15, p.~451, and the sequence before Thm.~3.19, p.~452]{Ri90}. Let $L=X_q(J_0(pqM))$
+  and $X=X_q(J_0(qM))$. The two degeneracy maps give $\delta:L\to X\oplus X$, which is surjective (Thm.~3.15, proved with Eichler's
+  results on Eichler orders; Remark~3.18 records a second proof by graph connectivity, due to Livn\'e and to Edixhoven). With
+  $Y:=\ker\delta$ this is the exact sequence
+  \[0\to Y\to L\xrightarrow{\ \delta\ }X\oplus X\to0,\]
+  equivariant for the Hecke operators prime to $p$ (the operator at $p$ is described in Thm.~3.19, p.~452).
+\item \emph{The Shimura curve} \cite[\S4, Thm.~4.1, Cor.~4.2, Thm.~4.3, p.~457]{Ri90}. By the \v{C}erednik--Drinfeld uniformisation,
+  $Y$ is Hecke-isomorphic, compatibly with the pairings, to the character group at $p$ of the Jacobian of the Shimura curve of the
+  indefinite algebra of discriminant $pq$ with an Eichler order of level $M$ (Thm.~4.1); the Hecke algebra of the $pq$-new
+  quotient acts faithfully on that Jacobian (Cor.~4.2); and the component groups give the level-raising exact sequence
+  (Thm.~4.3). Ribet calls these relations ``geometrical realizations of the Jacquet--Langlands correspondence'' (\S4, p.~456) and
+  notes that classical trace identities can be recovered from Cor.~4.2 (p.~457).
+\end{enumerate}
+So in the case $D=q$ there is an integral Hecke-equivariant comparison between the degree-$1$ side ($X_q(J_0(qM))\otimes\Zp$ is a
+graded piece of the monodromy filtration of $T_pJ_0(qM)$, i.e.\ of $H^1$ of the modular curve; Thm.~\ref{thm:s05-G}(v), \stcited) and the degree-$0$ side ($\Z[\XBq{\Uzero M}]^0$, functions on a
+finite class set), and its failure to be an isomorphism onto the dual lattice is the component group.
+
+\subsection{The combinatorial form on the Bruhat--Tits tree}\label{ss:s00-ribet-tree}
+All terms of (R2)--(R3) are definite: $X$ and $L$ are degree-zero parts of Brandt modules of $B_q$ at levels $\Uzero M$ and
+$\Uzero{pM}$. Stages~02--03 prove the sequence on this side directly, as a statement about the quotient of a Bruhat--Tits tree by
+an $S$-arithmetic group, following the viewpoint of Ihara and Serre \cite[Ch.~II, \S1.4, Thm.~3, Cor.~1, pp.~79--81]{Se}. In the
+notation of the chapters (a definite $B=\Bd$ and a tree prime $q\nmid D$ at which $B$ splits; so the chapters' $D$ and $q$ play the
+roles of Ribet's $q$ and $p$):
+\begin{itemize}
+\item \emph{Tree quotient.} For $q$-admissible $U$ and $\GU=\cO_U[\frac1q]^1$, given the connectivity of the Brandt graph
+  (condition (iii), a finite check), $\GU\backslash\cT_q\cong\BG(U,q)$ (Prop.~\ref{prop:s02-BG}, \stproved; no strong approximation is
+  used, and the connectedness of $\cT_q$, \stcited, enters only in one direction).
+\item \emph{The definite Ribet sequence} (Thm.~\ref{thm:s03-ribet}). With $U'=\Uzero qU$ there is an exact sequence over $\Z$
+  (and over every commutative ring), equivariant for all Hecke operators supported away from $q$,
+  \[0\to H_1(|\GU\quot\cT_q|,\Z)\to\Z[\XB{U'}]^0\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\big(\Z[\XB U]^0\big)^{2}\to0 .\]
+  Status: (a) and the rank formula of (c) \stproved{} given (iii); (b) (coefficients $V$, $p\ge5$) \stpmc. Lean: \stformal{} for
+  (a) and (c) over any commutative ring, under \pathtt{Tree.BGConnected} or under $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}$
+  (\lean{Langlandscape.Ribet.ribet\_exact}, \lean{Langlandscape.Ribet.ribet\_rank}, \lean{Langlandscape.Ribet.ribet\_hecke\_equivariant});
+  (b) with coefficients is not formalized.
+\item \emph{Identification with Ribet's terms.} For $D$ prime and $U=\Uzero M$, (R2) identifies the middle and right terms with
+  $X_D(J_0(DqM))$ and $X_D(J_0(DM))^{2}$ (\stcited, \cite[Props.~3.1, 3.3]{Ri90}); that $\alpha$ corresponds to Ribet's $\delta$ under
+  these identifications is the expected reading (both are built from the two degeneracy maps), not a result of the chapters. The left term is the
+  stand-in for $Y$: by \v{C}erednik--Drinfeld it is the character group at $q$ of the Shimura curve of discriminant $Dq$
+  (Remark~\ref{rem:s02-CD}, \stcited, never used).
+\item \emph{Ihara.} Surjectivity of $\alpha$ is the definite Ihara lemma, proved as a connectivity statement
+  (Cor.~\ref{cor:s03-ihara}(i),(ii), \stproved{} given (iii); (ii$'$) \stpmc; Lean \stformal{} for (i), (ii)); this is the
+  graph-connectivity proof of \cite[Rem.~3.18]{Ri90}. The cokernel with coefficients and its Hecke action is
+  Thm.~\ref{thm:s03-iharaH0} (\stpmc; in Lean clause (a) is the registered hypothesis \texttt{Hyp.IharaH0}).
+\item \emph{Component group and Mazur.} For the two-vertex DR graph of $B_q$, $\Phicomb=\coker(X\to\Hom(X,\Z))$ is Eisenstein
+  (Prop.~\ref{prop:s03-phieis}, \stproved) and at level $1$ equals $\Z/\mathrm{num}\frac{q-1}{12}$ (Prop.~\ref{prop:s03-mazur}, \stpmc).
+\item \emph{$\Lambda$-adic.} The sequence passes to ordinary parts and to the $p$-power tower: Thm.~\ref{thm:s04-lambdaribet}
+  (\stproved{} given connectivity of $\BG(UU_s,q)$ for all $s$; Lean: finite level \stformal, the limit \emph{formalized modulo}
+  \pathtt{Hyp.InvLimExact}).
+\end{itemize}
+What the tree does \emph{not} give is the identification of the character group of the modular curve with $\Z[\XBq{U}]^0$ at
+$\Gamma_1(Mp^s)$-level; that is the hypothesis $\HypX$ of stage~05 (Hyp.~\ref{hyp:s05-X}, \sthyp), cited at $\Gamma_0$-type level
+(Thm.~\ref{thm:s05-G}, \stcited).
+
+The tree makes the sequence computable (all terms are finite) and lets it travel along the $p$-power tower. Stages~04--06 take it
+from there: ordinary parts and the $\Lambda$-adic sequence (stage~04), the comparison with the modular-curve side and its formal
+consequences (stage~05), and the comparison of congruence modules on the two sides, the defect formula (stage~06); see
+\S\ref{ss:s00-question} for the items (a)--(e) and \S\ref{ss:s00-outline} for the stages.

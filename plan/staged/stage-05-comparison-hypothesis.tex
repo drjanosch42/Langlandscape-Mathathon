@@ -1,0 +1,691 @@
+\section{The comparison hypothesis and the simplicial shape}\label{sec:stage-05}
+% Stage 05 (comparison-hypothesis). Drafted against seed §§4, 8, 10, 11, open points O1, O2, O4, O6, O7.
+% Local macros (not in preamble.tex; see missing/stage-05.md).
+\providecommand{\BG}{\mathrm{BG}}          % bipartite Brandt graph of (U,q); as in stages 02, 03
+\providecommand{\Tpath}[1]{\texttt{#1}}
+\providecommand{\cH}{\mathcal{H}}          % abstract Hecke algebra H_s of Hyp.X
+\providecommand{\Xq}{X_q}                  % character group at q
+\providecommand{\Ros}{\vee}                % Rosati dual
+\providecommand{\Frob}{\mathrm{Frob}}
+
+%----------------------------------------------------------------------
+\subsection{Goals}
+%----------------------------------------------------------------------
+This stage owns the single geometric input of the route and everything that is said about it. Concretely:
+\begin{enumerate}[label=(G\arabic*${}'$)]
+\item State the geometric route (seed \S4, (G1)--(G5)) with \emph{verified} citations, at $\Gamma_0$-type level, and record
+  precisely which parts are in the literature at $\Gamma_1(Mp^s)$-level (almost none) and which are not.
+\item State $\HypX(M;q)$, $\HypXchar$, $\HypXgal$ and $\HypXiso$ (seed Hyp.~8.1 and \S8.3) as precise propositions, with
+  every normalisation fixed: the Hecke dictionary $\theta_s$ (including the sign $\varepsilon$ and the exponent in
+  $U_q\mapsto\varepsilon\Pi_q^{\pm1}$, which SPLIT assigns to this stage), the diamond convention, the $U_p$ normalisation
+  $N_{U_p}$ of stage 01, the functoriality on both sides, and the Hecke structure of the graded pieces in (X4). These are the
+  exact Prop shapes exported to Lean (\texttt{if:s05-hypX}).
+\item \textbf{Fix $\varepsilon=+1$ and the exponent $+1$}, and reconcile this with the opposite sign in Hsieh
+  (Prop.~\ref{prop:s05-sign}, Remark~\ref{rem:s05-hsieh}).
+\item Prove the formal consequences: the $\Lambda$-adic version (seed Prop.~Xlambda), the table of what is lost without
+  $\HypX$, the sub- versus quotient-lattice comparison (seed Prop.~subquot, exported as \texttt{if:s05-subquot}).
+\item Several ramified primes (seed \S10): restate Prop.~noChain in a form that is true and non-vacuous (the seed's (b) is
+  either tautological or false; Remark~\ref{rem:s05-nochain}).
+\item The simplicial shape and the zig-zag (seed \S11), with open points O1, O2, O4, O6, O7 made precise.
+\end{enumerate}
+Out of scope: the defect formula (stage 06, which does not use $\HypX$); any proof of $\HypX$.
+
+%----------------------------------------------------------------------
+\subsection{Definitions and statements}
+%----------------------------------------------------------------------
+
+\subsubsection{Setting and conventions for this stage}
+Throughout: $p\ge5$, $q\ne p$ prime, $(M,pq)=1$, $B=B_q$ (the definite algebra ramified at $\{q,\infty\}$), $\cO\subset B$
+maximal, $U_s:=\Uone{Mp^s}\subset\hat\cO^\times$ (so $U_{s,q}=\cO_q^\times$), $S_s:=\XBq{U_s}$. On the $\GL_2$ side,
+$\Gamma_s:=\Gamma_1(Mp^s)\cap\Gamma_0(q)$, $X_s$ its compactified modular curve over $\Q$, $J_s:=\Jac X_s$ with
+\emph{Picard} functoriality for Hecke correspondences. $X_s$ is the model of $X(\Gamma_1(Mp^s)\cap\Gamma_0(q))$ over $\Q$ that
+classifies triples $(E,\alpha:\mu_{Mp^s}\hookrightarrow E,C)$, $C$ cyclic of order $q$ (the $\mu_N$-model), as in Ribet--Stein
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, pp.~28--29: $\mu_N$-model, $T_p$ by Picard
+functoriality}. \provisional{F1/D1: model of $X_s$ fixed ($\mu_N$-model, Picard functoriality, Ribet--Stein conventions); the audit
+says ``Ribet--Stein \S3'', the model is in their \S2.3.1.1; before: only ``Picard functoriality'' was fixed, the model was not.}
+$\Xq(J_s):=\Hom_{\bar\F_q}(\mathcal T_s,\mathbb G_m)$ the character
+group of the torus $\mathcal T_s$ of the special fibre at $q$ of the Néron model of $J_s$. On the definite side we use the
+\emph{homological} module $\Z[S_s]$ with the transposed (right-translation) action of stage 01,
+Prop.~adjoint: $T_g[x]=\sum_i[xg_i]$; in particular $\Pi_q[x]=[x\Pi_q]$, $U_p[x]=\sum_j[x\varpi_j]$ ($N_{U_p}$),
+$\langle d\rangle[x]=[x\delta_d]$ (adelic diamond). $\Frob_q\in G_{\Q_q}$ denotes an \emph{arithmetic} Frobenius; on
+$\bar\F_q$-points of the special fibre it acts as the Frobenius endomorphism (Mazur's $F$ in Thm.~\ref{thm:s05-G}(iii)), and on
+$T_t=\Hom(\Xq,\Zp(1))$ it acts as $q$ times the transpose of the \emph{inverse} of its action $\sigma_q$ on $\Xq$.
+
+\begin{remark}[which ``indefinite stage'' appears; the D1 seam]\label{rem:s05-D1}
+$\HypX$ compares $\Xq(J_s)$ with $\Z[S_s]^0=\Xcomb_q(U_s)$ (\texttt{if:s03-graph}), the \emph{graph} homology
+$H_1(|\GDR_q(U_s)|,\Z)$ of the two-vertex DR graph; it is torsion-free, as is every character group. Wherever this stage
+uses a tree model at a \emph{second} prime $r$ (the $\GL_2$ form of the Ribet sequence, \S\ref{sss:s05-general}), it uses the
+amended \texttt{if:s02-indef}: over $\Z$ the indefinite stage is $\cX^{(r)}(U):=H_1(\BG(U,r),\Z)=H_1(\Gamma_U,\Z)/\text{torsion}$,
+\emph{not} $H_1(\Gamma_U,\Z)$, whose torsion (exponent dividing $24$) has no counterpart in a character group. Over $\Zp$,
+$p\ge5$, the two agree (stage 02, D1). No statement below uses $H_1(\Gamma_U,\Z)_{\rm tors}$.
+\end{remark}
+
+\begin{remark}[factor 2 between $\Gamma_0$- and $\Gamma_1$-type levels; the stage-01 seam]\label{rem:s05-factor2}
+Let $\pi:\XB{U'}\to\XB{U}$ for $U'\le U$. Stage 01 (Prop.~adjoint(c), revised) gives
+$\nu\circ\pi_*=\mathrm{tr}\circ\nu'$ \emph{only if} $-1\in U'$ or $-1\notin U$; if $-1\in U$ and $-1\notin U'$ then
+$\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$. This happens exactly when passing from $\hat\cO^\times$ or $\Uzero{N}$ to $\Uone{N}$ with
+$N\ge3$, e.g.\ from the $\Gamma_0$-level statements (G2), (G3) to $\HypX$ at $s\ge1$ (where $Mp^s\ge5$). The $\GL_2$ side has the
+same factor: $X_1(N)\to X_0(N)$ has degree $\varphi(N)/2$, not $[\Gamma_0(N):\Gamma_1(N)]=\varphi(N)$, since
+$-1\in\Gamma_0(N)\setminus\Gamma_1(N)$. \textbf{Hypothesis (F2), used throughout:} every comparison of pairings across such a
+change of level carries the explicit factor $2$; in particular, the compatibility (X2)$\Rightarrow$(X3) of pairings along
+$S_{s}\to S_0$ (Lemma~\ref{lem:s05-consistency}(c)) is stated with this factor when $-1\in U_0$, i.e.\ when $M\le2$. For $s'\ge s\ge1$
+no factor occurs, because all $U_s$ ($s\ge1$) omit $-1$ and all $w_x=1$ (\texttt{if:s01-classset}).
+\end{remark}
+
+\subsubsection{The geometric route (seed \S4), verified}
+\begin{theorem}[(G1)--(G4) at $\Gamma_0$-type level]\label{thm:s05-G}
+Let $N=qM'$ with $q\nmid M'$, $J=J_0(N)$, $\Sigma(M')$ the set of supersingular points of $X_0(M')_{\bar\F_q}$
+(equivalently, by Deuring, the class set $\XBq{\Uzero{M'}}$).
+\begin{enumerate}[label=(\roman*)]
+\item (G1) $X_0(N)$ has a semistable model over $\Z_{(q)}$ whose special fibre is two copies of $X_0(M')_{\F_q}$ meeting
+  transversally at $\Sigma(M')$, a point $x$ on one copy glued to $x^{(q)}$ on the other.
+  \stcited{} \lit{deligne-rapoport\_1973\_les-schemas-de-modules-de-courbes-elliptiques}{Ch.~V, \S1, Thm.~1.16 and
+  Variante~1.18 (with auxiliary prime-to-$q$ level structure; the gluing $x\leftrightarrow x^{(q)}$), pp.~243--246, verified in the
+  local scan; the passage to the coarse space $X_0(qM')$ (Ch.~VI) not re-verified};
+  \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{\S3, p.~439};
+  \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S3.9, Fig.~3 and (3.1), p.~45 (preprint pagination), for
+  $X_1(M')\cap\Gamma_0(q)$}.
+\item (G2) $\Xq(J)\cong\Z[\Sigma(M')]^0$, the degree-zero divisors on $\Sigma(M')$, compatibly with $T_\ell$, $\ell\nmid N$.
+  \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.1, p.~439 (scan,
+  OCR-verified)}; Hecke equivariance in the Brandt form: \lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.3,
+  p.~11 (attributed to Buzzard, Takahashi)}; \lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{Prop.~6.5,
+  p.~20 (cites Kohel Thm.~4.3)}.
+\item (G2, $U_q$ and Frobenius) On the torus, $w_q=-T_q$; the Frobenius endomorphism of the special fibre acts on the torus as
+  $q\,T_q$ ($=-q\,w_q$); on $\Xq(J)$, $T_q$ is the restriction of the permutation $x\mapsto x^{(q)}$ of $\Sigma(M')$, and this
+  permutation is right multiplication by a uniformiser $\Pi_q$ of $B_q$ (trivial away from $q$) on the class set.
+  \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.7, p.~445; Prop.~3.8(ii),
+  p.~446; Remark~3.5(b), p.~441}; \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Lemma~3.17, p.~46};
+  \lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{Appendix (Mazur--Rapoport), Thm.~(A.1)(a), p.~173: $F=-p\,w$ on the
+  torus, for $N=p$ prime}.
+\item (G3) The monodromy pairing on $\Xq(J)$ is $\langle e,e'\rangle=w_e\delta_{ee'}$ with $w_e$ the thickness of the node $e$
+  ($=|\mathrm{Aut}(E,C)|/2$), and $\Phi_q(J)\cong\Xq(J)^\vee/\Xq(J)$.
+  \stcited{} \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Raynaud, Thm.~5, p.~17, and Cor.~6, p.~18, of the
+  volume}; \lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.1, p.~10 (= SGA~7 IX Thm.~11.5)};
+  \lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{Prop.~6.3(1), p.~19}; [SGA7, IX, 11.5]
+  (reference not in \texttt{literature/}).
+\item (G4) For $A$ semistable at $q$ and $\ell\ne q$: $T_\ell A\supseteq(T_\ell A)^{I_q}\supseteq T_t$, with
+  $T_t=\Hom(\Xq(A),\Z_\ell(1))$, $(T_\ell A)^{I_q}/T_t=T_\ell(\text{abelian part})$, $T_\ell A/(T_\ell A)^{I_q}\cong\Xq(A^\vee)\otimes\Z_\ell$,
+  and the monodromy operator $N:T_\ell A/(T_\ell A)^{I_q}\to T_t$ is the monodromy pairing.
+  \stcited{} [SGA7, IX, 2.4, 9.1--10.4] (not in \texttt{literature/}); $\ell$-adic realisation of the pairing:
+  \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Illusie, Thm.~2.7, p.~41 (``avec le signe oppos\'e'' to
+  SGA~7 IX 9.1.2)}.
+\end{enumerate}
+\end{theorem}
+\noindent(G5) (Čerednik--Drinfeld, Ribet's sequence of character groups) is used only in
+\S\ref{sss:s05-general}: \stcited{} \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Boutot--Carayol,
+pp.~45--158}; \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S3.10.2, (3.2), p.~48};
+\lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.2, p.~11}.
+
+\begin{remark}[two sign conventions in (G4)]\label{rem:s05-illusie}
+Illusie's Thm.~2.7 identifies the $\ell$-adic pairing with Grothendieck's $u$ \emph{up to the opposite sign} relative to SGA~7.
+Since the monodromy pairing is positive definite (Raynaud, \emph{loc.\ cit.}), the sign is fixed by positivity: (X2) below is
+stated with the positive definite normalisation, and (X4) must use the same.
+\end{remark}
+
+\subsubsection{The sign and the exponent}
+\begin{proposition}[$\varepsilon=+1$; exponent $+1$]\label{prop:s05-sign}
+\begin{enumerate}[label=(\alph*)]
+\item ($\Gamma_0$-level, weight $2$.) Under the identification of Thm.~\ref{thm:s05-G}(ii) (with Deuring's bijection
+  $\Sigma(M')\cong\XBq{\Uzero{M'}}$), $U_q=T_q$ acts on $\Xq(J_0(qM'))$ as the permutation $[x]\mapsto[x\Pi_q]$: so
+  $\varepsilon=+1$. \stpmc{} (Thm.~\ref{thm:s05-G}(iii); Ribet Remark~3.5(b) for ``Frobenius $=$ right multiplication by $\Pi_q$'').
+  At $\Gamma_0$-level $\Pi_q^2$ acts trivially, so the Frobenius permutation is also $[x]\mapsto[x\Pi_q^{-1}]$. At $\Gamma_1$-level,
+  in the $\mu_N$-model, it is $[x]\mapsto[x\Pi_q^{-1}]$ \stexp{} (Remark~\ref{rem:s05-Xstatus}).
+  \provisional{F1: Frobenius permutation at $\Gamma_1$-level ($\mu_N$-model) is $\Pi_q^{-1}$; before: only ``Frobenius $=$ right
+  multiplication by $\Pi_q$'', with no level distinction.}
+\item (Consistency with stage 01.) For $D=q=11$, $M'=1$: $\Pi_{11}=\mathrm{id}$ on $\Z[\XB{\hat\cO^\times}]$ and $a_{11}(11a)=+1$
+  (stage 01, Example ``$\Pi_{11}$ on $B_{11}$''): $\varepsilon=+1$ again. \stproved.
+\item (Exponent.) Let $\theta$ be any dictionary of the form $T_\ell\mapsto T_\ell$, $U_p\mapsto U_p$,
+  $\langle d\rangle^{\rm cl}\mapsto\langle d\rangle^{-\delta}$, $U_q\mapsto\varepsilon\,\Pi_q^{\,e}$ ($\delta,e\in\{\pm1\}$), from the
+  $q$-new weight-$2$ Hecke algebra of $\Gamma_1(N)\cap\Gamma_0(q)$ to $\End\Z[\XBq{\Uone{N}}]^0$, $(N,q)=1$. If $\theta$ is a ring
+  homomorphism and some character $\chi$ mod $N$ with $\chi(q)\ne\pm1$ occurs, then $e=\delta$. \stpmc: on $q$-new forms,
+  $U_q^2=\langle q\rangle^{\rm cl}$ in weight $2$ \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Lemma~3.15 (Li),
+  p.~44: $a_q^2=\varepsilon(q)q^{k-2}$}, while on the definite side $\Pi_q^2=S_q=\langle q\rangle^{-1}$ (stage 01,
+  Prop.~relations (a),(b), $k=2$); so $\theta(U_q)^2=\Pi_q^{2e}=\langle q\rangle^{-e}$ must equal
+  $\theta(\langle q\rangle^{\rm cl})=\langle q\rangle^{-\delta}$.
+\item (The diamond convention is $\delta=+1$.) With stage 01's diamond flag (adelic $\langle d\rangle$ $=$ classical
+  $\langle d\rangle^{-1}$) one has $\delta=+1$, hence $e=+1$: $U_q\mapsto+\Pi_q$. \sttoprove{} (the flag is stated for forms;
+  that it holds for $\Xq(J_s)$ with Picard functoriality is part of (X1) and is checked by test \ref{tc:s05-exp}).
+\item (Higher weight.) For even $k\ge2$, trivial character, and the Brandt module $\Brandt{\Uzero{M'}}{V_k}$ with $\Pi_q$ acting
+  by pure right translation (no $V$-action, $q\ne p$; $\Pi_q^2=q^{k-2}$), the JL transfer matches $a_q(f)$ with the eigenvalue of
+  $+\Pi_q$. \stexp{} (local JL sends $\St\otimes\chi$ to $\chi\circ\Nrd$, and both $a_q=\chi(q)q^{(k-2)/2}$ and the
+  $\Pi_q$-eigenvalue $\chi(q)q^{(k-2)/2}$ use the positive square root; to be written with a precise local reference, see
+  \texttt{missing/stage-05.md}).
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}[Hsieh's $\mathrm{JL}(U_q)=-U_q$]\label{rem:s05-hsieh}
+Hsieh defines the quaternionic $U_q$ ($q\mid N^-$) as $f\mapsto f(x\varpi^D_q)$, i.e.\ \emph{our} $\Pi_q$ on functions, and
+states $\mathrm{JL}(U_q)=(-1)U_q$
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.2, p.~30 (definition of $U_q$); \S4.5, p.~34
+(the map JL)}. \textbf{Verdict: $+\Pi_q$ is correct; Hsieh's sign is an erratum and is not imported.} \stpmc.
+\begin{itemize}
+\item \emph{His definition.} His quaternionic $U_q$ is right translation by $\varpi^D_q$, $\nu(\varpi^D_q)=q$, on functions and
+  $x\mapsto x\varpi^D_q$ on homology (\S4.2, p.~30; \S4.4, p.~31). So it is our $\Pi_q$.
+\item \emph{Counterexample at level $11$.} $N^-=11$, $N^+=1$, weight $2$: the two classes of $B_{11}$ have stabilisers of order
+  $4$ and $6$, so $\Pi_{11}$ is the identity on the class set (stage 01, Example ``$\Pi_{11}$ on $B_{11}$''). The form is $11a$,
+  with $a_{11}=+1$ (split multiplicative reduction). So $U_{11}\mapsto+\Pi_{11}$ (Prop.~\ref{prop:s05-sign}(b)).
+\item \emph{Local reason.} Local JL sends $\chi\circ\Nrd$ to $\St\otimes\chi$. On $\chi\circ\Nrd$, right translation by a
+  uniformiser acts by $\chi(q)$. On the Iwahori-fixed line of $\St\otimes\chi$, $U_q$ acts by $\chi(q)$: in the unramified
+  principal series that contains $\St$, the two $U_q$-eigenvalues are $1$ and $q$, and $q$ belongs to the trivial quotient.
+\end{itemize}
+The sign in [Hs] probably comes from $w_q=-U_q$ on $q$-new forms. No statement of [Hs] involving $U_q$ for $q\mid N^-$ is used
+with his sign. Ideals defined by the surjections $\T\to\T',\T''$ ($\fa$, $\fb$, $\cc_{\T'}$) are not affected in any case.
+Test~\ref{tc:s05-sign} stays as a validation.
+\provisional{F6/D3: verdict ``$+\Pi_q$; Hsieh's sign is an erratum, not imported'' with three reasons; before: \stopen{} between
+``different normalisation'' and ``misprint'', and the instruction that statements from [Hs] involving $U_q$ must be re-signed by
+$U_q\mapsto-U_q$, with test T05-1 as the decisive check.}
+\end{remark}
+
+\subsubsection{The comparison hypothesis}
+\begin{definition}[dictionary $\theta_s$]\label{def:s05-theta}
+Let $\cH_s$ be the free commutative $\Z$-algebra on symbols $T_\ell$ ($\ell\nmid Mpq$), $U_\ell$ ($\ell\mid M$), $U_p$ ($s\ge1$;
+$T_p$ if $s=0$), $\langle d\rangle$ ($d\in(\Z/Mp^s)^\times$) and $U_q$. It acts on $\Xq(J_s)$ through the classical Hecke
+correspondences (Picard functoriality, classical normalisation, classical diamonds). Define
+$\theta_s:\cH_s\to\End_\Z\Z[S_s]^0$ by
+\[T_\ell\mapsto T_\ell,\quad U_\ell\mapsto U_\ell,\quad U_p\mapsto U_p\ (N_{U_p}),\quad T_p\mapsto T_p,\quad
+\langle d\rangle\mapsto\langle d\rangle^{-1}\ (\text{adelic}),\quad U_q\mapsto\varepsilon\,\Pi_q,\qquad \varepsilon=+1,\]
+all acting homologically (right translation). $\Z[S_s]^0$ is stable: $\deg T_g a=\deg(UgU)\deg a$.
+\end{definition}
+
+\begin{hypothesis}[$\HypX(M;q)$; \texttt{if:s05-hypX}]\label{hyp:s05-X}
+Data as above ($p\ge5$, $q\ne p$, $(M,pq)=1$, $B=B_q$, $\Gamma_s$, $X_s$, $J_s$, $S_s$, $\cH_s$, $\theta_s$). For every $s\ge0$ there
+is an isomorphism of abelian groups $\varphi_s:\Xq(J_s)\xrightarrow{\sim}\Z[S_s]^0$ such that:
+\begin{enumerate}[label=(X\arabic*)]
+\item \emph{(Hecke)} $\varphi_s\circ h=\theta_s(h)\circ\varphi_s$ for all $h\in\cH_s$;
+\item \emph{(pairing)} $\langle\varphi_sx,\varphi_sy\rangle_w=u_s(x,y)$, where $u_s$ is Grothendieck's monodromy pairing,
+  normalised to be positive definite (Remark~\ref{rem:s05-illusie}), and $\langle[e],[e']\rangle_w=w_e\delta_{ee'}$ with
+  $w_e=|\Gamma_e/(\Gamma_e\cap\{\pm1\})|$ (\texttt{if:s03-graph});
+\item \emph{(naturality)} for $s'\ge s$, let $\beta_{s's}:\Xq(J_{s'})\to\Xq(J_s)$ be the map on character groups induced by the
+  Picard pullback $J_s\to J_{s'}$ along $X_{s'}\to X_s$ (contravariance of $\Xq$). Then $\varphi_s\circ\beta_{s's}=\pi_*\circ\varphi_{s'}$
+  with $\pi_*:\Z[S_{s'}]^0\to\Z[S_s]^0$ the pushforward. (Direction: the torus of the special fibre of a semistable Jacobian
+  is $H^1(\Gamma,\Z)\otimes\mathbb G_m$ for the dual graph $\Gamma$
+  \lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{Appendix, \S3, p.~183, for $N=p$}, so $\Xq=H_1(\Gamma,\Z)$, and the
+  map on characters induced by Picard pullback is dual to pullback on $H^1$, i.e.\ it is the pushforward on $H_1$ of the dual
+  graphs; this is why (X3) pairs $\beta_{s's}$ with $\pi_*$. \stsketch{} at $\Gamma_1$-level.)
+\item \emph{(Galois)} on $T_pJ_s$ (with $G_{\Q_q}$ and $\cH_s$ acting) the filtration $T_t\subset T^{I_q}\subset T_pJ_s$ of
+  Thm.~\ref{thm:s05-G}(v) has, as $\cH_s[G_{\Q_q}]$-modules, graded pieces
+  \[\Hom(\Z[S_s]^0,\Zp(1))\ (\text{transpose action}),\qquad T_pJ_1(Mp^s)^{\oplus2}\ (\text{via the two degeneracies}),\qquad
+  \Z[S_s]^0\otimes\Zp\ (\text{action }h\mapsto\theta_s(h^\Ros)),\]
+  where $h^\Ros$ is the Rosati dual (for $T_\ell$: $\langle\ell\rangle^{-1}T_\ell$); for $h$ with $h^\Ros\notin\cH_s$ (e.g.\ $U_p$, $U_\ell$
+  for $\ell\mid M$, whose Rosati duals involve $w_{Mp^s}$) $\theta_s(h^\Ros)$ \emph{means} the $\langle,\rangle_w$-adjoint
+  $\theta_s(h)^*$ (the two readings agree where both are defined, Lemma~\ref{lem:s05-consistency}(b); the second is what (X2) and the
+  Rosati-equivariance of $u_s$ give for $\Xq(J_s^\vee)\cong\Xq(J_s)$); $\Frob_q$ (arithmetic) acts on the bottom piece as $q\,U_q$
+  (equivalently $\sigma_q=U_q^{-1}$ on $\Xq(J_s)$, i.e.\ the Frobenius permutation of $S_s$ is right multiplication by $\Pi_q^{-1}$
+  under $\varphi_s$; this uses the $\mu_N$-model of the Setting)
+  \provisional{F1/D1: equivalent form $\sigma_q=U_q^{-1}$ and its dependence on the model added; before: only ``$\Frob_q$ acts on the
+  bottom piece as $qU_q$''.}, and the
+  monodromy operator $N$ from the top to the bottom piece is $x\mapsto\langle x,\cdot\rangle_w$ (via (X2)). Transported to
+  $H^1_{\rm par}(\Gamma_s,\Zp)(1)$ by the comparison of $T_pJ_s$ with Betti cohomology.
+\end{enumerate}
+$\HypXchar(M;q):=$ (X1)$\wedge$(X2)$\wedge$(X3) for all $s$; $\HypXgal(M;q):=$ (X4) for all $s$ (presupposing the $\varphi_s$);
+$\HypX:=$ both. \sthyp. At $s=0$ and $M\le2$, (X3) and Remark~\ref{rem:s05-factor2} apply with the factor $2$ in pairings.
+\end{hypothesis}
+
+\begin{remark}[status of $\HypX$]\label{rem:s05-Xstatus}
+For $\Gamma_0(qM)$ and $V=\Z$, (X1) without $U_p$/diamonds and (X2) are Thm.~\ref{thm:s05-G}(ii)--(iv) \stcited; (X1) for
+$U_q$ is Prop.~\ref{prop:s05-sign}(a) \stpmc. At $\Gamma_1(Mp^s)\cap\Gamma_0(q)$-level with $U_p$, diamonds and naturality in $s$,
+(X1)--(X4) are expected by the same proofs (DR at $\Gamma_1$-level; Deuring with $\Gamma_1$-structure) \stexp; we found no
+reference that states them (\texttt{missing/stage-05.md}). Hida's $\Lambda$-adic ordinary theory of $J_s$ at $q$ is not cited here.
+\emph{Frobenius in (X4).} With the arithmetic convention of the Setting, $\Frob_q$ acts on $T_t$ as $q\,(\sigma_q^{-1})^{\rm T}$,
+where $\sigma_q$ is the Frobenius permutation of the supersingular points. At $\Gamma_1$-level $U_q^2=\langle q\rangle\ne1$, and the
+answer depends on two conventions, the model of $X_s$ and the functoriality:
+\begin{center}\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+model & functoriality & $\sigma_q$ on $\Xq$ & $\Frob_q$ on $T_t$\\\midrule
+$\mu_N$ & Picard & $U_q^{-1}$ & $q\,U_q$\\
+naive ($\Z/N$) & Albanese & $U_q^{-1}$ & $q\,U_q$\\
+naive ($\Z/N$) & Picard & $U_q$ & $q\,U_q^{-1}=q\langle q\rangle^{-1}U_q$\\
+$\mu_N$ & Albanese & $U_q$ & $q\,U_q^{-1}=q\langle q\rangle^{-1}U_q$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Reason: $U_q^2=\langle q\rangle$ on the $q$-new part in either functoriality; with Picard functoriality $\langle q\rangle$ acts on
+$\Z[\Sigma]^0$ as the pushforward of the moduli diamond $I_q$, with Albanese as its inverse; and on a model of the supersingular
+curve over $\F_{q^2}$ with Frobenius $[-q]$ one gets $\sigma_q^2=I_q$ in the naive model and $\sigma_q^2=I_q^{-1}$ in the
+$\mu_N$-model. With the sign $+$ from $\Gamma_0$-level this gives the table. Anchors: Ribet--Stein define $T_p$ by Picard
+functoriality on the $\mu_N$-model and state ``with our conventions'' $\Frob_p=pT_p$ on the torus
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, pp.~28--29; Lemma~3.17, p.~46}; Conrad's appendix
+there proves $(T_p)_*=F+\langle p\rangle_*F^\vee$ for Albanese functoriality (Thm.~5.16 of the appendix), which gives
+$\Frob^2-T_p\Frob+p\langle p\rangle=0$ on the Tate module. At $\Gamma_0$-level all four rows agree: \stpmc. At $\Gamma_1$-level,
+with the conventions of the Setting (first row), $\Frob_q=q\,U_q$: \stexp. Test~\ref{tc:s05-exp} stays as a validation.
+\provisional{F1/D1: four-row table (model $\times$ functoriality) with the Ribet--Stein and Conrad anchors; status \stpmc{} at
+$\Gamma_0$-level, \stexp{} at $\Gamma_1$-level; before: \stopen{}, ``depends on Picard versus Albanese'', and the naive
+$\Gamma_1$-analogue of Ribet's Prop.~3.8(ii) gave $\sigma_q=U_q$; to be decided with T05-2.}
+\end{remark}
+
+\begin{lemma}[internal consistency of $\theta_s$]\label{lem:s05-consistency}
+\begin{enumerate}[label=(\alph*)]
+\item $\theta_s$ respects the relations $U_q^2=\langle q\rangle$ (weight $2$, $q$-new) and $T_\ell^2-T_{\ell^2}=\ell\langle\ell\rangle$
+  on the image of $\cH_s$ in $\End\Xq(J_s)\otimes\Q$; with $\langle d\rangle\mapsto\langle d\rangle$ instead, $U_q$ would have to map to
+  $\Pi_q^{-1}$ (Prop.~\ref{prop:s05-sign}(c)).
+\item (X1) and (X2) are compatible: the Brandt adjoint of $\theta_s(h)$ is $\theta_s(h^\Ros)$ for $h\in\{T_\ell,\langle d\rangle,U_q\}$
+  (stage 01: $T_\ell^*=S_\ell^{-1}T_\ell=\langle\ell\rangle T_\ell$, $\langle d\rangle^*=\langle d\rangle^{-1}$, $\Pi_q^*=\Pi_q^{-1}$), as
+  it must be since $u_s$ is Rosati-equivariant.
+\item (X2) and (X3) together imply the projection formula $\langle\pi_*a,b\rangle_s=\langle a,\pi^!b\rangle_{s'}$ with $\pi^!$ the
+  $w$-weighted pullback; for $s\ge1$, $\pi^!=\pi^*$, and from $s=0$ (if $-1\in U_0$) with the factor $2$ of (F2).
+\item (X3) forces $\theta_s(U_p)$ to commute with $\pi_*$, which holds for $N_{U_p}$ and fails for $U_p^*=\langle p\rangle_MU'_p$
+  (stage 01, Lemma ``properties of $N_{U_p}$''(b),(c)); this is what pins $\delta=+1$ in Prop.~\ref{prop:s05-sign}(c),(d) given the expected
+  identification of $N_{U_p}$ with the classical $U_p$ (stage 01, Remark ``literature conventions for $U_p$'').
+\end{enumerate}
+\sttoprove{} ((a), (b) formal from stage 01; (c), (d) formal).
+\end{lemma}
+
+\begin{proposition}[Atkin--Lehner variant]\label{prop:s05-AL}
+Let $\theta_s^\Ros(h):=\theta_s(h^\Ros)$. For fixed $s$, (X1)$\wedge$(X2) for $\theta_s$ is equivalent to (X1)$\wedge$(X2) for
+$\theta^\Ros_s$, via $\varphi_s\mapsto\varphi_s\circ w_{Mp^s}$, where $w_{Mp^s}$ is the Atkin--Lehner automorphism (defined over
+$\Q(\zeta_{Mp^s})$, unramified at $q$, so acting on $\Xq(J_s)$). This equivalence does \emph{not} preserve (X3) (the $w_{Mp^s}$ are
+not compatible with the degeneracy maps in $s$) nor (X4) (it changes the $G_{\Q_q}$-action by a character of
+$\mathrm{Gal}(\Q_q(\zeta_{Mp^s})/\Q_q)$). \sttoprove. So the choice $\theta_s$ versus $\theta_s^\Ros$ is invisible at one level but
+is fixed by naturality: \textbf{the exported Hyp.X uses $\theta_s$.}
+\end{proposition}
+
+\begin{proposition}[$\Lambda$-adic version; seed Prop.~Xlambda]\label{prop:s05-Xlambda}
+Assume $\HypXchar(M;q)$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\varprojlim_s e\big(\Xq(J_s)\otimes\Zp\big)\cong\Mord(M)$ as modules over $\Lam$ and the Hecke operators away from $q$,
+  with $U_q\mapsto\Pi_q$, where the limit on the left is along $\beta_{s's}$ and $\Mord(M)=\varprojlim_se\,\Zp[S_s]$ (\texttt{if:s04-Mord});
+  the $\Lam$-structure corresponds to $\langle d\rangle^{\rm cl}\leftrightarrow\langle d\rangle^{-1}$. Following stage 04 (D1),
+  $\Lam$ acts on $\Mord$ through \emph{adelic} diamonds, with weight-$k$ point $P^{\rm ad}_k=\ker([u]\mapsto u^{2-k})$; on the
+  $\GL_2$ side $\Lam$ acts through classical diamonds with the seed's $P_k=\ker([u]\mapsto u^{k-2})$, and $\theta$ carries $P_k$ to
+  $P^{\rm ad}_k$. \stproved{} given
+  \texttt{if:s04-ekills}(a) ($e\Zp[S_s]^0=e\Zp[S_s]$) and exactness of $e$ and of $\varprojlim$ on compact modules.
+\item $\Lam$-freeness and control of the left side follow from \texttt{if:s04-Mord}. \stpmc.
+\item The monodromy pairings $u_s$, twisted along the tower by $U_p^{-s}w_{p^s}$ (Ohta-type twist), correspond to the twisted Brandt
+  pairing of stage 04. \stsketch{} (stage 04 owns the twist; the comparison is formal once both twists are written with $N_{U_p}$).
+\item Assume also $\HypXgal$ and Hida's $\Lam$-freeness of $\Tord:=\varprojlim_se\,T_pJ_s$ [Hi86a] (not in \texttt{literature/}).
+  Then $\Tord$ has a $\Lam[G_{\Q_q}]$-stable filtration with graded pieces $\Hom_\Lam(\Mord,\Lam)(1)$ (transpose action),
+  $\Tord(M)^{\oplus2}$, ${\Mord}^{\Ros}$ ($=\Mord$ with $h$ acting as $\theta(h^\Ros)$, read as in (X4); the seed's
+  $\cM^{\rm ord,\dagger}_B$; for $U_p$ the adjoint $U_p^*$ does not commute with $\pi_*$, Lemma~\ref{lem:s05-consistency}(d), so the
+  limit is taken with the twist of (c)). \stpmc{}
+  (formal passage), twist \stsketch.
+\end{enumerate}
+\end{proposition}
+\noindent Under $\HypX$ there are therefore $\Lam$-adic Hecke-equivariant maps
+$\Hom_\Lam(\Mord,\Lam)(1)\hookrightarrow\Tord$ and $\Tord\twoheadrightarrow{\Mord}^{\Ros}$, whose ``composite'' through $N$ is the
+(ordinary, perfect: \texttt{if:s04-ekills}(d)) monodromy map \stsketch.
+\provisional{F11: reference corrected to (d); before: \texttt{if:s04-ekills}(c).} Relation to Chenevier: Remark~\ref{rem:s05-O7}.
+
+\subsubsection{What is lost without the hypothesis}
+\begin{center}\small
+\begin{longtable}{@{}p{5.2cm}p{4.3cm}p{5.0cm}@{}}
+\toprule
+statement & without $\HypX$ & with $\HypX$\\\midrule
+$\Lam$-adic Hecke JL $\T^{D\text{-new}}\cong\T_B$ & \stcited{} (\texttt{if:s01-targets}) & same\\
+$\Lam$-adic character group, faithful action & definite side only (\texttt{if:s04-Mord}) & $D=q$: Prop.~\ref{prop:s05-Xlambda}(a)\\
+$\Lam$-adic monodromy filtration; maps both ways & lost (Galois) & Prop.~\ref{prop:s05-Xlambda}(d)\\
+$e$ kills degree, vertex, $\Phi$; perfect pairing & \stproved{} (\texttt{if:s04-ekills}) & $\Phicomb=\Phi_q(J)$ via (X2)\\
+$\Lam$-adic Ribet sequence & definite form (\texttt{if:s04-lambdaribet}) & $\GL_2$ form needs (X) at a second prime and (G5)\\
+$\eta^B_F$ as a self-pairing & \stcited{} (\texttt{if:s04-etaB}) & $=$ monodromy self-pairing via (X2)\\
+$\Lam$-adic defect formula & \stpmc{} (stage 06) & not needed\\
+\bottomrule
+\end{longtable}
+\end{center}
+Lost without geometry: (L1) the $G_{\Q_q}$-action ($\Frob_q=qU_q$ on the torus, inertia filtration), hence the maps above;
+(L2) a geometric proof of the reverse Tamagawa inclusion (stage 06 recovers it by level lowering); (L3) ``a tree quotient \emph{is}
+a Shimura curve''; (L4) $\Phicomb=\Phi_q(J)$; (L5) the dependence on $\iota:\bar\Q\hookrightarrow\bar\Q_q$.
+
+\subsubsection{A substitute at good maximal ideals}
+\begin{definition}[$\HypXiso(s)$; \texttt{if:s05-hypX}]\label{def:s05-Xiso}
+Let $s\ge1$ and $\m$ a maximal ideal of the ordinary Hecke algebra of $\Gamma_s$, non-Eisenstein and satisfying Hsieh's residual
+condition (stated in \texttt{if:s04-Mord}). Let $\T'$ be the $q$-new quotient, $\fa$ the kernel of $\T\to\T'$. $\HypXiso(s)$:
+there is an isomorphism of $\T'$-modules $e\Zp[S_s]_\m\cong eH^1_{\rm par}(\Gamma_s,\Zp)^{\pm}_\m[\fa]$ (the $q$-new
+\emph{sub}module, a fixed sign $\pm$ of complex conjugation), with $\T'$ acting on the left through $\theta_s$, compatible with
+$\pi_*$ and the corresponding trace on the right for $s'\ge s$. \sthyp.
+\end{definition}
+
+\begin{proposition}[$\HypXiso$ holds non-canonically]\label{prop:s05-Xiso}
+Under the hypotheses of Def.~\ref{def:s05-Xiso}, assume:
+(i) $H:=eH^1_{\rm par}(\Gamma_s,\Zp)^{\pm}_\m$ is free of rank one over $\T_\m$, and $\T_\m$ is $\Zp$-Gorenstein;
+(ii) the hypotheses of Prop.~\ref{prop:s05-subquot} hold for $A=\Zp$, $\T_\m$, $\fa$ and $\fb:=\ker(\T_\m\to\T''_\m)$ (the $q$-old
+quotient): $\T_\m$ is finite free over $\Zp$ (automatic: finite and torsion-free), $\T'_\m,\T''_\m$ are torsion-free (automatic: images in
+endomorphism rings of lattices), $\fa\cap\fb=0$ and $(\T_\m)_K=(\T'_\m)_K\times(\T''_\m)_K$ (new and old eigensystems are disjoint,
+as the $U_q$-eigenvalues on the $q$-old part have absolute value $\sqrt q$);
+(iii) $\T'_\m\cong\T_{B,\m}$ via $\theta_s$ (\texttt{if:s01-targets}), and $e\Zp[S_s]_\m$ is free of rank one over $\T_{B,\m}$ with
+$\T_{B,\m}$ Gorenstein (\texttt{if:s04-Mord}, [Hs, Thm.~4.5]).
+Then both sides are free of rank one over $\T'_\m$, hence isomorphic (non-canonically). \stpmc{}.
+Proof sketch: the left side by (iii). On the right, $H[\fa]\cong\fb$ (Prop.~\ref{prop:s05-subquot}), and $\fb\cong\Hom_{\Zp}(\T'_\m,\Zp)$
+by stage 06 Lemma~D(b) (imported as \texttt{if:s06-lemD}; this uses (i))
+\provisional{F16: Lemma~D now cited through the interface \texttt{if:s06-lemD}; before: ``stage 06 Lemma~D(b)'' as a plain
+citation.}; this dualising module is free of rank one over $\T'_\m$ \emph{because} $\T'_\m$ is Gorenstein
+by (iii). (Without (iii), $H[\fa]$ is only the dualising module of $\T'_\m$.) References:
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Thm.~4.5, p.~34, proof citing [Wil95, Thm.~2.1],
+[Hel07, Cor.~8.11, Rem.~8.12]}; \lit{helm\_2004\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves\_arxiv}{Cor.~8.11,
+Remark~8.12, p.~31}.
+Compatibility in $s$ (choosing compatible generators along the tower) additionally needs $\Lam$-adic freeness of
+$\varprojlim_s H$ over the $\Lam$-adic $\T_\m$ (Hida, [Hi86a], not in \texttt{literature/}) and of ${\Mord}_\m$ (\texttt{if:s04-Mord});
+\stsketch.
+\end{proposition}
+It is a \emph{substitute} for (X1), not a consequence of it: (X1) concerns the quotient lattice
+$\Xq(J_s)\otimes\Zp\cong T_pJ_s/T^{I_q}$ (Thm.~\ref{thm:s05-G}(v)), $\HypXiso$ the submodule. They differ exactly by the old/new
+congruence module:
+
+\begin{proposition}[$q$-new sub- versus quotient lattice; seed Prop.~subquot; \texttt{if:s05-subquot}]\label{prop:s05-subquot}
+Let $A$ be a Noetherian local domain, $\T$ a local, finite free $A$-algebra, $\fa,\fb\subseteq\T$ ideals with
+$\T/\fa$, $\T/\fb$ torsion-free, $\fa\cap\fb=0$ and $\T_K=(\T/\fa)_K\times(\T/\fb)_K$. Put $\T':=\T/\fa$, $\T'':=\T/\fb$ and
+$\cc_{\T'}:=(\fa+\fb)/\fa\subseteq\T'$. Let $H$ be free of rank $r$ over $\T$. Then
+\[H[\fa]=\fb H\cong\fb^{\oplus r},\qquad H/\fa H\cong\T'^{\oplus r},\]
+the natural map $H[\fa]\to H/\fa H$ is injective, and its cokernel is $(\T'/\cc_{\T'})^{\oplus r}\cong(\T/(\fa+\fb))^{\oplus r}$.
+\stproved{} (below), using only stage 06 Lemma~D(a) ($\Ann\fa=\fb$; \texttt{if:s06-lemD}; there \stproved).
+\provisional{F12/F16: hypotheses ``$\T$ $A$-Gorenstein'' and ``$\T''$ $A$-free'' dropped; only Lemma~D(a) is used, cited through
+\texttt{if:s06-lemD}; before: $\T$ local, finite free and $A$-Gorenstein, $\T''$ $A$-free, ``using stage 06 Lemma~D''.}
+\end{proposition}
+\begin{proof}
+Reduce to $r=1$, $H=\T$. $\T[\fa]=\Ann_\T\fa=\fb$ by Lemma~D(a). The map $\fb\to\T/\fa$ is injective since $\fb\cap\fa=0$, with
+image $(\fb+\fa)/\fa=\cc_{\T'}$; so the cokernel is $\T'/\cc_{\T'}=\T/(\fa+\fb)$.
+\end{proof}
+\noindent So $\HypXiso$ suffices for congruence- and Fitting-ideal statements at good $\m$, but not for Eisenstein or
+non-Gorenstein $\m$, for pairings beyond $\eta^B$, or for anything Galois (O6). Note that neither $\T'$ nor $\T''$ need be
+$A$-free, and $\T$ need not be Gorenstein: the proof uses only $\Ann\fa=\fb$.
+\provisional{F12: note corrected; before: ``$\T'$ need not be $A$-free; the hypothesis `$\T''$ free' only enters through Lemma~D's
+duality statement and is kept for the export to 06''.}
+
+\begin{remark}[$\eta^B$ and (X2): two different pairings]\label{rem:s05-BN}
+Stage 04 (D4) computes $\eta^B_F$ with Hsieh's pairing $B_N$: a fixed-character piece, an Atkin--Lehner operator at $Mp^\alpha$,
+a norm twist, weights $\#\Gamma_{Np^\alpha,x}=w_x$ (Hsieh (4.1), p.~29; stage 04, item (iv) after Def.~BN), so no factor $2$ against
+$\langle,\rangle_w$, and a sign $(-1)^k$.
+\provisional{F10: Hsieh's weights are $\#\Gamma_{Np^\alpha,x}=w_x$, no factor $2$; before: ``weights $\#\Gamma_x$ instead of $w_x$
+(factor $2$ at levels containing $-1$, Remark factor2)''.} (X2) uses $\langle,\rangle_w$ without Atkin--Lehner. Since $\langle x,w\,y\rangle_w$ is $\theta$-equivariant exactly when
+$\langle,\rangle_w$ is $\theta^\Ros$-equivariant (Prop.~\ref{prop:s05-AL}), the table row ``$\eta^B_F=$ monodromy self-pairing via
+(X2)'' means: $\eta^B_F$ is generated by $u_s(g,w_{Mp^s}g)$ for a generator $g$ of the $F$-eigenline of $\Xq(J_s)_\m$, up to a
+$p$-adic unit (the sign $(-1)^k$ is a unit). \provisional{F10: ``and the factor $2$'' removed from the list of units; before: ``the sign $(-1)^k$ and the factor $2$ are units for $p\ge5$''.} \sttoprove{} (bookkeeping against stage 04's
+normalisation of $B_N$).
+\end{remark}
+
+\begin{remark}[context]\label{rem:s05-context}
+That an integral comparison must produce a defect is the point of
+\lit{ichino-prasanna\_2016\_periods-of-quaternionic-shimura-varieties-i\_arxiv}{Abstract and Introduction, p.~1};
+a comparable integral (torsion) JL in a different setting is
+\lit{calegari-venkatesh\_2012\_torsion-jacquet-langlands-correspondence\_arxiv}{\S1.1.1, Theorem~A, p.~3}, which also
+compares orders of finite homology groups rather than producing a map. \stcited.
+\end{remark}
+
+\begin{remark}[no Betti-canonical replacement]\label{rem:s05-degree}
+After inverting $q$, the cuspidal cohomology of $\GL_2$ sits in degree $2$ (\texttt{if:s03-amalgam}: the $q$-new part of
+$H^*(\Gamma_0(M)[\frac1q],V)$ is in $H^2$) and that of the definite $S$-arithmetic group in degree $1$
+(\texttt{if:s02-coh}); for $B_q$ itself ($q\mid D$) there is no tree and it sits in degree $0$. A degree-preserving Hecke-equivariant
+chain map inducing $\HypX$ on cuspidal parts therefore cannot exist between these two $S$-arithmetic complexes; any realisation
+must shift degree (e.g.\ through a boundary or Gysin-type map) or go through a third object. \stsketch{} (degree count only).
+\end{remark}
+
+\subsubsection{Several ramified primes (seed \S10)}\label{sss:s05-general}
+\begin{proposition}[no tree-only chain; corrected form of seed Prop.~noChain]\label{prop:s05-nochain}
+Let $\mathcal C$ be the class of Hecke-equivariant module maps generated by the identifications of \texttt{if:s02-quot} for a
+fixed definite algebra $B'$ and tree prime $r\nmid\mathrm{disc}B'$, the maps of \texttt{if:s03-ribet}, compositions, kernels and
+cokernels.
+\begin{enumerate}[label=(\alph*)]
+\item For $r\nmid\mathrm{disc}B'$ the cells of tree quotients are class sets of $B'$; for $r\mid\mathrm{disc}B'$ there is no tree
+  ($\cO'_r[\frac1r]^1=\cO'^1_r$ is compact). \stproved.
+\item Every object produced by $\mathcal C$ from data of $B'$ is a subquotient of a direct sum of Brandt modules
+  $\Brandt{U'}{V}$ of the \emph{same} algebra $B'$, with Hecke operators acting through the right-translation action of
+  $\Bhat'^\times$; in particular no morphism in $\mathcal C$ has source or target a Brandt module of $B_D$ for $B'\not\cong B_D$.
+  \stproved{} (induction on the construction).
+\item (b) is \emph{not} an obstruction at the level of isomorphism classes: for $D=q_1q_2q_3$ and $B'=B_{q_1}$, the
+  intersection of the $q_2$-new and $q_3$-new parts of $\Brandt{\Uzero{q_2q_3M}}{V_k}$ (built in $\mathcal C$ from Ribet
+  sequences at $r=q_2$ and $r=q_3$) is, after $\otimes\Q$ and on cuspidal parts, Hecke-isomorphic (anemic algebra) to
+  $\Brandt{\Uzero{M}}{V_k}\otimes\Q$ for $B_D$, by classical JL applied twice. \stpmc{} (\texttt{if:s01-targets}).
+\end{enumerate}
+\end{proposition}
+\begin{remark}[on the seed's (b)]\label{rem:s05-nochain}
+The seed states ``no sequence of operations in $\mathcal C$ applied to definite algebras of smaller discriminant produces the
+Brandt module of $B_D$'' as \stproved{} ``(the operations never change the algebra)''. Read literally (as the source/target
+statement) this is (b), and is tautological. Read as ``produces a module isomorphic to'', it is false rationally by (c), and at a
+non-Eisenstein $\m$ with both sides free of rank one over the same Gorenstein Hecke algebra it is false integrally as well
+(non-canonically, as in Prop.~\ref{prop:s05-Xiso}). The true content is that $\mathcal C$ produces no \emph{canonical
+comparison map}; we keep only (a)--(c) and the geometric chain below.
+\end{remark}
+The geometric chain for $D=q_1q_2q_3$ (seed table), with the D1 convention of Remark~\ref{rem:s05-D1}:
+\begin{center}\small
+\begin{tabular}{@{}p{5.9cm}p{3.4cm}p{4.9cm}@{}}
+\toprule
+link & tree-only & geometric input\\\midrule
+$X_{q_1}(J_0(MD))\cong\Z[\XB{\Uzero{q_2q_3M}}]^0$, $B=B_{q_1}$ & definition & $\HypX$ at $q_1$ ($\Gamma_0$-type)\\
+Ribet collapse for $B_{q_1}$, tree at $q_2$ & \texttt{if:s03-ribet} & none\\
+$H_1(\BG(U,q_2),\Z)=X_{q_2}(J^{q_1q_2}(q_3M))$ & lost & Čerednik--Drinfeld (G5)\\
+$X_{q_2}(J^{q_1q_2})\leftrightarrow X_{q_3}(J^{q_1q_2})$ & no substitute & only through $T_\ell J$ (Galois)\\
+$X_{q_3}(J^{q_1q_2}(q_3M))\cong\Z[X_{B_D}(\Uzero{M})]^0$ & definition & Shimura-curve $\HypX$ ([Koh01, Thm.~4.3]; Buzzard)\\
+\bottomrule
+\end{tabular}
+\end{center}
+At the level of Hecke algebras the $\Lam$-adic $\T^{D\text{-new}}\cong\T_{B_D}$ holds for all $D$ (\texttt{if:s01-targets}). The
+several-primes defect formula is stage 06's (it is \stconj{}/\stsketch{} there).
+
+\subsubsection{Simplicial shape and the zig-zag (seed \S11)}
+\begin{definition}[the four stages as simplicial orbifolds]\label{def:s05-stages}
+\begin{enumerate}[label=(\roman*)]
+\item Definite level $U$: the $0$-dimensional orbifold (groupoid) $\coprod_{[x]\in\XB{U}}B\Gamma_x$; $H^0$ with coefficients $V$
+  is $\Brandt{U}{V}$.
+\item Definite $S$-arithmetic stage: the graph of finite groups $\Gamma_U\quot\cT_q$ (\texttt{if:s02-quot}) with structure maps
+  $s_0,s_1$; a $1$-dimensional orbifold model of $B\Gamma_U$ after barycentric subdivision, in the sense of orbifolds as étale
+  groupoids \lit{moerdijk-pronk\_1997\_orbifolds-sheaves-and-groupoids}{\S4, Thm.~4.1 (orbifolds $\leftrightarrow$ étale groupoids with
+  proper $(s,t)$)} (the simplicial version [MP99] is not in \texttt{literature/}). Over $\Z$ its $H_1$ is taken as in Remark~\ref{rem:s05-D1}.
+\item $\GL_2$ arithmetic stage: $\Gamma_s\backslash\Hb$ with a finite triangulation (as in HACS).
+\item $\GL_2$ $S$-arithmetic stage: the graph of spaces $[Y_0(M)\sqcup Y_0(M)\leftleftarrows Y_0(Mq)]$ (\texttt{if:s03-amalgam}).
+\end{enumerate}
+\end{definition}
+The zig-zag
+\[\underbrace{\XB{U}\rightleftarrows\XB{\Uzero{q}U}}_{\text{0-dim}}\ \leadsto\ \underbrace{\Gamma_U\quot\cT_q}_{\text{1-dim}}
+\qquad\qquad \underbrace{\XBq{U_s}}_{\text{edges of }\GDR_q}\ \overset{\HypX}{\longleftrightarrow}\ \underbrace{\text{dual graph of }X_{s,\bar\F_q}}_{\GL_2}\]
+has two independent parts: the first (for $B$ with $q\nmid D$) consists of explicit simplicial maps; the second (for $B_q$) is
+$\HypX$, a statement that the DR graph $\GDR_q(U_s)$ of stage 03 (\texttt{if:s03-graph}) \emph{is} the dual graph
+of the special fibre, with thicknesses, compatibly with Hecke and Galois. (The seed's single displayed zig-zag concatenates the
+two, which is misleading: the left part is at a prime $q\nmid D$, the right part for $D=q$.)
+
+\begin{conjecture}[O2, a simplicial realisation; open]\label{conj:s05-O2}
+There is a Hecke-equivariant map of finite simplicial (orbi-)sets, defined over $\Z[\frac1{6}]$ at most, from $\GDR_q(U_s)$ to a
+simplicial model of the special fibre of $X_s$ at $q$ (or to a $q$-adic tubular neighbourhood), inducing $\varphi_s^{-1}$ on $H_1$.
+\stconj{}; equivalently (by Remark~\ref{rem:s05-degree}) a degree-shifting map between the two $S$-arithmetic complexes. The most
+promising concrete form is the Deuring map on supersingular points, which exists only after reduction mod $q$; we expect no
+characteristic-zero Betti version. \stopen.
+\end{conjecture}
+
+\begin{remark}[O7: relation to Chenevier]\label{rem:s05-O7}
+Chenevier's $\JL_p$ is a closed immersion of eigencurves
+\lit{chenevier\_2005\_une-correspondance-de-jacquet-langlands-p-adique}{Thm.~3, \S4.6, p.~188}. On the ordinary locus, the maps
+of Prop.~\ref{prop:s05-Xlambda}(d) induce on Hecke algebras the surjection $\T^{\ord}(qM)\twoheadrightarrow\T^{\ord}_{B_q}(M)$ of
+\texttt{if:s01-targets}, so their ``support'' is the ordinary part of the image of $\JL_p$. \stsketch. Beyond the ordinary locus
+nothing is claimed (O7 stays open): there is no finite-slope analogue of $e$ killing $\Phicomb$.
+\end{remark}
+
+\begin{remark}[O4, O6 made precise]\label{rem:s05-O46}
+O4: a Shimura-curve $\HypX$ for discriminant $d$ and $r\nmid d$ is Def.~\ref{hyp:s05-X} with $J_s$ replaced by the Jacobian of
+the Shimura curve of discriminant $d$ and level $\Gamma_1(Mp^s)\cap\Gamma_0(r)$, $B=B_{dr}$; at $\Gamma_0$-level it is
+\lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.3, p.~11} (Buzzard). O6: at an Eisenstein $\m$, (X2)
+carries information that $\HypXiso$ does not; its weight-$2$, level-$1$ shadow is the Mazur check
+$\Phicomb(\GDR_q(1))\cong\Z/\mathrm{num}\frac{q-1}{12}$ (\texttt{if:s03-graph}) versus $\Phi_q(J_0(q))$
+(\lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{Appendix, Thm.~(A.1)(b), p.~173}); this is a check of (X2) at
+$\Gamma_0$-level, not a proof.
+\end{remark}
+
+%----------------------------------------------------------------------
+\subsection{Proof strategy}
+%----------------------------------------------------------------------
+Nothing in this stage is deep except what is assumed. The work is (i) precise statements, (ii) convention bookkeeping, (iii) a
+few formal proofs.
+\begin{enumerate}
+\item \emph{Sign and exponent} (Prop.~\ref{prop:s05-sign}): (a) is a chain of three citations in Ribet 1990 (Prop.~3.1, 3.7, 3.8,
+  Remark~3.5(b)); write it out once, tracking that Ribet's $\Xq$ is the character group with Picard-induced Hecke action
+  and that ``Frobenius on $\Sigma$'' is $x\mapsto x\Pi_q$; at $\Gamma_0$-level this equals $x\mapsto x\Pi_q^{-1}$, since $\Pi_q^2$ is
+  central and acts trivially. At $\Gamma_1$-level, in the $\mu_N$-model of the Setting, the Frobenius permutation is
+  $x\mapsto x\Pi_q^{-1}$ (Remark~\ref{rem:s05-Xstatus}).
+  \provisional{F1: $\Gamma_0$/$\Gamma_1$ distinction for the Frobenius permutation; before: ``$x\mapsto x\Pi_q$ (not $x\Pi_q^{-1}$;
+  irrelevant at $\Gamma_0$-level \dots)''.} (c) is a two-line computation. (e) needs a local-JL reference for $\St\otimes\chi$.
+\item \emph{Consistency lemma}: compare stage 01's adjoint formulas with the Rosati duals on $J_1(N)$; purely formal.
+\item \emph{Prop.~Xlambda}: (a) by exactness of $e$, $\varprojlim$, and \texttt{if:s04-ekills}(a); (b) from \texttt{if:s04-Mord}; (c),
+  (d) are bookkeeping once stage 04 fixes the twist.
+\item \emph{Prop.~subquot}: two lines from Lemma~D(a) (stage 06, \texttt{if:s06-lemD}).
+  \provisional{F12/F16: only Lemma~D(a), through \texttt{if:s06-lemD}; before: ``two lines from Lemma~D (stage 06)''.}
+\item \emph{Prop.~noChain}: (a), (b) by induction on $\mathcal C$; (c) by JL twice.
+\item \emph{$\HypXiso$}: freeness from [Hs]/[Hel]/[Wi95] plus Prop.~subquot and Lemma~D(b) (\texttt{if:s06-lemD}) (the right side is the dualising
+  module of $\T'_\m$, free because $\T'_\m\cong\T_{B,\m}$ is Gorenstein); compatibility in $s$ needs [Hi86a].
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\subsection{Dependencies and interfaces}
+%----------------------------------------------------------------------
+\paragraph{Imported (restated as in SPLIT; deviations of the exporters noted).}
+\begin{interface}[\texttt{if:s01-classset}]
+$X_B(U)$, $\Gamma_x$ and $w_x$ as defined in the conventions above. Facts: $X_B(U)$ is finite, $\Gamma_x$ is finite,
+$\Nrd(U)=\Zhat^\times$ for all the standard levels, and Lemma stab (a)--(c) holds. \status{imported from stage 01}
+\end{interface}
+\begin{interface}[\texttt{if:s01-brandt}]
+$M(U;V)$ together with the Brandt pairing $\langle[x],[y]\rangle=w_x\delta_{xy}$, the norm-map identification
+$\Zp[X]\cong\Zp^X$ when $p\nmid|\Gamma_x|$, and the right-translation maps $x\mapsto xg$ for $g\in B_q^\times$.
+\status{imported from stage 01} (Stage 01 deviation (i): $\nu$ is equivariant only up to $T\mapsto T^*$, sends $\pi_*$ to the
+trace, and only under the $\pm1$ condition of Remark~\ref{rem:s05-factor2}.)
+\end{interface}
+\begin{interface}[\texttt{if:s01-hecke}]
+The Hecke operators $T_\ell$, $S_\ell$, $U_\ell$, $\langle d\rangle$, $U_p$ (with fixed normalisation $N_{U_p}$) and $\Pi_\ell$
+($\ell\mid D$). All operators supported away from $q$ commute with right translation by $B_q^\times$. $T^*=T_{g^{-1}}$ for
+$T=T_g$; $T_\ell$ is self-adjoint only at level $\Uzero{M}$.
+\provisional{F15: exporter's wording; before: ``Self-adjointness for the pairing.''}
+\status{imported from stage 01} ($N_{U_p}=[U\,\mathrm{diag}(p,1)\,U]$; adelic diamonds are inverse to classical ones.)
+\end{interface}
+\begin{interface}[\texttt{if:s01-targets}]
+Thm JLclassical (cited) and the $\Lambda$-adic Hecke JL $\T^{\ord,D\text{-new}}\cong\T^{\ord}_B$ ([LV], [Hs]; cited).
+\status{imported from stage 01}
+\end{interface}
+\begin{interface}[\texttt{if:s02-quot}]
+Prop.~quot (a)--(c) of stage 02: the bijections, the degeneracies $s_0[x]=[x]$, $s_1[x]=[x\alpha]$, the stabilisers, and Hecke
+equivariance. Also $\Gamma_U\backslash\cT_q\cong\BG(U,q)$. \status{imported from stage 02} Used in Def.~\ref{def:s05-stages} and
+Prop.~\ref{prop:s05-nochain}.
+\provisional{F5: import block added in the exporter's wording; before: \texttt{if:s02-quot} was used but not imported.}
+\end{interface}
+\begin{interface}[\texttt{if:s02-coh}]
+Prop.~coh (the two-term complex) and Prop.~harm of stage 02. $H_0(\Gamma_U,V)=V_{U_p^1}$ (and consequences (c),(d) of Prop.~coh)
+need the full strong approximation of stage 02 (Thm.~SA); they are not derivable from connectivity of $\BG(U,q)$ at one level.
+Signs: $\partial=(-s_{0*},s_{1*})$, $\delta(f_0,f_1)=s_1^*f_1-s_0^*f_0$. \status{imported from stage 02} Used in
+Remark~\ref{rem:s05-degree}.
+\provisional{F5: import block added in the exporter's wording; before: \texttt{if:s02-coh} was used but not imported.}
+\end{interface}
+\begin{interface}[\texttt{if:s02-indef}, amended]
+The definition $\cX^{(q)}_{Dq}(U;V):=H_1(\Gamma_U,V)$ for $\Zp$-modules $V$, $p\ge5$; over $\Z$,
+$\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)=H_1(\Gamma_U,\Z)/\mathrm{torsion}$. The rank at a free level is $(q-1)|X_B(U)|+1$.
+\status{imported from stage 02}
+\end{interface}
+\begin{interface}[\texttt{if:s03-graph}]
+Weighted graphs, $X(\G)$, $\langle,\rangle_w$, $\Phi^{\rm comb}$, Prop phi; the DR graph $\G^{\rm DR}_q(U)$ and $X^{\rm comb}_q(U)$.
+\status{imported from stage 03}
+\end{interface}
+\begin{interface}[\texttt{if:s03-ribet}]
+Thm ribet (a) over $\Z$ and (b) with coefficients, with $\alpha=(-s_{0*},s_{1*})$ (exact sign convention).
+\status{imported from stage 03}
+\end{interface}
+\begin{interface}[\texttt{if:s03-amalgam}]
+The Mayer--Vietoris sequence for $\Gamma_0(M)[1/q]$, the formula for $\Psi^*\Psi$, and the Betti level-raising module
+$\coker(\Psi^*\Psi)_\m$. \status{imported from stage 03} (used only in Remark~\ref{rem:s05-degree}.)
+\end{interface}
+\begin{interface}[\texttt{if:s04-ekills}, \texttt{if:s04-Mord}, \texttt{if:s04-lambdaribet}, \texttt{if:s04-etaB}]
+Lemma ekills (a)--(d) \provisional{F11: (a)--(d), (d) being the perfect pairing; before: ``Lemma ekills (a)--(c)''.}.
+$\cM^{\rm ord}_B(U):=\varprojlim_se\,\Zp[X_B(UU_s)]$; $\Lambda$-freeness and control (cited [Hi86b], [LV],
+[Hs]); Gorenstein property of $\T^{\rm ord}_{B,\m}$ with $\cM^{\rm ord}_{B,\m}$ free of rank one (cited [Hs, Thm.~4.5]) under ``$\m$
+non-Eisenstein $+$ Hsieh's residual condition''. Thm lambdaribet; $\cX^{\rm ord}_{Dq}(U):=\varprojlim_se\,H_1(\Gamma_{UU_s},\Zp)$.
+$\eta^B_F$ equals the self-pairing of a generator of the $F$-eigenline (cited, Hs). \status{imported from stage 04}
+\end{interface}
+\begin{interface}[\texttt{if:s06-lemD}]
+Lemma~D (a)--(c) of stage 06 (new/old duality; pure commutative algebra, \stproved{} there). This stage uses (a)
+($\Ann_S\fa=\fb$) in Prop.~\ref{prop:s05-subquot} and (b) ($\fb\cong(S/\fa)^\vee$ for Gorenstein $S$) in
+Prop.~\ref{prop:s05-Xiso}. \status{imported from stage 06}
+\end{interface}
+\noindent\provisional{F16: Lemma~D is now an interface dependency on stage 06 (\texttt{if:s06-lemD}); before: ``Stage 06's Lemma~D is
+used in the proof of Prop.~subquot; it is pure commutative algebra and is restated there with its proof, so this is a citation, not
+an interface dependency.''}
+
+\paragraph{Exported.}
+\begin{interface}[\texttt{if:s05-hypX}]\label{if:s05-hypX}
+The precise statements of $\HypX(M;q)$, $\HypXchar$, $\HypXgal$ (Hypothesis~\ref{hyp:s05-X}, with the dictionary $\theta_s$ of
+Def.~\ref{def:s05-theta}: $\langle d\rangle\mapsto\langle d\rangle^{-1}$, $U_p\mapsto N_{U_p}$, $U_q\mapsto+\Pi_q$, homological
+action on $\Z[S_s]^0$, the $\mu_N$-model of $X_s$ with Picard functoriality on $\Xq(J_s)$
+\provisional{F1/D1: ``the $\mu_N$-model of $X_s$'' added; before: ``Picard functoriality on $\Xq(J_s)$''.}, positive monodromy pairing, naturality along $\beta_{s's}$/$\pi_*$, and
+the Rosati-twisted top graded piece in (X4)) and $\HypXiso$ (Def.~\ref{def:s05-Xiso}), with the data list of seed Hyp.~8.1. Status
+\sthyp; never an axiom.
+\end{interface}
+\begin{interface}[\texttt{if:s05-subquot}]\label{if:s05-subquot}
+Prop.~\ref{prop:s05-subquot} (hypotheses as stated there; \stproved{} given Lemma~D(a), \texttt{if:s06-lemD}).
+\provisional{F12/F16: ``given Lemma~D(a), \texttt{if:s06-lemD}''; before: ``given Lemma~D''.}
+\end{interface}
+
+\paragraph{Interface deviations.}
+\begin{enumerate}[label=D\arabic*.]
+\item \texttt{if:s05-hypX} is \emph{sharpened}: SPLIT/seed leave $\varepsilon$, the exponent, the diamond convention and the
+  functoriality open; they are fixed here. The seed's ``$\cH_s$ contains $U_p$'' is replaced by $T_p$ at $s=0$.
+\item The (X4) top graded piece carries the Rosati-twisted action $\theta_s(h^\Ros)$; the seed writes $\Xq(J_s)\otimes\Zp$ without
+  specifying the Hecke structure (only the $\dagger$ in Prop.~Xlambda hints at it). For $h$ with $h^\Ros\notin\cH_s$ ($U_p$,
+  $U_\ell$ with $\ell\mid M$) this action is the $\langle,\rangle_w$-adjoint $\theta_s(h)^*$; $\Frob_q$ is arithmetic (revision after
+  audit, F3/F10).
+\item The indefinite stage over $\Z$ is imported in the amended form of stage 02 (D1); Hyp.X itself only uses
+  $\Xcomb_q(U_s)=H_1(|\GDR_q(U_s)|,\Z)$.
+\item Seed Prop.~noChain (b) is replaced by Prop.~\ref{prop:s05-nochain} (b), (c) (Remark~\ref{rem:s05-nochain}).
+\item The factor-2 hypothesis (F2) (Remark~\ref{rem:s05-factor2}) is part of the statement of (X3) at $s=0$, $M\le2$.
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\subsection{Lean, HACS, talk}
+%----------------------------------------------------------------------
+\paragraph{Math track (independent).}
+M1: write out Prop.~\ref{prop:s05-sign}(a),(c) and Lemma~\ref{lem:s05-consistency} in full, with the Rosati duals on $J_1(N)$
+referenced. M2: Prop.~\ref{prop:s05-sign}(e) with a local-JL reference. M3: Prop.~\ref{prop:s05-Xlambda}(a),(b) in full;
+(c),(d) after stage 04 fixes the twist. M4: Prop.~\ref{prop:s05-subquot}, \ref{prop:s05-nochain} (done above; polish). M5: settle
+Remark~\ref{rem:s05-hsieh} (optional: confirm the erratum with Hsieh's $\GL_2$-side $U_q$ in his \S3; consider writing to the
+author). \provisional{F6/D3: M5 is now a confirmation, not a decision; before: ``settle Remark hsieh (read Hsieh's $\GL_2$-side $U_q$
+normalisation in his \S3)''.} M6: a literature search for $\Gamma_1$-level
+DR/Deuring statements (Remark~\ref{rem:s05-Xstatus}).
+
+\paragraph{Lean track (independent).}
+L1: \Tpath{AlgJL/Hyp/HypX.lean} (new; follow the pattern of \Tpath{AlgJL/Hyp/EichlerMass.lean}: \texttt{def \dots : Prop}, taken as
+an explicit argument, never an \texttt{axiom}). Since Mathlib has no Néron models, the $\GL_2$ side enters as a structure
+\texttt{CharGroupData} (a free $\Z$-module $X_s$ per $s$ with a $\cH_s$-action, a symmetric positive-definite pairing, transition
+maps $\beta_{s's}$, and the Hecke relations of Lemma~\ref{lem:s05-consistency}(a)); then
+\texttt{def Hyp.X.char (G : CharGroupData M q p) : Prop := $\forall$ s, $\exists$ $\varphi$ : G.X s $\simeq_\Z$ degZero (S s), (X1) $\wedge$ (X2) $\wedge$ (X3)}.
+The claim ``$G$ is the character group of $J_s$'' stays outside Lean and is documented in the hypothesis registry.
+\texttt{Hyp.X.gal} similarly with a \texttt{TateModuleData} structure ($\Zp$-module with $G_{\Q_q}$-action modelled by
+$\langle\Frob,\tau\rangle$ and a filtration). L2: Prop.~\ref{prop:s05-subquot} (pure commutative algebra; Lean-friendly now;
+needs Lemma~D from stage 06's Lean track or a local copy). L3: Prop.~\ref{prop:s05-nochain}(b) is not worth formalising. L4:
+Prop.~\ref{prop:s05-Xlambda}(a) as a theorem taking \texttt{Hyp.X.char} as an argument, once stage 04's $e$ and $\varprojlim$ exist.
+
+\paragraph{HACS / computation track (independent).}
+\begin{enumerate}[label=\textbf{T05-\arabic*}]
+\item\label{tc:s05-sign} \textbf{[validation] sign $\varepsilon$.} $q\in\{11,23,37,43\}$, $M=1$, $k\in\{2,4,6,8\}$: Brandt
+  matrices of $B_q$ with $\Sym^{k-2}$ (definite module or PARI/GP), eigenvalue of $\Pi_q$ on each Hecke eigenline (matched by
+  $T_2,T_3,T_5$) versus $a_q$ of the corresponding $q$-new form (HACS level $q$). Prediction: $a_q=+\lambda(\Pi_q)$ always.
+  Validates Remark~\ref{rem:s05-hsieh}. \provisional{F6: validation, not decision; before: ``Settles Remark hsieh''.}
+\item\label{tc:s05-exp} \textbf{[validation] exponent and diamonds.} $q=11$ or $13$, $\Gamma_1(N)$ with $N\in\{5,7\}$, weight $2$:
+  on $\Z[\XBq{\Uone{N}}]^0$ check that the eigensystems match classical ones under $\langle d\rangle\mapsto\langle d\rangle^{-1}$,
+  $U_q\mapsto+\Pi_q$ (and fail for $\Pi_q^{-1}$ at characters with $\chi(q)\ne\pm1$).
+\item \textbf{[validation] (X2) at $\Gamma_0$-level} = seed T1 (stage 03 runs it): Smith form of $\langle,\rangle_w$ versus
+  $\mathrm{num}\frac{q-1}{12}$.
+\item \textbf{[later] seed T7}: Brandt Gram matrix on $e\Zp[S_s]^0_\m$ versus the Ohta-twisted $\GL_2$ pairing on
+  $eH^1_{\rm par}(\Gamma_s)^\pm_\m$ at Eisenstein or non-Gorenstein $\m$ (needs $U_p$ at level $qp^s$ in HACS).
+\item \textbf{[new] sub/quot cokernel.} At the T5 triples of the seed, compute $\coker(H[\fa]\to H/\fa H)$ on the $\GL_2$ side and
+  compare with $\T/(\fa+\fb)$ (Prop.~\ref{prop:s05-subquot}).
+\end{enumerate}
+
+\paragraph{Talk track (independent).}
+One slide ``why the geometric route is expensive'' (seed \S4.2: DR, Néron, SGA~7, Čerednik--Drinfeld; versus: trees and
+strong approximation). One slide with the two-part zig-zag and its single hypothesis arrow (with the correction that the two
+parts live at different primes). One line: ``$U_q\mapsto+\Pi_q$ (Frobenius $=$ right multiplication by a uniformiser)''.
+
+%----------------------------------------------------------------------
+\subsection{Risks}
+%----------------------------------------------------------------------
+\begin{enumerate}[label=R\arabic*.]
+\item \emph{No $\Gamma_1$-level reference.} (X1)--(X4) at $\Gamma_1(Mp^s)\cap\Gamma_0(q)$ with $U_p$ and naturality are not
+  stated in any reference we found; the hypothesis may be ``expected'' for a long time. Low impact (it stays a hypothesis by
+  design), but the talk must not call it ``known''.
+\item \emph{Diamond/Picard convention.} Prop.~\ref{prop:s05-sign}(d) rests on stage 01's diamond flag transferring to $\Xq(J_s)$.
+  If it does not, the correct dictionary is $\theta^\Ros_s$ and the exponent flips to $-1$ (Prop.~\ref{prop:s05-AL}); T05-2 decides.
+\item \emph{Hsieh's sign} (Remark~\ref{rem:s05-hsieh}). It is treated as an erratum: no statement of [Hs] involving $U_q$ for
+  $q\mid N^-$ is used with his sign. Residual risk: a statement of [Hs] that is imported later without checking its $U_q$.
+  \provisional{F6/D3: risk restated after the verdict; before: ``If it is a normalisation and not a misprint, stage 06 must re-sign
+  imported statements; harmless for ideals, dangerous for explicit formulas.''}
+\item \emph{(X4) Hecke structure.} The Rosati twist of the top graded piece is easy to get wrong; with the wrong action the
+  $\Lam$-adic maps of Prop.~\ref{prop:s05-Xlambda}(d) are not Hecke-equivariant. For $U_p$, $U_\ell$ ($\ell\mid M$) the twist is
+  the Brandt adjoint (not an element of $\theta_s(\cH_s)$). The Frobenius formula of (X4) at $\Gamma_1$-level holds for the
+  $\mu_N$-model with Picard functoriality and is expected, not cited (Remark~\ref{rem:s05-Xstatus}); with the naive model it would
+  read $q\langle q\rangle^{-1}U_q$.
+  \provisional{F1/D1: Frobenius formula tied to the model; before: ``the Frobenius formula of (X4) at $\Gamma_1$-level is open''.}
+\item \emph{Factor 2} (F2) at $M\le2$, $s=0$; only affects $s=0$.
+\item \emph{Lean vacuity.} \texttt{Hyp.X.char} on an abstract \texttt{CharGroupData} is satisfiable by fiat (take $G:=\Z[S_s]^0$);
+  theorems using it are honest only as ``for every $G$ with these properties''. Documented in the registry.
+\item \emph{Seed citations} [RS, (3.1)] and [PW, Prop.~6.5] do not state (G2) in the form used (see \texttt{missing/stage-05.md}).
+\end{enumerate}

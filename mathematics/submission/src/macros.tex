@@ -1,0 +1,208 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Macros of the submission report: mathematics/preamble.tex without biblatex (bibtex + amsalpha instead),
+% plus the few chapter-level macros and a tcolorbox-free version of the quoted-statement environment.
+% Packages: standard LaTeX/AMS only (the flattened report.tex must compile with a plain TeX Live).
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!50!black]{hyperref}
+\setlist{itemsep=2pt,topsep=3pt}
+\setlength{\emergencystretch}{3em}
+
+%---------------------------------------------------------------- theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{interface}[theorem]{Interface}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{testcase}[theorem]{Test case}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%---------------------------------------------------------------- status markers
+% Usage: \status{cited}, \status{to prove}, \status{conjectural}, \status{known}, ...
+\newcommand{\status}[1]{\textup{\textsf{[#1]}}}
+\newcommand{\stknown}{\status{known}}          % standard / textbook, reference given
+\newcommand{\stcited}{\status{cited}}          % taken from literature, precise pointer given
+\newcommand{\sttoprove}{\status{to prove}}     % we must write the proof
+\newcommand{\stproved}{\status{proved}}        % proof written in this plan / seed
+\newcommand{\stpmc}{\status{proved modulo cited}}
+\newcommand{\stsketch}{\status{sketched}}
+\newcommand{\stexp}{\status{expected}}
+\newcommand{\stconj}{\status{conjectural}}
+\newcommand{\sthyp}{\status{hypothesis}}
+\newcommand{\stopen}{\status{open}}
+\newcommand{\stcomp}{\status{computed}}
+\newcommand{\stformal}{\status{formalized}}    % exists in Lean (give declaration name)
+% literature pointer: \lit{file-stem}{Thm 4.5, p.~12}
+
+\newcommand{\litund}{\char`\_\penalty0\hskip0pt\relax}
+\newcommand{\lit}[2]{\textup{(\pathtt{literature/#1}, #2)}}
+
+%---------------------------------------------------------------- number systems
+\newcommand{\Q}{\mathbb{Q}}\newcommand{\Z}{\mathbb{Z}}\newcommand{\R}{\mathbb{R}}\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}\newcommand{\A}{\mathbb{A}}
+\newcommand{\Zp}{\mathbb{Z}_p}\newcommand{\Qp}{\mathbb{Q}_p}\newcommand{\Zq}{\mathbb{Z}_q}\newcommand{\Qq}{\mathbb{Q}_q}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}\newcommand{\Qhat}{\hat{\mathbb{Q}}}
+\newcommand{\cO}{\mathcal{O}}\newcommand{\cOE}{\mathcal{O}_E}
+
+%---------------------------------------------------------------- groups, algebras
+\newcommand{\GL}{\mathrm{GL}}\newcommand{\SL}{\mathrm{SL}}\newcommand{\PGL}{\mathrm{PGL}}
+\newcommand{\Nrd}{\mathrm{Nrd}}\newcommand{\Trd}{\mathrm{Trd}}\newcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\JL}{\mathrm{JL}}\newcommand{\ord}{\mathrm{ord}}\newcommand{\Iw}{\mathrm{Iw}}
+\newcommand{\Hb}{\mathfrak{H}}
+\newcommand{\Bd}{B_D}                       % definite quaternion algebra over Q of discriminant D
+\newcommand{\Bhat}{\hat{B}}                 % B tensor finite adeles
+\newcommand{\XB}[1]{X_B(#1)}                % class set B^x \ \hat B^x / U
+\newcommand{\XBq}[1]{X_{B_q}(#1)}
+\newcommand{\Uzero}[1]{U_0(#1)}\newcommand{\Uone}[1]{U_1(#1)}
+\newcommand{\Brandt}[2]{M(#1;#2)}           % Brandt module M(U;V)
+\newcommand{\Vk}{V_k}                       % Sym^{k-2}(Z_p^2)
+\newcommand{\GU}{\Gamma_U}                  % norm-one S-arithmetic group O_U[1/q]^1
+
+%---------------------------------------------------------------- trees and graphs
+\newcommand{\cT}{\mathcal{T}}               % Bruhat--Tits tree T_q
+\newcommand{\G}{\mathbb{G}}                 % weighted graph / quotient graph of groups
+\newcommand{\GDR}{\G^{\mathrm{DR}}}
+\newcommand{\Phicomb}{\Phi^{\mathrm{comb}}}
+\newcommand{\Xcomb}{X^{\mathrm{comb}}}
+\newcommand{\cX}{\mathcal{X}}               % tree model of indefinite stage
+\newcommand{\quot}{\backslash\backslash}    % quotient graph of groups
+
+%---------------------------------------------------------------- Hecke, Hida
+\newcommand{\T}{\mathbb{T}}\newcommand{\m}{\mathfrak{m}}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\Mord}{\cM^{\mathrm{ord}}_B}
+\newcommand{\Xord}{\cX^{\mathrm{ord}}}
+\newcommand{\Tord}{\mathcal{T}^{\mathrm{ord}}} % Hida's ordinary Tate module
+\newcommand{\fa}{\mathfrak{a}}\newcommand{\fb}{\mathfrak{b}}
+\newcommand{\cc}{\mathfrak{c}}\newcommand{\tq}{\mathfrak{t}}
+
+%---------------------------------------------------------------- hypotheses
+\newcommand{\HypX}{\mathrm{Hyp.X}}
+\newcommand{\HypXchar}{\mathrm{Hyp.X.char}}
+\newcommand{\HypXgal}{\mathrm{Hyp.X.gal}}
+\newcommand{\HypXiso}{\mathrm{Hyp.X}^{\mathrm{iso}}}
+
+%---------------------------------------------------------------- operators
+\DeclareMathOperator{\Hom}{Hom}\DeclareMathOperator{\coker}{coker}\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Ann}{Ann}\DeclareMathOperator{\rk}{rk}\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\tr}{tr}\DeclareMathOperator{\Jac}{Jac}\DeclareMathOperator{\Fitt}{Fitt}
+
+%---------------------------------------------------------------- macros shared by several stages
+% (moved here from the stage files; the stages' \providecommand lines are then no-ops)
+\providecommand{\Tpath}[1]{\pathtt{#1}}
+\providecommand{\BG}{\mathrm{BG}}          % bipartite Brandt graph of (U,q)
+\providecommand{\Xone}{X^1_B}              % norm-one class set
+\providecommand{\HypSA}{\mathrm{Hyp.SA}}   % strong approximation hypothesis
+\providecommand{\HypHS}{\mathrm{Hyp.HS}}   % Hasse--Schilling norm hypothesis
+\providecommand{\NUp}{N_{U_p}}             % the U_p normalisation fixed in stage 01
+\providecommand{\Kp}[1]{K_{#1}}            % K_s = U_1(p^s)_p
+\providecommand{\Kpp}[1]{K'_{#1}}          % K'_s = U_1(p^s)_p \cap U_0(p^{s+1})_p
+\providecommand{\TordB}{\T^{\mathrm{ord}}_B}   % ordinary definite Hecke algebra (NOT \Tord)
+\providecommand{\cH}{\mathcal{H}}          % abstract Hecke algebra H_s of Hyp.X
+\providecommand{\Xq}{X_q}                  % character group at q
+\providecommand{\Ros}{\mathsf{Ros}}          % Rosati dual (distinct from \vee = dual variety/morphism)
+\providecommand{\Frob}{\mathrm{Frob}}
+\providecommand{\St}{\mathrm{St}}          % Steinberg representation
+
+%---------------------------------------------------------------- provisional changes (global Fable seam audit)
+% \provisional{Fk/Dn: what changed; before: ...} marks a change made provisionally after
+% audits/global-fable-seam.md, pending Fabian's review (see audits/global-fable-resolution.md).
+% Revert a change by restoring the "before" text and deleting the note.
+\providecommand{\provisional}[1]{\textcolor{orange!75!black}{\textsf{\small[provisional: #1]}}}
+
+%---------------------------------------------------------------- Lean and status markers (mathematics/ only)
+% \lean{Langlandscape.Name}: cross-reference to a formalized declaration (typeset in small \texttt).
+% \pathtt{...}: typewriter path or Lean name with line-break points after /, ., \_ (round R5; no external files).
+\ExplSyntaxOn
+\tl_new:N \l__llpath_tl
+\cs_new_protected:Npn \__llpath_typeset:n #1
+  {
+    \tl_set:Nn \l__llpath_tl {#1}
+    \tl_replace_all:Nnn \l__llpath_tl { / } { /\penalty\exhyphenpenalty\hskip0pt\relax }
+    \tl_replace_all:Nnn \l__llpath_tl { . } { .\penalty\exhyphenpenalty\hskip0pt\relax }
+    \tl_replace_all:Nnn \l__llpath_tl { \_ } { \_\penalty\exhyphenpenalty\hskip0pt\relax }
+    \tl_replace_all:Nnn \l__llpath_tl { - } { -\penalty\exhyphenpenalty\hskip0pt\relax }
+    \tl_replace_all:Nnn \l__llpath_tl { : } { :\penalty\exhyphenpenalty\hskip0pt\relax }
+    \texttt { \tl_use:N \l__llpath_tl }
+  }
+\NewDocumentCommand \pathtt { m } { \__llpath_typeset:n {#1} }
+\ExplSyntaxOff
+\newcommand{\lean}[1]{\textup{\small(Lean: \pathtt{#1})}}
+% \leanplanned: the result is planned for Lean but not yet formalized.
+\newcommand{\leanplanned}{\textup{\small(Lean: planned)}}
+% \stformalized: status marker, exists in Lean (same meaning as \stformal; give \lean{} next to it).
+\newcommand{\stformalized}{\status{formalized}}
+
+%---------------------------------------------------------------- additions for the submission report
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\makeatletter
+\providecommand{\sfref}[1]{\@ifundefined{r@#1}{\texttt{#1}}{\ref{#1}}}
+\makeatother
+\providecommand{\stformalized}{\status{formalized}}
+% Placeholder for facts the team still has to supply (filled in by the global master before submission).
+% \newcommand{\TODOFACT}[1]{\textbf{[TODO: #1]}}  (placeholder macro, no longer used)
+\newcommand{\PublicCommitHash}{15423e42030ebeb6d602fece35db9e01772c92c8}
+% Pointer into the full mathematical text (not part of this file): (main.pdf, Thm 10.2).
+\newcommand{\mainpdf}{\pathtt{mathematics/main.pdf}}
+% Loose lines rather than overfull ones (round R5).
+\setlength{\emergencystretch}{3em}
+\newcommand{\mainref}[1]{\textup{(main.pdf, #1)}}
+\newcommand{\res}[1]{{\small\nolinkurl{code/results/#1}}}
+% Proof outline of a quoted statement: \begin{outline} ... \end{outline}
+\newenvironment{outline}{\par\smallskip\noindent\textit{Proof outline.}\ }{\par\medskip}
+% Verbatim-quoted result from the chapters (a plain-text replacement of the boxed version in
+% mathematics/final-report/): {kind}{number in main.pdf}{page}{label}{title}{source file}.
+% Each quoted block is followed in the source by an explicit \label{rpt:<chapter label>} (inserted by
+% tools/add_rpt_labels.py), whose \ref prints the main.pdf number (#2); the flattener
+% rewrites \ref{<chapter label>} to \ref{rpt:<chapter label>} so that every referenced result is inside the report.
+\makeatletter
+\newenvironment{quoted}[6]{%
+  \if@noskipsec\leavevmode\par\fi% a pending run-in \paragraph heading gets its own line
+  \par\medskip\noindent\rule{\linewidth}{0.4pt}\par\nopagebreak
+  \phantomsection\def\@currentlabel{#2}%
+  \noindent\textbf{#1 #2}\ifx\relax#5\relax\else\ (#5)\fi\par\nopagebreak
+  \noindent{\scriptsize\raggedright Quoted verbatim from main.pdf, p.~#3 (label \pathtt{#4}; source \pathtt{mathematics/#6}).\par}\nopagebreak\smallskip
+  \small\sloppy}{\par\noindent\rule{\linewidth}{0.4pt}\par\medskip}
+\makeatother
+% Unicode that may occur in quoted Lean signatures (pdflatex).
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{03C1}{\ensuremath{\rho}}
+\DeclareUnicodeCharacter{03C6}{\ensuremath{\varphi}}
+\DeclareUnicodeCharacter{211A}{\ensuremath{\mathbb{Q}}}
+\DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma}}
+\DeclareUnicodeCharacter{03C0}{\ensuremath{\pi}}
+\DeclareUnicodeCharacter{039B}{\ensuremath{\Lambda}}
+\DeclareUnicodeCharacter{2203}{\ensuremath{\exists}}
+\DeclareUnicodeCharacter{02E3}{\ensuremath{^{\times}}}
+\DeclareUnicodeCharacter{2227}{\ensuremath{\wedge}}
+\DeclareUnicodeCharacter{2113}{\ensuremath{\ell}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+\DeclareUnicodeCharacter{2261}{\ensuremath{\equiv}}
+% \rptnum{main.pdf number}\label{rpt:<chapter label>}: mark a paraphrased (not verbatim) copy of a chapter result or
+% definition in the report, so that \ref{rpt:<chapter label>} resolves to it (prints the main.pdf number). The \label must
+% be written out literally (the flattener looks for it).
+\makeatletter
+\newcommand{\rptnum}[1]{\phantomsection\def\@currentlabel{#1}}
+\makeatother
+% Revision notes inside quoted chapter statements (the chapters' \provisional{...} notes, renamed for the report): they
+% record a change made after an internal audit and the previous wording; the decisions they mention have been taken.
+\newcommand{\revnote}[1]{\textup{\textsf{\small[revision note: #1]}}}
+% Lean name of the Hyp.BrandtStabFree discharge (impl/brandtstab-discharge).
+\providecommand{\BSFdischargeName}{\pathtt{Hyp.brandtStabFree\_holds}}

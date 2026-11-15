@@ -1,0 +1,494 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S06-M5 (local, Fabian's node): the case q = -1 mod p. Labels: hyp:s06-levMp, prop:s06-levM, lem:s06-levM-hecke,
+% rem:s06-levM-sign, rem:s06-minus1, rem:s06-levM-items, rem:s06-levM-which, rem:s06-levM-status, rem:s06-levM-open, rem:s06-levM-M1.
+% Second reader of the stage-tex version: S06-M6 (mathematics/litnotes/s06-m6-levM.md, verdict GAP; repairs R1--R5 applied here).
+% Second reader of this text: F2 (mathematics/litnotes/s06-m5-second-reader.md; part A: M = 1, part B: M > 1). S06-M5d restricts
+% M > 1 to the cases (F1), (F1') of Prop. levM; N(rhobar) > 1 is open (rem:s06-levM-open, counterexample B2 to the proof).
+% KO = arXiv v4; printed page = PDF page. S06-M10b: fixes of the S06 chapter audit part 2 (A-R1, A-R3..A-R6, P2-R2, P2-R4).
+% Fabian's decision (2026-11-15): (F1) and (F1') lifted (\stpmc; F1' in our reading R4); N(rhobar) > 1 stays open.
+\section{The case \texorpdfstring{$q\equiv-1\bmod p$}{q = -1 mod p}: the inclusion without (H0\texorpdfstring{$^-$}{-})}
+
+Throughout, $f$ is a $q$-new newform of level $N=qM$, weight $2\le k\le p-1$ and trivial character, $p\nmid N$, $\m=\m_f$ is
+non-Eisenstein, $\bar\rho=\bar\rho_f$ satisfies (H2), and $t:=t_f(q)$ (Lemma~\ref{lem:s06-tam}(b)). We enlarge $\cO$ whenever
+convenient: both $\ord_\varpi\cc_q(f)$ and $t$ are multiplied by the ramification index (flat base change of the Hecke algebra,
+and Lemma~\ref{lem:s06-tam}(b)), so the inclusion $\cc_q(f)\subseteq(\varpi^t)$ is insensitive to this. \cite{KO} is
+\lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{arXiv v4;
+printed page $=$ PDF page}. For a newform $g$ we write $V_g$ for its $p$-adic Galois representation, $T_g\subseteq V_g$ for a stable
+lattice, and $c_\ell:=\ell^{(k-2)/2}$. Frobenius elements are geometric throughout, as in \cite[p.~3]{KO} ($\det\rho_f=\chi_{\rm cyc}^{1-k}$).
+
+\emph{Local--global input} (L-G). For a newform $g$ of level $N_g$, weight $k$, trivial character and a prime $\ell\ne p$: the conductor
+exponent of $V_g|_{G_{\Q_\ell}}$ is $\ord_\ell N_g$; if $\ell\mid N_g$, then $a_\ell(g)$ is the eigenvalue of (geometric) Frobenius on the
+line $V_g^{I_\ell}$, and $a_\ell(g)=0$ if $V_g^{I_\ell}=0$; if $\ell\,\|\,N_g$ and $V_g^{I_\ell}\ne0$, then $V_g|_{G_{\Q_\ell}}$ is an
+unramified quadratic twist of the Steinberg shape and $a_\ell(g)=\pm c_\ell$. \stcited{} \cite[Th.~(A)]{Car86}
+\lit{carayol\_1986\_sur-les-representations-l-adiques-associees-aux-formes-modulaires-de-hilbert}{Th\'eor\`eme (A), \S0.7, p.~410},
+together with the newform description of $a_\ell$ by the local $L$-factor; the $\ell\,\|\,N_g$ case is (I2) of
+Lemma~\ref{lem:s06-decomp} \cite[Thm~3.1(e)]{DDT97}. (Only the $\ell\,\|\,N_g$ case was checked against a page.)
+
+\subsection{The level hypothesis}
+
+\begin{hypothesis}[(Lev$'_M$); corrected form of (Lev$_M$)]\label{hyp:s06-levMp}
+Let $\Sigma^-:=\{\ell\mid M:\bar\rho\text{ unramified at }\ell\}$, $M_0:=\prod_{\ell\in\Sigma^-}\ell$, and let $P_{\bar\rho}$ be the set of
+\cite[(2.1), p.~3]{KO}: primes $\ell\mid N(\bar\rho)$, $\ell\equiv-1\bmod p$, with $\bar\rho|_{G_{\Q_\ell}}$ irreducible and $\bar\rho|_{I_\ell}$ reducible.
+(Lev$'_M$) means:
+\begin{itemize}
+\item[(L1)] $\ell\,\|\,M$ for every $\ell\in\Sigma^-$;
+\item[(L2)] for every $\ell\mid N(\bar\rho)$ with $\ell\notin P_{\bar\rho}$, $\rho_f|_{G_{\Q_\ell}}$ is minimally ramified in the sense of
+  \cite[Def.~3.5, p.~10]{KO} (and Def.~3.7(2), p.~10--11 when $p\mid\#\bar\rho(I_\ell)$);
+\item[(L3)] ($\bar\rho$ twist-minimal) there is no $\ell\mid N(\bar\rho)$ and no quadratic character $\eta$ of $G_{\Q_\ell}$ ramified at $\ell$ such that
+  $\bar\rho|_{G_{\Q_\ell}}\otimes\bar\eta$ has smaller conductor exponent than $\bar\rho|_{G_{\Q_\ell}}$.
+\end{itemize}
+It holds for $M=1$, and (L2), (L3) are empty when $N(\bar\rho)=1$. (L3) is the condition ``minimal conductor among its twists'' on
+$\bar\rho$ of \cite[\S3.1]{DFG}; \cite[Rem.~2.2, p.~3]{KO} and \cite[\S1.7.1]{DFG} impose the corresponding normalisation on $f$. Since
+$\det\bar\rho$ is unramified at $\ell$, (L3) says, for odd $\ell\mid N(\bar\rho)$, that the semisimplification of $\bar\rho|_{I_\ell}$ is not a non-trivial scalar, i.e.\ $\bar\rho|_{I_\ell}\not\cong\eta\otimes(\text{unipotent})$. It is needed only for the open case $N(\bar\rho)>1$ (Remark~\ref{rem:s06-levM-open}). \sthyp
+
+\end{hypothesis}
+
+\noindent\emph{Consequence: $M=N(\bar\rho)\cdot M_0$ with $(M_0,N(\bar\rho))=1$.} \stpmc{} (from (L-G)). Write $c(\ell):=\ord_\ell N(\bar\rho)$,
+$d(\ell):=\dim\bar\rho^{I_\ell}$ \cite[\S2.1.2, p.~3]{KO}. For $\ell\in\Sigma^-$, $\ord_\ell M=1$ by (L1) and $c(\ell)=0$. For $\ell\mid N(\bar\rho)$,
+$\ord_\ell M=\ord_\ell N_f$ is the conductor exponent of $\rho_f$ at $\ell$ (L-G), i.e.\ $(2-\dim V_f^{I_\ell})+\mathrm{Sw}$; the Swan conductor
+does not change under reduction ($\ell\ne p$: wild inertia is pro-$\ell$). If $\rho_f$ is minimal with $p\nmid\#\bar\rho(I_\ell)$, then
+$\rho_f(I_\ell)\to\bar\rho(I_\ell)$ is an isomorphism of finite groups of order prime to $p$, so $\dim V_f^{I_\ell}=d(\ell)$. If $p\mid\#\bar\rho(I_\ell)$,
+minimal lifts have the shape $\mu\otimes\left(\begin{smallmatrix}\chi_{\rm cyc}&*\\0&1\end{smallmatrix}\right)$ of \cite[p.~11]{KO} with $*$ ramified,
+and again $\dim V_f^{I_\ell}=d(\ell)$. For $\ell\in P_{\bar\rho}$: $\rho_f|_{G_{\Q_\ell}}$ is irreducible (it lifts an irreducible
+representation), so the monodromy vanishes, $\rho_f|_{I_\ell}$ is a sum of two characters lifting the two (ramified) characters of
+$\bar\rho|_{I_\ell}$, and $\dim V_f^{I_\ell}=0=d(\ell)$ (a line of $I_\ell$-invariants of $\bar\rho$ would be $G_{\Q_\ell}$-stable). In all cases
+$\ord_\ell M=c(\ell)$.
+
+\noindent\emph{Why (L2) and not ``$\ord_\ell M=c(\ell)$''.} Equal conductor does not imply \cite{KO}-minimality. Example: $\ell\mid M$,
+$\rho_f|_{G_{\Q_\ell}}\cong\mu\otimes\mathrm{sp}$ with $\mu$ tamely ramified, quadratic on $I_\ell$, and the monodromy operator
+$\equiv0\bmod\varpi$ on $T_f$. Then $\bar\rho|_{G_{\Q_\ell}}\cong\bar\mu\bar\chi_{\rm cyc}\oplus\bar\mu$, both conductor exponents are $2$, but
+$\rho_f(I_\ell)$ is infinite and $\bar\rho(I_\ell)$ has order $2$, so \cite[Def.~3.5(1)]{KO} fails. In this example $f$ is not minimal among
+its twists: $\mu|_{I_\ell}$ is the quadratic character of $I_\ell$, so $f\otimes\chi_\ell$ ($\chi_\ell$ the quadratic character of conductor $\ell$; the
+character stays trivial) is an unramified twist of Steinberg at $\ell$, of conductor exponent $1$. The normalisation of $f$ in \cite[Rem.~2.2, p.~3]{KO}
+and \cite[\S1.7.1]{DFG} excludes exactly this. It does not exclude every such example (for $\ell\equiv-1\bmod p$, $\mu\otimes\mathrm{Ind}(\theta)$
+with $\theta$ from the unramified quadratic extension and $\mu$ ramified quadratic, audit part 2, verdict (iii)), but in every one of them
+($\ell$ odd, $\ell\notin P_{\bar\rho}$, (H0) at $\ell$) $\bar\rho|_{I_\ell}$ is a non-trivial scalar, which is the case excluded by (L3). This corrects S06-M6 (item (1) and step (3)), where equal
+conductor is taken to give minimality; the S06-M6 statement is wrong only outside the twist-minimal setting. \stproved{} (the
+local example). \provisional{S06-M5d: side remark corrected (F2 part B, B1); before: ``\cite[Rem.~2.2]{KO} assumes minimal conductor among
+twists, which does not exclude this''.} In the example $d(\ell)=0$. When $d(\ell)=1$, (L2) is equivalent to
+$\ord_\ell M=c(\ell)$, by the case analysis in the proof of Lemma~\ref{lem:s06-levM-hecke}(c)(iii)($\beta$) (($\gamma$) is empty), applied to $f$, under (L3) (S06 audit part 2, \S3, $\ell$ odd). \stpmc{}
+(Not read by a second reader, and not used in the cases (F0)--(F1$'$) of Prop.~\ref{prop:s06-levM}, where $N(\bar\rho)=1$.)
+
+\subsection{The proposition}
+
+\begin{proposition}[the inclusion without (H0$^-$); the seed's step (4)]\label{prop:s06-levM}
+Let $f$ be as above, with (H0) and (Lev$'_M$) (Hyp.~\ref{hyp:s06-levMp}), and assume that $f$ is $p$-ordinary, i.e.\ $a_p(f)\in\cO^\times$
+(automatic for $f=F_P$ in Thm~\ref{thm:s06-defect}). Then $\cc_q(f)\subseteq(\varpi^{t_f(q)})$ in each of the following cases, in which
+(Lev$'_M$) holds automatically, $N(\bar\rho)=1$, $M_0=M$ and $\Sigma^+=P_{\bar\rho}=\emptyset$:
+\begin{itemize}
+\item[(F0)] $M=1$. \stpmc{} (Remark~\ref{rem:s06-levM-M1}).
+\item[(F1)] $M>1$ squarefree, $\bar\rho$ unramified at every $\ell\mid M$, and $\ell\not\equiv-1\bmod p$ for every $\ell\mid M$.
+  \stpmc
+\item[(F1$'$)] as (F1), but some $\ell\mid M$ has $\ell\equiv-1\bmod p$. \stpmc{} in the sign-fixed reading of \cite[Thm~3.14]{KO}
+  (Remark~\ref{rem:s06-levM-sign}), which is our reading, not \cite{KO}'s text (F2 part B and audit part 2: confirmed as a reading).
+
+\end{itemize}
+No condition on $q\bmod p$ beyond (H0) is used; in particular $q\equiv-1\bmod p$ is allowed. For $N(\bar\rho)>1$ (under (Lev$'_M$), with
+or without (L3)) the inclusion is \stopen: the proof below does not apply when $\bar\rho$ is not twist-minimal (counterexample B2 of F2,
+Remark~\ref{rem:s06-levM-open}), and the inclusion itself is neither proved nor disproved there.
+
+\end{proposition}
+
+\begin{proof}
+The proof is written under (Lev$'_M$). It is complete in the cases (F0)--(F1$'$): there $N(\bar\rho)=1$, so every item below that concerns
+$\ell\mid N(\bar\rho)$ or $\Sigma^+$ is void. For $N(\bar\rho)>1$ only step (4) is not justified: $\pi:R\cong A$ is false when (L3) fails, and under (L3) it rests on
+\cite[Lemma~2.4]{KO} (Dim09, not read). Lemma~\ref{lem:s06-levM-hecke} ($B=A$) is not affected by B2 (Remark~\ref{rem:s06-levM-open}).
+\provisional{S06-M10b (audit part 2, A-R1): before: ``step (4) and Lemma levM-hecke(b),(c)(iii)($\beta$),($\gamma$) are not justified''.}
+
+(0) \emph{Ramified case.} If $\bar\rho$ is ramified at $q$, then $t=0$ \cite[Def.~2.12 and the note after it, p.~6]{KO}
+\lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{Def.~2.12, p.~6}
+\stcited, and there is nothing to prove. Assume from now on that $\bar\rho$ is unramified at $q$.
+
+(1) \emph{Reduction to a factorisation.} By Def.~\ref{def:s06-ctam}, $\cc_q(f)=\lambda_f(\fb_k)$ with
+$\fb_k=\ker(\T_k(N)_\m\to\T''_k)$. If there is a ring map $\phi:\T''_k\to\cO/\varpi^t$ with $\phi\circ\pi''=\lambda_f\bmod\varpi^t$
+($\pi'':\T_k(N)_\m\to\T''_k$), then $\lambda_f(\fb_k)\subseteq\varpi^t\cO$. Only this direction is used. \stproved
+
+(2) \emph{The old quotient.} By Lemma~\ref{lem:s06-decomp}(b) at weight $k$ (it applies: $f$ is a $q$-new form in $\m$),
+$\T''_k\cong\T_k(M)_\m$ with $U_q\mapsto\alpha_q$, the root of $X^2-T_qX+q^{k-1}$ congruent to $U_q$ modulo $\m$. Write
+$c:=c_q=q^{(k-2)/2}$ and $a_q(f)=\varepsilon c$ with $\varepsilon=\pm1$ (L-G). The two roots are $\equiv\varepsilon c$ and $\equiv\varepsilon qc$
+modulo $\m$; their difference $\varepsilon c(q-1)$ is a unit by (H0).
+
+(3) \emph{The point} (R2, R4). Put $\Sigma^+:=P_{\bar\rho}$, $\Sigma:=\Sigma^+\cup\Sigma^-$ (so $P_{\bar\rho}\subseteq\Sigma$), let $r$ be \cite{KO}'s auxiliary
+prime \cite[(2.2), p.~3]{KO} ($r>3$, $r\not\equiv1\bmod p$, $\bar\rho$ unramified at $r$, $(\tr\bar\rho(\Frob_r))^2\ne r^{k-2}(1+r)^2$; we take
+$r\nmid qM$), and $S:=\{p,r\}\cup\{\ell\mid M\}$; so $q\notin S$. Let $\rho_t:=\rho_f\bmod\varpi^t$ on $T_f$ (unique up to scaling by (H2),
+\cite[\S2.2, p.~6]{KO}). It is a deformation of $\bar\rho$ with $\det\rho_t=\chi_{\rm cyc}^{1-k}$ in \cite{KO}'s normalisation (\cite[p.~3, footnote 1]{KO};
+trivial character) and satisfies the local conditions of \cite[Def.~3.9, p.~11]{KO}:
+\begin{itemize}
+\item at $p$, low weight crystalline \cite[Def.~3.3, p.~10]{KO}: $\rho_f$ is crystalline at $p$ with Hodge--Tate weights in
+  $[0,k-1]\subseteq[0,p-2]$, so each $T_f/\varpi^n$ is in the image of the Fontaine--Laffaille functor, which is stable under quotients
+  \cite[\S3.2.1, p.~9]{KO} (citing \cite[\S1.1.2]{DFG}) \stcited;
+\item at $\ell\notin S\cup\{q\}$ and at $r$: unramified ($\ell\nmid N_f$, DDT97 Thm~3.1(a)
+  \lit{darmon-diamond-taylor\_1997\_fermats-last-theorem\_preprint}{Thm 3.1(a), p.~85}); at $q$: unramified by the definition of $t$
+  \cite[Def.~2.12]{KO}; for these $\ell\notin\Sigma\cup\{p\}$ with $\bar\rho$ unramified, minimal means unramified \cite[Def.~3.5(1), p.~10]{KO}.
+  In particular $\rho_t$ factors through $G_{\Q,S}$;
+\item at $\ell\in\Sigma^-$: by (L1) and (L-G), $\rho_f|_{G_{\Q_\ell}}$ is an unramified quadratic twist of the Steinberg shape with sign
+  $a_\ell(f)=\varepsilon_\ell c_\ell$, i.e.\ an $\ell$-new deformation in the sense of \cite[Def.~3.7(1), \S3.2.5, p.~10--11]{KO} for the normal form
+  of $\bar\rho|_{G_{\Q_\ell}}$ attached to the sign $\varepsilon_\ell$ (Remark~\ref{rem:s06-levM-sign}). \cite[Assumption~3.6(1)]{KO} holds:
+  $\ell\not\equiv1\bmod p$ by (H0);
+\item at $\ell\mid N(\bar\rho)$, $\ell\notin P_{\bar\rho}$: minimally ramified by (L2); minimality passes to the quotient $T_f/\varpi^t$;
+\item at $\ell\in\Sigma^+=P_{\bar\rho}$: unrestricted \cite[Def.~3.9(3)]{KO}, no condition.
+\end{itemize}
+So $\rho_t$ defines $x:R^{\Sigma^-}_{\Sigma^+}\to\cO/\varpi^t$ ($R^{\Sigma^-}_{\Sigma^+}$ as in \cite[Def.~3.9, p.~11]{KO}). \stpmc
+
+(4) \emph{$R=\T$} (R1). We read \cite[Thm~3.14, p.~12]{KO} in the setting of \cite[\S2.3.1, p.~7]{KO} with $N^-:=M_0$, $N^+:=N(\bar\rho)$ (so
+$N(\bar\rho)^-=1$). Its level is \cite[(2.4), p.~7]{KO}
+\[N^+_{\bar\rho,\Sigma^+}N^-=r\cdot\prod_{\ell\in P_{\bar\rho}}\ell^{c(\ell)+d(\ell)}\cdot\prod_{\ell\mid N(\bar\rho),\,\ell\notin P_{\bar\rho}}\ell^{c(\ell)}\cdot M_0
+=r\cdot N(\bar\rho)\cdot M_0=r\cdot M,\]
+using $d(\ell)=0$ on $P_{\bar\rho}$ and the consequence of (Lev$'_M$). Its hypotheses are Assumption~2.1 of \cite{KO} (p.~3: (H2) and the
+existence of $f$) and $P_{\bar\rho}\subseteq\Sigma$; there is no condition $q\not\equiv\pm1$, and $q\notin\Sigma$. It gives an isomorphism of
+reduced finite flat complete intersections over $\cO$
+\[\pi:R^{\Sigma^-}_{\Sigma^+}\xrightarrow{\ \sim\ }A:=\T(rM)^{M_0\text{-new}}_{\m_{\Sigma^+}},\]
+\stcited{} for (F0), (F1) (for $\Sigma^-$ containing a prime $\ell\equiv-1\bmod p$, case (F1$'$): \stpmc{} in the sign-fixed reading of
+Remark~\ref{rem:s06-levM-sign}; for $N(\bar\rho)>1$: false without (L3), and under (L3) resting on \cite[Lemma~2.4]{KO} (Dim09, not read), Remark~\ref{rem:s06-levM-open}), where $A$ is the image of the $S$-anemic algebra $\T^S$ on the $M_0$-new quotient localised at
+$\m_{\Sigma^+}=(\m_{\bar\rho},U_r-\alpha_r,U_\ell\ (\ell\in\Sigma^+))$ \cite[p.~4 and p.~12]{KO}, and $\pi$ is induced by the Galois representation over
+$A$ \cite[proof of Thm~3.14, p.~13]{KO}, so $\pi(\tr\rho^{\rm univ}(\sigma))=\tau_\sigma$ in the notation of Lemma~\ref{lem:s06-levM-hecke}.
+That lemma gives $\T_k(M)_\m\twoheadrightarrow B=A$. Put
+\[\psi:=x\circ\pi^{-1}\circ\big(\T_k(M)_\m\twoheadrightarrow B=A\big):\T_k(M)_\m\to\cO/\varpi^t.\]
+Then $\psi(\tau_\sigma)=\tr\rho_t(\sigma)$ for all $\sigma\in G_{\Q,S}$. Only this one-way map is used. \stpmc
+
+(5) \emph{Matching} (R3). For each generator $X$ of $\T_k(N)_\m$ we show $\psi(X')=\lambda_f(X)\bmod\varpi^t$, where $X'$ is the image
+of $X$ in $\T''_k\cong\T_k(M)_\m$. Each case uses the formula $E_X$ of Lemma~\ref{lem:s06-levM-hecke}(c), which expresses $X'$ in $B=A$
+through the $\tau_\sigma$. Each formula is valid for $\rho_f$ as well as for every $g\in\mathcal N$.
+\begin{itemize}
+\item $X=T_\ell$, $\ell\nmid Np$: $\psi(T_\ell)=\tr\rho_t(\Frob_\ell)=a_\ell(f)$ ($\ell\notin S$ or $\ell=r$).
+\item $X=T_p$: by (c)(ii), $\psi(T_p)=\alpha_p(f)+p^{k-1}\alpha_p(f)^{-1}=a_p(f)$, because $f$ is ordinary and $\rho_f|_{G_{\Q_p}}$ has the
+  same ordinary shape (with residual characters as for $\bar\rho$) (Deligne's theorem as stated in \cite[Thm~2.5]{Edi92}; not checked on a
+  page). The roots in $\cO/\varpi^t$ are unique for the same reason as for
+  $\alpha_q$ below.
+\item $X=U_\ell$, $\ell\mid M$: by (c)(iii), the same expression is valid for $f$. The only exception is $\ell\in\Sigma^-$, where $U_\ell=a_\ell(f)$ is
+  a constant. So $\psi(U_\ell)=a_\ell(f)$.
+\item $X=U_q$, $X'=\alpha_q$: $q\notin S$, so $\psi(T_q)=\tr\rho_t(\Frob_q)=\varepsilon(q+1)c$ ($\rho_f|_{G_{\Q_q}}$ is an unramified twist of
+  the Steinberg shape with $\chi(\Frob_q)=a_q(f)$, (L-G)). So $\psi(\alpha_q)$ is a root of $(X-\varepsilon c)(X-\varepsilon qc)$ in $\cO/\varpi^t$
+  with $\psi(\alpha_q)\equiv\varepsilon c\bmod\varpi$, because $\alpha_q\equiv U_q\equiv a_q(f)\bmod\m$. Then $\psi(\alpha_q)-\varepsilon qc$ is a unit
+  (step (2)), and $\psi(\alpha_q)=\varepsilon c=a_q(f)$. No Hensel lemma over $\cO/\varpi^t$ is needed.
+\end{itemize}
+These operators generate $\T_k(N)_\m$ as an $\cO$-algebra. So $\phi:=\psi\circ(\T''_k\cong\T_k(M)_\m)$ satisfies (1), and
+$\cc_q(f)\subseteq(\varpi^t)$.
+\end{proof}
+
+\begin{lemma}[the full algebra is the anemic one]\label{lem:s06-levM-hecke}
+In the situation of steps (3)--(4), let $\mathcal N$ be the set of newforms $g$ of level $M$, weight $k$ and trivial character with
+$\lambda_g(\m)\subseteq\varpi\cO$ (after enlarging $\cO$), and let $B:=\T_k(M)^{M_0\text{-new}}_\m$ be the image of $\T_k(M)_\m$ on the
+$M_0$-new subspace of $S_k(\Gamma_0(M),\cO)_\m$.
+\begin{enumerate}[label=(\alph*)]
+\item $\lambda=(\lambda_g)_g$ embeds $B$ into $\prod_{g\in\mathcal N}\cO$, and $\T_k(M)_\m\to B$ is surjective.
+\item $A\cong\cO[(a_\ell(g))_{g\in\mathcal N}:\ell\notin S]\subseteq\prod_{g\in\mathcal N}\cO$. For every $\sigma\in G_{\Q,S}$,
+  $\tau_\sigma:=(\tr\rho_g(\sigma))_{g\in\mathcal N}$ lies in $A$.
+\item Every generator of $B$ lies in $A$, through the following formulas $E_X$:
+  \begin{enumerate}[label=(\roman*)]
+  \item $T_\ell=\tau_{\Frob_\ell}$ for $\ell\nmid Mp$ (including $\ell=r$, $\ell=q$);
+  \item $T_p=u+p^{k-1}u^{-1}$, with $u:=(\tau_{\Phi\sigma_0}-u_1\tau_\Phi)/(u_2-u_1)$. Here $\sigma_0\in G_{\Q_p}$ satisfies
+    $\bar\delta_1(\sigma_0)\ne\bar\delta_2(\sigma_0)$ for the two characters $\bar\delta_1$, $\bar\delta_2$ of $\bar\rho|_{G_{\Q_p}}$ ((H2):
+    $p$-distinguished). $\Phi\in G_{\Q_p}$ is a Frobenius lift. $u_2,u_1\in A$ are the Hensel roots of
+    $X^2-\tau_{\sigma_0}X+\det\rho(\sigma_0)$ lifting $\bar\delta(\sigma_0)$ and the other residual eigenvalue, where $\bar\delta$ is the
+    unramified one of $\bar\delta_1,\bar\delta_2$;
+  \item $U_\ell$ for $\ell\mid M$: ($\alpha$) $\ell\in\Sigma^-$: $U_\ell=a_\ell(f)\cdot1$. ($\delta$) $\ell\mid N(\bar\rho)$, $d(\ell)=0$ (this includes
+    $\ell\in P_{\bar\rho}$): $U_\ell=0$. ($\beta$) $d(\ell)=1$, $p\mid\#\bar\rho(I_\ell)$: $U_\ell=a_\ell(f)\cdot1\in\{\pm c_\ell\}$. ($\gamma$) $d(\ell)=1$,
+    $p\nmid\#\bar\rho(I_\ell)$: $U_\ell=\#H^{-1}\sum_{h\in H}\tau_{\Phi_\ell\tilde h}$, where $H=\bar\rho(I_\ell)$, $\tilde h\in I_\ell$ lifts $h$, and $\Phi_\ell$ is a
+    Frobenius lift at $\ell$.
+  \end{enumerate}
+\end{enumerate}
+Hence $B=A$. \stpmc{} when $N(\bar\rho)=1$ (cases (F0)--(F1$'$) of Prop.~\ref{prop:s06-levM}; then (c)(iii) reduces to ($\alpha$)) (cited:
+(L-G), strong multiplicity one, Chebotarev, Deligne's theorem \cite[Thm~2.5]{Edi92} for the ordinary shape (\cite{W88} for the $\Lambda$-adic
+case), Fontaine/Edixhoven \cite[Thm~2.6]{Edi92}, and $N(\bar\rho)\mid N_g$ \cite{Car86}/Livn\'e; the last is standard and not page-checked).
+For $N(\bar\rho)>1$ the lemma ($B=A$) is not affected by B2 ($d(43)=0$, case ($\delta$)); ($\gamma$) is empty and ($\beta$) is the whole case $d(\ell)=1$ (Scope of (iii); checked in the S06 audit parts 2 and 3). What is missing for $N(\bar\rho)>1$ is step (4) of Prop.~\ref{prop:s06-levM}:
+$R\cong A$ is false when (L3) fails, and under (L3) it rests on \cite[Lemma~2.4]{KO} (Dim09, not read) (Remark~\ref{rem:s06-levM-open}).
+
+\end{lemma}
+
+\begin{proof}
+(a) Every eigenform in the $M_0$-new part of $S_k(\Gamma_0(M))_\m$ is a newform of level exactly $M$. It is new at $M_0$, and at
+$\ell\mid N(\bar\rho)$ its level exponent is at least $c(\ell)=\ord_\ell M$, since the conductor of $\bar\rho$ divides that of $\rho_g$. By
+multiplicity one, $B\otimes K$ is the product of the fields of the $\lambda_g$, $g\in\mathcal N$, so $B$ embeds. Surjectivity holds by
+definition.
+
+(b) $A$ acts on \cite{KO}'s module; by \cite[Rem.~2.3, p.~4]{KO} faithfully on $S_k(\Gamma_0(rM))_{\m_{\Sigma^+}}$, and here on its $M_0$-new
+part. Its eigensystems away from $S$ are those of newforms $g'$ of level $d\mid rM$ with $\bar\rho_{g'}\cong\bar\rho$, new at $M_0$, with
+$U_r\equiv\alpha_r$. There are no $r$-new forms in $\m_{\Sigma^+}$: an $r$-new $g'$ has $\tr\rho_{g'}(\Frob_r)=\pm c_r(1+r)$ (L-G), which the
+choice of $r$ excludes. So $r\nmid d$, and $d=M$ as in (a). Each $g\in\mathcal N$ occurs through its $r$-stabilisation with
+$U_r$-eigenvalue $\equiv\alpha_r$ ($\alpha_r$ is a root of $X^2-a_r(g)X+r^{k-1}$ modulo $\varpi$). Conversely each such $g'$ lies in $\m$. Every such $g'$ is ordinary: a non-ordinary $g'$ of weight
+$2\le k\le p-1$ with $p\nmid N_{g'}$ has $\bar\rho_{g'}|_{I_p}\cong\omega_2^{k-1}\oplus\omega_2^{p(k-1)}$ (Fontaine; Edixhoven
+\cite[Thm~2.6]{Edi92}) \stcited{} (not in \pathtt{literature/}, not checked), which is irreducible, while $\bar\rho|_{G_{\Q_p}}$ is reducible
+because $f$ is ordinary. Then $a_p(g')\bmod\varpi$ is the value at Frobenius of the unramified character of $\bar\rho|_{G_{\Q_p}}$, which is
+unique because the two characters of $\bar\rho|_{G_{\Q_p}}$ differ on $I_p$ ($\omega^{k-1}\ne1$ for $1\le k-1\le p-2$). So the residue of
+$T_p$ is determined by $\bar\rho$; this holds for every $M$, including $M=1$. For $\ell\mid N(\bar\rho)$ the residue of $U_\ell$, i.e.\ of
+$a_\ell(g')$, is $0$ if $d(\ell)=0$ and the Frobenius eigenvalue on $\bar\rho^{I_\ell}$ if $d(\ell)=1$: the saturated lattice $T_{g'}^{I_\ell}$
+reduces into $\bar\rho^{I_\ell}$, and $\dim V_{g'}^{I_\ell}=d(\ell)$ by the paragraph before (c)(iii)($\delta$), as $\ord_\ell N_{g'}=c(\ell)$.
+No minimality of $g'$ is used. This is void when $N(\bar\rho)=1$.
+ For $\ell\in\Sigma^-$
+the residue of $U_\ell$ is the sign residue, which $\m_{\Sigma^+}$ fixes when $\ell\not\equiv-1$ and the sign-fixed reading fixes otherwise
+(Remark~\ref{rem:s06-levM-sign}). The anemic operators are semisimple and separate the $g\in\mathcal N$ (strong multiplicity one), so
+$A\otimes K=\prod_{\mathcal N}K$ and $A$ is the stated subring. The set $\{\sigma:\tau_\sigma\in A\}$ contains all $\Frob_\ell$, $\ell\notin S$
+($\tau_{\Frob_\ell}=T_\ell$). It is closed because $A$ is a finite $\cO$-module, hence $\varpi$-adically closed in $\prod\cO$, and
+$\sigma\mapsto\tau_\sigma$ is continuous. By Chebotarev it is all of $G_{\Q,S}$.
+
+(c)(i) holds by (L-G), since $\rho_g$ is unramified at $\ell\nmid Mp$.
+
+\emph{Scope of (iii).} When $N(\bar\rho)=1$ only ($\alpha$) occurs. ($\delta$) is confirmed by F2. ($\beta$) and ($\gamma$) concern $d(\ell)=1$, where
+$\bar\rho|_{I_\ell}$ is never a non-trivial scalar, and their proofs do not assume that $g$ is \cite{KO}-minimal: $\dim V_g^{I_\ell}=d(\ell)$ comes from the equality of conductor exponents. ($\gamma$) is empty and ($\beta$) is the whole case $d(\ell)=1$ (Scope of (iii); checked in the S06 audit parts 2 and 3). F2's example B2 has $d(43)=0$; it is an instance of ($\delta$),
+which holds there. Moreover, since $\det\bar\rho$ is unramified at $\ell$, $d(\ell)=1$ forces the character of $I_\ell$ on
+$\bar\rho/\bar\rho^{I_\ell}$ to be trivial, so $\bar\rho(I_\ell)$ is unipotent, a $p$-group; it is non-trivial as $\ell\mid N(\bar\rho)$. So
+$p\mid\#\bar\rho(I_\ell)$ whenever $d(\ell)=1$: case ($\gamma$) does not occur, and ($\beta$) is the whole case $d(\ell)=1$. \stproved
+\provisional{S06-M10b (A-R1, P2-R10): before: ``as written, ($\beta$) and ($\gamma$) treat every $g\in\mathcal N$ as \cite{KO}-minimal at $\ell$ \dots\
+Under (L3) they are unverified''; the emptiness of ($\gamma$) is new.}
+
+(ii) Every $g\in\mathcal N$ is ordinary: $a_p(g)\equiv a_p(f)\not\equiv0$, because $T_p\in\T_k(M)$ and $\m$ is the pull-back of $\m_f$. So
+$\rho_g|_{G_{\Q_p}}$ is an extension of two characters, one unramified, $\delta_g$, with $\delta_g(\Frob_p)=\alpha_p(g)$ the unit root of
+$X^2-a_p(g)X+p^{k-1}$ \cite[\S2]{W88} \stcited{} (scan only; theorem number not checked). The eigenvalues of $\rho_g(\sigma_0)$ are the components
+of $u_1,u_2$ by uniqueness of Hensel roots in each factor $\cO$. Let $e$ be the projector onto the $u_2$-eigenline of $\rho_g(\sigma_0)$ along
+the other one. In a basis adapted to the filtration, a direct computation gives $\tr(\rho_g(\Phi)e)=\delta_g(\Phi)$, whether $\delta_g$ is
+the sub or the quotient. Also $e=(\rho_g(\sigma_0)-u_1)/(u_2-u_1)$. So the $g$-component of $u$ is $\alpha_p(g)$, and
+$T_p=\alpha_p+p^{k-1}\alpha_p^{-1}$ on each $g$.
+
+(iii)($\alpha$) On $\mathcal N$, $a_\ell(g)=\pm c_\ell$ (L-G). The two values differ by the unit $2c_\ell$. The residue is $\lambda_f(U_\ell)\bmod\varpi$,
+since $\m$ is the pull-back of $\m_f$ and $U_\ell\in\T_k(M)$. So $a_\ell(g)=a_\ell(f)$ for all $g$.
+
+For $\ell\mid N(\bar\rho)$ and any newform $g$ with $\ord_\ell N_g=c(\ell)$ (every $g\in\mathcal N$, and $f$ by the consequence of
+(Lev$'_M$)) we have $\dim V_g^{I_\ell}=d(\ell)$. Indeed $T_g^{I_\ell}$ is saturated in $T_g$, so it reduces injectively into
+$\bar\rho^{I_\ell}$, and $\dim V_g^{I_\ell}\le d(\ell)$; equality follows from the equality of conductor exponents
+$(2-\dim V^{I_\ell})+\mathrm{Sw}$, since the Swan conductors agree (wild inertia is pro-$\ell$, $\ell\ne p$). \stproved{} (from (L-G))
+
+($\delta$) $d(\ell)=0$: $V_g^{I_\ell}=0$, so $a_\ell(g)=0$ for all $g\in\mathcal N$ and for $f$ (L-G). For $\ell\in P_{\bar\rho}$, $d(\ell)=0$ because a line of
+$I_\ell$-invariants would be $G_{\Q_\ell}$-stable.
+
+($\beta$) $d(\ell)=1$, $p\mid\#\bar\rho(I_\ell)$: $\bar\rho|_{I_\ell}$ is non-trivial unipotent (Scope of (iii) above), hence tame, so $\mathrm{Sw}=0$ and $c(\ell)=1$. So $\ell\,\|\,N_g$
+with $V_g^{I_\ell}\ne0$, and (L-G) gives $a_\ell(g)=\pm c_\ell$. The residue is fixed as in ($\alpha$), so $U_\ell=a_\ell(f)$.
+
+($\gamma$) (Vacuous by the Scope of (iii); kept for the record.) $d(\ell)=1$, $p\nmid\#H$. Then $\rho_g(I_\ell)\to H$ is an isomorphism for $g\in\mathcal N$ and for $f$. The kernel $K$ is a
+pro-$p$ group. If the monodromy of $\rho_g$ at $\ell$ were non-zero, then $\rho_g|_{G_{\Q_\ell}}\cong\mu\otimes\mathrm{sp}$. Either $\mu$ is
+unramified, and then $\bar\rho|_{I_\ell}$ is unipotent of order prime to $p$, hence trivial, contradicting $\ell\mid N(\bar\rho)$. Or $\mu$ is
+ramified, and then $V_g^{I_\ell}=0\ne d(\ell)$. So $\rho_g(I_\ell)$ is finite. A non-trivial $K$ would give a character of $I_\ell$ in
+$\rho_g|_{I_\ell}$ whose order has a non-trivial $p$-part. Its tame part has order dividing $\ell^2-1$ (its Frobenius orbit $\psi\mapsto\psi^\ell$
+has length $\le2$), so $p\mid\ell+1$ by (H0). Its $p$-part $\psi_p$ satisfies $\psi_p^\ell=\psi_p^{-1}\ne\psi_p$, so
+$\rho_g|_{I_\ell}=\psi\oplus\psi^\ell$ with both characters non-trivial, i.e.\ $V_g^{I_\ell}=0\ne d(\ell)$. Hence $K=1$. So
+$e_H:=\#H^{-1}\sum_h\rho_g(\tilde h)$ is the projector onto $V_g^{I_\ell}$, and $\tr(\rho_g(\Phi_\ell)e_H)$ is the Frobenius eigenvalue on that
+line, which is $a_\ell(g)$ by (L-G). The same holds for $f$.
+
+Finally $A\subseteq B$, because $T_\ell\in B$ for $\ell\notin S$ and $A$ is generated by these, and $B\subseteq A$ by (c).
+\end{proof}
+
+\begin{remark}[the sign at $\ell\in\Sigma^-$ with $\ell\equiv-1\bmod p$; repair R4]\label{rem:s06-levM-sign}
+Let $\ell\in\Sigma^-$. The Steinberg lifts of sign $\pm$ have residual Frobenius eigenvalues $\{\pm c_\ell,\pm\ell c_\ell\}$ (up to \cite{KO}'s
+normalisation). The two sets coincide iff $\ell\equiv-1\bmod p$ ($p$ odd). For $\ell\not\equiv-1$, $\bar\rho|_{G_{\Q_\ell}}$ therefore
+determines the sign. \cite{KO}'s normal form \cite[\S3.2.5, p.~11: ``we may assume'' by a twist, citing Maz89 Prop.~1]{KO} then automatically
+has the sign of $f$, and so does the localisation $\m_{\Sigma^+}$: \cite[Thm~3.14]{KO} applies as stated. \stcited.
+
+For $\ell\equiv-1\bmod p$ both signs lift the same $\bar\rho|_{G_{\Q_\ell}}$. The normal form, and with it $R^{\Sigma^-}_{\Sigma^+}$, fixes
+one sign. The $S$-anemic localisation at $\m_{\Sigma^+}$ contains both signs, since $U_\ell$ is not among its generators. \cite{KO}'s proof of
+Thm~3.14 (p.~13: $\tr\rho'(\Frob_\ell)=\pm c_\ell(\ell+1)$) does not address this. BKM fix the sign with $f$
+\cite[\S4.2, p.~11; \S5, p.~14]{BKM}
+\lit{bockle-khare-manning\_2019\_wiles-defect-for-hecke-algebras-that-are-not-complete-intersections\_arxiv}{\S4.2, p.~11 ($q\equiv-1$:
+$\beta_q$); \S5, p.~14--15 ($\beta_q$ chosen by $\rho_f$; full Hecke algebra localised at $f$); \S6, Lemma~6.2, p.~17 (two Steinberg
+components)} and \cite[\S4, p.~24]{BKMlg}
+\lit{bockle-khare-manning\_2021\_wiles-defect-of-hecke-algebras-via-local-global-arguments\_arxiv}{\S4, p.~24}: without fixing
+it, the Steinberg locus has two components.
+
+\emph{Sign-fixed reading.} Take the normal form of the sign $\varepsilon_\ell$ of $f$, and replace $A$ by its factor where $U_\ell=\varepsilon_\ell c_\ell$.
+This is the anemic image on the full $M_0$-new algebra localised at $\m_f$, i.e.\ $A$ as in Lemma~\ref{lem:s06-levM-hecke}(b). \cite{KO}'s
+proof then goes through verbatim:
+\begin{enumerate}[label=(\roman*)]
+\item the ring is a quotient of $R_\Sigma$, hence finite (\cite[Thm~2.9]{KO});
+\item it is a complete intersection, because the local condition is \cite[Def.~3.7(1)]{KO} for the chosen normal form (\cite[Lemma~3.8,
+  Cor.~3.13]{KO});
+\item it is flat and reduced (\cite[Lemmas~3.15, 3.16]{KO});
+\item $\pi$ exists, because each $\rho_g$, $g\in\mathcal N$, has the chosen sign;
+\item points of the ring give newforms of the chosen sign, so the bijection of minimal primes holds, and $\pi$ is injective.
+\end{enumerate}
+\stpmc{} This is our reading, not \cite{KO}'s text. The alternative is to add ``$\ell\not\equiv-1\bmod p$ for $\ell\in\Sigma^-$'' to (Lev$'_M$). The
+same $-1$ phenomenon that the proposition removes at $q$ thus reappears at the primes of $M$.
+
+\end{remark}
+
+\noindent The prime $q$ does not enter the $R=\T$ theorem: the deformation problem is unramified at $q$, and \cite[Prop.~2.15(1), p.~8]{KO},
+the only place in \cite{KO} that needs $q\not\equiv\pm1$, plays no role. This is the seed's direct argument. \emph{R5.} \cite[Thm~3.12]{KO}
+(Böckle's presentation, used in Cor.~3.13) cites [Böc07, Cor.~4.3, Thm~5.8]. \cite{Boc07} is present in \pathtt{literature/} on node
+abhijit (S06-M6: \pathtt{bockle\_2007\_presentations-of-universal-deformation-rings}; Cor.~4.3 on PDF p.~16, Thm~5.8 on PDF p.~26; not
+re-checked here); it is not on node fabian (\pathtt{MISSING\_LITERATURE.md}, item 21).
+
+\begin{remark}[the case $q\equiv-1\bmod p$]\label{rem:s06-minus1}
+The seed claims that step (4) covers $q\equiv-1\bmod p$.
+(a) \cite[Thm~1.1]{KO} as a black box excludes it: \cite[Thm~1.1(6), p.~1]{KO} and \cite[(CR)(2), p.~2]{PW}
+\lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{(CR), p.~2; Thm 6.8, p.~21} both exclude
+$q\equiv\pm1$ with $\bar\rho$ unramified at $q\mid N^-$. So Cor.~\ref{cor:s06-fixed} needs (H0$^-$). \stcited{} (confirmed by S06-M6)
+(b) The precise place in \cite{KO} is the L-value step \cite[Prop.~2.15(1), p.~8]{KO}
+\lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{Prop.~2.15(1), p.~8;
+Prop.~5.6, p.~19; Rem.~5.5, p.~19}. There, passing from the $\Sigma$-imprimitive to the primitive congruence ideal multiplies by
+$L_q(\mathrm{ad}^0f,1)^{-1}=1-q^{-2}$ for $f$ special at $q$, which is a $p$-unit iff $q\not\equiv\pm1$. \cite[\S5.1, p.~18]{KO} print the factor
+$L_\ell(\mathrm{ad}^0f,s)=(1-\ell^{-1-s})^{-1}$ for $\pi_\ell(f)$ special; take $s=1$, $\ell=q$. The mechanism is \cite[\S5, Prop.~5.6, p.~19]{KO}. The Selmer step \cite[Thm~2.13, p.~7]{KO} needs only
+$q\not\equiv1$. \cite[Rem.~5.5]{KO} concerns only the quaternionic side. This is a property of their method (they compare with the level at
+which every lift at $q$ is allowed), not of the statement $\cc_q(f)=(\varpi^{t_f(q)})$. \stcited{} (the location in \cite{KO} and the Euler
+factor).
+(c) The seed's direct argument does not use \cite[Thm~1.1]{KO}; it is Prop.~\ref{prop:s06-levM}, which needs no condition at $q$ beyond (H0).
+For $q\equiv-1$ one still has $q+1\in\m$, which changes $\coker(\Psi^*\Psi)$ (Prop.~\ref{prop:s06-betti} assumes $q\not\equiv-1$).
+(d) Since (H0) already gives $q\not\equiv1$, the seed's exclusion ``$q\not\equiv\pm1$'' in T5 and C4(i) is exactly (H0)$+$(H0$^-$). The
+Eisenstein form $(h)\supseteq\cc_q$ of the regression C4(i) holds in every computed row with $\cO_v$ a DVR ($396$ rows) and fails in $5$ of the $46$ rows with
+$\cO_v$ not a DVR (at $p=2,3$), all with $S_\m$ not Gorenstein (observed, not proved). \stcomp{} [\pathtt{code/results/s06/C4i.json}; partial: $131$ of $319$ cases run].
+The other inputs at $q\equiv-1$: (Gor$_R$) has no condition at $q$, and (Gor$_{R'}$) needs only (CR,$\{q\}$) (Remark~\ref{rem:s06-CR}).
+So Thm~\ref{thm:s06-E} and Prop.~\ref{prop:s06-galois} hold. Thm~\ref{thm:s06-defect} holds with step (4) given by
+Prop.~\ref{prop:s06-levM}, i.e.\ at the point $P$ ($f=F_P$ is ordinary) in the cases (F0)--(F1$'$) of that proposition, in
+particular for $M=1$. \stpmc{} (as Thm~\ref{thm:s06-defect} and with the status of the case used)
+(e) The distinctness of the two $U_q$-roots (step (2)) uses only $q\not\equiv1$. At $q\equiv-1$ the roots are $\equiv\pm\varepsilon c$, still
+distinct since $p$ is odd. Both live on the $q$-old space and $\m$ picks one. The $\pm$ ambiguity of Remark~\ref{rem:s06-levM-sign}
+therefore does not arise at $q$.
+
+\end{remark}
+
+\begin{remark}[the second-reader checklist]\label{rem:s06-levM-items}
+The four items of the second-reader note (the note after the stage tex's Prop.~levM; S06-M6):
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Level $N^+_{\bar\rho,\Sigma^+}N^-=M$.} By \cite[(2.4), p.~7]{KO} with $\Sigma^+=P_{\bar\rho}$ and $N^-=M_0$, the level is
+  $r\cdot N(\bar\rho)\cdot M_0$, which is $r\cdot M$ under (Lev$'_M$) (consequence after Hyp.~\ref{hyp:s06-levMp}). The factor $r$ only
+  enters through $A$. \cite{KO}'s algebra is the $M_0$-new quotient (stated after \cite[Thm~3.14, p.~12]{KO}), not $\T_k(M)_\m$. Only the
+  surjection $\T_k(M)_\m\twoheadrightarrow B=A$ is used (R1; compare \cite[Lemma~2.7, p.~5]{KO} and the rigidity \cite[Rem.~2.14(2), p.~7]{KO}).
+  \stpmc
+\item \emph{$P_{\bar\rho}\subseteq\Sigma$} (\cite[Thm~3.14, p.~12]{KO}, through Lemma~2.4, p.~4, and Rem.~2.5). This is achieved by
+  $\Sigma^+:=P_{\bar\rho}$ (R2). The level is unchanged since $d(\ell)=0$, the local condition is unrestricted \cite[Def.~3.9(3), p.~11]{KO}, and
+  $U_\ell\in\m_{\Sigma^+}$ is consistent with $a_\ell=0$ (Lemma~\ref{lem:s06-levM-hecke}(c)(iii)($\delta$)). For $M=1$, $P_{\bar\rho}=\emptyset$. \stproved
+\item \emph{$U_\ell$, $\ell\mid M$, versus the anemic algebra.} \cite{KO}'s $\T$ is the image of $\T^S$ (KO p.~4 and p.~12). We do not use
+  \cite{KO}'s identification with the full algebra (via Dim09, EPW06). Lemma~\ref{lem:s06-levM-hecke} shows that $B=A$, with explicit
+  formulas for $T_r$, $T_p$ and $U_\ell$; the matching is step (5) (R3). For $\ell\in\Sigma^-$ with $\ell\equiv-1$ this needs the sign-fixed
+  reading (R4). \stpmc{} for $N(\bar\rho)=1$; for $N(\bar\rho)>1$ the lemma is not affected by B2, and what is open is step (4)
+  (Remark~\ref{rem:s06-levM-open}).
+\item \emph{Distinctness modulo $\varpi$.} By step (2) and Remark~\ref{rem:s06-minus1}(e), the difference of the roots is
+  $\varepsilon c(1-q)$, a unit by (H0). In $\cO/\varpi^t$ no Hensel lemma is needed. The same argument fixes the $T_p$ unit root in step (5).
+  \stproved
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[which $M>1$ satisfy the level hypothesis]\label{rem:s06-levM-which}
+(i) (Lev$'_M$) holds for every $M$ such that $\ell\,\|\,M$ at each prime $\ell\mid M$ where $\bar\rho$ is unramified, and $\rho_f$ is
+\cite{KO}-minimal at each $\ell\mid N(\bar\rho)$, $\ell\notin P_{\bar\rho}$. Then $M=N(\bar\rho)M_0$ with $M_0$ squarefree and prime to $N(\bar\rho)$.
+The cases in which Prop.~\ref{prop:s06-levM} is proved are those with $N(\bar\rho)=1$: $M=1$ (F0) and $M$ squarefree with
+$\bar\rho$ unramified at all $\ell\mid M$ (the level-raising situation; (F1), and (F1$'$) with the sign-fixed reading of
+Remark~\ref{rem:s06-levM-sign} if some $\ell\mid M$ has $\ell\equiv-1\bmod p$). \stpmc{} An $M$ with $N(\bar\rho)>1$, e.g.\ $M=N(\bar\rho)$ with $f$
+\cite{KO}-minimal, satisfies (Lev$'_M$) but is not covered: Remark~\ref{rem:s06-levM-open}. \stopen
+(ii) The former (Lev$_M$) of Hyp.~\ref{hyp:s06-H}, \emph{as worded} ($\Sigma^+=\emptyset$, the full $\T_k(M)_\m$ equal to \cite{KO}'s algebra), can hold, up to
+$r$, only if $\Sigma^-=\emptyset$ and $P_{\bar\rho}=\emptyset$. If $\Sigma^-\ne\emptyset$, the full algebra contains $\Sigma^-$-old forms by level
+lowering (\cite[\S5, p.~15]{BKM}). If $P_{\bar\rho}\ne\emptyset$, $P_{\bar\rho}\not\subseteq\Sigma=\Sigma^-$. And $\rho_f$ must then be minimal at
+all $\ell\mid N(\bar\rho)$, which is (L2) and is stronger than $M=N(\bar\rho)$ (example after Hyp.~\ref{hyp:s06-levMp}). Hyp.~\ref{hyp:s06-H} now
+uses (Lev): the cases (F0), (F1) of Prop.~\ref{prop:s06-levM} (S06-M10b, audit part 2, P2-R3). (Lev$'_M$) is not adopted in its general
+form, since it does not suffice for $N(\bar\rho)>1$, and ordinarity at $P$ is automatic ($f=F_P$). \stproved{} (the implications)
+(iii) Not covered: $\ell^2\mid M$ with $\bar\rho$ unramified at $\ell$, and $f$ non-minimal at a ramified $\ell$ (\cite[Rem.~2.14(2), p.~7]{KO}:
+rigidity of the level). These remain open (Remark~\ref{rem:s06-open}(i)). \stopen
+
+\end{remark}
+
+\begin{remark}[status of Prop.~\ref{prop:s06-levM}]\label{rem:s06-levM-status}
+The status is stated case by case in Prop.~\ref{prop:s06-levM}: (F0) \stpmc{} (Remark~\ref{rem:s06-levM-M1}); (F1) \stpmc; (F1$'$) \stpmc{} in
+our sign-fixed reading R4 of \cite[Thm~3.14]{KO} (Remark~\ref{rem:s06-levM-sign}), which is our reading, not \cite{KO}'s text; $N(\bar\rho)>1$
+\stopen{} (Remark~\ref{rem:s06-levM-open}).
+\begin{enumerate}[label=(\roman*)]
+\item Decision: Fabian lifted the \verb|\provisional| marks on (F1) and (F1$'$) (2026-11-15).
+\item Basis: two independent readings confirm (F1): the cross-account second reader (F2 part B,
+  \pathtt{mathematics/litnotes/s06-m5-second-reader.md}; part A for $M=1$) and the S06 chapter audit part 2
+  (\pathtt{mathematics/audits/2026-11-15\_s06-part2.md}), both modulo \cite[Thm~3.14]{KO}, (L-G), Deligne's theorem and
+  Fontaine/Edixhoven; both confirm (F1$'$) as a reading (R4), not as \cite{KO}'s text.
+\item There is no numerical test of (F1) or (F1$'$): a test needs $\bar\rho$ with $N(\bar\rho)=1$, i.e.\ from level-one forms, which have
+  weight $k\ge12$. All five non-vacuous H3 cases have $N(\bar\rho)>1$, necessarily, since for $p\le7$ there is no irreducible
+  level-1 mod-$p$ representation; a numerical test of (F1) needs $q=1741$ ($p=13$) or $q=2311$ ($p=17$), which is out of reach here
+  (Remark~\ref{rem:s06-levM-open}).
+\item Page checks of the cited inputs used without one: (L-G) beyond $\ell\,\|\,N_g$; Deligne's theorem \cite[Thm~2.5]{Edi92} (ordinary shape; \cite{W88} is a scan without text
+  layer); Fontaine/Edixhoven \cite[Thm~2.6]{Edi92} (not in \pathtt{literature/}).
+\end{enumerate}
+The cited core remains: \cite[Thm~2.9, Lemma~2.4, Thm~3.14, Cor.~3.13, Lemmas~3.15--3.16]{KO}, Fontaine--Laffaille at $p$ (\cite[\S1.1.2]{DFG}, via
+\cite{KO}), Fontaine/Edixhoven (all forms in $\m$ are ordinary) and Lemma~\ref{lem:s06-decomp}(b). A status \emph{proved} in the sense of the
+chapter (no cited input) is not in reach: the $R=\T$ theorem is cited.
+
+\end{remark}
+
+\begin{remark}[the case $N(\bar\rho)>1$: open]\label{rem:s06-levM-open}
+\emph{Why the proof fails} (F2 part B, B2). Take $p=13$, $k=12$, $f_0=\Delta$: $\bar\rho_\Delta\bmod13$ has full image and $\Delta$ is ordinary at
+$13$ ($\tau(13)\equiv8\bmod13$). Let $\ell=43\not\equiv\pm1\bmod13$; then $\tau(43)\equiv11\equiv43^5\cdot44\bmod13$, so the level-raising
+condition holds with sign $+$. \stcomp{} (F2; rechecked here from the $q$-expansion of $\Delta$.) Put $\bar\rho:=\bar\rho_\Delta\otimes\bar\chi_{43}$
+($\chi_{43}$ the quadratic character of conductor $43$) and $M=43^2$. Then $\bar\rho|_{G_{\Q_{43}}}\cong\bar\mu\bar\chi_{\rm cyc}\oplus\bar\mu$ with $\bar\mu$
+ramified, $N(\bar\rho)=43^2$, $P_{\bar\rho}=\emptyset$, and (H2) holds. The newform $f_0:=\Delta\otimes\chi_{43}$ of level $43^2$ has $\#\rho_{f_0}(I_{43})=2=
+\#\bar\rho(I_{43})$. B2 concerns $\bar\rho$ and $M$; a $q$-new $f$ of level $q\cdot43^2$ as in this section is obtained as follows: take a
+prime $q\not\equiv1\bmod13$ with $\tau(q)^2\equiv q^{10}(q+1)^2\bmod13$ (it exists by Chebotarev), a $q$-new newform $h'\equiv\Delta$ of level
+$q$ (level raising, \stcited, not page-checked), and $f:=h'\otimes\chi_{43}$, which is principal series at $43$ with $\#\rho_f(I_{43})=2$. So
+(L1), (L2) hold for $f$ and (L3) fails. Let $h$ be the weight-$12$ newform of level $43$, Steinberg at $43$, with
+$h\equiv\Delta$ modulo a prime above $13$ (level raising: Ribet for $k=2$, Diamond for $k\ge2$; \stcited, not page-checked), and
+$g:=h\otimes\chi_{43}$. Then $g\in\mathcal N$ (level $43^2$, $\bar\rho_g\cong\bar\rho$, $a_{43}(g)=0=a_{43}(f)$), but $\rho_g(I_{43})$ is infinite, so $g$ is
+not \cite{KO}-minimal. Hence \cite{KO}'s minimal ring $R_\emptyset$ has no point at $g$, while $A$ has the eigensystem of $g$: $\pi:R_\emptyset\cong A$
+of step (4) is false here. B2 refutes step (4) ($\pi:R\cong A$), not the matching lemma: in B2,
+$\bar\rho|_{I_{43}}=\bar\mu\oplus\bar\mu$ with $\bar\mu$ ramified, so $d(43)=0$, case ($\delta$), which holds unconditionally
+($a_{43}(g)=0=a_{43}(f)$). ($\gamma$) is empty (\stproved; checked by an independent reader, S06 audit part 3): $\det\bar\rho$ is unramified at $\ell$, so $d(\ell)=1$ forces $\bar\rho(I_\ell)$ to be non-trivial unipotent, hence $p\mid\#\bar\rho(I_\ell)$ (Scope of (iii) in the proof of Lemma~\ref{lem:s06-levM-hecke}); ($\beta$) is the whole case $d(\ell)=1$. What is
+missing is only step (4): $R\cong A$ is false when (L3) fails, and under (L3) it rests on \cite[Lemma~2.4]{KO} (Dim09, not read). \cite[Thm~2.9,
+Lemma~2.4]{KO} do not apply to this non-twist-minimal $\bar\rho$, in line with the standing condition of \cite[\S3.1, p.~715]{DFG}. This refutes
+the proof, not the inclusion $\cc_q(f)\subseteq(\varpi^t)$, which is \stopen{} for such $M$.
+
+\emph{Numerical evidence} (S06 cross-account check H3). \stcomp{} [\pathtt{code/results/s06-xcheck/H3.json}]: the inclusion
+$\ord\cc_q(f)\le t^{\rm an}_f(q)$ holds with equality in $5$ non-vacuous cases with $t=2$, namely $(19,5,2,53)$, $(41,7,2,31)$, $(89,5,2,17)$,
+$(41,7,4,6)$ and $(19,5,4,18)$, all with $N(\bar\rho)>1$. This is numerical evidence in the open region, not a test of (F1); equality
+$t^{\rm an}=t_f(q)$ is $R=\T$ at level $M$, which is not tested. The case (F1) ($N(\bar\rho)=1$; at level one this needs $k\ge12$) is
+numerically untested.
+
+\emph{A route under (L3)} (F2 part B, B2(a); not carried out). Assume (L3). It would suffice that every newform $g$ of level $M$ with
+$\bar\rho_g\cong\bar\rho$ and $\ord_\ell N_g=c(\ell)$ is \cite{KO}-minimal at every $\ell\mid N(\bar\rho)$, $\ell\notin P_{\bar\rho}$, i.e.\ ``forms of
+exponent $c(\ell)$ are minimal''. For odd $\ell$ this local analysis, supercuspidal case included, is carried out in the S06 audit part 2,
+\S3 (\pathtt{mathematics/audits/2026-11-15\_s06-part2.md}; \stproved{} there by the auditor, not checked against Diamond's types,
+\cite[\S4]{DDT97}): under (L3), $d(\ell)=0$ makes every lift \cite{KO}-minimal, and for $d(\ell)=1$ (L2) is equivalent to $\ord_\ell M=c(\ell)$.
+$\ell=2$ stays unchecked. What then remains is that \cite[Thm~3.14]{KO} applies, which rests on \cite[Lemma~2.4]{KO} (Dim09, not read). An
+alternative is to replace $A$ by its image on the \cite{KO}-minimal newforms and to check that \cite{KO}'s proof of Thm~3.14 runs with the
+newform-defined algebra of \cite[\S2.1.1]{KO} (not checked). With either route, step (4) would hold under (Lev$'_M$)$+$(L3); Lemma~\ref{lem:s06-levM-hecke} is
+not in question. \stsketch{} (the route); \stopen{} (the case $N(\bar\rho)>1$).
+\provisional{S06-M5d: new (F2 part B, B2); before: $N(\bar\rho)>1$ claimed under (Lev$'_M$). S06-M10b (A-R1, A-R4, H3): the claim that
+Lemma levM-hecke(c)(iii)($\gamma$) and the $U_\ell$-residue step of (b) fail withdrawn (audit part 2, \S2); the $q$-new $f$ of B2 completed;
+route under (L3) pointed to audit \S3; H3 evidence added.}
+\end{remark}
+
+\begin{remark}[$M=1$: the $T_p$ matching, minor corrections, status after the second reading]\label{rem:s06-levM-M1}
+For $M=1$ the cross-account second reader F2 (part A: \pathtt{mathematics/litnotes/s06-m5-second-reader.md} on branch
+\pathtt{abhijit/s06-m5-r2}) confirms steps (0)--(4) and the matching on $T_\ell$, $T_q$, $T_r$, $U_q$ in step (5), with no critical or major
+finding. The one gap there was the $T_p$ matching of the base version. It is filled as follows (F2, argument A5). The $T_p$ bullet of step
+(5), through Lemma~\ref{lem:s06-levM-hecke}(c)(ii) (confirmed by F2 part B for all $M$), is a second proof of the same identity. Write $\T:=\T(r)_{\m_\emptyset}$ for the algebra of
+step (4) (the case $M=1$ of $A$; in the general form of step (4), $\iota_r$ stands for $\T_k(1)_\m\twoheadrightarrow B=A$ and $\pi_\emptyset$ for $\pi$). $\T$ is reduced \cite[Thm~2.9, Thm~3.14]{KO} and embeds into $\prod_g\cO$ over its eigenforms $g$.
+\begin{enumerate}[label=(\roman*)]
+\item \emph{All forms in $\m$ are ordinary.} $\bar\rho|_{G_{\Q_p}}$ is reducible because $f$ is ordinary. For $2\le k\le p-1$ and
+  $p\nmid N_g$, a non-ordinary $g$ has $\bar\rho_g|_{I_p}\cong\omega_2^{k-1}\oplus\omega_2^{p(k-1)}$, which is irreducible (Fontaine; Edixhoven,
+  \cite[Thm~2.6]{Edi92}). This is \stcited{}, but not in \pathtt{literature/} and not
+  checked. So every $g$ is ordinary, and $\rho_g|_{G_{\Q_p}}$ is an extension of two characters, one of which, $\delta_g$, is unramified
+  with $\delta_g(\Frob_p)=\alpha_p(g)$, the unit root of $X^2-a_p(g)X+p^{k-1}$ (Deligne's theorem as stated in \cite[Thm~2.5]{Edi92};
+  \stcited, not checked on a page). The same holds for $f$. Since the two characters of $\bar\rho|_{G_{\Q_p}}$ differ on $I_p$
+  ($\omega^{k-1}\ne1$), the unramified one is unique, and $a_p(g)\bmod\varpi$ is its value at Frobenius for every $g$; this is what makes
+  $\iota_r$ (on $T_p$) and the Hensel roots below well defined.
+\item \emph{Splitting over $\T$.} The traces $\tau_\sigma=(\tr\rho_g(\sigma))_g$, $\sigma\in G_{\Q,S}$, lie in $\T$ (Chebotarev and continuity),
+  and $\rho_\T:G_{\Q,S}\to\GL_2(\T)$ exists \cite[Th\'eor\`eme~2, p.~219]{Car94}; this is a convenience only: $u$ in (iii) is
+  expressed through traces and Hensel roots alone, and $\pi_\emptyset$ is induced by \cite{KO}'s own representation. Since $1\le k-1\le p-2$, there is $\sigma\in I_p$ with
+  $\omega^{k-1}(\sigma)\ne1$. The residual eigenvalues of $\rho_\T(\sigma)$ are $1$ and $\omega^{\pm(k-1)}(\sigma)$ (the sign depends on
+  \cite{KO}'s normalisation), and they are distinct. By Hensel, $X^2-\tau_\sigma X+\det\rho(\sigma)$ has roots $u_1\equiv1$ and $u_2$ in $\T$. Put
+  $e:=(\rho_\T(\sigma)-u_2)/(u_1-u_2)$, the projector onto the $u_1$-eigenline along the other one.
+\item \emph{The unit root over $\T$.} Let $\Phi\in G_{\Q_p}$ be a Frobenius lift and $u:=\tr(\rho_\T(\Phi)e)=(\tau_{\Phi\sigma}-u_2\tau_\Phi)/(u_1-u_2)\in\T$.
+  In each factor $\cO$ of $\prod_g\cO$, the $u_1$-eigenline of $\rho_g(\sigma)$ is the line of the unramified character $\delta_g$, whether it
+  is the sub or the quotient. In a basis adapted to the filtration one computes $\tr(\rho_g(\Phi)e)=\delta_g(\Phi)=\alpha_p(g)$. So $u$ is a
+  unit, and $u+p^{k-1}u^{-1}$ acts on each $g$ by $a_p(g)$. Since $\T_k(1)_\m$ is reduced (level one, all Hecke operators semisimple),
+  $\iota_r(T_p)=u+p^{k-1}u^{-1}$. \stpmc
+\item \emph{Specialisation.} The construction uses only traces and Hensel roots with distinct residues. $\psi$ preserves traces
+  ($\psi(\tau_\sigma)=\tr\rho_t(\sigma)$, since $\pi_\emptyset$ is induced by $\rho_\T$), and $\psi$ maps the Hensel roots to the roots in
+  $\cO/\varpi^t$ with the same residues, which are unique (as for $\alpha_q$ in step (5)). Applied to the ordinary $\rho_f$, the same
+  computation gives $\psi(u)=\alpha_p(f)\bmod\varpi^t$. Hence $\psi(T_p)=\alpha_p(f)+p^{k-1}\alpha_p(f)^{-1}=a_p(f)\bmod\varpi^t$. \stpmc
+\end{enumerate}
+\emph{Minor corrections (F2).}
+\begin{itemize}
+\item[m1] $T_r$: $\iota_r(T_r)=\tau_{\Frob_r}=\pi_\emptyset(\tr\rho^{\rm univ}(\Frob_r))$ by Lemma~\ref{lem:s06-levM-hecke}(c)(i) ($\T_k(1)_\m$ is
+  $r$-old, so $T_r$ acts through level one), and $\psi(T_r)=a_r(f)\bmod\varpi^t$. $U_r$ is not used: \cite[(2.2), p.~3]{KO} does not exclude a
+  double root of $X^2-a_rX+r^{k-1}$ modulo $\varpi$, in which case $U_r$ need not lie in the anemic image.
+
+\item[m2] Remark~\ref{rem:s06-minus1}(b): \cite{KO} \emph{do} print the special-case factor (now so stated there). \cite[\S5.1, p.~18]{KO}
+  \lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{\S5.1, p.~18} gives
+  $L_\ell(\mathrm{ad}^0f,s)=(1-\ell^{-1-s})^{-1}$ for $\pi_\ell(f)$ special. At $s=1$, $\ell=q$ this is $(1-q^{-2})^{-1}$. \stcited
+\item[m3] Step (2) and the identification $\T''_k\cong\T_k(M)_\m$ rest on Lemma~\ref{lem:s06-decomp}(b). Its status is \stpmc{} in the chapter
+  (\sttoprove{} in the stage tex). It is an input of Prop.~\ref{prop:s06-levM} for every $M$.
+\end{itemize}
+\emph{Status for $M=1$.} With (i)--(iv), the second reading F2 (part A) and the stage master's instruction (2026-11-15), the
+proposition is \stpmc{} for $M=1$ (case (F0)); the cases (F1), (F1$'$) were lifted later (Remark~\ref{rem:s06-levM-status}). The cited inputs for $M=1$ are:
+\begin{itemize}
+\item{} \cite[Thm~2.9, Lemma~2.4]{KO} ($R_\emptyset=\T_\emptyset$, via \cite{DFG}, \cite{Dim09});
+\item Fontaine--Laffaille at $p$ (\cite[\S1.1.2]{DFG}, via \cite{KO});
+\item local--global compatibility (I2);
+\item Fontaine/Edixhoven \cite[Thm~2.6]{Edi92} (all forms in $\m$ are ordinary);
+\item Deligne's theorem \cite[Thm~2.5]{Edi92} (ordinary shape);
+\item Lemma~\ref{lem:s06-decomp}(b).
+\end{itemize}
+For $M>1$ the status is the one stated case by case in Prop.~\ref{prop:s06-levM} (Remark~\ref{rem:s06-levM-status}).
+\end{remark}

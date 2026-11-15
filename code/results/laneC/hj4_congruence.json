@@ -1,0 +1,42 @@
+{
+ "data": {
+  "D": 13,
+  "charpoly": "x^7 - 6*x^6 - 589*x^5 + 3534*x^4 + 92836*x^3 - 468456*x^2 - 2565760*x - 772800",
+  "k": 8,
+  "lattice": "brandt_symn_lattice/v1 (hacs_jl BrandtSym.h (C5)): M_Z = (+)_c Lambda_c^{Gamma_c}, Lambda_c = N_c^{-n/2} Z-span{Q_{x_1}...Q_{x_{n/2}} : x_i in (O_r(I_c)^0)^#}, Q_x = (X,Y) s(x) J (X,Y)^T; basis of block c = HNF of the integral Gamma_c-invariants in the HNF basis of Lambda_c, in base coordinates of Lambda'(O) (O = HNF maximal order of hacs_jl); blocks in the class order of langlandscape_brandt/v2 (|Gamma_c|, theta_c)",
+  "operator": "T_2",
+  "orbits": [
+   {
+    "index": "74",
+    "index_factored": "[2, 1; 37, 1]",
+    "orbit": "x - 10"
+   },
+   {
+    "index": "148",
+    "index_factored": "[2, 2; 37, 1]",
+    "orbit": "x^2 + 19*x + 6"
+   },
+   {
+    "index": "8",
+    "index_factored": "Mat([2, 3])",
+    "orbit": "x^4 - 15*x^3 - 270*x^2 + 3264*x + 12880"
+   }
+  ],
+  "record": "code/results/laneC/records/D13_M1_k8.json",
+  "record_commit": "8dcf3693700740d0d748872cdba7c8c68519d04a",
+  "tag": "computed"
+ },
+ "provenance": {
+  "commit": "247ba1dacb532f47f198e9c3d27a736e2ad6cf27",
+  "date": "2026-11-15T06:35:02+00:00",
+  "notes": "HJ-4a audit m3: orbit congruence indices [L : L_g + L_g^c] on the intrinsic lattice (PARI matkerint)",
+  "params": {
+   "p": 2,
+   "record": "code/results/laneC/records/D13_M1_k8.json"
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.0007338869909290224,
+  "script": "code/python/langlandscape/hacs_bridge/laneC/check_hj4_congruence.py"
+ }
+}

@@ -1,0 +1,356 @@
+\section{Hecke operators and the normalisation of $U_p$}
+
+\emph{Standing conventions.} Every level $U\subseteq\hat\cO^\times$ in this section is \emph{factorisable},
+$U=\prod_vU_v$ (all levels of Def.~\ref{def:s01-levels} are). We say $g\in\Bhat^\times$ is \emph{supported at} a set
+of primes $S$ if $g_v=1$ for $v\notin S$. Matrices at $\ell\nmid D$ are read through $\iota_\ell$. Locally at $p$ we write
+\[K_s:=U_1(p^s)_p,\qquad K^0_s:=U_0(p^s)_p,\qquad \varpi:=\mathrm{diag}(p,1),\qquad \eta:=\mathrm{diag}(1,p),\qquad
+n(b):=\left(\begin{smallmatrix}1&b\\0&1\end{smallmatrix}\right).\]
+For $f\in\Brandt{U}{V}$ and $g\in\Bhat^\times$ put $R(g)f:=f(\cdot\,g)$. The coefficient module $V$ is either trivial
+($V=\Z$ or $\Zp$) or $V=V_k$ with the action \eqref{eq:s01-Vk} of the monoid $\Sigma_p:=M_2(\Zp)\cap\GL_2(\Qp)$.
+
+\begin{definition}[Hecke operators; \pathtt{if:s01-hecke}; seed \S2.5]\label{def:s01-hecke}
+For $g\in\Bhat^\times$ with $g_p\in\Sigma_p$ (via $\iota_p$; if $V$ only carries a $U_p$-action, require $g_p\in U_p$) and
+$UgU=\coprod_ig_iU$ (a finite union, $UgU$ being compact and $U$ open):
+\[(T_gf)(x)=\sum_ig_{i,p}\cdot f(xg_i)\qquad(f\in\Brandt{U}{V}).\]
+On $\Z[X]$, $X=\XB{U}$, $T_g$ is the transpose for the naive evaluation pairing, $T_g[x]=\sum_i[xg_i]$ (trivial coefficients).
+Then, with $\varpi_\ell:=\iota_\ell^{-1}\mathrm{diag}(\ell,1)$ and $z_\ell$ the central idele $\ell$ at $\ell$ ($1$ elsewhere):
+\begin{itemize}
+\item $T_\ell:=T_{\varpi_\ell}$, $S_\ell:=T_{z_\ell}$ for $\ell\nmid DMpq$ (with $q$ the auxiliary prime of the level $U_0(q)U$ of Def.~\ref{def:s01-levels}; drop $q$ if there is none); $U_\ell:=T_{\varpi_\ell}$ for $\ell\mid M$; and
+  $S_\ell:=T_{z_\ell}$ also for $\ell\mid D$ (needed in Prop.~\ref{prop:s01-relations}(b));
+\item $\langle d\rangle:=T_{\delta_d}$, $d\in(\Z/Mp^s)^\times$, at level $\Uone{Mp^s}$: $(\langle d\rangle f)(x)=\delta_{d,p}\cdot f(x\delta_d)$ with
+  $\delta_d\in\Uzero{Mp^s}$ any element whose lower right entries are $\equiv d$ (seed: ``right translation by $\mathrm{diag}(1,d)$'');
+  we usually take $\delta_d$ diagonal, $\delta_{d,\ell}=\mathrm{diag}(1,d)$ at $\ell\mid Mp$ and $1$ elsewhere;
+\item $\Pi_\ell:=T_{\Pi_\ell}$ for $\ell\mid D$: $(\Pi_\ell f)(x)=f(x\Pi_\ell)$ (no $V$-action since $\ell\ne p$);
+\item $U_p:=T_{\varpi_p}$ with $\varpi_p=\iota_p^{-1}\mathrm{diag}(p,1)$ at levels $U=U^{(p)}K_s$ or $U^{(p)}K^0_s$, $s\ge1$ --- the
+  normalisation $N_{U_p}$, see Def.~\ref{def:s01-NUp}.
+\end{itemize}
+For $\ell\nmid$ level, $[U\varpi_\ell U]=[U\,\mathrm{diag}(1,\ell)\,U]$, so for $T_\ell$ the seed's $\mathrm{diag}(\ell,1)$ and any other
+choice agree; for $U_\ell$, $U_p$ they do not (Lemma~\ref{lem:s01-Up}(c)).
+\lean{Langlandscape.Brandt.heckeT}, \lean{Langlandscape.Brandt.heckeTHom}, \lean{Langlandscape.Brandt.Tl},
+\lean{Langlandscape.Brandt.Sl}, \lean{Langlandscape.Brandt.Ul}, \lean{Langlandscape.Brandt.diamond},
+\lean{Langlandscape.Brandt.PiEll}, \lean{Langlandscape.Brandt.Up} \stformal{} (trivial coefficients only).
+\end{definition}
+\noindent\stproved{} (well-definedness and the remarks above; proof below).
+\begin{proof}[Proof that the operators are well defined]
+\emph{$T_gf\in\Brandt{U}{V}$.} Left $B^\times$-invariance is clear. Let $u\in U$. Left multiplication by $u$ permutes
+$UgU/U$, so $ug_i=g_{\sigma(i)}u_i$ with $\sigma$ a permutation and $u_i\in U$; then $g_iu_i^{-1}=u^{-1}g_{\sigma(i)}$. Hence
+\[(T_gf)(xu)=\sum_ig_{i,p}f(xg_{\sigma(i)}u_i)=\sum_ig_{i,p}u_{i,p}^{-1}f(xg_{\sigma(i)})=u_p^{-1}\sum_ig_{\sigma(i),p}f(xg_{\sigma(i)})=u_p^{-1}(T_gf)(x).\]
+\emph{Independence of the $g_i$.} Replacing $g_i$ by $g_iv$, $v\in U$: $(g_iv)_pf(xg_iv)=g_{i,p}v_pv_p^{-1}f(xg_i)$.
+All $g_{i,p}\in U_pg_pU_p\subseteq\Sigma_p$, so the action is defined.
+
+\emph{Factorisation.} If $g$ is supported at a set $S$ of primes, then $UgU=\big(\prod_{v\in S}U_vg_vU_v\big)\times\prod_{v\notin S}U_v$,
+so the $g_i$ can be chosen supported at $S$; this is used throughout.
+
+\emph{Normalising elements.} If $\delta U\delta^{-1}=U$ then $U\delta U=\delta U$ and $T_\delta f=\delta_p\cdot f(\cdot\,\delta)$. This
+applies to $z_\ell$ (central), to $\Pi_\ell$ ($\ell\mid D$: $\cO_\ell^\times=\{x:\Nrd x\in\Z_\ell^\times\}$ is preserved by conjugation),
+and to $\delta_d$: on $\Uzero{N}_\ell$ the map $\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\mapsto d\bmod\ell^{v_\ell(N)}$ is a homomorphism
+(the $(2,2)$ entry of a product is $cb'+dd'\equiv dd'$), with kernel $\Uone{N}_\ell$, so $\Uone{N}\trianglelefteq\Uzero{N}$. Two
+choices of $\delta_d$ differ by $u\in\Uone{Mp^s}$ (same homomorphism), and $(\delta_du)_pf(x\delta_du)=\delta_{d,p}f(x\delta_d)$, so
+$\langle d\rangle$ depends only on $d$. If $\delta,\delta'$ normalise $U$ then $T_\delta T_g=T_{\delta g}$ and $T_gT_\delta=T_{g\delta}$, computed with
+the representatives $\delta g_i$ of $\delta UgU=U\delta gU$, resp.\ $g_i\delta$ of $UgU\delta=Ug\delta U$; in particular
+$\langle d\rangle\langle d'\rangle=\langle dd'\rangle$.
+
+\emph{Weyl conjugation.} For $\ell\nmid$ level, $U_\ell=\GL_2(\Z_\ell)\ni w=\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)$ and
+$w\,\mathrm{diag}(\ell,1)\,w^{-1}=\mathrm{diag}(1,\ell)$, so the two double cosets coincide.
+\end{proof}
+
+\begin{definition}[$N_{U_p}$: the normalisation of $U_p$ fixed for the whole plan]\label{def:s01-NUp}
+Let $s\ge1$ and $U=U^{(p)}U_p$ with $U_p\in\{K_s,K^0_s\}$. Put $\varpi_j:=\iota_p^{-1}\left(\begin{smallmatrix}p&j\\0&1\end{smallmatrix}\right)$,
+$0\le j\le p-1$ (as elements of $\Bhat^\times$ supported at $p$). Then $U\varpi_pU=\coprod_{j=0}^{p-1}\varpi_jU$
+(Lemma~\ref{lem:s01-Up}(a)) and
+\[(U_pf)(x):=\sum_{j=0}^{p-1}\varpi_j\cdot f(x\varpi_j)\ \ \text{on }\Brandt{U}{V},\qquad U_p[x]:=\sum_{j=0}^{p-1}[x\varpi_j]\ \ \text{on }\Z[\XB{U}],\]
+with $\varpi_j$ acting on $V_k$ by \eqref{eq:s01-Vk}. This is $N_{U_p}$. Its features:
+\begin{itemize}
+\item it is \emph{integral}: $\varpi_j\in\Sigma_p$ acts on $V_k$ by $P\mapsto P(pX,\,jX+Y)$, which preserves $V_k$;
+\item it needs \emph{no} normalising power of $p$: on the line $\mathrm{ev}:V_k\to\Zp$, $P\mapsto P(0,1)$, one has
+  $\mathrm{ev}(\varpi_jP)=P((0,1)\varpi_j)=P(0,1)$, i.e.\ each $\varpi_j$ acts by its $(2,2)$ entry $1$;
+\item $\Brandt{U}{V_k}$ is finite free over $\Zp$, so the ordinary projector $e=\lim_nU_p^{n!}$ exists.
+\end{itemize}
+\stproved{} (integrality, the $\mathrm{ev}$-computation, and the existence of $e$ for any endomorphism of a finite free $\Zp$-module).
+\emph{Correction:} the stage tex adds that $e$ ``is non-trivial in every weight''. At a fixed level this is false: for
+$D=2$, $M=1$, $p=5$, $s=1$, $k=2$ (trivial $V=\Z_5$) one has $|S_1|=\frac{1}{24}\cdot1\cdot6\cdot4=1$ (Thm.~\ref{thm:s01-mass}(d)), so
+$\Brandt{U}{\Z_5}=\Z_5$ consists of the constants, $U_p=5$ on it, and $e=0$ \stproved. More generally, with trivial coefficients
+$U_p\mathbf 1=p\,\mathbf 1$, so the constant (Eisenstein) line is never ordinary. What is true: $e$ exists and splits
+$\Brandt{U}{V_k}=e\Brandt{U}{V_k}\oplus(1-e)\Brandt{U}{V_k}$ as $\Zp[U_p]$-modules (Fitting decomposition, \stproved); the
+rank of the ordinary part is controlled in the tower (independence of $k\ge2$ and of $s\ge1$ after fixing the nebentypus at $p$,
+Hida's control theorem: \stexp{} here and owned by stage 04); whether it is nonzero for given $(D,M,p)$ is a computation.
+\lean{Langlandscape.Local.varpi}, \lean{Langlandscape.Local.varpiDiag}, \lean{Langlandscape.Brandt.Up},
+\lean{Langlandscape.Brandt.Up\_apply} \stformal{} (trivial coefficients).
+\end{definition}
+
+\begin{lemma}[properties of $N_{U_p}$]\label{lem:s01-Up}
+Let $s\ge1$, $U_{(s)}:=U^{(p)}K_s$, $\pi=\pi_{s+1,s}:\XB{U_{(s+1)}}\to\XB{U_{(s)}}$, $\pi^*:\Brandt{U_{(s)}}{V}\hookrightarrow\Brandt{U_{(s+1)}}{V}$
+the inclusion, and $\mathrm{tr}=\mathrm{tr}_{s+1,s}:\Brandt{U_{(s+1)}}{V}\to\Brandt{U_{(s)}}{V}$,
+$\mathrm{tr}f(x)=\sum_{u\in U_{(s)}/U_{(s+1)}}u_p\cdot f(xu)$.
+\begin{enumerate}[label=(\alph*)]
+\item $K\varpi K=\coprod_{j=0}^{p-1}\varpi_jK$ for $K\in\{K_s,K^0_s\}$; so the coset representatives $\varpi_j$ of $U_{(s)}\varpi_pU_{(s)}$ do
+  not depend on $s\ge1$ (nor on $U_1$ versus $U_0$). For $s=0$ this fails: $K_0\varpi K_0$ has $p+1$ cosets.
+\item $U_p\circ\pi^*=\pi^*\circ U_p$ on $\Brandt{U_{(s)}}{V}\subseteq\Brandt{U_{(s+1)}}{V}$, and dually $\pi_*\circ U_p=U_p\circ\pi_*$
+  on $\Zp[S_{s+1}]\to\Zp[S_s]$. \textbf{This is the property demanded by the seed; $N_{U_p}$ is the normalisation with it.}
+\item $[K_s:K_{s+1}]=p^2$ (for $s\ge1$; $[K_0:K_1]=p^2-1$). The other operator $U_p':=[U\,\eta_p\,U]$, $\eta_p=\iota_p^{-1}\mathrm{diag}(1,p)$
+  (the seed's literal formula), has at level $U_{(s)}$ the representatives
+  $\eta^{(s)}_j:=\iota_p^{-1}\left(\begin{smallmatrix}1&0\\p^sj&p\end{smallmatrix}\right)$, $0\le j\le p-1$, which depend on $s$; all $p$ of the
+  level-$(s+1)$ representatives lie in the single coset $\eta_pU_{(s)}$, so $U'_p\pi^*f=p\cdot\eta_p\cdot R(\eta_p)f$ in
+  $\Brandt{U_{(s+1)}}{V}$. For $\Zp$-torsion free $V$, $U'_p\pi^*=\pi^*U'_p$ on $\Brandt{U_{(s)}}{V}$ forces
+  $U'_p\equiv0\pmod p$ there; so the two \emph{fail} to commute as soon as $U'_p\not\equiv0\pmod p$ on $\Brandt{U_{(s)}}{V}$, e.g.\
+  (trivial $V$, $p\ge5$, $U^{(p)}=\Uone M$) whenever $e\Zp[S_s]\ne0$. They \emph{can} commute: for $D=2$, $M=1$, $p=5$, $s=1$, trivial $V$, both sides
+  equal multiplication by $p$ on the constants $\Brandt{U_{(1)}}{\Z_5}=\Z_5$. Instead $U'_p$
+  commutes with the trace, $\mathrm{tr}\circ U'_p=U'_p\circ\mathrm{tr}$, because $U_{(s)}\eta_pU_{(s)}=U_{(s)}\eta_pU_{(s+1)}$.
+\item (trivial coefficients, $U^{(p)}=\Uone{M}$, i.e.\ $U_{(s)}=\Uone{Mp^s}$) The $\langle,\rangle$-adjoint of $U_p$ on $\Z[S_s]$ is
+  $U_p^*=\langle p\rangle_M\,U_p'$, where $\langle p\rangle_M:=\langle d\rangle$ for the $d\in(\Z/Mp^s)^\times$ with $d\equiv p\bmod M$,
+  $d\equiv1\bmod p^s$ (the diamond at the primes dividing $M$); so under $\nu$ the homological $U_p$ on $\Zp[S_s]$ becomes
+  $\langle p\rangle_MU'_p$ on $\Zp^{S_s}$: $\nu\circ U_p=\langle p\rangle_MU'_p\circ\nu$ (consistent with (b), (c) and
+  Prop.~\ref{prop:s01-adjoint}(c)).
+\item For $s\ge1$ and $\ell\nmid Mp$, $U_p$ commutes with $T_\ell,S_\ell,\langle d\rangle,\Pi_\ell$, and with right translation by
+  $B_q^\times$ ($q\ne p$), in the form of Prop.~\ref{prop:s01-relations}(c).
+\end{enumerate}
+\emph{Correction:} the stage tex writes $U'_p\pi^*f=p\cdot\pi^*R(\mathrm{diag}(1,p))f\ne\pi^*U'_pf$ (trivial $V$). The factor
+$\pi^*$ is wrong, since $R(\eta_p)f$ is in general not in $\pi^*\Brandt{U_{(s)}}{V}$, and for non-trivial $V$ the action $\eta_p\cdot$ on $V$ must be added;
+the inequality is not unconditional (see the example above). The corrected statement is (c) as given here.
+
+Status: (a)--(e) \stproved{} below, except the \emph{existence} of a level where $U'_p\pi^*\ne\pi^*U'_p$: the sufficient
+criterion of (c) is proved, and an explicit failure is \stcomp{} (S01-C5, \pathtt{code/results/s01/up.json}: $B_3$, $p=5$, $s=1,2$; $U_5$ on $S_1$ has eigenvalues $5,1$). (d) is derived here from the orbit-counting form of Prop.~\ref{prop:s01-adjoint}(a), which
+is re-proved in the proof of (d) for trivial coefficients.
+(a): \lean{Langlandscape.Local.K1\_mul\_varpi\_mul\_K1}, \lean{Langlandscape.Local.varpi\_inv\_mul\_not\_mem},
+\lean{Langlandscape.Local.reps\_indep}; (b): \lean{Langlandscape.Brandt.Up\_comm\_push}, \lean{Langlandscape.Brandt.Up\_comm\_pull};
+(c), coset half: \lean{Langlandscape.Local.diag1p\_reps}, \lean{Langlandscape.Local.relIndex\_K1\_succ}; (e):
+\lean{Langlandscape.Brandt.Up\_comm\_Tl}; all \stformal{}. The trace half of (c) and (d) have no Lean counterpart in stage 01.
+\end{lemma}
+\begin{proof}
+Throughout, $k=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in K\in\{K_s,K^0_s\}$ with $s\ge1$ has $c\in p\Zp$, hence
+$ad\in\Zp^\times$ and $a,d\in\Zp^\times$.
+
+\emph{(a).} The map $K\to K\varpi K/K$, $k\mapsto k\varpi K$, is surjective with fibres the cosets of
+$K':=K\cap\varpi K\varpi^{-1}$. Since $\varpi^{-1}k\varpi=\left(\begin{smallmatrix}a&b/p\\pc&d\end{smallmatrix}\right)$, an element $k\in K$ lies in
+$\varpi K\varpi^{-1}$ iff $b\in p\Zp$ (then $\varpi^{-1}k\varpi$ is integral with the same diagonal, unit determinant and lower left
+entry $pc$, so lies in $K$). Now $n(-j)k=\left(\begin{smallmatrix}a-jc&b-jd\\c&d\end{smallmatrix}\right)$, and as $d\in\Zp^\times$ there is exactly
+one $j\in\{0,\dots,p-1\}$ with $b-jd\in p\Zp$, namely $j\equiv bd^{-1}$. Since $n(j)\in K$, this gives $K=\coprod_jn(j)K'$, hence
+$K\varpi K=\bigcup_jn(j)K'\varpi K=\bigcup_jn(j)\varpi K$ (as $\varpi^{-1}K'\varpi\subseteq K$), and $n(j)\varpi=\varpi_j$. The union is
+disjoint: $\varpi_j^{-1}\varpi_{j'}=n\big((j'-j)/p\big)\notin\GL_2(\Zp)$ for $j\ne j'$. Globally,
+$U\varpi_pU=(K\varpi K)\times U^{(p)}=\coprod_j\varpi_jU$ by factorisation. The representatives are visibly independent of $s$
+and of $K$. For $s=0$ the element $d$ need not be a unit; $K_0\varpi K_0/K_0$ is the set of the $p+1$ index-$p$ lattices, with the
+extra representative $\eta$.
+
+\emph{(b).} Let $f\in\Brandt{U_{(s)}}{V}$. By (a) the same $\varpi_j$ represent $U_{(s+1)}\varpi_pU_{(s+1)}/U_{(s+1)}$, so
+$(U_p\pi^*f)(x)=\sum_j\varpi_jf(x\varpi_j)=(\pi^*U_pf)(x)$, literally the same formula. On class sets,
+$\pi_*[x]_{s+1}=[x]_s$ and $\pi_*U_p[x]_{s+1}=\sum_j[x\varpi_j]_s=U_p\pi_*[x]_{s+1}$. (Equivalently: $\pi_*$ and $U_p$ on $\Zp[S]$ are the
+transposes of $\pi^*$ and $U_p$ for the naive evaluation pairing.)
+
+\emph{(c), index.} $K_s$ is the stabiliser of the row vector $(0,1)\bmod p^s$ under $v\mapsto vk$ (the image is the bottom row
+$(c,d)$). Hence $K_s/K_{s+1}$ is in bijection with the $K_s$-orbit of $(0,1)\bmod p^{s+1}$, which is the set of
+$(c,d)\in(\Z/p^{s+1})^2$ with $(c,d)\equiv(0,1)\bmod p^s$: each such pair is the bottom row of
+$\left(\begin{smallmatrix}1&0\\c&d\end{smallmatrix}\right)\in K_s$. This set has $p\cdot p=p^2$ elements, so $[K_s:K_{s+1}]=p^2$ for $s\ge1$. For
+$s=0$ the orbit of $(0,1)\bmod p$ under $\GL_2(\Zp)$ is $\F_p^2\setminus\{0\}$, giving $p^2-1$. (Consistency check:
+$\psi(Mp^{s+1})\varphi(Mp^{s+1})=p^2\,\psi(Mp^s)\varphi(Mp^s)$ for $s\ge1$, matching $|S_{s+1}|=p^2|S_s|$ in
+Thm.~\ref{thm:s01-mass}(d).)
+
+\emph{(c), representatives.} As in (a), the cosets of $K_s\eta K_s/K_s$ correspond to $K_s/K''$ with
+$K''=K_s\cap\eta K_s\eta^{-1}$. Since $\eta^{-1}k\eta=\left(\begin{smallmatrix}a&pb\\c/p&d\end{smallmatrix}\right)$, $k\in K_s$ lies in
+$\eta K_s\eta^{-1}$ iff $c\in p^{s+1}\Zp$, i.e.\ $K''=K_s\cap\Uzero{p^{s+1}}_p=\Kpp{s}$. For $k\in K_s$,
+$\left(\begin{smallmatrix}1&0\\-p^sj&1\end{smallmatrix}\right)k=\left(\begin{smallmatrix}a&b\\c-p^sja&d-p^sjb\end{smallmatrix}\right)$, and since $a\in\Zp^\times$
+there is exactly one $j\in\{0,\dots,p-1\}$ with $c-p^sja\in p^{s+1}\Zp$ (the $(2,2)$ entry stays $\equiv1\bmod p^s$). So
+$K_s=\coprod_j\left(\begin{smallmatrix}1&0\\p^sj&1\end{smallmatrix}\right)K''$ and $K_s\eta K_s=\coprod_j\eta^{(s)}_jK_s$ with
+$\eta^{(s)}_j=\left(\begin{smallmatrix}1&0\\p^sj&1\end{smallmatrix}\right)\eta=\left(\begin{smallmatrix}1&0\\p^sj&p\end{smallmatrix}\right)$; disjointness:
+$(\eta^{(s)}_j)^{-1}\eta^{(s)}_{j'}=\left(\begin{smallmatrix}1&0\\p^{s-1}(j'-j)&1\end{smallmatrix}\right)\notin K_s$ for $j\ne j'$. These depend on $s$.
+
+\emph{(c), $U'_p$ and $\pi^*$.} $\eta^{-1}\eta^{(s+1)}_j=\left(\begin{smallmatrix}1&0\\p^sj&1\end{smallmatrix}\right)=:k_j\in K_s$, so all level-$(s+1)$
+representatives lie in $\eta K_s$. For $f\in\Brandt{U_{(s)}}{V}$: $\eta^{(s+1)}_jf(x\eta k_j)=\eta k_jk_j^{-1}f(x\eta)=\eta f(x\eta)$, hence
+$(U'_p\pi^*f)(x)=p\,\eta_p\cdot f(x\eta_p)$. (The function $x\mapsto\eta_p\cdot f(x\eta_p)$ lies in $\Brandt{U_{(s+1)}}{V}$, since
+$\eta^{-1}K_{s+1}\eta\subseteq K_s$, but in general not in $\pi^*\Brandt{U_{(s)}}{V}$.) \emph{Criterion.} Assume $V$ is $\Zp$-torsion free.
+Then $\pi^*\Brandt{U_{(s)}}{V}$ is saturated in $\Brandt{U_{(s+1)}}{V}$ (if $pF=\pi^*f$ then $F=f/p$ is $U_{(s)}$-equivariant). Hence
+$U'_p\pi^*=\pi^*U'_p$ would force $\pi^*U'_pf=p\,\eta_pR(\eta_p)f\in p\Brandt{U_{(s+1)}}{V}$, so $U'_pf\in p\Brandt{U_{(s)}}{V}$ for all $f$,
+i.e.\ $U'_p\equiv0\pmod p$ on $\Brandt{U_{(s)}}{V}$. For trivial $V$, $p\ge5$ and $U^{(p)}=\Uone M$, $U'_p\equiv0\pmod p$ is, by (d) and
+the perfectness of $\langle,\rangle$ over $\Zp$ (Def.~\ref{def:s01-pairing}, Lemma~\ref{lem:s01-stab}(c)), and since $\langle p\rangle_M$ is
+invertible, equivalent to $U_p\equiv0\pmod p$ on $\Zp[S_s]$; this would force $e\Zp[S_s]=0$ (as $e=\lim U_p^{n!}\equiv0$ modulo every $p^m$).
+The converse fails: $e=0$ only says that $U_p$ is topologically nilpotent, i.e.\ nilpotent mod $p$, not zero mod $p$. So $U'_p$ and
+$\pi^*$ fail to commute whenever level $s$ carries an ordinary form ($e\Zp[S_s]\ne0$); this is only a sufficient condition, and
+an explicit instance is \stcomp{} in S01-C5 ($B_3$, $p=5$, $s=1,2$). Conversely, if $\Brandt{U_{(s)}}{V}$ consists of constants (trivial $V$),
+then $U'_p\pi^*c=pc=\pi^*U'_pc$; this happens for $D=2$, $M=1$, $p=5$, $s=1$, where $|S_1|=1$.
+
+\emph{(c), trace.} Put $L:=K_s\cap\eta^{-1}K_s\eta$; by the formula for $\eta k\eta^{-1}$, $L\supseteq\{k\in K_s:b=0\}$. The bottom-row
+description of $K_s/K_{s+1}$ above uses only matrices $\left(\begin{smallmatrix}1&0\\c&d\end{smallmatrix}\right)\in L$, so $K_s=LK_{s+1}$. Since
+$\eta L\eta^{-1}\subseteq K_s$, we get $K_s\eta K_s=K_s\eta LK_{s+1}\subseteq K_s\eta K_{s+1}\subseteq K_s\eta K_s$, i.e.\
+$U_{(s)}\eta_pU_{(s)}=U_{(s)}\eta_pU_{(s+1)}$. Let $\{u\}$ be representatives of $U_{(s)}/U_{(s+1)}$ ($p^2$ of them), $\{\eta_i\}$ of
+$U_{(s)}\eta_pU_{(s)}/U_{(s)}$ and $\{\eta'_{i'}\}$ of $U_{(s+1)}\eta_pU_{(s+1)}/U_{(s+1)}$ ($p$ each). Then $\{\eta_iu\}$ is a set of
+representatives of $\Omega:=U_{(s)}\eta_pU_{(s)}/U_{(s+1)}$, which has $p^3$ elements. The $p^3$ products $u\eta'_{i'}$ lie in
+$U_{(s)}\eta_pU_{(s+1)}=U_{(s)}\eta_pU_{(s)}$ and cover $\Omega$ (as $U_{(s)}\eta_pU_{(s+1)}=\bigcup_uuU_{(s+1)}\eta_pU_{(s+1)}$), so they too
+form a set of representatives. For $f\in\Brandt{U_{(s+1)}}{V}$ the expression $h_p\cdot f(xh)$ depends only on $hU_{(s+1)}$, and
+\[(U'_p\,\mathrm{tr}f)(x)=\sum_{i,u}(\eta_iu)_pf(x\eta_iu)=\sum_{h\in\Omega}h_pf(xh)=\sum_{u,i'}(u\eta'_{i'})_pf(xu\eta'_{i'})=(\mathrm{tr}\,U'_pf)(x).\]
+
+\emph{(d).} \emph{Step 1: orbit counting} (this is Prop.~\ref{prop:s01-adjoint}(a) for trivial coefficients). For $g\in\Bhat^\times$ and
+$x,y\in\Bhat^\times$ let $n_g(x,y):=\#\{i:[xg_i]=[y]\}$, $UgU=\coprod_ig_iU$, so that $\langle T_g[x],[y]\rangle=w_y\,n_g(x,y)$. Let
+$\Omega_{x,y}:=\{\gamma\in B^\times:x^{-1}\gamma y\in UgU\}$. The map $\gamma\mapsto x^{-1}\gamma yU\in UgU/U$ has image
+$\{g_iU:[xg_i]=[y]\}$ (if $xg_iu=\gamma y$ then $x^{-1}\gamma yU=g_iU$, and conversely), and its fibres are the orbits of
+$\Gamma_y$ acting freely by right multiplication ($x^{-1}\gamma\gamma'yU=x^{-1}\gamma yU$ iff $y^{-1}\gamma'y\in U$ iff $\gamma'\in\Gamma_y$). So
+$|\Omega_{x,y}|=|\Gamma_y|\,n_g(x,y)$. Inversion $\gamma\mapsto\gamma^{-1}$ maps $\Omega_{x,y}$ bijectively onto
+$\{\delta:y^{-1}\delta x\in Ug^{-1}U\}$, whence $|\Gamma_y|\,n_g(x,y)=|\Gamma_x|\,n_{g^{-1}}(y,x)$. As $-1$ is central,
+$\Gamma_x\cap\{\pm1\}=U\cap\{\pm1\}$ for every $x$, so the same identity holds with $w$ in place of $|\Gamma|$, i.e.
+$\langle T_g[x],[y]\rangle=\langle[x],T_{g^{-1}}[y]\rangle$: the adjoint of $T_g$ is $T_{g^{-1}}$.
+
+\emph{Step 2: $\varpi_p^{-1}$.} At $p$, $\mathrm{diag}(p,1)^{-1}=\mathrm{diag}(p^{-1},1)=p^{-1}\mathrm{diag}(1,p)$, so $\varpi_p^{-1}=z_p^{-1}\eta_p$
+with $z_p$ central in $\Bhat^\times$. Hence $U\varpi_p^{-1}U=z_p^{-1}U\eta_pU=\coprod_jz_p^{-1}\eta^{(s)}_jU$ and
+$U_p^*[y]=T_{\varpi_p^{-1}}[y]=\sum_j[yz_p^{-1}\eta^{(s)}_j]$.
+
+\emph{Step 3: $z_p^{-1}$ is a diamond.} The rational number $p\in\Q^\times\subseteq B^\times$ is central and, as an idele, equals
+$z_p\cdot t$ with $t=(p)_{\ell\ne p}$, $t_p=1$. So $[yz_p^{-1}h]=[p\,yz_p^{-1}h]=[y\,t\,h]$ for every $h$. The idele $t$ is scalar with
+$t_\ell=p\in\Z_\ell^\times$ for $\ell\ne p$, so $t\in\Uzero{Mp^s}$ with lower right entries $p$ at $\ell\mid M$ and $1$ at $p$:
+$t=\delta_d$ for $d\equiv p\bmod M$, $d\equiv1\bmod p^s$, and with trivial coefficients $[yt]=\langle d\rangle[y]=\langle p\rangle_M[y]$.
+As $t$ is central, $[yt\eta^{(s)}_j]=[y\eta^{(s)}_jt]$, and
+\[U_p^*[y]=\sum_j[y\eta^{(s)}_jt]=\langle p\rangle_M\,U'_p[y]=U'_p\,\langle p\rangle_M[y].\]
+\emph{Step 4: $\nu$.} Since $\nu(a)(y)=\langle a,[y]\rangle$, Step 1 gives
+$\nu(T_ga)(y)=\langle a,T_{g^{-1}}[y]\rangle=(T_{g^{-1}}\nu(a))(y)$, i.e.\ Prop.~\ref{prop:s01-adjoint}(b); hence
+$\nu\circ U_p=T_{\varpi_p^{-1}}\circ\nu=\langle p\rangle_MU'_p\circ\nu$, where now $\langle p\rangle_M f=f(\cdot\,t)$ and $U'_pf=\sum_jf(\cdot\,\eta^{(s)}_j)$
+on $\Zp^{S_s}$. \emph{Consistency.} $-1\notin U_{(s)}$ ($p\ge3$, $s\ge1$), so Prop.~\ref{prop:s01-adjoint}(c) gives $\nu\pi_*=\mathrm{tr}\,\nu'$;
+applying $\nu$ to (b) yields $\langle p\rangle_MU'_p\,\mathrm{tr}=\mathrm{tr}\,\langle p\rangle_MU'_p$, which is (c) (trace half) together with
+the fact that $R(t)$, $t$ central, commutes with $\mathrm{tr}$.
+
+\emph{(e).} \emph{Disjoint supports.} Let $g$ be supported at $\ell\ne p$ and choose its representatives $g_i$ supported at $\ell$;
+the $\varpi_j$ are supported at $p$, so $g_i\varpi_j=\varpi_jg_i$ and $g_{i,p}=1$. Then
+$(T_gU_pf)(x)=\sum_i\sum_j\varpi_jf(xg_i\varpi_j)=\sum_j\varpi_j\sum_if(x\varpi_jg_i)=(U_pT_gf)(x)$. This covers $T_\ell,S_\ell$ ($\ell\nmid DMp$) and
+$\Pi_\ell,S_\ell$ ($\ell\mid D$). \emph{Diamonds.} Take $\delta_d$ diagonal (Def.~\ref{def:s01-hecke}); it normalises $U$ and commutes with
+$\varpi_p$ (diagonal at $p$, trivial elsewhere), so $\langle d\rangle U_p=T_{\delta_d\varpi_p}=T_{\varpi_p\delta_d}=U_p\langle d\rangle$ by the
+``normalising elements'' part of the proof of Def.~\ref{def:s01-hecke}. \emph{Right translation} by $g\in B_q^\times$, $q\ne p$: see
+Prop.~\ref{prop:s01-relations}(c) (the $\varpi_j$ are supported at $p\ne q$).
+\end{proof}
+
+\begin{proposition}[relations]\label{prop:s01-relations}
+Let $U=\Uone{Mp^s}$ or $\Uzero{M}$, $V=V_k$.
+\begin{enumerate}[label=(\alph*)]
+\item $S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$ on $\Brandt{\Uone{Mp^s}}{V_k}$ ($\ell\nmid DMp$); $S_\ell=\ell^{k-2}$ at level
+  $\Uzero{M}\cdot\GL_2(\Zp)$.
+\item $\Pi_\ell^2=S_\ell$ (same formula as (a)) for $\ell\mid D$; $\Pi_\ell$ is independent of the choice of $\Pi_\ell$.
+\item All operators of Def.~\ref{def:s01-hecke} commute; those supported at $\ell\ne q$ commute with the maps
+  right translations $R_g:\Brandt{g^{-1}Ug}{V}\to\Brandt{U}{V}$, $f\mapsto f(\cdot\,g)$, and with $\rho_g:[x]\mapsto[xg]$,
+  $\XB{U}\to\XB{g^{-1}Ug}$, for $g\in B_q^\times$, $q\ne p$: $T_h\circ R_g=R_g\circ T_h$ and $\rho_g\circ T_h=T_h\circ\rho_g$, with $T_h$
+  taken at the respective levels. (So $R_gf=f\circ\rho_g=\rho_g^*f$ is pullback along $\rho_g$; this is the Lean convention.) For $g\notin N(\GL_2(\Z_q))$ the level
+  $g^{-1}Ug$ is not contained in $\hat\cO^\times$; here Def.~\ref{def:s01-classset} and $\Gamma_x$ are used verbatim for the compact open subgroup $g^{-1}Ug\subseteq\Bhat^\times$
+  (finiteness: $g^{-1}Ug\cap\hat\cO^\times$ has finite index in it), which is all that (c) needs.
+\item $T_\ell$ for $\ell\nmid DMp$: $T_\ell T_{\ell^r}=T_{\ell^{r+1}}+\ell S_\ell T_{\ell^{r-1}}$ ($r\ge1$; $T_1=1$), with $T_{\ell^r}$ the sum of
+  the double cosets $[U\gamma U]$, $\gamma$ supported at $\ell$, $\gamma_\ell\in M_2(\Z_\ell)$, $\det\gamma_\ell\in\ell^r\Z_\ell^\times$; with
+  $T_n:=\prod_{\ell^r\Vert n}T_{\ell^r}$ for $(n,DMp)=1$, $T_mT_n=T_{mn}$ for coprime $m,n$; on $\Z^X$ at level $\Uzero{M}$ with $k=2$,
+  $T_\ell\mathbf 1=(\ell+1)\mathbf 1$.
+\end{enumerate}
+Status: (a)--(d) \stproved{} below. Existing material: at level $\hat\cO^\times$, (a) is \stformal{} \Tpath{Brandt/HeckeLocal.lean}
+\pathtt{central\_translation} ($1_{\iota(p)\hat\cO^\times}f=p^{k-2}f$); (d) is \stknown{}
+\lit{voight\_2021\_quaternion-algebras}{Prop.~41.3.1(b), p.~770 (multiplicativity); Prop.~41.3.6 and (41.3.8), p.~771 (recursion)} and
+\stformal{} for $(n,DM)=1$, level $\hat\cO(M)^\times$: \Tpath{Brandt/Brandt.lean} \pathtt{brandt\_relations},
+\pathtt{brandt\_row\_sums}; \Tpath{Brandt/HeckeLocal.lean} \pathtt{hecke\_recursion}, \pathtt{hecke\_commutative},
+\pathtt{hecke\_coset\_count}, \pathtt{localHeckeEmbedding\_hom}; \Tpath{Brandt/Pairing.lean} \pathtt{eisenstein\_line}.
+Also \stformal{} (\Tpath{Brandt/Hecke.lean}, \Tpath{Brandt/RightTranslate.lean}): (b) second half \lean{Langlandscape.Brandt.PiEll\_indep}
+(for $U$ maximal at $\ell\mid D$, $\Pi,\Pi'$ with $\|\mathrm{nrd}\,\Pi\|=\|\mathrm{nrd}\,\Pi'\|$); (c) first half
+\lean{Langlandscape.Brandt.heckeT\_comm\_of\_disjoint} (operators supported at two distinct primes, $U$ split at both); (c) second half, the
+$R_g$-statement only (not the $\rho_g$-statement on $\XB{U}$), via \lean{Langlandscape.Brandt.rightTranslate} (the map $[x]\mapsto[xg]$),
+\lean{Langlandscape.Brandt.heckeT\_comm\_rightTranslate} ($g$ commuting with $t$) and \pathtt{heckeT\_comm\_rightTranslate\_localEmbed}
+($g\in B_q^\times$, $t_q=1$); no sorry, axioms $\subseteq$ \{propext, Classical.choice, Quot.sound\}.
+\end{proposition}
+\noindent\emph{Correction to the skeleton.} The skeleton wrote $R_g:\Brandt{U}{V}\to\Brandt{g^{-1}Ug}{V}$, $f\mapsto f(\cdot\,g)$;
+the direction is reversed: $f\mapsto f(\cdot\,g)$ maps $\Brandt{g^{-1}Ug}{V}$ to $\Brandt{U}{V}$ (if $f$ is $g^{-1}Ug$-equivariant,
+$f(xug)=f(xg\cdot g^{-1}ug)$). The class-set map $[x]\mapsto[xg]$, $\XB{U}\to\XB{g^{-1}Ug}$, was right. We follow the Lean
+convention (\pathtt{Langlandscape.Brandt.rightTranslate}, $R_gf=f(\cdot\,g)$ from level $g^{-1}Ug$ to level $U$). \emph{Translation}
+to the transport-of-structure map used in an earlier draft, $f\mapsto f(\cdot\,g^{-1})$, $\Brandt{U}{V}\to\Brandt{g^{-1}Ug}{V}$: it is
+$R_{g^{-1}}=R_g^{-1}$, and it commutes with the same $T_h$ since $R_g$ does.
+\begin{proof}
+\emph{(a).} Let $f\in\Brandt{\Uone{Mp^s}}{V_k}$. As $z_\ell$ normalises $U$ and $z_{\ell,p}=1$, $(S_\ell f)(x)=f(xz_\ell)$. The global
+$\ell^{-1}\in\Q^\times$ is central in $B^\times$, so $f(xz_\ell)=f(\ell^{-1}xz_\ell)=f(xy)$ with $y:=\ell^{-1}z_\ell$. The idele $y$ is
+scalar, $y_\ell=1$ and $y_v=\ell^{-1}\in\Z_v^\times$ for $v\ne\ell$; so $y\in\Uzero{Mp^s}$ with lower right entries $\ell^{-1}$ at the primes
+dividing $Mp$, i.e.\ $y=\delta_{\ell^{-1}}u$ with $u\in\Uone{Mp^s}$. Then
+$f(xy)=u_p^{-1}f(x\delta_{\ell^{-1}})=u_p^{-1}\delta_{\ell^{-1},p}^{-1}\langle\ell^{-1}\rangle f(x)=y_p^{-1}\cdot\langle\ell^{-1}\rangle f(x)$. Now
+$y_p^{-1}=\ell I$ acts on homogeneous polynomials of degree $n=k-2$ by $P(\ell X,\ell Y)=\ell^nP$, so $S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$
+(using $\langle\ell^{-1}\rangle=\langle\ell\rangle^{-1}$). At level $\Uzero{M}\cdot\GL_2(\Zp)$ the scalar $y$ lies in $U$, so $f(xy)=y_p^{-1}f(x)=\ell^{k-2}f(x)$.
+
+\emph{(b).} $\Pi_\ell^2=z_\ell v$ in $B_\ell^\times$ with $v\in\cO_\ell^\times$ (Def.~\ref{def:s01-B}), and $v$ (supported at $\ell\ne p$) lies in $U$
+with $v_p=1$; so $(\Pi_\ell^2f)(x)=f(x\Pi_\ell^2)=f(xz_\ell v)=f(xz_\ell)=(S_\ell f)(x)$, and the computation of (a) applies verbatim to
+$z_\ell$ for $\ell\mid D$ ($\ell\nmid Mp$). If $\Pi'_\ell$ is another uniformiser, $v(\Nrd(\Pi_\ell^{-1}\Pi'_\ell))=0$, so
+$\Pi'_\ell=\Pi_\ell v'$ with $v'\in\cO_\ell^\times\subseteq U$, $v'_p=1$, and $f(x\Pi'_\ell)=f(x\Pi_\ell)$.
+
+\emph{(c), commutation.} Every operator of Def.~\ref{def:s01-hecke} is $T_g$ with $g\in\{\varpi_\ell,z_\ell,\delta_d,\Pi_\ell,\varpi_p\}$. Two
+principles suffice. (P1) If $g$, $h$ are supported at disjoint sets of primes, choose representatives $g_i$, $h_j$ supported there; they
+commute, and $(T_gT_hf)(x)=\sum_{i,j}g_{i,p}h_{j,p}f(xg_ih_j)=(T_hT_gf)(x)$ since at most one of $g_{i,p}$, $h_{j,p}$ is $\ne1$. (P2) If $\delta$
+normalises $U$ and $\delta g=g\delta$, then $T_\delta T_g=T_{\delta g}=T_{g\delta}=T_gT_\delta$ (proof of Def.~\ref{def:s01-hecke}). Pairs at different
+primes are handled by (P1); here $\delta_d$ is taken diagonal, supported at the primes dividing $Mp$, so it is disjoint from
+$\varpi_\ell,z_\ell$ ($\ell\nmid Mp$) and from $\Pi_\ell$. The remaining pairs share a prime: $z_\ell$ with $\varpi_\ell$ or $\Pi_\ell$ ($z_\ell$
+central and normalising: P2); $\delta_d$ with $\varpi_\ell$ ($\ell\mid M$), with $\varpi_p$ and with $\delta_{d'}$ (all diagonal, and $\delta_d$
+normalises $U$: P2). Hence $\T_B$ below is commutative.
+
+\emph{(c), right translation.} Let $g\in B_q^\times$, $q\ne p$, $U'=g^{-1}Ug$, $f\in\Brandt{U'}{V}$. Then $R_gf\in\Brandt{U}{V}$: left
+$B^\times$-invariance is clear, and for $u\in U$, $(R_gf)(xu)=f(xg\cdot g^{-1}ug)=(g^{-1}ug)_p^{-1}f(xg)=u_p^{-1}(R_gf)(x)$, as $g_p=1$.
+Similarly $\rho_g$ is well defined: $[xug]=[xg\cdot g^{-1}ug]$ in $\XB{U'}$. If $h$ is supported at $\ell\ne q$ with representatives $h_i$
+supported at $\ell$, then $h_i$ commutes with $g$, $U'hU'=g^{-1}UhUg=\coprod_ig^{-1}h_iUg=\coprod_ih_iU'$, so the same $h_i$ represent the
+operator at levels $U$ and $U'$, and
+$(T_hR_gf)(x)=\sum_ih_{i,p}f(xh_ig)=\sum_ih_{i,p}f(xgh_i)=(R_gT_hf)(x)$; likewise $\rho_g(T_h[x])=\sum_i[xh_ig]=\sum_i[xgh_i]=T_h\rho_g[x]$.
+
+\emph{(d).} Locally at $\ell$, $K=\GL_2(\Z_\ell)$, and $\gamma\mapsto\gamma\Z_\ell^2$ identifies $\Delta_r/K$, $\Delta_r=\{\gamma\in M_2(\Z_\ell):\det\gamma\in\ell^r\Z_\ell^\times\}$,
+with the set of lattices $L\subseteq\Z_\ell^2$ of index $\ell^r$; $\Delta_r$ is the union of the double cosets
+$K\mathrm{diag}(\ell^a,\ell^b)K$, $a\ge b\ge0$, $a+b=r$ (elementary divisors), so $(T_{\ell^r}f)(x)=\sum_{[\Z_\ell^2:L]=\ell^r}f(x\gamma_L)$, where
+$f(x\gamma)$ depends only on $\gamma K$ ($\ell\ne p$). Then $(T_\ell T_{\ell^r}f)(x)=\sum_{L_1}\sum_Lf(x\gamma_{L_1}\gamma_L)$ is the sum over pairs
+$L'\subseteq L_1\subseteq\Z_\ell^2$ with $[\Z_\ell^2:L_1]=\ell$, $[\Z_\ell^2:L']=\ell^{r+1}$ ($L'=\gamma_{L_1}L$) of $f(x\gamma_{L'})$. For given $L'$, the
+number of such $L_1$ is the number of lines in the $\F_\ell$-dual of $\Z_\ell^2/(L'+\ell\Z_\ell^2)$: it is $1$ if $L'\not\subseteq\ell\Z_\ell^2$
+($\Z_\ell^2/L'$ cyclic) and $\ell+1$ if $L'=\ell L''$, $[\Z_\ell^2:L'']=\ell^{r-1}$. Since $\gamma_{\ell L''}=z_\ell\gamma_{L''}$, this gives
+$T_\ell T_{\ell^r}=T_{\ell^{r+1}}+\ell\,S_\ell T_{\ell^{r-1}}$. $T_mT_n=T_{mn}$ for coprime $m,n$ follows from the definition of $T_n$ and (c).
+Finally $T_\ell\mathbf 1(x)=\#(K\varpi_\ell K/K)=\#\{\text{index-}\ell\text{ lattices}\}=\ell+1$, at any level with $U_\ell=\GL_2(\Z_\ell)$ and $V$ trivial.
+\end{proof}
+
+\begin{remark}[diamond convention flag]\label{rem:s01-diamond}
+With the seed's diamond (right translation by $\mathrm{diag}(1,d)$), Prop.~\ref{prop:s01-relations}(a) reads
+$S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$ (\stproved), whereas classically $S_\ell=\ell^{k-2}\langle\ell\rangle$ on $S_k(\Gamma_1(N))$:
+\stknown; compare \lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~13: $S_lf=\varepsilon(l)l^{k-2}f$ for his quaternionic $S_l$ on the $\varepsilon$-part, which his Thm.~2 matches with the classical one}; the precise comparison is Lemma~\ref{lem:s01-Upconv}(a).
+Since the Jacquet--Langlands correspondence of Thm.~\ref{thm:s01-JLclassical} is compatible with $T_\ell$ and $S_\ell$, the seed's
+adelic $\langle d\rangle$ corresponds to the classical $\langle d\rangle^{-1}$ (a standard adelic/classical inversion; \stpmc{} from the two
+formulas and the cited compatibility). We do not change the seed; stages 04 and 05 must use $\langle d\rangle^{-1}$ when comparing
+$\Lambda$-structures with $\GL_2$. The same inversion reappears in Lemma~\ref{lem:s01-Up}(d): $U_p^*=\langle p\rangle_MU'_p$ involves the
+\emph{adelic} $\langle p\rangle_M$.
+\end{remark}
+
+\begin{definition}[Hecke algebras]\label{def:s01-T}
+Let $V$ be $\Zp$-torsion free (trivial or $V_k$). $\T_B(U;V)\subseteq\End\Brandt{U}{V}$ is the $\Zp$-algebra generated by
+$T_\ell,S_\ell^{\pm1}$ ($\ell\nmid DMpq$), $U_\ell$ ($\ell\mid M$), $\langle d\rangle$, $U_p$ (if $s\ge1$) and $\Pi_\ell$ ($\ell\mid D$); the anemic
+version $\T_B^{\mathrm{an}}$ omits $U_\ell,U_p,\Pi_\ell$. It is commutative (Prop.~\ref{prop:s01-relations}(c)) and finite free over $\Zp$
+($\Brandt{U}{V}\subseteq V^{\XB{U}}$ is finite free, hence so are $\End\Brandt{U}{V}$ and its submodules, $\Zp$ being a PID).
+\emph{Relation with $\nu$} (trivial coefficients, $p\nmid w_x$ for all $x$): $\nu:\Zp[X]\xrightarrow{\sim}\Zp^X$ and $T\mapsto\nu T\nu^{-1}$ is a
+ring isomorphism from $\T_B$ acting on $\Zp[X]$ onto the algebra $\T_B^\dagger$ acting on $\Zp^X$ generated by the $T_{g^{-1}}$
+(Prop.~\ref{prop:s01-adjoint}(b)): $T_\ell\mapsto S_\ell^{-1}T_\ell$, $S_\ell\mapsto S_\ell^{-1}$, $\langle d\rangle\mapsto\langle d\rangle^{-1}$,
+$\Pi_\ell\mapsto\Pi_\ell^{-1}=S_\ell^{-1}\Pi_\ell$, $U_p\mapsto\langle p\rangle_MU'_p$ (Lemma~\ref{lem:s01-Up}(d)), and
+$U_\ell\mapsto T_{\varpi_\ell^{-1}}=\langle\ell\rangle_{(\ell)}U'_\ell$ for $\ell\mid M$. Here $U'_\ell:=T_{\eta_\ell}$,
+$\eta_\ell:=\iota_\ell^{-1}\mathrm{diag}(1,\ell)$ (no $V$-action, $\ell\ne p$), and $\langle\ell\rangle_{(\ell)}:=\langle d\rangle$ for the
+$d\in(\Z/Mp^s)^\times$ with $d\equiv\ell$ modulo the prime-to-$\ell$ part of $Mp^s$ and $d\equiv1\bmod\ell^{v_\ell(M)}$ (trivial at level
+$\Uzero{M}$). Indeed $\varpi_\ell^{-1}=z_\ell^{-1}\eta_\ell$ with $z_\ell$ central and normalising $U$, so $T_{\varpi_\ell^{-1}}=T_{z_\ell^{-1}}T_{\eta_\ell}$
+(proof of Def.~\ref{def:s01-hecke}); and $T_{z_\ell^{-1}}=\langle\ell\rangle_{(\ell)}$ by Step~3 of the proof of Lemma~\ref{lem:s01-Up}(d)
+with $\ell$ in place of $p$ ($\ell z_\ell^{-1}$ is the scalar idele $\ell$ away from $\ell$, $1$ at $\ell$; trivial coefficients). So
+$\T_B^{\mathrm{an}}$ and $\langle\Pi_\ell\rangle$ are stable ($\T_B^{\dagger,\mathrm{an}}=\T_B^{\mathrm{an}}$), but $U_p$ and $U_\ell$ are sent to the
+primed operators $U'_p,U'_\ell$, which are \emph{not} in $\T_B$ in general: $\nu$ identifies $\Zp[X]$ and $\Zp^X$ as $\T_B$-modules only
+after twisting by $T\mapsto T^\dagger$.
+\stproved{}. No Lean counterpart in stage 01.
+\end{definition}
+\noindent\emph{Correction to the skeleton.} The skeleton said ``up to the anti-involution $T\mapsto T^*$'', suggesting that
+$\T_B$ is $*$-stable; it is not, because of $U_p^*=\langle p\rangle_MU'_p$. On the commutative algebra $\T_B$ the map $T\mapsto T^\dagger$
+is a ring isomorphism onto $\T_B^\dagger$, an anti-involution only of the anemic part.
+
+\begin{interface}[\pathtt{if:s01-hecke}]\label{if:s01-hecke}
+The Hecke operators $T_\ell,S_\ell,U_\ell,\langle d\rangle,U_p$ (with fixed normalisation $N_{U_p}$, Def.~\ref{def:s01-NUp}:
+$U_p=[U\,\iota_p^{-1}\mathrm{diag}(p,1)\,U]=\sum_{j=0}^{p-1}\varpi_j$, $\varpi_j=\left(\begin{smallmatrix}p&j\\0&1\end{smallmatrix}\right)$, at levels
+$U^{(p)}U_1(p^s)_p$ and $U^{(p)}U_0(p^s)_p$, $s\ge1$, commuting with pullback and pushforward along $S_{s+1}\to S_s$,
+Lemma~\ref{lem:s01-Up}(a),(b)) and $\Pi_\ell$ ($\ell\mid D$). The seed's literal $U'_p=[U\,\mathrm{diag}(1,p)\,U]$ is a different operator: it
+commutes with the trace, not with pullback (Lemma~\ref{lem:s01-Up}(c)); $[K_s:K_{s+1}]=p^2$ for $s\ge1$. All operators commute; those
+supported away from $q$ commute with right translation by $B_q^\times$ (Prop.~\ref{prop:s01-relations}(c), with
+$R_gf=f(\cdot\,g):\Brandt{g^{-1}Ug}{V}\to\Brandt{U}{V}$, the Lean convention).
+Relations: $S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$, $\Pi_\ell^2=S_\ell$, Hecke recursion (Prop.~\ref{prop:s01-relations}); the adelic
+$\langle d\rangle$ is the classical $\langle d\rangle^{-1}$ (Rem.~\ref{rem:s01-diamond}).
+Adjoints for the pairing (trivial coefficients): $T^*=T_{g^{-1}}$; $T_\ell$ is self-adjoint at level $\Uzero{M}$. Explicitly,
+$T_\ell^*=S_\ell^{-1}T_\ell$, $\langle d\rangle^*=\langle d\rangle^{-1}$, $\Pi_\ell^*=\Pi_\ell^{-1}$, $U_p^*=\langle p\rangle_MU'_p$; at level $\Uzero{M}$,
+$S_\ell=1$ and $T_\ell^*=T_\ell$; at level $\Uone{Mp^s}$, $T_\ell^*=\langle\ell\rangle T_\ell$, which differs from $T_\ell$ in general.
+Lean (trivial coefficients): \lean{Langlandscape.Brandt.heckeT}, \lean{Langlandscape.Brandt.Up},
+\lean{Langlandscape.Brandt.Up\_comm\_push}, \lean{Langlandscape.Brandt.brandtPairing\_heckeTHom},
+\lean{Langlandscape.Brandt.Tl\_adjoint}, \lean{Langlandscape.Brandt.diamond\_adjoint}, \lean{Langlandscape.Brandt.PiEll\_adjoint},
+\lean{Langlandscape.Brandt.Tl\_selfAdjoint\_U0}, \lean{Langlandscape.Brandt.Up\_comm\_Tl} \stformal{}; $U'_p$ and $U_p^*$ are not
+formalized in stage 01.
+\end{interface}
+
+\begin{interface}[\texttt{if:s01-mass}]\label{if:s01-mass}
+The mass formula $\sum_x1/|\Gamma_x|=\frac1{24}\prod_{\ell\mid D}(\ell-1)$ at maximal level (full-unit convention, as in the import's
+\pathtt{Hyp.EichlerMass}), and its level change (Thm.~\ref{thm:s01-mass}(b)--(d)): $\sum_{X_B(U')}1/|\Gamma_{x'}|=[U:U']\sum_{X_B(U)}1/|\Gamma_x|$,
+with the $w$-variant of (b) only if $-1\in U'$ or $-1\notin U$ (else $2\sum_{X_B(U')}1/w_{x'}=[U:U']\sum_{X_B(U)}1/w_x$), including
+$|S_s|=\frac{\varphi(D)}{24}\psi(Mp^s)\varphi(Mp^s)$ for $p\ge5$, $s\ge1$; consistently $|S_{s+1}|=p^2|S_s|=[K_s:K_{s+1}]\,|S_s|$
+(Lemma~\ref{lem:s01-Up}(c)). Statuses as in Thm.~\ref{thm:s01-mass}.
+Lean: \lean{Langlandscape.Quat.massFull}, \lean{Langlandscape.Quat.massW\_level\_change} (core), \lean{Langlandscape.Quat.card\_XB\_Utower}
+(ext, under \pathtt{Hyp.EichlerMass}) \stformal{}.
+\end{interface}

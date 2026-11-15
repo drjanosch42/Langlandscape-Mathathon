@@ -1,0 +1,77 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Section 13: limitations and next steps. Open items adapted from mathematics/final-report/sections/open.tex (audited;
+% anonymised), collected from the six milestone closures and the two HACS lane closures. Nothing here is claimed.
+\paragraph{Limitations in brief.} We work over $\Q$ and with definite quaternion algebras only; the integral results of
+stage~06 are for $D=q$ a single prime and $p\ge5$, under explicit standing hypotheses. Classical, $p$-adic and $\Lambda$-adic
+Jacquet--Langlands, Hida theory, Hsieh's Gorenstein theorem and Kim--Ota are cited, not reproved, except that in the first case
+($D=q$, weight~$2$) our route reproves classical JL modulo cited geometry (\S\ref{ss:s00-whycited}). The geometric comparison
+$\HypX$ at $\Gamma_1(Mp^s)$-level is a hypothesis; the question's item (b) (Chenevier) is reached only by a sketch on the ordinary
+locus. In Lean, the arithmetic objects (Hida's Hecke algebras, Galois representations, Jacobians) are not constructed: the
+stage-06 theorems are about abstract settings and are conditional on registered hypotheses; \NumHypOpen{} of the
+\NumHypRegistered{} registered hypotheses are open.
+
+\paragraph{Next steps.} (1) Close the case $q\equiv-1\bmod p$ with $N(\bar\rho)>1$ (a route under (L3) is sketched) and test (F1)
+numerically ($q=1741$, $p=13$ or $q=2311$, $p=17$). (2) Prove $\HypX$ at $\Gamma_1(Mp^s)$-level with $U_p$, or reduce it to the
+literature; then its $\Lambda$-adic version (c2). (3) Several ramified primes: Conjecture~25.2 of \mainpdf{} and the simplicial
+realisation O2. (4) In Lean: the discharges planned in \S\ref{ss:stage2-hyp} (the port of the tree, the Eichler class number formula for $D$ prime, \texttt{InvLimExact}, \texttt{MordLambdaFree}) and the specialisation of Thm~E to Hecke rings; strong approximation and Serre's results on groups acting on trees stay cited. (5) HACS: the remaining validation rows (digests, \pathtt{LABEL\_CENSUS}, the slow tier, the device lane), canonical lattices at $k>2$, and the large census. (6) Send the sign correction of
+\S\ref{ss:hsieh} to the author of \cite{Hs}.
+
+\subsection{Mathematics}
+\begin{itemize}
+\item \textbf{$\HypX$} (stage 05) is open as a whole; at $\Gamma_0$-type level the ingredients are \stcited{} (Thm~18.30 of \mainpdf), at $\Gamma_1(Mp^s)$-level with $U_p$ there is no reference.
+\item \textbf{Prop.~18.20 (c2)} ($\Lambda$-adic version of $\HypX$) is open (\stconj/\stopen); Remark~18.22 of \mainpdf{} lists
+  six missing steps; (d2)'s $\Hom_\Lambda$ form and the remark on $B_N$ are flagged.
+\item The hybrid dictionary is excluded only modulo cited results (JL including $U_p$ and strong multiplicity one, at levels
+  with a non-real $a_p$; \stpmc).
+\item \textbf{$q\equiv-1\bmod p$ outside (Lev)}: $N(\bar\rho)>1$, and non-squarefree $M$ with $\ell^2\mid M$ at a prime where $\bar\rho$ is unramified, are \stopen{} (Remarks~23.9 and 25.1(i) of \mainpdf; the counterexample B2 refutes the proof
+  step (4), not the inclusion); (F1) is numerically untested (needs $q=1741$, $p=13$ or $q=2311$, $p=17$). A route under
+  (L3) is sketched, not carried out.
+\item Several ramified primes: $(h_F)=\prod_i\tq_{q_i}$ is \stconj{} (Conjecture~25.2);
+  the simplicial realisation O2 (Conjecture~18.40) is \stconj/\stopen.
+\item \pathtt{cor:s06-allweights}: the $\ord$-formula needs $\cc\ne0$ at both points (newform condition), not assumed in Lean.
+\item Unchecked or unavailable literature at cited points: the pointer to \cite[Thm~14.4]{JL} and the SGA\,7 pointers;
+  B\"ockle 2007, Dimitrov 2009, EPW06, Edixhoven 1992, Wiles 1988 (scan without text) could not be page-checked by us;
+  \cite[Lemma~2.4]{KO} rests on Dimitrov 2009, not read.
+\item Stage-03 items: the $\GL_2$ Ihara lemma in Betti form (Conj.~12.10, \stexp); Ihara (iii) (Thm~11.3) is \stpmc{} on paper, but in Lean clause (a) is the hypothesis \texttt{Hyp.IharaH0} and clause (b) is not formalized; the off-diagonal slot
+  $q^{2-k}$ of the $\Psi^*\Psi$ table is not independently confirmed (PARI/HACS give the magnitude).
+\end{itemize}
+
+\subsection{Lean}
+\begin{itemize}
+\item \NumHypOpen{} of the \NumHypRegistered{} registered hypotheses are open (\S\ref{sec:lean}); in particular SA, HS, BTtree, SerreCoh, SerreFree
+  (stage 02; \texttt{RamNrdSurj} is discharged), IharaH0, EllipticCount (needs the Eichler class number formula) (stage 03; \texttt{BrandtStabFree} is discharged),
+  MordLambdaFree, HidaControl, InvLimExact (stage 04), the three \texttt{Hyp.X.*} (stage 05) and eight of the nine stage-06 rows (\texttt{ResidualBurnside} is
+  conditionally discharged).
+\item Not formalized (selection from the closures): \pathtt{prop:s02-quot}(c) for the traces, \pathtt{prop:s02-coh}(c),(d);
+  \pathtt{thm:s03-ribet}(b) with coefficients, \texttt{cor:s03-eis}; $A$-surjectivity on the concrete Ribet systems,
+  \pathtt{ordRank\_const}, the control quotient isomorphism, \pathtt{thm:s04-control}(b) (schematic); the tower version of
+  \texttt{Hyp.X.iso}; $\theta(h)^*=\theta(h^{\Ros})$ in general; for $M>1$, (X1) in Lean is weaker than the chapter's (no
+  $U_\ell$ for $\ell\mid M$). No closed Lean term inhabits the \texttt{Hyp.X} instance context.
+\item Stage-06 commutative algebra, not formalized: the normal-$A$ height-one localisation clause of Thm~E(iii), the
+  standalone $\operatorname{im}(\fb\to S')\cong\fb\cong S'^\vee$, the CRT step of the splitting lemma, the closing base-change
+  sentence of Lemma~D, and the specialisation of Thm~E to Hecke rings ($S=R$, $A=I_F$).
+\item \texttt{RamNrdSurj} discharge, follow-ups: the import of the trace-formula fork (\texttt{AlgJL}) in
+  \pathtt{Local/QuatNrdOdd.lean} and \pathtt{Local/QuatNrdTwo.lean} is not minimised; the two files use the non-module layout
+  (their dependencies are not modules); stale ``hypothesis'' wording remains in the docstrings of
+  \pathtt{Quat/LevelNrd.lean} (l.~26) and \pathtt{Tree/Admissible.lean} (ll.~48--59).
+\item Hygiene: warnings (204/71 at the final gate), local suppression of \pathtt{linter.overlappingInstances} on three
+  headlines (fix: restructure the \pathtt{Defect.Setting} binders), audit minors R9--R11 (stage 06) and the optional audit items.
+\end{itemize}
+
+\subsection{Computations and HACS}
+\begin{itemize}
+\item C2 is partial (131/319 cases); T5 at weight $k+p-1$: $(13,16,101)$ not computed on either route (the other two level-13 cases were computed by Lane~C,
+  \S\ref{ss:hacs-lanec}); T4 $k=124$ not reachable on
+  the HACS route; JSON provenance commits marked \texttt{-dirty}.
+\item HACS: the remaining validation steps (digests, \pathtt{LABEL\_CENSUS}, \texttt{--all-full}, the device lane; \texttt{--all}, 248/248 after the Lane~A/B merge and 253/253 at the Lane~C closure,
+  and \pathtt{GOLDEN\_STRICT} were run); the full 404-cell census read up to $q=2777$; at $k>2$ the Lane~B values were computed on a non-canonical lattice (Lane~C's merged intrinsic lattice,
+  \S\ref{ss:hacs-lanec}, makes their $p$-parts invariants for $p\nmid D$); a sparse record layout; the remaining work packages HJ-5, HJ-10, HJ-11 (full registration), HJ-12b and the HJ-8 leftovers (six census cells not
+  run, 120 definite blocks not determined); large runs not submitted. HJ-A1: 52 high-memory cells; $t_{G_k}(3)$ vs.\ $t_f(3)$ unchecked.
+\end{itemize}
+
+\subsection{Decisions recorded}
+Team decisions, 15 November 2026: \textbf{FD1} (model for $\HypX$: $\mu_N$-model with Picard functoriality) and \textbf{FD2}
+($U_q\mapsto+\Pi_q$ accepted; \cite{Hs}'s $\JL(U_q)=-U_q$ treated as an erratum, \S\ref{ss:hsieh}) are decided;
+\textbf{$q\equiv-1\bmod p$, $M>1$}: (F1) ($M$ squarefree, $N(\bar\rho)=1$) and (F1$'$) ($\ell\equiv-1$, reading R4) lifted to
+\stpmc; $N(\bar\rho)>1$ and non-squarefree $M$ \stopen.

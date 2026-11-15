@@ -1,0 +1,12 @@
+Let $D\in\N$ be squarefree with $\omega(D)$ odd, where $\omega(D)$ is the number of distinct primes dividing $D$. Let $k,n\in\N$, $c\in\Q$, and
+let $F\colon\Z\times\N\times\Z\to\Q$ and $G\colon\N\times\N\to\Q$ be any functions. For a positive divisor $d$ of $D$ define
+$F_d\colon\Z\times\N\times\Z\to\Q$ and $G_d\colon\N\times\N\to\Q$ by
+\[
+  F_d(t,f,\Delta)=F(t,f,\Delta)\prod_{p\mid d}\mone_p(\Delta),\qquad G_d(a,a')=2^{\omega(d)}\,G(a,a'),
+\]
+the product over the primes dividing $d$. Then
+\[
+  \EichB_{\mathrm{gen}}(D,k,n;c,F)=-\frac12\sum_{d\mid D}(-2)^{\omega(D/d)}\,\LamES_{\mathrm{gen}}\bigl(k,n;\dedpsi(d)\,c,F_d,G_d\bigr),
+\]
+the sum over the positive divisors $d$ of $D$, with $\EichB_{\mathrm{gen}}$, $\LamES_{\mathrm{gen}}$, $\dedpsi$ and $\mone_p$ as in
+\cref{III.ef.def:eichler-b-expression-general,III.ef.def:lefschetz-es-expression-general,III.ef.def:dedekind-psi,III.ef.def:local-factor-eichler-prime}.

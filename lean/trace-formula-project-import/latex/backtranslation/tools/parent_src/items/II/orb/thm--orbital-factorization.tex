@@ -1,0 +1,15 @@
+Let $\gamma=\diag(a,b)$ with $a\neq b\in\Q^\times$. Let $\mu_\infty$ be a Haar measure on $\GL_2(\R)$ and $\dd g_p$ the Haar measure on $\GL_2(\Qp)$ with $\vol(K_p)=1$,
+$\mu=\mu_\infty\otimes\bigotimes'_p\dd g_p$ on $G(\A)$ (\texttt{I.haar.def:haar-adelic}). Let $\nu_{\gamma,\infty}$ and $\nu_{\gamma,p}$ be Haar measures on $G_\gamma(\R)$ and
+$G_\gamma(\Qp)$ with $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$ for almost all $p$, and $\nu_\infty$, $\nu_p$ Weil measures for $(\mu_\infty,\nu_{\gamma,\infty})$ and $(\dd g_p,\nu_{\gamma,p})$.
+Let $\nu_\gamma$ be the Haar measure on $G_\gamma(\A)$ with
+\[
+  \nu_\gamma\Bigl(\bigl\{t:t_\infty\in U,\ t_p\in K_p\text{ for all }p\bigr\}\Bigr)=\nu_{\gamma,\infty}(U\cap G_\gamma(\R))\,\prod_p\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)
+\]
+for some Borel $U\subseteq\GL_2(\R)$ with $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$ (so $\nu_\gamma=\nu_{\gamma,\infty}\otimes\bigotimes'_p\nu_{\gamma,p}$), and $\nu^1$ a Weil measure
+for $(\mu^1,\nu_\gamma^1)$ on $G_\gamma(\A)^1\backslash G(\A)^1$. Let $F_\infty\colon\GL_2(\R)\to\C$ and $F_p\colon\GL_2(\Qp)\to\C$ be continuous with compact support, with
+$F_p=\mathbf 1_{K_p}$ for almost all $p$, and $F(x)=F_\infty(x_\infty)\prod_pF_p(x_p)$ on $G(\A)$. Then $x\mapsto F_v(x^{-1}\gamma x)$ is $\nu_v$-integrable for every place $v$,
+$O_{\gamma,p}(F_p;\nu_p)=1$ for almost all $p$, and
+\[
+  O_\gamma\bigl(F|_{G(\A)^1};\nu^1\bigr)=O_{\gamma,\infty}(F_\infty;\nu_\infty)\prod_pO_{\gamma,p}(F_p;\nu_p),
+\]
+a finite product (\cref{II.orb.def:orbital-integral,II.orb.def:local-orbital-integral}).

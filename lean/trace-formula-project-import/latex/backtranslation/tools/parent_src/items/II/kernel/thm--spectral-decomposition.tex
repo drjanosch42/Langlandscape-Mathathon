@@ -1,0 +1,14 @@
+Assume H3 (\cref{I.spec.hyp:langlands-l2}) and H2a (\cref{I.eis.hyp:eis-continuation}) for every Dirichlet pair $\mu$, every $n\in\Z$ and every $N\ge1$. Let
+$f\in\Hecke\cap\HeckeTwo$ (\cref{I.hecke.def:test-function,I.hecke.def:convolution-span}, for the standard measure $\dd g$ of \cref{I.haar.def:haar-adelic}), let
+$(N,F)$ and the bases $B_\mu$ be as in \cref{I.spec.def:eisenstein-kernel}, let $K_{\chi,f}$ ($\chi\in\mathfrak X$) be the spectral kernels of
+\cref{II.kernel.def:spectral-kernel} formed with these $B_\mu$, and $S(N)$ the finite set of orbits of \cref{II.kernel.thm:finite-spectral-support}. Then:
+\begin{enumerate}[label=(\alph*)]
+\item for all $x,y\in G(\A)^1$,
+\[
+  K_f(x,y)=K_{\mathrm{cusp},f}(x,y)+\sum_{o\in S(N)}K_{o,f}(x,y),
+\]
+with $K_f$ the kernel of \cref{II.kernel.def:kernel};
+\item for every $\chi\in\mathfrak X$: $K_{\chi,f}$ is continuous on $G(\A)^1\times G(\A)^1$; $K_{\chi,f}$ does not depend on the choice of $(N,F)$ and of the
+  bases, that is, $K_{\chi,f}$ formed with the bases $B'_\mu$ of any other pair $(N',F')$ as in \cref{I.spec.def:eisenstein-kernel} equals $K_{\chi,f}$; and
+  $K_{\chi,f}(\gamma x,\delta y)=K_{\chi,f}(x,y)$ for all $\gamma,\delta\in G(\Q)$ and $x,y\in G(\A)^1$.
+\end{enumerate}

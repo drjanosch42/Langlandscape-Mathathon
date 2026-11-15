@@ -1,0 +1,9 @@
+Let $F$ be $\R$ or a non-archimedean local field, $\dd x$ the Lebesgue measure on $\R$, resp.\ the normalized additive Haar measure
+on $F$, and $\dd X$ the measure on $\Mat_2(F)$ of \cref{I.haar.def:matrix-additive-haar}. For $a\in F^\times$ write $\dd a/\abs a_F$ for the
+measure on $F^\times$ with density $\abs a_F^{-1}$ with respect to $\dd a$. Then for every Borel function $f\colon\GL_2(F)\to[0,\infty]$, and for
+every $f\colon\GL_2(F)\to\C$ integrable for $\abs{\det g}_F^{-2}\dd X$,
+\[
+  \int_{\GL_2(F)}f(g)\,\abs{\det g}_F^{-2}\,\dd X(g)
+  =\int_F\int_F\int_{F^\times}\int_{F^\times}f\bigl(n(x)\diag(a_1,a_2)\,w\,n(y)\bigr)\,\abs{a_1/a_2}_F^{-1}\,
+   \frac{\dd a_1}{\abs{a_1}_F}\,\frac{\dd a_2}{\abs{a_2}_F}\,\dd x\,\dd y .
+\]

@@ -1,0 +1,11 @@
+Let $N\in\N$ be squarefree, and let $t\in\Z$ and $n\in\N$ with $t^2<4n$. Let $H\colon\Z\to\Q$ be a function such that
+\[
+  H(p^2\Delta)=\bigl(p-\chi_\Delta(p)\bigr)\,H(\Delta)
+\]
+for every $\Delta\in\Z$ with $\Delta<0$ and $\Delta\equiv0$ or $1\pmod 4$ and every prime $p$ (with $\chi$ as in \cref{III.ef.def:kronecker-prime}).
+Then, writing $\Delta_f=(t^2-4n)/f^2$,
+\[
+  \sum_{f\in\Ford(t,n)}H(\Delta_f)\,\embmu_N(t,f,n)=\sum_{f\in\Ford(t,n)}H(\Delta_f)\prod_{p\mid N}\mone_p(\Delta_f),
+\]
+with $\Ford$, $\embmu$ and $\mone_p$ as in \cref{III.ef.def:order-index-set,III.ef.def:cohen-mu,III.ef.def:local-factor-eichler-prime} and the
+product over the primes dividing $N$.

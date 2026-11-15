@@ -1,0 +1,159 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-07-quotient (parent commit 84818d0); kept items only.
+\chapter{Quotient measures}\label{ch:ch-0-07-quotient}
+
+\noindent\emph{Sources:} \cite[§1]{AIntro}; \cite[§1]{A-R1}.
+
+\section{Compact quotients of unipotent and toral groups}
+
+\begin{theorem}[$T(\Q)\backslash T(\A)^1$ is compact]
+\tfstmt{I.quot.thm:torus-quotient-compact}
+\lean{GL2TF.torus_quotient_compact}
+\uses{I.topgrp.def:adelic-subgroups,I.adele.def:idele-norm,I.adele.thm:idele-decomposition,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.conv.def:diag-element,I.quot.def:torus-rat,I.adele.def:idele-inf-fin,I.adele.def:norm-one-ideles,I.adele.def:rat-ideles,I.adele.def:rat-ideles-embedding,I.adele.def:idele-norm-fun,I.adele.def:norm-one-class-group,I.adele.def:rat-embedding,I.adele.def:zhat-to-norm-one-class,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:zhat-units-explicit,I.adele.thm:norm-one-quotient,I.adele.thm:product-formula,I.conv.def:diag-hom,I.conv.def:gl2,I.conv.def:torus,I.conv.lem:diag-elt-hom,I.haar.lem:diag-elt-mem-torus,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-measurable-space,I.lf.def:padic-nalf-instance,I.lf.lem:padic-borel-space,I.lf.thm:abs-padic-eq,I.topgrp.def:gl2-adelic,I.topgrp.thm:gl2-rat-discrete}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:torus-quotient-compact}
+\tfsem{I.quot.thm:torus-quotient-compact}{e3b4373a1f74056653f52099d7ccfded3d284c50f4829b5eb78ad4b1db09ec18}
+\tfhyps{I.quot.thm:torus-quotient-compact}{}
+\tfbinder{I.quot.thm:torus-quotient-compact}{0}{28c76fb9}{the group isomorphism $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$}
+\tfbinder{I.quot.thm:torus-quotient-compact}{1}{535b99c5}{the assumption that $e(q,r,u)=q\cdot(r,u)$ for all $q,r,u$ (this determines $e$) (A: the isomorphism $e$ of the snippet, fixed by its formula)}
+\begin{tffidelity}
+The isomorphism $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$ of \cref{I.adele.thm:idele-decomposition} is a binder together with its defining formula. Four clauses: $T(\Q)$ (\cref{I.quot.def:torus-rat}) is discrete in $T(\A)^1$; there is a map $\varphi\colon\A^1\times\A^1\to T(\A)^1$ with $\varphi(t_1,t_2)=\diag(t_1,t_2)$ and $\varphi(t)\in T(\Q)\iff t_1,t_2\in\Q^\times$ (this is the isomorphism $\diag(t_1,t_2)\mapsto(t_1,t_2)$ of the snippet, stated through its inverse); there is a map $\psi$ on the quotient $T(\Q)\backslash T(\A)^1$ with $\psi(\diag(t_1,t_2))=(u(t_1),u(t_2))$ where $u$ is the $\Zhat^\times$-component of $e^{-1}$; and the quotient is compact. The isomorphism of topological groups $T(\Q)\backslash T(\A)^1\cong\Zhat^\times\times\Zhat^\times$ is not stated; the compactness is stated directly. Here $\varphi$ is a continuous group isomorphism (\texttt{≃ₜ*}) and $\psi$ a homeomorphism (\texttt{≃ₜ}); only the group structure on the quotient, hence ``isomorphism of topological groups'' for $\psi$, is absent and replaced by $\psi$'s formula. In the Lean statement $e$ is only a multiplicative isomorphism (\texttt{≃*}), not assumed to be an isomorphism of topological groups as in \cref{I.adele.thm:idele-decomposition}; its defining formula determines it, so the hypothesis is weaker than in A but admits the same $e$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Discreteness of $T(\Q)$ (\texttt{torusRat\_discrete}) is as for $N(\Q)$: continuous injection into the discrete $G(\Q)$. The isomorphism $\varphi$ is \texttt{torusNormOneEquiv}: a diagonal matrix lies in $T(\A)^1$ iff $\abs{t_1t_2}_\A=1$, and the pair of diagonal entries (\texttt{torusEntry}, \texttt{diagElt\_torusEntry}) is its inverse; $\varphi(t)\in T(\Q)$ iff $t_1,t_2\in\Q^\times$ (\texttt{torusNormOneEquiv\_mem\_iff}, \texttt{diagElt\_injective}). For $\psi$, Lean packages A's chain of isomorphisms as a single map: define $\texttt{torusUnitsHom}\colon T(\A)^1\to\Zhat^\times\times\Zhat^\times$ as $\varphi^{-1}$ followed by $(t_1,t_2)\mapsto(e_1^{-1}[t_1],e_1^{-1}[t_2])$, where $e_1\colon\Zhat^\times\simeq\A^1/\Q^\times$ is that of \cref{I.adele.thm:norm-one-quotient}. It is continuous (composition of continuous maps), open (quotient maps are open and $\varphi$ is a homeomorphism), surjective (lift each $e_1(u_i)$ to $\A^1$) and its kernel is $T(\Q)$ (\texttt{ker\_torusUnitsHom}: trivial class iff $t_i\in\Q^\times$). Hence two elements of $T(\A)^1$ have the same image iff they lie in the same $T(\Q)$-orbit (\texttt{hfib}), so the map descends to a continuous open bijection $\psi$, i.e.\ a homeomorphism $T(\Q)\backslash T(\A)^1\to\Zhat^\times\times\Zhat^\times$. The formula for $\psi$ follows from \texttt{normOneClass\_eq}: for $t\in\A^1$ the class $[t]$ is the class of the $\Zhat^\times$-component of $e^{-1}t$ (its $\R_{>0}$-component is $1$ by the product formula, and its $\Q^\times$-component is killed). Compactness: $\Zhat^\times$ is compact (it is homeomorphic to $\A^1/\Q^\times$, compact by \cref{I.adele.thm:norm-one-quotient}), so is the product, and the quotient is its homeomorphic image.
+\end{proof}
+
+\begin{definition}[$B(\Q)$ inside $G(\A)$]
+\tfstmt{I.quot.def:borel-rat}
+\bonly
+\lean{GL2TF.borelRat}
+\uses{I.conv.def:borel,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.quot.def:borel-rat}
+\tfsem{I.quot.def:borel-rat}{707dded2109e9ef16a29372dfff1ee6195d3627056952aeb348f8ce583d4089f}
+\tfhyps{I.quot.def:borel-rat}{}
+\begin{tffidelity}
+B-only. $B(\Q)\le G(\A)$ as the image under \texttt{gl2Map (algebraMap ℚ Adele)} of \texttt{borel ℚ}. The statement $B(\Q)=B(\A)\cap G(\Q)$ is a clause of \texttt{I.quot.thm:integration-borel-quotient}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$N(\Q)$ inside $N(\A)$]
+\tfstmt{I.quot.def:unipotent-rat}
+\bonly
+\lean{GL2TF.unipotentRat}
+\uses{I.conv.def:unipotent,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.quot.def:unipotent-rat}
+\tfsem{I.quot.def:unipotent-rat}{d402cfe5ebe4a15c533223185ee1e513cc71c8a4146137b291ae228262d20e2d}
+\tfhyps{I.quot.def:unipotent-rat}{}
+\begin{tffidelity}
+B-only. $N(\Q)$ as a subgroup of the subtype \texttt{unipotent Adele}: the pull-back of the image of \texttt{unipotent ℚ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the set $\R_{>0}\times\Zhat^\times$]
+\tfstmt{I.quot.def:idele-pos-units}
+\bonly
+\lean{GL2TF.idelePosUnits}
+\uses{I.adele.def:ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.quot.def:idele-pos-units}
+\tfsem{I.quot.def:idele-pos-units}{2ca4a251db1262af537a4ecfd4c2ac4ce93ca3e74f8c5721fd958d012d22a58f}
+\tfhyps{I.quot.def:idele-pos-units}{}
+\begin{tffidelity}
+B-only. The set of ideles with $x_\infty>0$ and $x_p\in\Zp^\times$ for all $p$ (existence of a unit $v$ with $v=x_p$), a \texttt{Set Idele}; it is $D_T$'s coordinate set.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$T(\Q)$ inside $T(\A)^1$]
+\tfstmt{I.quot.def:torus-rat}
+\bonly
+\lean{GL2TF.torusRat}
+\uses{I.conv.def:torus,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance,I.conv.def:diag-hom,I.topgrp.def:adelic-subgroups,I.adele.def:rat-ideles}
+\end{definition}
+\begin{tfformal}{I.quot.def:torus-rat}
+\tfsem{I.quot.def:torus-rat}{420321585c90188f533f205d4f7729a174286e8366f10ca3c6fc6429e2a180ea}
+\tfhyps{I.quot.def:torus-rat}{}
+\begin{tffidelity}
+B-only. $T(\Q)$ as the subgroup of the subtype \texttt{torusNormOne} given by the image of $\Q^\times\times\Q^\times$ (the product of \cref{I.adele.def:rat-ideles} with itself) under $\diag$ on $\A$, pulled back to $T(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+
+\section{\texorpdfstring{The automorphic quotient and $L^2$}{The automorphic quotient and L2}}
+
+\begin{theorem}[topology of the automorphic quotient]
+\tfstmt{I.quot.thm:automorphic-quotient-second-countable}
+\lean{GL2TF.automorphicQuotient_secondCountable}
+\uses{I.topgrp.def:norm-one-group,I.topgrp.def:gl2-adelic,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:gl2-rat-norm-one,I.adele.lem:finadele-topological-ring-instance,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.quot.lem:gl2-rat-norm-one-discrete,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal,I.topgrp.thm:gl2-adelic-locally-compact}
+\end{theorem}
+\begin{tfformal}{I.quot.thm:automorphic-quotient-second-countable}
+\tfsem{I.quot.thm:automorphic-quotient-second-countable}{098f13d7e6cf2273985ca1f237434b7fcd40bdc34c3e7fbbd927ee6002ac4dda}
+\tfhyps{I.quot.thm:automorphic-quotient-second-countable}{}
+\begin{tffidelity}
+A conjunction of \texttt{LocallyCompactSpace}, \texttt{T2Space} and \texttt{SecondCountableTopology} for \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} with the quotient topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is a closed subgroup of the locally compact, Hausdorff, second countable group $G(\A)$ (\cref{I.topgrp.lem:norm-one-group-closed-normal}), hence itself locally compact and second countable (\texttt{normOneGroup\_topology}). $G(\Q)\le G(\A)^1$ is discrete (\cref{I.quot.lem:gl2-rat-norm-one-discrete}). For a discrete subgroup $\Gamma$ of a locally compact Hausdorff second countable group, $\Gamma\backslash G$ is again of this type (\texttt{orbitQuotient\_topology}): the quotient map is open, which gives local compactness (\texttt{isOpenQuotientMap\_quotientMk.locallyCompactSpace}) and second countability (\texttt{ContinuousConstSMul.secondCountableTopology}); Hausdorff is Mathlib's instance for properly discontinuous actions (\texttt{tendsto\_cofinite\_of\_discrete}).
+\end{proof}
+
+\begin{definition}[the right action of $G(\A)^1$]
+\tfstmt{I.quot.def:automorphic-right-action}
+\lean{GL2TF.automorphicRightAction}
+\uses{I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:gl2-rat-norm-one}
+\end{definition}
+\begin{tfformal}{I.quot.def:automorphic-right-action}
+\tfsem{I.quot.def:automorphic-right-action}{e00c238a343b20928cbf057d2688e324f2d39cd6d6456148468e90fe7a69a3b2}
+\tfhyps{I.quot.def:automorphic-right-action}{}
+\begin{tffidelity}
+A right action of $G(\A)^1$ is encoded as a left action of the opposite group: the Lean item is the instance \texttt{MulAction normOneGroupᵐᵒᵖ (G(ℚ)\textbackslash G(𝔸)\^{}1)} with $g^{\mathrm{op}}\cdot\dot x=\dot xg$. The instance carries only the action axioms. The remaining claims of A (the formula $(G(\Q)x)\cdot g=G(\Q)xg$, continuity, Borel $\sigma$-algebra of the quotient and invariance of the measure of \texttt{I.quot.def:automorphic-quotient-measure}) are the B-only \texttt{I.quot.lem:automorphic-right-action-spec} and its instance forms \cref{I.quot.lem:automorphic-right-action-continuous-instance}, \texttt{I.quot.lem:automorphic-quotient-borel-instance}, \texttt{I.quot.lem:automorphic-quotient-invariant-instance}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the right action is continuous]
+\tfstmt{I.quot.lem:automorphic-right-action-continuous-instance}
+\bonly
+\lean{GL2TF.automorphicRightAction_continuousSMul}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:automorphic-right-action,I.quot.def:gl2-rat-norm-one,I.topgrp.def:norm-one-group,X.topgrp.def:matrix-measurable-space,X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:automorphic-right-action-continuous-instance}
+\tfsem{I.quot.lem:automorphic-right-action-continuous-instance}{610c733c9e5e44f8500c72f49db63cb216a611d81f06c8f8f07c78e59f1106a9}
+\tfhyps{I.quot.lem:automorphic-right-action-continuous-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{ContinuousSMul normOneGroupᵐᵒᵖ (G(ℚ)\textbackslash G(𝔸)\^{}1)}, the second component of \texttt{I.quot.lem:automorphic-right-action-spec}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Part (ii) of \texttt{I.quot.lem:automorphic-right-action-spec}.
+\end{proof}
+
+\begin{definition}[$G(\Q)$ inside $G(\A)^1$]
+\tfstmt{I.quot.def:gl2-rat-norm-one}
+\bonly
+\lean{GL2TF.gl2RatNormOne}
+\uses{I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.topgrp.def:gl2-adelic}
+\end{definition}
+\begin{tfformal}{I.quot.def:gl2-rat-norm-one}
+\tfsem{I.quot.def:gl2-rat-norm-one}{50e1b4f79f7c1563c982a322508b686ee06405cdb813cde0ba5c7935dfffc162}
+\tfhyps{I.quot.def:gl2-rat-norm-one}{}
+\begin{tffidelity}
+B-only. $G(\Q)$ as a subgroup of the subtype \texttt{normOneGroup}: the pull-back of \texttt{gl2RatAdelic} to $G(\A)^1$ (\texttt{Subgroup.subgroupOf}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$G(\Q)$ is discrete in $G(\A)^1$]
+\tfstmt{I.quot.lem:gl2-rat-norm-one-discrete}
+\bonly
+\lean{GL2TF.gl2RatNormOne_discrete}
+\uses{I.quot.def:gl2-rat-norm-one,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.topgrp.def:norm-one-group,I.adele.def:rat-embedding,I.conv.def:gl2,I.topgrp.def:gl2-adelic,I.topgrp.thm:gl2-rat-discrete}
+\end{lemma}
+\begin{tfformal}{I.quot.lem:gl2-rat-norm-one-discrete}
+\tfsem{I.quot.lem:gl2-rat-norm-one-discrete}{f83da4810ba8eb5df163a14a21b84bc28e555b3459065866be72ede3f9543315}
+\tfhyps{I.quot.lem:gl2-rat-norm-one-discrete}{}
+\begin{tffidelity}
+B-only. The instance-type statement \texttt{DiscreteTopology gl2RatNormOne}, the claim made in \texttt{I.quot.def:automorphic-quotient-measure} that $G(\Q)$ is a discrete subgroup of $G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $G(\Q)\cap G(\A)^1\to G(\Q)$ forgetting the norm-one condition is continuous (it is the subtype map) and injective, and $G(\Q)\le G(\A)$ is discrete (\texttt{gl2Rat\_discrete}, \cref{I.topgrp.thm:gl2-rat-discrete}); a space with a continuous injection into a discrete space is discrete (\texttt{DiscreteTopology.of\_continuous\_injective}).
+\end{proof}

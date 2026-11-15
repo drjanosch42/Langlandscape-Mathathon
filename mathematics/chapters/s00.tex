@@ -1,0 +1,35 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Chapter driver for stage 00 (introduction). The section files in chapters/s00/ contain no \input and are reused by the
+% submission report. In main.tex their sections are numbered 0.1, 0.2, ...; the section counter is reset afterwards so that
+% the numbering of stages 01--06 (which the final report quotes by number) is unchanged.
+\section*{Stage 00: introduction}\label{sec:stage-00}
+
+This chapter states the problem and the question that guided the project (an integral Hecke-equivariant map), presents
+Ribet's exact sequence as its solution in the first case and its form on the Bruhat--Tits tree, gives the scope and the precise
+setup, what was achieved on the question, the choice of route, an outline of stages 01--06 with the status of their main results, and what is new
+and what is known, and closes with the plan for stage 2 of the Mathathon. It introduces no new
+results: every statement carries the status of the chapter where it is established.
+
+\let\sOOthesection\thesection
+\let\sOOtheHsection\theHsection
+\renewcommand{\thesection}{0.\arabic{section}}
+\renewcommand{\theHsection}{s00.\arabic{section}}
+\input{chapters/s00/legend}
+\input{chapters/s00/motivation}
+\input{chapters/s00/whycited}
+\input{chapters/s00/question}
+\input{chapters/s00/ribet}
+\input{chapters/s00/scope}
+\input{chapters/s00/setup}
+\input{chapters/s00/guide}
+\input{chapters/s00/computing}
+\input{chapters/s00/achieved}
+\input{chapters/s00/route}
+\input{chapters/s00/outline}
+\input{chapters/s00/newknown}
+\input{chapters/s00/prior}
+\input{chapters/s00/plan}
+\setcounter{section}{0}
+\let\thesection\sOOthesection
+\let\theHsection\sOOtheHsection

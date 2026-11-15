@@ -1,0 +1,124 @@
+diff --git a/mathematics/chapters/s01/2-mass.tex b/mathematics/chapters/s01/2-mass.tex
+index e40eeee..f203541 100644
+--- a/mathematics/chapters/s01/2-mass.tex
++++ b/mathematics/chapters/s01/2-mass.tex
+@@ -12,18 +12,109 @@
+ \[|S_s|=|\XB{\Uone{Mp^s}}|=\frac{\varphi(D)}{24}\,\psi(Mp^s)\,\varphi(Mp^s).\]
+ \end{enumerate}
+ Status: (a) \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.1.1, p.~415 (with $w_J=\#\cO_L(J)^\times/\{\pm1\}$,
+-hence $1/12$)}; \lit{eichler\_1955\_zur-zahlentheorie-der-quaternionen-algebren}{\S4 ``Klassenzahl und Maß'', p.~136ff.};
++hence $1/12$)}; \lit{eichler\_1955\_zur-zahlentheorie-der-quaternionen-algebren}{\S4 ``Klassenzahl und Ma\ss'', p.~136ff.};
+ in Lean it is the registered hypothesis \texttt{Hyp.EichlerMass} (\Tpath{Hyp/EichlerMass.lean}, $1/24$, full units), proved
+-for $D=2,11$ in tests. (b) \stformal{} \Tpath{P2/Mass.lean} \texttt{mass\_orbit\_count}; the $w$-variant \stproved{}
+-(orbit counting). (c) first half \stformal{} \texttt{gl2\_borel\_index}, \texttt{mass\_level\_change}; second half
+-\sttoprove{} (count $|\GL_2(\Z/N)|/(N\varphi(N))$). (d) first half \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.3.18,
+-p.~423}, \stpmc{} in Lean as \texttt{eichlerOrder\_mass} (under \texttt{Hyp.EichlerMass}); second half \stpmc{} from (a)--(c)
+-and Lemma~\ref{lem:s01-stab}(b) (all $\Gamma_x=1$).
++for $D=2,11$ in tests. (b) \stproved{} \lean{Langlandscape.Quat.Mass.mass_orbit_count} \Tpath{P2/Mass.lean} \texttt{mass\_orbit\_count}; the $w$-variant is orbit counting with the $\pm1$ factor. (c) first half \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.3.18, p.~423} and \stformal{} \texttt{gl2\_borel\_index}; second half \stproved{} below (count $|\GL_2(\Z/N)|/(N\varphi(N))$). (d) first half \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.3.18, p.~423}, \stpmc{} in Lean as \texttt{eichlerOrder\_mass} (under \texttt{Hyp.EichlerMass}); second half \stproved{} from (a)--(c) and Lemma~\ref{lem:s01-stab}(b).
+ \end{theorem}
+ 
++\begin{proof}[Proof of (b): mass and level change]
++Let $U'\le U\le\hat\cO^\times$ be open, put $X=\XB{U}$, $X'=\XB{U'}$, and let $\pi:X'\to X$, $[x']\mapsto[x']$ be the natural projection (forgetting $U'$ to $U$).  Fix representatives $x_i\in\Bhat^\times$ for $X$ and write $\Gamma_i=\Gamma_{x_i}(U)=B^\times\cap x_iUx_i^{-1}$.  For each $i$ the fibre $\pi^{-1}([x_i])$ is identified with the orbit set $\Gamma_i\backslash U/U'$.  Indeed $B^\times x_iU=\bigsqcup_{u\in U/U'}B^\times x_iuU'$ and two cosets $x_iu_1U',x_iu_2U'$ coincide in $X'$ iff $x_iu_1=\gamma x_iu_2u'$ for some $\gamma\in B^\times$, $u'\in U'$, i.e.\ $\gamma=x_iu_1u'^{-1}u_2^{-1}x_i^{-1}\in\Gamma_i$ and $u_1U'$ and $u_2U'$ lie in the same $\Gamma_i$-orbit on $U/U'$ via left multiplication after conjugating by $x_i$.
++
++Hence fix $i$.  The $\Gamma_i$-set $U/U'$ is finite of cardinality $[U:U']$ (compact-open).  Its orbits are the points $y=[x_iu]$ of the fibre, and for $y$ the stabiliser in $\Gamma_i$ is exactly $\Gamma_y(U')=B^\times\cap x_iuU'u^{-1}x_i^{-1}=\Gamma_i\cap x_iuU'u^{-1}x_i^{-1}$.  By orbit--stabiliser, if $\mathcal O_{i,y}$ denotes the $\Gamma_i$-orbit of $uU'$ corresponding to $y$, $|\mathcal O_{i,y}|=[\Gamma_i:\Gamma_y(U')]$.  Consequently
++\begin{equation*}
++\sum_{y\in\pi^{-1}([x_i])}\frac1{|\Gamma_y(U')|}
++ =\sum_{\text{orbits }\mathcal O}\frac1{|\Stab(\mathcal O)|}
++ =\sum_{\mathcal O}\frac{|\mathcal O|}{|\Gamma_i|}
++ =\frac{|U/U'|}{|\Gamma_i|}.
++\end{equation*}
++Indeed each orbit contributes $1/|\Stab|=|\mathcal O|/|\Gamma_i|$, and the sum of orbit sizes is $|U/U'|=[U:U']$.  Summing over $i$ gives
++\[
++\sum_{y\in X'}\frac1{|\Gamma_y(U')|}= [U:U']\sum_{[x]\in X}\frac1{|\Gamma_x(U)|},
++\]
++which is the mass level-change with $|\Gamma|$.  In Lean this is \texttt{mass\_orbit\_count} (\Tpath{P2/Mass.lean}).
++
++For $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$ recall $\Gamma_x\cap\{\pm1\}=\{\pm1\}$ if $-1\in U$ and $= \{1\}$ otherwise, because $-1\in B^\times$ is central and lies in $xUx^{-1}$ iff $-1\in U$.  Hence
++\[
++w_x=\begin{cases}
++|\Gamma_x|/2 & -1\in U,\\
++|\Gamma_x|   & -1\notin U.
++\end{cases}
++\]
++If $-1\in U'$ then $-1\in U$ (since $U'\le U$), so both sides use $|\Gamma|/2$ and the same computation gives
++\[
++\sum_{X'}1/w_{x'}=[U:U']\sum_X1/w_x .
++\]
++If $-1\notin U$ then both sides use $|\Gamma|$ and the same holds.  These are the cases $-1\in U'$ or $-1\notin U$.  If $-1\in U\setminus U'$ then $w_x=|\Gamma_x|/2$ but $w_{x'}=|\Gamma_{x'}|$, whence $1/w_{x'}=2/|\Gamma_{x'}|$ while $1/w_x=2/|\Gamma_x|/2$?  More directly,
++\[
++\sum_{X'}1/w_{x'}=\sum_{X'}1/|\Gamma_{x'}|
++ =[U:U']\sum_X1/|\Gamma_x|
++ =[U:U']\sum_X2/w_x
++ =2[U:U']\sum_X1/w_x,
++\]
++and conversely $\sum_{X'}1/|\Gamma_{x'}|=\tfrac12\sum_{X'}1/w_{x'}$ in this case.  Thus with $w$ the formula holds without correction iff $-1\in U'$ or $-1\notin U$, and otherwise acquires the stated factor $2$.  This factor is visible already for $U=\hat\cO^\times$, $U'=\Uone{N}$ ($N\ge3$): $-1\in U\setminus U'$.
++\end{proof}
++
++\begin{proof}[Proof of (c), second half: $[U_0(N):U_1(N)]=\varphi(N)$]
++The first half $[\hat\cO^\times:U_0(N)]=\psi(N)$ is \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.3.18, p.~423}; it is the index of the Borel in $\GL_2(\Z/N)$.  We deduce the second half from it.  Write $N=\prod_\ell\ell^{e_\ell}$ with $(N,D)=1$; by the Chinese remainder theorem and the product definition of $\Uzero{N},\Uone{N}$ it suffices to treat $N=\ell^e$ ($\ell\nmid D$).  Via $\iota_\ell$ we identify $U_{0,\ell}=\cO_\ell^\times$ outside $\ell$ and at $\ell$ with $\{g\in\GL_2(\Z_\ell):c\equiv0\pmod{\ell^e}\}$ and $U_{1,\ell}=\{g\in\GL_2(\Z_\ell):c\equiv0,\ d\equiv1\pmod{\ell^e}\}$.
++
++Reduction modulo $\ell^e$ gives a surjection $\GL_2(\Z_\ell)\twoheadrightarrow\GL_2(\Z/\ell^e)$ (Hensel).  Its image of $U_{0,\ell}$ is the Borel
++\[
++B(\ell^e)=\Bigl\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\GL_2(\Z/\ell^e):c=0\Bigr\}
++ =\Bigl\{\begin{pmatrix}a&b\\0&d\end{pmatrix}:a,d\in(\Z/\ell^e)^\times,\ b\in\Z/\ell^e\Bigr\},
++\]
++and its image of $U_{1,\ell}$ is
++\[
++B_1(\ell^e)=\Bigl\{\begin{pmatrix}a&b\\0&d\end{pmatrix}\in B(\ell^e):d=1\Bigr\}.
++\]
++Indeed $c\equiv0$ (resp.\ also $d\equiv1$) lifts to $\Z_\ell$, and conversely every such matrix over $\Z/\ell^e$ lifts to $\GL_2(\Z_\ell)$ with the same congruence.  Hence $[U_0(\ell^e):U_1(\ell^e)]=[B(\ell^e):B_1(\ell^e)]$.
++
++Counting,
++\[
++|B(\ell^e)|=\varphi(\ell^e)^2\cdot\ell^e=\bigl(\ell^e-\ell^{e-1}\bigr)^2\ell^e
++ =\ell^{3e-2}(\ell-1)^2,\qquad
++|B_1(\ell^e)|=\varphi(\ell^e)\cdot\ell^e=\ell^{2e-1}(\ell-1).
++\]
++Alternatively, the homomorphism $B(\ell^e)\to(\Z/\ell^e)^\times$, $\begin{pmatrix}a&b\\0&d\end{pmatrix}\mapsto d$, is surjective with kernel $B_1(\ell^e)$.  Thus $[B:B_1]=|(\Z/\ell^e)^\times|=\varphi(\ell^e)$.  By CRT, for general $N$,
++\[
++[U_0(N):U_1(N)]=\prod_{\ell\mid N}\varphi(\ell^{e_\ell})=\varphi(N).
++\]
++Consequently $[\hat\cO^\times:U_1(N)]=[\hat\cO^\times:U_0(N)]\,[U_0(N):U_1(N)]=\psi(N)\varphi(N)=N^2\prod_{\ell\mid N}(1-\ell^{-2})$, since $\psi(N)\varphi(N)=N\prod(1+\ell^{-1})\cdot N\prod(1-\ell^{-1})=N^2\prod(1-\ell^{-2})$.  Up to the standard $|\GL_2(\Z/N)|/(N\varphi(N))$ count, this is the asserted index.
++\end{proof}
++
++\begin{proof}[Proof of (d)]
++For $(N,D)=1$, (b) with $U=\hat\cO^\times$, $U'=\Uzero{N}$ gives
++\[
++\sum_{\XB{\Uzero{N}}}\frac1{|\Gamma_x|}= [\hat\cO^\times:\Uzero{N}]\sum_{\XB{\hat\cO^\times}}\frac1{|\Gamma_x|}
++ =\psi(N)\cdot\frac1{24}\prod_{\ell\mid D}(\ell-1)
++ =\psi(N)\frac{\varphi(D)}{24},
++\]
++using (a) and (c).  Since $-1\in\Uzero{N}$, $w_x=|\Gamma_x|/2$, so $\sum1/w_x=2\sum1/|\Gamma_x|=\varphi(D)\psi(N)/12$, the first claim.
++
++For $p\ge5$, $s\ge1$, $(M,pD)=1$ put $N=Mp^s$ and $U=\Uone{N}$.  Then $-1\notin U$ (its image $d=-1\not\equiv1\pmod p$), so $w_x=|\Gamma_x|$.  By Lemma~\ref{lem:s01-stab}(b), $U\subseteq\Uone{p}$ implies every $\Gamma_x(U)$ is trivial; hence $|\Gamma_x|=1$ and $1/|\Gamma_x|=1$.  Applying (b) with $U=\hat\cO^\times$,
++\[
++|S_s|=|\XB{U}|=\sum_{\XB{U}}1
++ =\sum_{\XB{U}}1/|\Gamma_x(U)|
++ =[\hat\cO^\times:U]\,\frac{\varphi(D)}{24}
++ =\frac{\varphi(D)}{24}\,\psi(N)\,\varphi(N),
++\]
++by (c).  Since $N=Mp^s$, this is $|S_s|=\varphi(D)\psi(Mp^s)\varphi(Mp^s)/24$, as claimed.  In particular the mass sum counts points.  The case $-1\in U'$ or $-1\notin U$ is exactly the $w$-variant used above; for $U_1$ we are in the second case, so no factor $2$ appears.
++\end{proof}
++
+ \begin{example}[checks]\label{ex:s01-masschecks}
+-$D=2$: $\cO$ Hurwitz, $|\cO^\times|=24$, mass $1/24$; $|\XB{\Uone{5}}|=24/24=1$ (the $24$ nonzero vectors of $\F_5^2$
+-form one free orbit of $\cO^\times$). $D=3$: mass $1/12$, $|S_s|=\frac{2}{24}\cdot24\cdot25^{s-1}=2\cdot25^{s-1}$ for
+-$p=5$, $M=1$ --- this is the count used in seed test T3. $D=11$: $h=2$, $|\Gamma_x|\in\{4,6\}$, $\frac14+\frac16=\frac{10}{24}$.
+-\stproved.
++We verify the three numerical checks required for C2.
++
++\emph{$D=2$: Hurwitz order.}  The unique maximal order $\cO$ (Hurwitz) has $|\cO^\times|=24$ (binary tetrahedral).  The class number at maximal level is $1$, so $\XB{\hat\cO^\times}=\{[1]\}$ with $|\Gamma_{[1]}|=24$.  Hence $\sum1/|\Gamma_x|=1/24=\frac1{24}\prod_{\ell\mid2}(\ell-1)$, i.e.\ mass $1/24$ (and $\sum1/w_x=1/12$ since $-1\in\hat\cO^\times$, $w_x=12$).  For $U=\Uone{5}$ we have $[\hat\cO^\times:U]=\psi(5)\varphi(5)=6\cdot4=24$ by (c).  The reduction map $\hat\cO^\times\to\GL_2(\F_5)$ identifies $U\backslash\hat\cO^\times$ with the $24$ non-zero vectors of $\F_5^2$?  More concretely, $|\XB{\Uone{5}}|=[\hat\cO^\times:U]\cdot1/24=1$; equivalently the $24$ non-zero vectors of $\F_5^2$ form one free orbit of $\cO^\times/\{\pm1\}$ (hence of $\cO^\times$ on $\mathbf P^1$ data).  Thus $|\XB{\Uone{5}}|=24/24=1$.  This is the $D=2$ check.
++
++\emph{$D=3$: $p=5$, $M=1$.}  Here $\varphi(D)=2$, mass $1/24\cdot2=1/12$.  For $s\ge1$, $N=p^s=5^s$, $\psi(N)=6\cdot5^{s-1}$, $\varphi(N)=4\cdot5^{s-1}$, so by (d)
++\[
++|S_s|=\frac{2}{24}\cdot24\cdot25^{s-1}=2\cdot25^{\,s-1},
++\]
++i.e.\ $|S_1|=2$, $|S_2|=50$, $|S_3|=1250$, etc.  This is the count used in seed test T3 ($D=3$, $p=5$: $|S_s|=2\cdot25^{s-1}$).  Explicitly $|S_1|=\frac{\varphi(3)}{24}\psi(5)\varphi(5)=\frac2{24}\cdot6\cdot4=2$.
++
++\emph{$D=11$:}  $D=11$ prime, $\varphi(D)=10$, mass $(11-1)/24=10/24$.  The class set at maximal level has $h=2$, say $\XB{\hat\cO^\times}=\{[x_1],[x_2]\}$ with $|\Gamma_{x_1}|=4$, $|\Gamma_{x_2}|=6$ (the two maximal orders have unit groups $C_4$ and $C_6$; $4\mid24$, $6\mid24$).  Then
++\[
++\frac1{|\Gamma_{x_1}|}+\frac1{|\Gamma_{x_2}|}=\frac14+\frac16=\frac{10}{24},
++\]
++matching the mass formula.  With $w_x=|\Gamma_x|/2$ ($-1\in\hat\cO^\times$) this is $\sum1/w_x=1/2+1/3=5/12=\varphi(D)/12$.
++\stproved{}
+ \end{example}

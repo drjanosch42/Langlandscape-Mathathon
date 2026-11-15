@@ -1,0 +1,999 @@
+diff --git a/lean/Langlandscape/Langlandscape/Tree/Coset.lean b/lean/Langlandscape/Langlandscape/Tree/Coset.lean
+index 65005c8..454d623 100644
+--- a/lean/Langlandscape/Langlandscape/Tree/Coset.lean
++++ b/lean/Langlandscape/Langlandscape/Tree/Coset.lean
+@@ -1,5 +1,415 @@
++import Langlandscape.Tree.Local
++import Mathlib.GroupTheory.GroupAction.Quotient
++import Mathlib.Combinatorics.SimpleGraph.Basic
++import Mathlib.Tactic.Group
++
+ /-!
+ # Coset model of the tree — S02-L1 (stub; owner fills it)
+ 
+ Tex labels: def:s02-tree, lem:s02-tree.
+ -/
++
++/-!
++Source of the statements: `plan/staged/stage-02-tree-quotients.tex` (`def:s02-tree`,
++`lem:s02-tree`(b)-(d)).  Explicitness convention as in `Tree/Local.lean`.
++
++The Bruhat–Tits tree in coset form: vertices `GL₂(ℚ_q) / (Z · GL₂(ℤ_q))`, oriented edges
++`GL₂(ℚ_q) / (Z · Iw_q)` with `o [g] = [g]`, `t [g] = [g α]`; the type is `vdet g`
++(`lem:s02-tree`(b)); `SL₂(ℚ_q)` is transitive on type-`0` vertices, type-`1` vertices and
++edges with the stated stabilisers (`lem:s02-tree`(c)).  Status: *proved* (seed proof, completed in
++the stage tex).
++-/
++
++namespace Langlandscape.Tree
++
++open Langlandscape.Local (GL2Zl Iw)
++
++variable (q : ℕ) [Fact q.Prime]
++
++/-- `Z · GL₂(ℤ_q)`, the stabiliser of the vertex `v₀` in `GL₂(ℚ_q)` (`def:s02-tree`). -/
++noncomputable def ZK : Subgroup (GL (Fin 2) ℚ_[q]) :=
++  Subgroup.center (GL (Fin 2) ℚ_[q]) ⊔ GL2Zl q
++
++/-- `Z · Iw_q`, the stabiliser of the base edge in `GL₂(ℚ_q)` (`def:s02-tree`). -/
++noncomputable def ZIw : Subgroup (GL (Fin 2) ℚ_[q]) :=
++  Subgroup.center (GL (Fin 2) ℚ_[q]) ⊔ Iw q
++
++/-- The vertices `GL₂(ℚ_q) / (Z · GL₂(ℤ_q))` of the tree (`def:s02-tree`). -/
++abbrev Vert : Type := GL (Fin 2) ℚ_[q] ⧸ ZK q
++
++/-- All *oriented* edges `GL₂(ℚ_q) / (Z · Iw_q)`: both orientations of every geometric edge
++(`def:s02-tree`). -/
++abbrev Edge : Type := GL (Fin 2) ℚ_[q] ⧸ ZIw q
++
++/-- `Z ≤ Z · GL₂(ℤ_q)` (`s02-tree`). -/
++lemma center_le_ZK : Subgroup.center (GL (Fin 2) ℚ_[q]) ≤ ZK q := le_sup_left
++
++/-- `GL₂(ℤ_q) ≤ Z · GL₂(ℤ_q)` (`s02-tree`). -/
++lemma GL2Zl_le_ZK : GL2Zl q ≤ ZK q := le_sup_right
++
++/-- `center ≤ Z · Iw_q` (`s02-tree`). -/
++lemma center_le_ZIw : Subgroup.center (GL (Fin 2) ℚ_[q]) ≤ ZIw q := le_sup_left
++
++/-- `Iw_q ≤ Z · Iw_q` (`s02-tree`). -/
++lemma Iw_le_ZIw : Iw q ≤ ZIw q := le_sup_right
++
++/-- `Z · Iw_q ≤ Z · GL₂(ℤ_q)` (`s02-tree`). -/
++lemma ZIw_le_ZK : ZIw q ≤ ZK q :=
++  sup_le_sup_left (Langlandscape.Local.K0_le_GL2Zl 1) _
++
++/-- `α⁻¹ (Z · Iw_q) α ⊆ Z · GL₂(ℤ_q)`, the well-definedness of `t`
++(`lem:s02-tree`(d), `s02-tree`). -/
++lemma conj_mem_ZK {h : GL (Fin 2) ℚ_[q]} (hh : h ∈ ZIw q) :
++    (alphaq q)⁻¹ * h * alphaq q ∈ ZK q := by
++  have key : ZIw q ≤ (ZK q).comap (MulAut.conj (alphaq q)⁻¹).toMonoidHom := by
++    unfold ZIw
++    refine sup_le ?_ ?_
++    · intro z hz
++      have hz' := Subgroup.mem_center_iff.1 hz (alphaq q)⁻¹
++      show (alphaq q)⁻¹ * z * ((alphaq q)⁻¹)⁻¹ ∈ ZK q
++      rw [inv_inv, hz', mul_assoc, inv_mul_cancel, mul_one]
++      exact center_le_ZK q hz
++    · intro k hk
++      show (alphaq q)⁻¹ * k * ((alphaq q)⁻¹)⁻¹ ∈ ZK q
++      rw [inv_inv]
++      exact GL2Zl_le_ZK q (alphaq_inv_conj_mem_GL2Zl hk)
++  have h2 : (alphaq q)⁻¹ * h * ((alphaq q)⁻¹)⁻¹ ∈ ZK q := key hh
++  rwa [inv_inv] at h2
++
++/-- Right translation by `α` is compatible with the cosets (`def:s02-tree`, `s02-tree`). -/
++lemma inv_mul_alphaq_mem_ZK {a b : GL (Fin 2) ℚ_[q]} (h : a⁻¹ * b ∈ ZIw q) :
++    (a * alphaq q)⁻¹ * (b * alphaq q) ∈ ZK q := by
++  have h2 := conj_mem_ZK q h
++  have e : (a * alphaq q)⁻¹ * (b * alphaq q) = (alphaq q)⁻¹ * (a⁻¹ * b) * alphaq q := by group
++  rw [e]
++  exact h2
++
++/-- `lem:s02-tree`(c) input: an element of `SL₂(ℚ_q) ∩ Z · GL₂(ℤ_q)` lies in `GL₂(ℤ_q)`
++(Serre, *Trees*, II.1.3, Lemma 1, p. 76; `s02-tree`). -/
++lemma mem_GL2Zl_of_mem_SLq_ZK {g : GL (Fin 2) ℚ_[q]} (hg : g ∈ SLq q) (hZ : g ∈ ZK q) :
++    g ∈ GL2Zl q := by
++  have hZ' : g ∈ Subgroup.center (GL (Fin 2) ℚ_[q]) ⊔ GL2Zl q := hZ
++  obtain ⟨z, hz, k, hk, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hZ'
++  rw [Matrix.GeneralLinearGroup.center_eq_range_scalar] at hz
++  obtain ⟨u, rfl⟩ := MonoidHom.mem_range.1 hz
++  have hdet : (Units.val (Matrix.GeneralLinearGroup.scalar (Fin 2) u * k)).det = 1 :=
++    mem_SLq_iff.1 hg
++  have hk1 : ‖(Units.val k).det‖ = 1 := (Langlandscape.Local.mem_GL2Zl_iff.1 hk).2
++  rw [Units.val_mul, Matrix.det_mul, det_scalar_sq] at hdet
++  have hn : ‖(u : ℚ_[q])‖ = 1 := by
++    have h2 := congrArg (fun x : ℚ_[q] => ‖x‖) hdet
++    simp only [norm_mul, norm_pow, hk1, mul_one, norm_one] at h2
++    nlinarith [norm_nonneg (u : ℚ_[q])]
++  exact mul_mem (scalar_mem_GL2Zl hn) hk
++
++/-! ### The maps `o`, `t` and the type -/
++
++section Maps
++
++variable {q}
++
++/-- The origin `o [g] = [g]` of an oriented edge (`def:s02-tree`). -/
++noncomputable def o : Edge q → Vert q := Subgroup.quotientMapOfLE (ZIw_le_ZK q)
++
++/-- The terminus `t [g] = [g α]` of an oriented edge (`def:s02-tree`). -/
++noncomputable def t : Edge q → Vert q :=
++  (Quotient.map' (fun g : GL (Fin 2) ℚ_[q] => g * alphaq q) (fun _ _ h =>
++    QuotientGroup.leftRel_apply.mpr (inv_mul_alphaq_mem_ZK q (QuotientGroup.leftRel_apply.mp h))) :
++      Quotient (QuotientGroup.leftRel (ZIw q)) → Quotient (QuotientGroup.leftRel (ZK q)))
++
++/-- `o [g] = [g]` (`def:s02-tree`, `s02-tree`). -/
++lemma o_mk (g : GL (Fin 2) ℚ_[q]) :
++    o (QuotientGroup.mk g : Edge q) = (QuotientGroup.mk g : Vert q) := rfl
++
++/-- `t [g] = [g α]` (`def:s02-tree`, `s02-tree`). -/
++lemma t_mk (g : GL (Fin 2) ℚ_[q]) :
++    t (QuotientGroup.mk g : Edge q) = (QuotientGroup.mk (g * alphaq q) : Vert q) := rfl
++
++/-- The type `v_q(det g) mod 2` of a vertex `[g]` (`def:s02-tree`). -/
++noncomputable def vtype : Vert q → ZMod 2 :=
++  Quotient.lift (s := QuotientGroup.leftRel (ZK q)) (fun g : GL (Fin 2) ℚ_[q] => vdet q g)
++    (fun a b h => by
++      have h1 : a⁻¹ * b ∈ ZK q := QuotientGroup.leftRel_apply.mp h
++      have h2 := vdet_mul a (a⁻¹ * b)
++      rw [mul_inv_cancel_left, vdet_of_mem_center_sup h1, add_zero] at h2
++      exact h2.symm)
++
++/-- `vtype [g] = vdet g` (`def:s02-tree`, `s02-tree`). -/
++lemma vtype_mk (g : GL (Fin 2) ℚ_[q]) :
++    vtype (QuotientGroup.mk g : Vert q) = vdet q g := rfl
++
++/-- `lem:s02-tree`(b): `g` shifts the type by `vdet g` (`s02-tree`). -/
++theorem vtype_smul (g : GL (Fin 2) ℚ_[q]) (v : Vert q) :
++    vtype (g • v) = vdet q g + vtype v := by
++  obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective v
++  show vdet q (g * h) = vdet q g + vdet q h
++  exact vdet_mul g h
++
++/-- `o` is equivariant (`def:s02-tree`, `s02-tree`). -/
++theorem o_smul (g : GL (Fin 2) ℚ_[q]) (e : Edge q) : o (g • e) = g • o e := by
++  obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective e
++  rfl
++
++/-- `t` is equivariant (`def:s02-tree`, `s02-tree`). -/
++theorem t_smul (g : GL (Fin 2) ℚ_[q]) (e : Edge q) : t (g • e) = g • t e := by
++  obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective e
++  show (QuotientGroup.mk (g * h * alphaq q) : Vert q) = QuotientGroup.mk (g * (h * alphaq q))
++  rw [mul_assoc]
++
++/-- Orientation: `t e` has the other type than `o e` (`def:s02-tree`, `s02-tree`). -/
++theorem vtype_t (e : Edge q) : vtype (t e) = vtype (o e) + 1 := by
++  obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective e
++  show vdet q (g * alphaq q) = vdet q g + 1
++  rw [vdet_mul, vdet_alphaq]
++
++end Maps
++
++/-- The edges of the tree in the tex sense (`def:s02-tree`): oriented edges whose origin has
++type `0` (the convention of `rem:s02-treeconv`). -/
++abbrev EdgeO : Type := {e : Edge q // vtype (o e) = 0}
++
++/-- Origin of an edge of `EdgeO` (`def:s02-tree`). -/
++noncomputable def oO {q : ℕ} [Fact q.Prime] (e : EdgeO q) : Vert q := o e.1
++
++/-- Terminus of an edge of `EdgeO` (`def:s02-tree`). -/
++noncomputable def tO {q : ℕ} [Fact q.Prime] (e : EdgeO q) : Vert q := t e.1
++
++/-- `SL₂(ℚ_q)` acts on `EdgeO` (`lem:s02-tree`(b): no type change, `s02-tree`). -/
++noncomputable instance : MulAction (SLq q) (EdgeO q) where
++  smul s e := ⟨(s : GL (Fin 2) ℚ_[q]) • e.1, by
++    rw [o_smul, vtype_smul, vdet_of_mem_SLq s.2, zero_add]
++    exact e.2⟩
++  one_smul e := Subtype.ext (one_smul (GL (Fin 2) ℚ_[q]) e.1)
++  mul_smul a b e :=
++    Subtype.ext (mul_smul (a : GL (Fin 2) ℚ_[q]) (b : GL (Fin 2) ℚ_[q]) e.1)
++
++/-- The base vertex `v₀ = [1]` (`def:s02-tree`). -/
++noncomputable def v0 : Vert q := QuotientGroup.mk 1
++
++/-- The base vertex `v₁ = [α] = α v₀` (`def:s02-tree`). -/
++noncomputable def v1 : Vert q := QuotientGroup.mk (alphaq q)
++
++/-- The base edge `e₀ = [1]`, from `v₀` to `v₁` (`def:s02-tree`). -/
++noncomputable def e0 : EdgeO q :=
++  ⟨QuotientGroup.mk 1, by
++    show vdet q 1 = 0
++    exact vdet_one q⟩
++
++section Basics
++
++variable {q}
++
++/-- `SL₂`-equivariance of the origin on `EdgeO` (`def:s02-tree`, `s02-tree`). -/
++theorem oO_smul (s : SLq q) (e : EdgeO q) : oO (s • e) = (s : GL (Fin 2) ℚ_[q]) • oO e :=
++  o_smul (s : GL (Fin 2) ℚ_[q]) e.1
++
++/-- `SL₂`-equivariance of the terminus on `EdgeO` (`def:s02-tree`, `s02-tree`). -/
++theorem tO_smul (s : SLq q) (e : EdgeO q) : tO (s • e) = (s : GL (Fin 2) ℚ_[q]) • tO e :=
++  t_smul (s : GL (Fin 2) ℚ_[q]) e.1
++
++/-- The origin of an `EdgeO` edge has type `0` (`def:s02-tree`, `s02-tree`). -/
++theorem vtype_oO (e : EdgeO q) : vtype (oO e) = 0 := e.2
++
++/-- The terminus of an `EdgeO` edge has type `1` (`def:s02-tree`, `s02-tree`). -/
++theorem vtype_tO (e : EdgeO q) : vtype (tO e) = 1 := by
++  show vtype (t e.1) = 1
++  rw [vtype_t, e.2, zero_add]
++
++end Basics
++
++/-- The origin of the base edge is `v₀` (`def:s02-tree`, `s02-tree`). -/
++theorem oO_e0 : oO (e0 q) = v0 q := rfl
++
++/-- The terminus of the base edge is `v₁` (`def:s02-tree`, `s02-tree`). -/
++theorem tO_e0 : tO (e0 q) = v1 q := by
++  show (QuotientGroup.mk (1 * alphaq q) : Vert q) = QuotientGroup.mk (alphaq q)
++  rw [one_mul]
++
++/-- `v₀` has type `0` (`def:s02-tree`, `s02-tree`). -/
++theorem vtype_v0 : vtype (v0 q) = 0 := vdet_one q
++
++/-- `v₁` has type `1` (`def:s02-tree`, `s02-tree`). -/
++theorem vtype_v1 : vtype (v1 q) = 1 := vdet_alphaq q
++
++section Implicit
++
++variable {q}
++
++/-- `lem:s02-tree`(b): `g ∈ GL₂(ℚ_q)` preserves types iff `v_q(det g)` is even
++(`s02-tree`). -/
++theorem preserves_vtype_iff {g : GL (Fin 2) ℚ_[q]} :
++    (∀ v : Vert q, vtype (g • v) = vtype v) ↔ vdet q g = 0 := by
++  constructor
++  · intro h
++    have h0 := h (v0 q)
++    rw [vtype_smul, vtype_v0, add_zero] at h0
++    exact h0
++  · intro h v
++    rw [vtype_smul, h, zero_add]
++
++/-! ### Transitivity -/
++
++/-- Transitivity input (`lem:s02-tree`(c), `s02-tree`): for `vdet g = 0` there is `s ∈ SL₂(ℚ_q)`
++with `s⁻¹ g ∈ Z · Iw_q`. -/
++theorem exists_SL_of_vdet_zero {g : GL (Fin 2) ℚ_[q]} (hg : vdet q g = 0) :
++    ∃ s ∈ SLq q, s⁻¹ * g ∈ ZIw q := by
++  obtain ⟨z, hz, hdet⟩ := exists_central_norm_one hg
++  obtain ⟨δ, hδ, hs⟩ := exists_diag_split hdet
++  refine ⟨z * g * δ⁻¹, mem_SLq_iff.2 hs, ?_⟩
++  have hc := Subgroup.mem_center_iff.1 (inv_mem hz) g
++  have e : (z * g * δ⁻¹)⁻¹ * g = δ * z⁻¹ := by
++    calc (z * g * δ⁻¹)⁻¹ * g = δ * (g⁻¹ * z⁻¹ * g) := by group
++      _ = δ * z⁻¹ := by rw [mul_assoc g⁻¹ z⁻¹ g, ← hc, inv_mul_cancel_left]
++  rw [e]
++  exact mul_mem (Iw_le_ZIw q hδ) (center_le_ZIw q (inv_mem hz))
++
++/-- Transitivity input (`lem:s02-tree`(c), `s02-tree`): for `vdet g = 1` there is `s ∈ SL₂(ℚ_q)`
++with `(s α)⁻¹ g ∈ Z · GL₂(ℤ_q)`. -/
++theorem exists_SL_of_vdet_one {g : GL (Fin 2) ℚ_[q]} (hg : vdet q g = 1) :
++    ∃ s ∈ SLq q, (s * alphaq q)⁻¹ * g ∈ ZK q := by
++  have h0 : vdet q (g * (alphaq q)⁻¹) = 0 := by
++    have h := vdet_mul (g * (alphaq q)⁻¹) (alphaq q)
++    rw [inv_mul_cancel_right, vdet_alphaq, hg] at h
++    linear_combination -h
++  obtain ⟨z, hz, hdet⟩ := exists_central_norm_one h0
++  obtain ⟨δ, hδ, hs⟩ := exists_diag_split hdet
++  refine ⟨z * (g * (alphaq q)⁻¹) * δ⁻¹, mem_SLq_iff.2 hs, ?_⟩
++  have hc := Subgroup.mem_center_iff.1 (inv_mem hz) g
++  have e : (z * (g * (alphaq q)⁻¹) * δ⁻¹ * alphaq q)⁻¹ * g =
++      ((alphaq q)⁻¹ * δ * alphaq q) * z⁻¹ := by
++    calc (z * (g * (alphaq q)⁻¹) * δ⁻¹ * alphaq q)⁻¹ * g
++        = ((alphaq q)⁻¹ * δ * alphaq q) * (g⁻¹ * z⁻¹ * g) := by group
++      _ = ((alphaq q)⁻¹ * δ * alphaq q) * z⁻¹ := by
++        rw [mul_assoc g⁻¹ z⁻¹ g, ← hc, inv_mul_cancel_left]
++  rw [e]
++  exact mul_mem (GL2Zl_le_ZK q (alphaq_inv_conj_mem_GL2Zl hδ)) (center_le_ZK q (inv_mem hz))
++
++/-- `lem:s02-tree`(c): `SL₂(ℚ_q)` is transitive on the type-`0` vertices (`s02-tree`). -/
++theorem SLq_transitive_type0 {v : Vert q} (h : vtype v = 0) : ∃ s : SLq q, s • v0 q = v := by
++  obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective v
++  have hg : vdet q g = 0 := h
++  obtain ⟨s, hs, hsg⟩ := exists_SL_of_vdet_zero hg
++  refine ⟨⟨s, hs⟩, ?_⟩
++  show (QuotientGroup.mk (s * 1) : Vert q) = QuotientGroup.mk g
++  rw [QuotientGroup.eq, mul_one]
++  exact ZIw_le_ZK q hsg
++
++/-- `lem:s02-tree`(c): `SL₂(ℚ_q)` is transitive on the type-`1` vertices (`s02-tree`). -/
++theorem SLq_transitive_type1 {v : Vert q} (h : vtype v = 1) : ∃ s : SLq q, s • v1 q = v := by
++  obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective v
++  have hg : vdet q g = 1 := h
++  obtain ⟨s, hs, hsg⟩ := exists_SL_of_vdet_one hg
++  refine ⟨⟨s, hs⟩, ?_⟩
++  show (QuotientGroup.mk (s * alphaq q) : Vert q) = QuotientGroup.mk g
++  rw [QuotientGroup.eq]
++  exact hsg
++
++/-- `lem:s02-tree`(c): `SL₂(ℚ_q)` is transitive on the edges `EdgeO` (`s02-tree`). -/
++theorem SLq_transitive_edge (e : EdgeO q) : ∃ s : SLq q, s • e0 q = e := by
++  obtain ⟨e, he⟩ := e
++  obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective e
++  have hg : vdet q g = 0 := he
++  obtain ⟨s, hs, hsg⟩ := exists_SL_of_vdet_zero hg
++  refine ⟨⟨s, hs⟩, Subtype.ext ?_⟩
++  show (QuotientGroup.mk (s * 1) : Edge q) = QuotientGroup.mk g
++  rw [QuotientGroup.eq, mul_one]
++  exact hsg
++
++end Implicit
++
++/-! ### Stabilisers -/
++
++/-- `lem:s02-tree`(c): the stabiliser of `v₀` in `SL₂(ℚ_q)` is `SL₂(ℤ_q)` (`s02-tree`). -/
++theorem stabilizer_v0 :
++    MulAction.stabilizer (SLq q) (v0 q) = (SL2Zq q).subgroupOf (SLq q) := by
++  ext ⟨s, hs⟩
++  rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf]
++  show (QuotientGroup.mk (s * 1) : Vert q) = QuotientGroup.mk 1 ↔ s ∈ SL2Zq q
++  rw [QuotientGroup.eq]
++  simp only [mul_one, inv_mem_iff]
++  constructor
++  · intro h
++    exact mem_SL2Zq_iff.2 ⟨hs, mem_GL2Zl_of_mem_SLq_ZK q hs h⟩
++  · intro h
++    exact GL2Zl_le_ZK q (mem_SL2Zq_iff.1 h).2
++
++/-- `lem:s02-tree`(c): the stabiliser of `v₁` in `SL₂(ℚ_q)` is `SL₂ ∩ α GL₂(ℤ_q) α⁻¹`
++(`s02-tree`). -/
++theorem stabilizer_v1 :
++    MulAction.stabilizer (SLq q) (v1 q) = (K1q q).subgroupOf (SLq q) := by
++  ext ⟨s, hs⟩
++  rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf]
++  show (QuotientGroup.mk (s * alphaq q) : Vert q) = QuotientGroup.mk (alphaq q) ↔ s ∈ K1q q
++  rw [QuotientGroup.eq]
++  have e : (s * alphaq q)⁻¹ * alphaq q = ((alphaq q)⁻¹ * s * alphaq q)⁻¹ := by group
++  rw [e, inv_mem_iff]
++  constructor
++  · intro h
++    have hdet : (Units.val ((alphaq q)⁻¹ * s * alphaq q)).det = 1 := by
++      rw [det_alphaq_conj]
++      exact mem_SLq_iff.1 hs
++    have hGL := mem_GL2Zl_of_mem_SLq_ZK q (mem_SLq_iff.2 hdet) h
++    exact mem_K1q_iff.2 ⟨hs, mem_Kalpha_iff.2 hGL⟩
++  · intro h
++    exact GL2Zl_le_ZK q (mem_Kalpha_iff.1 (mem_K1q_iff.1 h).2)
++
++/-- `lem:s02-tree`(c): the stabiliser of the base edge in `SL₂(ℚ_q)` is `SL₂ ∩ Iw_q`
++(`s02-tree`). -/
++theorem stabilizer_e0 :
++    MulAction.stabilizer (SLq q) (e0 q) = (IwSL q).subgroupOf (SLq q) := by
++  ext ⟨s, hs⟩
++  rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf]
++  refine Subtype.ext_iff.trans ?_
++  show (QuotientGroup.mk (s * 1) : Edge q) = QuotientGroup.mk 1 ↔ s ∈ IwSL q
++  rw [QuotientGroup.eq]
++  simp only [mul_one, inv_mem_iff]
++  constructor
++  · intro h
++    have hGL : s ∈ GL2Zl q := mem_GL2Zl_of_mem_SLq_ZK q hs (ZIw_le_ZK q h)
++    have hc : (alphaq q)⁻¹ * s * alphaq q ∈ ZK q := conj_mem_ZK q h
++    have hdet : (Units.val ((alphaq q)⁻¹ * s * alphaq q)).det = 1 := by
++      rw [det_alphaq_conj]
++      exact mem_SLq_iff.1 hs
++    have hGL' := mem_GL2Zl_of_mem_SLq_ZK q (mem_SLq_iff.2 hdet) hc
++    have hIw : s ∈ Iw q :=
++      (GL2Zl_inf_Kalpha q).le (Subgroup.mem_inf.2 ⟨hGL, mem_Kalpha_iff.2 hGL'⟩)
++    exact mem_IwSL_iff.2 ⟨hs, hIw⟩
++  · intro h
++    exact Iw_le_ZIw q (mem_IwSL_iff.1 h).2
++
++/-! ### The graph -/
++
++/-- The graph on the vertices: `v ~ w` iff some edge `e : EdgeO q` joins them
++(`def:s02-tree`). -/
++noncomputable def graph : SimpleGraph (Vert q) :=
++  SimpleGraph.fromRel (fun v w => ∃ e : EdgeO q, oO e = v ∧ tO e = w)
++
++section Implicit2
++
++variable {q}
++
++/-- Adjacency in `graph q`: some `e : EdgeO q` has `{oO e, tO e} = {v, w}` (`def:s02-tree`,
++`s02-tree`). -/
++theorem graph_adj_iff {v w : Vert q} :
++    (graph q).Adj v w ↔ ∃ e : EdgeO q, ({oO e, tO e} : Set (Vert q)) = {v, w} := by
++  rw [graph, SimpleGraph.fromRel_adj]
++  constructor
++  · rintro ⟨-, ⟨e, h1, h2⟩ | ⟨e, h1, h2⟩⟩
++    · exact ⟨e, Set.pair_eq_pair_iff.2 (Or.inl ⟨h1, h2⟩)⟩
++    · exact ⟨e, Set.pair_eq_pair_iff.2 (Or.inr ⟨h1, h2⟩)⟩
++  · rintro ⟨e, he⟩
++    rcases Set.pair_eq_pair_iff.1 he with ⟨h1, h2⟩ | ⟨h1, h2⟩
++    · refine ⟨?_, Or.inl ⟨e, h1, h2⟩⟩
++      intro hvw
++      have a : vtype v = 0 := by rw [← h1]; exact vtype_oO e
++      have b : vtype w = 1 := by rw [← h2]; exact vtype_tO e
++      exact absurd (a.symm.trans ((congrArg vtype hvw).trans b)) (by decide)
++    · refine ⟨?_, Or.inr ⟨e, h1, h2⟩⟩
++      intro hvw
++      have a : vtype w = 0 := by rw [← h1]; exact vtype_oO e
++      have b : vtype v = 1 := by rw [← h2]; exact vtype_tO e
++      exact absurd ((b.symm.trans (congrArg vtype hvw)).trans a) (by decide)
++
++end Implicit2
++
++end Langlandscape.Tree
+diff --git a/lean/Langlandscape/Langlandscape/Tree/Local.lean b/lean/Langlandscape/Langlandscape/Tree/Local.lean
+index 953f642..4734c44 100644
+--- a/lean/Langlandscape/Langlandscape/Tree/Local.lean
++++ b/lean/Langlandscape/Langlandscape/Tree/Local.lean
+@@ -1,5 +1,547 @@
++import Langlandscape.Local.UpCosets
++import Mathlib.GroupTheory.Index
++import Mathlib.GroupTheory.Subgroup.Center
++import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic
++import Mathlib.NumberTheory.Padics.PadicNumbers
++import Mathlib.NumberTheory.Padics.PadicIntegers
++import Mathlib.Data.ZMod.Basic
++import Mathlib.Tactic.Group
++import Mathlib.Tactic.FieldSimp
++import Mathlib.Tactic.Ring
++import Mathlib.Tactic.LinearCombination
++
+ /-!
+ # Local layer at q — S02-L1 (stub; owner fills it)
+ 
+ Tex labels: def:s02-tree, lem:s02-tree, rem:s02-treeconv.
+ -/
++
++/-!
++Source of the statements: `plan/staged/stage-02-tree-quotients.tex` (`def:s02-tree`,
++`lem:s02-tree`(b)-(d)).  Explicitness convention: `q` is explicit for definitions and for
++lemmas with no argument to infer it from (`vdet_one`, `relIndex_Iw`, ...), implicit otherwise
++(`vdet_mul`, `exists_*_mul_mem_Iw`, ...).
++
++Contents (all *proved*): `α = diag(1, q)`, `SL₂(ℚ_q)`, `SL₂(ℤ_q)`, `K_α = α GL₂(ℤ_q) α⁻¹`,
++`K¹ = SL₂ ∩ K_α`, `Iw ∩ SL₂`, the parity `vdet g = v_q(det g) mod 2`, the identity
++`GL₂(ℤ_q) ∩ K_α = Iw_q`, `α⁻¹ Iw α ⊆ GL₂(ℤ_q)` (`lem:s02-tree`(d)), the splittings
++`k = s · diag(1, u)` used for transitivity (`lem:s02-tree`(c)), and `[GL₂(ℤ_q) : Iw_q] = q + 1`.
++Everything is by explicit `2 × 2` matrix algebra over `ℤ_q`, `ℚ_q`.
++-/
++
++namespace Langlandscape.Tree
++
++open Langlandscape.Local (GL2Zl Iw)
++
++variable (q : ℕ) [Fact q.Prime]
++
++/-- `α = diag(1, q) ∈ GL₂(ℚ_q)` (`def:s02-tree`, `s02-tree`). -/
++noncomputable def alphaq : GL (Fin 2) ℚ_[q] := Langlandscape.Local.diagOneP q
++
++/-- `SL₂(ℚ_q)` inside `GL₂(ℚ_q)`, as the kernel of the determinant (`s02-tree`). -/
++noncomputable def SLq : Subgroup (GL (Fin 2) ℚ_[q]) :=
++  (Matrix.GeneralLinearGroup.det : GL (Fin 2) ℚ_[q] →* ℚ_[q]ˣ).ker
++
++/-- `SL₂(ℤ_q) = SL₂(ℚ_q) ∩ GL₂(ℤ_q)` (`s02-tree`). -/
++noncomputable def SL2Zq : Subgroup (GL (Fin 2) ℚ_[q]) := SLq q ⊓ GL2Zl q
++
++/-- `K_α = α GL₂(ℤ_q) α⁻¹`, the stabiliser of `v₁` in `GL₂` up to scalars (`s02-tree`). -/
++noncomputable def Kalpha : Subgroup (GL (Fin 2) ℚ_[q]) :=
++  (GL2Zl q).map (MulAut.conj (alphaq q)).toMonoidHom
++
++/-- `K¹ = SL₂(ℚ_q) ∩ K_α` (`s02-tree`). -/
++noncomputable def K1q : Subgroup (GL (Fin 2) ℚ_[q]) := SLq q ⊓ Kalpha q
++
++/-- `Iw_q ∩ SL₂(ℚ_q)` (`s02-tree`). -/
++noncomputable def IwSL : Subgroup (GL (Fin 2) ℚ_[q]) := SLq q ⊓ Iw q
++
++/-- The parity `v_q(det g) mod 2` of `g ∈ GL₂(ℚ_q)` (`def:s02-tree`, `s02-tree`). -/
++noncomputable def vdet (g : GL (Fin 2) ℚ_[q]) : ZMod 2 :=
++  ((Padic.valuation (Units.val g).det : ℤ) : ZMod 2)
++
++/-! ### Basic membership facts -/
++
++section Basic
++
++variable {q}
++
++/-- `g ∈ SL₂(ℚ_q)` iff `det g = 1` (`s02-tree`). -/
++lemma mem_SLq_iff {g : GL (Fin 2) ℚ_[q]} : g ∈ SLq q ↔ (Units.val g).det = 1 := by
++  rw [SLq, MonoidHom.mem_ker, Units.ext_iff]
++  simp [Matrix.GeneralLinearGroup.val_det_apply]
++
++/-- `g ∈ K_α` iff `α⁻¹ g α ∈ GL₂(ℤ_q)` (`s02-tree`). -/
++lemma mem_Kalpha_iff {g : GL (Fin 2) ℚ_[q]} :
++    g ∈ Kalpha q ↔ (alphaq q)⁻¹ * g * alphaq q ∈ GL2Zl q := by
++  constructor
++  · intro h
++    obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 h
++    have e : (alphaq q)⁻¹ * ((MulAut.conj (alphaq q)).toMonoidHom x) * alphaq q = x := by
++      show (alphaq q)⁻¹ * (alphaq q * x * (alphaq q)⁻¹) * alphaq q = x
++      group
++    rw [e]
++    exact hx
++  · intro h
++    refine Subgroup.mem_map.2 ⟨(alphaq q)⁻¹ * g * alphaq q, h, ?_⟩
++    show alphaq q * ((alphaq q)⁻¹ * g * alphaq q) * (alphaq q)⁻¹ = g
++    group
++
++/-- Membership in `SL₂(ℤ_q)` (`s02-tree`). -/
++lemma mem_SL2Zq_iff {g : GL (Fin 2) ℚ_[q]} : g ∈ SL2Zq q ↔ g ∈ SLq q ∧ g ∈ GL2Zl q :=
++  Subgroup.mem_inf
++
++/-- Membership in `K¹` (`s02-tree`). -/
++lemma mem_K1q_iff {g : GL (Fin 2) ℚ_[q]} : g ∈ K1q q ↔ g ∈ SLq q ∧ g ∈ Kalpha q :=
++  Subgroup.mem_inf
++
++/-- Membership in `Iw_q ∩ SL₂` (`s02-tree`). -/
++lemma mem_IwSL_iff {g : GL (Fin 2) ℚ_[q]} : g ∈ IwSL q ↔ g ∈ SLq q ∧ g ∈ Iw q :=
++  Subgroup.mem_inf
++
++end Basic
++
++/-- The matrix of `α` (`def:s02-tree`, `s02-tree`). -/
++lemma alphaq_val : Units.val (alphaq q) = !![(1 : ℚ_[q]), 0; 0, (q : ℚ_[q])] := rfl
++
++section Conj
++
++variable {q}
++
++/-- Conjugation by `α⁻¹`, entrywise: `α⁻¹ !![a, b; c, d] α = !![a, q b; c / q, d]`
++(`lem:s02-tree`(d), `s02-tree`). -/
++lemma alphaq_inv_conj_val {g : GL (Fin 2) ℚ_[q]} {a b c d : ℚ_[q]}
++    (hM : Units.val g = !![a, b; c, d]) :
++    Units.val ((alphaq q)⁻¹ * g * alphaq q) = !![a, (q : ℚ_[q]) * b; c / (q : ℚ_[q]), d] := by
++  have hq : (q : ℚ_[q]) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : q.Prime).ne_zero
++  have hqc : (q : ℚ_[q]) * (c / (q : ℚ_[q])) = c := by field_simp
++  have e : (alphaq q)⁻¹ * g * alphaq q = (alphaq q)⁻¹ * (g * alphaq q) := mul_assoc _ _ _
++  rw [e]
++  apply Langlandscape.Local.val_inv_mul_eq
++  rw [Units.val_mul, hM, alphaq_val]
++  simp only [Matrix.mul_fin_two]
++  refine Langlandscape.Local.mat_eq ?_ ?_ ?_ ?_
++  · ring
++  · ring
++  · rw [hqc]; ring
++  · ring
++
++/-- Conjugation by `α` does not change the determinant (`lem:s02-tree`(d), `s02-tree`). -/
++lemma det_alphaq_conj (g : GL (Fin 2) ℚ_[q]) :
++    (Units.val ((alphaq q)⁻¹ * g * alphaq q)).det = (Units.val g).det := by
++  have hq : (q : ℚ_[q]) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : q.Prime).ne_zero
++  have hqc : (q : ℚ_[q]) * ((Units.val g) 1 0 / (q : ℚ_[q])) = (Units.val g) 1 0 := by field_simp
++  rw [alphaq_inv_conj_val (Matrix.eta_fin_two (Units.val g)), Matrix.det_fin_two_of,
++    Matrix.det_fin_two (Units.val g)]
++  have e : (q : ℚ_[q]) * (Units.val g) 0 1 * ((Units.val g) 1 0 / (q : ℚ_[q])) =
++      (Units.val g) 0 1 * (Units.val g) 1 0 := by
++    linear_combination (Units.val g) 0 1 * hqc
++  rw [e]
++
++/-- `lem:s02-tree`(d), second half: `α⁻¹ Iw_q α ⊆ GL₂(ℤ_q)` (`s02-tree`). -/
++theorem alphaq_inv_conj_mem_GL2Zl {k : GL (Fin 2) ℚ_[q]} (hk : k ∈ Iw q) :
++    (alphaq q)⁻¹ * k * alphaq q ∈ GL2Zl q := by
++  obtain ⟨a, b, c, d, hM, hu, ⟨c', hc'⟩⟩ := Langlandscape.Local.mem_K0_iff_exists.1 hk
++  have hq : (q : ℚ_[q]) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : q.Prime).ne_zero
++  have hc : (c : ℚ_[q]) = (q : ℚ_[q]) * c' := by rw [hc']; simp
++  refine Langlandscape.Local.mem_GL2Zl_of_entries a ((q : ℤ_[q]) * b) c' d ?_ ?_
++  · rw [alphaq_inv_conj_val hM]
++    refine Langlandscape.Local.mat_eq rfl (by simp) ?_ rfl
++    rw [hc]
++    field_simp
++  · have e : a * d - (q : ℤ_[q]) * b * c' = a * d - b * c := by rw [hc']; ring
++    rw [e]
++    exact hu
++
++end Conj
++
++/-- `Iw_q ≤ GL₂(ℤ_q)` (`s02-tree`). -/
++lemma Iw_le_GL2Zl : Iw q ≤ GL2Zl q := Langlandscape.Local.K0_le_GL2Zl 1
++
++/-- `lem:s02-tree`(d), first half: `GL₂(ℤ_q) ∩ α GL₂(ℤ_q) α⁻¹ = Iw_q` (`s02-tree`). -/
++theorem GL2Zl_inf_Kalpha : GL2Zl q ⊓ Kalpha q = Iw q := by
++  have hqpos : (0 : ℝ) < q := by exact_mod_cast (Fact.out : q.Prime).pos
++  apply le_antisymm
++  · intro g hg
++    obtain ⟨hg1, hg2⟩ := Subgroup.mem_inf.1 hg
++    have hconj := mem_Kalpha_iff.1 hg2
++    have h10 : ‖(Units.val g) 1 0 / (q : ℚ_[q])‖ ≤ 1 := by
++      have h := (Langlandscape.Local.mem_GL2Zl_iff.1 hconj).1 1 0
++      rw [alphaq_inv_conj_val (Matrix.eta_fin_two (Units.val g))] at h
++      exact h
++    have hq1 : ‖(q : ℚ_[q])‖ = (q : ℝ)⁻¹ := Padic.norm_p
++    rw [norm_div, hq1, div_le_one (inv_pos.2 hqpos)] at h10
++    refine Langlandscape.Local.mem_K0_iff.2 ⟨hg1, ?_⟩
++    exact h10.trans (le_of_eq (by simp))
++  · intro g hg
++    exact Subgroup.mem_inf.2 ⟨Iw_le_GL2Zl q hg, mem_Kalpha_iff.2 (alphaq_inv_conj_mem_GL2Zl hg)⟩
++
++/-! ### Splitting off `diag(1, u)` -/
++
++section Split
++
++variable {q}
++
++/-- `det diag(1, u) = u` for a `ℤ_q`-unit `u` (`lem:s02-tree`(c), `s02-tree`). -/
++lemma det_diagGL_one (u : ℤ_[q]ˣ) :
++    (Units.val (Langlandscape.Local.diagGL 1 (Langlandscape.Local.intUnit u))).det =
++      ((u : ℤ_[q]) : ℚ_[q]) := by
++  rw [Langlandscape.Local.diagGL_val, Matrix.det_fin_two_of]
++  simp
++
++/-- If `‖det k‖ = 1` there is `δ = diag(1, u) ∈ Iw_q` with `det (k δ⁻¹) = 1`
++(`lem:s02-tree`(c), `s02-tree`). -/
++lemma exists_diag_split {k : GL (Fin 2) ℚ_[q]} (hk : ‖(Units.val k).det‖ = 1) :
++    ∃ δ ∈ Iw q, (Units.val (k * δ⁻¹)).det = 1 := by
++  obtain ⟨x, hxu, hx⟩ : ∃ x : ℤ_[q], IsUnit x ∧ (x : ℚ_[q]) = (Units.val k).det :=
++    ⟨⟨_, show (Units.val k).det ∈ PadicInt.subring q from hk.le⟩, PadicInt.isUnit_iff.2 hk, rfl⟩
++  obtain ⟨u, hu⟩ : ∃ u : ℤ_[q]ˣ, (u : ℤ_[q]) = x := ⟨hxu.unit, rfl⟩
++  refine ⟨Langlandscape.Local.diagGL 1 (Langlandscape.Local.intUnit u),
++    Langlandscape.Local.one_diag_mem_K0 u 1, ?_⟩
++  have hδdet : (Units.val (Langlandscape.Local.diagGL 1 (Langlandscape.Local.intUnit u))).det =
++      (Units.val k).det := by
++    rw [det_diagGL_one, hu, hx]
++  have h1 : (Units.val (k * (Langlandscape.Local.diagGL 1 (Langlandscape.Local.intUnit u))⁻¹)).det *
++      (Units.val (Langlandscape.Local.diagGL 1 (Langlandscape.Local.intUnit u))).det =
++        (Units.val k).det := by
++    rw [← Matrix.det_mul, ← Units.val_mul, inv_mul_cancel_right]
++  rw [hδdet] at h1
++  exact mul_right_cancel₀ (Langlandscape.Local.det_ne_zero k) (h1.trans (one_mul _).symm)
++
++/-- Elements of `K_α` have determinant of norm `1` (`s02-tree`). -/
++lemma norm_det_of_mem_Kalpha {k : GL (Fin 2) ℚ_[q]} (hk : k ∈ Kalpha q) :
++    ‖(Units.val k).det‖ = 1 := by
++  have h := (Langlandscape.Local.mem_GL2Zl_iff.1 (mem_Kalpha_iff.1 hk)).2
++  rwa [det_alphaq_conj] at h
++
++/-- `lem:s02-tree`(c), vertex-`v₀` half: for `k ∈ GL₂(ℤ_q)` there is `s ∈ SL₂(ℤ_q)` with
++`s⁻¹ k ∈ Iw_q` (`s02-tree`). -/
++theorem exists_SL2Zq_inv_mul_mem_Iw {k : GL (Fin 2) ℚ_[q]} (hk : k ∈ GL2Zl q) :
++    ∃ s ∈ SL2Zq q, s⁻¹ * k ∈ Iw q := by
++  obtain ⟨δ, hδ, hs⟩ := exists_diag_split (Langlandscape.Local.mem_GL2Zl_iff.1 hk).2
++  refine ⟨k * δ⁻¹, mem_SL2Zq_iff.2 ⟨mem_SLq_iff.2 hs,
++    mul_mem hk (inv_mem (Iw_le_GL2Zl q hδ))⟩, ?_⟩
++  have e : (k * δ⁻¹)⁻¹ * k = δ := by group
++  rw [e]
++  exact hδ
++
++/-- `lem:s02-tree`(c), vertex-`v₁` half: for `k ∈ K_α` there is `s ∈ K¹` with `s⁻¹ k ∈ Iw_q`
++(`s02-tree`). -/
++theorem exists_K1q_inv_mul_mem_Iw {k : GL (Fin 2) ℚ_[q]} (hk : k ∈ Kalpha q) :
++    ∃ s ∈ K1q q, s⁻¹ * k ∈ Iw q := by
++  obtain ⟨δ, hδ, hs⟩ := exists_diag_split (norm_det_of_mem_Kalpha hk)
++  have hδK : δ ∈ Kalpha q := mem_Kalpha_iff.2 (alphaq_inv_conj_mem_GL2Zl hδ)
++  refine ⟨k * δ⁻¹, mem_K1q_iff.2 ⟨mem_SLq_iff.2 hs, mul_mem hk (inv_mem hδK)⟩, ?_⟩
++  have e : (k * δ⁻¹)⁻¹ * k = δ := by group
++  rw [e]
++  exact hδ
++
++end Split
++
++/-! ### The parity `vdet` -/
++
++section Vdet
++
++variable {q}
++
++/-- `vdet` is multiplicative (`lem:s02-tree`(b), `s02-tree`). -/
++lemma vdet_mul (g h : GL (Fin 2) ℚ_[q]) : vdet q (g * h) = vdet q g + vdet q h := by
++  unfold vdet
++  rw [Units.val_mul, Matrix.det_mul,
++    Padic.valuation_mul (Langlandscape.Local.det_ne_zero g) (Langlandscape.Local.det_ne_zero h),
++    Int.cast_add]
++
++end Vdet
++
++/-- `vdet 1 = 0` (`s02-tree`). -/
++lemma vdet_one : vdet q 1 = 0 := by
++  unfold vdet
++  rw [Units.val_one, Matrix.det_one, Padic.valuation_one]
++  simp
++
++/-- `vdet α = 1` (`lem:s02-tree`(b), `s02-tree`). -/
++lemma vdet_alphaq : vdet q (alphaq q) = 1 := by
++  unfold vdet
++  rw [alphaq_val, Matrix.det_fin_two_of]
++  simp [Padic.valuation_p]
++
++section Vdet2
++
++variable {q}
++
++/-- Elements of `SL₂(ℚ_q)` have even determinant valuation (`lem:s02-tree`(b), `s02-tree`). -/
++lemma vdet_of_mem_SLq {g : GL (Fin 2) ℚ_[q]} (hg : g ∈ SLq q) : vdet q g = 0 := by
++  unfold vdet
++  rw [mem_SLq_iff.1 hg, Padic.valuation_one]
++  simp
++
++/-- A nonzero `x ∈ ℚ_q` of norm `1` has valuation `0` (`s02-tree`). -/
++lemma valuation_eq_zero_of_norm_eq_one {x : ℚ_[q]} (hx0 : x ≠ 0) (hx : ‖x‖ = 1) :
++    x.valuation = 0 := by
++  have h := Padic.norm_eq_zpow_neg_valuation hx0
++  rw [hx] at h
++  have h2 : (q : ℝ) ^ (-x.valuation) = 1 := h.symm
++  have h3 := (zpow_eq_one_iff_right₀ (Nat.cast_nonneg q)
++    (by exact_mod_cast (Fact.out : q.Prime).ne_one)).1 h2
++  omega
++
++/-- A nonzero `x ∈ ℚ_q` of valuation `0` has norm `1` (`s02-tree`). -/
++lemma norm_eq_one_of_valuation_eq_zero {x : ℚ_[q]} (hx : x ≠ 0) (h : x.valuation = 0) :
++    ‖x‖ = 1 := by
++  rw [Padic.norm_eq_zpow_neg_valuation hx, h]
++  simp
++
++/-- Elements of `GL₂(ℤ_q)` have even determinant valuation (`lem:s02-tree`(b), `s02-tree`). -/
++lemma vdet_of_mem_GL2Zl {g : GL (Fin 2) ℚ_[q]} (hg : g ∈ GL2Zl q) : vdet q g = 0 := by
++  have h := valuation_eq_zero_of_norm_eq_one (Langlandscape.Local.det_ne_zero g)
++    (Langlandscape.Local.mem_GL2Zl_iff.1 hg).2
++  unfold vdet
++  rw [h]
++  simp
++
++/-- `vdet g = 0` gives an even valuation of `det g` (`s02-tree`). -/
++lemma exists_val_eq_of_vdet_eq_zero {g : GL (Fin 2) ℚ_[q]} (h : vdet q g = 0) :
++    ∃ m : ℤ, ((Units.val g).det).valuation = 2 * m := by
++  have h' : ((Padic.valuation (Units.val g).det : ℤ) : ZMod 2) = 0 := h
++  obtain ⟨m, hm⟩ := (ZMod.intCast_zmod_eq_zero_iff_dvd _ 2).1 h'
++  exact ⟨m, by omega⟩
++
++/-- An even determinant valuation gives `vdet g = 0` (`s02-tree`). -/
++lemma vdet_eq_zero_of_val {g : GL (Fin 2) ℚ_[q]} {m : ℤ}
++    (h : ((Units.val g).det).valuation = 2 * m) : vdet q g = 0 := by
++  unfold vdet
++  rw [h]
++  exact (ZMod.intCast_zmod_eq_zero_iff_dvd _ 2).2 (by omega)
++
++/-- The matrix of a central element `scalar u` (`s02-tree`). -/
++lemma scalar_val (u : ℚ_[q]ˣ) :
++    Units.val (Matrix.GeneralLinearGroup.scalar (Fin 2) u) =
++      !![(u : ℚ_[q]), 0; 0, (u : ℚ_[q])] := by
++  show Matrix.scalar (Fin 2) (u : ℚ_[q]) = _
++  rw [Matrix.scalar_apply, Matrix.diagonal_fin_two]
++
++/-- `det (scalar u) = u²` (`s02-tree`). -/
++lemma det_scalar_sq (u : ℚ_[q]ˣ) :
++    (Units.val (Matrix.GeneralLinearGroup.scalar (Fin 2) u)).det = (u : ℚ_[q]) ^ 2 := by
++  rw [scalar_val, Matrix.det_fin_two_of]
++  ring
++
++/-- Central elements have even determinant valuation (`lem:s02-tree`(b), `s02-tree`). -/
++lemma vdet_of_mem_center {z : GL (Fin 2) ℚ_[q]}
++    (hz : z ∈ Subgroup.center (GL (Fin 2) ℚ_[q])) : vdet q z = 0 := by
++  rw [Matrix.GeneralLinearGroup.center_eq_range_scalar] at hz
++  obtain ⟨u, rfl⟩ := MonoidHom.mem_range.1 hz
++  refine vdet_eq_zero_of_val (m := (u : ℚ_[q]).valuation) ?_
++  rw [det_scalar_sq]
++  simp [Padic.valuation_pow]
++
++/-- The subgroup `{g | vdet g = 0}` (auxiliary for `lem:s02-tree`(b), `s02-tree`). -/
++noncomputable def vdetKer (q : ℕ) [Fact q.Prime] : Subgroup (GL (Fin 2) ℚ_[q]) where
++  carrier := {g | vdet q g = 0}
++  mul_mem' := by
++    intro a b ha hb
++    have ha' : vdet q a = 0 := ha
++    have hb' : vdet q b = 0 := hb
++    show vdet q (a * b) = 0
++    rw [vdet_mul, ha', hb', add_zero]
++  one_mem' := vdet_one q
++  inv_mem' := by
++    intro a ha
++    have ha' : vdet q a = 0 := ha
++    have h := vdet_mul a a⁻¹
++    rw [mul_inv_cancel, vdet_one, ha', zero_add] at h
++    show vdet q a⁻¹ = 0
++    exact h.symm
++
++/-- Elements of `Z · GL₂(ℤ_q)` have even determinant valuation (`lem:s02-tree`(b), `s02-tree`). -/
++lemma vdet_of_mem_center_sup {g : GL (Fin 2) ℚ_[q]}
++    (hg : g ∈ Subgroup.center (GL (Fin 2) ℚ_[q]) ⊔ GL2Zl q) : vdet q g = 0 := by
++  have key : Subgroup.center (GL (Fin 2) ℚ_[q]) ⊔ GL2Zl q ≤ vdetKer q :=
++    sup_le (fun z hz => vdet_of_mem_center hz) (fun k hk => vdet_of_mem_GL2Zl hk)
++  exact key hg
++
++/-- A central element of `GL₂(ℚ_q)` of unit norm lies in `GL₂(ℤ_q)` (`s02-tree`). -/
++lemma scalar_mem_GL2Zl {u : ℚ_[q]ˣ} (hu : ‖(u : ℚ_[q])‖ = 1) :
++    Matrix.GeneralLinearGroup.scalar (Fin 2) u ∈ GL2Zl q := by
++  have h : Matrix.GeneralLinearGroup.scalar (Fin 2) u = Langlandscape.Local.diagGL u u :=
++    Units.ext (by rw [scalar_val, Langlandscape.Local.diagGL_val])
++  rw [h]
++  exact (Langlandscape.Local.matGL_mem_GL2Zl_iff (u : ℚ_[q]) 0 0 (u : ℚ_[q])
++    (by simpa using mul_ne_zero u.ne_zero u.ne_zero)).2
++    ⟨hu.le, by simp, by simp, hu.le, by simp [hu]⟩
++
++/-- A central element `z` with `‖det (z g)‖ = 1` for `vdet g = 0`
++(`lem:s02-tree`(c), `s02-tree`). -/
++lemma exists_central_norm_one {g : GL (Fin 2) ℚ_[q]} (hg : vdet q g = 0) :
++    ∃ z ∈ Subgroup.center (GL (Fin 2) ℚ_[q]), ‖(Units.val (z * g)).det‖ = 1 := by
++  have hq : (q : ℚ_[q]) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : q.Prime).ne_zero
++  have hdet0 := Langlandscape.Local.det_ne_zero g
++  obtain ⟨m, hm⟩ := exists_val_eq_of_vdet_eq_zero hg
++  obtain ⟨u, hu⟩ : ∃ u : ℚ_[q]ˣ, (u : ℚ_[q]) = (q : ℚ_[q]) ^ (-m) :=
++    ⟨Units.mk0 ((q : ℚ_[q]) ^ (-m)) (zpow_ne_zero _ hq), rfl⟩
++  have hu0 : (u : ℚ_[q]) ≠ 0 := u.ne_zero
++  have hu2 : ((u : ℚ_[q]) ^ 2).valuation = -(2 * m) := by
++    rw [Padic.valuation_pow, hu, Padic.valuation_zpow, Padic.valuation_p]
++    omega
++  refine ⟨Matrix.GeneralLinearGroup.scalar (Fin 2) u, ?_, ?_⟩
++  · exact Matrix.GeneralLinearGroup.mem_center_iff_val_mem_range_scalar.2 ⟨(u : ℚ_[q]), rfl⟩
++  · rw [Units.val_mul, Matrix.det_mul, det_scalar_sq]
++    apply norm_eq_one_of_valuation_eq_zero
++    · exact mul_ne_zero (pow_ne_zero 2 hu0) hdet0
++    · rw [Padic.valuation_mul (pow_ne_zero 2 hu0) hdet0, hu2, hm]
++      omega
++
++end Vdet2
++
++/-! ### `[GL₂(ℤ_q) : Iw_q] = q + 1` -/
++
++/-- The matrix `!![1, 0; j, 1]`, a coset representative of `GL₂(ℤ_q) / Iw_q`. -/
++private noncomputable def lowerRep (j : Fin q) : GL (Fin 2) ℚ_[q] :=
++  Langlandscape.Local.matGL 1 0 ((j : ℕ) : ℚ_[q]) 1 (by simp)
++
++/-- The matrix `!![0, 1; 1, 0]`, a coset representative of `GL₂(ℤ_q) / Iw_q`. -/
++private noncomputable def swapRep : GL (Fin 2) ℚ_[q] :=
++  Langlandscape.Local.matGL 0 1 1 0 (by simp)
++
++/-- The `q + 1` coset representatives, indexed by `Option (Fin q)`. -/
++private noncomputable def repEl : Option (Fin q) → GL (Fin 2) ℚ_[q]
++  | none => swapRep q
++  | some j => lowerRep q j
++
++/-- `lowerRep q j ∈ GL₂(ℤ_q)` (`s02-tree`). -/
++private lemma lowerRep_mem (j : Fin q) : lowerRep q j ∈ GL2Zl q :=
++  Langlandscape.Local.mem_GL2Zl_of_entries 1 0 ((j : ℕ) : ℤ_[q]) 1 (by simp [lowerRep])
++    (by simp)
++
++/-- `swapRep q ∈ GL₂(ℤ_q)` (`s02-tree`). -/
++private lemma swapRep_mem : swapRep q ∈ GL2Zl q :=
++  Langlandscape.Local.mem_GL2Zl_of_entries 0 1 1 0 (by simp [swapRep])
++    ⟨-1, by simp⟩
++
++/-- `repEl q o ∈ GL₂(ℤ_q)` (`s02-tree`). -/
++private lemma repEl_mem (o : Option (Fin q)) : repEl q o ∈ GL2Zl q := by
++  cases o with
++  | none => exact swapRep_mem q
++  | some j => exact lowerRep_mem q j
++
++/-- Every `k ∈ GL₂(ℤ_q)` lies in a coset of a representative (`s02-tree`, `[GL₂(ℤ_q) : Iw_q]`). -/
++private lemma exists_rep {k : GL (Fin 2) ℚ_[q]} (hk : k ∈ GL2Zl q) :
++    ∃ o : Option (Fin q), (repEl q o)⁻¹ * k ∈ Iw q := by
++  obtain ⟨a, b, c, d, hM, hu⟩ := Langlandscape.Local.mem_GL2Zl_iff_exists.1 hk
++  have hkdet : ‖(Units.val k).det‖ = 1 := (Langlandscape.Local.mem_GL2Zl_iff.1 hk).2
++  by_cases ha : IsUnit a
++  · obtain ⟨j, hj⟩ := Langlandscape.Local.exists_fin_dvd a c ha
++    refine ⟨some j, ?_⟩
++    show (lowerRep q j)⁻¹ * k ∈ Iw q
++    have H : Units.val (lowerRep q j) *
++        !![(a : ℚ_[q]), (b : ℚ_[q]);
++          ((c - ((j : ℕ) : ℤ_[q]) * a : ℤ_[q]) : ℚ_[q]),
++          ((d - ((j : ℕ) : ℤ_[q]) * b : ℤ_[q]) : ℚ_[q])] = Units.val k := by
++      rw [hM]
++      simp only [lowerRep, Langlandscape.Local.matGL_val, Matrix.mul_fin_two]
++      refine Langlandscape.Local.mat_eq ?_ ?_ ?_ ?_ <;> push_cast <;> ring
++    have hdet : ‖(Units.val (lowerRep q j)).det‖ = ‖(Units.val k).det‖ := by
++      rw [hkdet]
++      simp [lowerRep, Matrix.det_fin_two_of]
++    exact Langlandscape.Local.inv_mul_mem_K0 _ _ _ _ H hdet (by rw [pow_one]; exact hj)
++  · refine ⟨none, ?_⟩
++    show (swapRep q)⁻¹ * k ∈ Iw q
++    have hpa : (q : ℤ_[q]) ∣ a := by
++      by_contra h
++      exact ha ((Langlandscape.Local.isUnit_iff_not_dvd a).2 h)
++    have H : Units.val (swapRep q) * !![(c : ℚ_[q]), (d : ℚ_[q]); (a : ℚ_[q]), (b : ℚ_[q])] =
++        Units.val k := by
++      rw [hM]
++      simp only [swapRep, Langlandscape.Local.matGL_val, Matrix.mul_fin_two]
++      refine Langlandscape.Local.mat_eq ?_ ?_ ?_ ?_ <;> ring
++    have hdet : ‖(Units.val (swapRep q)).det‖ = ‖(Units.val k).det‖ := by
++      rw [hkdet]
++      simp [swapRep, Matrix.det_fin_two_of]
++    exact Langlandscape.Local.inv_mul_mem_K0 _ _ _ _ H hdet (by rw [pow_one]; exact hpa)
++
++/-- Distinct lower representatives lie in distinct cosets (`s02-tree`, `[GL₂(ℤ_q) : Iw_q]`). -/
++private lemma lowerRep_inj {i j : Fin q} (h : (lowerRep q i)⁻¹ * lowerRep q j ∈ Iw q) :
++    i = j := by
++  obtain ⟨a, b, c, d, hM, -, hc⟩ := Langlandscape.Local.mem_K0_iff_exists.1 h
++  have H : Units.val (lowerRep q j) = Units.val (lowerRep q i) * !![(a : ℚ_[q]), b; c, d] := by
++    rw [← hM, ← Units.val_mul, mul_inv_cancel_left]
++  simp only [lowerRep, Langlandscape.Local.matGL_val, Matrix.mul_fin_two] at H
++  have h00 : (1 : ℚ_[q]) = 1 * (a : ℚ_[q]) + 0 * (c : ℚ_[q]) := congrFun (congrFun H 0) 0
++  have h10 : ((j : ℕ) : ℚ_[q]) = ((i : ℕ) : ℚ_[q]) * (a : ℚ_[q]) + 1 * (c : ℚ_[q]) :=
++    congrFun (congrFun H 1) 0
++  have hZ : ((j : ℕ) : ℤ_[q]) - ((i : ℕ) : ℤ_[q]) = c := by
++    apply PadicInt.ext
++    push_cast
++    linear_combination h10 - ((i : ℕ) : ℚ_[q]) * h00
++  have hc1 : (q : ℤ_[q]) ∣ c := by simpa using hc
++  have := Langlandscape.Local.fin_eq_of_dvd (x := j) (y := i) (by rw [hZ]; exact hc1)
++  exact this.symm
++
++/-- `swap⁻¹ · lowerRep` is never in `Iw_q` (`s02-tree`, `[GL₂(ℤ_q) : Iw_q]`). -/
++private lemma swap_inv_mul_lowerRep_not_mem (j : Fin q) :
++    (swapRep q)⁻¹ * lowerRep q j ∉ Iw q := by
++  intro h
++  obtain ⟨a, b, c, d, hM, -, hc⟩ := Langlandscape.Local.mem_K0_iff_exists.1 h
++  have H : Units.val (lowerRep q j) = Units.val (swapRep q) * !![(a : ℚ_[q]), b; c, d] := by
++    rw [← hM, ← Units.val_mul, mul_inv_cancel_left]
++  simp only [lowerRep, swapRep, Langlandscape.Local.matGL_val, Matrix.mul_fin_two] at H
++  have h00 : (1 : ℚ_[q]) = 0 * (a : ℚ_[q]) + 1 * (c : ℚ_[q]) := congrFun (congrFun H 0) 0
++  have hc1 : (1 : ℤ_[q]) = c := by
++    apply PadicInt.ext
++    push_cast
++    linear_combination h00
++  have hq : (q : ℤ_[q]) ∣ 1 := by
++    rw [hc1]
++    simpa using hc
++  exact (Langlandscape.Local.isUnit_iff_not_dvd (1 : ℤ_[q])).1 isUnit_one hq
++
++/-- `lowerRep⁻¹ · swap` is never in `Iw_q` (`s02-tree`, `[GL₂(ℤ_q) : Iw_q]`). -/
++private lemma lowerRep_inv_mul_swap_not_mem (j : Fin q) :
++    (lowerRep q j)⁻¹ * swapRep q ∉ Iw q := by
++  intro h
++  obtain ⟨a, b, c, d, hM, -, hc⟩ := Langlandscape.Local.mem_K0_iff_exists.1 h
++  have H : Units.val (swapRep q) = Units.val (lowerRep q j) * !![(a : ℚ_[q]), b; c, d] := by
++    rw [← hM, ← Units.val_mul, mul_inv_cancel_left]
++  simp only [lowerRep, swapRep, Langlandscape.Local.matGL_val, Matrix.mul_fin_two] at H
++  have h00 : (0 : ℚ_[q]) = 1 * (a : ℚ_[q]) + 0 * (c : ℚ_[q]) := congrFun (congrFun H 0) 0
++  have h10 : (1 : ℚ_[q]) = ((j : ℕ) : ℚ_[q]) * (a : ℚ_[q]) + 1 * (c : ℚ_[q]) :=
++    congrFun (congrFun H 1) 0
++  have hc1 : (1 : ℤ_[q]) = c := by
++    apply PadicInt.ext
++    push_cast
++    linear_combination h10 - ((j : ℕ) : ℚ_[q]) * h00
++  have hq : (q : ℤ_[q]) ∣ 1 := by
++    rw [hc1]
++    simpa using hc
++  exact (Langlandscape.Local.isUnit_iff_not_dvd (1 : ℤ_[q])).1 isUnit_one hq
++
++/-- `Iw_q` as a subgroup of `GL₂(ℤ_q)`. -/
++private noncomputable abbrev IwG : Subgroup (GL2Zl q) := (Iw q).subgroupOf (GL2Zl q)
++
++/-- The coset of the representative `repEl q o` in `GL₂(ℤ_q) / Iw_q`. -/
++private noncomputable def repQ (o : Option (Fin q)) : GL2Zl q ⧸ IwG q :=
++  QuotientGroup.mk ⟨repEl q o, repEl_mem q o⟩
++
++/-- `lem:s02-tree`-input: `[GL₂(ℤ_q) : Iw_q] = q + 1` (`s02-tree`). -/
++theorem relIndex_Iw : (Iw q).relIndex (GL2Zl q) = q + 1 := by
++  have hbij : Function.Bijective (repQ q) := by
++    constructor
++    · intro i j hij
++      have h0 := QuotientGroup.eq.1 (show
++        (QuotientGroup.mk ⟨repEl q i, repEl_mem q i⟩ : GL2Zl q ⧸ IwG q) =
++          QuotientGroup.mk ⟨repEl q j, repEl_mem q j⟩ from hij)
++      have h : (repEl q i)⁻¹ * repEl q j ∈ Iw q := h0
++      rcases i with _ | i <;> rcases j with _ | j
++      · rfl
++      · exact (swap_inv_mul_lowerRep_not_mem q j h).elim
++      · exact (lowerRep_inv_mul_swap_not_mem q i h).elim
++      · exact congrArg some (lowerRep_inj q h)
++    · intro x
++      obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective x
++      obtain ⟨o, ho⟩ := exists_rep q k.2
++      have h2 : ((⟨repEl q o, repEl_mem q o⟩ : GL2Zl q)⁻¹ * k) ∈ IwG q := ho
++      exact ⟨o, QuotientGroup.eq.2 h2⟩
++  show ((Iw q).subgroupOf (GL2Zl q)).index = q + 1
++  exact (Subgroup.index_eq_card _).trans
++    ((Nat.card_congr (Equiv.ofBijective (repQ q) hbij)).symm.trans (by simp))
++
++end Langlandscape.Tree
+diff --git a/lean/Langlandscape/LanglandscapeTests/S02/Coset.lean b/lean/Langlandscape/LanglandscapeTests/S02/Coset.lean
+index 15095dd..d837f79 100644
+--- a/lean/Langlandscape/LanglandscapeTests/S02/Coset.lean
++++ b/lean/Langlandscape/LanglandscapeTests/S02/Coset.lean
+@@ -1,5 +1,22 @@
++import Langlandscape.Tree.Coset
++
+ /-!
+ # Tests for S02 Coset — S02-L1 (stub; owner fills it)
+ 
+ Tex labels: def:s02-tree.
+ -/
++
++open Langlandscape.Tree
++
++/-- Non-vacuity (`def:s02-tree`, `s02-tree`): at `q = 2` the origin of the base edge is `v₀`. -/
++example : oO (e0 2) = v0 2 := oO_e0 2
++
++/-- Non-vacuity (`def:s02-tree`, `s02-tree`): at `q = 2` the terminus of the base edge is `v₁`. -/
++example : tO (e0 2) = v1 2 := tO_e0 2
++
++/-- Non-vacuity (`def:s02-tree`, `s02-tree`): at `q = 2` the vertex `v₁` has type `1`. -/
++example : vtype (v1 2) = 1 := vtype_v1 2
++
++/-- Non-vacuity (`def:s02-tree`, `s02-tree`): at `q = 2` the vertices `v₀`, `v₁` are adjacent. -/
++example : (graph 2).Adj (v0 2) (v1 2) :=
++  graph_adj_iff.2 ⟨e0 2, by rw [oO_e0, tO_e0]⟩

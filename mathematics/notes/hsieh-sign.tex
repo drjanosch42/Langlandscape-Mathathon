@@ -1,0 +1,241 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% WP S06-HS: technical note on the sign of JL(U_q), q | N^-, in [Hs, Sect. 4.5, p. 34].
+% Self-contained (no preamble, no biber). Build: latexmk -pdf -interaction=nonstopmode hsieh-sign.tex
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!50!black]{hyperref}
+\setlist{itemsep=2pt,topsep=3pt}
+\setlength{\emergencystretch}{3em}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}[proposition]{Remark}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\I}{\mathrm{I}}
+\newcommand{\T}{\mathbf{T}}
+\newcommand{\JL}{\mathrm{JL}}
+\newcommand{\St}{\mathrm{St}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\Nrd}{\mathrm{Nrd}}
+\newcommand{\eS}{e\mathbf{S}}
+\newcommand{\st}[1]{\textup{\textsf{[#1]}}}
+
+\title[The sign of $\mathrm{JL}(U_q)$, $q\mid N^-$, in Hsieh's paper]{On the sign of $\JL(U_q)$ for $q\mid N^-$ in Hsieh's \emph{Hida families and $p$-adic triple product $L$-functions}}
+\author{Fabian Januszewski, Abhijit A J}
+\date{15 November 2026}
+
+\begin{document}
+\begin{abstract}
+In \cite[\S4.5, p.~34]{Hs} the Jacquet--Langlands homomorphism $\JL:\T(N,\I)\to\T^D(N,\I)$ is stated to satisfy
+$\JL(U_q)=(-1)U_q$ for $q\mid N^-$. With the normalisations of \cite{Hs} the correct relation is $\JL(U_q)=+U_q$. We
+give the precise location and normalisations, a proof sketch, numerical evidence (144 of 144 eigenlines), and a list of
+the places in \cite{Hs} that do and do not depend on the sign. The correction concerns one sentence; we found no
+effect on the theorems of \cite{Hs}.
+Status labels: \st{cited} (taken from the literature, with pointer), \st{proved} (argument given here, modulo the cited
+inputs), \st{computed} (machine computation, provenance in \S\ref{s:comp}).
+\end{abstract}
+\maketitle
+
+\section{The statement in \texorpdfstring{\cite{Hs}}{[Hs]} and the normalisations in force}\label{s:stmt}
+All numbers and pages refer to arXiv:1705.02717v5 (12 Jan 2021); the numbering of the published version
+(Amer.\ J.\ Math.\ 143 (2021)) has not been checked.
+
+\emph{The statement} \st{cited}. \cite[\S4.5 ``Hecke algebras and primitive $\Lambda$-adic forms'', p.~34]{Hs}, the
+paragraph preceding Theorem~4.5: by the Jacquet--Langlands correspondence there is a surjective $\I$-algebra
+homomorphism $\JL:\T(N,\I)\to\T^D(N,\I)$ with $\JL(T_q)=T_q$ ($q\nmid Np$), $\JL(U_q)=U_q$ ($q\mid N^+p$),
+\[\JL(U_q)=(-1)\,U_q\qquad(q\mid N^-),\]
+and $\JL(\sigma_d)=\sigma_d$; for an ordinary $\Lambda$-adic newform $f$ of tame conductor $N$ with
+$\operatorname{supp}N^-\subset\Sigma^f_0$ the homomorphism $\lambda_f$ factors through $\JL$, and $\lambda^D_f$ is defined
+by $\lambda_f=\lambda^D_f\circ\JL$. Theorem~4.5 (same page) then asserts that $\eS^D(N,\I)[\lambda^D_f]$ is free of rank one
+over $\I$ under (CR,\,$\operatorname{supp}N^-$).
+
+\emph{Normalisations} \st{cited}. (i) $D$ is the definite quaternion algebra of discriminant $N^-$, $N=N^+N^-$,
+$(N^+,N^-)=1$ (\S4.1, pp.~28--29); $\Sigma^f_0$ is the set of primes where $\pi_{f,\ell}$ is a discrete series (\S3.4,
+p.~19). (ii) Quaternionic forms of weight $\kappa+2$ are functions $f:\widehat D^\times\to L_\kappa(A)$ with
+$f(\alpha xuz)=\rho_{\kappa,p}(u_p^{-1})f(x)z_p^{-\kappa}\chi^{-1}(z)$ (\S4.2, pp.~29--30). For $q\mid N^-$,
+$\varpi^D_q\in R_q$ with $\nu(\varpi^D_q)=q$ and $U_qf(x)=f(x\varpi^D_q)$ (\S4.2, p.~30); on the homology
+$\mathcal O[X_\alpha]$, $U_qx=x\varpi^D_q$ (\S4.4, p.~31), and the $\Lambda$-adic space is the $\Lambda$-dual
+(4.6), p.~31, with $tf(x)=f(tx)$; transposition does not change eigenvalues. No scalar normalises $U_q$ for $q\mid N^-$.
+(iii) On the $\GL_2$ side, $U_\ell$ for $\ell\mid pN$ is the classical $\sum a(n)q^n\mapsto\sum a(n\ell)q^n$ (\S3.1, p.~16),
+and $\lambda_f(U_\ell)=a(\ell,f)$ (\S3.3, p.~18). The adelic and classical operators differ by the positive factor
+$\ell^{k/2-1}$: $\Phi(U_\ell f)=\ell^{k/2-1}U_\ell\Phi(f)$ ((2.7), \S2.3, p.~11). So neither side carries a sign
+convention at $q\mid N^-$ that could absorb a factor $-1$: read literally, the statement says that the
+$\varpi^D_q$-eigenvalue of the Jacquet--Langlands lift of $f$ is $-a(q,f)$.
+
+\emph{Our conventions.} We write $\Pi_q:=\varpi^D_q$ and use the homological Brandt module $\Z[D^\times\backslash\widehat
+D^\times/U]$ with $\Pi_q[x]=[x\Pi_q]$, and in weight $k$ the algebraic normalisation in which $\Pi_q^2=q^{k-2}$ (level $R_q^\times$ at $q$, trivial
+character). This is (ii) with $\kappa=k-2$: from the displayed
+transformation law, $U_q^2f(x)=f(xq_q)=q^{\kappa}\chi_q(q)f(x)$, where $q_q$ is the idele equal to $q$ at $q$ and $1$
+elsewhere. So $\Pi_q$ and Hsieh's quaternionic $U_q$ are the same operator, and $a_q$ and Hsieh's $a(q,f)$ are the same
+number.
+
+\section{The corrected relation}\label{s:proof}
+\begin{proposition}[local sign]\label{p:local}
+Let $\pi$ be a cuspidal automorphic representation of $\GL_2(\A)$ whose classical vector of weight $k\ge2$ is a newform
+$f$ with $q\,\|\,$level and unramified central character at $q$, and let $\pi'$ be its Jacquet--Langlands transfer
+to $D^\times(\A)$, $q\mid\operatorname{disc}D$. Then $\pi_q=(\mu\circ\det)\otimes\St$ with $\mu$ unramified,
+$\pi'_q=\mu\circ\Nrd$, and in the normalisations of \S\ref{s:stmt}
+\[a(q,f)=\mu(q)\,c_k=\lambda_{\phi}(\Pi_q),\]
+where $\phi$ is any $\widehat R^\times_q$-invariant quaternionic eigenform in $\pi'$ and $c_k>0$ is the same positive
+real normalising factor on both sides ($c_k=q^{(k-2)/2}$ for trivial character). In particular $U_q\mapsto+\Pi_q$.
+\end{proposition}
+\noindent\st{proved} modulo \st{cited} inputs for trivial character (written out in our stage-05 chapter, Prop.~``sign~(e)'',
+\texttt{mathematics/chapters/s05/higherweight.tex}); for an unramified non-trivial central character at $q$ the same
+argument applies verbatim (proof sketch).
+\begin{proof}[Proof sketch]
+(1) $\pi'_q$ has a vector fixed by $R_q^\times$, so it is a character $\mu\circ\Nrd$ with $\mu$ unramified; by the local
+correspondence $\mu\circ\Nrd\leftrightarrow\sigma(\mu|\cdot|^{1/2},\mu|\cdot|^{-1/2})=(\mu\circ\det)\otimes\St$
+\cite[\S15, Thm.~15.1, p.~471, and the paragraph after Lemma~15.4, p.~484]{JL}. The sign $\mu(q)$ is carried unchanged:
+the twisted case follows from the untwisted one via $\Theta_{(\mu\circ\det)\otimes\pi}(g')=\mu(\det g')\Theta_\pi(g')$ and
+$\det g'=\Nrd g$. (2) On the new (Iwahori-fixed) line of $\St$ the unitary local operator
+$\sum_{x\in\Z_q/q}\pi\big(\begin{smallmatrix}q&x\\0&1\end{smallmatrix}\big)$ acts by $+1$ \cite[Prop.~2.2 and its proof,
+pp.~12--13]{Hs}; on $(\mu\circ\det)\otimes\St$ it acts by $\mu(q)$. With (2.7) of \cite{Hs},
+$a(q,f)=\mu(q)\cdot(\text{positive})$. (3) On $\mu\circ\Nrd$ the uniformiser acts by $\mu(\Nrd\Pi_q)=\mu(q)$; the passage
+from the algebraic normalisation (ii) to unitary automorphic forms multiplies by a positive real character of
+$|\Nrd|_\A$, so $\lambda_\phi(\Pi_q)=\mu(q)\cdot(\text{positive})$. (4) Both positive factors are fixed by the squares:
+$a(q,f)^2=\chi'(q)q^{k-2}$ (Li, \cite[Thm.~3(iii), pp.~295--296]{Li}) and $\Pi_q^2=\chi_q(q)q^{k-2}$ (\S\ref{s:stmt}), with
+the same unramified character value; hence they coincide.
+\end{proof}
+
+\begin{remark}[independent checks]\label{r:checks}
+(a) \emph{Weight $2$, geometric} \st{cited}. On the character group of the torus of $J_0(qM)$ at $q$, identified with
+degree-zero divisors on the supersingular points, $T_q=U_q$ is the Frobenius permutation \cite[Prop.~3.8(ii),
+p.~446]{Rib}, which is right multiplication by a uniformiser of $B_q$ on ideal classes \cite[Rem.~3.5(b), p.~441]{Rib}: no
+sign. The two minus signs in Ribet's proof (from $w_q=-T_q$ on the torus, \cite[Prop.~3.7, p.~445]{Rib}, and from the
+interchange of the two components) cancel.
+(b) \emph{Level $11$} \st{proved}. For $D$ of discriminant $11$ the two classes have stabilisers of orders $2$ and $3$
+modulo $\pm1$, so $\Pi_{11}$ (which preserves stabiliser orders) is the identity on the class set; the newform $11a$ has
+$a_{11}=+1$. Hence $\lambda(\Pi_{11})=+a_{11}$.
+(c) \emph{The same author's convention elsewhere} \st{cited}. In \cite{CH} the quaternionic $U_q$ for $q\mid\Delta_B$ is
+$[U\pi'_qU]$ with $\Nrd\pi'_q=q$ ((2.4), p.~9), and the quaternionic eigensystem attached to $f$ has
+$\lambda_f(U_q)=\alpha_q(f)=a_q(f)q^{(2-k)/2}$ for $q\mid pN$ (\S4.1, pp.~13--14; proof of Prop.~6.13, p.~23): the sign
+there is $+$ (in the unitary normalisation of that paper).
+\end{remark}
+
+\begin{lemma}[the literal reading is inconsistent with Theorem~4.5]\label{l:incons}
+Read with $\JL(U_q)=-U_q$, the homomorphism $\lambda^D_f$ of \cite[p.~34]{Hs} satisfies $\lambda^D_f(U_q)=-a(q,f)$, and
+then $\eS^D(N,\I)[\lambda^D_f]=0$; so Theorem~4.5 would fail. With $\JL(U_q)=+U_q$, $\eS^D(N,\I)[\lambda^D_f]$ is the
+line Theorem~4.5 is about. \st{proved} modulo \st{cited} (Prop.~\ref{p:local}, control theorem).
+\end{lemma}
+\begin{proof}[Proof sketch]
+Let $0\ne\phi\in\eS^D(N,\I)[\lambda^D_f]$. As $\eS^D(N,\chi,\I)$ is $\I$-free \cite[Thm.~4.2(1), p.~32]{Hs} and a non-zero
+element of $\I$ lies in only finitely many height-one primes, $\phi_Q:=\phi\bmod\wp_Q\ne0$ for infinitely many arithmetic
+$Q$; by \cite[Thm.~4.2(2)]{Hs}, $\phi_Q$ is a classical quaternionic eigenform with the $T_\ell$-eigenvalues of $f_Q$ and
+$U_q\phi_Q=-a(q,f_Q)\phi_Q$. By strong multiplicity one $\phi_Q$ lies in the transfer $\pi'$ of $\pi_{f_Q}$, and $q\,\|\,N$
+with unramified character at $q$, so Prop.~\ref{p:local} gives $U_q\phi_Q=+a(q,f_Q)\phi_Q$. Since $a(q,f_Q)^2=
+\chi'(q)q^{k_Q-2}\ne0$, $\phi_Q=0$, a contradiction.
+\end{proof}
+
+\noindent\textbf{Corrected statement.} \emph{$\JL(U_q)=U_q$ for $q\mid N^-$; equivalently, the $\varpi^D_q$-eigenvalue of
+the primitive Jacquet--Langlands lift $f^D$ is $\lambda^D_f(U_q)=a(q,f)$.} All other values of $\JL$ in \cite[p.~34]{Hs}
+are unchanged. \st{proved} modulo \st{cited}; confirmed numerically (\S\ref{s:comp}).
+
+\section{Computational evidence (T05-1)}\label{s:comp}
+\emph{Setup.} $M=1$ (level $\widehat R^\times$), trivial character, $q\in\{11,23,37,43\}$, $k\in\{2,4,6,8\}$. Definite side:
+the Brandt module of weight $k$ of the quaternion algebra ramified at $\{q,\infty\}$ (coefficients
+$\operatorname{Sym}^{k-2}$), computed exactly over $\Q$ (or a quadratic field) from left-ideal classes of a maximal order;
+$\Pi_q$ is computed from the two-sided prime $P$ above $q$ ($[L]\mapsto[PL]$, with the factor $q^{k-2}$ forced by the
+transformation law, so that $\Pi_q^2=q^{k-2}$, checked as a matrix identity); $T_2,T_3,T_5$ as usual. At $k=2$ the
+constant (Eisenstein) line is removed. $\GL_2$ side: the new subspace of $S_k(\Gamma_0(q))$ with $U_q$, $T_2,T_3,T_5$
+(PARI/GP \texttt{mfinit}, \texttt{mfheckemat}).
+
+\emph{Method.} Both sides are split into the eigenspaces of $\Pi_q$, resp.\ $U_q$, for the eigenvalues $\pm q^{(k-2)/2}$.
+On each eigenspace the characteristic polynomial of $C=T_2+3T_3+7T_5$ is factored over $\Q$; an irreducible factor of
+degree $d$ and multiplicity $m$ is a Galois orbit of $dm$ eigenlines. A Brandt orbit of $\Pi_q$-sign $\varepsilon$ is
+counted as \emph{plus} if the same factor occurs (with the same $(d,m)$) on the $U_q$-eigenspace of sign $\varepsilon$ and
+not on the other, \emph{minus} in the opposite case, otherwise \emph{unmatched}. In addition, the characteristic polynomials
+of $T_2$, $T_3$, $T_5$ are compared per sign, $\Pi_q$ is checked to commute with the $T_\ell$, and every newform orbit is
+required to have a Brandt partner.
+
+\emph{Result} \st{computed}. All $144$ eigenlines are \emph{plus}, none \emph{minus}, none unmatched, all checks pass
+(Table~\ref{t:T051}). Both signs of $\lambda(\Pi_q)$ occur ($70$ lines with $+q^{(k-2)/2}$, $74$ with $-q^{(k-2)/2}$), so the
+test separates the two relations: under $\JL(U_q)=-U_q$ every one of the $144$ lines would be mismatched.
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{rrrrrr@{\qquad}rrrrrr}
+\toprule
+$q$&$k$&lines&$\lambda>0$&$\lambda<0$&plus&$q$&$k$&lines&$\lambda>0$&$\lambda<0$&plus\\
+\midrule
+11&2&1&1&0&1   &37&2&2&1&1&2\\
+11&4&2&0&2&2   &37&4&9&4&5&9\\
+11&6&4&3&1&4   &37&6&15&8&7&15\\
+11&8&6&2&4&6   &37&8&21&10&11&21\\
+23&2&2&2&0&2   &43&2&3&2&1&3\\
+23&4&5&1&4&5   &43&4&10&4&6&10\\
+23&6&9&6&3&9   &43&6&18&10&8&18\\
+23&8&13&5&8&13 &43&8&24&11&13&24\\
+\bottomrule
+\end{tabular}
+\caption{T05-1: eigenlines per $(q,k)$ (= $\dim S_k(\Gamma_0(q))^{\rm new}$), split by the sign of the $\Pi_q$-eigenvalue
+$\lambda$; ``plus'' = $a_q=+\lambda$. Totals: $144$ lines, $144$ plus, $0$ minus, $0$ unmatched.}\label{t:T051}
+\end{table}
+
+\emph{Provenance.} Script \texttt{code/python/langlandscape/comparison/sign.py} (with \texttt{pi\_ell.py}, \texttt{symn.py}
+of the same package); result \texttt{code/results/s05/T05-1.json}, recorded at commit \texttt{89045d1f} (clean tree),
+PARI 2.15.4, Python 3.10.12, run time about $20$\,s; committed in \texttt{c37355ff}. Re-run (without writing) at commit
+\texttt{eeade3df} on 2026-11-15: same totals.
+
+\emph{Scope.} Classical forms of level $q$, trivial character, $M=1$; not $\Lambda$-adic and not restricted to the
+ordinary part. The relation in \cite{Hs} is $\Lambda$-adic, but it is detected at arithmetic specialisations
+(Lemma~\ref{l:incons}), and the $U_q$-eigenvalue at $q\ne p$ is unchanged by $p$-stabilisation and ordinary projection;
+the computed spaces are of exactly the local type ($\pi_q$ unramified special, $R_q^\times$-level) occurring at
+$q\mid N^-$. The test is a validation of Prop.~\ref{p:local}, not part of its proof.
+
+\section{Consequences}\label{s:cons}
+We searched \cite{Hs} for every occurrence of $\JL$, $\lambda^D_f$ and of $U_q$ with $q\mid N^-$; the list below is our
+reading, not a complete audit of \cite{Hs}.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Affected:} only the sentence of \S4.5, p.~34, defining $\JL$ and hence the value $\lambda^D_f(U_q)$,
+  $q\mid N^-$. With the corrected sign, the definition of $\lambda^D_f$ and of $\eS^D(N,\I)[\lambda^D_f]$ is as intended;
+  with the printed sign that module is zero (Lemma~\ref{l:incons}).
+\item \emph{Theorem~4.5 and its proof} (p.~34): the proof uses \cite[Thm.~2.1]{Wiles}, [Hel07, Cor.~8.11, Rem.~8.12]
+  (as quoted in \cite{Hs}), the control theorem and the pairing $B_N$, none of which involves the sign of $\JL(U_q)$; it is correct for the corrected
+  $\lambda^D_f$. Hence also the primitive Jacquet--Langlands lifts used in \S4.6 onwards (p.~35) are as intended.
+\item \emph{Theta elements and the interpolation formula} (\S4.6--\S4.7, pp.~35--44): built from $U_p$, $e$ and the
+  diagonal cycles; the local factors at $q\in\Sigma^-$ are computed directly from the local representations
+  ($\pi_{i,q}=\mu_i\St$, Prasad's trilinear forms, $\varepsilon(1/2,\Pi_q)=-1$; pp.~41 and 44), not via $\JL(U_q)$.
+  Not affected.
+\item \emph{Gross periods and congruence ideals} (Def.~4.12, p.~43; Rem.~7.3, p.~67; Rem.~7.8, p.~71): defined by the
+  self-pairing $B_N(f^D,f^D)$ and by $\lambda^D_f(\mathrm{Ann}(\ker\lambda^D_f))$ on $\T^D$, intrinsic to $\T^D$ once
+  $\lambda^D_f$ is the correct eigensystem. Rem.~7.8 identifies $\T^D$ with the $N^-$-new quotient of $\T$; this
+  identification is the map $\JL$ and holds with the corrected sign. The ideals themselves are unchanged.
+\item \emph{\S7.2, Lemma~7.6} (p.~69): concerns primes $q$ split in $D$. Not affected.
+\item \emph{Main theorems} (Theorems~A and~B, \S1.6, pp.~5--6; Theorem~B is the balanced, definite case): we
+  found no dependence on the sign. The
+  correction is to a normalisation statement, not to a theorem.
+\end{enumerate}
+\emph{Possible origin} \st{conjectural}. On $q$-new forms of weight $2$ the Atkin--Lehner involution is $w_q=-U_q$
+\cite[Prop.~3.7, p.~445]{Rib}, and the local Jacquet--Langlands character relation carries a sign
+($\operatorname{tr}\pi'(g)=-\Theta_\pi(g')$); either could account for the printed $-1$.
+
+\emph{In our project.} We use $U_q\mapsto+\Pi_q$; from \cite{Hs} we import Hyp.~(CR,$\Sigma$), Thm.~4.5, Def.~4.3, Lemma~4.4,
+Def.~4.12, Rem.~7.3 and Rem.~7.8, none of which depends on the sign. No statement of \cite{Hs} involving $U_q$ for $q\mid N^-$
+is used with the printed sign.
+
+\begin{thebibliography}{CH15}
+\bibitem[CH15]{CH} M.~Chida and M.-L.~Hsieh, \emph{On the anticyclotomic Iwasawa main conjecture for modular forms},
+  Compos.\ Math.\ \textbf{151} (2015), 863--897; arXiv:1304.3311v2 (pages cited from the arXiv version).
+\bibitem[Hs]{Hs} M.-L.~Hsieh, \emph{Hida families and $p$-adic triple product $L$-functions}, Amer.\ J.\ Math.\
+  \textbf{143} (2021), 411--532; arXiv:1705.02717v5 (pages cited from the arXiv version).
+\bibitem[JL70]{JL} H.~Jacquet and R.~P.~Langlands, \emph{Automorphic forms on $\mathrm{GL}(2)$}, Lecture Notes in Math.\
+  \textbf{114}, Springer, 1970.
+\bibitem[Li75]{Li} W.-C.~W.~Li, \emph{Newforms and functional equations}, Math.\ Ann.\ \textbf{212} (1975), 285--315.
+\bibitem[Rib90]{Rib} K.~A.~Ribet, \emph{On modular representations of $\mathrm{Gal}(\bar\Q/\Q)$ arising from modular
+  forms}, Invent.\ Math.\ \textbf{100} (1990), 431--476.
+\bibitem[Wil95]{Wiles} A.~Wiles, \emph{Modular elliptic curves and Fermat's last theorem}, Ann.\ of Math.\ (2)
+  \textbf{141} (1995), 443--551.
+\end{thebibliography}
+\end{document}

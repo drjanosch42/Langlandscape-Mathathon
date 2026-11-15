@@ -1,0 +1,24 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Detailed summary (the former long abstract, unchanged in content); report only, via \sOOsummary at the start of s00/motivation.
+\paragraph{Summary of results.}
+We study the Jacquet--Langlands correspondence between a \emph{definite} quaternion algebra $B$ over $\Q$ and $\GL_2$ and ask
+for it as an integral, Hecke-equivariant and computable \emph{map} rather than a trace identity. Following Ihara and Serre we
+realise the definite side by quotients of the Bruhat--Tits tree of $\GL_2(\Q_q)$ by $S$-arithmetic quaternionic groups, and build
+the route in six stages: class sets, Brandt modules and Hecke operators; tree quotients and the Brandt graph; the definite
+Ribet sequence and the definite Ihara lemma as statements about weighted graphs (with Mazur's component group
+$\Z/\mathrm{num}\frac{q-1}{12}$, where $\mathrm{num}\frac{q-1}{12}$ is the numerator of $\frac{q-1}{12}$ in lowest terms, recovered combinatorially); the ordinary $\Lambda$-adic passage up the $p$-power tower; a single
+comparison hypothesis $\HypX$ that isolates all geometry; and, for discriminant $D=q$, an integral \emph{defect formula}: for a
+$q$-new Hida branch $F$ the ratio of the congruence ideals on the two sides is the old/new congruence ideal $\cc_q(F)$, and
+$\cc_q(F)$ equals the local Tamagawa ideal $\tq_q(F)$. The defect formula is proved modulo cited results (Hida, Hsieh, Kim--Ota)
+under the explicit standing hypotheses of \S\ref{ss:s00-H} (among them $p\ge5$, $p\nmid\varphi(qM)$, a non-Eisenstein maximal
+ideal, residual absolute irreducibility and $p$-distinguishedness, the existence of a suitable arithmetic point, and either
+$q\not\equiv-1\bmod p$, or $\bar\rho$ ramified at $q$, or one of the level conditions (Lev)); for $q\equiv-1\bmod p$ outside (Lev)
+($N(\bar\rho)>1$, or non-squarefree $M$) it is open. In the first case ($D=q$, weight~$2$) our route reproves classical Jacquet--Langlands modulo cited geometry
+(Ribet's argument, in our combinatorial form on the tree; \S\ref{ss:s00-whycited}); elsewhere Jacquet--Langlands is cited (\S\ref{ss:s00-whycited}). A large part is formalized in Lean~4 (\GateAudited{} audited
+declarations, standard axioms only, no \texttt{sorry} in any of them; every cited or not yet formalized input is an explicit argument: one of \NumHypRegistered{} registered hypotheses, of which
+\NumHypDischarged{} are discharged, or a stated premise such as the connectivity of the Brandt graph; several statements are about
+abstract data), and the
+statements were checked numerically with Python/PARI and the HACS engine. Every claim below carries its status, exactly as in
+our chapters: proved (on paper, with a proof outline here), proved modulo cited results, Lean-verified, Lean-conditional on named
+hypotheses, computed (with range), cited, or conjectural/open. We also record one sign correction to the literature.

@@ -1,0 +1,54 @@
+% Document B (back-translation), algebraic_jl fork. Build with texbuild_B.sh (LuaLaTeX + biber), never in place.
+\documentclass[11pt,twoside]{book}
+\usepackage[B]{gl2tf}
+\addbibresource{refs.bib}
+
+\title{Algebraic structures for $\mathrm{GL}(2)$ and definite quaternion algebras\\[1ex]\normalsize Back-translation (B)}
+\author{algebraic\_jl fork of the trace\_formula\_gl2 project}
+\date{Draft, \today}
+
+\begin{document}
+\frontmatter
+\maketitle
+\noindent\textbf{About this edition.} Document B mirrors the Lean code (document C, \texttt{lean/AlgJL}) one-to-one.
+Every statement is the same snippet as in document A; formal blocks, binder tables, status lines and
+\texttt{\textbackslash leanok} markers come from generated data (\texttt{generated/}), which is a \emph{frozen filtered copy}
+of the data of the parent repository (commit \texttt{84818d0}); it was not regenerated for this fork. Lean declaration names
+(\texttt{GL2TF.*}) and item identifiers are those of the parent. Generated data stamp: \tfgenstampline.
+\par\medskip
+\tableofcontents
+\mainmatter
+
+\chapter*{Notation}\addcontentsline{toc}{chapter}{Notation}
+\input{notation}
+
+\part{The split group $\GL_2$ over $\Q$: algebraic prerequisites}
+\input{vol1/ch-0-01-conventions}
+\input{vol1/ch-0-02-local-field}
+\input{vol1/ch-0-03-adeles}
+\input{vol1/ch-0-04-top-groups}
+\input{vol1/ch-0-05-decompositions}
+\input{vol1/ch-0-06-haar}
+\input{vol1/ch-0-07-quotient}
+\input{vol1/ch-0-08-reduction}
+\input{vol1/ch-0-10-reps}
+\input{vol1/ch-1-01-spherical}
+\input{vol1/ch-1-02-smooth}
+\input{vol2/ch-02-parabolic}
+\input{vol2/ch-03-kernel}
+\input{vol2/ch-04-orbital}
+\input{vol2/ch-06-truncation}
+
+\part{Definite quaternion algebras over $\Q$}
+\input{vol3/ch-iii-06-quatalg}
+\input{vol3/ch-iii-07-orders}
+\input{vol3/ch-iii-08-brandt}
+
+\appendix
+\input{vol3/ch-iii-01-explicit}
+\chapter{Registry of hypotheses}\label{ch:hypotheses}
+\input{hypotheses}
+
+\backmatter
+\printbibliography
+\end{document}

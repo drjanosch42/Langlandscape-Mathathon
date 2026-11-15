@@ -1,0 +1,1033 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/Hecke.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline: planned IDs (\tfplanned) only; no statements or proofs yet.
+
+\chapter{Hecke algebras and test functions}\label{ch:ch-0-09-hecke}
+
+\noindent\emph{Sources:} \cite[§§1, 9]{JL}; \cite{BumpH}; \cite{Cas-p}.
+
+\section{Hecke algebras of locally profinite groups}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[smooth compactly supported functions]
+\tfstmt{I.hecke.def:smooth-compact-functions}
+\lean{GL2TF.smoothCompactFunctions}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-compact-functions}
+\tfsem{I.hecke.def:smooth-compact-functions}{c8088bbffb164f665af4e40e58d6d76835b15d4ae2686332fcc329e6de82165d}
+\tfhyps{I.hecke.def:smooth-compact-functions}{}
+\tfbinder{I.hecke.def:smooth-compact-functions}{0}{6b8b0c0f}{the underlying type of $G$}
+\tfbinder{I.hecke.def:smooth-compact-functions}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.def:smooth-compact-functions}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.def:smooth-compact-functions}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.def:smooth-compact-functions}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.def:smooth-compact-functions}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.def:smooth-compact-functions}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\end{tfformal}
+
+\begin{definition}[convolution]
+\tfstmt{I.hecke.def:convolution}
+\lean{GL2TF.heckeConv}
+\uses{I.hecke.def:smooth-compact-functions}
+\end{definition}
+\begin{tfformal}{I.hecke.def:convolution}
+\tfsem{I.hecke.def:convolution}{2492c3cdfb41d6ef2caebd12676c221c645f96040f15a5908855f8ed27511457}
+\tfhyps{I.hecke.def:convolution}{}
+\tfbinder{I.hecke.def:convolution}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.def:convolution}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.def:convolution}{2}{746bd334}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.def:convolution}{3}{f302949c}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.def:convolution}{4}{cf370610}{the function $f\colon G\to\C$}
+\tfbinder{I.hecke.def:convolution}{5}{8a0ed382}{the function $g\colon G\to\C$}
+\tfbinder{I.hecke.def:convolution}{6}{b99c2c68}{the element $x\in G$}
+\begin{tffidelity}
+The convolution is total: it is defined for any measure and any functions. A's Haar-measure and $C_c^\infty$ hypotheses sit on the theorems.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{lemma}[closure under convolution]
+\tfstmt{I.hecke.lem:convolution-mem}
+\bonly
+\lean{GL2TF.heckeConv_mem}
+\uses{I.hecke.def:convolution, I.hecke.def:smooth-compact-functions}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:convolution-mem}
+\tfsem{I.hecke.lem:convolution-mem}{860cbe3e2920357eb07ce588712505c1a93a9d86c81e943a7cc075a9df367517}
+\tfhyps{I.hecke.lem:convolution-mem}{}
+\tfbinder{I.hecke.lem:convolution-mem}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.lem:convolution-mem}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.lem:convolution-mem}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.lem:convolution-mem}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.lem:convolution-mem}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.lem:convolution-mem}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.lem:convolution-mem}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.lem:convolution-mem}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.lem:convolution-mem}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.lem:convolution-mem}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.lem:convolution-mem}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.lem:convolution-mem}{11}{6d126d39}{the function $f\colon G\to\C$}
+\tfbinder{I.hecke.lem:convolution-mem}{12}{d2c1986d}{the function $g\colon G\to\C$}
+\tfbinder{I.hecke.lem:convolution-mem}{13}{93716799}{the function $f\in C_c^\infty(G)$}
+\tfbinder{I.hecke.lem:convolution-mem}{14}{16063fde}{the function $g\in C_c^\infty(G)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Choose a compact open $K$ with $g$ right $K$-invariant (\texttt{exists\_right\_invariant}: a locally constant function of compact support is right invariant under a compact open subgroup). Then $f*_\mu g$ is right $K$-invariant, because the substitution $g(y^{-1}xk)=g(y^{-1}x)$ is pointwise, so it is locally constant (\texttt{isLocallyConstant\_of\_right\_invariant}: constant on the open cosets $xK$). Its support lies in $\operatorname{tsupp}f\cdot\operatorname{tsupp}g$, which is compact: if $x$ is outside this product, the integrand vanishes identically (\texttt{heckeConv\_mem\_aux}). A's remark after \cref{I.hecke.def:convolution} is exactly this statement.
+\end{proof}
+
+\begin{theorem}[associativity]
+\tfstmt{I.hecke.thm:convolution-associative}
+\lean{GL2TF.heckeConv_assoc}
+\uses{I.hecke.def:convolution, I.hecke.def:smooth-compact-functions, X.hpair.def:algebra-instance, X.hpair.def:conv-term, X.hpair.def:hecke-algebra, X.hpair.def:hecke-submodule, X.hpair.def:is-hecke-fun, X.hpair.def:mul-instance, X.hpair.def:ring-instance}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:convolution-associative}
+\tfsem{I.hecke.thm:convolution-associative}{596100be26d7133ef256dc0ebcdfd6bd22837f0a771a99490ec1e000118e3eed}
+\tfhyps{I.hecke.thm:convolution-associative}{}
+\tfbinder{I.hecke.thm:convolution-associative}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.thm:convolution-associative}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.thm:convolution-associative}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.thm:convolution-associative}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.thm:convolution-associative}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.thm:convolution-associative}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.thm:convolution-associative}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.thm:convolution-associative}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.thm:convolution-associative}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.thm:convolution-associative}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.thm:convolution-associative}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.thm:convolution-associative}{11}{6d126d39}{the function $f\colon G\to\C$}
+\tfbinder{I.hecke.thm:convolution-associative}{12}{d2c1986d}{the function $g\colon G\to\C$}
+\tfbinder{I.hecke.thm:convolution-associative}{13}{4839401c}{the function $h\colon G\to\C$}
+\tfbinder{I.hecke.thm:convolution-associative}{14}{16d7e3bf}{the function $f\in C_c^\infty(G)$}
+\tfbinder{I.hecke.thm:convolution-associative}{15}{a139f002}{the function $g\in C_c^\infty(G)$}
+\tfbinder{I.hecke.thm:convolution-associative}{16}{c4a76ad9}{the function $h\in C_c^\infty(G)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, choose a compact open $K=K_1\cap K_2\cap K_3$ for which $f,g,h$ are bi-$K$-invariant (\texttt{exists\_bi\_invariant}, \texttt{compactOpen\_inf}). The finite coset sums of A are not written out: the bridge \texttt{heckeConv\_eq\_heckeMul} (from the integral to a finite sum over $G/K$, \texttt{integral\_eq\_coset\_sum}) shows $A*_\mu B=\mu(K)\cdot(AB)$ for $A,B$ in the Hecke algebra $\mathcal H(G,K)$ of the vendored Hecke-pair development (the \texttt{X.hpair} items), whose multiplication is associative by the vendored proof. Hence $(f*g)*h=\mu(K)^2\,(fg)h=\mu(K)^2\,f(gh)=f*(g*h)$.
+
+\emph{Divergence from A (for G2).} A writes out the double coset sum and substitutes $u=z^{-1}y$ by hand; Lean obtains the same reindexing from the vendored associativity of the Hecke-pair product, through the scalar $\mu(K)$ of the bridge. Same identity.
+\end{proof}
+
+\begin{definition}[the idempotent $e_{K'}$]
+\tfstmt{I.hecke.def:idempotent}
+\lean{GL2TF.heckeIdempotent}
+\uses{I.hecke.def:smooth-compact-functions}
+\end{definition}
+\begin{tfformal}{I.hecke.def:idempotent}
+\tfsem{I.hecke.def:idempotent}{a8718dc51e03a48f7eed335b443ad88371b42738e24f6ea604bcece9a7a3df91}
+\tfhyps{I.hecke.def:idempotent}{}
+\tfbinder{I.hecke.def:idempotent}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.def:idempotent}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.def:idempotent}{2}{746bd334}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.def:idempotent}{3}{f302949c}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.def:idempotent}{4}{991a066d}{the subgroup $K'\subseteq G$}
+\tfbinder{I.hecke.def:idempotent}{5}{a6a506ac}{the element $x\in F$}
+\begin{tffidelity}
+Total in the measure and the subgroup; $0<\mu(K')<\infty$ and $e_{K'}\in C_c^\infty(G)$ are the B-only \cref{I.hecke.lem:idempotent-mem}.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{lemma}[the idempotent lies in $C_c^\infty(G)$]
+\tfstmt{I.hecke.lem:idempotent-mem}
+\bonly
+\lean{GL2TF.heckeIdempotent_mem}
+\uses{I.hecke.def:idempotent, I.hecke.def:smooth-compact-functions}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:idempotent-mem}
+\tfsem{I.hecke.lem:idempotent-mem}{ad596ec1263ca090351910453fc5c7681c8657da28d6d95c18fb036e73315aca}
+\tfhyps{I.hecke.lem:idempotent-mem}{}
+\tfbinder{I.hecke.lem:idempotent-mem}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.lem:idempotent-mem}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.lem:idempotent-mem}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.lem:idempotent-mem}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.lem:idempotent-mem}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.lem:idempotent-mem}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.lem:idempotent-mem}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.lem:idempotent-mem}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.lem:idempotent-mem}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.lem:idempotent-mem}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.lem:idempotent-mem}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.lem:idempotent-mem}{11}{c8ea137b}{the subgroup $K'\subseteq G$}
+\tfbinder{I.hecke.lem:idempotent-mem}{12}{18678cd2}{the assumption that $K'$ is compact}
+\tfbinder{I.hecke.lem:idempotent-mem}{13}{607e8d41}{the assumption that $K'$ is open}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $K'$ compact open, $\mu(K')>0$ because $K'$ is a non-empty open set and $\mu$ is Haar, and $\mu(K')<\infty$ because $K'$ is compact (\texttt{IsOpen.measure\_pos}, \texttt{IsCompact.measure\_lt\_top}). $e_{K'}=\mu(K')^{-1}\mathbf 1_{K'}$ is locally constant, since $K'$ and its complement are open ($K'$ is closed, being an open subgroup), and has compact support $K'$ (\texttt{heckeIdempotent\_mem\_aux}). A states these facts in the definition of $e_{K'}$ without proof; this B-only lemma isolates them.
+\end{proof}
+
+\begin{definition}[the Hecke algebra of level $K'$]
+\tfstmt{I.hecke.def:hecke-algebra-level}
+\lean{GL2TF.heckeAlgebraLevel}
+\uses{I.hecke.def:convolution, I.hecke.def:idempotent, I.hecke.def:smooth-compact-functions}
+\end{definition}
+\begin{tfformal}{I.hecke.def:hecke-algebra-level}
+\tfsem{I.hecke.def:hecke-algebra-level}{16252426ba2173bc2537196decb2471e28e123597e4efff787802015cb502ed6}
+\tfhyps{I.hecke.def:hecke-algebra-level}{}
+\tfbinder{I.hecke.def:hecke-algebra-level}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.def:hecke-algebra-level}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.def:hecke-algebra-level}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.def:hecke-algebra-level}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.def:hecke-algebra-level}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.def:hecke-algebra-level}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.def:hecke-algebra-level}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.def:hecke-algebra-level}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.def:hecke-algebra-level}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.def:hecke-algebra-level}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.def:hecke-algebra-level}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.def:hecke-algebra-level}{11}{ac63aa15}{the subgroup $K'\subseteq G$}
+\tfbinder{I.hecke.def:hecke-algebra-level}{12}{18678cd2}{the assumption that $K'$ is compact}
+\tfbinder{I.hecke.def:hecke-algebra-level}{13}{607e8d41}{the assumption that $K'$ is open}
+\begin{tffidelity}
+$G$ is assumed locally profinite with Borel $\sigma$-algebra and $\mu$ a left Haar measure (as in A); the subgroup $K'$ is a compact open subgroup, as in A, now through the two binders \texttt{hKc} and \texttt{hKo} (rows 12 and 13; formerly imposed only on the theorems). The carrier is A's set $\{e*\varphi*e\}$ and the \texttt{add\_mem'} field uses the two hypotheses. The description by bi-invariance is the B-only \cref{I.hecke.lem:hecke-algebra-level-bi-invariant}.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{lemma}[$H(G,K')$ as bi-invariant functions]
+\tfstmt{I.hecke.lem:hecke-algebra-level-bi-invariant}
+\bonly
+\lean{GL2TF.mem_heckeAlgebraLevel_iff}
+\uses{I.hecke.def:hecke-algebra-level, I.hecke.def:smooth-compact-functions, I.hecke.def:convolution, I.hecke.def:idempotent, X.hpair.def:algebra-instance, X.hpair.def:conv-term, X.hpair.def:hecke-algebra, X.hpair.def:hecke-submodule, X.hpair.def:is-hecke-fun, X.hpair.def:mul-instance, X.hpair.def:ring-instance}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:hecke-algebra-level-bi-invariant}
+\tfsem{I.hecke.lem:hecke-algebra-level-bi-invariant}{60c48fdb55f97df0697db02920d69cb1a46989ca20e44782bcef3e3b6491c602}
+\tfhyps{I.hecke.lem:hecke-algebra-level-bi-invariant}{}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{11}{c8ea137b}{the subgroup $K'\subseteq G$}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{12}{18678cd2}{the assumption that $K'$ is compact}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{13}{607e8d41}{the assumption that $K'$ is open}
+\tfbinder{I.hecke.lem:hecke-algebra-level-bi-invariant}{14}{f9a72547}{the function $f\colon G\to\C$}
+\begin{tffidelity}
+B-only. The hypotheses \texttt{hKc}, \texttt{hKo} (rows 12 and 13) mirror A's ``$K'$ compact open'' of \cref{I.hecke.def:hecke-algebra-level}, which the Lean definition now takes as arguments.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $e=e_{K'}$. ($\Rightarrow$) For $f=e*\varphi*e$, $f\in C_c^\infty(G)$ by \cref{I.hecke.lem:convolution-mem} and \cref{I.hecke.lem:idempotent-mem}. Left $K'$-invariance of $e*\psi$ and right $K'$-invariance of $\psi*e$ are the substitutions $y\mapsto ky$ (\texttt{integral\_mul\_left\_eq\_self}, with $e(ky)=e(y)$) and $e(y^{-1}xk)=e(y^{-1}x)$; associativity (\cref{I.hecke.thm:convolution-associative}) puts them together (\texttt{levelSet\_iff}). ($\Leftarrow$) For $f$ left $K'$-invariant, $e*f=f$: the integrand $e(y)f(y^{-1}x)$ equals $\mu(K')^{-1}f(x)\mathbf 1_{K'}(y)$, with integral $f(x)$ (\texttt{heckeIdempotent\_conv}); symmetrically $f*e=f$ for right invariant $f$, the integrand being supported on $xK'$ (\texttt{conv\_heckeIdempotent}). So $f=e*f*e$ with $\varphi=f$. The compact-open hypotheses \texttt{hKc}, \texttt{hKo} are used for $0<\mu(K')<\infty$ and for $K'$ closed.
+\end{proof}
+
+\begin{theorem}[$e_{K'}$ is an idempotent unit]
+\tfstmt{I.hecke.thm:idempotent-unit}
+\lean{GL2TF.heckeIdempotent_unit}
+\uses{I.hecke.def:hecke-algebra-level, I.hecke.def:convolution, I.hecke.def:idempotent, I.hecke.def:smooth-compact-functions, X.hpair.def:algebra-instance, X.hpair.def:conv-term, X.hpair.def:hecke-algebra, X.hpair.def:hecke-submodule, X.hpair.def:is-hecke-fun, X.hpair.def:mul-instance, X.hpair.def:ring-instance}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:idempotent-unit}
+\tfsem{I.hecke.thm:idempotent-unit}{50c467024bd6e3520ef9ec93c1ebf27508ef0a7049d0fa3ebf2605429a78ac42}
+\tfhyps{I.hecke.thm:idempotent-unit}{}
+\tfbinder{I.hecke.thm:idempotent-unit}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.thm:idempotent-unit}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.thm:idempotent-unit}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.thm:idempotent-unit}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.thm:idempotent-unit}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.thm:idempotent-unit}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.thm:idempotent-unit}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.thm:idempotent-unit}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.thm:idempotent-unit}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.thm:idempotent-unit}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.thm:idempotent-unit}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.thm:idempotent-unit}{11}{c8ea137b}{the subgroup $K'\subseteq G$}
+\tfbinder{I.hecke.thm:idempotent-unit}{12}{18678cd2}{the assumption that $K'$ is compact}
+\tfbinder{I.hecke.thm:idempotent-unit}{13}{607e8d41}{the assumption that $K'$ is open}
+\begin{tffidelity}
+The hypotheses \texttt{hKc}, \texttt{hKo} (rows 12 and 13) mirror A's ``$K'$ compact open'' and are passed to \texttt{heckeAlgebraLevel}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By the previous lemma (\texttt{levelSet\_iff}) the elements of $H(G,K')$ are the bi-$K'$-invariant functions of $C_c^\infty(G)$. $e=e_{K'}$ is bi-$K'$-invariant (\texttt{heckeIdempotent\_bi}) and $e*e=e$ by \texttt{heckeIdempotent\_conv} applied to $\varphi=e$; then $e=e*e*e\in H(G,K')$. For $f\in H(G,K')$, $e*f=f=f*e$ again by \texttt{heckeIdempotent\_conv} and \texttt{conv\_heckeIdempotent}.
+
+\emph{Divergence from A (for G2).} A deduces $e*h=h=h*e$ for $h=e*f*e$ from associativity and $e*e=e$; Lean proves the two identities directly for every left (resp.\ right) $K'$-invariant function, after identifying $H(G,K')$ with the bi-invariant functions. Same conclusion; associativity enters only through \cref{I.hecke.lem:hecke-algebra-level-bi-invariant}.
+\end{proof}
+
+\begin{theorem}[$C_c^\infty(G)$ is the union of the $H(G,K')$]
+\tfstmt{I.hecke.thm:hecke-algebra-union}
+\lean{GL2TF.mem_smoothCompactFunctions_iff_exists_level}
+\uses{I.hecke.def:hecke-algebra-level, I.hecke.def:smooth-compact-functions, I.hecke.def:convolution, I.hecke.def:idempotent, X.hpair.def:algebra-instance, X.hpair.def:conv-term, X.hpair.def:hecke-algebra, X.hpair.def:hecke-submodule, X.hpair.def:is-hecke-fun, X.hpair.def:mul-instance, X.hpair.def:ring-instance}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:hecke-algebra-union}
+\tfsem{I.hecke.thm:hecke-algebra-union}{44f14ff727bf1f92b327d52f1efba720d80a59f0aec889f495fe87fb0b374b15}
+\tfhyps{I.hecke.thm:hecke-algebra-union}{}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.hecke.thm:hecke-algebra-union}{11}{5ba504b4}{the function $f\colon G\to\C$}
+\begin{tffidelity}
+A quantifies over compact open subgroups $K'$. In Lean the existential binds $K'$ together with the proofs \texttt{hKc} (compact) and \texttt{hKo} (open), which \texttt{heckeAlgebraLevel} takes as arguments; there is no free binder row for them.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+($\Leftarrow$) Each $H(G,K')\subseteq C_c^\infty(G)$ is the first half of \cref{I.hecke.lem:hecke-algebra-level-bi-invariant}, so the union lies in $C_c^\infty(G)$. ($\Rightarrow$) For $f\in C_c^\infty(G)$ choose a compact open $K'$ with $f$ bi-$K'$-invariant (\texttt{exists\_bi\_invariant}); by the same lemma $f\in H(G,K')$. The existential quantifier binds the compact-open hypotheses \texttt{hKc}, \texttt{hKo} that \texttt{heckeAlgebraLevel} takes as arguments. As in A.
+\end{proof}
+
+
+\begin{definition}[smooth functions on $\GL_2(\R)$]
+\tfstmt{I.hecke.def:smooth-function-real}
+\lean{GL2TF.smoothFunctionsReal}
+\uses{X.topgrp.thm:gl2-units-open-embedding, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-function-real}
+\tfsem{I.hecke.def:smooth-function-real}{d7fea194f373da4a9a45fc1034da0c31f9818d43eff11277f59e77b56c1796b8}
+\tfhyps{I.hecke.def:smooth-function-real}{}
+\end{tfformal}
+
+
+\section{The archimedean algebra}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[smooth compactly supported functions]
+\tfstmt{I.hecke.def:smooth-real}
+\lean{GL2TF.smoothCompactReal}
+\uses{I.hecke.def:smooth-function-real}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-real}
+\tfsem{I.hecke.def:smooth-real}{dd909b579ec230dc33ec003d4d604b84ee032edefe302b9b72b90771cfce4d23}
+\tfhyps{I.hecke.def:smooth-real}{}
+\begin{tffidelity}
+The Lean carrier is a $\C$-submodule of all functions $\GL_2(\R)\to\C$ (A: a subspace of $C^\infty$); it is the same set.
+\end{tffidelity}
+\end{tfformal}
+
+
+\section{Global test functions}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[bi-$\Kinf$-finite functions on adelic groups]
+\tfstmt{I.hecke.def:k-infinity-finite-adelic}
+\lean{GL2TF.IsBiKInfFinite}
+\uses{I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.hecke.def:k-infinity-finite-adelic}
+\tfsem{I.hecke.def:k-infinity-finite-adelic}{421fe5d8ab649d638f12a0b50b99736a30ec35bf4260abf85978c8cb1b33d759}
+\tfhyps{I.hecke.def:k-infinity-finite-adelic}{}
+\tfbinder{I.hecke.def:k-infinity-finite-adelic}{0}{fe5aea28}{the type of the group $H$}
+\tfbinder{I.hecke.def:k-infinity-finite-adelic}{1}{371bbfe6}{the group structure of $H$}
+\tfbinder{I.hecke.def:k-infinity-finite-adelic}{2}{732b9be6}{the homomorphism $\iota\colon K_\infty\to H$}
+\tfbinder{I.hecke.def:k-infinity-finite-adelic}{3}{bfdbfb11}{the function $F\colon H\to\C$}
+\begin{tffidelity}
+\texttt{IsBiKInfFinite ι F} for a group $H$, $\iota\colon K_\infty\to H$ (\texttt{maxCompactReal →* H}) and $F\colon H\to\C$: the $\C$-span of the functions $h\mapsto F(\iota(k)h\iota(k'))$ over $(k,k')\in K_\infty\times K_\infty$ is finite dimensional (\texttt{FiniteDimensional}). The Lean definition is for an arbitrary group $H$, as in A (``Let $H$ be a group''); the choices $\iota(k)=(k,1)$ for $G(\A)$ and $G(\A)^1$ are the B-only \cref{I.hecke.def:k-infinity-adelic-embedding,I.hecke.def:k-infinity-norm-one-embedding}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the embedding of $\Kinf$ in $G(\A)$]
+\tfstmt{I.hecke.def:k-infinity-adelic-embedding}
+\bonly
+\lean{GL2TF.kInfAdelic}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-real, I.topgrp.def:inf-embedding}
+\end{definition}
+\begin{tfformal}{I.hecke.def:k-infinity-adelic-embedding}
+\tfsem{I.hecke.def:k-infinity-adelic-embedding}{016472777c81bd9d5d2bf05bf1d2b70847b49e13019fbbd5ec90e9d7e7249130}
+\tfhyps{I.hecke.def:k-infinity-adelic-embedding}{}
+\begin{tffidelity}
+B-only. \texttt{kInfAdelic = infEmb.comp maxCompactReal.subtype}, with \texttt{infEmb} the B-only \cref{I.topgrp.def:inf-embedding}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the embedding of $\Kinf$ in $G(\A)^1$]
+\tfstmt{I.hecke.def:k-infinity-norm-one-embedding}
+\bonly
+\lean{GL2TF.kInfNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-real, I.hecke.def:k-infinity-adelic-embedding, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{I.hecke.def:k-infinity-norm-one-embedding}
+\tfsem{I.hecke.def:k-infinity-norm-one-embedding}{65a8b71e796793592d08ad7a648e793a4cae589519fe5b095ac96a4b78a0a67c}
+\tfhyps{I.hecke.def:k-infinity-norm-one-embedding}{}
+\begin{tffidelity}
+B-only. \texttt{kInfNormOne} is \texttt{kInfAdelic} with codomain restricted to the subtype \texttt{normOneGroup} (\texttt{codRestrict}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the embedding of $\GL_2(\R)$ in $G(\A)$]
+\tfstmt{I.topgrp.def:inf-embedding}
+\bonly
+\lean{GL2TF.infEmb}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:gl2-product-equiv}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:inf-embedding}
+\tfsem{I.topgrp.def:inf-embedding}{3986b2b9b072d52d4a1e463d73b8bebe83cd87e0762d82666917390c380692ae}
+\tfhyps{I.topgrp.def:inf-embedding}{}
+\begin{tffidelity}
+B-only (placed in this chapter with its users; the Lean item is in \texttt{TopGroups.lean}). \texttt{infEmb} is the homomorphism $\GL_2(\R)\to\GL_2(\A)$ with $h$ at $\infty$ and $1$ at every prime.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the embedding of $G(\Af)$ in $G(\A)$]
+\tfstmt{I.topgrp.def:fin-embedding}
+\bonly
+\lean{GL2TF.finEmb}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:gl2-product-equiv}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:fin-embedding}
+\tfsem{I.topgrp.def:fin-embedding}{6e19df9aec4414673ec47b708bb9bb31e90035881ab41a03eb7fe95bc619020a}
+\tfhyps{I.topgrp.def:fin-embedding}{}
+\begin{tffidelity}
+B-only (placed in this chapter with its users; the Lean item is in \texttt{TopGroups.lean}, tagged by an \texttt{attribute} line). \texttt{finEmb} is the homomorphism $\GL_2(\Af)\to\GL_2(\A)$ with $1$ at $\infty$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[entrywise pairing of matrices]
+\tfstmt{I.topgrp.def:matrix-pair}
+\bonly
+\lean{GL2TF.matPair}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:matrix-pair}
+\tfsem{I.topgrp.def:matrix-pair}{1662e1379d1cf8983da0b62873726a0ccf6c01869c0318c719822ed550cc2997}
+\tfhyps{I.topgrp.def:matrix-pair}{}
+\tfbinder{I.topgrp.def:matrix-pair}{0}{fe5aea28}{the type of the ring $R$}
+\tfbinder{I.topgrp.def:matrix-pair}{1}{51c895c7}{the type of the ring $S$}
+\tfbinder{I.topgrp.def:matrix-pair}{2}{5dd267ac}{the matrix $A\in M_2(R)$}
+\tfbinder{I.topgrp.def:matrix-pair}{3}{8798c770}{the matrix $B\in M_2(S)$}
+\begin{tffidelity}
+B-only. \texttt{matPair A B = Matrix.of fun i j => (A i j, B i j)}; multiplicative and unital (the lemmas \texttt{matPair\_mul}, \texttt{matPair\_one} are untagged proof infrastructure).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[pairing of invertible matrices]
+\tfstmt{I.topgrp.def:gl2-pair}
+\bonly
+\lean{GL2TF.glPair}
+\uses{I.topgrp.def:matrix-pair}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:gl2-pair}
+\tfsem{I.topgrp.def:gl2-pair}{6bdce87cb0dfc8512afd70ae3d6d30babe07d3ec3b332ea35f64d8d023898e8e}
+\tfhyps{I.topgrp.def:gl2-pair}{}
+\tfbinder{I.topgrp.def:gl2-pair}{0}{fe5aea28}{the type of the ring $R$}
+\tfbinder{I.topgrp.def:gl2-pair}{1}{51c895c7}{the type of the ring $S$}
+\tfbinder{I.topgrp.def:gl2-pair}{2}{f30292cb}{the commutative ring structure of $R$}
+\tfbinder{I.topgrp.def:gl2-pair}{3}{d4a11b21}{the commutative ring structure of $S$}
+\tfbinder{I.topgrp.def:gl2-pair}{4}{d213c8f3}{the element $a\in\GL_2(R)$}
+\tfbinder{I.topgrp.def:gl2-pair}{5}{ad42dcee}{the element $b\in\GL_2(S)$}
+\begin{tffidelity}
+B-only. \texttt{glPair a b} is the unit of $M_2(R\times S)$ with value \texttt{matPair a b} and inverse \texttt{matPair a⁻¹ b⁻¹}; it is the inverse of $g\mapsto(g_R,g_S)$ in \cref{I.topgrp.def:gl2-product-equiv}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\GL_2(R\times S)\cong\GL_2(R)\times\GL_2(S)$]
+\tfstmt{I.topgrp.def:gl2-product-equiv}
+\bonly
+\lean{GL2TF.glProdEquiv}
+\uses{I.conv.def:gl2, I.topgrp.def:gl2-pair}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:gl2-product-equiv}
+\tfsem{I.topgrp.def:gl2-product-equiv}{8d5c5c005c7df1ac9ca66cad936466b4d73ed8bfffe5491762660f1a638231d0}
+\tfhyps{I.topgrp.def:gl2-product-equiv}{}
+\tfbinder{I.topgrp.def:gl2-product-equiv}{0}{fe5aea28}{the type of the ring $R$}
+\tfbinder{I.topgrp.def:gl2-product-equiv}{1}{51c895c7}{the type of the ring $S$}
+\tfbinder{I.topgrp.def:gl2-product-equiv}{2}{f30292cb}{the commutative ring structure of $R$}
+\tfbinder{I.topgrp.def:gl2-product-equiv}{3}{d4a11b21}{the commutative ring structure of $S$}
+\tfbinder{I.topgrp.def:gl2-product-equiv}{4}{0bcbafba}{the topology of $R$}
+\tfbinder{I.topgrp.def:gl2-product-equiv}{5}{5b08e069}{the topology of $S$}
+\begin{tffidelity}
+B-only. \texttt{glProdEquiv : GL (Fin 2) (R × S) ≃ₜ* GL (Fin 2) R × GL (Fin 2) S}, a homeomorphism that is a group isomorphism (\texttt{≃ₜ*}), with \texttt{gl2Map (RingHom.fst R S)}, \texttt{gl2Map (RingHom.snd R S)} as components.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[smooth functions on $G(\A)$ and $G(\A)^1$]
+\tfstmt{I.hecke.def:smooth-adelic}
+\lean{GL2TF.smoothAdelic}
+\uses{I.hecke.def:smooth-function-real, I.topgrp.def:central-split-component, I.topgrp.def:max-compact-adelic, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:fin-embedding, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-fin-adelic}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-adelic}
+\tfsem{I.hecke.def:smooth-adelic}{e7746eb824dc227dc4e7e09220a100f8f738ebc01dc2633d1d7f6eaaab94c87a}
+\tfhyps{I.hecke.def:smooth-adelic}{}
+\begin{tffidelity}
+A Lean carrier is \texttt{smoothAdelic}: the $\C$-submodule of $\{F\colon G(\A)\to\C\}$ of the $F$ with (i) an open subgroup $K'\le K_f$ (\texttt{maxCompactFin}) such that $F(g\cdot\iota_f(k))=F(g)$ for $k\in K'$ and all $g$, and (ii) $h\mapsto F(\iota_\infty(h)g)$ in \texttt{smoothFunctionsReal} for all $g$; here $\iota_\infty,\iota_f$ are \texttt{infEmb}, \texttt{finEmb} (B-only \cref{I.topgrp.def:inf-embedding,I.topgrp.def:fin-embedding}). The three spaces named in A are three Lean items: this one is $C^\infty(G(\A))$; $C_c^\infty(G(\A))$ is the B-only \cref{I.hecke.def:smooth-compact-adelic} (smooth and \texttt{HasCompactSupport}); $C_c^\infty(G(\A)^1)$ is the B-only \cref{I.hecke.def:smooth-compact-norm-one} (compact support and $f\circ N\in C^\infty(G(\A))$, with $f\circ N$ the B-only \cref{I.hecke.def:norm-one-lift} and $N$ the normalization \texttt{normOneNormalize} of M3).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the lift $f\circ N$]
+\tfstmt{I.hecke.def:norm-one-lift}
+\bonly
+\lean{GL2TF.normOneLift}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.def:norm-one-normalization, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{I.hecke.def:norm-one-lift}
+\tfsem{I.hecke.def:norm-one-lift}{60aa4f642f3cdf12eb5a6356545201737781b80e4e94af824e4c72b75f8c7451}
+\tfhyps{I.hecke.def:norm-one-lift}{}
+\tfbinder{I.hecke.def:norm-one-lift}{0}{b4c57f3b}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{I.hecke.def:norm-one-lift}{1}{7380b38d}{the point $g\in G(\A)$ at which the function is evaluated}
+\begin{tffidelity}
+B-only. \texttt{normOneLift f g = f ⟨normOneNormalize g, \_⟩}, with \texttt{normOneNormalize} of M3 and the membership proof \texttt{normOneNormalize\_mem}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$C_c^\infty(G(\A))$]
+\tfstmt{I.hecke.def:smooth-compact-adelic}
+\bonly
+\lean{GL2TF.smoothCompactAdelic}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:smooth-adelic}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-compact-adelic}
+\tfsem{I.hecke.def:smooth-compact-adelic}{6e42ef890584bb605ccb5600ac1a952b46dc4708a55fedc85de758f5645f2b10}
+\tfhyps{I.hecke.def:smooth-compact-adelic}{}
+\begin{tffidelity}
+B-only. The submodule \texttt{smoothCompactAdelic} of the functions $G(\A)\to\C$: \texttt{F ∈ smoothAdelic ∧ HasCompactSupport F}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$C_c^\infty(G(\A)^1)$]
+\tfstmt{I.hecke.def:smooth-compact-norm-one}
+\bonly
+\lean{GL2TF.smoothCompactNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-compact-norm-one}
+\tfsem{I.hecke.def:smooth-compact-norm-one}{9833eaff270a00070d1e9fc1d53a40b28bae358a614625f0d1638bab04215c2c}
+\tfhyps{I.hecke.def:smooth-compact-norm-one}{}
+\begin{tffidelity}
+B-only. The submodule \texttt{smoothCompactNormOne} of the functions $G(\A)^1\to\C$: \texttt{HasCompactSupport f ∧ normOneLift f ∈ smoothAdelic}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the restricted tensor product]
+\tfstmt{I.hecke.def:restricted-tensor-hecke}
+\lean{GL2TF.restrictedTensorHecke}
+\uses{I.hecke.def:smooth-compact-functions, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.hecke.lem:gl2-padic-totally-disconnected, I.topgrp.def:finite-adelic-component-place}
+\end{definition}
+\begin{tfformal}{I.hecke.def:restricted-tensor-hecke}
+\tfsem{I.hecke.def:restricted-tensor-hecke}{4fc9b6298ff292ea1a35abf5da007a8534aa2d0a5d58111f57848c00decb7e26}
+\tfhyps{I.hecke.def:restricted-tensor-hecke}{}
+\begin{tffidelity}
+The Lean submodule is the $\C$-span of the functions $x\mapsto\prod^{f}_pf_p(x_p)$ (\texttt{finprod}, whose value is the finite product when almost all factors are $1$; by \cref{I.hecke.lem:restricted-tensor-finite-product} this is the case) for families $(f_p)_p$ of functions $\GL_2(\Qp)\to\C$ with $f_p\in C_c^\infty(\GL_2(\Qp))$ (\texttt{smoothCompactFunctions}) for all $p$ and $f_p=\mathbf 1_{K_p}$ for almost all $p$ (\texttt{Filter.cofinite}). The component of $x\in G(\Af)$ at $p$ is \texttt{compFinPlace p x}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[factorization of $C_c^\infty(G(\Af))$]
+\tfstmt{I.hecke.thm:finite-adelic-factorization}
+\lean{GL2TF.finite_adelic_factorization}
+\uses{I.hecke.def:smooth-compact-functions, I.hecke.def:restricted-tensor-hecke, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.adele.def:zhat, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.haar.lem:gl2-local-locally-compact-instance, I.hecke.lem:gl2-padic-totally-disconnected, I.hecke.lem:restricted-tensor-finite-product, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-local-compact-open, II.simple.def:fin-restricted-equiv, II.simple.def:finite-box-subgroup}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:finite-adelic-factorization}
+\tfsem{I.hecke.thm:finite-adelic-factorization}{cc5056916742af1ec69a55f14771bf89584e045bdf5c8c3b2866f0d6efcfaa0a}
+\tfhyps{I.hecke.thm:finite-adelic-factorization}{}
+\begin{tffidelity}
+Equality of two \texttt{Submodule}s of the functions $G(\Af)\to\C$: \texttt{smoothCompactFunctions (GL (Fin 2) FinAdele) = restrictedTensorHecke}. The left side is M2's $C_c^\infty$ for the locally profinite group $G(\Af)$ (\cref{I.hecke.def:smooth-compact-functions}), whose hypotheses are found by instance search (\cref{I.hecke.lem:gl2-fin-adele-totally-disconnected}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+``$\supseteq$'': a pure tensor $x\mapsto\prod_pf_p(x_p)$ is in $C_c^\infty(G(\A_f))$ (\texttt{finTensor\_mem}). Let $K_p'$ be a compact open subgroup under which $f_p$ is right invariant, and put $V_p=K_p$ if $f_p=1_{K_p}$ and $K_p'\cap K_p$ otherwise; then $V_p=K_p$ for almost all $p$, and the tensor is right invariant under the open subgroup $U(V)=\{k:k_p\in V_p\ \forall p\}$ (\texttt{finBox\_isOpen}, which uses that the restricted product topology has the open subgroups $\prod_pK_p$ as a basis). Its support lies in $\{x:x_p\in T_p\}$ with $T_p=K_p$ or $\operatorname{supp}f_p$ compact, which is compact in the restricted product (\texttt{resProd\_isCompact\_pi}); outside this set some factor vanishes. ``$\subseteq$'' (\texttt{smooth\_mem\_restrictedTensor}): a function $f\in C_c^\infty(G(\A_f))$ is right invariant under a compact open $K'$, which contains a box subgroup $U(V)$ with $V_p=K_p$ for almost all $p$ (\texttt{exists\_finBox\_subset}: restricted-product neighbourhood basis \texttt{RestrictedProduct.nhds\_eq\_map\_structureMap}, then van Dantzig in each of the finitely many remaining factors). By compact support $f$ takes non-zero values on finitely many cosets $q\,U(V)$, so $f=\sum_qf(q)\,1_{qU(V)}$, and the coset indicator is the pure tensor of local coset indicators $1_{q_pV_p}$ (\texttt{indicator\_finBox\_eq}, \texttt{finprod\_indicator\_one}), each in $C_c^\infty(G(\Q_p))$ (\texttt{cosetIndicator\_mem}) and equal to $1_{K_p}$ for almost all $p$.
+\end{proof}
+
+\begin{definition}[pure tensors on $G(\A)$]
+\tfstmt{I.hecke.def:adelic-pure-tensor}
+\bonly
+\lean{GL2TF.adelicTensor}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf}
+\end{definition}
+\begin{tfformal}{I.hecke.def:adelic-pure-tensor}
+\tfsem{I.hecke.def:adelic-pure-tensor}{48566751d0b72c8a1375173f06aba3c8dafca792b6e838568cbba036102896cd}
+\tfhyps{I.hecke.def:adelic-pure-tensor}{}
+\tfbinder{I.hecke.def:adelic-pure-tensor}{0}{c7bde633}{the function $f_\infty\colon\GL_2(\R)\to\C$}
+\tfbinder{I.hecke.def:adelic-pure-tensor}{1}{ae241da2}{the function $f_f\colon G(\Af)\to\C$}
+\tfbinder{I.hecke.def:adelic-pure-tensor}{2}{7cc89f33}{the point $g\in G(\A)$ at which the function is evaluated}
+\begin{tffidelity}
+B-only. \texttt{adelicTensor fInf fFin g = fInf (compInf g) * fFin (compFin g)}, where \texttt{compInf}, \texttt{compFin} are the components of $g\in G(\A)=\GL_2(\R)\times G(\Af)$ (the notation of \cref{I.hecke.thm:smooth-adelic-tensor}). The last binder is the argument $g$ of the returned function.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$G(\Af)$ is totally disconnected]
+\tfstmt{I.hecke.lem:gl2-fin-adele-totally-disconnected}
+\bonly
+\lean{GL2TF.gl2FinAdele_totallyDisconnectedSpace}
+\uses{I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:gl2-fin-adele-totally-disconnected}
+\tfsem{I.hecke.lem:gl2-fin-adele-totally-disconnected}{af7cc4d35d7801333cd1ca56c58864dc93e41842595328c43f945d03628249dd}
+\tfhyps{I.hecke.lem:gl2-fin-adele-totally-disconnected}{}
+\begin{tffidelity}
+B-only. The instance \texttt{TotallyDisconnectedSpace (GL (Fin 2) FinAdele)}, needed to apply M2's locally profinite results to $G(\Af)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As for \cref{I.hecke.lem:gl2-padic-totally-disconnected}, with $R=\A_f$: the ring $\A_f$ is totally disconnected because the coercion $\A_f\to\prod_p\Q_p$ from the restricted product is continuous and injective (\texttt{finAdele\_totallyDisconnectedSpace}).
+\end{proof}
+
+\begin{lemma}[$\GL_2(\Qp)$ is totally disconnected]
+\tfstmt{I.hecke.lem:gl2-padic-totally-disconnected}
+\bonly
+\lean{GL2TF.gl2Padic_totallyDisconnectedSpace}
+\uses{I.adele.lem:primes-fact-instance, I.lf.def:padic-nalf-instance}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:gl2-padic-totally-disconnected}
+\tfsem{I.hecke.lem:gl2-padic-totally-disconnected}{dd573500731a509a9b55ddf65471a3de2e4079e3170eb7f42f1dff5bc1c29407}
+\tfhyps{I.hecke.lem:gl2-padic-totally-disconnected}{}
+\tfbinder{I.hecke.lem:gl2-padic-totally-disconnected}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. The instance \texttt{TotallyDisconnectedSpace (GL (Fin 2) ℚ\_[p])} for $p$ a prime; the binder is the prime.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $g\mapsto(g_{ij})$ from $\mathrm{GL}_2(R)$ into the $2\times2$ matrices over $R$ is continuous and injective, and a space that injects continuously into a totally disconnected space is totally disconnected (\texttt{gl2\_totallyDisconnectedSpace}, for any totally disconnected topological ring $R$); apply this with $R=\Q_p$.
+\end{proof}
+
+\begin{lemma}[the product in the restricted tensor product is finite]
+\tfstmt{I.hecke.lem:restricted-tensor-finite-product}
+\bonly
+\lean{GL2TF.restrictedTensor_finite_product}
+\uses{I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.haar.lem:gl2-local-locally-compact-instance, I.hecke.def:smooth-compact-functions, I.hecke.lem:gl2-padic-totally-disconnected, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:finite-adelic-component-place, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:restricted-tensor-finite-product}
+\tfsem{I.hecke.lem:restricted-tensor-finite-product}{9e1551c010ec7e738d6241b9183e0b25afd47a07a763d6ff252a94e4b310c53a}
+\tfhyps{I.hecke.lem:restricted-tensor-finite-product}{}
+\tfbinder{I.hecke.lem:restricted-tensor-finite-product}{0}{c9c4f4f3}{the family of functions $f_p\colon\GL_2(\Qp)\to\C$}
+\tfbinder{I.hecke.lem:restricted-tensor-finite-product}{1}{b0f40e9a}{the assumption $f_p\in C_c^\infty(\GL_2(\Qp))$ for all $p$ (B-only)}
+\tfbinder{I.hecke.lem:restricted-tensor-finite-product}{2}{d2fb360f}{the assumption $f_p=\mathbf 1_{K_p}$ for almost all $p$ (B-only)}
+\tfbinder{I.hecke.lem:restricted-tensor-finite-product}{3}{149f6ba3}{the element $x\in G(\Af)$}
+\begin{tffidelity}
+B-only. The claim inside \cref{I.hecke.def:restricted-tensor-hecke}: \texttt{(Function.mulSupport fun p => f p (compFinPlace p x)).Finite}. The family $(f_p)$ is a dependent function of the prime; the hypotheses \texttt{hf}, \texttt{h1} are the two conditions on the $f_p$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For almost all $p$ one has $f_p=1_{K_p}$ and $x_p\in K_p$ (\texttt{gl2Fin\_eventually\_mem}, since $x\in G(\A_f)$ is in the restricted product), and then $f_p(x_p)=1$.
+\end{proof}
+
+\begin{theorem}[smooth functions are sums of pure tensors]
+\tfstmt{I.hecke.thm:smooth-adelic-tensor}
+\lean{GL2TF.smooth_adelic_tensor}
+\uses{I.hecke.def:smooth-adelic, I.hecke.def:smooth-real, I.hecke.def:smooth-compact-functions, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.hecke.def:adelic-pure-tensor, I.hecke.def:smooth-compact-adelic, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.hecke.def:smooth-function-real, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.thm:max-compact-adelic-compact}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:smooth-adelic-tensor}
+\tfsem{I.hecke.thm:smooth-adelic-tensor}{b5ccba21ebf54d8b9f4cdd42d6c5f8cc1256dbcfd9bf476a3594b1ef31f79913}
+\tfhyps{I.hecke.thm:smooth-adelic-tensor}{}
+\begin{tffidelity}
+The pure tensor $f_\infty\otimes f_f$ is the B-only \cref{I.hecke.def:adelic-pure-tensor}. The statement is \texttt{smoothCompactAdelic = span ℂ \{F | ∃ fInf ∈ smoothCompactReal, ∃ fFin ∈ smoothCompactFunctions (GL (Fin 2) FinAdele), F = adelicTensor fInf fFin\}}, i.e. $C_c^\infty(G(\A))$ (B-only \cref{I.hecke.def:smooth-compact-adelic}) is the span of the $f_\infty\otimes f_f$ with $f_\infty\in C_c^\infty(\GL_2(\R))$ and $f_f\in C_c^\infty(G(\Af))$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+``$\supseteq$'' (\texttt{adelicTensor\_mem}): $f_\infty\otimes f_f$ is right invariant under $K'\cap K_f$ and smooth in the archimedean variable because $h\mapsto f_\infty(h\,g_\infty)f_f(g_f)$ is a smooth function times a constant; its support is contained in the compact image of $\operatorname{supp}f_\infty\times\operatorname{supp}f_f$ under $G(\R)\times G(\A_f)\cong G(\A)$. ``$\subseteq$'' (\texttt{smoothCompactAdelic\_decomp}): $F\in C_c^\infty(G(\A))$ is right invariant under a compact open $K'\le K_f$, so on the compact set $\operatorname{supp}F$ the finite component is covered by finitely many cosets $x\,K'$, and $F=\sum_xF(\cdot\,,x)\otimes1_{xK'}$ (the sum over a set of coset representatives). Each archimedean slice $h\mapsto F(h,x)$ is in $C_c^\infty(G(\R))$ (\texttt{slice\_mem\_smoothCompactReal}) and each $1_{xK'}$ in $C_c^\infty(G(\A_f))$ (\texttt{cosetIndicator\_mem}).
+\end{proof}
+
+\begin{definition}[adelic test functions]
+\tfstmt{I.hecke.def:test-functions-adelic}
+\lean{GL2TF.testFunctionsAdelic}
+\uses{I.hecke.def:smooth-adelic, I.hecke.def:k-infinity-finite-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:smooth-compact-adelic}
+\end{definition}
+\begin{tfformal}{I.hecke.def:test-functions-adelic}
+\tfsem{I.hecke.def:test-functions-adelic}{e08c1267e5c2ec4ae6bc02d775b08a5e75740bf915612d90372ec416a38d13e4}
+\tfhyps{I.hecke.def:test-functions-adelic}{}
+\begin{tffidelity}
+The submodule \texttt{testFunctionsAdelic} of the functions on $G(\A)$ consists of the $F\in C_c^\infty(G(\A))$ (\texttt{smoothCompactAdelic}) that are bi-$K_\infty$-finite for $\iota=\texttt{kInfAdelic}$, $\iota(k)=(k,1)$ (\cref{I.hecke.def:k-infinity-finite-adelic,I.hecke.def:k-infinity-adelic-embedding}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[factorization of the adelic test functions]
+\tfstmt{I.hecke.thm:hecke-adelic-factorization}
+\lean{GL2TF.hecke_adelic_factorization}
+\uses{I.hecke.def:test-functions-adelic, I.hecke.def:archimedean-test-functions, I.hecke.def:restricted-tensor-hecke, I.hecke.thm:smooth-adelic-tensor, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.haar.lem:gl2-local-locally-compact-instance, I.hecke.def:adelic-pure-tensor, I.hecke.def:smooth-compact-functions, I.hecke.lem:gl2-padic-totally-disconnected, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:finite-adelic-component-place, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.conv.def:gl2, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-adelic, I.hecke.def:smooth-function-real, I.hecke.def:smooth-real, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.hecke.lem:restricted-tensor-finite-product, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.rep.def:bi-k-finite, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, II.simple.def:fin-restricted-equiv, II.simple.def:finite-box-subgroup}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:hecke-adelic-factorization}
+\tfsem{I.hecke.thm:hecke-adelic-factorization}{00f4af36b7236b18f035aa9c8fdebf2b304c34f03a4822a89d4044718b63d3ec}
+\tfhyps{I.hecke.thm:hecke-adelic-factorization}{}
+\begin{tffidelity}
+\texttt{testFunctionsAdelic = span ℂ \{F | ∃ fInf ∈ archTestFunctions, ∃ f, (∀ p, f p ∈ smoothCompactFunctions …) ∧ (∀ᶠ p, f p = 1\_{K\_p}) ∧ F = adelicTensor fInf (fun x => ∏ᶠ p, f p (compFinPlace p x))\}}: the archimedean factor is in \texttt{archTestFunctions} (\cref{I.hecke.def:archimedean-test-functions}) and the finite factor is written inline as in \cref{I.hecke.def:restricted-tensor-hecke}, not through the submodule \texttt{restrictedTensorHecke}; the two spans agree by unfolding.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+``$\subseteq$'': as in \cref{I.hecke.thm:smooth-adelic-tensor} write $F=\sum_x F(\cdot,x)\otimes1_{xK'}$. The slice $h\mapsto F(h,x)$ is in $\mathcal H_\infty$: it is smooth with compact support, and bi-$K_\infty$-finite because the span of its two-sided $K_\infty$-translates is the image under the linear slice map of the (finite-dimensional) span of the two-sided translates of $F$ (the two $K_\infty$-actions commute with the finite component, \texttt{infEmb\_finEmb\_comm}). The finite factor $1_{xK'}$ is in $\bigotimes_p'H(G_p)$ by \cref{I.hecke.thm:finite-adelic-factorization}, and tensoring on the left with the fixed slice maps pure tensors to pure tensors (\texttt{Submodule.map\_span}). ``$\supseteq$'': a pure tensor with $f_\infty\in\mathcal H_\infty$ is in $C_c^\infty(G(\A))$ by \texttt{adelicTensor\_mem} and \texttt{finTensor\_mem}, and its two-sided $K_\infty$-translates are $\tilde f_\infty\otimes f_f$ for the translates $\tilde f_\infty$ of $f_\infty$, a finite-dimensional span.
+\end{proof}
+
+\begin{definition}[test functions]
+\tfstmt{I.hecke.def:test-function}
+\lean{GL2TF.testFunctions}
+\uses{I.hecke.def:smooth-adelic, I.hecke.def:k-infinity-finite-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{I.hecke.def:test-function}
+\tfsem{I.hecke.def:test-function}{2cd13cb59183ff102e2340770302bd3b52174e0b83bc7c248876085dd2508abb}
+\tfhyps{I.hecke.def:test-function}{}
+\begin{tffidelity}
+The submodule \texttt{testFunctions} of the functions $G(\A)^1\to\C$ consists of the $f\in C_c^\infty(G(\A)^1)$ (\texttt{smoothCompactNormOne}, B-only \cref{I.hecke.def:smooth-compact-norm-one}) that are bi-$K_\infty$-finite for $\iota=\texttt{kInfNormOne}$ (B-only \cref{I.hecke.def:k-infinity-norm-one-embedding}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[restriction to $G(\A)^1$ is onto]
+\tfstmt{I.hecke.thm:restriction-surjective}
+\lean{GL2TF.restriction_surjective}
+\uses{I.hecke.def:smooth-adelic, I.hecke.def:test-functions-adelic, I.hecke.def:test-function, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:smooth-compact-adelic, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:norm-one-group-closed-normal}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:restriction-surjective}
+\tfsem{I.hecke.thm:restriction-surjective}{f6d48e8f9c68dd0fcefbb2ba6cbcab97081c8f9845fbb3bd3910474d5b4245ea}
+\tfhyps{I.hecke.thm:restriction-surjective}{}
+\begin{tffidelity}
+A conjunction of four statements: restriction (\texttt{fun x => F ↑x}) maps $C_c^\infty(G(\A))$ into $C_c^\infty(G(\A)^1)$ and onto it (surjectivity as ``\texttt{∃ F ∈ …, (fun x => F ↑x) = f}''), and the same for $\Hecke(G(\A))\to\Hecke$. The tools list a Prop binder $k\in K'$ inside the smoothness predicate: it is the bound variable of $\forall k\in K',\ \forall g,\ F(g\,k)=F(g)$ in the $\exists K'$ clause of the definition of smoothness (\texttt{smoothAdelic}), not an assumption of this theorem.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Restriction: $F|_{G(\A)^1}$ has compact support (restriction to the closed subgroup $G(\A)^1$, \texttt{HasCompactSupport.comp\_isClosedEmbedding}) and its lift to $G(\A)$, $F\circ N$ with $N(g)=|\det g|_\A^{-1/2}g$, is smooth: right invariance under $K'$ is preserved because $N(gk)=N(g)k$ for $k\in K_f$ (\texttt{normOneNormalize\_mul\_finEmb}), and in the archimedean variable $F(\,\cdot\,N(g))$ composed with $h\mapsto|\det h|^{-1/2}h$, which is smooth on $\mathrm{GL}_2(\R)$ (\texttt{archNormalize}, \texttt{comp\_archNormalize\_mem}). Surjectivity: for $f\in C_c^\infty(G(\A)^1)$ put $F(g)=\varphi\bigl(|\det g|_\A^{1/2}\bigr)\,\tilde f(N(g))$ with $\varphi$ a smooth bump equal to $1$ at $1$ and supported in $(\tfrac12,\tfrac32)$ (\texttt{extLM}, \texttt{normCutoff}); then $F|_{G(\A)^1}=f$ (\texttt{extLM\_restrict}), $F$ is right $K'$-invariant, smooth in the archimedean variable (\texttt{extLM\_mem}), and compactly supported since $F$ vanishes outside $\{a(e^t)\,x:t\in[\log\tfrac12,\log\tfrac32],\ x\in\operatorname{supp}f\}$, the continuous image of a compact set. For $\mathcal H$ the bi-$K_\infty$-finiteness is transported along the two linear maps (restriction, \texttt{LinearMap.funLeft}; extension, \texttt{extLM\_kInf}) using that they intertwine the $K_\infty$-translations.
+\end{proof}
+
+\begin{theorem}[smooth Dirac sequences on $G(\A)^1$]
+\tfstmt{I.hecke.thm:smooth-dirac-sequence-adelic}
+\lean{GL2TF.smooth_dirac_sequence_adelic}
+\uses{I.rep.def:dirac-sequence, I.hecke.def:smooth-adelic, I.haar.def:haar-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:haar-norm-one-spec, I.hecke.def:adelic-pure-tensor, I.hecke.def:norm-one-lift, I.hecke.def:smooth-compact-adelic, I.hecke.def:smooth-compact-functions, I.hecke.def:smooth-function-real, I.hecke.def:smooth-real, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.hecke.lem:gl2-padic-totally-disconnected, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, X.topgrp.thm:gl2-units-open-embedding, II.simple.def:fin-restricted-equiv, II.simple.def:finite-box-subgroup}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:smooth-dirac-sequence-adelic}
+\tfsem{I.hecke.thm:smooth-dirac-sequence-adelic}{449db6ffad69bf250fb567d296556ec14532955620684ef365ec4b9ce9a6a686}
+\tfhyps{I.hecke.thm:smooth-dirac-sequence-adelic}{}
+\tfbinder{I.hecke.thm:smooth-dirac-sequence-adelic}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.thm:smooth-dirac-sequence-adelic}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+The Dirac sequence of A is \texttt{∃ f, IsDiracSequence (haarNormOne μ) f ∧ ∀ n, (fun x => ↑(f n x)) ∈ smoothCompactNormOne}. Lean's \texttt{IsDiracSequence} is for real-valued functions $f_n\colon G(\A)^1\to\R$ (\cref{I.rep.def:dirac-sequence}); the smoothness is stated for the complex-valued function $x\mapsto(f_n(x):\C)$, as in A (``regarded as a complex-valued function''). The tools list a Prop binder $k\in K'$ inside the smoothness predicate: it is the bound variable of $\forall k\in K',\ \forall g,\ F(g\,k)=F(g)$ in the $\exists K'$ clause of the definition of smoothness (\texttt{smoothAdelic}), not an assumption of this theorem.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. At the finite places choose an antitone neighbourhood basis of $1$ in $G(\A_f)$ and in it box subgroups $K_n=U(W_n)\subseteq$ the $n$-th neighbourhood (\texttt{exists\_finBox\_subset}; compact and open by \texttt{finBox\_isCompact}, \texttt{finBox\_isOpen}; not necessarily decreasing, which is not needed). At the archimedean place choose smooth bumps $b_n\ge0$ on the $2\times2$ matrices, supported in the ball of radius $1/(n+1)$ around $1$ inside $\{\det\ne0\}$ and equal to $1$ at the identity (\texttt{exists\_contDiff\_tsupport\_subset}). Put $\tilde f_n(x)=b_n(x_\infty)\,1_{K_n}(x_f)$ restricted to $G(\A)^1$; this lies in $C_c^\infty(G(\A)^1)$ as the restriction of the pure tensor (\texttt{adelicTensor\_mem}, \texttt{restrict\_mem\_smoothCompactNormOne}), is non-negative, continuous with compact support, and has positive integral because it equals $1$ at $1\in G(\A)^1$ (\texttt{integral\_pos\_of\_hasCompactSupport\_nonneg\_nonzero}). The normalised $f_n=\tilde f_n/\int\tilde f_n\,\dd\mu^1$ has integral $1$, and every neighbourhood $U$ of $1$ in $G(\A)^1$ contains the support of $f_n$ for $n$ large, since $\operatorname{supp}f_n\subseteq\{x:x_\infty\in B(1,1/(n+1)),\ x_f\in K_n\}$ and $G(\A)\cong G(\R)\times G(\A_f)$.
+\end{proof}
+
+\section{\texorpdfstring{The convolution span $\mathcal{H}^{(2)}$ and Hypothesis H1}{The convolution span 𝓗⁽²⁾ and Hypothesis H1}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[convolution on a group]
+\tfstmt{X.haar.def:group-convolution}
+\lean{GL2TF.groupConv}
+\end{definition}
+\begin{tfformal}{X.haar.def:group-convolution}
+\tfsem{X.haar.def:group-convolution}{2492c3cdfb41d6ef2caebd12676c221c645f96040f15a5908855f8ed27511457}
+\tfhyps{X.haar.def:group-convolution}{}
+\tfbinder{X.haar.def:group-convolution}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.haar.def:group-convolution}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.haar.def:group-convolution}{2}{746bd334}{the $\sigma$-algebra of $G$}
+\tfbinder{X.haar.def:group-convolution}{3}{f302949c}{the measure $\mu$ on $G$}
+\tfbinder{X.haar.def:group-convolution}{4}{cf370610}{the function $f\colon G\to\C$}
+\tfbinder{X.haar.def:group-convolution}{5}{8a0ed382}{the function $g\colon G\to\C$}
+\tfbinder{X.haar.def:group-convolution}{6}{b99c2c68}{the point $x\in G$ at which the convolution is evaluated}
+\begin{tffidelity}
+\texttt{groupConv μ f g x = ∫ y, f y * g (y⁻¹ * x) ∂μ}, a Bochner integral (value $0$ if $y\mapsto f(y)g(y^{-1}x)$ is not $\mu$-integrable). The group needs no topology; $\mu$ is an arbitrary measure; the binder of the point $x$ is the lambda-bound argument of the returned function. On a locally profinite group it is M2's \texttt{heckeConv} by \cref{X.haar.lem:group-convolution-hecke}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the convolution on a locally profinite group]
+\tfstmt{X.haar.lem:group-convolution-hecke}
+\bonly
+\lean{GL2TF.groupConv_eq_heckeConv}
+\uses{I.hecke.def:convolution, X.haar.def:group-convolution}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:group-convolution-hecke}
+\tfsem{X.haar.lem:group-convolution-hecke}{aa135f8e01b0384401b649a6aa87a7e119629b8acf831b481a1d5de2da6ee9a6}
+\tfhyps{X.haar.lem:group-convolution-hecke}{}
+\tfbinder{X.haar.lem:group-convolution-hecke}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.haar.lem:group-convolution-hecke}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.haar.lem:group-convolution-hecke}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.haar.lem:group-convolution-hecke}{3}{9211ef29}{the assumption that $G$ is a topological group (B-only)}
+\tfbinder{X.haar.lem:group-convolution-hecke}{4}{b9372ff8}{the assumption that $G$ is locally compact (B-only)}
+\tfbinder{X.haar.lem:group-convolution-hecke}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (B-only)}
+\tfbinder{X.haar.lem:group-convolution-hecke}{6}{889dd227}{the assumption that $G$ is totally disconnected (B-only; A: ``locally profinite'' of the Hecke algebra)}
+\tfbinder{X.haar.lem:group-convolution-hecke}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.haar.lem:group-convolution-hecke}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra (B-only)}
+\tfbinder{X.haar.lem:group-convolution-hecke}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{X.haar.lem:group-convolution-hecke}{10}{be2c9031}{the function $f\colon G\to\C$}
+\tfbinder{X.haar.lem:group-convolution-hecke}{11}{5ba504b4}{the function $g\colon G\to\C$}
+\begin{tffidelity}
+B-only. \texttt{groupConv μ f g = heckeConv μ f g} (M2's \texttt{heckeConv}); the proof is \texttt{rfl}, both being the Bochner integral $\int f(y)g(y^{-1}x)\,\dd\mu(y)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \texttt{rfl}: both are $x\mapsto\int f(y)g(y^{-1}x)\,\dd\mu(y)$.
+\end{proof}
+
+\begin{theorem}[$C_c^\infty(G(\A)^1)$ is closed under convolution]
+\tfstmt{I.hecke.thm:smooth-adelic-convolution}
+\lean{GL2TF.smooth_adelic_convolution}
+\uses{I.hecke.def:smooth-adelic, X.haar.def:group-convolution, I.haar.def:haar-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.hecke.def:norm-one-lift, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:smooth-adelic-convolution}
+\tfsem{I.hecke.thm:smooth-adelic-convolution}{60ba78e958545c7529e3b93945c1e607c392779dddbbeb52ed61faa333646026}
+\tfhyps{I.hecke.thm:smooth-adelic-convolution}{}
+\tfbinder{I.hecke.thm:smooth-adelic-convolution}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.thm:smooth-adelic-convolution}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{I.hecke.thm:smooth-adelic-convolution}{2}{ba3d685a}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{I.hecke.thm:smooth-adelic-convolution}{3}{8ee5731f}{the function $g\colon G(\A)^1\to\C$}
+\tfbinder{I.hecke.thm:smooth-adelic-convolution}{4}{76688e8a}{the assumption $f\in C_c^\infty(G(\A)^1)$ (A: ``$f\in C_c^\infty(G(\A)^1)$'')}
+\tfbinder{I.hecke.thm:smooth-adelic-convolution}{5}{62ee7e83}{the assumption $g\in C_c^\infty(G(\A)^1)$ (A: ``$g\in C_c^\infty(G(\A)^1)$'')}
+\begin{tffidelity}
+The convolution on $G(\A)^1$ is \texttt{groupConv (haarNormOne μ) f g} (\cref{X.haar.def:group-convolution}), with $\mu^1$ the measure of \cref{I.haar.def:haar-norm-one}; the implicit binders $f,g\colon G(\A)^1\to\C$ and the membership hypotheses \texttt{hf}, \texttt{hg} state $f,g\in C_c^\infty(G(\A)^1)$. The tools list a Prop binder $k\in K'$ inside the smoothness predicate: it is the bound variable of $\forall k\in K',\ \forall g,\ F(g\,k)=F(g)$ in the $\exists K'$ clause of the definition of smoothness (\texttt{smoothAdelic}), not an assumption of this theorem.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Compact support: $\operatorname{supp}(f\ast g)\subseteq\operatorname{supp}f\cdot\operatorname{supp}g$, which is compact. Right $K'$-invariance, where $K'$ is a compact open subgroup for $g$: $(f\ast g)(xk)=\int f(y)g(y^{-1}xk)\,\dd\mu^1(y)=(f\ast g)(x)$ (\texttt{hginv}, together with the identification of the lift $\tilde g$ at $z\,k$ using \texttt{normOneNormalize\_mul\_finEmb}). Smoothness in the archimedean variable: with $w=N(z)$ one shows that $h\mapsto\int f(y)\,\tilde g(y^{-1}\,h\,w)\,\dd\mu^1(y)$ is smooth on $\mathrm{GL}_2(\R)$, and the lift of $f\ast g$ at $h\,z$ is this function composed with $h\mapsto|\det h|^{-1/2}h$ (\texttt{normOneNormalize\_infEmb\_mul}). The function $h\mapsto\int f(y)\tilde g(y^{-1}hw)\,\dd\mu^1(y)$ is handled by decomposing $\tilde g(\,\cdot\,)$ over the finitely many cosets $q\,K'$ of the finite component that meet $\operatorname{supp}f\cdot w$ (\texttt{conv\_slice\_smooth}); on each coset the integrand is $f(y)\theta_q(a(y)\,h\,B)$ with $\theta_q\in C^\infty(\mathrm{GL}_2(\R))$ and $a$ continuous, and the integral over a compact set of a function jointly smooth in $(a(y),h)$ is smooth in $h$. The differentiation under the integral sign is a general lemma (\texttt{contDiffOn\_param}, \texttt{slice\_param\_smooth}): $x\mapsto\int\varphi(y)\,\Xi(A(y),x)\,\dd\nu(y)$ is $C^\infty$ on an open $U$ when $\Xi$ is jointly $C^\infty$ on an open $W\ni(A(y),x)$ and $\varphi$ is bounded, measurable and compactly supported, proved by induction on the order from the first-order Mathlib theorem.
+\end{proof}
+
+\begin{definition}[the convolution span $\HeckeTwo$]
+\tfstmt{I.hecke.def:convolution-span}
+\lean{GL2TF.convolutionSpan}
+\uses{X.haar.def:group-convolution, I.hecke.def:smooth-adelic, I.haar.def:haar-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.hecke.def:convolution-span}
+\tfsem{I.hecke.def:convolution-span}{c3434a2b08a7a9fd0ecde71383a4459225da11f64806ffd9d1621fb0fc83d17e}
+\tfhyps{I.hecke.def:convolution-span}{}
+\tfbinder{I.hecke.def:convolution-span}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.def:convolution-span}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+\texttt{convolutionSpan μ} is the \texttt{Submodule} of the functions $G(\A)^1\to\C$ spanned by $\texttt{groupConv (haarNormOne μ) g h}$ with $g,h\in\texttt{smoothCompactNormOne}$. The measure $\mu$ is a Haar measure on $G(\A)$ (instance binder); the dependence on $\mu$ is removed by \cref{I.hecke.thm:convolution-span-measure-independent}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[independence of the Haar measure]
+\tfstmt{I.hecke.thm:convolution-span-measure-independent}
+\lean{GL2TF.convolutionSpan_measure_independent}
+\uses{I.hecke.def:convolution-span, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.hecke.def:smooth-compact-norm-one, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:central-element, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.haar.def:group-convolution}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:convolution-span-measure-independent}
+\tfsem{I.hecke.thm:convolution-span-measure-independent}{1658829f68508d3e6b229fb5f27a79aa890fd0b9bc112ec99fb670cd8d1e5852}
+\tfhyps{I.hecke.thm:convolution-span-measure-independent}{}
+\tfbinder{I.hecke.thm:convolution-span-measure-independent}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.thm:convolution-span-measure-independent}{1}{4aa74800}{the measure $\mu'$ on $G(\A)$}
+\tfbinder{I.hecke.thm:convolution-span-measure-independent}{2}{d865de92}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measures $\mu$, $\mu'$'')}
+\tfbinder{I.hecke.thm:convolution-span-measure-independent}{3}{4836a18b}{the assumption that $\mu'$ is a left Haar measure (A: ``left Haar measures $\mu$, $\mu'$'')}
+\begin{tffidelity}
+\texttt{convolutionSpan μ = convolutionSpan μ'} for two Haar measures $\mu,\mu'$ on $G(\A)$ (two instance binders).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Two left Haar measures on $G(\A)$ differ by a positive scalar $c$ (uniqueness of Haar measure, \texttt{isMulLeftInvariant\_eq\_smul}), so $\mu'^1=c\,\mu^1$ (\texttt{haarNormOne\_smul}) and $g\ast_{\mu'^1}h=c\,(g\ast_{\mu^1}h)$ (\texttt{integral\_smul\_nnreal\_measure}). Hence the generators of $\mathcal H^{(2)}(\mu')$ are scalar multiples of generators of $\mathcal H^{(2)}(\mu)$, giving $\le$ in both directions (\texttt{convolutionSpan\_le}).
+\end{proof}
+
+\begin{theorem}[$\HeckeTwo$ is an ideal]
+\tfstmt{I.hecke.thm:convolution-span-ideal}
+\lean{GL2TF.convolutionSpan_ideal}
+\uses{I.hecke.def:convolution-span, I.hecke.def:smooth-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.def:haar-norm-one, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group, X.haar.def:group-convolution, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.hecke.def:norm-one-lift, I.hecke.def:smooth-function-real, I.hecke.thm:smooth-adelic-convolution, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-fin-adelic, I.topgrp.thm:gl2-adelic-locally-compact}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:convolution-span-ideal}
+\tfsem{I.hecke.thm:convolution-span-ideal}{1385061f2f38e2883556feb8924bdb3d2e93588abbc5fc45d7b6427a55f2581c}
+\tfhyps{I.hecke.thm:convolution-span-ideal}{}
+\tfbinder{I.hecke.thm:convolution-span-ideal}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.thm:convolution-span-ideal}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+A conjunction: \texttt{convolutionSpan μ ≤ smoothCompactNormOne} (the inclusion of submodules), and for every $f$ in the span and $\varphi\in C_c^\infty(G(\A)^1)$ both $f*\varphi$ and $\varphi*f$ (with \texttt{groupConv (haarNormOne μ)}) lie in the span.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first claim follows from \cref{I.hecke.thm:smooth-adelic-convolution}. Associativity of $\ast$ on continuous compactly supported functions (\texttt{groupConv\_assoc}: Fubini on a compactly supported continuous integrand, then left invariance of $\mu^1$) gives, for a generator $g\ast h$ and $\varphi\in C_c^\infty(G(\A)^1)$, $(g\ast h)\ast\varphi=g\ast(h\ast\varphi)$ and $\varphi\ast(g\ast h)=(\varphi\ast g)\ast h$, both generators by \cref{I.hecke.thm:smooth-adelic-convolution}. The general element is a finite combination, and convolution is bilinear (\texttt{groupConv\_add\_left}, \texttt{groupConv\_smul\_left}, etc.; the integrands are integrable because they are continuous with compact support, \texttt{integrable\_conv\_integrand}).
+\end{proof}
+
+\begin{theorem}[$\Hecke\cap\HeckeTwo$ meets every pair of $\Kinf$-types]
+\tfstmt{I.hecke.thm:convolution-span-meets-k-types}
+\lean{GL2TF.convolutionSpan_meets_kTypes}
+\uses{I.hecke.def:test-function, I.hecke.def:convolution-span, I.hecke.def:smooth-adelic, I.conv.def:rotation, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-real, I.haar.def:haar-norm-one, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:smooth-compact-norm-one, I.topgrp.def:norm-one-group, X.haar.def:group-convolution, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.hecke.def:adelic-pure-tensor, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:norm-one-lift, I.hecke.def:smooth-compact-adelic, I.hecke.def:smooth-compact-functions, I.hecke.def:smooth-function-real, I.hecke.def:smooth-real, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.hecke.thm:smooth-adelic-convolution, I.hecke.thm:smooth-dirac-sequence-adelic, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.rep.def:dirac-sequence, I.rep.def:left-translate, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, X.topgrp.thm:gl2-units-open-embedding, II.simple.def:bump-det, II.simple.def:bump-trace, II.simple.def:chi-matrix}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:convolution-span-meets-k-types}
+\tfsem{I.hecke.thm:convolution-span-meets-k-types}{b91bead496b24e89ff17c85b2d094f486af8b88b562b29b6ae7253401647f392}
+\tfhyps{I.hecke.thm:convolution-span-meets-k-types}{}
+\tfbinder{I.hecke.thm:convolution-span-meets-k-types}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.thm:convolution-span-meets-k-types}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+The notions ``left (right) $K_\infty$-finite'' of A are written inline: \texttt{FiniteDimensional ℂ (span ℂ (range fun k x => g (kInfNormOne k * x)))} (left) and \texttt{… h (x * kInfNormOne k)} (right), for $\iota=\texttt{kInfNormOne}$. Part (a) is for all $g,h\in C_c^\infty(G(\A)^1)$ with these finiteness hypotheses, concluding \texttt{groupConv (haarNormOne μ) g h ∈ testFunctions ⊓ convolutionSpan μ}. Part (b): for integers $m,n$ with $m\equiv n\ (2)$ (\texttt{[ZMOD 2]}) there is a non-zero $f$ in that intersection with $f(\iota(k_\theta)x\iota(k_\varphi))=e^{im\theta}e^{in\varphi}f(x)$ for all $x,\theta,\varphi$; the rotation $k_\theta$ is \texttt{rotation θ}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) \emph{As in A.} Let $V_g$ and $V_h$ be the (finite-dimensional) spans of the left $K_\infty$-translates of $g$ and the right $K_\infty$-translates of $h$, with finite spanning sets $S_g,S_h$. Since $(g\ast h)(\iota(k)\,x\,\iota(k'))=\bigl(g(\iota(k)\,\cdot)\ast h(\cdot\,\iota(k'))\bigr)(x)$ (\texttt{groupConv\_kInf}: left invariance of $\mu^1$), every two-sided $K_\infty$-translate of $g\ast h$ lies in the span of the finitely many $a\ast b$, $a\in S_g$, $b\in S_h$, by bilinearity. So $g\ast h$ is bi-$K_\infty$-finite; it is smooth by \cref{I.hecke.thm:smooth-adelic-convolution} and trivially in $\mathcal H^{(2)}(\mu)$.
+
+(b) As in A (A adopted this construction, \texttt{docs/notes/M4-A-revisions.md}): an explicit function of exact weights. With $n-m=2c$ (possible since $m\equiv n \bmod 2$) put $p=m+c$, $q=-c$. The functions $\alpha(M)=(M_{00}+M_{11})+i(M_{01}-M_{10})$ and $\beta(M)=(M_{00}-M_{11})-i(M_{01}+M_{10})$ have weights $(1,1)$ and $(1,-1)$ under $M\mapsto k_\theta Mk_\varphi$ (\texttt{alphaM\_rot}, \texttt{betaM\_rot}); with negative powers taken through conjugates (\texttt{zpowC}) and a bi-$\mathrm{SO}(2)$-invariant smooth cut-off $\chi=c_1(\operatorname{tr}M^{\mathsf T}M)\,c_2((\det M)^2)$ (\texttt{chiM}), the function $F_0=\alpha^p\beta^q\chi$ lies in $C_c^\infty(\mathrm{GL}_2(\R))$ (\texttt{weightFun\_mem}), has exact weights $(p+q,\,p-q)=(m,n)$ (\texttt{weightFun\_rot}) and $F_0(\mathrm{diag}(2,\tfrac12))\ne0$ (\texttt{weightFun\_weightPoint\_ne\_zero}). Let $g_0=(F_0\otimes1_{K_f})|_{G(\A)^1}$ (\texttt{weightFunNormOne}), which is in $C_c^\infty(G(\A)^1)$ and right $K_\infty$-finite. Let $(\varphi_k)$ be the Dirac sequence of \cref{I.hecke.thm:smooth-dirac-sequence-adelic} and $f_k=(P^L_m\varphi_k)\ast g_0$, where $P^L_m$ is the left weight projection $(2\pi)^{-1}\int_0^{2\pi}e^{-im\theta}g(\iota(k_\theta)x)\,\dd\theta$ (\texttt{weightL}), whose output is smooth (\texttt{weightL\_mem}) and left $K_\infty$-finite (\texttt{weightL\_leftFinite}). By part (a), $f_k\in\mathcal H\cap\mathcal H^{(2)}$, and the weight relations $f_k(\iota(k_\theta)x\,\iota(k_\varphi))=e^{im\theta}e^{in\varphi}f_k(x)$ follow from $P^L_m\varphi_k$ having left weight $m$ and $g_0$ right weight $n$ (\texttt{weightL\_weight}, \texttt{groupConv\_smul\_left}). Moreover $f_k=P^L_m(\varphi_k\ast g_0)$ by Fubini and left invariance (\texttt{weightL\_groupConv}), and $\varphi_k\ast g_0\to g_0$ pointwise and boundedly (\texttt{dirac\_groupConv\_tendsto}, \texttt{norm\_dirac\_groupConv\_le}; left invariance only), so by dominated convergence $f_k(a)\to(P^L_mg_0)(a)=g_0(a)\neq0$ (\texttt{weightL\_of\_weight}). Hence $f_k\ne0$ for large $k$. No torus geometry and no unimodularity are needed.
+\end{proof}
+
+\begin{theorem}[the coset decomposition of $G(\A)^1$]
+\tfstmt{I.hecke.thm:norm-one-coset-decomposition}
+\lean{GL2TF.norm_one_coset_decomposition}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.hecke.def:finite-det-norm, I.hecke.def:norm-one-slice, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:product-formula, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:norm-one-coset-decomposition}
+\tfsem{I.hecke.thm:norm-one-coset-decomposition}{e81b7a09caa1133d725c291b35b728541fbcfc89d1e342fee20a526ae7ee8437}
+\tfhyps{I.hecke.thm:norm-one-coset-decomposition}{}
+\begin{tffidelity}
+The quantities $|\det x_f|_f$ and $G(\A)^1_{(r)}$ are the B-only \cref{I.hecke.def:finite-det-norm,I.hecke.def:norm-one-slice} (the latter takes a real parameter $r$; the statement uses $r\in\Q_{>0}$ through the cast). Part (a): $|\det x_f|_f=r$ for a unique rational $r>0$ (for $x\in G(\A)^1$; \texttt{∃!}), which gives the disjoint union; each slice is open and closed and $|\det x_\infty|=1/r$ there. Part (b): $H_1=G(\A)^1_{(1)}$ is open and a subgroup (contains $1$, closed under products and inverses; \texttt{OpenSubgroup}-style as four clauses). Part (c): for each rational $r>0$ there is $\zeta$ with $\zeta_\infty=\diag(r^{-1/2},r^{-1/2})$ (a scalar matrix with $(\sqrt r)^{-1}$), $\zeta_f=\diag(r^{-1},1)$ at every prime (the finite-adelic matrix \texttt{![algebraMap ℚ FinAdele r⁻¹, 1]} on the diagonal) and $G(\A)^1_{(r)}=H_1\zeta$ (image of $H_1$ under right translation by $\zeta$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) The finite norm $|\det x_f|_f=\prod_p|\det x_p|_p$ (\texttt{finDetNorm}) is multiplicative (\texttt{finDetNorm\_mul}), it equals $|\,\det|_\A/|\det x_\infty|$ (\texttt{ideleNorm\_det\_eq}), and for an idele $y=q\,(r,u)$ with $q\in\Q^\times$, $r\in\R^\times$, $u\in\widehat\Z^\times$ (\texttt{exists\_ratIdele\_mul\_ideleInfFin}) one has $|y_f|_f=|q|^{-1}$ by the product formula (\texttt{finNorm\_ratIdele}) and $|y_f|_f=1$ on the factor $(r,u)$ (\texttt{finNorm\_ideleInfFin}); so $|\det x_f|_f\in\Q_{>0}$ (\texttt{finNorm\_rat}). For $x\in G(\A)^1$ the identity $|\det x|_\A=1$ gives $|\det x_\infty|=1/r$ on the slice $G(\A)^1_{(r)}$. (b) The function $\det x_f\mapsto|\det x_f|_f$ is locally constant (it is constant on cosets $x\,K_f$, \texttt{isLocallyConstant\_finDetNorm}), so each slice is open and closed (\texttt{IsLocallyConstant.isClopen\_fiber}), and $G(\A)^1_{(1)}$ is closed under products and inverses by multiplicativity. (c) For $r\in\Q_{>0}$ put $\zeta_r=\iota_\infty(\mathrm{diag}(r^{-1/2},r^{-1/2}))\cdot\iota_f(\mathrm{diag}(r^{-1},1))$; then $|\det(\zeta_r)_f|_f=r$ and $|\det\zeta_r|_\A=r^{-1}\cdot r=1$, so $\zeta_r\in G(\A)^1$. The slice $G(\A)^1_{(r)}$ equals $G(\A)^1_{(1)}\zeta_r$, because right multiplication by $\zeta_r$ multiplies $|\det x_f|_f$ by $r$ (and $x\mapsto x\zeta_r^{-1}$ gives the inverse inclusion).
+\end{proof}
+
+\begin{definition}[the finite part of $\abs{\det}$]
+\tfstmt{I.hecke.def:finite-det-norm}
+\bonly
+\lean{GL2TF.finDetNorm}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.lf.def:nalf, I.lf.def:normalized-abs}
+\end{definition}
+\begin{tfformal}{I.hecke.def:finite-det-norm}
+\tfsem{I.hecke.def:finite-det-norm}{e6a0ddf798909deed895e5821c666a753b9be35bfb48db3aa32f5145171a18ed}
+\tfhyps{I.hecke.def:finite-det-norm}{}
+\tfbinder{I.hecke.def:finite-det-norm}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\begin{tffidelity}
+B-only. \texttt{finDetNorm x = ∏ᶠ p, normAbs ℚ\_p (det x)\_p} (a \texttt{finprod}: the value is the finite product, and $1$ if the support is infinite, which does not happen), where the $p$-th component of the idele $\det x$ is taken.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the slice $G(\A)^1_{(r)}$]
+\tfstmt{I.hecke.def:norm-one-slice}
+\bonly
+\lean{GL2TF.normOneSlice}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.hecke.def:finite-det-norm, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{I.hecke.def:norm-one-slice}
+\tfsem{I.hecke.def:norm-one-slice}{0be533ef7eba5f905adb9dac5051f7faffacdd5b783bf222180483b5c30b8bc0}
+\tfhyps{I.hecke.def:norm-one-slice}{}
+\tfbinder{I.hecke.def:norm-one-slice}{0}{dc6ede6d}{the parameter $r\in\R$}
+\begin{tffidelity}
+B-only. \texttt{normOneSlice r = \{x | finDetNorm ↑x = r\}} as a subset of the subtype \texttt{normOneGroup}; the parameter is a real number (A uses $r\in\Q_{>0}$ through the cast).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the finite part and the reduction to $H_1$]
+\tfstmt{I.hecke.thm:convolution-span-finite-part}
+\lean{GL2TF.convolutionSpan_finite_part}
+\uses{I.hecke.def:convolution, I.hecke.def:idempotent, I.hecke.def:convolution-span, I.hecke.def:test-function, I.hecke.thm:norm-one-coset-decomposition, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.hecke.def:norm-one-slice, I.hecke.def:smooth-compact-functions, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-fin-adelic-borel-instance, I.hecke.def:finite-det-norm, I.hecke.def:hecke-algebra-level, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-finite-adelic, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.hecke.lem:convolution-mem, I.hecke.lem:idempotent-mem, I.hecke.thm:hecke-algebra-union, I.hecke.thm:idempotent-unit, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, X.haar.def:group-convolution}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:convolution-span-finite-part}
+\tfsem{I.hecke.thm:convolution-span-finite-part}{5202080722c612cf6d581cc02c19319933bf85848ff61c9e013f56bfde436393}
+\tfhyps{I.hecke.thm:convolution-span-finite-part}{}
+\begin{tffidelity}
+A conjunction of three statements. (a) For every Haar measure $\mu_f$ on $G(\Af)$ (the universally quantified \texttt{[μf.IsHaarMeasure]}): every $f_f\in C_c^\infty(G(\Af))$ equals $e_{K'}*f_f$ for some compact open subgroup $K'$ (M2's \texttt{heckeIdempotent}, \texttt{heckeConv}), and $C_c^\infty(G(\Af))$ is the span of the convolutions. (b) For every Haar $\mu$ on $G(\A)$, $f\in\HeckeTwo(\mu)$ and $z\in G(\A)^1$: the right translate $x\mapsto f(xz)$ is in $\HeckeTwo(\mu)$. (c) For every Haar $\mu$: if every $f\in\Hecke$ vanishing outside $H_1$ lies in $\HeckeTwo(\mu)$ then $\Hecke\subseteq\HeckeTwo(\mu)$ (\texttt{testFunctions ≤ convolutionSpan μ}; $H_1$ is \texttt{normOneSlice 1}). The measure quantifiers are inside the statement, so the theorem has no binders.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) A function $f_f\in C_c^\infty(G(\A_f))$ is invariant under some compact open $K'$ (it is of level $K'$), and $e_{K'}\ast f_f=f_f$ for the idempotent $e_{K'}$ of M2 (\texttt{heckeIdempotent\_unit}), so $f_f=e_{K'}\ast f_f$ is a convolution; the converse inclusion $C_c^\infty\ast C_c^\infty\subseteq C_c^\infty$ is closure of the Hecke algebra under convolution (\texttt{heckeConv\_mem}). (b) For a generator $g\ast h$ and $z\in G(\A)^1$, $(g\ast h)(\cdot\,z)=g\ast h(\cdot\,z)$ (change of variable in the integral), and $h(\cdot\,z)\in C_c^\infty(G(\A)^1)$ (\texttt{smoothCompactNormOne\_rightTranslate}: right translation by $z\in G(\A)^1$ preserves $K'$-invariance up to conjugation, \texttt{smoothAdelic\_rightTranslate}). (c) Suppose every $f\in\mathcal H$ supported in $H_1=G(\A)^1_{(1)}$ lies in $\mathcal H^{(2)}$. Let $f\in\mathcal H$. Its support is compact, hence meets only finitely many slices $G(\A)^1_{(r)}$ (they are open and cover, \cref{I.hecke.thm:norm-one-coset-decomposition}), and $f=\sum_rf\,1_{G(\A)^1_{(r)}}$ with each summand again in $\mathcal H$ (\texttt{slice\_indicator\_mem}: multiplication by a function invariant on the left under $\iota(K_\infty)$ and on the right under $K_f$ preserves smoothness and bi-$K_\infty$-finiteness). For one slice, put $g_r(x)=f_r(x\zeta_r)$, which is supported in $H_1$ (because $G(\A)^1_{(r)}=H_1\zeta_r$) and lies in $\mathcal H$ (the element $\zeta_r$ commutes with $\iota(K_\infty)$, since its archimedean part is scalar, \texttt{hcomm}). By hypothesis $g_r\in\mathcal H^{(2)}$, and by (b) $f_r=g_r(\cdot\,\zeta_r^{-1})\in\mathcal H^{(2)}$.
+\end{proof}
+
+\begin{hypothesis}[convolution factorization, H1]
+\tfstmt{I.hecke.hyp:convolution-factorization}
+\lean{GL2TF.Hyp.ConvolutionFactorization}
+\uses{I.hecke.def:test-function, I.hecke.def:convolution-span, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{hypothesis}
+\begin{tfformal}{I.hecke.hyp:convolution-factorization}
+\tfsem{I.hecke.hyp:convolution-factorization}{8b589b238995bf6ae0a7b3f05374964780fbe34f325877ab6bee512e6984f5a3}
+\tfhyps{I.hecke.hyp:convolution-factorization}{}
+\begin{tffidelity}
+\texttt{Hyp.ConvolutionFactorization : Prop} is \texttt{∀ μ [μ.IsHaarMeasure], testFunctions ≤ convolutionSpan μ}: $\Hecke\subseteq\HeckeTwo(\mu)$ for every Haar measure $\mu$ on $G(\A)$; the order on submodules is inclusion. This is the hypothesis H1 of \texttt{hypotheses.tex} (D4 waiver; discharge milestone as registered). It has no binders and mentions only M3/M4 objects.
+\end{tffidelity}
+\end{tfformal}
+
+\section{\texorpdfstring{Tensors over $G(\R)^1\times G(\Af)$}{Tensors over G(R)1 x G(Af)}}\label{sec:hecke-tensor}
+
+\noindent\emph{Lean:} \texttt{lean/GL2TF/VolI/P0/ConvolutionTensor.lean} (R1-H1). $G(\R)^1$ is \texttt{normOneReal}. \emph{Status:} all Lean proofs of this section are complete; the proof blocks sketch them.
+
+\begin{lemma}
+\tfstmt{I.hecke.lem:norm-one-real-normalize-mem}
+\bonly
+\lean{GL2TF.normOneRealNormalize_mem}
+\uses{I.haar.def:norm-one-real, I.haar.def:real-unit-of}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:norm-one-real-normalize-mem}
+\tfsem{I.hecke.lem:norm-one-real-normalize-mem}{906b051c56c040a758c9d188ec66963a97bf948cced54719a48a09617bef7fba}
+\tfhyps{I.hecke.lem:norm-one-real-normalize-mem}{}
+\tfbinder{I.hecke.lem:norm-one-real-normalize-mem}{0}{da0bab74}{the point $h\in\GL_2(\R)$}
+\begin{tffidelity}
+B-only. $(\sqrt{\abs{\det h}}\cdot1)^{-1}h\in\texttt{normOneReal}$: the well-definedness of \cref{I.hecke.def:norm-one-real-normalize}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct determinant computation: $\det\bigl((\sqrt{|\det h|}\cdot1)^{-1}h\bigr)=\det h/|\det h|$ (helpers \texttt{ct\_scalar\_val}, \texttt{ct\_det\_scalar\_mul}).
+\end{proof}
+
+
+\begin{definition}
+\tfstmt{I.hecke.def:norm-one-real-normalize}
+\bonly
+\lean{GL2TF.normOneRealNormalize}
+\uses{I.haar.def:norm-one-real, I.haar.def:real-unit-of, I.hecke.lem:norm-one-real-normalize-mem}
+\end{definition}
+\begin{tfformal}{I.hecke.def:norm-one-real-normalize}
+\tfsem{I.hecke.def:norm-one-real-normalize}{8ec184cdacaf91b94c58703466fe84237bcb14ebb43d2a61133c72a04bca289d}
+\tfhyps{I.hecke.def:norm-one-real-normalize}{}
+\tfbinder{I.hecke.def:norm-one-real-normalize}{0}{da0bab74}{the point $h\in\GL_2(\R)$}
+\begin{tffidelity}
+B-only. $N_\R(h)=(\sqrt{\abs{\det h}}\cdot1)^{-1}h$ with the scalar through \texttt{realUnitOf}, valued in \texttt{normOneReal} through \cref{I.hecke.lem:norm-one-real-normalize-mem}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$C_c^\infty(G(\R)^1)$]
+\tfstmt{I.hecke.def:smooth-compact-norm-one-real}
+\lean{GL2TF.smoothCompactNormOneReal}
+\uses{I.haar.def:norm-one-real, I.hecke.def:norm-one-real-normalize, I.hecke.def:smooth-function-real}
+\end{definition}
+\begin{tfformal}{I.hecke.def:smooth-compact-norm-one-real}
+\tfsem{I.hecke.def:smooth-compact-norm-one-real}{6ad437d1fe2e433ddead833bc0b88d4ae989f2184efd5356294b913434515bad}
+\tfhyps{I.hecke.def:smooth-compact-norm-one-real}{}
+\begin{tffidelity}
+\texttt{smoothCompactNormOneReal : Submodule ℂ (normOneReal → ℂ)} with carrier $\{g:\text{HasCompactSupport }g\wedge(h\mapsto g(N_\R(h)))\in\texttt{smoothFunctionsReal}\}$, $N_\R=\texttt{normOneRealNormalize}$ (B-only, \cref{I.hecke.def:norm-one-real-normalize}) and \texttt{smoothFunctionsReal} the space of \cref{I.hecke.def:smooth-function-real}. $G(\R)^1$ is \texttt{normOneReal}. The subspace axioms are the closure proofs of the structure.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{I.hecke.lem:norm-one-real-part-mem}
+\bonly
+\lean{GL2TF.normOneRealPart_mem}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.haar.def:norm-one-real, I.haar.def:real-unit-of, I.hecke.def:finite-det-norm, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.topgrp.def:adelic-component-inf, I.topgrp.def:norm-one-group}
+\end{lemma}
+\begin{tfformal}{I.hecke.lem:norm-one-real-part-mem}
+\tfsem{I.hecke.lem:norm-one-real-part-mem}{d4b01cb6422478f714d006e8398095ce6b570918e1f9b87b5c360720bd129a07}
+\tfhyps{I.hecke.lem:norm-one-real-part-mem}{}
+\tfbinder{I.hecke.lem:norm-one-real-part-mem}{0}{e8e15124}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+B-only. $\sqrt{\texttt{finDetNorm}\,x}\cdot x_\infty\in\texttt{normOneReal}$, i.e.\ it has $\abs{\det}=1$: the well-definedness of \cref{I.hecke.def:norm-one-real-part}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct determinant computation: $\det(\sqrt{\texttt{finDetNorm}\,x}\cdot x_\infty)=\texttt{finDetNorm}\,x\cdot\det x_\infty$, which has absolute value $1$ since $x\in G(\A)^1$ (\texttt{ct\_finDetNorm\_pos}).
+\end{proof}
+
+
+\begin{definition}
+\tfstmt{I.hecke.def:norm-one-real-part}
+\bonly
+\lean{GL2TF.normOneRealPart}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.def:norm-one-real, I.haar.def:real-unit-of, I.hecke.def:finite-det-norm, I.hecke.lem:norm-one-real-part-mem, I.topgrp.def:adelic-component-inf, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{I.hecke.def:norm-one-real-part}
+\tfsem{I.hecke.def:norm-one-real-part}{9f3dbfded86e4df14ba57edc061bdf036a94d9280039b7f3ab39b93b85129353}
+\tfhyps{I.hecke.def:norm-one-real-part}{}
+\tfbinder{I.hecke.def:norm-one-real-part}{0}{e8e15124}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+B-only. $\rho(x)=\abs{\det x_f}_f^{1/2}x_\infty$ as the matrix $\sqrt{\texttt{finDetNorm}\,x}\cdot1\cdot x_\infty$ in $\GL_2(\R)$ (the scalar matrix of \texttt{realUnitOf}) together with \cref{I.hecke.lem:norm-one-real-part-mem}, valued in \texttt{normOneReal}; \texttt{finDetNorm} is $\abs{\det x_f}_f$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$G(\A)^1\cong G(\R)^1\times G(\Af)$]
+\tfstmt{I.hecke.thm:norm-one-real-finite-product}
+\lean{GL2TF.norm_one_real_finite_product}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:product-formula, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.def:haar-norm-one, I.haar.def:norm-one-real, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel, I.haar.lem:haar-norm-one-spec, I.hecke.def:finite-det-norm, I.hecke.def:norm-one-real-part, I.hecke.lem:norm-one-real-part-mem, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-real-locally-compact, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:norm-one-real-finite-product}
+\tfsem{I.hecke.thm:norm-one-real-finite-product}{9bff6da7e1af2ed1b62354a788161e7ebd4c7fd6ac67ec91a557a43235f7943e}
+\tfhyps{I.hecke.thm:norm-one-real-finite-product}{}
+\begin{tffidelity}
+Two clauses with their own quantifiers (no leading binders). (i) There is an isomorphism of topological groups \texttt{Φ : normOneGroup ≃ₜ* (normOneReal × GL (Fin 2) FinAdele)} with $\Phi(x)=(\rho(x),x_f)$, $\rho$ = \texttt{normOneRealPart} (B-only, \cref{I.hecke.def:norm-one-real-part}), $x_f$ = \texttt{compFin}; the formula is the B-only rendering of A's $x\mapsto(r(x)^{1/2}x_\infty,x_f)$. (ii) For left Haar measures $\mu$ on $G(\A)$, $\nu_\infty$ on $G(\R)^1$ and $\mu_f$ on $G(\A_f)$ there is $c>0$ ($c\colon\mathbb R_{\ge0}$, $0<c$) with $\rho\times\texttt{compFin}$ carrying \texttt{haarNormOne μ} to $c\bullet(\nu_\infty\otimes\mu_f)$ (\texttt{Measure.prod}); this is $\Phi_*\mu^1=c(\nu_\infty\otimes\mu_f)$, written with the function rather than with $\Phi$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A (H2). The topological isomorphism \texttt{ctPhi} is $\Phi(x)=(\rho(x),x_f)$ with inverse $\Psi(y,z)=(|\det z|_f^{-1/2}y,z)$ (\texttt{ctPsiFun}, \texttt{ctPsi\_mem}); continuity of both comes from local constancy of \texttt{finDetNorm} (\texttt{ct\_isLocallyConstant\_fin}). Measures: $\Phi_*\mu^1$ is Haar (\texttt{ContinuousMulEquiv.isHaarMeasure\_map}) and so is $\nu_\infty\otimes\mu_f$; hence $c=$ \texttt{haarScalarFactor} by \texttt{Measure.isMulLeftInvariant\_eq\_smul} (second countable, locally compact), and $c>0$ by \texttt{haarScalarFactor\_pos\_of\_isHaarMeasure}.
+\end{proof}
+
+
+\begin{theorem}[tensors lie in the convolution span]
+\tfstmt{I.hecke.thm:tensor-convolution-mem-span}
+\lean{GL2TF.tensor_convolution_mem_span}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:product-formula, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:norm-one-real, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel, I.hecke.def:convolution, I.hecke.def:convolution-span, I.hecke.def:finite-det-norm, I.hecke.def:idempotent, I.hecke.def:norm-one-lift, I.hecke.def:norm-one-real-normalize, I.hecke.def:norm-one-real-part, I.hecke.def:norm-one-slice, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-functions, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-compact-norm-one-real, I.hecke.def:smooth-function-real, I.hecke.def:test-function, I.hecke.lem:gl2-fin-adele-totally-disconnected, I.hecke.lem:norm-one-real-part-mem, I.hecke.thm:convolution-span-finite-part, I.hecke.thm:norm-one-real-finite-product, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-adelic-compact, X.haar.def:group-convolution, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:tensor-convolution-mem-span}
+\tfsem{I.hecke.thm:tensor-convolution-mem-span}{c2f6f7fd7b468b28f59aa84cc0987fe02793cfd678a56e369d8b4362fafe4f47}
+\tfhyps{I.hecke.thm:tensor-convolution-mem-span}{}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{1}{c626ff1c}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{2}{9b86a3b0}{the measure $\nu_\infty$ on $G(\R)^1$}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{3}{e4b69ad0}{$\nu_\infty$ is a left Haar measure on $G(\R)^1$}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{4}{92da0652}{the function $f_\infty\colon G(\R)^1\to\C$}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{5}{859a96a9}{the assumption that $f_\infty$ lies in the span of the convolutions $g*_{\nu_\infty}h$, $g,h\in C_c^\infty(G(\R)^1)$ (\texttt{groupConv νInf g h}, \texttt{X.haar.def:group-convolution})}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{6}{c21bbe44}{the function $f_{\mathrm{fin}}\colon G(\A_f)\to\C$}
+\tfbinder{I.hecke.thm:tensor-convolution-mem-span}{7}{e34fedde}{the assumption $f_{\mathrm{fin}}\in C_c^\infty(G(\A_f))$ (\texttt{smoothCompactFunctions}, \texttt{I.hecke.def:smooth-compact-functions})}
+\begin{tffidelity}
+The conclusion is \texttt{(fun x ↦ fInf (normOneRealPart x) * fFin (compFin ↑x)) ∈ convolutionSpan μ}: the function $x\mapsto f_\infty(\abs{\det x_f}_f^{1/2}x_\infty)f_{\mathrm{fin}}(x_f)$ on $G(\A)^1$ ($\rho$ = \texttt{normOneRealPart}, B-only) lies in $\HeckeTwo(\mu)$ = \texttt{convolutionSpan μ} (\cref{I.hecke.def:convolution-span}). The span of the convolutions is \texttt{Submodule.span ℂ \{φ | ∃ g h, g ∈ smoothCompactNormOneReal ∧ h ∈ smoothCompactNormOneReal ∧ φ = groupConv νInf g h\}}. No hypothesis $H1$ and no registered assumption is used.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A (H3), Steps 1--4. The theorem fixes $\mu_f:=$ \texttt{Measure.haar}. Step 2 (Fubini) is \texttt{integral\_prod\_mul}; it holds for Bochner integrals without integrability hypotheses, so A's integrability remark is not needed (\emph{divergence}). Step 3 uses \texttt{integral\_map\_equiv} and \texttt{integral\_smul\_measure} (the identity of convolutions is \texttt{ct\_conv\_identity}). Step 4 uses $\Phi(N(g))=(N_\R(g_\infty),g_f)$ (\texttt{ct\_lift\_eq}): both archimedean parts are positive scalar multiples of $g_\infty$ with $|\det|=1$, hence equal (\texttt{ct\_scalar\_unique}). Membership of the tensors is \texttt{ct\_tensor\_mem}.
+\end{proof}
+

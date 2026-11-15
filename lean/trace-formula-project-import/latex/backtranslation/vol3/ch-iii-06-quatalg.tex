@@ -1,0 +1,509 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-iii-06-quatalg (parent commit 84818d0); kept items only.
+\chapter{Quaternion algebras over $\Q$}\label{ch:ch-iii-06-quatalg}
+
+\noindent\emph{Scope:} area \texttt{qalg} and the existence of level structures (\texttt{III.qord.thm:level-structure-exists}).
+Every item of A in this chapter appears here with the same \texttt{\textbackslash label}; two B-only items
+(\cref{III.qalg.def:quaternion-base-change,III.qalg.lem:hilbert-symbol-symm}) carry steps that A states in prose.
+
+\noindent\emph{Lean conventions of this chapter} (namespace \texttt{GL2TF.Quat}). The integer parameters $a,b$ are \texttt{ℤ} and are implicit binders of the
+declarations that mention a carrier $\Bq_R(a,b)$; the carrier is \texttt{QuatAlg R a b := QuaternionAlgebra R (a : R) 0 (b : R)} (Mathlib's $\mathbb H[R,a,0,b]$, with
+$a,b$ cast into $R$), $\Bq=$ \texttt{QuatAlg ℚ a b}, $\Bq_{\Qp}=$ \texttt{QuatAlg ℚ\_[p] a b}, $\Bq_\R=$ \texttt{QuatAlg ℝ a b}; conjugation is Mathlib's \texttt{star}.
+Primes are written \texttt{(p : ℕ) [Fact p.Prime]}; the instance \texttt{Fact p.Prime} is a binder row wherever it occurs. ``Definite'' is written \texttt{a < 0}, \texttt{b < 0} in
+the binders. \emph{Junk values:} \texttt{hilbertSymbol F a b} is defined for all $a,b\in F$ and equals $1$ if $a=0$ or $b=0$ (the isotropic vector $(1,0,0)$ exists); it is meaningful
+only for $a,b\in F^\times$, as in A. The symbol is a noncomputable \texttt{if ∃ ... then 1 else -1}. \emph{Topology:} $\Bq_{\Qp}$ carries no topology in Lean; ``compact open'' for a subset
+$S\subseteq\Bq_{\Qp}$ is \texttt{IsCompact} / \texttt{IsOpen} of its image under \texttt{QuaternionAlgebra.equivTuple}, a bijection onto \texttt{Fin 4 → ℚ\_[p]} with the product topology
+(A: the topology transported along the coordinate map; the same condition). Universe parameters: each \texttt{Type*} is a separate universe level.
+\section{Quaternion algebras, reduced norm and trace}\label{sec:qalg-basic}
+
+\begin{definition}[quaternion algebras $\Bq_R(a,b)$]
+\tfstmt{III.qalg.def:quaternion-algebra}
+\lean{GL2TF.Quat.QuatAlg}
+\end{definition}
+\begin{tfformal}{III.qalg.def:quaternion-algebra}
+\tfsem{III.qalg.def:quaternion-algebra}{7c246ead25431be5cd2ec2d8a36846e822587d95c59e85bba909be5c70b386b3}
+\tfhyps{III.qalg.def:quaternion-algebra}{}
+\tfbinder{III.qalg.def:quaternion-algebra}{0}{6b8b0c0f}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.qalg.def:quaternion-algebra}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.qalg.def:quaternion-algebra}{2}{37c43f62}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.def:quaternion-algebra}{3}{d4710ca0}{the integer $b$ (implicit)}
+\begin{tffidelity}
+The carrier is the \texttt{abbrev} \texttt{QuatAlg R a b := QuaternionAlgebra R (↑a) 0 (↑b)}, so every Mathlib instance for \texttt{QuaternionAlgebra} applies (ring, $R$-algebra, \texttt{star} as the conjugate $\bar x$, coordinates \texttt{re, imI, imJ, imK} $=x_0,\dots,x_3$). The relations $i^2=a$, $j^2=b$, $ij=-ji=k$ are Mathlib's with the middle parameter $0$ ($\mathbb H[R,a,0,b]$). $a,b\in\Z$ enter through \texttt{Int.cast}. A also defines the base change $\Bq_R\to\Bq_S$ in this definition; in Lean it is the separate B-only item \cref{III.qalg.def:quaternion-base-change}, A not citing it. $\Bq=\Bq_\Q$ is written \texttt{QuatAlg ℚ a b} inline, with no separate constant. No topology (type synonyms only).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: an \texttt{abbrev}.
+\end{proof}
+
+\begin{definition}[base change (B-only)]
+\tfstmt{III.qalg.def:quaternion-base-change}
+\bonly
+\lean{GL2TF.Quat.baseChange}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qalg.def:quaternion-base-change}
+\tfsem{III.qalg.def:quaternion-base-change}{4d96859a9d94c44e8ae4bd4da3c8e61dc126cb97ca43252c63480f52c7fa4f7d}
+\tfhyps{III.qalg.def:quaternion-base-change}{}
+\tfbinder{III.qalg.def:quaternion-base-change}{0}{fe5aea28}{the commutative ring $R$ (implicit; universe-polymorphic)}
+\tfbinder{III.qalg.def:quaternion-base-change}{1}{51c895c7}{the commutative ring $S$ (implicit; universe-polymorphic)}
+\tfbinder{III.qalg.def:quaternion-base-change}{2}{f30292cb}{the instance \texttt{CommRing R}}
+\tfbinder{III.qalg.def:quaternion-base-change}{3}{d4a11b21}{the instance \texttt{CommRing S}}
+\tfbinder{III.qalg.def:quaternion-base-change}{4}{c62e7f3f}{the integer $a$ (explicit)}
+\tfbinder{III.qalg.def:quaternion-base-change}{5}{f55fcbc1}{the integer $b$ (explicit)}
+\tfbinder{III.qalg.def:quaternion-base-change}{6}{216e3e60}{the ring homomorphism $f\colon R\to S$ (\texttt{R →+* S})}
+\begin{tffidelity}
+B-only (A has no counterpart as a separate item: the base change $\Bq_R\to\Bq_S$ is part of A's \cref{III.qalg.def:quaternion-algebra}). Unconditional. The Lean value is the ring homomorphism \texttt{QuatAlg R a b →+* QuatAlg S a b}, $x\mapsto f(x_0)+f(x_1)i+f(x_2)j+f(x_3)k$ (\texttt{toFun x := ⟨f x.re, f x.imI, f x.imJ, f x.imK⟩}); the ring-hom laws are proved in the definition (no \texttt{sorry}). Unlike the carrier, the parameters $a,b$ are explicit binders (the type of the result mentions them only through \texttt{QuatAlg}). The map $\Bq\to\Bq_{\Qp}$ of Ch.~III.6 is \texttt{baseChange a b (algebraMap ℚ ℚ\_[p])}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition; the five ring-hom laws are closed by \texttt{ext <;> simp}.
+\end{proof}
+
+\begin{definition}[reduced norm]
+\tfstmt{III.qalg.def:reduced-norm}
+\lean{GL2TF.Quat.nrd}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qalg.def:reduced-norm}
+\tfsem{III.qalg.def:reduced-norm}{8dd09f9081e773c6d02106617c6135f0f536b3e3ddddbf7cb9a32f07fe43531e}
+\tfhyps{III.qalg.def:reduced-norm}{}
+\tfbinder{III.qalg.def:reduced-norm}{0}{fe5aea28}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.qalg.def:reduced-norm}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.qalg.def:reduced-norm}{2}{399ffcae}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.def:reduced-norm}{3}{e9199ffe}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.def:reduced-norm}{4}{58eb1da5}{the element $x\in\Bq_R(a,b)$ (\texttt{QuatAlg R a b})}
+\begin{tffidelity}
+$\nrd(x)=x_0^2-a x_1^2-b x_2^2+ab x_3^2$ as \texttt{x.re \textasciicircum{} 2 - ↑a * x.imI \textasciicircum{} 2 - ↑b * x.imJ \textasciicircum{} 2 + ↑a * ↑b * x.imK \textasciicircum{} 2} in $R$, with $a,b$ cast from \texttt{ℤ}. $\nrd$ is one function for all $R$ and all $(a,b)$ (A: $a,b$ fixed with the ring $R$ varying).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}[reduced trace]
+\tfstmt{III.qalg.def:reduced-trace}
+\lean{GL2TF.Quat.trd}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qalg.def:reduced-trace}
+\tfsem{III.qalg.def:reduced-trace}{b413ee722d18da6816ecf72a06070562f125708f2509c6bef7a480c40da06cb9}
+\tfhyps{III.qalg.def:reduced-trace}{}
+\tfbinder{III.qalg.def:reduced-trace}{0}{fe5aea28}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.qalg.def:reduced-trace}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.qalg.def:reduced-trace}{2}{399ffcae}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.def:reduced-trace}{3}{e9199ffe}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.def:reduced-trace}{4}{58eb1da5}{the element $x\in\Bq_R(a,b)$ (\texttt{QuatAlg R a b})}
+\begin{tffidelity}
+$\trd(x)=2x_0$ as \texttt{2 * x.re} in $R$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[norm and trace]
+\tfstmt{III.qalg.lem:reduced-norm-basic}
+\lean{GL2TF.Quat.nrd_trd_basic}
+\uses{III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.def:quaternion-base-change,III.qalg.def:quaternion-algebra}
+\end{lemma}
+\begin{tfformal}{III.qalg.lem:reduced-norm-basic}
+\tfsem{III.qalg.lem:reduced-norm-basic}{5f4843c5e05e3294472ffe83294d06c94370906fc124d3d9fa9ecb8d790496d8}
+\tfhyps{III.qalg.lem:reduced-norm-basic}{}
+\tfbinder{III.qalg.lem:reduced-norm-basic}{0}{fe5aea28}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.qalg.lem:reduced-norm-basic}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.qalg.lem:reduced-norm-basic}{2}{399ffcae}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.lem:reduced-norm-basic}{3}{e9199ffe}{the integer $b$ (implicit)}
+\begin{tffidelity}
+Unconditional (as A). All quantification over $x,y$ and over the ring homomorphism is inside the statement, which is a four-fold conjunction: (a)+(b) for every $x$ (four equations); $\nrd(xy)=\nrd(x)\nrd(y)$; $\trd(xy)=\trd(yx)$; (d) for every commutative ring $S$ (a universe level of its own, bound inside) and $f\colon R\to S$, $\nrd(f_{\Bq}(x))=f(\nrd x)$ and $\trd(f_{\Bq}(x))=f(\trd x)$. The identification of $R$ with $R\cdot1\subseteq\Bq_R$ in A is \texttt{algebraMap R (QuatAlg R a b)}; the term $\trd(x)\,x$ in (b) is the scalar action \texttt{trd x • x}. The base change $f_{\Bq}$ is the B-only \texttt{baseChange a b f} (\cref{III.qalg.def:quaternion-base-change}). Item (b) of A is the fourth equation of the first conjunct.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Each identity is checked on the four coordinates: $x\bar x=\nrd(x)$ and $\bar x x=\nrd(x)$ by \texttt{ext} and \texttt{ring}, $x+\bar x=\trd(x)$ likewise, and the quadratic relation from the first two. Multiplicativity of $\nrd$ is the polynomial identity in the eight coordinates (\texttt{ring}); $\trd(xy)=\trd(yx)$ by \texttt{ring}; compatibility with $f$ by \texttt{simp} (a ring homomorphism commutes with the polynomial expressions).
+\end{proof}
+
+\begin{lemma}[units]
+\tfstmt{III.qalg.lem:unit-iff-reduced-norm-unit}
+\lean{GL2TF.Quat.isUnit_iff_isUnit_nrd}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.lem:reduced-norm-basic}
+\end{lemma}
+\begin{tfformal}{III.qalg.lem:unit-iff-reduced-norm-unit}
+\tfsem{III.qalg.lem:unit-iff-reduced-norm-unit}{c8501e1242c833832352466cce8d19d2a7cb7c9a2833630457d27cc77ed15339}
+\tfhyps{III.qalg.lem:unit-iff-reduced-norm-unit}{}
+\tfbinder{III.qalg.lem:unit-iff-reduced-norm-unit}{0}{fe5aea28}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.qalg.lem:unit-iff-reduced-norm-unit}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.qalg.lem:unit-iff-reduced-norm-unit}{2}{399ffcae}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.lem:unit-iff-reduced-norm-unit}{3}{e9199ffe}{the integer $b$ (implicit)}
+\begin{tffidelity}
+Unconditional (as A). Two conjuncts. (1) $\forall x$, \texttt{IsUnit x ↔ IsUnit (nrd x)}, with $\nrd(x)\in R^\times$ as \texttt{IsUnit}. (2) The inverse formula is stated for a bundled unit $u\in(\Bq_R)^\times$ and a unit $v\in R^\times$ whose value is $\nrd(u)$ (\texttt{(v : R) = nrd u}), concluding $u^{-1}=(v^{-1})\cdot\bar u$ as \texttt{((v⁻¹ : Rˣ) : R) • star u}: this is A's $x^{-1}=\nrd(x)^{-1}\bar x$ with $\nrd(x)^{-1}$ the inverse in $R^\times$ (no \texttt{Inv} on $R$ is available for a ring).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For a unit $v\in R^\times$ with $v=\nrd(x)$ one checks $x\cdot(v^{-1}\bar x)=1=(v^{-1}\bar x)\cdot x$ from $x\bar x=\bar x x=\nrd(x)$ (this gives ``$\Leftarrow$'' and the inverse formula). Conversely, $\nrd\colon\Bq_R\to R$ is a monoid homomorphism (multiplicativity and $\nrd(1)=1$), so it sends units to units.
+\end{proof}
+
+\begin{lemma}[determinant of multiplication]
+\tfstmt{III.qalg.lem:left-multiplication-det}
+\lean{GL2TF.Quat.det_mulLeft_mulRight}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm}
+\end{lemma}
+\begin{tfformal}{III.qalg.lem:left-multiplication-det}
+\tfsem{III.qalg.lem:left-multiplication-det}{9a0d3febbe19c4d081f0b2099c6843925054b70e76e14cdfb8b5e15d4f62f9bc}
+\tfhyps{III.qalg.lem:left-multiplication-det}{}
+\tfbinder{III.qalg.lem:left-multiplication-det}{0}{fe5aea28}{the field $F$ (universe-polymorphic)}
+\tfbinder{III.qalg.lem:left-multiplication-det}{1}{de6d288d}{the instance \texttt{Field F}}
+\tfbinder{III.qalg.lem:left-multiplication-det}{2}{399ffcae}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.lem:left-multiplication-det}{3}{e9199ffe}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.lem:left-multiplication-det}{4}{48063734}{the element $x\in\Bq_F(a,b)$ (\texttt{QuatAlg F a b})}
+\begin{tffidelity}
+Unconditional (as A). The determinants are \texttt{LinearMap.det (LinearMap.mulLeft F x)} and \texttt{LinearMap.det (LinearMap.mulRight F x)} of the $F$-linear maps $y\mapsto xy$, $y\mapsto yx$ on $\Bq_F$ (free of rank $4$ over $F$, so the determinant is the usual one), both equal to \texttt{nrd x \textasciicircum{} 2}; one conjunction.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A direct computation: the $4\times4$ matrix of left multiplication by $x$ in the basis $1,i,j,k$ is written out and its determinant is expanded (Laplace along the first row, then \texttt{ring}) to $\nrd(x)^2$. No field extension or splitting argument is used.
+\end{proof}
+
+\begin{lemma}[the definite case]
+\tfstmt{III.qalg.lem:reduced-norm-definite}
+\lean{GL2TF.Quat.nrd_definite}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm}
+\end{lemma}
+\begin{tfformal}{III.qalg.lem:reduced-norm-definite}
+\tfsem{III.qalg.lem:reduced-norm-definite}{f3dcb7fbdb9525bf1bd80fda3b76e0c3df020fba39db1d2636ec8873d6678f89}
+\tfhyps{III.qalg.lem:reduced-norm-definite}{}
+\tfbinder{III.qalg.lem:reduced-norm-definite}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.lem:reduced-norm-definite}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.lem:reduced-norm-definite}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qalg.lem:reduced-norm-definite}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\begin{tffidelity}
+Unconditional apart from $a,b<0$ (as A). The statement is the conjunction of the case $R=\Q$ (\texttt{QuatAlg ℚ a b}) and the case $R=\R$ (\texttt{QuatAlg ℝ a b}), each: $x_0^2+x_1^2+x_2^2+x_3^2\le\nrd(x)$ and \texttt{nrd x = 0 ↔ x = 0}, universally quantified over $x$ inside the statement. A's ``$R=\Q$ or $R=\R$'' is this two-fold conjunction.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $a,b<0$ one has $a,b\le-1$ and $ab\ge1$, so $\nrd(x)-(x_0^2+x_1^2+x_2^2+x_3^2)=(-a-1)x_1^2+(-b-1)x_2^2+(ab-1)x_3^2\ge0$ (\texttt{nlinarith} with the four squares). The sum of squares vanishes only for $x=0$, which gives $\nrd(x)=0\iff x=0$. One private lemma over any ordered field covers $\Q$ and $\R$.
+\end{proof}
+
+\begin{theorem}[definite algebras are division algebras]
+\tfstmt{III.qalg.thm:definite-division}
+\lean{GL2TF.Quat.definite_division}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.lem:reduced-norm-definite,III.qalg.lem:unit-iff-reduced-norm-unit}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:definite-division}
+\tfsem{III.qalg.thm:definite-division}{9d9b286b0bb1e3f0302b5c84ad7510a590f0bfe6bd64bd5635e990aae2d599b6}
+\tfhyps{III.qalg.thm:definite-division}{}
+\tfbinder{III.qalg.thm:definite-division}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.thm:definite-division}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.thm:definite-division}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qalg.thm:definite-division}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\begin{tffidelity}
+Unconditional apart from $a,b<0$ (as A). ``Every nonzero element is a unit'' is \texttt{x ≠ 0 → IsUnit x}, for \texttt{QuatAlg ℚ a b} and \texttt{QuatAlg ℝ a b} (a conjunction). A's $\Bq_\R$ is \texttt{QuatAlg ℝ a b}, without topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $x\neq0$ one has $\nrd(x)\neq0$ by \cref{III.qalg.lem:reduced-norm-definite}, hence $\nrd(x)$ is a unit of the field, hence $x$ is a unit by \cref{III.qalg.lem:unit-iff-reduced-norm-unit}; the same argument for $\Q$ and $\R$.
+\end{proof}
+
+\section{The Hilbert symbol and ramification}\label{sec:qalg-hilbert}
+
+\begin{definition}[Hilbert symbol]
+\tfstmt{III.qalg.def:hilbert-symbol}
+\lean{GL2TF.Quat.hilbertSymbol}
+\end{definition}
+\begin{tfformal}{III.qalg.def:hilbert-symbol}
+\tfsem{III.qalg.def:hilbert-symbol}{bb71955b13496742d121f5db8945ad011b13a74858671b1a88be94e3e55650c5}
+\tfhyps{III.qalg.def:hilbert-symbol}{}
+\tfbinder{III.qalg.def:hilbert-symbol}{0}{6b8b0c0f}{the field $F$ (universe-polymorphic)}
+\tfbinder{III.qalg.def:hilbert-symbol}{1}{de6d288d}{the instance \texttt{Field F}}
+\tfbinder{III.qalg.def:hilbert-symbol}{2}{3bf910e8}{the element $a\in F$}
+\tfbinder{III.qalg.def:hilbert-symbol}{3}{bc80b3dd}{the element $b\in F$}
+\begin{tffidelity}
+$\hilb abF=1$ if \texttt{∃ x y z, (x, y, z) ≠ (0, 0, 0) ∧ z \textasciicircum{} 2 = a * x \textasciicircum{} 2 + b * y \textasciicircum{} 2}, else $-1$, valued in \texttt{ℤ} (the existential is under \texttt{open scoped Classical}; the value is not computable). \emph{Junk value:} the definition is total in $a,b\in F$ (not only $F^\times$); at $a=0$ the vector $(x,y,z)=(1,0,0)$ solves $z^2=ax^2+by^2$, and at $b=0$ so does $(0,1,0)$, so the value is $1$ there. This agrees with A, which uses the symbol only for $a,b\in F^\times$ (``it is used for $a,b\in F^\times$''). The local symbol $\hilb abp$ is \texttt{hilbertSymbol ℚ\_[p] a b}, written inline with the integers or rationals cast into \texttt{ℚ\_[p]}; there is no separate constant.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[symmetry of the Hilbert symbol (B-only)]
+\tfstmt{III.qalg.lem:hilbert-symbol-symm}
+\bonly
+\lean{GL2TF.Quat.hilbertSymbol_symm}
+\uses{III.qalg.def:hilbert-symbol}
+\end{lemma}
+\begin{tfformal}{III.qalg.lem:hilbert-symbol-symm}
+\tfsem{III.qalg.lem:hilbert-symbol-symm}{a58cba3968fdaeb1fe16d9a032b7afe9e62451e078cbadef7181c4f1bfb9278c}
+\tfhyps{III.qalg.lem:hilbert-symbol-symm}{}
+\tfbinder{III.qalg.lem:hilbert-symbol-symm}{0}{6b8b0c0f}{the field $F$ (universe-polymorphic)}
+\tfbinder{III.qalg.lem:hilbert-symbol-symm}{1}{de6d288d}{the instance \texttt{Field F}}
+\tfbinder{III.qalg.lem:hilbert-symbol-symm}{2}{3bf910e8}{the element $a\in F$}
+\tfbinder{III.qalg.lem:hilbert-symbol-symm}{3}{bc80b3dd}{the element $b\in F$}
+\begin{tffidelity}
+B-only (A has no counterpart: A uses the symmetry $\hilb abF=\hilb baF$ in a remark after \cref{III.qalg.thm:hilbert-symbol-two} as ``immediate from the definition''). Unconditional, valid for all $a,b\in F$ including the junk cases $a=0$ or $b=0$. Used by \cref{III.qalg.thm:pizer-algebras} for the pairs $(-2,-p)$, whose Lean form is $(2u,v)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Swap the roles of $x$ and $y$ in the isotropy equation $z^2=ax^2+by^2$: a solution $(x,y,z)\neq0$ for $(a,b)$ gives $(y,x,z)\neq0$ for $(b,a)$, and the symbol is determined by the existence of such a solution.
+\end{proof}
+
+\begin{theorem}[split if and only if isotropic]
+\tfstmt{III.qalg.thm:split-iff-isotropic}
+\lean{GL2TF.Quat.split_iff_isotropic}
+\uses{III.qalg.def:hilbert-symbol,III.qalg.def:reduced-norm,III.qalg.lem:unit-iff-reduced-norm-unit}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:split-iff-isotropic}
+\tfsem{III.qalg.thm:split-iff-isotropic}{79dec036a3aefe324b0f5d01caa8e40a4d1835374050e714de49905550b227ce}
+\tfhyps{III.qalg.thm:split-iff-isotropic}{}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{0}{fe5aea28}{the field $F$ (universe-polymorphic)}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{1}{de6d288d}{the instance \texttt{Field F}}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{2}{1fc7ad0e}{$2\neq0$ in $F$ (\texttt{(2 : F) ≠ 0})}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{3}{bc80b3dd}{the element $a\in F$}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{4}{4fcf3e1c}{the element $b\in F$}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{5}{951f811f}{$a\neq0$ (\texttt{a ≠ 0})}
+\tfbinder{III.qalg.thm:split-iff-isotropic}{6}{0de3b899}{$b\neq0$ (\texttt{b ≠ 0})}
+\begin{tffidelity}
+\emph{Carrier:} here $a,b\in F$ are field elements (as A: ``with $a,b\in F$''), not integers, so the carrier is Mathlib's \texttt{QuaternionAlgebra F a 0 b} directly and the reduced norm is written out, \texttt{x.re \textasciicircum{} 2 - a * x.imI \textasciicircum{} 2 - b * x.imJ \textasciicircum{} 2 + a * b * x.imK \textasciicircum{} 2}, rather than \texttt{QuatAlg} and \texttt{nrd}; for $a,b\in\Z$ the two agree definitionally. The equivalence (i)$\iff$(ii)$\iff$(iii) is \texttt{List.TFAE [hilbertSymbol F a b = 1, ∃ x, x ≠ 0 ∧ nrd-expression = 0, Nonempty (QuaternionAlgebra F a 0 b ≃ₐ[F] Matrix (Fin 2) (Fin 2) F)]}, with (iii) as nonemptiness of the type of $F$-algebra isomorphisms. A's ``if they do not hold, every nonzero element is a unit'' is the second conjunct \texttt{hilbertSymbol F a b = -1 → ∀ x ≠ 0, IsUnit x}; since the symbol takes only the values $\pm1$, ``(i) fails'' is exactly \texttt{= -1}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(i)$\iff$(ii): $(z,x,y)\mapsto z+xi+yj$ and, back, from $q$ with $\nrd(q)=0$ put $n=q_2^2-aq_3^2$; if $n\neq0$ then $(x,y,z)=(q_1q_2-q_0q_3,\,n,\,q_0q_2-aq_1q_3)$ (multiplicativity of the norm of $F(\sqrt a)$), and if $n=0$ then $(q_3,0,q_2)$ or $(q_1,0,q_0)$. (ii)$\Rightarrow$(iii): for $y\neq0$ write $b=u^2-av^2$ and send $i\mapsto\begin{psmallmatrix}0&a\\1&0\end{psmallmatrix}$, $j\mapsto\begin{psmallmatrix}u&-av\\v&-u\end{psmallmatrix}$; for $y=0$ one has $a=s^2$ and $i\mapsto\operatorname{diag}(s,-s)$, $j\mapsto\begin{psmallmatrix}0&b\\1&0\end{psmallmatrix}$. Injectivity is read off the matrix entries (uses $2\neq0$), bijectivity follows by dimension $4$. (iii)$\Rightarrow$(ii): pull back a non-unit matrix unit. Last conjunct: $x\bar x=\nrd(x)\neq0$ is invertible.
+\end{proof}
+
+\begin{theorem}[unramified primes]
+\tfstmt{III.qalg.thm:hilbert-symbol-unramified}
+\lean{GL2TF.Quat.hilbertSymbol_unramified}
+\uses{III.qalg.def:hilbert-symbol}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:hilbert-symbol-unramified}
+\tfsem{III.qalg.thm:hilbert-symbol-unramified}{7c3c15aae918f45dc1a4f25180dc0e06786997680a2d63eae19daeef67323a50}
+\tfhyps{III.qalg.thm:hilbert-symbol-unramified}{}
+\tfbinder{III.qalg.thm:hilbert-symbol-unramified}{0}{52ee410f}{the prime $p$ (\texttt{ℕ})}
+\tfbinder{III.qalg.thm:hilbert-symbol-unramified}{1}{31f64cb4}{the instance \texttt{Fact p.Prime}}
+\tfbinder{III.qalg.thm:hilbert-symbol-unramified}{2}{37c43f62}{the integer $a$ (explicit)}
+\tfbinder{III.qalg.thm:hilbert-symbol-unramified}{3}{d4710ca0}{the integer $b$ (explicit)}
+\tfbinder{III.qalg.thm:hilbert-symbol-unramified}{4}{639a45ad}{$p\nmid2ab$ (\texttt{¬ (p : ℤ) ∣ 2 * a * b})}
+\begin{tffidelity}
+Unconditional apart from $p\nmid2ab$ (as A). $p$ is a natural number with a \texttt{Fact p.Prime} instance (instead of a prime subtype); $a,b\in\Z$ are cast into \texttt{ℚ\_[p]} by \texttt{hilbertSymbol ℚ\_[p] ↑a ↑b = 1}. The divisibility is in \texttt{ℤ}, $p$ cast.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The equation $ax^2+by^2=1$ is solvable modulo $p$ (\texttt{FiniteField.exists\_root\_sum\_quadratic}, a pigeonhole count); Hensel's lemma applied to $X^2-c$ at $1$ then gives a solution in $\Zp$.
+\end{proof}
+
+\begin{theorem}[odd primes]
+\tfstmt{III.qalg.thm:hilbert-symbol-odd}
+\lean{GL2TF.Quat.hilbertSymbol_odd}
+\uses{III.qalg.def:hilbert-symbol,III.qalg.lem:hilbert-symbol-symm,III.qalg.thm:hilbert-symbol-unramified}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:hilbert-symbol-odd}
+\tfsem{III.qalg.thm:hilbert-symbol-odd}{748bb3163ce2485378c80bf47e892d803a91addb8faf0cb0c66c7ecac526f571}
+\tfhyps{III.qalg.thm:hilbert-symbol-odd}{}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{0}{52ee410f}{the prime $p$ (\texttt{ℕ})}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{1}{31f64cb4}{the instance \texttt{Fact p.Prime}}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{2}{880a6acc}{$p$ is odd (\texttt{p ≠ 2})}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{3}{f7bc01e4}{the exponent $\alpha\in\N$}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{4}{d38ae446}{the exponent $\beta\in\N$}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{5}{f55fcbc1}{the integer $u$}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{6}{5e8c6863}{the integer $v$}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{7}{94298f01}{$p\nmid u$ (\texttt{¬ (p : ℤ) ∣ u})}
+\tfbinder{III.qalg.thm:hilbert-symbol-odd}{8}{d948ab13}{$p\nmid v$ (\texttt{¬ (p : ℤ) ∣ v})}
+\begin{tffidelity}
+Unconditional apart from the displayed hypotheses (as A). $a=p^\alpha u$ and $b=p^\beta v$ are not binders: they appear as the casts \texttt{(((p : ℤ) \textasciicircum{} α * u : ℤ) : ℚ\_[p])} and \texttt{(((p : ℤ) \textasciicircum{} β * v : ℤ) : ℚ\_[p])}. ``$p$ odd'' is \texttt{p ≠ 2} (with \texttt{Fact p.Prime}). The right side is \texttt{(-1) \textasciicircum{} (α * β * ((p - 1) / 2)) * legendreSym p u \textasciicircum{} β * legendreSym p v \textasciicircum{} α} in \texttt{ℤ}: the exponent \texttt{(p - 1) / 2} is natural-number division, exact for odd $p$; \texttt{legendreSym} is Mathlib's Legendre symbol (with value $0$ at $p\mid u$, excluded by the hypotheses). Same formula as A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Reduce $a,b$ modulo squares to $a\in\{1,p\}\cdot$unit using $(at^2,b)=(a,b)$. The case where both are units is \cref{III.qalg.thm:hilbert-symbol-unramified}. For $(pu,v)$ with units $u,v$ the symbol is $(v/p)$: Hensel in one direction, in the other a primitive solution modulo $p$ and a descent ($z=pz_1$, $y=py_1$ forces $p\mid x$). For $(pu,pv)$ use $(a,b)=(a,-ab)$ and $(-1/p)=(-1)^{(p-1)/2}$. No bilinearity of the symbol is used.
+\end{proof}
+
+\begin{theorem}[the prime $2$, low valuations]
+\tfstmt{III.qalg.thm:hilbert-symbol-two}
+\lean{GL2TF.Quat.hilbertSymbol_two}
+\uses{III.qalg.def:hilbert-symbol}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:hilbert-symbol-two}
+\tfsem{III.qalg.thm:hilbert-symbol-two}{18a7eb3e963bf4ad6c8d98be7a9e521a50f6d7ac34a1b20bb89882a6451f28ed}
+\tfhyps{III.qalg.thm:hilbert-symbol-two}{}
+\tfbinder{III.qalg.thm:hilbert-symbol-two}{0}{2722ba5a}{the integer $u$}
+\tfbinder{III.qalg.thm:hilbert-symbol-two}{1}{c6513842}{the integer $v$}
+\tfbinder{III.qalg.thm:hilbert-symbol-two}{2}{4b37a430}{$u$ is odd (\texttt{Odd u})}
+\tfbinder{III.qalg.thm:hilbert-symbol-two}{3}{53539df2}{$v$ is odd (\texttt{Odd v})}
+\begin{tffidelity}
+Unconditional apart from oddness (as A). A's $\varepsilon(u)=\frac{u-1}{2}\bmod2$ and $\omega(u)=\frac{u^2-1}{8}\bmod2$ in $\{0,1\}$ are written inline as the integers \texttt{(u - 1) / 2} and \texttt{(u \textasciicircum{} 2 - 1) / 8} (integer division, exact for odd arguments), and the exponent of $-1$ is passed through \texttt{Int.natAbs}: only its parity matters, which \texttt{natAbs} preserves, so \texttt{(-1) \textasciicircum{} (...).natAbs} agrees with $(-1)^{\varepsilon(u)\varepsilon(v)}$ and $(-1)^{\varepsilon(u)\varepsilon(v)+\omega(u)}$. The second equation uses $2v$ cast into \texttt{ℚ\_[2]} (\texttt{((2 * v : ℤ) : ℚ\_[2])}). The statement is a conjunction of the two equations; no case outside $v_2(a)+v_2(b)\le1$ is claimed (as A). The prime $2$ is the literal \texttt{ℚ\_[2]}, so no \texttt{Fact} binder is needed here.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+There is no reduction to square classes: for each pair of residues $(u,v)$ modulo $8$ either an explicit $(x,y)$ with $ux^2+vy^2\equiv1\pmod 8$ is given (then $c\equiv1\pmod 8$ is a square in $\Z_2$ by Hensel, since $\|c-1\|\le1/8<\|2\|^2$), or a primitive-solution argument modulo $8$ is used, closed by \texttt{decide +kernel} over $(\Z/8)^3$ (512 cases, kernel-checked; no \texttt{native\_decide}).
+\end{proof}
+
+\begin{definition}[definite and ramified exactly at $D$]
+\tfstmt{III.qalg.def:ramified-exactly}
+\lean{GL2TF.Quat.RamifiedExactly}
+\uses{III.qalg.def:hilbert-symbol}
+\end{definition}
+\begin{tfformal}{III.qalg.def:ramified-exactly}
+\tfsem{III.qalg.def:ramified-exactly}{06fb9bc74750005b462084e8ffb3810021592916f1820cca3bafd69462eeb484}
+\tfhyps{III.qalg.def:ramified-exactly}{}
+\tfbinder{III.qalg.def:ramified-exactly}{0}{2722ba5a}{the integer $a$}
+\tfbinder{III.qalg.def:ramified-exactly}{1}{c6513842}{the integer $b$}
+\tfbinder{III.qalg.def:ramified-exactly}{2}{18782426}{the natural number $D$}
+\begin{tffidelity}
+$\operatorname{RamEx}(a,b,D)$ is the proposition \texttt{a < 0 ∧ b < 0 ∧ Squarefree D ∧ ∀ (p : ℕ) [Fact p.Prime], hilbertSymbol ℚ\_[p] ↑a ↑b = -1 ↔ p ∣ D}. The quantifier over primes is over natural numbers $p$ with the instance \texttt{Fact p.Prime} bound inside the $\forall$ (A: ``every prime $p$''); $D=0$ is excluded by \texttt{Squarefree D}, while $D=1$ (no ramified prime) is allowed as in A. This is a project Prop-valued constant (a \emph{data predicate}); the theorems of this chapter take it as an explicit hypothesis \texttt{(hD : RamifiedExactly a b D)}, binder rows below.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{theorem}[Pizer's algebras]
+\tfstmt{III.qalg.thm:pizer-algebras}
+\lean{GL2TF.Quat.pizer_algebras}
+\uses{III.qalg.def:ramified-exactly,III.qalg.thm:hilbert-symbol-unramified,III.qalg.thm:hilbert-symbol-odd,III.qalg.thm:hilbert-symbol-two,III.qalg.lem:hilbert-symbol-symm,III.qalg.def:hilbert-symbol}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:pizer-algebras}
+\tfsem{III.qalg.thm:pizer-algebras}{19cb71a30a6b7491062073b95bdb2efe90cb7ec098ecd23dae312f6d9beac2e8}
+\tfhyps{III.qalg.thm:pizer-algebras}{}
+\begin{tffidelity}
+No binders: closed statement. Unconditional (as A). One conjunction of (a) \texttt{RamifiedExactly (-1) (-1) 2}, (b) \texttt{∀ p : ℕ, p.Prime → p \% 4 = 3 → RamifiedExactly (-1) (-(p : ℤ)) p} and (c) \texttt{∀ p : ℕ, p.Prime → p \% 8 = 5 → RamifiedExactly (-2) (-(p : ℤ)) p}; the congruences are in \texttt{ℕ}. The Lean proof uses the symmetry \cref{III.qalg.lem:hilbert-symbol-symm} (B-only; A does not cite it).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The local symbols are computed from \cref{III.qalg.thm:hilbert-symbol-unramified,III.qalg.thm:hilbert-symbol-odd,III.qalg.thm:hilbert-symbol-two} (for $(-2,-p)$ at $2$ via \cref{III.qalg.lem:hilbert-symbol-symm} and the $(u,2v)$ formula with $u=-p$, $v=-1$), the symbols at the primes $\ne p,\infty$ are trivial, and $\operatorname{RamEx}(a,b,p)$ follows from these values together with definiteness.
+\end{proof}
+
+\begin{theorem}[primes $p\equiv1\pmod8$; optional]
+\tfstmt{III.qalg.thm:pizer-algebras-one-mod-eight}
+\lean{GL2TF.Quat.pizer_algebras_one_mod_eight}
+\uses{III.qalg.def:ramified-exactly,III.qalg.thm:hilbert-symbol-unramified,III.qalg.thm:hilbert-symbol-odd,III.qalg.thm:hilbert-symbol-two,III.qalg.def:hilbert-symbol}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:pizer-algebras-one-mod-eight}
+\tfsem{III.qalg.thm:pizer-algebras-one-mod-eight}{53b7e5d625336c1161b02d0853519ecb7d67fa7a45c97b10bd5384dfd989fdf6}
+\tfhyps{III.qalg.thm:pizer-algebras-one-mod-eight}{}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{0}{52ee410f}{the natural number $p$}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{1}{818304fd}{the natural number $q$}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{2}{14137d33}{the instance \texttt{Fact q.Prime}}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{3}{a10ee061}{$p$ is prime (\texttt{p.Prime})}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{4}{04466b17}{$p\equiv1\pmod8$ (\texttt{p \% 8 = 1})}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{5}{c5d480c5}{$q\equiv3\pmod4$ (\texttt{q \% 4 = 3})}
+\tfbinder{III.qalg.thm:pizer-algebras-one-mod-eight}{6}{7db30a07}{$(\frac pq)=-1$ (\texttt{legendreSym q p = -1})}
+\begin{tffidelity}
+Unconditional apart from the displayed hypotheses (as A). The primality of $q$ is a \texttt{Fact q.Prime} instance (needed by \texttt{legendreSym q}), that of $p$ an explicit hypothesis. A's $(\frac pq)$ is \texttt{legendreSym q p} ($p$ cast to \texttt{ℤ}). The conclusion is \texttt{RamifiedExactly (-(p : ℤ)) (-(q : ℤ)) p}. Optional item of the plan.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As \cref{III.qalg.thm:pizer-algebras}, now for the pair attached to $p\equiv1\pmod 8$; the symbol at $p$ is evaluated with \texttt{legendreSym.quadratic\_reciprocity\_one\_mod\_four}.
+\end{proof}
+
+\section{Local structure}\label{sec:qalg-local}
+
+\begin{definition}[completion of a lattice]
+\tfstmt{III.qalg.def:local-order}
+\lean{GL2TF.Quat.localLattice}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change}
+\end{definition}
+\begin{tfformal}{III.qalg.def:local-order}
+\tfsem{III.qalg.def:local-order}{9d1b8def24acdcde90d4e2c875f5b6ddc8bfab9d365c1435d57be576adb7019c}
+\tfhyps{III.qalg.def:local-order}{}
+\tfbinder{III.qalg.def:local-order}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.def:local-order}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.def:local-order}{2}{18782426}{the prime $p$ (\texttt{ℕ})}
+\tfbinder{III.qalg.def:local-order}{3}{d5d90dbf}{the instance \texttt{Fact p.Prime}}
+\tfbinder{III.qalg.def:local-order}{4}{3f007758}{the $\Z$-submodule $L\subseteq\Bq$ (\texttt{Submodule ℤ (QuatAlg ℚ a b)})}
+\begin{tffidelity}
+$L_p=$ \texttt{Submodule.span ℤ\_[p] (baseChange a b (algebraMap ℚ ℚ\_[p]) '' ↑L)}: the $\Zp$-span of the image of $L$ under the B-only base change (\cref{III.qalg.def:quaternion-base-change}) along $\Q\to\Qp$; the result is a \texttt{Submodule ℤ\_[p] (QuatAlg ℚ\_[p] a b)}. As A, defined for every $\Z$-submodule; the lattice hypotheses enter the items that use it (\texttt{L.FG}, span $=\top$). The $\Zp$-module structure on $\Bq_{\Qp}$ is the one induced from $\Zp\subseteq\Qp$ on coordinates.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[completions of lattices and orders]
+\tfstmt{III.qalg.lem:local-order-basic}
+\lean{GL2TF.Quat.localLattice_basic}
+\uses{III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qord.def:order}
+\end{lemma}
+\begin{tfformal}{III.qalg.lem:local-order-basic}
+\tfsem{III.qalg.lem:local-order-basic}{67c9426a5a0cbd7ac4d44096b0b4c7bb17345dec6c73b6e28a646b95a24de083}
+\tfhyps{III.qalg.lem:local-order-basic}{}
+\tfbinder{III.qalg.lem:local-order-basic}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.lem:local-order-basic}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.lem:local-order-basic}{2}{18782426}{the prime $p$ (\texttt{ℕ})}
+\tfbinder{III.qalg.lem:local-order-basic}{3}{d5d90dbf}{the instance \texttt{Fact p.Prime}}
+\tfbinder{III.qalg.lem:local-order-basic}{4}{3f007758}{the $\Z$-submodule $L\subseteq\Bq$}
+\tfbinder{III.qalg.lem:local-order-basic}{5}{122f2473}{$L$ is finitely generated (\texttt{L.FG})}
+\tfbinder{III.qalg.lem:local-order-basic}{6}{5951fad1}{$\Q L=\Bq$ (\texttt{Submodule.span ℚ ↑L = ⊤})}
+\begin{tffidelity}
+``$L$ is a lattice'' of A is the two binders \texttt{hL : L.FG} and \texttt{hLs : span ℚ L = ⊤}. \emph{Topology (a):} ``compact open'' is \texttt{IsCompact} and \texttt{IsOpen} of the image of $L_p$ under \texttt{QuaternionAlgebra.equivTuple} in \texttt{Fin 4 → ℚ\_[p]} (A: topology transported along the coordinate map; the same), together with \texttt{span ℚ\_[p] L\_p = ⊤}. (b): \texttt{∀ e : Module.Basis (Fin 4) ℤ L}, $L_p$ is the $\Zp$-span of the range of the images of $e$; the basis is indexed by \texttt{Fin 4} (rank $4$, A's $e_1,\dots,e_4$); that bases exist is \cref{III.qord.lem:order-free-rank-four}'s content in Ch.~III.7, so this conjunct is not vacuous but its existence is not part of the statement. (c): for every $L'\le L$ that is finitely generated with $\Q L'=\Bq$ and \texttt{¬ p ∣ L'.toAddSubgroup.relIndex L.toAddSubgroup}; \texttt{relIndex} is $0$ if the index is infinite, so $p\nmid[L:L']$ is a nonvacuous hypothesis only for finite index (automatic for lattices). (d) \emph{deviation:} the statement is \texttt{∀ O : QOrder a b, ∃ S : Subalgebra ℤ\_[p] (QuatAlg ℚ\_[p] a b), toSubmodule S = localLattice p (toSubmodule O.toSubalgebra)}: $O_p$ is the underlying module of a $\Zp$-subalgebra (a subring of $\Bq_{\Qp}$); that it is also compact open and spans is (a) applied to the lattice $O$ (as A: ``with (a)''), and is not repeated as a Lean conjunct. The statement is one four-fold conjunction.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(b) The two $\Zp$-spans are compared. (c) $[L:L']\cdot L\subseteq L'$ (\texttt{AddSubgroup.nsmul\_relIndex\_mem}) and $[L:L']\in\Zp^\times$, so $L'_p=L_p$. (d) The span of a multiplicatively closed set is a subalgebra. (a) A $\Z$-basis of $L$ is a $\Qp$-basis of $\Bq_{\Qp}$ (spanning and dimension $4$), so the image of $L_p$ in \texttt{Fin 4 → ℚ\_[p]} is the image of the closed unit polydisc $\Zp^4$ under a $\Qp$-linear automorphism; it is compact (properness of $\Qp$) and open (ultrametricity).
+\end{proof}
+
+\begin{theorem}[maximal orders split at unramified primes]
+\tfstmt{III.qalg.thm:maximal-order-local-split}
+\lean{GL2TF.Quat.maximalOrder_local_split}
+\uses{III.qalg.thm:split-iff-isotropic,III.qalg.def:ramified-exactly,III.qalg.lem:local-order-basic,III.qord.def:maximal-order,III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qalg.def:hilbert-symbol,III.qalg.def:quaternion-base-change}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:maximal-order-local-split}
+\tfsem{III.qalg.thm:maximal-order-local-split}{7c64eae495f77f214242cd29335a5a8144f0b50f4c68ae2c950bd6666e4bd153}
+\tfhyps{III.qalg.thm:maximal-order-local-split}{}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{2}{48b1c944}{the natural number $D$ (implicit)}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{3}{22450252}{the maximal order $\Oord$ (\texttt{MaxOrder a b}, B-only subtype of \texttt{QOrder a b}; its underlying order is \texttt{O.1})}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{4}{fa8883b8}{$\operatorname{RamEx}(a,b,D)$ (\texttt{RamifiedExactly a b D}; hypothesis binder, a project data predicate)}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{5}{50bbf40e}{the prime $p$ (\texttt{ℕ})}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{6}{847ebe55}{the instance \texttt{Fact p.Prime}}
+\tfbinder{III.qalg.thm:maximal-order-local-split}{7}{7d6fae1b}{$p\nmid D$ (\texttt{¬ p ∣ D})}
+\begin{tffidelity}
+Conditional on $\operatorname{RamEx}(a,b,D)$ (as A; no \texttt{Hyp}, a data predicate). A maximal order is the subtype \texttt{MaxOrder a b := \{O : QOrder a b // IsMaximalOrder O\}} (B-only \texttt{III.qord.def:maximal-order-subtype}; Ch.~III.7). The conclusion is \texttt{∃ ι : QuatAlg ℚ\_[p] a b ≃ₐ[ℚ\_[p]] Matrix (Fin 2) (Fin 2) ℚ\_[p], ι '' ↑(localLattice p (toSubmodule O.1.toSubalgebra)) = Set.range (fun m : Matrix (Fin 2) (Fin 2) ℤ\_[p] ↦ m.map (algebraMap ℤ\_[p] ℚ\_[p]))}: $\Mat_2(\Zp)\subseteq\Mat_2(\Qp)$ is the range of the entrywise map. A's $\iota_p(\Oord_p)=\Mat_2(\Zp)$ is this equality of sets (images in $\Bq_{\Qp}$ resp.\ $\Mat_2(\Qp)$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Lean (\texttt{maximalOrder\_local\_split}): since $p\nmid D$, \texttt{RamifiedExactly} gives Hilbert symbol $1$, so $B_p\cong M_2(\mathbb{Q}_p)$ by \texttt{split\_iff\_isotropic}; global maximality of $O$ gives local maximality of $O_p$ (a subring $S\supseteq O_p$ with $p^kS\subseteq O_p$ defines a larger global order); the $\mathbb{Z}_p$-lattice spanned by the columns of the image of $O_p$ is free of rank $2$, and conjugating by a basis puts $\iota(O_p)\subseteq M_2(\mathbb{Z}_p)$; local maximality of $\iota^{-1}M_2(\mathbb{Z}_p)$ gives equality.
+\end{proof}
+
+\begin{theorem}[the maximal order at a ramified prime; movable to Q4]
+\tfstmt{III.qalg.thm:division-maximal-order}
+\lean{GL2TF.Quat.division_maximalOrder}
+\uses{III.qalg.thm:split-iff-isotropic,III.qalg.def:ramified-exactly,III.qalg.lem:local-order-basic,III.qord.lem:order-integral,III.qord.def:maximal-order,III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qalg.def:hilbert-symbol,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qalg.lem:unit-iff-reduced-norm-unit}
+\end{theorem}
+\begin{tfformal}{III.qalg.thm:division-maximal-order}
+\tfsem{III.qalg.thm:division-maximal-order}{dd15632f6c8738358e9e5033daacf781f16253e046b98ff304dcac0afbd1023c}
+\tfhyps{III.qalg.thm:division-maximal-order}{}
+\tfbinder{III.qalg.thm:division-maximal-order}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qalg.thm:division-maximal-order}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qalg.thm:division-maximal-order}{2}{48b1c944}{the natural number $D$ (implicit)}
+\tfbinder{III.qalg.thm:division-maximal-order}{3}{4ab2348a}{$\operatorname{RamEx}(a,b,D)$ (\texttt{RamifiedExactly a b D}; hypothesis binder, a project data predicate)}
+\tfbinder{III.qalg.thm:division-maximal-order}{4}{d38ae446}{the prime $p$ (\texttt{ℕ})}
+\tfbinder{III.qalg.thm:division-maximal-order}{5}{f1ae9f21}{the instance \texttt{Fact p.Prime}}
+\tfbinder{III.qalg.thm:division-maximal-order}{6}{1979f9c4}{$p\mid D$ (\texttt{p ∣ D})}
+\begin{tffidelity}
+Conditional on $\operatorname{RamEx}(a,b,D)$ (as A). Three conjuncts. (1) ``$\Oord_{D,p}=\{x:\nrd(x)\in\Zp\}$ is a $\Zp$-order'': \texttt{∃ S : Subalgebra ℤ\_[p] (QuatAlg ℚ\_[p] a b)} with underlying set $\{x\mid\nrd x\in\texttt{PadicInt.subring p}\}$ that is compact and open (image under \texttt{equivTuple} in \texttt{Fin 4 → ℚ\_[p]}, product topology) and spans over $\Qp$ (A's parenthetical definition of a $\Zp$-order, written inline). $\Oord_{D,p}$ is not a named constant: it is the set-builder. $\Zp\subseteq\Qp$ is \texttt{PadicInt.subring p}. (2) every $x$ integral over $\Zp$ has $\nrd x\in\Zp$, i.e.\ lies in that set (\texttt{IsIntegral ℤ\_[p] x → nrd x ∈ PadicInt.subring p}). (3) for every maximal order $\Oord$ (\texttt{MaxOrder a b}), the set $\Oord_p$ equals $\{x\mid\nrd x\in\Zp\}$. The item is movable to Q4 (plan).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Lean (\texttt{division\_maximalOrder}): (1) $\{x:\operatorname{nrd}x\in\mathbb{Z}_p\}$ is a $\mathbb{Z}_p$-subalgebra whose coordinate image is compact, open and spans $B_p$; (2) integral elements have integral reduced norm; (3) for a maximal $O$, local maximality of $O_p$ (as in the proof of \texttt{maximalOrder\_local\_split}) forces $O_p=\{x:\operatorname{nrd}x\in\mathbb{Z}_p\}$.
+\end{proof}
+
+\begin{theorem}[existence of level structures]
+\tfstmt{III.qord.thm:level-structure-exists}
+\lean{GL2TF.Quat.levelStructure_exists}
+\uses{III.qalg.thm:maximal-order-local-split,III.qord.def:level-structure,III.qalg.def:ramified-exactly,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change}
+\end{theorem}
+\begin{tfformal}{III.qord.thm:level-structure-exists}
+\tfsem{III.qord.thm:level-structure-exists}{d16fc9970f4453e08ab6990bc67972a3dd1da32ddd89a946ebc842431a3db017}
+\tfhyps{III.qord.thm:level-structure-exists}{}
+\tfbinder{III.qord.thm:level-structure-exists}{0}{9f2c4084}{the integer $a$ (implicit)}
+\tfbinder{III.qord.thm:level-structure-exists}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.thm:level-structure-exists}{2}{48b1c944}{the natural number $D$ (implicit)}
+\tfbinder{III.qord.thm:level-structure-exists}{3}{22450252}{the maximal order $\Oord$ (\texttt{MaxOrder a b})}
+\tfbinder{III.qord.thm:level-structure-exists}{4}{fa8883b8}{$\operatorname{RamEx}(a,b,D)$ (\texttt{RamifiedExactly a b D}; hypothesis binder, a project data predicate)}
+\tfbinder{III.qord.thm:level-structure-exists}{5}{50bbf40e}{the level $M$ (\texttt{ℕ})}
+\tfbinder{III.qord.thm:level-structure-exists}{6}{3c0ce3f4}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\tfbinder{III.qord.thm:level-structure-exists}{7}{fc979756}{$\gcd(M,D)=1$ (\texttt{Nat.Coprime M D})}
+\begin{tffidelity}
+Conditional on $\operatorname{RamEx}(a,b,D)$ (as A). $M\ge1$ is the instance binder \texttt{[NeZero M]} (the form in which \texttt{LevelStructure} takes its level, \cref{III.qord.def:level-structure}). $\gcd(M,D)=1$ is \texttt{Nat.Coprime M D}. The conclusion \texttt{Nonempty (LevelStructure O.1 M)} says the set $\operatorname{LevelStructure}(\Oord,M)$ of surjective ring homomorphisms $\Oord\to\Mat_2(\Z/M\Z)$ is nonempty (\cref{III.qord.def:level-structure}); \texttt{O.1} is the underlying \texttt{QOrder}. Lives in \texttt{GL2TF.VolIII.P2.LocalStructure} (not in the Orders module) by plan 1.2, and is listed here, after the local splitting, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Lean (\texttt{levelStructure\_exists}): induction over prime powers and coprime factors. For $p^n$ with $p\nmid D$ the map is $\iota_p$ of item 19 reduced modulo $p^n$ (surjective by the approximation lemma); coprime factors are combined by the Chinese remainder theorem.
+\end{proof}
+

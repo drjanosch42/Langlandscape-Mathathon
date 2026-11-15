@@ -1,0 +1,211 @@
+diff --git a/lean/Langlandscape/Langlandscape/Quat/Stab.lean b/lean/Langlandscape/Langlandscape/Quat/Stab.lean
+new file mode 100644
+index 0000000..fe39731
+--- /dev/null
++++ b/lean/Langlandscape/Langlandscape/Quat/Stab.lean
+@@ -0,0 +1,205 @@
++import Langlandscape.Quat.Basic
++import AlgJL.Common.QuaternionNorm
++import AlgJL.VolIII.P2.QuatAlg
++import AlgJL.VolIII.P2.Adelic
++import AlgJL.VolIII.P2.Orders
++import AlgJL.VolIII.P2.ClassSet
++import AlgJL.VolIII.Brandt.Pairing
++
++/-!
++# Lemma `lem:s01-stab` (a), (c) — `Nrd Γ_x = 1`, `|Γ_x| ∣ 24` (S01-L5a)
++
++Source: `plan/staged/stage-01-quaternion-foundations.tex` `lem:s01-stab`.
++Inputs: `nrd_definite`, `nrd_mem_zhat_of_mem_completion`, `rat_isInt_of_mem_zhat`,
++`stabilizer_units`, `card_unitGroup_dvd_24`.
++-/
++
++namespace Langlandscape.Quat
++
++open GL2TF GL2TF.Quat
++
++/-! ### (a) `Nrd = 1` on stabilisers -/
++
++/-- `lem:s01-stab` (a): for `U ≤ Ô^×`, every `γ ∈ Γ_x(U)` has `nrd γ = 1`. -/
++theorem nrd_eq_one_of_mem_Gam {d : DefiniteData}
++    {U : Subgroup (BHat d.a d.b)ˣ} {x : (BHat d.a d.b)ˣ}
++    {γ : (QuatAlg ℚ d.a d.b)ˣ} (hU : U ≤ d.Ohat) (hγ : γ ∈ Gam (a := d.a) (b := d.b) U x) :
++    nrd (γ : QuatAlg ℚ d.a d.b) = 1 := by
++  have ha : d.a < 0 := d.ha
++  have hb : d.b < 0 := d.hb
++  have hmem : (Units.map (finEmbed d.a d.b).toMonoidHom γ : (BHat d.a d.b)ˣ) ∈
++      U.map (MulAut.conj x).toMonoidHom := hγ
++  obtain ⟨u, huU, huEq⟩ := Subgroup.mem_map.mp hmem
++  have huO : u ∈ d.Ohat := hU huU
++  have hmem_u : (u : BHat d.a d.b) ∈ latticeCompletion (Subalgebra.toSubmodule d.O.1.toSubalgebra) :=
++    (show u ∈ orderCompletionUnits d.O.1 from huO).1
++  have hmem_uInv : ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) ∈
++      latticeCompletion (Subalgebra.toSubmodule d.O.1.toSubalgebra) :=
++    (show u ∈ orderCompletionUnits d.O.1 from huO).2
++  have hnrd_u : nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) ∈ Zhat :=
++    nrd_mem_zhat_of_mem_completion d.O.1 hmem_u
++  have hnrd_uInv : nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) ∈ Zhat :=
++    nrd_mem_zhat_of_mem_completion d.O.1 hmem_uInv
++  have h_nrd_mul : ∀ (p q : QuatAlg FinAdele d.a d.b), nrd (p * q) = nrd p * nrd q :=
++    fun p q => ((nrd_trd_basic (R := FinAdele) (a := d.a) (b := d.b)).2.1 p q)
++  have h_coe_eq : (x : BHat d.a d.b) * (u : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) =
++      (finEmbed d.a d.b (γ : QuatAlg ℚ d.a d.b) : BHat d.a d.b) := by
++    have h1 : (MulAut.conj x u : (BHat d.a d.b)ˣ) = Units.map (finEmbed d.a d.b).toMonoidHom γ := huEq
++    have h2 := congrArg (fun t : (BHat d.a d.b)ˣ => (t : BHat d.a d.b)) h1
++    simp only [MulAut.conj_apply, Units.val_mul] at h2
++    exact h2
++  have hx_nrd : nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) *
++      nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) = 1 :=
++    nrd_units_mul_inv (a := d.a) (b := d.b) x
++  have hnrd_conj : nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) =
++      nrd (show QuatAlg FinAdele d.a d.b from finEmbed d.a d.b (γ : QuatAlg ℚ d.a d.b)) := by
++    have h_nrd_conj_eq : nrd (show QuatAlg FinAdele d.a d.b from
++        (x : BHat d.a d.b) * (u : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) =
++        nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) := by
++      calc nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * (u : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))
++          = nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * (u : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := rfl
++        _ = nrd ((show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * (u : BHat d.a d.b)) * (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) := rfl
++        _ = nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * (u : BHat d.a d.b)) *
++            nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := h_nrd_mul _ _
++        _ = (nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) *
++            nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b))) *
++            nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := by
++            have h2 := h_nrd_mul (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b))
++              (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b))
++            have heq : (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * (u : BHat d.a d.b)) =
++              (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) * (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) := rfl
++            rw [heq] at h2
++            exact congrArg (fun t => t * nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) h2
++        _ = nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) *
++            (nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) *
++            nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) := by ring
++        _ = nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) * 1 := by rw [hx_nrd]
++        _ = nrd (show QuatAlg FinAdele d.a d.b from (u : BHat d.a d.b)) := by rw [mul_one]
++    rw [h_coe_eq] at h_nrd_conj_eq
++    exact h_nrd_conj_eq.symm
++  have hnrd_emb : nrd (show QuatAlg FinAdele d.a d.b from finEmbed d.a d.b (γ : QuatAlg ℚ d.a d.b)) =
++      algebraMap ℚ FinAdele (nrd (γ : QuatAlg ℚ d.a d.b)) :=
++    ((nrd_trd_basic (R := ℚ) (a := d.a) (b := d.b)).2.2.2 FinAdele (algebraMap ℚ FinAdele) (γ : QuatAlg ℚ d.a d.b)).1
++  have h_alg_mem : algebraMap ℚ FinAdele (nrd (γ : QuatAlg ℚ d.a d.b)) ∈ Zhat := by
++    rw [← hnrd_emb, ← hnrd_conj]
++    exact hnrd_u
++  have h_alg_inv_mem : algebraMap ℚ FinAdele (nrd ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)) ∈ Zhat := by
++    have huInvEq : (MulAut.conj x) (u⁻¹) = Units.map (finEmbed d.a d.b).toMonoidHom (γ⁻¹) := by
++      rw [map_inv, huEq]
++    have h_coe_inv : (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) *
++        ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) =
++        (finEmbed d.a d.b ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b) : BHat d.a d.b) := by
++      have h1 := congrArg (fun t : (BHat d.a d.b)ˣ => (t : BHat d.a d.b)) huInvEq
++      simp only [MulAut.conj_apply, Units.val_mul] at h1
++      exact h1
++    have hnrd_inv_conj : nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) =
++        nrd (show QuatAlg FinAdele d.a d.b from finEmbed d.a d.b ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)) := by
++      have h_nrd_inv : nrd (show QuatAlg FinAdele d.a d.b from
++          (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) =
++          nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := by
++        calc nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))
++            = nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b) * ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := rfl
++          _ = nrd ((show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) * (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) := rfl
++          _ = nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) *
++              nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := h_nrd_mul _ _
++          _ = (nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) *
++              nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) *
++              nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := by
++              have h2 := h_nrd_mul (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b))
++                (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))
++              have heq : (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b) * ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) =
++                (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) * (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := rfl
++              rw [heq] at h2
++              exact congrArg (fun t => t * nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) h2
++          _ = nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) *
++              (nrd (show QuatAlg FinAdele d.a d.b from (x : BHat d.a d.b)) *
++              nrd (show QuatAlg FinAdele d.a d.b from ((x⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b))) := by ring
++          _ = nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) * 1 := by rw [hx_nrd]
++          _ = nrd (show QuatAlg FinAdele d.a d.b from ((u⁻¹ : (BHat d.a d.b)ˣ) : BHat d.a d.b)) := by rw [mul_one]
++      rw [h_coe_inv] at h_nrd_inv
++      exact h_nrd_inv.symm
++    have hnrd_emb_inv : nrd (show QuatAlg FinAdele d.a d.b from finEmbed d.a d.b ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)) =
++        algebraMap ℚ FinAdele (nrd ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)) :=
++      ((nrd_trd_basic (R := ℚ) (a := d.a) (b := d.b)).2.2.2 FinAdele (algebraMap ℚ FinAdele) ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)).1
++    rw [← hnrd_emb_inv, ← hnrd_inv_conj]
++    exact hnrd_uInv
++  obtain ⟨n, hn⟩ := rat_isInt_of_mem_zhat _ h_alg_mem
++  obtain ⟨m, hm⟩ := rat_isInt_of_mem_zhat _ h_alg_inv_mem
++  have hQmul : nrd (γ : QuatAlg ℚ d.a d.b) * nrd ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b) = 1 := by
++    have hmul : nrd ((γ : QuatAlg ℚ d.a d.b) * ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)) = 1 := by
++      rw [Units.mul_inv]
++      simp [nrd]
++    have h_eq : nrd ((γ : QuatAlg ℚ d.a d.b) * ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b)) =
++        nrd (γ : QuatAlg ℚ d.a d.b) * nrd ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b) :=
++      (nrd_trd_basic (R := ℚ) (a := d.a) (b := d.b)).2.1 _ _
++    rw [h_eq] at hmul
++    exact hmul
++  have hnm : (n : ℚ) * (m : ℚ) = 1 := by
++    have h1 : nrd (γ : QuatAlg ℚ d.a d.b) * nrd ((γ⁻¹ : (QuatAlg ℚ d.a d.b)ˣ) : QuatAlg ℚ d.a d.b) = 1 := hQmul
++    rw [hn, hm] at h1
++    exact h1
++  have h_int_one : (n : ℤ) * m = 1 := by exact_mod_cast hnm
++  have hn_eq : n = 1 ∨ n = -1 := by
++    have h1 : n ∣ 1 := ⟨m, h_int_one.symm⟩
++    have h2 : IsUnit n := isUnit_of_dvd_one h1
++    rwa [Int.isUnit_iff.mp h2]
++  have h_pos : 0 < nrd (γ : QuatAlg ℚ d.a d.b) := by
++    have hq0 : nrd (γ : QuatAlg ℚ d.a d.b) ≠ 0 := left_ne_zero_of_mul_eq_one hQmul
++    have h0 := ((nrd_definite ha hb).1 (γ : QuatAlg ℚ d.a d.b)).1
++    exact lt_of_le_of_ne (le_trans (by positivity) h0) (Ne.symm hq0)
++  rcases hn_eq with rfl | rfl
++  · exact hn
++  · exfalso
++    rw [hn] at h_pos
++    norm_num at h_pos
++
++/-- `lem:s01-stab` monotonicity: `U ≤ U'` implies `Γ_x(U) ≤ Γ_x(U')`. -/
++theorem Gam_mono {a b : ℤ} {U U' : Subgroup (BHat a b)ˣ} {x : (BHat a b)ˣ}
++    (h : U ≤ U') : Gam (a := a) (b := b) U x ≤ Gam U' x := by
++  intro γ hγ
++  have hmem : (Units.map (finEmbed a b).toMonoidHom γ : (BHat a b)ˣ) ∈
++      U.map (MulAut.conj x).toMonoidHom := hγ
++  obtain ⟨u, huU, huEq⟩ := Subgroup.mem_map.mp hmem
++  have hmem' : (Units.map (finEmbed a b).toMonoidHom γ : (BHat a b)ˣ) ∈
++      U'.map (MulAut.conj x).toMonoidHom :=
++    Subgroup.mem_map.mpr ⟨u, h huU, huEq⟩
++  exact hmem'
++
++/-- `lem:s01-stab` (c) first part: `|Γ_x(U)| ∣ 24` for `U ≤ Ô^×`. -/
++theorem card_Gam_dvd_24 {d : DefiniteData}
++    {U : Subgroup (BHat d.a d.b)ˣ} {x : (BHat d.a d.b)ˣ}
++    (hU : U ≤ d.Ohat) : Nat.card (Gam (a := d.a) (b := d.b) U x) ∣ 24 := by
++  have hle' : Gam (a := d.a) (b := d.b) U x ≤ Gam (a := d.a) (b := d.b) d.Ohat x :=
++    Gam_mono (a := d.a) (b := d.b) (x := x) hU
++  have hstab := stabilizer_units (a := d.a) (b := d.b) d.O.1 x
++  have hfin_big : Finite (Gam (a := d.a) (b := d.b) d.Ohat x) := by
++    have h1 := hstab.2.2 d.ha d.hb
++    have h2 : Gam (a := d.a) (b := d.b) d.Ohat x = classStabilizer (orderCompletionUnits d.O.1) x := rfl
++    rw [h2]
++    exact h1.1
++  have hcard_big_dvd : Nat.card (Gam (a := d.a) (b := d.b) d.Ohat x) ∣ 24 := by
++    have h2 : Gam (a := d.a) (b := d.b) d.Ohat x = classStabilizer (orderCompletionUnits d.O.1) x := rfl
++    rw [h2]
++    obtain ⟨Ox, _, hEq⟩ := hstab.1
++    rw [hEq]
++    exact (card_unitGroup_dvd_24 d.ha d.hb Ox).2.1
++  have hcard_le_dvd : Nat.card (Gam (a := d.a) (b := d.b) U x) ∣
++      Nat.card (Gam (a := d.a) (b := d.b) d.Ohat x) := by
++    letI : Finite (Gam (a := d.a) (b := d.b) d.Ohat x) := hfin_big
++    letI : Finite (Gam (a := d.a) (b := d.b) U x) :=
++      Finite.of_injective (Subgroup.inclusion hle') (Subgroup.inclusion_injective hle')
++    exact Subgroup.card_dvd_of_le hle'
++  exact Nat.dvd_trans hcard_le_dvd hcard_big_dvd
++
++/-- `lem:s01-stab` (c) second part: for `p ≥ 5` prime, `p ∤ |Γ_x(U)|`. -/
++theorem not_dvd_card_Gam {d : DefiniteData}
++    {U : Subgroup (BHat d.a d.b)ˣ} {x : (BHat d.a d.b)ˣ}
++    {p : ℕ} (hp : Nat.Prime p) (h5 : 5 ≤ p) (hU : U ≤ d.Ohat) :
++    ¬ p ∣ Nat.card (Gam (a := d.a) (b := d.b) U x) := by
++  intro hdvd
++  have h24 : Nat.card (Gam (a := d.a) (b := d.b) U x) ∣ 24 := card_Gam_dvd_24 (d := d) hU
++  have hp24 : p ∣ 24 := Nat.dvd_trans hdvd h24
++  have hle : p ≤ 24 := Nat.le_of_dvd (by norm_num) hp24
++  interval_cases p <;> simp_all
++
++end Langlandscape.Quat

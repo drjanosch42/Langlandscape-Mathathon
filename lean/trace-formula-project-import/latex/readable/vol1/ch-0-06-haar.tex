@@ -1,0 +1,41 @@
+% Document A (readable edition). Lean counterpart: lean/AlgJL/VolI/P0/Haar.lean (fork: the topological declarations of the parent's
+% lean/GL2TF/VolI/P0/Haar.lean), lean/AlgJL/Common/RestrictedProduct.lean (fork: boxes and second countability), and the B-only
+% pair constructions of lean/AlgJL/VolI/P0/TopGroups.lean.
+% Fork algebraic_jl: trimmed copy of the parent's vol1/ch-0-06-haar.tex @ 84818d0. All Haar measures, unimodularity, Iwasawa integration
+% and restricted-product measures are dropped; the parent's section labels sec:haar-local and sec:haar-adelic are reused for the
+% topological remainder, which is B-only except X.topgrp.thm:restricted-product-second-countable (../../EDITS.md).
+
+\chapter{Local compactness and restricted products}\label{ch:ch-0-06-haar}
+
+\noindent\emph{Sources:} \cite[§3.3]{Corv-ptIII-1}; \cite[§1]{AIntro}.
+
+\noindent In the parent project this chapter constructs the Haar measures on $\GL_2(F)$, $\GL_2(\R)$ and $\GL_2(\A)$. That material is
+analytic and not part of this volume. What remains are the topological facts the construction rests on, which the later chapters use:
+the instances of local compactness and second countability, the coordinates of the Borel subgroup, the compact open boxes of a restricted
+product, and the second countability of restricted products. Except for \cref{X.topgrp.thm:restricted-product-second-countable} they are
+formal (B-only) items and are typeset in the back-translation (document B) only.
+
+\section{\texorpdfstring{Topological facts on $\GL_2(F)$ and $\GL_2(\R)$}{Topological facts on GL2(F) and GL2(R)}}\label{sec:haar-local}
+
+\noindent $\GL_2(F)$ for a non-archimedean local field $F$, $\GL_2(\R)$ and the closed subgroup $G(\A)^1$ of $G(\A)$ are locally compact,
+Hausdorff and second countable, and the maximal compact subgroups $K_F$ and $\Ort(2)$ are compact (\cref{ch:ch-0-04-top-groups}). The Lean
+library records these facts as instances, and parametrizes the Borel subgroup by the coordinates $(x,t_1,t_2)\mapsto n(x)\diag(t_1,t_2)$
+(\cref{I.conv.thm:borel-semidirect}); these are B-only items.
+
+\section{Restricted products}\label{sec:haar-adelic}
+
+\noindent\emph{Sources for this section:} \cite[§3.3]{Corv-ptIII-1}. For a countable index set $I$, topological groups (or rings) $G_i$ and
+open subgroups $K_i$, the restricted product $\prod'_i(G_i,K_i)$ contains the boxes $\prod_{i\in S}C_i\times\prod_{i\notin S}K_i$
+($S$ finite); for compact $K_i$ and compact $C_i$ these are compact, and for open $C_i$ they are open (B-only items). The pairs
+$(g_\infty,g_f)$ of a real and a finite-adelic matrix and the identification $\GL_2(\A)\cong\GL_2(\R)\times\GL_2(\Af)$ are B-only as well.
+
+\begin{theorem}[second countability of restricted products]
+\tfstmt{X.topgrp.thm:restricted-product-second-countable}
+\end{theorem}
+\begin{proof}
+For a finite set $S\subseteq I$ the subset $X_S=\prod_{i\in S}X_i\times\prod_{i\notin S}A_i$ is open in the restricted
+product and carries the product topology (as for $\Af$ in \cref{I.adele.def:finite-adeles-model}; this uses that the
+$A_i$ are open). A countable product of second countable spaces is second countable, and so is each subspace $A_i$. So
+each $X_S$ is second countable. $I$ is countable, so it has countably many finite subsets, and the open sets $X_S$ cover
+the restricted product. The union of countable bases of the $X_S$ is a countable base.
+\end{proof}

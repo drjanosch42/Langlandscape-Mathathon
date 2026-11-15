@@ -1,0 +1,694 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-03-adeles (parent commit 84818d0); kept items only.
+\chapter{\texorpdfstring{Adeles and ideles of $\Q$; Tate's thesis over $\Q$}{Adeles and ideles of ℚ; Tate's thesis over ℚ}}\label{ch:ch-0-03-adeles}
+
+\noindent\emph{Sources:} \cite{Corv-ptIII-1}; \cite{GH}; \cite[§2]{AIntro}.
+
+\section{The adele ring}
+
+\begin{definition}[finite adeles]
+\tfstmt{I.adele.def:finite-adeles-model}
+\lean{GL2TF.FinAdele}
+\uses{I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:finite-adeles-model}
+\tfsem{I.adele.def:finite-adeles-model}{689c63730b4ac0437d5957ed7d0f8916d7de5c96e8f949174ac3fc8862894547}
+\tfhyps{I.adele.def:finite-adeles-model}{}
+\begin{tffidelity}
+\texttt{FinAdele} is Mathlib's restricted product \texttt{Πʳ p : Nat.Primes, [ℚ\_[p], PadicInt.subring p]} over the cofinite filter, with Mathlib's restricted-product ring structure and topology; the sets $\A_{f,S}$ and the description of the topology by the sets $\A_{f,S}$ are not stated separately (they are Mathlib's definition of the restricted-product topology). The type of primes is \texttt{Nat.Primes}, a subtype of \texttt{ℕ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\Zhat$ and $\Zhat^\times$]
+\tfstmt{I.adele.def:zhat}
+\lean{GL2TF.Zhat}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:zhat}
+\tfsem{I.adele.def:zhat}{57769908b93d27a72925912625fd813a507cf3625b9693019b51713427bbfe03}
+\tfhyps{I.adele.def:zhat}{}
+\begin{tffidelity}
+\texttt{Zhat} is the \texttt{Subring FinAdele} $\bigcap_p\{x:x_p\in\Zp\}$ (an infimum over the primes of pull-backs of the subring $\Zp$ along the evaluation at $p$). $\Zhat^\times$ is the type \texttt{Zhatˣ} of units of this subring; the explicit description of the units, as a subset of $\Af$, is the B-only \cref{I.adele.lem:zhat-units-explicit}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[adeles]
+\tfstmt{I.adele.def:adele-ring}
+\lean{GL2TF.Adele}
+\uses{I.adele.def:finite-adeles-model}
+\end{definition}
+\begin{tfformal}{I.adele.def:adele-ring}
+\tfsem{I.adele.def:adele-ring}{038d39debfd4695c004356740d52cf170cd58bf23586808ce2911b1f80424010}
+\tfhyps{I.adele.def:adele-ring}{}
+\begin{tffidelity}
+\texttt{Adele} is the product ring \texttt{ℝ × FinAdele} with the product topology; the components are \texttt{.1} and \texttt{.2}, and $x_p$ is \texttt{x.2 p}. The diagonal embedding $\Q\to\A$ is \texttt{algebraMap ℚ Adele} for the algebra structure induced from the $\Q$-algebra structure of $\Af$ (\cref{I.adele.def:rat-embedding}). The clauses ``injective'' and ``$q\mapsto(q,(q)_p)$'' are the B-only \cref{I.adele.lem:rat-embedding-diagonal}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[local compactness]
+\tfstmt{I.adele.thm:adele-locally-compact}
+\lean{GL2TF.adele_locallyCompact}
+\uses{I.adele.def:adele-ring,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.adele.lem:finadele-locally-compact-instance,I.adele.lem:finadele-topological-ring-instance,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:adele-locally-compact}
+\tfsem{I.adele.thm:adele-locally-compact}{91fbc007f2f5a0a18c4905e6beed1eec28234eb3c40cef92cadaae26efe7d706}
+\tfhyps{I.adele.thm:adele-locally-compact}{}
+\begin{tffidelity}
+A conjunction of: \texttt{IsTopologicalRing}, \texttt{LocallyCompactSpace} and \texttt{T2Space} for \texttt{FinAdele}; the same three for \texttt{Adele}; $\Zhat$ is compact (\texttt{IsCompact}) and open (\texttt{IsOpen}) as subsets of $\Af$; and the existence of a homeomorphism $e\colon\Zhat\to\prod_p\Zp$ (for the subspace topology of $\Zhat$ and the product topology) with $e(x)_p=x_p$. The instances used elsewhere are the B-only \cref{I.adele.lem:finadele-topological-ring-instance,I.adele.lem:finadele-locally-compact-instance,I.adele.lem:zhat-compact-instance}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Topological ring, locally compact, Hausdorff for $\A_f=\Pi'_p(\Q_p,\Z_p)$: instances of the generic restricted-product development in \texttt{Common/RestrictedProduct.lean} (with the fact that each $\Z_p=\bar B(0,1)$ is open and compact, \texttt{isOpen\_padicSubring}, \texttt{isCompact\_padicSubring}); $\A=\R\times\A_f$ gets the product instances. $\hat\Z$ is compact: it is the range of the continuous structure map $\prod_p\Z_p\to\A_f$ (\texttt{range\_structureMap}, \texttt{isCompact\_range}). It is open by \texttt{RestrictedProduct.isOpen\_forall\_mem}. The homeomorphism $\hat\Z\simeq\prod_p\Z_p$ is $x\mapsto(x_p)_p$ with inverse the structure map; both are continuous (the subspace topology of the structure map is the product topology, \texttt{isEmbedding\_structureMap}).
+\end{proof}
+
+\begin{theorem}[second countability]
+\tfstmt{I.adele.thm:adele-second-countable}
+\lean{GL2TF.adele_secondCountable}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance,I.lf.thm:nalf-second-countable,X.topgrp.thm:restricted-product-second-countable}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:adele-second-countable}
+\tfsem{I.adele.thm:adele-second-countable}{c49479eaeceefcbda6bb2a6ad3e4171c8b5b1290944b704a331a008c406b189f}
+\tfhyps{I.adele.thm:adele-second-countable}{}
+\begin{tffidelity}
+Two instances conjoined: \texttt{SecondCountableTopology FinAdele} and \texttt{SecondCountableTopology Adele}. The instance for $\Af$ is the B-only \cref{I.adele.lem:finadele-second-countable-instance}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\A_f$: the generic lemma \texttt{resProd\_secondCountableTopology} (a countable restricted product of second countable spaces with open subgroups is second countable), applied to $p\in\mathrm{Primes}$ (countable) and $\Q_p$ second countable. $\A=\R\times\A_f$: the product instance.
+\end{proof}
+
+\begin{theorem}[the model is the adele ring]
+\tfstmt{I.adele.thm:adele-concrete-model}
+\lean{GL2TF.adele_concrete_model}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:adele-concrete-model}
+\tfsem{I.adele.thm:adele-concrete-model}{8ae26edce781b9a5eed876e1e4d6a50c6d367973fe39cb1569f34dff6591ac3f}
+\tfhyps{I.adele.thm:adele-concrete-model}{}
+\begin{tffidelity}
+Existence of a map $e\colon\A\to$ Mathlib's \texttt{NumberField.AdeleRing (𝓞 ℚ) ℚ}, a ring isomorphism, such that $e$ and $e^{-1}$ are continuous and $e(\iota(q))=\iota'(q)$ for $q\in\Q$ (\texttt{algebraMap} on both sides). ``Isomorphism of topological rings'' is thus ring isomorphism plus continuity in both directions.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Assembled from Mathlib's identification of the finite adele ring of $\Q$: for each prime, $\Q_p\simeq$ the completion of $\Q$ at the corresponding height one prime (\texttt{adicCompletion.padicEquiv}), mapping $\Z_p$ onto the integers of the completion (\texttt{adele\_mapsTo\_toMathlib}, \texttt{adele\_mapsTo\_fromMathlib}); this gives a topological ring isomorphism $\A_f\simeq\mathrm{FiniteAdeleRing}$ (\texttt{finAdeleRingEquiv}, \texttt{finAdeleAlgEquiv}). The real factor is matched with the infinite adele ring via the unique real place (\texttt{realInfAdeleAlgEquiv}). The product is \texttt{adeleMathlibAlgEquiv}; being an $\Q$-algebra isomorphism it commutes with $\Q$, and it is continuous in both directions. The statement is the existence of this $e$.
+\end{proof}
+
+\begin{theorem}[$\Q$ is discrete in $\A$]
+\tfstmt{I.adele.thm:rat-discrete}
+\lean{GL2TF.rat_discrete}
+\uses{I.adele.def:adele-ring,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.adele.lem:finadele-topological-ring-instance}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:rat-discrete}
+\tfsem{I.adele.thm:rat-discrete}{85e8535430a6938459442ca2218dc5314d934afe673ac0358e003f4e649520df}
+\tfhyps{I.adele.thm:rat-discrete}{}
+\begin{tffidelity}
+Three clauses: the range of \texttt{algebraMap ℚ Adele} is closed; its subspace topology is discrete; and for $q\in\Q$ with $q_\infty\in(-1,1)$ and $q_f\in\Zhat$ one has $q=0$. ``Additive subgroup'' is implicit (the range of a ring homomorphism).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Core lemma: a rational $q$ in $(-1,1)\times\hat\Z$ is $0$ (\texttt{rat\_eq\_zero\_of\_mem\_box}): $q\in\Z_p$ for all $p$ forces $q\in\Z$ (\texttt{rat\_isInt\_of\_forall\_padicInt}: a prime dividing the denominator would give $|q|_\ell>1$), and the only integer in $(-1,1)$ is $0$. Put $W=(-\tfrac12,\tfrac12)\times\hat\Z$, an open neighbourhood of $0$ with $W-W\subseteq(-1,1)\times\hat\Z$; then for $x\in\A$ at most one $q\in\Q$ has $q-x\in W$. Discreteness: $\{q_0\}=\Q\cap(q_0+W)$. Closedness (the complement is open): let $x\notin\Q$ (image of $\Q$). If no $a\in\Q$ has $a-x\in W$, the open set $x+W$ misses $\Q$. If some $a$ has $a-x\in W$, it is unique by the above, and $(x+W)\setminus\{a\}$ is an open neighbourhood of $x$ (note $x\ne a$) which misses $\Q$ (\texttt{hdiff}).
+\end{proof}
+
+\begin{theorem}[a fundamental domain for $\Q$ in $\A$]
+\tfstmt{I.adele.thm:adele-fundamental-domain}
+\lean{GL2TF.adele_fundamental_domain}
+\uses{I.adele.def:adele-ring,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.adele.lem:rat-embedding-diagonal}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:adele-fundamental-domain}
+\tfsem{I.adele.thm:adele-fundamental-domain}{c074ea37d6231d092a37e685a3257bb0a394e37a2976ec0a53b4fe95d0382eb2}
+\tfhyps{I.adele.thm:adele-fundamental-domain}{}
+\tfbinder{I.adele.thm:adele-fundamental-domain}{0}{21f67fc1}{the adele $x\in\A$}
+\begin{tffidelity}
+For every $x\in\A$ there is a unique pair $(q,y)$ in $\Q\times\A$ with $y\in D=[0,1)\times\Zhat$ (\texttt{Set.Ico 0 1 ×ˢ ↑Zhat}) and $x=q+y$; uniqueness is \texttt{∃!} over such pairs.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Existence: since $\A_f=\Q+\hat\Z$ (the vendored lemma \texttt{padic\_exists\_sub\_mem\_structureSubring}) choose $q_1\in\Q$ with $x_f-q_1\in\hat\Z$; let $n=\lfloor x_\infty-q_1\rfloor$ and $q=q_1+n$. Then $y=x-q$ has $y_\infty=x_\infty-q_1-n\in[0,1)$ and $y_f=(x_f-q_1)-n\in\hat\Z$. Uniqueness: if $x=q'+y'$ with $y'\in D$, then $q'-q\in(-1,1)\times\hat\Z$ (difference of two elements of $D$), so $q'=q$ by the core lemma of \cref{I.adele.thm:rat-discrete}, hence $y'=y$.
+\end{proof}
+
+\begin{theorem}[$\Q\backslash\A$ is compact]
+\tfstmt{I.adele.thm:rat-quotient-compact-top}
+\lean{GL2TF.rat_quotient_compact_top}
+\uses{I.adele.def:adele-ring,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:rat-quotient-compact-top}
+\tfhyps{I.adele.thm:rat-quotient-compact-top}{}
+\begin{tffidelity}
+Fork-new item (added in the algebraic\_jl fork, not in the parent at 84818d0): there is no generated signature, binder
+row or sem\_hash for it, and it carries no audit. Lean statement: \texttt{CompactSpace (Adele ⧸ (algebraMap ℚ
+Adele).range.toAddSubgroup) ∧ T2Space (Adele ⧸ (algebraMap ℚ Adele).range.toAddSubgroup)}. ``$\A/\Q$'' is the quotient
+of the additive group \texttt{Adele} by the range of \texttt{algebraMap ℚ Adele}, with Mathlib's quotient topology. No
+binders. It is the measure-free part of the parent's \texttt{I.adele.thm:rat-quotient-compact} (dropped in the fork,
+since its other clauses normalize a Haar measure), extended by the Hausdorff clause. \texttt{\#print axioms}:
+\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Compactness: the image of $[0,1]\times\hat\Z$ (compact by \texttt{isCompact\_Icc.prod isCompact\_zhat}) under the
+quotient map is everything, because by \cref{I.adele.thm:adele-fundamental-domain} every $x$ is $q+y$ with $y\in
+[0,1)\times\hat\Z$ and then $x$ and $y$ have the same class; a continuous image of a compact set is compact. Hausdorff:
+the subgroup is closed (its carrier is \texttt{Set.range (algebraMap ℚ Adele)}, closed by the first clause of
+\cref{I.adele.thm:rat-discrete}); Mathlib's instance \texttt{QuotientAddGroup.instT3Space} for the quotient by a closed
+normal subgroup then gives \texttt{T2Space}.
+\end{proof}
+\begin{lemma}[every prime number is prime]
+\tfstmt{I.adele.lem:primes-fact-instance}
+\bonly
+\lean{GL2TF.fact_primes_prime}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:primes-fact-instance}
+\tfsem{I.adele.lem:primes-fact-instance}{30da2d268bf31a3bf49ba5e7fd8d99049eaa45fa6816ecae2e6577a52db612a6}
+\tfhyps{I.adele.lem:primes-fact-instance}{}
+\tfbinder{I.adele.lem:primes-fact-instance}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. For $p$ of type \texttt{Nat.Primes}, the instance \texttt{Fact (Nat.Prime ↑p)}, which lets Lean's typeclass search treat \texttt{ℚ\_[p]} as a field and normed ring.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The structure field $p.2$ of the subtype \texttt{Nat.Primes} is the required proof of primality: \texttt{Fact.mk p.2}.
+\end{proof}
+
+\begin{definition}[the diagonal embedding $\Q\to\Af$]
+\tfstmt{I.adele.def:rat-embedding}
+\bonly
+\lean{RestrictedProduct.instAlgebraRatPrimesPadicValNatPrimeCoeSubringSubringCofinite_fLT}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:rat-embedding}
+\tfsem{I.adele.def:rat-embedding}{d26930a88eaea4a436e78e8cb1010ea1c5ab176b0de4abf8826c3bb9f1de4342}
+\tfhyps{I.adele.def:rat-embedding}{}
+\begin{tffidelity}
+B-only. The \texttt{Algebra ℚ FinAdele} instance, whose structure map is the diagonal embedding $q\mapsto(q)_p$ of $\Q$ into the restricted product. The instance is vendored from the Imperial FLT project (\texttt{RestrictedProduct.lean}) and tagged directly (\texttt{attribute [tf\_aux …]}), with no project alias; it elaborates as \texttt{algebraMap ℚ FinAdele}, whose value was verified to be the diagonal map. The diagonal formula is \cref{I.adele.lem:rat-embedding-diagonal}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the units of $\Zhat$]
+\tfstmt{I.adele.lem:zhat-units-explicit}
+\bonly
+\lean{GL2TF.zhat_units_explicit}
+\uses{I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:zhat-units-explicit}
+\tfsem{I.adele.lem:zhat-units-explicit}{a08cd9e89309a4e3231a79cf040683011e0e01baedfa2d39e4a952912caed9cc}
+\tfhyps{I.adele.lem:zhat-units-explicit}{}
+\tfbinder{I.adele.lem:zhat-units-explicit}{0}{d1d8deb3}{the finite adele $x\in\Af$}
+\begin{tffidelity}
+B-only. For $x\in\Af$: $x$ is the image of a unit of $\Zhat$ if and only if for every prime $p$ there is a unit $u\in\Zp^\times$ with $x_p=u$ (Lean: \texttt{∃ u : Zhatˣ, ↑↑u = x ↔ ∀ p, ∃ u : ℤ\_[p]ˣ, ↑↑u = x p}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+``$\Rightarrow$'': if $u\in\hat\Z^\times$, evaluating $u\cdot u^{-1}=1$ at $p$ gives $u_p\,(u^{-1})_p=1$, and both factors lie in $\Z_p$ (\texttt{mem\_zhat}), so $u_p\in\Z_p^\times$ (and the pair gives the unit of $\Z_p$). ``$\Leftarrow$'': choose for each $p$ the unit $v_p$ with image $x_p$; $x$ lies in $\hat\Z$ componentwise, and so does $y=(v_p^{-1})_p$ (an element of $\A_f$, since all components lie in $\Z_p$); then $xy=1$ in $\A_f$ componentwise (\texttt{ext}), which exhibits $x$ as a unit of $\hat\Z$.
+\end{proof}
+
+\begin{lemma}[the embedding of $\Q$ in $\A$ is diagonal]
+\tfstmt{I.adele.lem:rat-embedding-diagonal}
+\bonly
+\lean{GL2TF.algebraMap_adele_diagonal}
+\uses{I.adele.def:rat-embedding,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:rat-embedding-diagonal}
+\tfsem{I.adele.lem:rat-embedding-diagonal}{b97a543adac46475ffb6fbb83e8ca183d04315c340a3ae5b3a7145553d662a7c}
+\tfhyps{I.adele.lem:rat-embedding-diagonal}{}
+\begin{tffidelity}
+B-only. Two claims of \cref{I.adele.def:adele-ring}: \texttt{algebraMap ℚ Adele} is injective, and for $q\in\Q$ its first component is $q$ and its $p$-component is $q$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The two component formulas hold by \texttt{rfl} (the algebra structure of $\Q$ on $\R\times\A_f$ is componentwise). Injectivity: apply the real component; \texttt{Rat.cast} into $\R$ is injective (\texttt{exact\_mod\_cast}).
+\end{proof}
+
+\begin{lemma}[$\Af$ is a topological ring]
+\tfstmt{I.adele.lem:finadele-topological-ring-instance}
+\bonly
+\lean{GL2TF.finAdele_isTopologicalRing}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:finadele-topological-ring-instance}
+\tfsem{I.adele.lem:finadele-topological-ring-instance}{cdca8afbc59d7c45bf13191a0740b4889a378edfd130b50e0c48fd457009086a}
+\tfhyps{I.adele.lem:finadele-topological-ring-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{IsTopologicalRing FinAdele}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The generic instance for restricted products of topological rings along open subrings, applied with \texttt{Fact} that every $\Z_p$ is open (\texttt{isOpen\_padicSubring}); resolved by \texttt{inferInstance}.
+\end{proof}
+
+\begin{lemma}[$\Af$ is locally compact]
+\tfstmt{I.adele.lem:finadele-locally-compact-instance}
+\bonly
+\lean{GL2TF.finAdele_locallyCompactSpace}
+\uses{I.adele.lem:finadele-topological-ring-instance,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:finadele-locally-compact-instance}
+\tfsem{I.adele.lem:finadele-locally-compact-instance}{7e466e68e552c83ffe1857bd36ae877d8d352244b307582060856492df98b7e5}
+\tfhyps{I.adele.lem:finadele-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace FinAdele}; Hausdorffness is not part of it.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The generic instance for restricted products of locally compact groups along open compact subgroups, with the facts that $\Z_p$ is open and compact (\texttt{isOpen\_padicSubring}, \texttt{isCompact\_padicSubring}); \texttt{inferInstance}.
+\end{proof}
+
+\begin{lemma}[$\Af$ is second countable]
+\tfstmt{I.adele.lem:finadele-second-countable-instance}
+\bonly
+\lean{GL2TF.finAdele_secondCountableTopology}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance,I.lf.thm:nalf-second-countable,X.topgrp.thm:restricted-product-second-countable}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:finadele-second-countable-instance}
+\tfsem{I.adele.lem:finadele-second-countable-instance}{b69c4006f859728fba00af7b9ff248aafe96a56d91d58b71152651bcf7f480cc}
+\tfhyps{I.adele.lem:finadele-second-countable-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{SecondCountableTopology FinAdele}, obtained from the second countability of restricted products (\cref{X.topgrp.lem:restricted-product-second-countable-instance}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{resProd\_secondCountableTopology} from \texttt{Common/RestrictedProduct.lean}, with the openness of each $\Z_p$.
+\end{proof}
+
+\begin{lemma}[$\Zp$ is compact]
+\tfstmt{I.adele.lem:padic-int-compact-instance}
+\bonly
+\lean{GL2TF.padicIntAddSubgroup_compactSpace}
+\uses{I.lf.def:nalf,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:padic-int-compact-instance}
+\tfsem{I.adele.lem:padic-int-compact-instance}{152720a880b87c6a4c8486c5bbf1d947828f1896d58a35f8cd6b9c59084fe2ec}
+\tfhyps{I.adele.lem:padic-int-compact-instance}{}
+\tfbinder{I.adele.lem:padic-int-compact-instance}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. For every prime $p$ the instance that the additive subgroup \texttt{(PadicInt.subring p).toAddSubgroup} of \texttt{ℚ\_[p]} is a compact space; it provides the compactness hypothesis for the additive restricted-product measure defining \texttt{I.adele.def:finite-adele-haar}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\Z_p$ as an additive subgroup has the underlying set $\bar B(0,1)$, which is compact in the proper space $\Q_p$ (\texttt{isCompact\_closedBall}), hence a compact space (\texttt{isCompact\_iff\_compactSpace}).
+\end{proof}
+
+\begin{lemma}[$\Zhat$ is compact]
+\tfstmt{I.adele.lem:zhat-compact-instance}
+\bonly
+\lean{GL2TF.zhat_compactSpace}
+\uses{I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:zhat-compact-instance}
+\tfsem{I.adele.lem:zhat-compact-instance}{615d2c7e6c6dabe8f7bd48f0b6b9e4cadf200024d2453f8d4a0d14a1b97ce6f3}
+\tfhyps{I.adele.lem:zhat-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{CompactSpace Zhat} (a subtype of \texttt{FinAdele}), from the compactness of $\Zhat$ proved in \cref{I.adele.thm:adele-locally-compact}'s proof (\texttt{isCompact\_zhat}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{isCompact\_iff\_compactSpace} applied to \texttt{isCompact\_zhat} (the range of the structure map).
+\end{proof}
+
+\section{Ideles}
+
+\begin{definition}[ideles]
+\tfstmt{I.adele.def:ideles}
+\lean{GL2TF.Idele}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:ideles}
+\tfsem{I.adele.def:ideles}{9d76e6ef04a0d1752e3c89fffe0084926e9e046f42ede19d60b3c695dd13e7a0}
+\tfhyps{I.adele.def:ideles}{}
+\begin{tffidelity}
+\texttt{Idele} is the type \texttt{Adeleˣ} of units of \texttt{Adele} with Mathlib's units topology. The explicit description of the units is the B-only \cref{I.adele.lem:ideles-explicit}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the idele norm]
+\tfstmt{I.adele.def:idele-norm}
+\lean{GL2TF.ideleNorm}
+\uses{I.adele.def:ideles,I.lf.def:normalized-abs,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm-fun,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:idele-norm}
+\tfsem{I.adele.def:idele-norm}{cfd30f01e5aea4ac51e9de223309774c830c604b60e5cb18a3105dbd90e69bb3}
+\tfhyps{I.adele.def:idele-norm}{}
+\begin{tffidelity}
+\texttt{ideleNorm} is a monoid homomorphism \texttt{Idele →* ℝ} (values in $\R$; positivity is in \cref{I.adele.lem:idele-norm-spec}), defined from the function \cref{I.adele.def:idele-norm-fun}, $x\mapsto\abs{x_\infty}\prod^{\mathrm f}_p\abs{x_p}_p$ with a \texttt{finprod}. Continuity, positivity and the finiteness of the set of non-trivial factors are the B-only \cref{I.adele.lem:idele-norm-spec}; $\A^1$ is the B-only \cref{I.adele.def:norm-one-ideles}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[product formula]
+\tfstmt{I.adele.thm:product-formula}
+\lean{GL2TF.product_formula}
+\uses{I.adele.def:idele-norm,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.def:rat-ideles-embedding,I.adele.lem:primes-fact-instance,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:product-formula}
+\tfsem{I.adele.thm:product-formula}{79b6e8059e71c2efd219d32cbd2e63584b10af33298a176ce395e1fb995f5ea3}
+\tfhyps{I.adele.thm:product-formula}{}
+\tfbinder{I.adele.thm:product-formula}{0}{5949253a}{the element $q\in\Q^\times$}
+\begin{tffidelity}
+For every $q\in\Q^\times$ (the type \texttt{ℚˣ}), \texttt{ideleNorm (ratIdele q) = 1}, where \texttt{ratIdele} is the B-only \cref{I.adele.def:rat-ideles-embedding}. The inclusion $\Q^\times\subseteq\A^1$ is this statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Put $\varphi=\mathrm{ideleNorm}\circ\mathrm{ratIdele}\colon\Q^\times\to\R$, a homomorphism; unfolding gives $\varphi(u)=\abs{u}_\infty\prod^{\mathrm f}_p\abs{u}_p$ (\texttt{Local.normAbs\_padic}). (i) $\varphi(-1)=1$ by \texttt{simp}. (ii) For a prime $p$: all factors $\abs{p}_\ell$, $\ell\ne p$, equal $1$ (\texttt{Padic.norm\_natCast\_eq\_one\_iff}), so \texttt{finprod\_eq\_single} gives $\varphi(p)=p\cdot\abs{p}_p=p\cdot p^{-1}=1$ (\texttt{Padic.norm\_p}). (iii) For $n\ge1$ induction along \texttt{Nat.recOnMul} ($0$, $1$, primes, products) gives $\varphi(n)=1$; for $n\in\Z\setminus\{0\}$ write $n=\pm\abs n$. (iv) Every $q\in\Q^\times$ is $\mathrm{num}(q)\cdot\mathrm{den}(q)^{-1}$ (\texttt{Rat.num\_div\_den}), so $\varphi(q)=1\cdot1^{-1}=1$.
+\end{proof}
+
+\begin{theorem}[the idele group of $\Q$]
+\tfstmt{I.adele.thm:idele-decomposition}
+\lean{GL2TF.idele_decomposition}
+\uses{I.adele.def:ideles,I.adele.def:zhat,I.adele.def:idele-norm,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-inf-fin,I.adele.def:rat-ideles-embedding,I.adele.lem:primes-fact-instance,I.adele.def:idele-norm-fun,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:zhat-units-explicit,I.adele.thm:product-formula,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-measurable-space,I.lf.def:padic-nalf-instance,I.lf.lem:padic-borel-space,I.lf.thm:abs-padic-eq}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:idele-decomposition}
+\tfsem{I.adele.thm:idele-decomposition}{7819d4f75d3dd85a13b52f8fb2339725292f294a7c432309c7733fed387a1b74}
+\tfhyps{I.adele.thm:idele-decomposition}{}
+\begin{tffidelity}
+Existence of an isomorphism of topological groups $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$ (\texttt{ContinuousMulEquiv}) with $e(q,r,u)=q\cdot(r,u)$ for all $q,r,u$ and $\abs{x}_\A=r(e^{-1}x)$ for all ideles $x$ (the real number underlying the middle component). $\R_{>0}$ is \texttt{Units.posSubgroup ℝ}, the idele $(r,u)$ is \texttt{ideleInfFin r u} (B-only \cref{I.adele.def:idele-inf-fin}), and the discrete topology on $\Q^\times$ is introduced by a local instance (\texttt{letI : TopologicalSpace ℚˣ := ⊥}) inside the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $E(q,r,u)=\bar q\cdot(r,u)$ with $(r,u)=\mathtt{ideleInfFin}\,r\,u$ and $\bar q=\mathtt{ratIdele}\,q$, with $\Q^\times$ carrying the discrete topology (\texttt{⊥}). \emph{Homomorphism:} \texttt{ideleInfFin\_mul} and commutativity. \emph{Injective:} if $\bar q(r,u)=1$, comparing the real component gives $qr=1$, and comparing the $p$-components gives $q\,u_p=1$, so $\abs q_p=1$ for all $p$ (since $\abs{u_p}_p=1$), hence $q=\pm1$ by the helper \texttt{rat\_eq\_one\_or\_neg\_one} (a prime dividing numerator or denominator would give $\abs q_p\ne1$). As $q>0$ (from $qr=1$, $r>0$) we get $q=1$, $r=1$, $u=1$. \emph{Surjective:} for an idele $x$ let $S$ be the finite set of $p$ with $\abs{x_p}_p\ne1$ (\texttt{idele\_normAbs\_eventually\_one}), $q_0=\prod_{p\in S}p^{v_p(x_p)}$, $q=\epsilon q_0$ with $\epsilon=\mathrm{sgn}(x_\infty)$, $r=\abs{x_\infty}/q_0$. Then $\abs{q_0}_\ell=\abs{x_\ell}_\ell$ for all $\ell$, so $x_\ell q^{-1}$ has norm $1$ in every $\Qp$, and \cref{I.adele.lem:zhat-units-explicit} supplies $u\in\Zhat^\times$ with $x=\bar q(r,u)$ (\texttt{exists\_ratIdele\_mul\_ideleInfFin}). \emph{Continuity of $E$:} the first factor is continuous because $\Q^\times$ is discrete, the second by \texttt{continuous\_ideleInfFin} (units topology: both $(r,u)$ and its inverse $(r^{-1},u^{-1})$ are continuous into $\A$). \emph{Openness}: the map $(r,u)\mapsto(r,u)$ is open, because it is a bijection onto the open set $U_0=\{x: x_\infty>0,\ x_f,x_f^{-1}\in\Zhat\}$ (open since $\Zhat$ is open in $\A_f$, \texttt{isOpen\_zhat}) with continuous inverse $x\mapsto(x_\infty,x_f)$ (\texttt{isOpenMap\_ideleInfFin}); then $E(A)=\bigcup_q\bar q\cdot(\text{image of }A_q)$ is open. A continuous open bijection is a homeomorphism (\texttt{toHomeomorphOfContinuousOpen}). \emph{Norm:} $\abs{\bar q(r,u)}_\A=\abs{\bar q}_\A\,\abs{(r,u)}_\A=1\cdot r$ by \cref{I.adele.thm:product-formula} and \texttt{ideleNorm\_ideleInfFin} (the finite components are units of $\Zp$).
+\end{proof}
+
+\begin{theorem}[the norm-one idele classes]
+\tfstmt{I.adele.thm:norm-one-quotient}
+\lean{GL2TF.norm_one_quotient}
+\uses{I.adele.thm:idele-decomposition,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.def:norm-one-class-group,I.adele.def:norm-one-ideles,I.adele.def:rat-ideles,I.adele.def:zhat,I.adele.def:zhat-to-norm-one-class,I.adele.lem:primes-fact-instance,I.adele.def:idele-inf-fin,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:rat-ideles-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:zhat-compact-instance,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-measurable-space,I.lf.def:padic-nalf-instance,I.lf.lem:padic-borel-space}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:norm-one-quotient}
+\tfsem{I.adele.thm:norm-one-quotient}{f5030e130afed78ba6ae150ea2eb2390a0b6055f1120b01ec1d0c1477105e78f}
+\tfhyps{I.adele.thm:norm-one-quotient}{}
+\begin{tffidelity}
+Two clauses. First, the existence of a continuous group isomorphism $e\colon\Zhat^\times\to C$ with $e(u)=(1,u)\Q^\times$ (the B-only \cref{I.adele.def:zhat-to-norm-one-class}), where $C=\A^1/\Q^\times$ is the B-only \cref{I.adele.def:norm-one-class-group}. Second, \texttt{CompactSpace C}. The isomorphism is a \texttt{ContinuousMulEquiv} (a group isomorphism that is a homeomorphism). The quotient defining $C$ is taken by $\Q^\times\cap\A^1$ inside $\A^1$; this intersection is all of $\Q^\times$ by the product formula (\cref{I.adele.thm:product-formula}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $e$ be the decomposition of \cref{I.adele.thm:idele-decomposition} and $N=\Q^\times\cap\A^1$ the subgroup of rational ideles in $\A^1$. Define $\Theta\colon\A^1\to\Zhat^\times$ as the $\Zhat^\times$-coordinate of $e^{-1}$; it is a continuous homomorphism, and trivial on $N$ since $e(q,1,1)=\bar q$ (\texttt{hle}), so it descends to a continuous homomorphism $\bar\Theta\colon\A^1/\Q^\times\to\Zhat^\times$ (\texttt{QuotientGroup.lift}; continuity for the quotient topology). Conversely $\varphi\colon\Zhat^\times\to\A^1/\Q^\times$, $u\mapsto(1,u)\Q^\times$ is a continuous homomorphism ($(1,u)\in\A^1$ by \texttt{ideleInfFin\_one\_mem}). \emph{$\bar\Theta\varphi=\mathrm{id}$:} $e^{-1}(1,u)=(1,1,u)$ (\texttt{he1}). \emph{$\varphi\bar\Theta=\mathrm{id}$:} for $x\in\A^1$ the norm clause of the decomposition gives $r(x)=\abs x_\A=1$, so $x=\bar q(1,\Theta x)$, i.e.\ $(1,\Theta x)^{-1}x\in\Q^\times$ and $x\Q^\times=\varphi(\Theta x)$ (\texttt{QuotientGroup.eq}). Hence $\varphi$ is a topological group isomorphism, and compactness of $\A^1/\Q^\times$ is transported from the compact group $\Zhat^\times$ along the homeomorphism (\texttt{compactSpace}).
+\end{proof}
+
+\begin{theorem}[topology of the ideles]
+\tfstmt{I.adele.thm:ideles-second-countable}
+\lean{GL2TF.ideles_locallyCompact_secondCountable}
+\uses{I.adele.def:ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.adele.def:idele-inf-fin,I.adele.def:idele-norm,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.lem:finadele-second-countable-instance,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:zhat-compact-instance,I.adele.thm:idele-decomposition,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:ideles-second-countable}
+\tfsem{I.adele.thm:ideles-second-countable}{ae248e4fddcc289e54cb5870fe3ca8009ed841b8b5543c11c14a6236ab4cd43e}
+\tfhyps{I.adele.thm:ideles-second-countable}{}
+\begin{tffidelity}
+Conjunction \texttt{LocallyCompactSpace Idele ∧ T2Space Idele ∧ SecondCountableTopology Idele}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Take $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\cong\A^\times$ from \cref{I.adele.thm:idele-decomposition}; $\Q^\times$ is discrete. $\R^\times\to\R$ is an open embedding (image $\R\setminus\{0\}$), so $\R^\times$ and its open subgroup $\R_{>0}=\{u>0\}$ are locally compact; $\Zhat^\times$ is compact, and the product is locally compact (\texttt{inferInstance}). Local compactness of $\A^\times$ is transported along the open embedding $e^{-1}$ (\texttt{isOpenEmbedding.locallyCompactSpace}). Hausdorff: from the units topology (\texttt{inferInstance}). Second countability: $\A^\times$ embeds in $\A\times\A^{\mathrm{op}}$ via $\texttt{Units.embedProduct}$, and $\A$ (hence $\A^{\mathrm{op}}$, via the homeomorphism \texttt{opHomeomorph}) is second countable by \cref{I.adele.thm:adele-second-countable}.
+\end{proof}
+
+\begin{lemma}[the units of $\A$]
+\tfstmt{I.adele.lem:ideles-explicit}
+\bonly
+\lean{GL2TF.isUnit_adele_iff}
+\uses{I.adele.def:ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:ideles-explicit}
+\tfsem{I.adele.lem:ideles-explicit}{79e928eda071cdf6fae27809b89e4417baa2f3312d0ae49aa8833f1b11ebb66d}
+\tfhyps{I.adele.lem:ideles-explicit}{}
+\tfbinder{I.adele.lem:ideles-explicit}{0}{21f67fc1}{the adele $x\in\A$}
+\begin{tffidelity}
+B-only. For $x\in\A$: \texttt{IsUnit x} if and only if $x_\infty\neq0$, $x_p\neq0$ for all $p$, and $x_p\in\Zp^\times$ (there is a unit $v$ of \texttt{ℤ\_[p]} with the value $x_p$) for almost all $p$ (\texttt{∀ᶠ p in cofinite}). Companion of \cref{I.adele.def:ideles}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+($\Rightarrow$) For $x=u$ a unit, $u_\infty u^{-1}_\infty=1$ gives $u_\infty\ne0$, and $u_pu^{-1}_p=1$ (\texttt{idele\_comp\_mul\_inv}) gives $u_p\ne0$. The restricted-product condition on $u$ and $u^{-1}$ gives, for almost all $p$ (\texttt{filter\_upwards}), $u_p,u^{-1}_p\in\Zp$ with product $1$, i.e.\ a unit of $\Zp$. ($\Leftarrow$) Put $y=(x_\infty^{-1},(x_p^{-1})_p)$; the inverse $x_p^{-1}$ lies in $\Zp$ for the almost all $p$ where $x_p$ is a unit of $\Zp$ (the inverse of $v$ is $v^{-1}$), so $y\in\A$, and $xy=1$ by \texttt{mul\_inv\_cancel₀} componentwise (\texttt{IsUnit.of\_mul\_eq\_one}).
+\end{proof}
+
+\begin{lemma}[$\A^\times$ as a restricted product]
+\tfstmt{I.adele.lem:ideles-restricted-product}
+\bonly
+\lean{GL2TF.ideles_restricted_product}
+\uses{I.adele.def:ideles-restricted-product-equiv,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:padic-units-compact-instance,I.adele.thm:ideles-second-countable,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.lf.thm:nalf-second-countable,X.topgrp.thm:restricted-product-second-countable}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:ideles-restricted-product}
+\tfsem{I.adele.lem:ideles-restricted-product}{939b6be3da4c28a86951d1114c283dfa161126df856c4ffb234fa00e51ec838b}
+\tfhyps{I.adele.lem:ideles-restricted-product}{}
+\begin{tffidelity}
+B-only. \texttt{IsHomeomorph ideleEquiv} and, for every idele $x$, the $\infty$-component of \texttt{ideleEquiv x} is $x_\infty$ and its $p$-component is $x_p$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The componentwise formulas hold by \texttt{rfl}. For the homeomorphism: write $T=\R^\times\times\Pi'_p(\Qp^\times,\Zp^\times)$ for the target. The subgroup $\Zp^\times\subseteq\Qp^\times$ is open (\texttt{isOpen\_padicUnits}: it is the intersection of the preimages of the open ball $\{\abs x\le1\}$ under $u\mapsto u$ and $u\mapsto u^{-1}$), so $T$ is a restricted product of locally compact second countable groups, hence locally compact and $\sigma$-compact. The inverse $g=\texttt{ideleEquiv}^{-1}\colon T\to\A^\times$ is continuous: by the units-topology criterion it suffices that $(\ ,\ )$ and the corresponding map for inverses are continuous into $\A=\R\times\A_f$, which follows for the finite part from continuity of $\texttt{mapAlong}$ applied to $u\mapsto u$ and $u\mapsto u^{-1}$ from $(\Qp^\times,\Zp^\times)$ to $(\Qp,\Zp)$. Since $T$ is $\sigma$-compact, $\A^\times$ is locally compact and Hausdorff (\cref{I.adele.thm:ideles-second-countable}), hence a Baire space, and $g$ is a continuous surjective homomorphism, it is open (\texttt{isOpenMap\_of\_sigmaCompact}). A continuous open bijection is a homeomorphism.
+\end{proof}
+
+\begin{lemma}[properties of the idele norm]
+\tfstmt{I.adele.lem:idele-norm-spec}
+\bonly
+\lean{GL2TF.ideleNorm_spec}
+\uses{I.adele.def:idele-norm,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.adele.def:idele-inf-fin,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.thm:idele-decomposition,I.lf.def:nalf,I.lf.def:padic-measurable-space,I.lf.lem:padic-borel-space}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:idele-norm-spec}
+\tfsem{I.adele.lem:idele-norm-spec}{588ac5bf0f7a5503ceb2725d50d8441d4f8897d84738ce2d12a4b288e1bfc7b2}
+\tfhyps{I.adele.lem:idele-norm-spec}{}
+\begin{tffidelity}
+B-only. The idele norm is continuous (\texttt{Continuous}); $0<\abs{x}_\A$ for all $x$; and for each $x$ the set of primes with $\abs{x_p}_p\neq1$ is finite (\texttt{Set.Finite}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Take the topological isomorphism $e$ of \cref{I.adele.thm:idele-decomposition}. Its last clause says $\mathrm{ideleNorm}=(x\mapsto (e^{-1}x)_{2,1})$, the $\R_{>0}$-coordinate, which is a composition of the continuous maps $e^{-1}$, the projections and $\texttt{Units.val}$; this gives continuity, and positivity because the coordinate lies in the subgroup $\R_{>0}\subseteq\R^\times$ (\texttt{Units.mem\_posSubgroup}). Finiteness of $\{p:\abs{x_p}_p\ne1\}$ is the plumbing lemma \texttt{idele\_normAbs\_eventually\_one}: $x_p,x_p^{-1}\in\Zp$ for almost all $p$ forces $x_p\in\Zp^\times$, hence $\abs{x_p}_p=1$ (\texttt{Local.normAbs\_padicInt\_unit}).
+\end{proof}
+
+\begin{definition}[the norm-one ideles]
+\tfstmt{I.adele.def:norm-one-ideles}
+\bonly
+\lean{GL2TF.ideleNormOne}
+\uses{I.adele.def:idele-norm,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:norm-one-ideles}
+\tfsem{I.adele.def:norm-one-ideles}{5526b22ee83cb02480c423cabd3a31325dfe74bdb702dca370f800070852cafb}
+\tfhyps{I.adele.def:norm-one-ideles}{}
+\begin{tffidelity}
+B-only. The kernel of the homomorphism \texttt{ideleNorm}, a \texttt{Subgroup Idele}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the embedding of $\Q^\times$ in $\A^\times$]
+\tfstmt{I.adele.def:rat-ideles-embedding}
+\bonly
+\lean{GL2TF.ratIdele}
+\uses{I.adele.def:ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:rat-ideles-embedding}
+\tfsem{I.adele.def:rat-ideles-embedding}{1a51142049bb845fa6e9ed6b4e69a3d85ca24e31e0a09fb5395d6103e1aab72a}
+\tfhyps{I.adele.def:rat-ideles-embedding}{}
+\begin{tffidelity}
+B-only. The monoid homomorphism \texttt{ℚˣ →* Idele} induced on units by \texttt{algebraMap ℚ Adele}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\Q^\times$ as a subgroup of $\A^\times$]
+\tfstmt{I.adele.def:rat-ideles}
+\bonly
+\lean{GL2TF.ratIdeles}
+\uses{I.adele.def:rat-ideles-embedding,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:rat-ideles}
+\tfsem{I.adele.def:rat-ideles}{4b62a5ab3ab9b45a9893ab14df10401242a6d633332ddbb230c1204b3f02897c}
+\tfhyps{I.adele.def:rat-ideles}{}
+\begin{tffidelity}
+B-only. The range of \cref{I.adele.def:rat-ideles-embedding}, a \texttt{Subgroup Idele}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the idele $(r,u)$]
+\tfstmt{I.adele.def:idele-inf-fin}
+\bonly
+\lean{GL2TF.ideleInfFin}
+\uses{I.adele.def:ideles,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:idele-inf-fin}
+\tfsem{I.adele.def:idele-inf-fin}{ec81e6e0494c254a4e9510288f2fb5d6596d4a076e434a0e1a14778980b5c168}
+\tfhyps{I.adele.def:idele-inf-fin}{}
+\tfbinder{I.adele.def:idele-inf-fin}{0}{dc6ede6d}{the real number $r$}
+\tfbinder{I.adele.def:idele-inf-fin}{1}{2e547140}{the unit $u\in\Zhat^\times$}
+\begin{tffidelity}
+B-only. $(r,u)$ as a function \texttt{ℝ → Zhatˣ → Idele}, defined by a case distinction on $r=0$ (classical decidability): for $r\neq0$ it has component $r$ at $\infty$ and $u_p$ at $p$; for $r=0$ the value is the junk idele $(1,u)$. The statements that use it always take $r>0$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the norm-one idele class group]
+\tfstmt{I.adele.def:norm-one-class-group}
+\bonly
+\lean{GL2TF.NormOneClassGroup}
+\uses{I.adele.def:norm-one-ideles,I.adele.def:rat-ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:norm-one-class-group}
+\tfsem{I.adele.def:norm-one-class-group}{0d82a8b0b95ac3b1e27b48f404d1dd8734eba19af6a036e88720a19fac03d3fb}
+\tfhyps{I.adele.def:norm-one-class-group}{}
+\begin{tffidelity}
+B-only. The abbreviation for the quotient group of \texttt{ideleNormOne} by the subgroup \texttt{ratIdeles.subgroupOf ideleNormOne}, with the quotient topology and quotient $\sigma$-algebra.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the identification $\A^\times=\R^\times\times\prod'_p(\Qp^\times,\Zp^\times)$]
+\tfstmt{I.adele.def:ideles-restricted-product-equiv}
+\bonly
+\lean{GL2TF.ideleEquiv}
+\uses{I.adele.def:ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:ideles-restricted-product-equiv}
+\tfsem{I.adele.def:ideles-restricted-product-equiv}{fb66f3254495d058f25c92d6c8ebe221d79665653dccfdd689aed615481c228a}
+\tfhyps{I.adele.def:ideles-restricted-product-equiv}{}
+\begin{tffidelity}
+B-only. The group isomorphism \texttt{Idele ≃* ℝˣ × Πʳ p, [ℚ\_[p]ˣ, units of Zp]} assembled from Mathlib's \texttt{MulEquiv.prodUnits} and \texttt{RestrictedProduct.unitsEquiv}; it is componentwise the identity.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\Zp^\times$ is compact]
+\tfstmt{I.adele.lem:padic-units-compact}
+\bonly
+\lean{GL2TF.padicUnits_compactSpace}
+\uses{I.lf.def:nalf,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:padic-units-compact}
+\tfsem{I.adele.lem:padic-units-compact}{d57db1ca5314bad16563b76bbaee2e2a38379186bbe9db6555490d61c10fbb91}
+\tfhyps{I.adele.lem:padic-units-compact}{}
+\tfbinder{I.adele.lem:padic-units-compact}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. For every prime $p$, \texttt{CompactSpace} of the unit group of the submonoid $\Zp$ of $\Qp$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+In $\Qp$, $\Zp^\times=\{u:\abs u\le1,\ \abs{u^{-1}}\le1\}$ is the preimage under $\texttt{Units.val}$ of the sphere $\{\abs x=1\}$ (using $\abs{u^{-1}}=\abs u^{-1}$, \texttt{inv\_le\_one₀}). The sphere is compact (\texttt{isCompact\_sphere}, as $\Qp$ is proper), and $\texttt{Units.val}\colon\Qp^\times\to\Qp$ is an embedding whose range $\Qp\setminus\{0\}$ contains the sphere, so the preimage is compact (\texttt{Units.isEmbedding\_val₀.isCompact\_preimage\_iff}); \texttt{isCompact\_iff\_compactSpace} converts to \texttt{CompactSpace}.
+\end{proof}
+
+\begin{lemma}[$\Zp^\times$ is compact (instance)]
+\tfstmt{I.adele.lem:padic-units-compact-instance}
+\bonly
+\lean{GL2TF.padicUnits_compactSpace_inst}
+\uses{I.adele.lem:padic-units-compact,I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:padic-units-compact-instance}
+\tfsem{I.adele.lem:padic-units-compact-instance}{d57db1ca5314bad16563b76bbaee2e2a38379186bbe9db6555490d61c10fbb91}
+\tfhyps{I.adele.lem:padic-units-compact-instance}{}
+\tfbinder{I.adele.lem:padic-units-compact-instance}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. The same statement as \cref{I.adele.lem:padic-units-compact}, as an instance.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The previous lemma, \texttt{padicUnits\_compactSpace}, registered as a type-class instance.
+\end{proof}
+
+\begin{definition}[the unit box in $\A^\times$]
+\tfstmt{I.adele.def:idele-unit-box}
+\bonly
+\lean{GL2TF.ideleUnitBox}
+\uses{I.adele.def:ideles,I.adele.def:zhat,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:idele-unit-box}
+\tfsem{I.adele.def:idele-unit-box}{ecb4e73c367036971c965079df520e707180397101ba298afc1f542557835d0a}
+\tfhyps{I.adele.def:idele-unit-box}{}
+\begin{tffidelity}
+B-only. The set $\{x\in\A^\times:x_\infty\in[1,e),\ \forall p,\ x_p\in\Zp^\times\}$ (\texttt{Set Idele}), with $e=\exp(1)$ and the condition at $p$ written as the existence of a unit $v$ of \texttt{ℤ\_[p]} with the value $x_p$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the idele norm as a function]
+\tfstmt{I.adele.def:idele-norm-fun}
+\bonly
+\lean{GL2TF.ideleNormFun}
+\uses{I.adele.def:ideles,I.lf.def:normalized-abs,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.adele.def:idele-norm-fun}
+\tfsem{I.adele.def:idele-norm-fun}{e2872fd2bb8692a6f5efdd9f321d20678ad343cb36433c7fb3d8f602107b06ab}
+\tfhyps{I.adele.def:idele-norm-fun}{}
+\tfbinder{I.adele.def:idele-norm-fun}{0}{0667cf5c}{the idele $x\in\A^\times$}
+\begin{tffidelity}
+B-only. The real number $\abs{x_\infty}\prod^{\mathrm f}_p\abs{x_p}_p$, with \texttt{Local.normAbs} at the primes and a \texttt{finprod}; it is the underlying function of \cref{I.adele.def:idele-norm}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\Zhat^\times\to\A^1/\Q^\times$]
+\tfstmt{I.adele.def:zhat-to-norm-one-class}
+\bonly
+\lean{GL2TF.zhatToNormOneClass}
+\uses{I.adele.def:norm-one-class-group,I.adele.def:idele-inf-fin,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.def:norm-one-ideles,I.adele.def:rat-ideles,I.adele.def:zhat,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:zhat-to-norm-one-class}
+\tfsem{I.adele.def:zhat-to-norm-one-class}{11b980b4887b952c4993f9a91b276e95acdbd80776c8c5a7b8166e419d5463e9}
+\tfhyps{I.adele.def:zhat-to-norm-one-class}{}
+\tfbinder{I.adele.def:zhat-to-norm-one-class}{0}{b0b91a77}{the unit $u\in\Zhat^\times$}
+\begin{tffidelity}
+B-only. $u\mapsto$ the class of $(1,u)$ in $C$, as a function \texttt{Zhatˣ → NormOneClassGroup}.
+\end{tffidelity}
+\end{tfformal}
+
+\section{\texorpdfstring{Characters of $\Zhat^\times$ and Hecke characters}{Characters of Ẑ× and Hecke characters}}
+
+\begin{theorem}[characters of $\Zhat^\times$ have finite order]
+\tfstmt{I.adele.thm:zhat-characters-finite-order}
+\lean{GL2TF.zhat_characters_finite_order}
+\uses{I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.def:zhat-reduction,I.adele.lem:primes-fact-instance,I.adele.def:zhat-to-padic-int,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:zhat-compact-instance,I.adele.lem:zhat-reduction-spec,I.adele.lem:zhat-units-explicit,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:zhat-characters-finite-order}
+\tfsem{I.adele.thm:zhat-characters-finite-order}{03df058f775807f0f1f80218ba423aab79b6923c663184fbaf3b5e3f8158c6de}
+\tfhyps{I.adele.thm:zhat-characters-finite-order}{}
+\tfbinder{I.adele.thm:zhat-characters-finite-order}{0}{02c609f1}{the continuous character $\chi$ of $\Zhat^\times$}
+\begin{tffidelity}
+$\mathrm{red}_N$ is the B-only \cref{I.adele.def:zhat-reduction}, a ring homomorphism \texttt{Zhat →+* ZMod N} for $N$ of type \texttt{ℕ+}; its kernel and extension property are the B-only \cref{I.adele.lem:zhat-reduction-spec}. The statement is for every continuous character $\chi\colon\Zhat^\times\to\C^\times$ (\texttt{ContinuousMonoidHom}); $\chi_N$ is a Mathlib \texttt{DirichletCharacter ℂ N}, a character of $(\Z/N\Z)^\times$ extended by $0$, and the equation reads $\chi(u)=\chi_N(\mathrm{red}_N(u))$ in $\C$. The finite order is \texttt{∃ n, 1 ≤ n ∧ ∀ u, χ u \^{} n = 1}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Lean's route differs from A's neighbourhood-base argument. \emph{Helper facts.} (i) The ideals $N\Zhat$ form a neighbourhood base of $0$ in $\Zhat$: an element divisible by every $N$ vanishes (\texttt{zhat\_eq\_zero\_of\_forall\_dvd}: $\abs{x_p}_p\le p^{-k}$ for all $k$), the sets $N\Zhat$ are compact hence closed and directed under inclusion, so \texttt{elim\_directed\_family\_closed} applied to the compact closed set $U^{c}$ ($U$ an open neighbourhood of $0$) gives $N\Zhat\subseteq U$ (\texttt{zhat\_exists\_dvd\_subset}). (ii) Passing to the units topology ($\Zhat^\times\subseteq\Zhat\times\Zhat^{\mathrm{op}}$) the kernels $\ker(\mathrm{red}_N)\cap\Zhat^\times$ form a neighbourhood base of $1$ (\texttt{zhatUnits\_exists\_ker\_subset}; here $u-1$ and $u^{-1}-1\in N\Zhat$). (iii) $\mathrm{red}_N\colon\Zhat^\times\to(\Z/N)^\times$ is surjective (\texttt{zhatReduction\_units\_surjective}: for $a$ with representative $m$, the idele $x_p=m$ for $p\mid N$, $1$ otherwise is a unit of $\Zhat$ by \cref{I.adele.lem:zhat-units-explicit}, and $\mathrm{red}_N$ only sees the components $p\mid N$). (iv) No small subgroups in $\C$: if $\abs{z^{2^k}-1}<\tfrac12$ for all $k$ then $z=1$, because $\abs{z^{2^{k+1}}-1}=\abs{z^{2^k}-1}\,\abs{z^{2^k}+1}\ge\tfrac32\abs{z^{2^k}-1}$, so $\abs{z^{2^k}-1}\ge(3/2)^k\abs{z-1}$ \,(\texttt{eq\_one\_of\_forall\_pow\_two\_pow\_near\_one}). \emph{Proof.} The set $V=\{z:\abs{z-1}<\tfrac12\}\subseteq\C^\times$ is an open neighbourhood of $1$, so $\chi^{-1}V$ is a neighbourhood of $1$ and contains $\ker(\mathrm{red}_N)\cap\Zhat^\times$ for some $N$ by (ii). If $\mathrm{red}_N(u)=1$ then all $u^{2^k}$ lie in this kernel, so $\chi(u)^{2^k}\in V$ for all $k$, hence $\chi(u)=1$ by (iv). So $\chi$ factors through $\mathrm{red}_N\colon\Zhat^\times\to(\Z/N)^\times$, which is surjective by (iii); the induced homomorphism $g$ (\texttt{MonoidHom.liftOfRightInverse}) defines the Dirichlet character $\chi_N=\texttt{MulChar.ofUnitHom}\,g$. Finite order: $\chi(u)^n=g(\mathrm{red}_N u)^{n}=1$ with $n=\#(\Z/N)^\times\ge1$ (\texttt{pow\_card\_eq\_one}).
+\end{proof}
+
+\begin{definition}[Hecke characters]
+\tfstmt{I.adele.def:hecke-character}
+\lean{GL2TF.HeckeCharacter}
+\uses{I.adele.def:ideles,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-ideles-embedding,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:hecke-character}
+\tfsem{I.adele.def:hecke-character}{e2af98bd5e28289079ca920979758cfae059e4eb32684c94de5e38538fad2d71}
+\tfhyps{I.adele.def:hecke-character}{}
+\begin{tffidelity}
+\texttt{HeckeCharacter} is the subtype of continuous monoid homomorphisms \texttt{Idele → ℂˣ} (\texttt{ContinuousMonoidHom}) satisfying $\chi(\texttt{ratIdele}\,q)=1$ for all $q\in\Q^\times$; the character is \texttt{.1}, the condition is \texttt{.2}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[reduction $\Zhat\to\Z/N\Z$]
+\tfstmt{I.adele.def:zhat-reduction}
+\bonly
+\lean{GL2TF.zhatReduction}
+\uses{I.adele.def:zhat,I.adele.def:zhat-to-padic-int,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:zhat-reduction}
+\tfsem{I.adele.def:zhat-reduction}{ee727f03e812e29b01145502ed9c85fe28806b9370e78f510addb75f3d3c7bb7}
+\tfhyps{I.adele.def:zhat-reduction}{}
+\tfbinder{I.adele.def:zhat-reduction}{0}{34a6074d}{the integer $N\ge1$ (type \texttt{ℕ+})}
+\begin{tffidelity}
+B-only. For $N$ of type \texttt{ℕ+}, the ring homomorphism \texttt{Zhat →+* ZMod N} defined by the Chinese remainder theorem from the maps $\Zhat\to\Zp\to\Z/p^{v_p(N)}\Z$ for $p\mid N$ (\texttt{PadicInt.toZModPow} after \cref{I.adele.def:zhat-to-padic-int}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[kernel of the reduction]
+\tfstmt{I.adele.lem:zhat-reduction-spec}
+\bonly
+\lean{GL2TF.zhatReduction_spec}
+\uses{I.adele.def:zhat-reduction,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.adele.def:zhat-to-padic-int}
+\end{lemma}
+\begin{tfformal}{I.adele.lem:zhat-reduction-spec}
+\tfsem{I.adele.lem:zhat-reduction-spec}{93b0b9445880c04a93a54396255dc9c8cb68c88a5d81a92658bc9ba149cacbd3}
+\tfhyps{I.adele.lem:zhat-reduction-spec}{}
+\tfbinder{I.adele.lem:zhat-reduction-spec}{0}{34a6074d}{the integer $N\ge1$ (type \texttt{ℕ+})}
+\begin{tffidelity}
+B-only. \texttt{RingHom.ker (zhatReduction N) = Ideal.span \{N\}} (the ideal $N\Zhat$) and $\mathrm{red}_N(n)=n$ for $n\in\Z$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The second clause $\mathrm{red}_N(n)=n$ for $n\in\Z$ is \texttt{map\_intCast}, because \texttt{zhatReduction} is a ring homomorphism. For the kernel, $\supseteq$: $\mathrm{red}_N(Ny)=\mathrm{red}_N(N)\mathrm{red}_N(y)=0$ (\texttt{ZMod.natCast\_self}). For $\subseteq$, let $\mathrm{red}_N(x)=0$. Since $\mathrm{red}_N$ is the Chinese-remainder isomorphism composed with the maps $\Zhat\to\Zp\to\Z/p^{v_p(N)}$, $p\mid N$, each of these vanishes, i.e.\ $x_p\in p^{v_p(N)}\Zp$ (\texttt{PadicInt.ker\_toZModPow}); for $p\nmid N$ one has $v_p(N)=0$. Now $N=p^{v}m$ with $m=N/p^v$ prime to $p$, so $m$ is a unit of $\Zp$ and $x_p=N\cdot(w\,m^{-1})$ with $w m^{-1}\in\Zp$. Choosing such an element $z_p\in\Zp$ for each $p$ gives $y=(z_p)_p\in\Zhat$ (the restricted-product condition is automatic since $z_p\in\Zp$ for all $p$) with $x=Ny$.
+\end{proof}
+
+\begin{definition}[the component $\Zhat\to\Zp$]
+\tfstmt{I.adele.def:zhat-to-padic-int}
+\bonly
+\lean{GL2TF.zhatToPadicInt}
+\uses{I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.adele.def:zhat-to-padic-int}
+\tfsem{I.adele.def:zhat-to-padic-int}{f8b3ca5ac478bb4f4e618fe35d2037dc5e20bf89896e70b39a0ec3ca35f6156b}
+\tfhyps{I.adele.def:zhat-to-padic-int}{}
+\tfbinder{I.adele.def:zhat-to-padic-int}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. For a prime $p$ of type \texttt{Nat.Primes}, the ring homomorphism \texttt{Zhat →+* ℤ\_[p]}, $x\mapsto x_p$.
+\end{tffidelity}
+\end{tfformal}

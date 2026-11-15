@@ -1,0 +1,195 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P0/Reduction.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% Written (M4, units U1--U3; docs/sprints/M4.md §1.2 items 1--15); §4 siegel-finiteness: M6 stretch (item 56), else M9b.
+% Constants: docs/notes/M4-normalizations.md §§2--4 and the notation table.
+
+\chapter{Reduction theory}\label{ch:ch-0-08-reduction}
+
+\noindent\emph{Sources:} \cite{Bor-fin}; \cite[§§2, 6]{AIntro}; \cite[§1]{A-R1}; \cite[Lecture II]{Gel}.
+
+\noindent\emph{Conventions.} For $g\in G(\A)$, $\norm{e_2g}_\A$ is the norm of the bottom row of $g$
+(\cref{I.decomp.def:height-map}). More generally, for a row vector $u=(u_1,u_2)\in\A^2$ with $\norm{u}_p:=\max(\abs{u_{1,p}}_p,
+\abs{u_{2,p}}_p)$ equal to $1$ for almost all $p$ we write $\norm u_\A=\norm{u_\infty}_2\prod_p\norm u_p$, with the euclidean norm
+$\norm{\cdot}_2$ at $\infty$; so $\norm{e_2g}_\A=\norm{e_2g}$ for this norm. Three facts are used throughout.
+(i) \emph{Homogeneity:} $\norm{qu}_\A=\abs q_\A\norm u_\A=\norm u_\A$ for $q\in\Q^\times$ (\cref{I.adele.thm:product-formula}).
+(ii) \emph{Operator bounds:} for $h\in\GL_2(\R)$, $\norm{u_\infty h}_2\le\norm h_{\mathrm{op}}\norm{u_\infty}_2$; for $h\in\GL_2(\Qp)$,
+$\norm{u_ph}_p\le\norm h_p\norm{u_p}_p$ with $\norm h_p=\max_{ij}\abs{h_{ij}}_p$, and $\norm{u_pk}_p=\norm{u_p}_p$ for $k\in K_p$; also
+$\norm{u_\infty k}_2=\norm{u_\infty}_2$ for $k\in\Kinf$. Hence $\norm{e_2gk}_\A=\norm{e_2g}_\A$ for $k\in K$.
+(iii) \emph{Lines and $B(\Q)$:} for $\delta,\delta'\in G(\Q)$, $e_2\delta'\in\Q^\times e_2\delta$ if and only if $\delta'\delta^{-1}\in B(\Q)$, because
+$e_2\gamma=\gamma_{22}e_2$ exactly when the bottom row of $\gamma$ is $(0,\gamma_{22})$. Every non-zero $v\in\Q^2$ is the bottom row of
+some $\delta\in G(\Q)$. By (i), $\norm{e_2\delta x}_\A$ depends only on the coset $B(\Q)\delta$.
+Finally, by \cref{I.decomp.def:height-map}, $\alpha(\HB(g))=\log\abs{\det g}_\A-2\log\norm{e_2g}_\A$, and $\abs{\det\delta}_\A=1$ for
+$\delta\in G(\Q)$.
+
+\section{Siegel sets}\label{sec:red-siegel}
+
+\noindent\emph{Sources for this section:} \cite[§6]{AIntro}; \cite[§1]{Bor-fin}; \cite[Lecture II]{Gel}; the classical
+fundamental domain of $\SL_2(\Z)$ (in the library: \texttt{ModularGroup.\allowbreak exists\_smul\_mem\_fd}). The ambient group of
+$A(t_0)$ is $G(\A)^1$ itself (decision D-SIEGEL of the sprint note M4), so no central cut-off is needed.
+
+\begin{definition}[Siegel sets]
+\tfstmt{I.red.def:siegel-set}
+\uses{I.conv.def:torus, I.conv.def:unipotent, I.topgrp.def:max-compact-adelic, I.topgrp.def:adelic-subgroups, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{proof}[Proof of the claims]
+For $n\in\omega$, $a\in A(t_0)$, $k\in K$: $\det n=1$, $\abs{\det a}_\A=a_1a_2=1$, and $\abs{\det k}_\A=\abs{\det k_\infty}\prod_p\abs{\det k_p}_p=1$
+since $\det k_\infty=\pm1$ and $\det k_p\in\Zp^\times$. So $\abs{\det(nak)}_\A=1$.
+\end{proof}
+\noindent By \cref{I.decomp.thm:height-map-iwasawa}, $\HB(nak)=(\log a_1,\log a_2)$, so $\alpha(\HB(x))=\log(a_1/a_2)\ge\log t_0$ on
+$\mathfrak S(\omega,t_0)$. $\mathfrak S(\omega,t_0)$ grows with $\omega$ and shrinks as $t_0$ grows.
+
+\begin{definition}[height]
+\tfstmt{I.red.def:height-primitive}
+\uses{I.decomp.def:height-map, I.topgrp.def:gl2-adelic}
+\end{definition}
+\noindent By convention (iii), $\lambda(x)=\inf_{v\in\Q^2\setminus0}\norm{vx}_\A$: the infimum over the rows $vx$ of the lattice-like
+set $\Q^2x$. The convention $\log0=0$ is never used: $\lambda(x)>0$ (\cref{I.red.thm:height-attained}).
+
+\begin{lemma}[finiteness of short primitive vectors]
+\tfstmt{I.red.lem:primitive-vector-finiteness}
+\uses{I.decomp.def:height-map, I.conv.def:borel, I.topgrp.def:gl2-adelic}
+\end{lemma}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-adelic-restricted-product, I.adele.thm:product-formula}
+By (iii) the cosets $B(\Q)\delta$ correspond bijectively to the lines $\Q e_2\delta$ in $\Q^2$, and each line contains a
+primitive integral vector $v=(m,n)\in\Z^2$, $\gcd(m,n)=1$, unique up to sign; by (i), $\norm{e_2\delta x}_\A=\norm{vx}_\A$. So it
+suffices to show that only finitely many primitive $v\in\Z^2$ have $\norm{vx}_\A\le C$. Let $S$ be the finite set of primes with
+$x_p\notin K_p$ (\cref{I.topgrp.thm:gl2-adelic-restricted-product}). A primitive $v$ has $\norm v_p=1$ for every $p$. For $p\notin S$,
+$\norm{vx_p}_p=1$ by (ii). For $p\in S$, $1=\norm v_p=\norm{vx_px_p^{-1}}_p\le\norm{x_p^{-1}}_p\norm{vx_p}_p$. Hence
+\[
+  \prod_p\norm{vx_p}_p\ge c_f:=\prod_{p\in S}\norm{x_p^{-1}}_p^{-1}>0,
+\]
+and $\norm{vx}_\A\le C$ implies $\norm{vx_\infty}_2\le C/c_f$, so $\norm v_2\le\norm{x_\infty^{-1}}_{\mathrm{op}}C/c_f$. Only finitely many
+$v\in\Z^2$ satisfy this.
+\end{proof}
+
+\begin{theorem}[the height is attained]
+\tfstmt{I.red.thm:height-attained}
+\uses{I.red.def:height-primitive, I.conv.def:simple-root, I.decomp.def:height-map, I.topgrp.def:max-compact-adelic}
+\end{theorem}
+\begin{proof}
+\uses{I.red.lem:primitive-vector-finiteness, I.adele.thm:product-formula, I.decomp.thm:height-map-equivariance}
+Put $C=\norm{e_2x}_\A>0$ (the value at $\delta=1$; all values $\norm{e_2g}_\A$ are positive, \cref{I.decomp.def:height-map}). By
+\cref{I.red.lem:primitive-vector-finiteness} the $\delta$ with $\norm{e_2\delta x}_\A\le C$ form finitely many cosets $B(\Q)\delta_1,\dots,B(\Q)\delta_r$
+($r\ge1$), and on each coset the value is constant (i). Hence $\lambda(x)=\min_j\norm{e_2\delta_jx}_\A>0$ is attained at some
+$\delta_0$. Since $\abs{\det\delta}_\A=1$, $\alpha(\HB(\delta x))=\log\abs{\det x}_\A-2\log\norm{e_2\delta x}_\A$ is largest exactly where
+$\norm{e_2\delta x}_\A$ is smallest, and its maximum is $\log\abs{\det x}_\A-2\log\lambda(x)=\operatorname{ht}(x)$. For $\gamma\in G(\Q)$,
+$\delta\mapsto\delta\gamma$ is a bijection of $G(\Q)$, so $\lambda(\gamma x)=\lambda(x)$; $\norm{e_2\delta xk}_\A=\norm{e_2\delta x}_\A$ for $k\in K$ by
+(ii) (equivalently, $\HB(gk)=\HB(g)$, \cref{I.decomp.thm:height-map-equivariance}), so $\lambda(xk)=\lambda(x)$; and $\abs{\det(\gamma xk)}_\A=\abs{\det x}_\A$.
+\end{proof}
+
+\begin{theorem}[covering by a Siegel set]
+\tfstmt{I.red.thm:siegel-covering}
+\uses{I.red.def:siegel-set, I.conv.def:unipotent, I.topgrp.def:norm-one-group}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:strong-approximation, I.decomp.thm:iwasawa-real, I.conv.def:max-compact-real, I.topgrp.thm:norm-one-splitting}
+Since $\mathfrak S(\omega_0,\sqrt3/2)\subseteq\mathfrak S(\omega,t_0)\subseteq G(\A)^1$ and $G(\Q)\subseteq G(\A)^1$, it suffices to show
+$G(\A)^1\subseteq G(\Q)\mathfrak S(\omega_0,\sqrt3/2)$.
+
+\emph{Step 1: the classical fundamental domain.} Let $\SL_2(\R)$ act on $\mathbb H=\{z\in\C:\operatorname{Im}z>0\}$ by
+$g\cdot z=(az+b)/(cz+d)$, so $\operatorname{Im}(g\cdot z)=\operatorname{Im}z/\abs{cz+d}^2$. For $z\in\mathbb H$ there is $\sigma\in\SL_2(\Z)$ with
+$\abs{\operatorname{Re}(\sigma\cdot z)}\le\frac12$ and $\abs{\sigma\cdot z}\ge1$, hence $\operatorname{Im}(\sigma\cdot z)\ge\sqrt3/2$. Indeed, only
+finitely many coprime $(c,d)\in\Z^2$ have $\abs{cz+d}\le1$, so $\operatorname{Im}(\sigma\cdot z)$, $\sigma\in\SL_2(\Z)$, attains a maximum; translating
+by some $n(m)$, $m\in\Z$, we may assume $\abs{\operatorname{Re}(\sigma\cdot z)}\le\frac12$ without changing the imaginary part. If
+$w=\sigma\cdot z$ had $\abs w<1$, then $\operatorname{Im}(-1/w)=\operatorname{Im}w/\abs w^2>\operatorname{Im}w$, contradicting maximality (as
+$w\mapsto-1/w$ is the action of $\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}\in\SL_2(\Z)$). Finally $\abs w\ge1$ and $\abs{\operatorname{Re}w}\le\frac12$
+give $(\operatorname{Im}w)^2\ge1-\frac14$. (This is the standard statement on the fundamental domain of $\SL_2(\Z)$; it is in Mathlib,
+and the Lean proof uses it from there.)
+
+\emph{Step 2.} Let $x\in G(\A)^1$. By \cref{I.topgrp.thm:strong-approximation} with $K'=\Kf$ ($\det\Kf=\Zhat^\times$),
+$x=\gamma\,(h,1)\,(1,k_f)$ with $\gamma\in G(\Q)$, $h\in\GL_2(\R)$, $\det h>0$, $k_f\in\Kf$. Since $\abs{\det\gamma}_\A=1=\abs{\det k_f}_\A$,
+$\abs{\det h}=1$, so $h\in\SL_2(\R)$. Choose $\sigma\in\SL_2(\Z)$ as in Step 1 for $z=h\cdot i$, and write
+$\sigma h=n(u)\diag(t_1,t_2)k$ with $t_2>0$, $k\in\mathrm{SO}(2)$ (\cref{I.decomp.thm:iwasawa-real}). Then $t_1t_2=\det(\sigma h)=1$, so
+$t_1>0$, and since $k\cdot i=i$, $\sigma h\cdot i=u+it_1/t_2$. Hence $\abs u\le\frac12$ and $t_1/t_2\ge\sqrt3/2$. As $\sigma\in\SL_2(\Z)\subseteq K_p$
+for every $p$, $\sigma k_f\in\Kf$, and with $\sigma$ regarded in $G(\Q)$,
+\[
+  x=(\gamma\sigma^{-1})\,(\sigma h,\sigma k_f)=(\gamma\sigma^{-1})\cdot n(u')\cdot a\cdot(k,\sigma k_f),
+\]
+where $u'\in\A$ has $u'_\infty=u$, $u'_p=0$, and $a\in A(\sqrt3/2)$ has $a_\infty=\diag(t_1,t_2)$. So $x\in G(\Q)\mathfrak S(\omega_0,\sqrt3/2)$.
+\end{proof}
+
+\section{The height lemma and the compactness criterion}\label{sec:red-height}
+
+\noindent\emph{Sources for this section:} \cite[§6]{AIntro} (the compactness criterion and the role of the height);
+\cite[Lecture II]{Gel}; \cite[§1]{Bor-fin}. The height lemma is proved by an adelic Hadamard inequality and the product
+formula, without reduction theory; the constant $t_1=1$ is sharp for our norms (\texttt{docs/notes/M4-normalizations.md}~§4).
+
+\begin{lemma}[adelic Hadamard inequality]
+\tfstmt{I.red.lem:adelic-hadamard}
+\uses{I.decomp.def:height-map, I.conv.def:borel, I.topgrp.def:gl2-adelic}
+\end{lemma}
+\begin{proof}
+\uses{I.adele.thm:product-formula}
+Let $v=e_2\delta$, $w=e_2\delta'$; they are linearly independent by (iii), so the matrix $M\in\GL_2(\Q)$ with rows $v,w$ is invertible. The
+rows of $Mx$ are $u=vx=e_2\delta x$ and $u'=wx=e_2\delta'x$, and $\det(Mx)=\det M\det x$. At $\infty$, for rows $(a,b),(c,d)$,
+$\abs{ad-bc}=\abs{\langle(a,b),(d,-c)\rangle}\le\norm{(a,b)}_2\norm{(c,d)}_2$ (Cauchy--Schwarz). At $p$,
+$\abs{ad-bc}_p\le\max(\abs a_p,\abs b_p)\max(\abs c_p,\abs d_p)$ (ultrametric inequality). Multiplying over all places,
+\[
+  \abs{\det M}_\A\abs{\det x}_\A=\prod_v\abs{\det(Mx)_v}_v\le\norm{u}_\A\norm{u'}_\A,
+\]
+and $\abs{\det M}_\A=1$ by \cref{I.adele.thm:product-formula}.
+\end{proof}
+
+\begin{theorem}[height lemma]
+\tfstmt{I.red.thm:height-lemma}
+\uses{I.conv.def:simple-root, I.decomp.def:height-map, I.conv.def:borel, I.topgrp.def:norm-one-group}
+\end{theorem}
+\begin{proof}
+\uses{I.red.lem:adelic-hadamard}
+Since $\abs{\det(\delta x)}_\A=1$, $\alpha(\HB(\delta x))=-2\log\norm{e_2\delta x}_\A$, so the hypotheses say $\norm{e_2\delta x}_\A<t_0^{-1/2}$ and
+$\norm{e_2\delta'x}_\A<t_0^{-1/2}$. If $\delta'\delta^{-1}\notin B(\Q)$, \cref{I.red.lem:adelic-hadamard} gives
+$1=\abs{\det x}_\A\le\norm{e_2\delta x}_\A\norm{e_2\delta'x}_\A<1/t_0\le1$, a contradiction.
+\end{proof}
+\noindent \emph{Sharpness.} For $t_0<1$ the conclusion fails: for $x=1$, $\delta=1$ and $\delta'=w$, $\norm{e_2}_\A=\norm{e_2w}_\A=1<t_0^{-1/2}$,
+so both values of $\alpha$ are $0>\log t_0$, but $w\notin B(\Q)$. \emph{Example.} $x$ with $x_\infty=\diag(2,\frac12)$, $x_p=1$, lies in
+$G(\A)^1$ with $\alpha(\HB(x))=\log4$, so $B(\Q)$ is the unique coset above $\log t_0$ for $1\le t_0<4$.
+
+\begin{theorem}[truncated Siegel sets are compact]
+\tfstmt{I.red.thm:siegel-truncation-compact}
+\uses{I.red.def:siegel-set, I.conv.def:simple-root, I.decomp.def:height-map}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:height-map-iwasawa, I.topgrp.thm:max-compact-adelic-compact}
+For $x=nak\in\mathfrak S(\omega,t_0)$, $\alpha(\HB(x))=\log(a_1/a_2)$ for every such decomposition (\cref{I.decomp.thm:height-map-iwasawa}). So the
+set equals $\omega\cdot A'\cdot K$ with $A'=\{a\in A(t_0):a_1/a_2\le e^c\}$, which is empty if $e^c<t_0$ and otherwise the image of the
+compact interval $[t_0,e^c]$ under the continuous map $s\mapsto a$ with $a_\infty=\diag(s^{1/2},s^{-1/2})$, $a_p=1$. Hence it is the image of
+the compact set $\omega\times A'\times K$ (\cref{I.topgrp.thm:max-compact-adelic-compact}) under the continuous multiplication.
+\end{proof}
+
+\begin{lemma}[the height is locally bounded]
+\tfstmt{I.red.lem:height-locally-bounded}
+\uses{I.red.def:height-primitive, I.topgrp.def:norm-one-group}
+\end{lemma}
+\begin{proof}
+\uses{I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:gl2-adelic-restricted-product}
+For $y\in G(\A)$ put $\mathcal N(y)=\norm{y_\infty}_{\mathrm{op}}\prod_p\norm{y_p}_p$, a finite product of numbers $\ge1$ off the finitely many $p$ with
+$y_p\notin K_p$ (where $\norm{y_p}_p=1$). By (ii), $\norm{u}_\A=\norm{uyy^{-1}}_\A\le\mathcal N(y^{-1})\norm{uy}_\A$ for every row $u$. For
+$v\in\Q^2\setminus0$, write $v=qv_0$ with $q\in\Q^\times$ and $v_0\in\Z^2$ primitive; then $\norm v_\A=\norm{v_0}_\A=\norm{v_0}_2\ge1$. Hence
+$\norm{e_2\delta x}_\A\ge\mathcal N(x^{-1})^{-1}$ for all $\delta$, $\lambda(x)\ge\mathcal N(x^{-1})^{-1}$, and for $x\in G(\A)^1$,
+$\operatorname{ht}(x)=-2\log\lambda(x)\le2\log\mathcal N(x^{-1})$. It remains to bound $\mathcal N$ on the compact set $C^{-1}$. Its projection to
+$G(\Af)$ is compact, hence covered by finitely many open cosets $g_1\Kf,\dots,g_r\Kf$. Let $S$ be the finite set of primes with
+$g_{i,p}\notin K_p$ for some $i$. For $y\in C^{-1}$ with $y_f\in g_i\Kf$: $\norm{y_p}_p=1$ for $p\notin S$, and
+$\norm{y_p}_p\le\norm{g_{i,p}}_p$ for $p\in S$ (the entries of $g_{i,p}k$, $k\in K_p$, are $\Zp$-combinations of entries of $g_{i,p}$).
+$\norm{y_\infty}_{\mathrm{op}}$ is bounded on the compact projection of $C^{-1}$ to $\GL_2(\R)$.
+\end{proof}
+
+\begin{theorem}[compactness criterion]
+\tfstmt{I.red.thm:compactness-criterion}
+\uses{I.conv.def:simple-root, I.decomp.def:height-map, I.topgrp.def:norm-one-group}
+\end{theorem}
+\begin{proof}
+\uses{I.red.thm:siegel-covering, I.red.thm:siegel-truncation-compact, I.red.lem:height-locally-bounded, I.red.thm:height-attained, I.quot.thm:automorphic-quotient-second-countable}
+\emph{If.} Let $c$ be as in the statement and $\mathfrak S=\mathfrak S(\omega_0,\sqrt3/2)$. For $x\in p^{-1}(\Omega)$, \cref{I.red.thm:siegel-covering} gives
+$\gamma\in G(\Q)$ with $s=\gamma^{-1}x\in\mathfrak S$, and $\alpha(\HB(s))=\alpha(\HB(\gamma^{-1}x))\le c$. So $\Omega\subseteq p(\mathfrak S_c)$ with
+$\mathfrak S_c=\{s\in\mathfrak S:\alpha(\HB(s))\le c\}$, which is compact by \cref{I.red.thm:siegel-truncation-compact} ($\omega_0$ is compact). Its image
+$p(\mathfrak S_c)$ is compact, hence closed in the Hausdorff space $G(\Q)\backslash G(\A)^1$
+(\cref{I.quot.thm:automorphic-quotient-second-countable}), and contains $\overline\Omega$.
+
+\emph{Only if.} The quotient map $p$ is continuous and open. Since $G(\A)^1$ is locally compact, the sets $p(U)$, $U$ open with compact
+closure, cover $\overline\Omega$; finitely many suffice, so $\overline\Omega\subseteq p(C)$ for a compact $C\subseteq G(\A)^1$. By
+\cref{I.red.lem:height-locally-bounded} there is $c$ with $\operatorname{ht}\le c$ on $C$. For $x\in p^{-1}(\Omega)$ write $x=\gamma y$ with
+$\gamma\in G(\Q)$, $y\in C$; then for every $\delta$, $\alpha(\HB(\delta x))=\alpha(\HB((\delta\gamma)y))\le\operatorname{ht}(y)\le c$ by
+\cref{I.red.thm:height-attained}.
+\end{proof}
+

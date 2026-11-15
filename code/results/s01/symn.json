@@ -1,0 +1,4469 @@
+{
+ "data": {
+  "all_ok": true,
+  "conventions": {
+   "Q_structure": "phi(P)=b^{n/2} rho(s(j))^{-1} sigma(P); V_Q = V^phi (k even)",
+   "T_ell": "(T Phi)(L_c) = sum_{J=L_c K, nrd K=ell} ell^n beta_J^{-1}.Phi(L_{c'}), J=L_{c'} beta_J",
+   "V_k": "Sym^{k-2}, (g.P)(X,Y)=P((X,Y)g)=P(aX+cY,bX+dY) (eq:s01-Vk), left action; basis X^{n-t}Y^t",
+   "brandt": "Gross form F(gamma x u)=s(gamma).F(x) (rem:s01-dictionary, global splitting); Phi(L alpha)=alpha^{-1}.Phi(L) on left O-ideals; (+)_c V^{Gamma_c}, Gamma_c=O_r(L_c)^x incl. -1",
+   "rhs": "charpoly(mfheckemat(mfinit([D,k],0),ell)) times (x-ell-1) iff k=2",
+   "splitting": "B=(a,b)_Q, i->diag(sqrt a,-sqrt a), j->(0 b;1 0), exact over Q(sqrt a)"
+  },
+  "grid": {
+   "11,10": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       28405487616,
+       -1055048192,
+       -715341184,
+       -13692768,
+       2355888,
+       32700,
+       -2730,
+       -16,
+       1
+      ],
+      "3": [
+       664366938790320,
+       -27108440490096,
+       -19694801109591,
+       83018419722,
+       3824498943,
+       -6411492,
+       -120665,
+       74,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 8,
+    "dim_equal": true,
+    "dim_expected": 8,
+    "dim_mf_new": 8,
+    "dims_V_Gamma": [
+     5,
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       28405487616,
+       -1055048192,
+       -715341184,
+       -13692768,
+       2355888,
+       32700,
+       -2730,
+       -16,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       28405487616,
+       -1055048192,
+       -715341184,
+       -13692768,
+       2355888,
+       32700,
+       -2730,
+       -16,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       28405487616,
+       -1055048192,
+       -715341184,
+       -13692768,
+       2355888,
+       32700,
+       -2730,
+       -16,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       664366938790320,
+       -27108440490096,
+       -19694801109591,
+       83018419722,
+       3824498943,
+       -6411492,
+       -120665,
+       74,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       664366938790320,
+       -27108440490096,
+       -19694801109591,
+       83018419722,
+       3824498943,
+       -6411492,
+       -120665,
+       74,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       664366938790320,
+       -27108440490096,
+       -19694801109591,
+       83018419722,
+       3824498943,
+       -6411492,
+       -120665,
+       74,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 10
+   },
+   "11,11": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0,
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 11
+   },
+   "11,12": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -8075587919872,
+       1500131088896,
+       -40978619776,
+       -1433291760,
+       43773336,
+       377100,
+       -12218,
+       -32,
+       1
+      ],
+      "3": [
+       -91527974966042569260,
+       -4299238925198018289,
+       -11215366852119813,
+       68612020638795,
+       204385589775,
+       -240992835,
+       -835295,
+       233,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 8,
+    "dim_equal": true,
+    "dim_expected": 8,
+    "dim_mf_new": 8,
+    "dims_V_Gamma": [
+     5,
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -8075587919872,
+       1500131088896,
+       -40978619776,
+       -1433291760,
+       43773336,
+       377100,
+       -12218,
+       -32,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -8075587919872,
+       1500131088896,
+       -40978619776,
+       -1433291760,
+       43773336,
+       377100,
+       -12218,
+       -32,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -8075587919872,
+       1500131088896,
+       -40978619776,
+       -1433291760,
+       43773336,
+       377100,
+       -12218,
+       -32,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -91527974966042569260,
+       -4299238925198018289,
+       -11215366852119813,
+       68612020638795,
+       204385589775,
+       -240992835,
+       -835295,
+       233,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -91527974966042569260,
+       -4299238925198018289,
+       -11215366852119813,
+       68612020638795,
+       204385589775,
+       -240992835,
+       -835295,
+       233,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -91527974966042569260,
+       -4299238925198018289,
+       -11215366852119813,
+       68612020638795,
+       204385589775,
+       -240992835,
+       -835295,
+       233,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 12
+   },
+   "11,2": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -6,
+       -1,
+       1
+      ],
+      "3": [
+       -4,
+       -3,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 2,
+    "dim_equal": true,
+    "dim_expected": 2,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1,
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -6,
+       -1,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -6,
+       -1,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -4,
+       -3,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -4,
+       -3,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 2
+   },
+   "11,3": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0,
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 3
+   },
+   "11,4": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -2,
+       -2,
+       1
+      ],
+      "3": [
+       -47,
+       2,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 2,
+    "dim_equal": true,
+    "dim_expected": 2,
+    "dim_mf_new": 2,
+    "dims_V_Gamma": [
+     1,
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -2,
+       -2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -2,
+       -2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -2,
+       -2,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -47,
+       2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -47,
+       2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -47,
+       2,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 4
+   },
+   "11,5": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0,
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 5
+   },
+   "11,6": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       752,
+       -172,
+       -90,
+       4,
+       1
+      ],
+      "3": [
+       18180,
+       4467,
+       -293,
+       -19,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 4,
+    "dim_equal": true,
+    "dim_expected": 4,
+    "dim_mf_new": 4,
+    "dims_V_Gamma": [
+     3,
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       752,
+       -172,
+       -90,
+       4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       752,
+       -172,
+       -90,
+       4,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       752,
+       -172,
+       -90,
+       4,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       18180,
+       4467,
+       -293,
+       -19,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       18180,
+       4467,
+       -293,
+       -19,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       18180,
+       4467,
+       -293,
+       -19,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 6
+   },
+   "11,7": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0,
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 7
+   },
+   "11,8": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -2276736,
+       407792,
+       77416,
+       -4324,
+       -602,
+       8,
+       1
+      ],
+      "3": [
+       -3600696564,
+       194631849,
+       11210697,
+       -189138,
+       -6614,
+       41,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 6,
+    "dim_equal": true,
+    "dim_expected": 6,
+    "dim_mf_new": 6,
+    "dims_V_Gamma": [
+     3,
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -2276736,
+       407792,
+       77416,
+       -4324,
+       -602,
+       8,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -2276736,
+       407792,
+       77416,
+       -4324,
+       -602,
+       8,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -2276736,
+       407792,
+       77416,
+       -4324,
+       -602,
+       8,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -3600696564,
+       194631849,
+       11210697,
+       -189138,
+       -6614,
+       41,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -3600696564,
+       194631849,
+       11210697,
+       -189138,
+       -6614,
+       41,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -3600696564,
+       194631849,
+       11210697,
+       -189138,
+       -6614,
+       41,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 8
+   },
+   "11,9": {
+    "D": 11,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -11,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0,
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4,
+     6
+    ],
+    "h": 2,
+    "k": 9
+   },
+   "13,10": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -289847808000,
+       120130281984,
+       -6097881984,
+       -1024042720,
+       31381992,
+       2879836,
+       -43002,
+       -3037,
+       18,
+       1
+      ],
+      "3": [
+       -1380686263147505664,
+       50468343463975536,
+       400988109215664,
+       -26984365440075,
+       54313266258,
+       3185256087,
+       -1772036,
+       -104125,
+       2,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 9,
+    "dim_equal": true,
+    "dim_expected": 9,
+    "dim_mf_new": 9,
+    "dims_V_Gamma": [
+     9
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -289847808000,
+       120130281984,
+       -6097881984,
+       -1024042720,
+       31381992,
+       2879836,
+       -43002,
+       -3037,
+       18,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -289847808000,
+       120130281984,
+       -6097881984,
+       -1024042720,
+       31381992,
+       2879836,
+       -43002,
+       -3037,
+       18,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -289847808000,
+       120130281984,
+       -6097881984,
+       -1024042720,
+       31381992,
+       2879836,
+       -43002,
+       -3037,
+       18,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -1380686263147505664,
+       50468343463975536,
+       400988109215664,
+       -26984365440075,
+       54313266258,
+       3185256087,
+       -1772036,
+       -104125,
+       2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -1380686263147505664,
+       50468343463975536,
+       400988109215664,
+       -26984365440075,
+       54313266258,
+       3185256087,
+       -1772036,
+       -104125,
+       2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -1380686263147505664,
+       50468343463975536,
+       400988109215664,
+       -26984365440075,
+       54313266258,
+       3185256087,
+       -1772036,
+       -104125,
+       2,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 10
+   },
+   "13,11": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 11
+   },
+   "13,12": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -94196186618265600,
+       -111309461677670400,
+       -11929976774877184,
+       630208683958272,
+       8466969990336,
+       -493798423936,
+       -2247258408,
+       151289860,
+       280086,
+       -20317,
+       -14,
+       1
+      ],
+      "3": [
+       1481328658530758180530630656,
+       116352814539033295843431168,
+       2231216285608198649551068,
+       10259328626228586130857,
+       -20993211605496068712,
+       -159952094929947132,
+       72650754062928,
+       775983875838,
+       -90908888,
+       -1498540,
+       20,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 11,
+    "dim_equal": true,
+    "dim_expected": 11,
+    "dim_mf_new": 11,
+    "dims_V_Gamma": [
+     11
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -94196186618265600,
+       -111309461677670400,
+       -11929976774877184,
+       630208683958272,
+       8466969990336,
+       -493798423936,
+       -2247258408,
+       151289860,
+       280086,
+       -20317,
+       -14,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -94196186618265600,
+       -111309461677670400,
+       -11929976774877184,
+       630208683958272,
+       8466969990336,
+       -493798423936,
+       -2247258408,
+       151289860,
+       280086,
+       -20317,
+       -14,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -94196186618265600,
+       -111309461677670400,
+       -11929976774877184,
+       630208683958272,
+       8466969990336,
+       -493798423936,
+       -2247258408,
+       151289860,
+       280086,
+       -20317,
+       -14,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1481328658530758180530630656,
+       116352814539033295843431168,
+       2231216285608198649551068,
+       10259328626228586130857,
+       -20993211605496068712,
+       -159952094929947132,
+       72650754062928,
+       775983875838,
+       -90908888,
+       -1498540,
+       20,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1481328658530758180530630656,
+       116352814539033295843431168,
+       2231216285608198649551068,
+       10259328626228586130857,
+       -20993211605496068712,
+       -159952094929947132,
+       72650754062928,
+       775983875838,
+       -90908888,
+       -1498540,
+       20,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1481328658530758180530630656,
+       116352814539033295843431168,
+       2231216285608198649551068,
+       10259328626228586130857,
+       -20993211605496068712,
+       -159952094929947132,
+       72650754062928,
+       775983875838,
+       -90908888,
+       -1498540,
+       20,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 12
+   },
+   "13,2": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -3,
+       1
+      ],
+      "3": [
+       -4,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -3,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -3,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -4,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 2
+   },
+   "13,3": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 3
+   },
+   "13,4": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -20,
+       -9,
+       4,
+       1
+      ],
+      "3": [
+       -224,
+       -67,
+       2,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_expected": 3,
+    "dim_mf_new": 3,
+    "dims_V_Gamma": [
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -20,
+       -9,
+       4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -20,
+       -9,
+       4,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -20,
+       -9,
+       4,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -224,
+       -67,
+       2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -224,
+       -67,
+       2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -224,
+       -67,
+       2,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 4
+   },
+   "13,5": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 5
+   },
+   "13,6": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       888,
+       2052,
+       10,
+       -117,
+       -2,
+       1
+      ],
+      "3": [
+       94428,
+       51297,
+       -4784,
+       -418,
+       20,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 5,
+    "dim_equal": true,
+    "dim_expected": 5,
+    "dim_mf_new": 5,
+    "dims_V_Gamma": [
+     5
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       888,
+       2052,
+       10,
+       -117,
+       -2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       888,
+       2052,
+       10,
+       -117,
+       -2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       888,
+       2052,
+       10,
+       -117,
+       -2,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       94428,
+       51297,
+       -4784,
+       -418,
+       20,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       94428,
+       51297,
+       -4784,
+       -418,
+       20,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       94428,
+       51297,
+       -4784,
+       -418,
+       20,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 6
+   },
+   "13,7": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 7
+   },
+   "13,8": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -772800,
+       -2565760,
+       -468456,
+       92836,
+       3534,
+       -589,
+       -6,
+       1
+      ],
+      "3": [
+       -30177681408,
+       -10023042816,
+       -711862020,
+       19868025,
+       412216,
+       -8698,
+       -52,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 7,
+    "dim_equal": true,
+    "dim_expected": 7,
+    "dim_mf_new": 7,
+    "dims_V_Gamma": [
+     7
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -772800,
+       -2565760,
+       -468456,
+       92836,
+       3534,
+       -589,
+       -6,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -772800,
+       -2565760,
+       -468456,
+       92836,
+       3534,
+       -589,
+       -6,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -772800,
+       -2565760,
+       -468456,
+       92836,
+       3534,
+       -589,
+       -6,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -30177681408,
+       -10023042816,
+       -711862020,
+       19868025,
+       412216,
+       -8698,
+       -52,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -30177681408,
+       -10023042816,
+       -711862020,
+       19868025,
+       412216,
+       -8698,
+       -52,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -30177681408,
+       -10023042816,
+       -711862020,
+       19868025,
+       412216,
+       -8698,
+       -52,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 8
+   },
+   "13,9": {
+    "D": 13,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     2
+    ],
+    "h": 1,
+    "k": 9
+   },
+   "2,10": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "3": [
+       156,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       156,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       156,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       156,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 10
+   },
+   "2,11": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 11
+   },
+   "2,12": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "3": [
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 12
+   },
+   "2,2": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "3": [
+       -4,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       -4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -4,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 2
+   },
+   "2,3": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 3
+   },
+   "2,4": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "3": [
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 4
+   },
+   "2,5": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 5
+   },
+   "2,6": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "3": [
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 6
+   },
+   "2,7": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 7
+   },
+   "2,8": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "3": [
+       -12,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       -12,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -12,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -12,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 8
+   },
+   "2,9": {
+    "D": 2,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -1,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     24
+    ],
+    "h": 1,
+    "k": 9
+   },
+   "3,10": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -648,
+       18,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 2,
+    "dim_equal": true,
+    "dim_expected": 2,
+    "dim_mf_new": 2,
+    "dims_V_Gamma": [
+     2
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -648,
+       18,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -648,
+       18,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -648,
+       18,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 10
+   },
+   "3,11": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 11
+   },
+   "3,12": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -78,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -78,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -78,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -78,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 12
+   },
+   "3,2": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -3,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -3,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -3,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 2
+   },
+   "3,3": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 3
+   },
+   "3,4": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 4
+   },
+   "3,5": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 5
+   },
+   "3,6": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       6,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       6,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       6,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       6,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 6
+   },
+   "3,7": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 7
+   },
+   "3,8": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -6,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -6,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -6,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -6,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 8
+   },
+   "3,9": {
+    "D": 3,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     12
+    ],
+    "h": 1,
+    "k": 9
+   },
+   "5,10": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -7872,
+       -904,
+       18,
+       1
+      ],
+      "3": [
+       1466496,
+       -16776,
+       -146,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_expected": 3,
+    "dim_mf_new": 3,
+    "dims_V_Gamma": [
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -7872,
+       -904,
+       18,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -7872,
+       -904,
+       18,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -7872,
+       -904,
+       18,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1466496,
+       -16776,
+       -146,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1466496,
+       -16776,
+       -146,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1466496,
+       -16776,
+       -146,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 10
+   },
+   "5,11": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 11
+   },
+   "5,12": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       181424,
+       -6016,
+       -14,
+       1
+      ],
+      "3": [
+       -112879008,
+       31716,
+       1012,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_expected": 3,
+    "dim_mf_new": 3,
+    "dims_V_Gamma": [
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       181424,
+       -6016,
+       -14,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       181424,
+       -6016,
+       -14,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       181424,
+       -6016,
+       -14,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -112879008,
+       31716,
+       1012,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -112879008,
+       31716,
+       1012,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -112879008,
+       31716,
+       1012,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 12
+   },
+   "5,2": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -3,
+       1
+      ],
+      "3": [
+       -4,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -3,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -3,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -4,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 2
+   },
+   "5,3": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 3
+   },
+   "5,4": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       4,
+       1
+      ],
+      "3": [
+       -2,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       4,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       4,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -2,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 4
+   },
+   "5,5": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 5
+   },
+   "5,6": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -2,
+       1
+      ],
+      "3": [
+       4,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -2,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       4,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       4,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 6
+   },
+   "5,7": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 7
+   },
+   "5,8": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       336,
+       -256,
+       -6,
+       1
+      ],
+      "3": [
+       -228672,
+       -5724,
+       28,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_expected": 3,
+    "dim_mf_new": 3,
+    "dims_V_Gamma": [
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       336,
+       -256,
+       -6,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       336,
+       -256,
+       -6,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       336,
+       -256,
+       -6,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -228672,
+       -5724,
+       28,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -228672,
+       -5724,
+       28,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -228672,
+       -5724,
+       28,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 8
+   },
+   "5,9": {
+    "D": 5,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     6
+    ],
+    "h": 1,
+    "k": 9
+   },
+   "7,10": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -3510720,
+       358464,
+       14988,
+       -1636,
+       -15,
+       1
+      ],
+      "3": [
+       -65028096,
+       279726048,
+       691704,
+       -41724,
+       2,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 5,
+    "dim_equal": true,
+    "dim_expected": 5,
+    "dim_mf_new": 5,
+    "dims_V_Gamma": [
+     5
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -3510720,
+       358464,
+       14988,
+       -1636,
+       -15,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -3510720,
+       358464,
+       14988,
+       -1636,
+       -15,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -3510720,
+       358464,
+       14988,
+       -1636,
+       -15,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -65028096,
+       279726048,
+       691704,
+       -41724,
+       2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -65028096,
+       279726048,
+       691704,
+       -41724,
+       2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -65028096,
+       279726048,
+       691704,
+       -41724,
+       2,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 10
+   },
+   "7,11": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 11
+   },
+   "7,12": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -594274560,
+       19690176,
+       274268,
+       -9652,
+       -23,
+       1
+      ],
+      "3": [
+       15871376400768,
+       85050045360,
+       -81118512,
+       -719664,
+       20,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 5,
+    "dim_equal": true,
+    "dim_expected": 5,
+    "dim_mf_new": 5,
+    "dims_V_Gamma": [
+     5
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -594274560,
+       19690176,
+       274268,
+       -9652,
+       -23,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -594274560,
+       19690176,
+       274268,
+       -9652,
+       -23,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -594274560,
+       19690176,
+       274268,
+       -9652,
+       -23,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       15871376400768,
+       85050045360,
+       -81118512,
+       -719664,
+       20,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       15871376400768,
+       85050045360,
+       -81118512,
+       -719664,
+       20,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       15871376400768,
+       85050045360,
+       -81118512,
+       -719664,
+       20,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 12
+   },
+   "7,2": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -3,
+       1
+      ],
+      "3": [
+       -4,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -3,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -3,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -4,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -4,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 2
+   },
+   "7,3": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 3
+   },
+   "7,4": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       1,
+       1
+      ],
+      "3": [
+       2,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 1,
+    "dim_equal": true,
+    "dim_expected": 1,
+    "dim_mf_new": 1,
+    "dims_V_Gamma": [
+     1
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       2,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       2,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       2,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 4
+   },
+   "7,5": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 5
+   },
+   "7,6": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       60,
+       -84,
+       1,
+       1
+      ],
+      "3": [
+       -7056,
+       -420,
+       20,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_expected": 3,
+    "dim_mf_new": 3,
+    "dims_V_Gamma": [
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       60,
+       -84,
+       1,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       60,
+       -84,
+       1,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       60,
+       -84,
+       1,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       -7056,
+       -420,
+       20,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -7056,
+       -420,
+       20,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -7056,
+       -420,
+       20,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 6
+   },
+   "7,7": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 7
+   },
+   "7,8": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": true,
+     "phi_commutes_T": {
+      "2": true,
+      "3": true
+     },
+     "phi_commutes_rho": true,
+     "phi_involution": true,
+     "rational_model_charpoly": {
+      "2": [
+       -1284,
+       -196,
+       9,
+       1
+      ],
+      "3": [
+       56448,
+       -2604,
+       -52,
+       1
+      ]
+     },
+     "rational_model_matches": {
+      "2": true,
+      "3": true
+     },
+     "rho_rational_on_V_Q": true
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_expected": 3,
+    "dim_mf_new": 3,
+    "dims_V_Gamma": [
+     3
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       -1284,
+       -196,
+       9,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       -1284,
+       -196,
+       9,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       -1284,
+       -196,
+       9,
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       56448,
+       -2604,
+       -52,
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       56448,
+       -2604,
+       -52,
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       56448,
+       -2604,
+       -52,
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 8
+   },
+   "7,9": {
+    "D": 7,
+    "Q_structure": {
+     "applicable": false,
+     "reason": "k odd: -1 in Gamma_c acts by -1, all invariants vanish"
+    },
+    "a": -7,
+    "all_ok": true,
+    "b": -1,
+    "dim_brandt": 0,
+    "dim_equal": true,
+    "dim_expected": 0,
+    "dim_mf_new": 0,
+    "dims_V_Gamma": [
+     0
+    ],
+    "ell": {
+     "2": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     },
+     "3": {
+      "charpoly_brandt": [
+       1
+      ],
+      "charpoly_in_Q": true,
+      "charpoly_mf_new": [
+       1
+      ],
+      "equal": true,
+      "rhs": [
+       1
+      ]
+     }
+    },
+    "gammas": [
+     4
+    ],
+    "h": 1,
+    "k": 9
+   }
+  }
+ },
+ "provenance": {
+  "commit": "817fd028d09cbe631fd24bd472923ba489be5efd-dirty",
+  "date": "2026-11-14T17:13:07+00:00",
+  "notes": "Sym^n Brandt modules at level O^x vs S_k(Gamma_0(D))^new; see module docstring for conventions",
+  "params": {
+   "Ds": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13
+   ],
+   "ells": [
+    2,
+    3
+   ],
+   "ks": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 14.16208962300152,
+  "script": "code/python/langlandscape/symn.py"
+ }
+}

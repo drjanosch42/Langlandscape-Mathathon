@@ -1,0 +1,825 @@
+{
+ "D": 5,
+ "n": 2,
+ "k": 4,
+ "P": [
+  2,
+  3,
+  7,
+  11,
+  13,
+  17
+ ],
+ "exit": 0,
+ "oc": "set coefficient_ring = \"Z\";\nd = descent(5, 2, [2, 3, 7, 11, 13, 17]);\nprint(\"@@GROUPS \" + json(d.groups));\nprint(\"@@FACT \" + json(d.charpoly_factored));\nM = d.module_Z();\nprint(\"@@MSTATUS \" + json([M.status, M.free_rank, M.free_block]));\nfor o in M.ops { print(\"@@F \" + json([o.p, o.F, o.charpoly_Z])); }\nR = hecke_structure(5, 2);\nprint(\"@@HSFULL \" + json([R.status, R.signature, R.C_T, R.body]));\nA = hecke_structure(5, 2, \"anemic\");\nprint(\"@@HSAN \" + json([A.status, A.signature, A.C_T, A.body]));\n",
+ "GROUPS": [
+  "0",
+  "Z^4 + Z/2",
+  "0",
+  "Z/2 + Z/2 + Z/2 + Z/2 + Z/2^2"
+ ],
+ "FACT": [
+  {
+   "p": 2,
+   "status": "ok",
+   "expanded": "X^4 - 10X^3 - 47X^2 + 360X + 1296",
+   "factored": "(X + 4)^2 (X - 9)^2",
+   "factors": [
+    {
+     "coefficients": [
+      "1",
+      "4"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    },
+    {
+     "coefficients": [
+      "1",
+      "-9"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    }
+   ],
+   "complete": true,
+   "verified": true,
+   "note": "irreducible factors over Z (Zassenhaus), product verified"
+  },
+  {
+   "p": 3,
+   "status": "ok",
+   "expanded": "X^4 - 60X^3 + 1012X^2 - 3360X + 3136",
+   "factored": "(X - 2)^2 (X - 28)^2",
+   "factors": [
+    {
+     "coefficients": [
+      "1",
+      "-2"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    },
+    {
+     "coefficients": [
+      "1",
+      "-28"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    }
+   ],
+   "complete": true,
+   "verified": true,
+   "note": "irreducible factors over Z (Zassenhaus), product verified"
+  },
+  {
+   "p": 7,
+   "status": "ok",
+   "expanded": "X^4 - 700X^3 + 126628X^2 - 1444800X + 4260096",
+   "factored": "(X - 6)^2 (X - 344)^2",
+   "factors": [
+    {
+     "coefficients": [
+      "1",
+      "-6"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    },
+    {
+     "coefficients": [
+      "1",
+      "-344"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    }
+   ],
+   "complete": true,
+   "verified": true,
+   "note": "irreducible factors over Z (Zassenhaus), product verified"
+  },
+  {
+   "p": 11,
+   "status": "ok",
+   "expanded": "X^4 - 2728X^3 + 1945744X^2 - 116278272X + 1816805376",
+   "factored": "(X - 32)^2 (X - 1332)^2",
+   "factors": [
+    {
+     "coefficients": [
+      "1",
+      "-32"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    },
+    {
+     "coefficients": [
+      "1",
+      "-1332"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    }
+   ],
+   "complete": true,
+   "verified": true,
+   "note": "irreducible factors over Z (Zassenhaus), product verified"
+  },
+  {
+   "p": 13,
+   "status": "ok",
+   "expanded": "X^4 - 4320X^3 + 4498552X^2 + 360823680X + 6976258576",
+   "factored": "(X + 38)^2 (X - 2198)^2",
+   "factors": [
+    {
+     "coefficients": [
+      "1",
+      "38"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    },
+    {
+     "coefficients": [
+      "1",
+      "-2198"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    }
+   ],
+   "complete": true,
+   "verified": true,
+   "note": "irreducible factors over Z (Zassenhaus), product verified"
+  },
+  {
+   "p": 17,
+   "status": "ok",
+   "expanded": "X^4 - 9880X^3 + 24659128X^2 - 1262308320X + 16323639696",
+   "factored": "(X - 26)^2 (X - 4914)^2",
+   "factors": [
+    {
+     "coefficients": [
+      "1",
+      "-26"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    },
+    {
+     "coefficients": [
+      "1",
+      "-4914"
+     ],
+     "degree": 1,
+     "multiplicity": 2,
+     "irreducible": true
+    }
+   ],
+   "complete": true,
+   "verified": true,
+   "note": "irreducible factors over Z (Zassenhaus), product verified"
+  }
+ ],
+ "MSTATUS": [
+  "ok",
+  4,
+  "exact"
+ ],
+ "F": [
+  [
+   2,
+   [
+    [
+     "-27",
+     "-23",
+     "-23",
+     "2"
+    ],
+    [
+     "-4",
+     "-8",
+     "-4",
+     "6"
+    ],
+    [
+     "40",
+     "40",
+     "36",
+     "-8"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "9"
+    ]
+   ],
+   [
+    "1",
+    "-10",
+    "-47",
+    "360",
+    "1296"
+   ]
+  ],
+  [
+   3,
+   [
+    [
+     "-44",
+     "-46",
+     "-46",
+     "4"
+    ],
+    [
+     "-8",
+     "-6",
+     "-8",
+     "12"
+    ],
+    [
+     "80",
+     "80",
+     "82",
+     "-16"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "28"
+    ]
+   ],
+   [
+    "1",
+    "-60",
+    "1012",
+    "-3360",
+    "3136"
+   ]
+  ],
+  [
+   7,
+   [
+    [
+     "-592",
+     "-598",
+     "-598",
+     "52"
+    ],
+    [
+     "-104",
+     "-98",
+     "-104",
+     "156"
+    ],
+    [
+     "1040",
+     "1040",
+     "1046",
+     "-208"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "344"
+    ]
+   ],
+   [
+    "1",
+    "-700",
+    "126628",
+    "-1444800",
+    "4260096"
+   ]
+  ],
+  [
+   11,
+   [
+    [
+     "-2268",
+     "-2300",
+     "-2300",
+     "200"
+    ],
+    [
+     "-400",
+     "-368",
+     "-400",
+     "600"
+    ],
+    [
+     "4000",
+     "4000",
+     "4032",
+     "-800"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "1332"
+    ]
+   ],
+   [
+    "1",
+    "-2728",
+    "1945744",
+    "-116278272",
+    "1816805376"
+   ]
+  ],
+  [
+   13,
+   [
+    [
+     "-3994",
+     "-3956",
+     "-3956",
+     "344"
+    ],
+    [
+     "-688",
+     "-726",
+     "-688",
+     "1032"
+    ],
+    [
+     "6880",
+     "6880",
+     "6842",
+     "-1376"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "2198"
+    ]
+   ],
+   [
+    "1",
+    "-4320",
+    "4498552",
+    "360823680",
+    "6976258576"
+   ]
+  ],
+  [
+   17,
+   [
+    [
+     "-8622",
+     "-8648",
+     "-8648",
+     "752"
+    ],
+    [
+     "-1504",
+     "-1478",
+     "-1504",
+     "2256"
+    ],
+    [
+     "15040",
+     "15040",
+     "15066",
+     "-3008"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "4914"
+    ]
+   ],
+   [
+    "1",
+    "-9880",
+    "24659128",
+    "-1262308320",
+    "16323639696"
+   ]
+  ]
+ ],
+ "HSFULL": [
+  "final",
+  "(5,2,full) C1=certified redQ=true C2=complete gen=[2:open(sandwich);3:certified(saturation);5:certified(saturation);13:certified(saturation);31:certified(saturation)] C_T=upper_bound_certified fp=not_certified G6=[2.pt[0]=split_on_P] status=final",
+  "upper_bound_certified",
+  [
+   "G0.schema=integral_hecke_structure/v1",
+   "G0.coefficient_ring=Z",
+   "G0.object=group",
+   "G0.conventions=poly=low_to_high; hex=canonical_signed",
+   "G0.N=5",
+   "G0.n=2",
+   "G0.algebra=full",
+   "G0.operators=T_2,T_3,T_7,T_13,T_31,U_5",
+   "G0.descent_ref.record_fnv1a64=0x22d6514155e9be8f",
+   "G0.status=final",
+   "G1.b1=4",
+   "G1.e_k=2",
+   "G1.d=3",
+   "G1.d_source=hES_N",
+   "G1.reduced_Q=true",
+   "G1.C1.status=certified",
+   "G1.C1.deg_f=3",
+   "G1.P=2,3,7",
+   "G1.theta=0,0,0,1",
+   "G1.theta_ops=T_2,T_3,T_7,U_5",
+   "G1.components=certified",
+   "G1.components[0].type=eis",
+   "G1.components[0].degree=1",
+   "G1.components[0].mult=1",
+   "G1.components[0].p0=T_2",
+   "G1.components[0].minpoly=[-0x9,0x1]",
+   "G1.components[0].lambda_theta=0x1",
+   "G1.components[0].U_5=0x1",
+   "G1.components[1].type=eis",
+   "G1.components[1].degree=1",
+   "G1.components[1].mult=1",
+   "G1.components[1].p0=T_2",
+   "G1.components[1].minpoly=[-0x9,0x1]",
+   "G1.components[1].lambda_theta=0x7d",
+   "G1.components[1].U_5=0x7d",
+   "G1.components[2].type=cusp",
+   "G1.components[2].degree=1",
+   "G1.components[2].mult=2",
+   "G1.components[2].p0=theta",
+   "G1.components[2].minpoly=[0x5,0x1]",
+   "G1.components[2].irreducible=true",
+   "G1.S_cand.ell=2.reason=disc_square,torsion,congruence",
+   "G1.S_cand.ell=2.v_disc=8",
+   "G1.S_cand.ell=3.reason=disc_square",
+   "G1.S_cand.ell=3.v_disc=2",
+   "G1.S_cand.ell=5.reason=disc_square",
+   "G1.S_cand.ell=5.v_disc=2",
+   "G1.S_cand.ell=13.reason=disc_square,congruence",
+   "G1.S_cand.ell=13.v_disc=2",
+   "G1.S_cand.ell=31.reason=disc_square,congruence",
+   "G1.S_cand.ell=31.v_disc=2",
+   "G1.disc.digest=0x41f82d76b5cb9a8f",
+   "G1.disc.bits=34",
+   "G1.disc.gcd.factor.q=0x2.e=8",
+   "G1.disc.gcd.factor.q=0x2.prime_proof=small",
+   "G1.disc.gcd.factor.q=0x3.e=2",
+   "G1.disc.gcd.factor.q=0x3.prime_proof=small",
+   "G1.disc.gcd.factor.q=0x5.e=2",
+   "G1.disc.gcd.factor.q=0x5.prime_proof=small",
+   "G1.disc.gcd.factor.q=0xd.e=2",
+   "G1.disc.gcd.factor.q=0xd.prime_proof=small",
+   "G1.disc.gcd.factor.q=0x1f.e=2",
+   "G1.disc.gcd.factor.q=0x1f.prime_proof=small",
+   "G1.disc.gcd.cofactor=0x1",
+   "G1.disc.gcd.cofactor_test=one",
+   "G1.C2_status=complete",
+   "G1.discriminants_used=(0 0 0 1)",
+   "G2.ell=2.theory=H",
+   "G2.ell=2.generation.status=open(sandwich)",
+   "G2.ell=2.generation.dim_A1=2",
+   "G2.ell=2.t_ell=in_P",
+   "G2.ell=2.maximal_ideals=not_run",
+   "G2.ell=2.A1_of_computed.dim_A1=2",
+   "G2.ell=3.theory=H",
+   "G2.ell=3.generation.status=certified",
+   "G2.ell=3.generation.route=saturation",
+   "G2.ell=3.generation.dim_A1=3",
+   "G2.ell=3.t_ell=in_P",
+   "G2.ell=3.maximal_ideals=certified",
+   "G2.ell=3.decomposed_by=theta=(0 0 1 2)",
+   "G2.ell=3.m[0].residue_degree=1",
+   "G2.ell=3.m[0].residue_poly=[0,1]",
+   "G2.ell=3.m[0].support=free",
+   "G2.ell=3.m[0].degree_attr=not_run",
+   "G2.ell=3.m[0].local_type.kind=etale",
+   "G2.ell=3.m[0].local_type.rank=1",
+   "G2.ell=3.m[0].local_type.embdim=0",
+   "G2.ell=3.m[0].local_type.gorenstein=true",
+   "G2.ell=3.m[0].local_type.length_mod_l=1",
+   "G2.ell=3.m[0].local_type.hilbert=1",
+   "G2.ell=3.m[0].local_type.loewy=1",
+   "G2.ell=3.m[0].components_through.0=not_run",
+   "G2.ell=3.m[0].components_through.1=certified",
+   "G2.ell=3.m[0].components_through.2=not_run",
+   "G2.ell=3.m[1].residue_degree=1",
+   "G2.ell=3.m[1].residue_poly=[1,1]",
+   "G2.ell=3.m[1].support=free",
+   "G2.ell=3.m[1].degree_attr=not_run",
+   "G2.ell=3.m[1].local_type.kind=etale",
+   "G2.ell=3.m[1].local_type.rank=1",
+   "G2.ell=3.m[1].local_type.embdim=0",
+   "G2.ell=3.m[1].local_type.gorenstein=true",
+   "G2.ell=3.m[1].local_type.length_mod_l=1",
+   "G2.ell=3.m[1].local_type.hilbert=1",
+   "G2.ell=3.m[1].local_type.loewy=1",
+   "G2.ell=3.m[1].components_through.0=not_run",
+   "G2.ell=3.m[1].components_through.1=not_run",
+   "G2.ell=3.m[1].components_through.2=certified",
+   "G2.ell=3.m[2].residue_degree=1",
+   "G2.ell=3.m[2].residue_poly=[2,1]",
+   "G2.ell=3.m[2].support=free",
+   "G2.ell=3.m[2].degree_attr=not_run",
+   "G2.ell=3.m[2].local_type.kind=etale",
+   "G2.ell=3.m[2].local_type.rank=1",
+   "G2.ell=3.m[2].local_type.embdim=0",
+   "G2.ell=3.m[2].local_type.gorenstein=true",
+   "G2.ell=3.m[2].local_type.length_mod_l=1",
+   "G2.ell=3.m[2].local_type.hilbert=1",
+   "G2.ell=3.m[2].local_type.loewy=1",
+   "G2.ell=3.m[2].components_through.0=certified",
+   "G2.ell=3.m[2].components_through.1=not_run",
+   "G2.ell=3.m[2].components_through.2=not_run",
+   "G2.ell=5.theory=H",
+   "G2.ell=5.generation.status=certified",
+   "G2.ell=5.generation.route=saturation",
+   "G2.ell=5.generation.dim_A1=3",
+   "G2.ell=5.t_ell=in_P",
+   "G2.ell=5.maximal_ideals=certified",
+   "G2.ell=5.decomposed_by=theta=(0 0 1 1)",
+   "G2.ell=5.m[0].residue_degree=1",
+   "G2.ell=5.m[0].residue_poly=[0,1]",
+   "G2.ell=5.m[0].support=free",
+   "G2.ell=5.m[0].local_type.kind=etale",
+   "G2.ell=5.m[0].local_type.rank=1",
+   "G2.ell=5.m[0].local_type.embdim=0",
+   "G2.ell=5.m[0].local_type.gorenstein=true",
+   "G2.ell=5.m[0].local_type.length_mod_l=1",
+   "G2.ell=5.m[0].local_type.hilbert=1",
+   "G2.ell=5.m[0].local_type.loewy=1",
+   "G2.ell=5.m[0].components_through.0=certified",
+   "G2.ell=5.m[0].components_through.1=not_run",
+   "G2.ell=5.m[0].components_through.2=not_run",
+   "G2.ell=5.m[1].residue_degree=1",
+   "G2.ell=5.m[1].residue_poly=[1,1]",
+   "G2.ell=5.m[1].support=free",
+   "G2.ell=5.m[1].local_type.kind=etale",
+   "G2.ell=5.m[1].local_type.rank=1",
+   "G2.ell=5.m[1].local_type.embdim=0",
+   "G2.ell=5.m[1].local_type.gorenstein=true",
+   "G2.ell=5.m[1].local_type.length_mod_l=1",
+   "G2.ell=5.m[1].local_type.hilbert=1",
+   "G2.ell=5.m[1].local_type.loewy=1",
+   "G2.ell=5.m[1].components_through.0=not_run",
+   "G2.ell=5.m[1].components_through.1=certified",
+   "G2.ell=5.m[1].components_through.2=not_run",
+   "G2.ell=5.m[2].residue_degree=1",
+   "G2.ell=5.m[2].residue_poly=[4,1]",
+   "G2.ell=5.m[2].support=free",
+   "G2.ell=5.m[2].local_type.kind=etale",
+   "G2.ell=5.m[2].local_type.rank=1",
+   "G2.ell=5.m[2].local_type.embdim=0",
+   "G2.ell=5.m[2].local_type.gorenstein=true",
+   "G2.ell=5.m[2].local_type.length_mod_l=1",
+   "G2.ell=5.m[2].local_type.hilbert=1",
+   "G2.ell=5.m[2].local_type.loewy=1",
+   "G2.ell=5.m[2].components_through.0=not_run",
+   "G2.ell=5.m[2].components_through.1=not_run",
+   "G2.ell=5.m[2].components_through.2=certified",
+   "G2.ell=13.theory=H",
+   "G2.ell=13.generation.status=certified",
+   "G2.ell=13.generation.route=saturation",
+   "G2.ell=13.generation.dim_A1=3",
+   "G2.ell=13.t_ell=added",
+   "G2.ell=13.maximal_ideals=certified",
+   "G2.ell=13.decomposed_by=theta=(0 0 0 1)",
+   "G2.ell=13.m[0].residue_degree=1",
+   "G2.ell=13.m[0].residue_poly=[5,1]",
+   "G2.ell=13.m[0].support=free",
+   "G2.ell=13.m[0].local_type.kind=monogenic",
+   "G2.ell=13.m[0].local_type.rank=2",
+   "G2.ell=13.m[0].local_type.embdim=1",
+   "G2.ell=13.m[0].local_type.gorenstein=true",
+   "G2.ell=13.m[0].local_type.length_mod_l=2",
+   "G2.ell=13.m[0].local_type.hilbert=1,1",
+   "G2.ell=13.m[0].local_type.loewy=2",
+   "G2.ell=13.m[0].components_through.0=not_run",
+   "G2.ell=13.m[0].components_through.1=certified",
+   "G2.ell=13.m[0].components_through.2=certified",
+   "G2.ell=13.m[0].pair_kinds[1,2].depth=1",
+   "G2.ell=13.m[0].pair_kinds[1,2].status=certified",
+   "G2.ell=13.m[0].pair_kinds[1,2].kind=meeting",
+   "G2.ell=13.m[1].residue_degree=1",
+   "G2.ell=13.m[1].residue_poly=[12,1]",
+   "G2.ell=13.m[1].support=free",
+   "G2.ell=13.m[1].local_type.kind=etale",
+   "G2.ell=13.m[1].local_type.rank=1",
+   "G2.ell=13.m[1].local_type.embdim=0",
+   "G2.ell=13.m[1].local_type.gorenstein=true",
+   "G2.ell=13.m[1].local_type.length_mod_l=1",
+   "G2.ell=13.m[1].local_type.hilbert=1",
+   "G2.ell=13.m[1].local_type.loewy=1",
+   "G2.ell=13.m[1].components_through.0=certified",
+   "G2.ell=13.m[1].components_through.1=not_run",
+   "G2.ell=13.m[1].components_through.2=not_run",
+   "G2.ell=31.theory=H",
+   "G2.ell=31.generation.status=certified",
+   "G2.ell=31.generation.route=saturation",
+   "G2.ell=31.generation.dim_A1=3",
+   "G2.ell=31.t_ell=added",
+   "G2.ell=31.maximal_ideals=certified",
+   "G2.ell=31.decomposed_by=theta=(0 0 0 1)",
+   "G2.ell=31.m[0].residue_degree=1",
+   "G2.ell=31.m[0].residue_poly=[5,1]",
+   "G2.ell=31.m[0].support=free",
+   "G2.ell=31.m[0].local_type.kind=etale",
+   "G2.ell=31.m[0].local_type.rank=1",
+   "G2.ell=31.m[0].local_type.embdim=0",
+   "G2.ell=31.m[0].local_type.gorenstein=true",
+   "G2.ell=31.m[0].local_type.length_mod_l=1",
+   "G2.ell=31.m[0].local_type.hilbert=1",
+   "G2.ell=31.m[0].local_type.loewy=1",
+   "G2.ell=31.m[0].components_through.0=not_run",
+   "G2.ell=31.m[0].components_through.1=not_run",
+   "G2.ell=31.m[0].components_through.2=certified",
+   "G2.ell=31.m[1].residue_degree=1",
+   "G2.ell=31.m[1].residue_poly=[30,1]",
+   "G2.ell=31.m[1].support=free",
+   "G2.ell=31.m[1].local_type.kind=monogenic",
+   "G2.ell=31.m[1].local_type.rank=2",
+   "G2.ell=31.m[1].local_type.embdim=1",
+   "G2.ell=31.m[1].local_type.gorenstein=true",
+   "G2.ell=31.m[1].local_type.length_mod_l=2",
+   "G2.ell=31.m[1].local_type.hilbert=1,1",
+   "G2.ell=31.m[1].local_type.loewy=2",
+   "G2.ell=31.m[1].components_through.0=certified",
+   "G2.ell=31.m[1].components_through.1=certified",
+   "G2.ell=31.m[1].components_through.2=not_run",
+   "G2.ell=31.m[1].pair_kinds[0,1].depth=1",
+   "G2.ell=31.m[1].pair_kinds[0,1].status=certified",
+   "G2.ell=31.m[1].pair_kinds[0,1].kind=meeting",
+   "G3.partition=U_p_tags",
+   "G3.C_T[U_5:eis(1),cusp(-5)].upper=1",
+   "G3.C_T[U_5:eis(1),cusp(-5)].status=upper_bound_certified",
+   "G3.C_T[U_5:eis(1),eis(125)].upper=124",
+   "G3.C_T[U_5:eis(1),eis(125)].status=upper_bound_certified",
+   "G3.C_T[U_5:eis(125),cusp(-5)].upper=13",
+   "G3.C_T[U_5:eis(125),cusp(-5)].status=upper_bound_certified",
+   "G3.C_T[U_5].status=upper_bound_certified",
+   "G3.C_T.status=upper_bound_certified",
+   "G3.C_T.lower=not_run",
+   "G3.fibre_product=not_certified",
+   "G4.ell=2.pt[0].J.status=bounds",
+   "G4.ell=2.pt[0].J.lower=0",
+   "G4.ell=2.pt[0].J.upper=2",
+   "G5.q=1.ell=2.pt[0].system=T_2:[0,1];T_3:[0,1];T_7:[0,1]",
+   "G5.q=1.ell=2.pt[0].relation_to_free=agrees_on_P",
+   "G5.q=1.ell=2.pt[0].generation_tors=not_run",
+   "G6.q=1.ell=2.pt[0].split=split_on_P",
+   "G6.q=1.ell=2.pt[0].hom_order=2",
+   "G6.q=1.ell=2.tor_ref=descent:(q=1,ell=2)",
+   "G7.pair=not_run",
+   "G7.theory=H_c",
+   "G7.hecke=not_run"
+  ]
+ ],
+ "HSAN": [
+  "final",
+  "(5,2,anemic) C1=certified redQ=true C2=complete gen=[2:certified(saturation);13:certified(saturation)] C_T=certified:0xd fp=certified G6=[2.pt[0]=split_on_P] status=final",
+  "certified:0xd",
+  [
+   "G0.schema=integral_hecke_structure/v1",
+   "G0.coefficient_ring=Z",
+   "G0.object=group",
+   "G0.conventions=poly=low_to_high; hex=canonical_signed",
+   "G0.N=5",
+   "G0.n=2",
+   "G0.algebra=anemic",
+   "G0.operators=T_2,T_3,T_7,T_13",
+   "G0.descent_ref.record_fnv1a64=0x22d6514155e9be8f",
+   "G0.status=final",
+   "G1.b1=4",
+   "G1.e_k=2",
+   "G1.d=2",
+   "G1.d_source=hES_N_an",
+   "G1.reduced_Q=true",
+   "G1.C1.status=certified",
+   "G1.C1.deg_f=2",
+   "G1.P=2,3,7",
+   "G1.theta=1,0,0",
+   "G1.components[0].type=eis",
+   "G1.components[0].degree=1",
+   "G1.components[0].mult=2",
+   "G1.components[0].p0=T_2",
+   "G1.components[0].minpoly=[-0x9,0x1]",
+   "G1.components[0].lambda_theta=0x9",
+   "G1.components[1].type=cusp",
+   "G1.components[1].degree=1",
+   "G1.components[1].mult=not_run",
+   "G1.components[1].p0=T_2",
+   "G1.components[1].minpoly=[0x4,0x1]",
+   "G1.components[1].irreducible=true",
+   "G1.S_cand.ell=2.reason=torsion",
+   "G1.S_cand.ell=2.v_disc=0",
+   "G1.S_cand.ell=13.reason=disc_square,congruence",
+   "G1.S_cand.ell=13.v_disc=2",
+   "G1.disc.digest=0xa785d0fafe52dc9f",
+   "G1.disc.bits=8",
+   "G1.disc.gcd.factor.q=0xd.e=2",
+   "G1.disc.gcd.factor.q=0xd.prime_proof=small",
+   "G1.disc.gcd.cofactor=0x1",
+   "G1.disc.gcd.cofactor_test=one",
+   "G1.C2_status=complete",
+   "G1.discriminants_used=(1 0 0),(0 1 0),(0 0 1)",
+   "G2.ell=2.theory=H",
+   "G2.ell=2.generation.status=certified",
+   "G2.ell=2.generation.route=saturation",
+   "G2.ell=2.generation.dim_A1=2",
+   "G2.ell=2.t_ell=in_P",
+   "G2.ell=2.maximal_ideals=certified",
+   "G2.ell=2.decomposed_by=theta=(1 0 0)",
+   "G2.ell=2.m[0].residue_degree=1",
+   "G2.ell=2.m[0].residue_poly=[0,1]",
+   "G2.ell=2.m[0].support=both",
+   "G2.ell=2.m[0].degree_attr=not_run",
+   "G2.ell=2.m[0].local_type.kind=etale",
+   "G2.ell=2.m[0].local_type.rank=1",
+   "G2.ell=2.m[0].local_type.embdim=0",
+   "G2.ell=2.m[0].local_type.gorenstein=true",
+   "G2.ell=2.m[0].local_type.length_mod_l=1",
+   "G2.ell=2.m[0].local_type.hilbert=1",
+   "G2.ell=2.m[0].local_type.loewy=1",
+   "G2.ell=2.m[0].components_through.eis=not_run",
+   "G2.ell=2.m[0].components_through.cusp=certified",
+   "G2.ell=2.m[1].residue_degree=1",
+   "G2.ell=2.m[1].residue_poly=[1,1]",
+   "G2.ell=2.m[1].support=free",
+   "G2.ell=2.m[1].degree_attr=not_run",
+   "G2.ell=2.m[1].local_type.kind=etale",
+   "G2.ell=2.m[1].local_type.rank=1",
+   "G2.ell=2.m[1].local_type.embdim=0",
+   "G2.ell=2.m[1].local_type.gorenstein=true",
+   "G2.ell=2.m[1].local_type.length_mod_l=1",
+   "G2.ell=2.m[1].local_type.hilbert=1",
+   "G2.ell=2.m[1].local_type.loewy=1",
+   "G2.ell=2.m[1].components_through.eis=certified",
+   "G2.ell=2.m[1].components_through.cusp=not_run",
+   "G2.ell=13.theory=H",
+   "G2.ell=13.generation.status=certified",
+   "G2.ell=13.generation.route=saturation",
+   "G2.ell=13.generation.dim_A1=2",
+   "G2.ell=13.t_ell=added",
+   "G2.ell=13.maximal_ideals=certified",
+   "G2.ell=13.decomposed_by=theta=(1 0 0)",
+   "G2.ell=13.m[0].residue_degree=1",
+   "G2.ell=13.m[0].residue_poly=[4,1]",
+   "G2.ell=13.m[0].support=free",
+   "G2.ell=13.m[0].local_type.kind=monogenic",
+   "G2.ell=13.m[0].local_type.rank=2",
+   "G2.ell=13.m[0].local_type.embdim=1",
+   "G2.ell=13.m[0].local_type.gorenstein=true",
+   "G2.ell=13.m[0].local_type.length_mod_l=2",
+   "G2.ell=13.m[0].local_type.hilbert=1,1",
+   "G2.ell=13.m[0].local_type.loewy=2",
+   "G2.ell=13.m[0].components_through.eis=certified",
+   "G2.ell=13.m[0].components_through.cusp=certified",
+   "G2.ell=13.m[0].pair_kinds[eis,cusp].depth=1",
+   "G2.ell=13.m[0].pair_kinds[eis,cusp].status=certified",
+   "G2.ell=13.m[0].pair_kinds[eis,cusp].kind=meeting",
+   "G3.partition=eisenstein",
+   "G3.S=0",
+   "G3.S_prime=1",
+   "G3.C_T.ell=13.upper_v=1",
+   "G3.C_T.ell=13.read=certified",
+   "G3.C_T.ell=13.status=certified",
+   "G3.C_T.ell=13.lower_v=1",
+   "G3.eta_L.ell=13.exponents=1",
+   "G3.eta_L.ell=13.r=1",
+   "G3.eta_L.ell=13.sign=both",
+   "G3.C_T.upper=13^1",
+   "G3.C_T.cofactor=0x1",
+   "G3.C_T.cofactor_test=one",
+   "G3.C_T.status=certified",
+   "G3.C_T.exact=0xd",
+   "G3.fibre_product=certified",
+   "G4.ell=2.pt[0].J.status=bounds",
+   "G4.ell=2.pt[0].J.lower=0",
+   "G4.ell=2.pt[0].J.upper=2",
+   "G5.q=1.ell=2.pt[0].system=T_2:[0,1];T_3:[0,1];T_7:[0,1]",
+   "G5.q=1.ell=2.pt[0].relation_to_free=agrees_on_P",
+   "G5.q=1.ell=2.pt[0].generation_tors=not_run",
+   "G6.q=1.ell=2.pt[0].split=split_on_P",
+   "G6.q=1.ell=2.pt[0].hom_order=2",
+   "G6.q=1.ell=2.tor_ref=descent:(q=1,ell=2)",
+   "G7.pair=not_run",
+   "G7.theory=H_c",
+   "G7.hecke=not_run"
+  ]
+ ],
+ "wall": "0:01.07",
+ "rss_kb": 156836
+}

@@ -1,0 +1,424 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 03 section of the submission report (proof outlines condensed from mathematics/chapters/s03; statements verbatim).
+% Note: the literature pointers (chapter macro lit{stem}{loc}) of the chapter text (also inside the verbatim boxes) were mechanically
+% converted to \cite[loc]{KEY} with the keys of report.bib; nothing else in the boxes was changed except \ref -> main.pdf numbers.
+\subsection{Stage 03: weighted graphs, the definite Ribet sequence and the Ihara lemma}\label{ss:stage03}
+
+Stage 03 realises Ribet's integral comparison of character groups combinatorially. It attaches to a finite weighted graph
+the lattice $X(\G)$ and the finite group $\Phicomb(\G)$, checks them against Mazur's component group at level~$1$
+($\Phicomb\cong\Z/\mathrm{num}\frac{q-1}{12}$), proves that $\Phicomb$ is Eisenstein, and proves the definite Ribet sequence as the
+homology sequence of a \emph{vertex collapse} of the bipartite Brandt graph of stage 02. The surjectivity in that sequence is the
+definite Ihara lemma, and its cokernel with coefficients is computed, with Hecke action, as the Eisenstein module $V_{U^1_p}$.
+Finally the Betti side for $\GL_2$ (amalgam, Mayer--Vietoris, $\Psi^*\Psi$) is recorded; the $\GL_2$ Ihara lemma in Betti
+form stays a conjecture. The stage feeds stage 04 (ordinary Ribet sequence), stage 05 (identification with character groups) and stage 06
+(the level-raising module). In main.pdf it occupies pp.~76--107 (Sections 8--12).
+
+\subsubsection*{Key definitions}
+\begin{itemize}
+\item \emph{Weighted graph} (main.pdf, Def.~8.1, p.~76). A finite graph $\G$ (loops and multiple edges allowed) with oriented edges
+  $o,t:E\to V$, chain complex $\Z[E]\xrightarrow{\partial}\Z[V]$, $\partial e=t(e)-o(e)$, and weights $w_e\in\Z_{\ge1}$. Put
+  $X(\G):=H_1(\G)=\ker\partial$, $\langle e,e'\rangle_w=w_e\delta_{ee'}$, and
+  \[\Phicomb(\G):=\coker\big(X(\G)\to\Hom(X(\G),\Z),\ x\mapsto\langle x,\cdot\rangle_w\big).\]
+  Since $\langle,\rangle_w$ is positive definite, $|\Phicomb(\G)|=\det G$ for any Gram matrix $G$ of a basis of $X(\G)$, and
+  $\Phicomb$ is independent of the orientation \stproved{} (basic facts after Def.~8.1). For a semistable curve with dual graph $\G$ and
+  thicknesses $w_e$ this is the component group of the N\'eron model \cite[IX]{SGA7}, \cite[Prop.~2.2, Thm.~2.3, p.~436]{Ri90}
+  \stcited{} (main.pdf, Remark~8.2); the tree route does \emph{not} use this dictionary.
+\item \emph{DR graph} (main.pdf, Def.~8.6, p.~78). For $B=B_q$ (ramified at $\{q,\infty\}$) and $U=\Uone{Mp^s}$ or $\Uzero M$,
+  $\GDR_q(U)$ is the two-vertex weighted graph with edge set $\XBq U$, every edge oriented $0\to1$, and
+  $w_e=|\Gamma_e/(\Gamma_e\cap\{\pm1\})|$, $\Gamma_e=B^\times\cap xUx^{-1}$ for $e=[x]$. Then $X(\GDR_q(U))=\Z[\XBq U]^0$.
+  For $s\ge1$ all $w_e=1$ and $\Phicomb\cong\Z/|\XBq{\Uone{Mp^s}}|$ \stproved{}; the interesting case is the maximal level $M=1$,
+  $U=\hat\cO^\times$, where the weights are the half-orders of the unit groups of the maximal orders.
+\item \emph{Bipartite Brandt graph and condition (iii)} (main.pdf, Def.~7.8, Prop.~7.9, stage 02). For $q\nmid D$ and a $q$-admissible
+  level $U$ of $B=\Bd$ (Def.~7.4), let $U'=\Uzero qU$ be the Iwahori level at $q$, $\alpha=\iota_q^{-1}\mathrm{diag}(1,q)$, and
+  $s_0[y]=[y]$, $s_1[y]=[y\alpha]$, $\XB{U'}\to\XB U$. $\BG(U,q)$ has vertex parts $V_0=V_1=\XB U$, edge set $\XB{U'}$, $o=s_0$, $t=s_1$.
+  Condition (iii) is: \emph{$\BG(U,q)$ is connected}. It is a finite check at one level, and it is implied by
+  $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}$. Under (iii), $\GU\backslash\cT_q\cong\BG(U,q)$ for the norm-one $S$-arithmetic group
+  $\GU=\cO_U[\frac1q]^1$ (main.pdf, Prop.~7.10(a)).
+\item \emph{Conventions (C1)--(C6)} (main.pdf, \S11.1, p.~91). (C1) edges are oriented from type $0$ to type $1$, so
+  $\alpha:=(-s_{0*},s_{1*}):\Z[\XB{U'}]\to\Z[\XB U]^2$ and $\alpha^\vee(f_0,f_1)=s_1^*f_1-s_0^*f_0$ (Ribet's
+  $\delta=(s_{0*},s_{1*})$ differs by $(x,y)\mapsto(-x,y)$). (C2) $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$, so the mass formula reads
+  $\sum_xw_x^{-1}=\frac1{12}\prod_{\ell\mid D}(\ell-1)$. (C3) $s_{j*}$ on Brandt modules $\Brandt UV$ are the traces over $U/U'$, resp.\
+  $U/\alpha^{-1}U'\alpha$. (C4) $(T_gf)(x)=\sum_if(xg_i)$ (cohomological). (C5) $\tau(x):=(t_{\Nrd x})_p\in\Zp^\times$, where
+  $a=r_at_a$, $r_a\in\Q_{>0}$, $t_a\in\Zhat^\times$; then $\tau(\gamma xu)=\tau(x)\det(u_p)$, $\tau(x\alpha)=q^{-1}\tau(x)$.
+  (C6) $U^1_p:=U_p\cap\SL_2(\Zp)$, and $[t]$ is the action of any $u\in U_p$ with $\det u=t$ on $V_{U^1_p}$ and on $V^{U^1_p}$.
+\end{itemize}
+
+\subsubsection*{Main results and proof outlines}
+
+\paragraph{1. Two-vertex graphs and the Mazur check.} Everything at level $1$ reduces to the following linear algebra.
+
+\begin{quoted}{Proposition}{8.3}{76}{prop:s03-phi}{two-vertex graphs; seed Prop.~phi}{chapters/s03/1-graphs.tex}\label{rpt:prop:s03-phi}
+Let $\G$ have two vertices $v_0\ne v_1$ and $E\ne\emptyset$, and let every edge be oriented from $v_0$ to $v_1$. Then $X(\G)=\Z[E]^0$ and $\Phicomb(\G)=\Z^E/(W\Z[E]^0+\Z\mathbf1)$, where
+$W=\mathrm{diag}(w_e)$. Moreover
+\[|\Phicomb(\G)|=\Big(\prod_ew_e\Big)\sum_e\frac1{w_e}=\sum_e\prod_{e'\ne e}w_{e'}.\]
+If all $w_e=1$, then $\Phicomb\cong\Z/|E|$. In general $\Phicomb$ is not cyclic: $w=(2,2,2)$ gives $\Z/2\times\Z/6$.
+For an arbitrary orientation of the edges the order formula and the isomorphism class of $\Phicomb$ are unchanged (fact~(3)), but $X(\G)$ is
+$\Z[E]^0$ only after the sign change of the reversed edges. For $E=\emptyset$ one has $\Phicomb=0$ of order $1$ while the sum is $0$, so the
+formula fails; this case is excluded.
+\stproved{} (proof below; finite linear algebra). Lean (S03-L3): \lean{Langlandscape.Graph.twoVertex\_X\_eq\_deg0},
+\lean{Langlandscape.Graph.phiComb\_twoVertex\_equiv}, \lean{Langlandscape.Graph.card\_phiComb\_twoVertex},
+\lean{Langlandscape.Graph.phiComb\_twoVertex\_unit} \stformal{}, for $E\ne\emptyset$ and all edges oriented $v_0\to v_1$ (the Lean hypotheses
+\texttt{Nonempty G.E}, \texttt{hsrc}, \texttt{htgt}). The orientation-independence step (fact~(3)) and the example $w=(2,2,2)$ are not formalized.
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=(\arabic*)]
+\item $\partial(\sum x_ee)=(\sum x_e)(v_1-v_0)$, so $X(\G)=\Z[E]^0$. \stproved
+\item Restriction $\Z^E\to\Hom(\Z[E]^0,\Z)$ is onto with kernel $\Z\mathbf1$, and $x\mapsto\langle x,\cdot\rangle_w$ becomes $x\mapsto Wx$; this gives the
+  presentation. \stproved
+\item In the basis $b_i=e_i-e_n$ the Gram matrix is $D+w_n\mathbf u\mathbf u^{\mathsf T}$ with $D=\mathrm{diag}(w_1,\dots,w_{n-1})$; the matrix
+  determinant lemma gives $\det G=\prod_iw_i\sum_iw_i^{-1}$. For $w=(2,2,2)$, $G=\left(\begin{smallmatrix}4&2\\2&4\end{smallmatrix}\right)$ has Smith form $\mathrm{diag}(2,6)$. \stproved
+\end{enumerate}
+More generally $|\Phicomb(\G)|=\sum_T\prod_{e\notin T}w_e$ over spanning trees of a connected $\G$ (weighted matrix-tree theorem, by Cauchy--Binet;
+main.pdf, Remark~8.5, \stproved).
+\end{outline}
+
+\begin{quoted}{Lemma}{8.4}{77}{lem:s03-cyclic}{cyclicity}{chapters/s03/1-graphs.tex}\label{rpt:lem:s03-cyclic}
+In the situation of Prop.~8.3, put $W:=\prod_ew_e$, $n:=|\Phicomb(\G)|$ and $\lambda(x):=\sum_e(W/w_e)x_e$. Then
+$\lambda$ induces a homomorphism $\bar\lambda:\Phicomb(\G)\to\Z/n$. It is surjective, hence an isomorphism, if and only if
+$\gcd_e(W/w_e)=1$. This holds in particular when the $w_e$ are pairwise coprime (any number of $1$'s allowed). \stproved{} (proof below;
+the stage tex has \sttoprove). Lean (S03-L4): \lean{Langlandscape.Graph.lambdaBar},
+\lean{Langlandscape.Graph.lambdaBar\_surjective\_iff}, \lean{Langlandscape.Graph.lambdaBar\_bijective\_of\_pairwise\_coprime} \stformal{}
+(for two-vertex graphs with $E\ne\emptyset$, edges $v_0\to v_1$), with $\lambda$ itself as \lean{Langlandscape.Graph.lambdaMap} \stformal{} (a Lean definition on $\Z[E]$ with the
+same formula).
+\end{quoted}
+\begin{outline}
+$\lambda(\mathbf1)=W\sum_ew_e^{-1}=n$ and $\lambda(Wx)=W\sum_ex_e=0$ on $\Z[E]^0$, so $\lambda$ descends. Its image is $d\Z/n\Z$ with
+$d=\gcd_e(W/w_e)$, of order $n/d$; a surjection between groups of order $n$ is bijective. If a prime $r$ divided $d$, it would divide some
+$w_{e_0}$ and hence (pairwise coprimality) not $W/w_{e_0}$. \stproved
+\end{outline}
+
+\noindent\emph{The elliptic classes} (main.pdf, Lemma~8.7, p.~78, \stpmc). For $q\ge5$, $B=B_q$, $U=\hat\cO^\times$: every $w_x\in\{1,2,3\}$,
+$n_2:=\#\{x:w_x=2\}=\frac12(1-(\frac{-4}q))$ and $n_3:=\#\{x:w_x=3\}=\frac12(1-(\frac{-3}q))$. Outline: by the list of finite unit groups of
+quaternion orders \cite[Thm~11.5.14, p.~176]{Vo} \stcited, $\cO_x^\times$ is cyclic of order $2,4,6$ or binary dihedral of order $12$ or binary
+tetrahedral of order $24$; the last two force $B\cong(-3,-1)_\Q$ resp.\ $(-1,-1)_\Q$ (explicit quaternion relations, Hilbert symbols), ramified at
+$\{3,\infty\}$ resp.\ $\{2,\infty\}$, impossible for $q\ge5$ \stproved. The counts follow by subtracting the mass formula
+$\sum_xw_x^{-1}=\frac{q-1}{12}$ (main.pdf, Thm.~2.1(a); \cite[Thm~25.1.1, p.~415]{Vo}) from the Eichler class number formula
+$h=\frac{q-1}{12}+\frac{\epsilon_2}4+\frac{\epsilon_3}3$ (\cite[Thm~30.1.5, p.~543]{Vo}), both \stcited: $3n_2+4n_3\in\{0,3,4,7\}$ has a unique
+solution. In Lean the statement is the registered hypothesis \pathtt{Hyp.EllipticCount}.
+
+\begin{quoted}{Proposition}{8.8}{79}{prop:s03-mazur}{Mazur check; seed Example mazur}{chapters/s03/1-graphs.tex}\label{rpt:prop:s03-mazur}
+For every prime $q$,
+\[\Phicomb\big(\GDR_q(\hat\cO^\times)\big)\ \cong\ \Z\big/\mathrm{num}\tfrac{q-1}{12},\]
+and this group is cyclic, generated via $\bar\lambda$ of Lemma~8.4. For $q\in\{2,3\}$ both sides are trivial.
+\stpmc: Lemma~8.7, Prop.~8.3, Lemma~8.4. Lean (S03-L5, L6):
+\lean{Langlandscape.Graph.mazurNum}, \lean{Langlandscape.Graph.mazur\_prod\_mul\_sum}, \lean{Langlandscape.Graph.mazur\_weights\_pairwise\_coprime}
+\stformal{} (abstract arithmetic core: for weights in $\{1,2,3\}$ with the counts $n_2,n_3$ and $\sum w^{-1}=\frac{q-1}{12}$ one has
+$\prod w\cdot\sum w^{-1}=\mathrm{num}\frac{q-1}{12}$, and the weights are pairwise coprime; $q\ge5$ only); the identification of the weights with the DR graph
+(\lean{Langlandscape.Ribet.sum\_inv\_wx\_Ohat}, \lean{Langlandscape.Ribet.mazur\_check}, \stformal{} modulo the registered hypothesis \lean{Langlandscape.Hyp.EllipticCount} (and \pathtt{Hyp.EichlerMass})); the cases $q=2,3$ are \stformal{} as well, through the $q\le3$ clause of the same hypothesis \lean{Langlandscape.Hyp.EllipticCount} (which asserts $|\XB{\hat\cO^\times}|=1$ there; \lean{Langlandscape.Ribet.mazur\_check} covers every prime $q$), so the chapter's elementary derivation of that case is not formalized
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=(\arabic*)]
+\item ($q\ge5$.) By Lemma~8.7, $\prod_ew_e=2^{n_2}3^{n_3}=12/g$ with $g=\gcd(q-1,12)$ (check $q\bmod4$ and $q\bmod3$). \stpmc
+\item Prop.~8.3 and the mass formula: $|\Phicomb|=\prod w_e\cdot\sum w_e^{-1}=\frac{12}g\cdot\frac{q-1}{12}=\frac{q-1}g=\mathrm{num}\frac{q-1}{12}$. \stpmc{} (mass formula cited)
+\item The weights lie in $\{1,2,3\}$ with $2$ and $3$ each occurring at most once, hence are pairwise coprime; Lemma~8.4 gives
+  $\bar\lambda:\Phicomb\xrightarrow\sim\Z/\mathrm{num}\frac{q-1}{12}$. \stproved
+\item ($q\in\{2,3\}$.) The mass is $\frac1{12}$ resp.\ $\frac16$, each $w_x\le12$ (resp.\ $\le6$ for $q=3$, since order $24$ forces ramification at $2$),
+  so there is one class; one edge gives $\Phicomb=0$, and $\mathrm{num}\frac1{12}=\mathrm{num}\frac16=1$. \stpmc
+\end{enumerate}
+\emph{The picture.} At $M=1$ the DR graph is two vertices joined by $h=|\XBq{\hat\cO^\times}|$ edges, one for each class of maximal orders of
+$B_q$, of thickness $w_e=|\cO_e^\times|/2$. All but at most two edges are thin ($w_e=1$); at most one has thickness $2$ (present iff
+$q\equiv3\bmod4$) and at most one thickness $3$ (iff $q\equiv2\bmod3$). Since $\prod w\cdot\sum w^{-1}$ is the sum over edges of the product of the
+other thicknesses, the order is $\mathrm{num}\frac{q-1}{12}$, and coprimality of the thicknesses makes $\Phicomb$ cyclic, generated by
+$\bar\lambda^{-1}(1)$. Data (\stcomp, \res{s03/T1.json}; main.pdf, Example~8.10): $q=11$: weights $(2,3)$, $\Z/5$; $q=23$: $(1,2,3)$, $\Z/11$;
+$q=37$: $(1,1,1)$, $\Z/3$; $q=101$: $(1^8,3)$, $\Z/25$; $q=131$: $(1^{10},2,3)$, $\Z/65$.
+Mazur--Rapoport--Deligne's component group of $J_0(q)$ at $q$ is cyclic of order $\mathrm{num}\frac{q-1}{12}$, generated by $(0)-(\infty)$
+\cite[App.\ Thm A.1(b), p.~173]{Mz} \stcited; the definite statement agrees in order and group structure. Identifying the two groups needs the
+dictionary of Remark~8.2 (supersingular points as edges, $e(i)=\#\mathrm{Aut}(E)/2=w_e$; \cite[Prop.~3.1, 3.3, pp.~439--440]{Ri90},
+\cite[VI Th.~6.9(iii)]{DR}, \stcited) and is \emph{not} part of the tree route (main.pdf, Remark~8.9).
+\end{outline}
+
+\paragraph{2. $\Phicomb$ is Eisenstein.} The Hecke operators prime to $qM$ act on $\Phicomb$ through their Eisenstein eigenvalues.
+
+\begin{quoted}{Proposition}{9.5}{83}{prop:s03-phieis}{$\Phicomb$ is Eisenstein}{chapters/s03/2-eisenstein.tex}\label{rpt:prop:s03-phieis}
+Let $q$ be any prime, $U=\Uzero M$, $B=B_q$, $\ell\nmid qM$, and let $T_\ell$ act on $\Z[\XBq U]$ by the Brandt matrix (homological
+convention, $[x]\mapsto\sum_i[xg_i]$). Then $T_\ell$ is self-adjoint for $\langle,\rangle_w$, so it acts on $\Phicomb(\GDR_q(U))$, and
+$T_\ell-(1+\ell)$ annihilates $\Phicomb(\GDR_q(U))$. \stproved{} (proof below, steps (1)--(4); valid for all primes $q$, including $q\in\{2,3\}$, and all
+$M$ with $q\nmid M$ and $\ell\nmid qM$; it uses Lemma~9.2, Prop.~3.3(a),(b), Prop.~8.3, and the
+finiteness of $\XBq U$, Prop.~1.6, which makes $\GDR_q(U)$ a finite graph). Lean: abstract core \stformal{}: \lean{Langlandscape.Graph.heckeQ} and \lean{Langlandscape.Graph.phiComb\_eisenstein} (steps (2)--(4), abstract: an integer matrix $B$ with row sums $\ell+1$,
+$w_{e'}B(e,e')=w_eB(e',e)$ and $w_e\mid B(e,e')$ off the diagonal, acting on $\Phicomb$ of the two-vertex lattice $\Z[E]^0$ with weights $w_e>0$). Instantiation at $U=\hat\cO^\times$: \lean{Langlandscape.Ribet.phiComb\_eisenstein\_Ohat} \stformal{} modulo the registered hypothesis (step (1)) \lean{Langlandscape.Hyp.BrandtStabFree}.
+
+Cross-references (not needed for the proof): [Ri90, Thm~3.12, p.~449; proof pp.~449--450, Remark~3.13] \stcited{}
+\cite[Thm 3.12, p.~449]{Ri90}. Ribet's $\Phi=\coker(\iota)$ is our
+$\Phicomb$, and his proof is the divisibility of the off-diagonal Brandt entries $B_\ell(i,j)$ by $e(i)=w_i$, which is step~(1) below, a purely quaternionic
+fact. The geometric analogue for $\Phi_{N,p}$ is [Ed91, Th.~1, p.~163] \stcited{}
+\cite[Edixhoven, Th\'eor\`eme~1, p.~163]{Ed91}, which assumes $p>3$.
+\end{quoted}
+\begin{outline}
+Write $B(e,e')$ for the Brandt matrix, $T_\ell[e]=\sum_{e'}B(e,e')[e']$.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{$w_e\mid B(e,e')$ for $e\ne e'$} (main.pdf, Lemma~9.2). Neighbours of $x$ are the index-$\ell$ sublattices of $L_x=x_\ell\Z_\ell^2$
+  (Lemma~9.1, \stproved), and $\Gamma_x/\{\pm1\}$ acts on them preserving classes. If $\gamma\ne\pm1$ fixes a neighbour $h$, then
+  $\gamma$ has finite order, $\Nrd\gamma=1$, $\Trd\gamma\in\{-1,0,1\}$, so $A=\Z[\gamma]\in\{\Z[i],\Z[\omega]\}$ is a PID; $L_x$ is free of rank one over
+  $\Z_\ell[\gamma]$, the fixed sublattice is $\pi L_x$ with $\pi\in A$, $\Nrd\pi=\ell$, and globally $hU=\pi xU$, so $[h]=[x]$. Hence the action on
+  neighbours in other classes is free. \stproved{} (elementary; all $q$, all $\ell\nmid qM$, including $\ell\in\{2,3\}$; Lean: \pathtt{Hyp.BrandtStabFree}, discharged by \BSFdischargeName)
+\item \emph{Symmetry} $w_{e'}B(e,e')=w_eB(e',e)$: from main.pdf, Prop.~3.3(a) ($T_g^*=T_{g^{-1}}$) and (b) ($S_\ell=1$ at level $\Uzero M$). This is self-adjointness of
+  $T_\ell$ for $\langle,\rangle_w$; so $S(e,e'):=B(e,e')/w_e$ is a symmetric integer matrix off the diagonal. \stproved
+\item On $\Z^E/\Z\mathbf1=\Hom(X,\Z)$, $((T_\ell^\vee-(\ell+1))\varphi)(e)=\sum_{e'\ne e}B(e,e')(\varphi(e')-\varphi(e))=w_ey_e$ with
+  $y_e=\sum_{e'\ne e}S(e,e')(\varphi(e')-\varphi(e))$, and $\sum_ey_e=0$ by symmetry of $S$. \stproved
+\item So $(T_\ell^\vee-(\ell+1))\Z^E\subseteq W\Z[E]^0$, which is the image of $X$; hence $T_\ell-(1+\ell)$ kills $\Phicomb$. \stproved
+\end{enumerate}
+Checked numerically for $\ell\le13$ in all rows of \res{s03/T1.json} \stcomp.
+\end{outline}
+
+\noindent\rptnum{9.7}\label{rpt:prop:s03-LRdef}\emph{The definite level-raising operator} (main.pdf, Prop.~9.7, p.~85, \stproved; Lean core and the instantiations at $\hat\cO^\times$ and
+$\Uzero M$ \stformal). For $B=\Bd$, $q\nmid DM$, $U=\Uzero M$, the weighted adjoints $s_j^\dagger$ of $s_{j*}$ are integral,
+$s_j^\dagger[x]=\sum_{u\in U/U'_j}[xua_j^{-1}]'$, and on $(\Z[\XB U]^0)^2$
+\[\alpha\alpha^\dagger=\begin{pmatrix}q+1&-T_q\\-T_q&q+1\end{pmatrix},\qquad \det=(q+1)^2-T_q^2,\]
+the definite analogue of Ribet's $\mu$ \cite[pp.~454--455]{Ri90}. Outline: $s_{j*}s_j^\dagger=[U:U'_j]=q+1$; $s_{1*}s_0^\dagger=T_\alpha=T_q$ since
+$U\alpha U=\coprod_{u\in U/U'}u\alpha U$; $s_{0*}s_1^\dagger=T_{\alpha^{-1}}=T_q^\dagger$, which equals $T_q$ at level $\Uzero M$ because $z_q$ acts trivially.
+Example (main.pdf, Example~9.8, \stcomp, \res{s03/T2.json}): $B_{11}$, $q=2$, $M=1$: $T_2=-2$ on $\Z[\XB U]^0$, $\det\alpha\alpha^\dagger=9-4=5$,
+which is also $|\Phicomb|$ of the collapsed two-vertex graph with edge weights $(2,1,1)$.
+
+\paragraph{3. The definite Ribet sequence as a vertex collapse.} The combinatorial core contains no quaternions.
+
+\begin{quoted}{Lemma}{10.1}{87}{lem:s03-bip}{bipartite collapse}{chapters/s03/3-ribet.tex}\label{rpt:lem:s03-bip}
+Let $\G$ be a finite \emph{connected} bipartite multigraph with parts $V_0,V_1$, edge set $E$, and maps $s_j:E\to V_j$. Put
+$\partial=(-s_{0*},s_{1*}):\Z[E]\to\Z[V_0]\oplus\Z[V_1]$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\ker\partial\subseteq\Z[E]^0$, and $\partial$ restricts to a surjection $\Z[E]^0\twoheadrightarrow\Z[V_0]^0\oplus\Z[V_1]^0$.
+  Hence there is an exact sequence $0\to H_1(\G)\to\Z[E]^0\to\Z[V_0]^0\oplus\Z[V_1]^0\to0$, and $\rk H_1=|E|-|V_0|-|V_1|+1$.
+\item For every abelian group $A$, the kernel of $\partial^\vee:A^{V_0}\oplus A^{V_1}\to A^E$, $(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0$, is
+  the diagonal $\{(c\mathbf1,c\mathbf1):c\in A\}$.
+\item If $E\ne\emptyset$ (equivalently, $V_0,V_1\ne\emptyset$), the sequence in (a) is the long exact homology sequence of the collapse
+  $\G\to\G^{(2)}$ onto the graph with the same edges and two vertices. The connecting map is $\partial|_{\Z[E]^0}$. (If $E=\emptyset$, $\G$ is a
+  single vertex and the sequence in (a) is $0$.)
+\end{enumerate}
+Parts (a) and (c) hold verbatim with $\Z$ replaced by any commutative ring $R$ ($R[E]$, $R[V_j]^0$, $H_1(\G,R)=\ker\partial$); the rank formula holds
+for $R=\Z$ and for $\rk_R$ over any integral domain $R$. \stproved{} (proof below; the stage tex has \sttoprove; the seed's proof of Thm ribet(a)
+is (c)). This is the Lean target: no quaternions are involved. Lean (S03-L2, any \texttt{CommRing R}): \lean{Langlandscape.Graph.bip\_ker\_le\_deg0}, \lean{Langlandscape.Graph.bip\_surj\_deg0}, \lean{Langlandscape.Graph.bip\_exact}, \lean{Langlandscape.Graph.bip\_rank} (over $\Z$), \lean{Langlandscape.Graph.bip\_ker\_dual} (any \texttt{AddCommGroup A}), \lean{Langlandscape.Graph.bip\_collapse\_connecting}, \lean{Langlandscape.Graph.bip\_collapse\_exact}, \lean{Langlandscape.Graph.bip\_collapse\_surjective} \stformal{}
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{Image of $\partial$.} $\partial e=[t(e)]-[o(e)]$, so $\mathrm{aug}\circ\partial=0$; conversely each $[v]-[v_*]$ is a telescoping sum of $\pm\partial e$
+  along a path, by connectedness. So $\partial(R[E])=\ker(\mathrm{aug})$. \stproved
+\item (a) $s_{1*}$ sends basis vectors to basis vectors, so $\deg y=\deg s_{1*}y$; this gives $\ker\partial\subseteq R[E]^0$ and the surjection onto the
+  degree-zero parts. The rank formula is additivity of rank on $0\to H_1\to\Z[E]\to\Z[V_0]\oplus\Z[V_1]\to\Z\to0$. \stproved
+\item (b) $\partial^\vee(f_0,f_1)=0$ iff the function $F=f_0\sqcup f_1$ on $V_0\sqcup V_1$ is constant along edges, iff $F$ is constant (connectedness). \stproved
+\item (c) The collapse $\pi:\G\to\G^{(2)}$ (identity on edges, $V_j\mapsto j$) is surjective on chains with kernel $K_\bullet$, $K_1=0$,
+  $K_0=R[V_0]^0\oplus R[V_1]^0$. In the long exact sequence $H_1(\G^{(2)})=R[E]^0$, $H_0(K)=K_0$, $H_0(\G)\to H_0(\G^{(2)})$ is the identity of $R$, and the connecting
+  map is $y\mapsto\partial y$. \stproved
+\end{enumerate}
+\end{outline}
+
+\begin{quoted}{Theorem}{10.2}{89}{thm:s03-ribet}{definite Ribet sequence as a vertex collapse; seed Thm ribet}{chapters/s03/3-ribet.tex}\label{rpt:thm:s03-ribet}
+Let $q\nmid D$, $U$ as in \texttt{if:s02-quot}, $\G:=\GU\quot\cT_q$, and $|\G|$ its underlying graph, with the orientation (C1).
+\begin{enumerate}[label=(\alph*)]
+\item Over $\Z$ there is an exact sequence, equivariant for all Hecke operators $T=[UgU]$ with $g$ supported at a finite set $\Sigma\not\ni q$ of
+  places at which $U$ is factorisable (Prop.~7.10(c); this holds for all standard levels):
+  \[0\to H_1(|\G|,\Z)\to\Z[\XB{U'}]^0\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\big(\Z[\XB U]^0\big)^{2}\to0.\]
+\item Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Then, with the traces of (C3),
+  \[0\to H_1(\GU,V)\to\Brandt{U'}V\xrightarrow{\alpha}\Brandt UV^{2}\to H_0(\GU,V)\to0.\]
+\item $\rk_\Z H_1(|\G|)=|\XB{U'}|-2|\XB U|+1$. At a level where all $\Gamma_x$ are trivial, this is $(q-1)|\XB U|+1$, as in
+  \pathtt{if:s02-indef}. For $V=\Zp$, $p\ge5$: $H_1(\GU,\Zp)=H_1(|\G|,\Z)\otimes\Zp$.
+\end{enumerate}
+Part (a) holds over every commutative ring $R$ in place of $\Z$ (with $H_1(|\G|,R)$).
+\emph{Status.} Given (iii): (a), (c) first two sentences \stproved{} (Lemma~10.1 and Prop.~7.10); (b) and the last
+sentence of (c) \stpmc{} (Prop.~7.18(b), which rests on the cited tree property and Shapiro's lemma; Lean \pathtt{Hyp.SerreCoh}). Without
+assuming (iii): \stpmc{} via $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}\Rightarrow$(iii) (Prop.~7.10). The definite form of Ribet's
+surjectivity is [Ri90, Thm~3.15, p.~451]
+\cite[Thm 3.15, p.~451]{Ri90} \stcited. Ribet proves it with Eichler's
+theorems. [Ri90, Rem.~3.18, p.~452]
+\cite[Rem.~3.18, p.~452]{Ri90} records the graph-connectivity
+proof (Livn\'e, Edixhoven), which is ours. Lean (S03-L9, any \texttt{CommRing R}, under \pathtt{Tree.BGConnected}, or under $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}$ in the \texttt{\_of\_SA\_HS} versions): \lean{Langlandscape.Ribet.ribet\_exact}, \lean{Langlandscape.Ribet.ribet\_rank}, \lean{Langlandscape.Ribet.ribet\_hecke\_equivariant}, \lean{Langlandscape.Ribet.boundary\_BG\_eq}, \lean{Langlandscape.Ribet.boundary\_BG\_apply}, \lean{Langlandscape.Ribet.ribet\_exact\_of\_SA\_HS}, \lean{Langlandscape.Ribet.ribet\_rank\_of\_SA\_HS} \stformal{} for (a) and the rank in (c);
+coefficient layer for (b), definitions and compatibilities only (S03-L14): \lean{Langlandscape.Ribet.CoeffData}, \lean{Langlandscape.Ribet.CoeffData.ofLocal},
+\lean{Langlandscape.Ribet.alphaV}, \lean{Langlandscape.Ribet.alphaVee}, \lean{Langlandscape.Ribet.s0TrV\_comp\_s0PullV}, \lean{Langlandscape.Ribet.alphaV\_triv},
+\lean{Langlandscape.Ribet.alphaVee\_triv} \stformal{}; the exactness statement (b) with coefficients $V$ itself is not formalized (\leanplanned)
+\end{quoted}
+\begin{outline}
+\emph{The vertex-collapse picture.} The quotient $\GU\backslash\cT_q$ is the bipartite Brandt graph: one type-$0$ and one type-$1$ vertex for each
+class of $\XB U$, one edge for each class of the Iwahori level $\XB{U'}$, joining $s_0[y]$ to $s_1[y]$. Collapsing all type-$0$ vertices to
+one point and all type-$1$ vertices to another produces a two-vertex graph $\G^{(2)}$ with edge set $\XB{U'}$ and $H_1(\G^{(2)})=\Z[\XB{U'}]^0$; the
+kernel of the collapse on chains is concentrated in degree $0$ and equals $(\Z[\XB U]^0)^2$. The homology sequence of the collapse is the Ribet
+sequence: $H_1$ of the quotient graph (the tree model of the indefinite stage, main.pdf, Def.~7.21) is the kernel of the boundary map from the
+``old'' edge lattice to two copies of the degree-zero vertex lattice, and the boundary map is onto.
+\begin{enumerate}[label=(\arabic*)]
+\item (a) Under (iii), main.pdf, Prop.~7.10(a) identifies $|\G|$ with $\BG(U,q)$, $o=s_0$, $t=s_1$; it is connected, and Lemma~10.1(a) gives the exact
+  sequence with $\partial=\alpha$, over any $R$. \stproved{} given (iii)
+\item \emph{Hecke equivariance.} $T=[UgU]$ acts at levels $U$ and $U'$ with the same coset representatives, preserves degree zero, and commutes with
+  $s_{0*},s_{1*}$ (main.pdf, Prop.~7.10(c)); hence with $\alpha$. \stproved
+\item (b) By main.pdf, Prop.~7.18(b), $H_*(\GU,V)$ is the homology of $\partial=(-s_{0*},s_{1*})$ on the homological Brandt modules
+  \stpmc{} (tree property and Shapiro's lemma cited; Lean \pathtt{Hyp.SerreCoh}). For $p\ge5$ the norm maps are isomorphisms intertwining
+  $s_{j*}$ with the traces (Prop.~7.14(c),(d)), which transports the sequence; the summand $V^-$ on which $-1$ acts by $-1$ contributes $0$ (Remark~7.15).
+\item (c) Rank from Lemma~10.1(a); with trivial $\Gamma_x$, $|\XB{U'}|=(q+1)|\XB U|$ (Prop.~7.20(b)); the last claim is Prop.~7.22(b). \stproved{} / \stpmc
+\end{enumerate}
+$H_1(|\G|,\Z)$ differs from $H_1(\GU,\Z)$ by torsion at $2,3$ (main.pdf, Remark~10.4; e.g.\ $D=2$, $q=3$: $H_1(\GU,\Z)\cong\Z/3$, $H_1(|\G|,\Z)=0$).
+Ribet's version for $\GL_2$ character groups is (a) together with two identifications this route does not prove here: \v{C}erednik--Drinfeld, and
+$\HypX$ at a second prime (stage 05). Data (\stcomp, \res{s03/T2.json}; main.pdf, Example~10.3): $(D,q)=(2,7),(2,13),(11,2)$ give ranks $1,2,0$ in agreement with (c),
+$\coker\alpha\cong\Z$ on the full modules, and $|\Phicomb|=6,21,5$ for the collapsed graph with the edge weights $(3,3)$, $(3,3,2)$, $(2,1,1)$.
+\end{outline}
+
+\paragraph{4. The definite Ihara lemma.} Surjectivity of $\alpha$ is the definite form of Ihara's lemma; with coefficients the cokernel is
+$H_0$, which is Eisenstein.
+
+\begin{quoted}{Corollary}{10.5}{90}{cor:s03-ihara}{definite Ihara lemma, (i)--(ii); seed Cor.~ihara}{chapters/s03/3-ribet.tex}\label{rpt:cor:s03-ihara}
+(i) $\alpha$ in Thm~10.2(a) is surjective over $\Z$.
+(ii) For every abelian group $A$ (in particular $A=\F_\ell$ for every prime $\ell$), the kernel of
+$\alpha^\vee:(A^{\XB U})^2\to A^{\XB{U'}}$, $(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0$, is the line of constants $A\cdot(\mathbf1,\mathbf1)$.
+(ii$'$) Let $p\ge5$ and let $W$ be a $\Zp$-module with continuous $U_p$-action. Then
+\[\ker\big(\alpha^\vee:\Brandt UW^2\to\Brandt{U'}W\big)=\big\{(f_w,\,f_{[q]^{-1}w}):w\in W^{U^1_p}\big\},\qquad f_w(x):=[\tau(x)]^{-1}w,\]
+and this is $H^0(\GU,W)=W^{U^1_p}$.
+\stproved{} for (i), (ii) given (iii) (Lemma~10.1 and Prop.~7.10). (ii$'$): \stpmc{} (proof below, new: it checks
+$f_w\in\Brandt UW$ by (C5) and $s_1^*f_{[q]^{-1}w}=s_0^*f_w$, and uses Lemma~7.17 (given (iii); the tree property is cited)
+and the density of $\GU$ in $U^1_p$, i.e.\ Thm.~7.7; see (R4)). Here $U$ is assumed factorisable at $p$, $U=U_p\times U^{(p)}$ (true
+for all standard levels), so that $\det:U_p\to\Zp^\times$ is onto and (C6) applies; ``continuous'' refers to a Hausdorff topology on $W$ for which
+$W$ is a topological $\Zp$-module (e.g.\ $W$ finitely generated with the $p$-adic topology, or discrete). Lean (S03-L9): \lean{Langlandscape.Ribet.ihara\_surj}, \lean{Langlandscape.Ribet.ihara\_surj\_of\_SA\_HS} (i), \lean{Langlandscape.Ribet.ihara\_ker\_const}, \lean{Langlandscape.Ribet.ihara\_ker\_const\_of\_SA\_HS} (ii, any $A$) \stformal{}; (ii$'$) is not formalized.
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=(\arabic*)]
+\item (i), (ii) are Lemma~10.1(a), (b) for the connected graph $\BG(U,q)$. \stproved{} given (iii)
+\item (ii$'$), \emph{Step 1:} $f_w\in\Brandt UW$ for $w\in W^{U^1_p}$, by (C5) and since $u_p$ acts on $W^{U^1_p}$ as $[\det u_p]$. \emph{Step 2:}
+  $s_1^*f_{[q]^{-1}w}(y)=[q^{-1}\tau(y)]^{-1}[q]^{-1}w=s_0^*f_w(y)$. \stproved
+\item \emph{Step 3:} by main.pdf, Lemma~7.17 (given (iii); tree property cited) $\alpha^\vee$ is $F\mapsto F\circ\partial$ on $\GU$-equivariant cochains of the tree;
+  as $0\to C_1\to C_0\to\Z\to0$ is exact, $\ker=W^{\GU}$ (constant cochains), which corresponds to $(f_w,f_{[q]^{-1}w})$ on tree representatives. \stpmc
+\item \emph{Step 4:} $\GU$ is dense in $U^1_p$ (main.pdf, Thm.~7.7, full strong approximation) and stabilisers are closed, so $W^{\GU}=W^{U^1_p}$. \stpmc
+\end{enumerate}
+The dependence is explicit (main.pdf, table (R4), p.~91): (i), (ii) need only the finite connectivity check (iii); (ii$'$) and Thm.~11.3 need (iii) \emph{and} the density
+of $\GU$ in $U^1_p$, which the per-level check does not provide.
+\end{outline}
+
+\begin{quoted}{Theorem}{11.3}{95}{thm:s03-iharaH0}{Ihara (iii): $H_0$ and its Hecke action}{chapters/s03/4-ihara.tex}\label{rpt:thm:s03-iharaH0}
+Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Use conventions (C1)--(C6).
+\begin{enumerate}[label=(\alph*)]
+\item The map
+  \[\varepsilon:\Brandt UV^2\to V_{U^1_p},\qquad \varepsilon(f_0,f_1)=\sum_{[x]\in\XB U}w_x^{-1}\big([\tau(x)]\,f_0(x)+[q\,\tau(x)]\,f_1(x)\big)\]
+  is well defined and surjective, and $\ker\varepsilon=\mathrm{im}\,\alpha$. Hence $\coker\alpha\cong H_0(\GU,V)=V_{U^1_p}$.
+\item For $g$ supported at $\ell\nmid Dpq$, and $U$ factorisable at $\ell$, $U=U_\ell\times U^{(\ell)}$ (true for the standard levels,
+  Def.~1.2), the induced action of $T_g$ on $\coker\alpha$ is
+  \[T_g\ \longmapsto\ \deg(UgU)\cdot[\ell^{\,v_\ell(\Nrd g)}].\]
+  In particular, $T_\ell$ acts as $(1+\ell)[\ell]$ and $S_\ell$ acts as $[\ell]^2$, the exponent being $+1$. If $U_p$ contains
+  the scalars, then $[\ell]^2$ is the scalar $\ell$, which acts on $\Vk$ as $\ell^{k-2}$, in agreement with the classical
+  normalisation $S_\ell=\ell^{k-2}$. The exponent $+1$ is for the cohomological operators $T_g$; for the transposed (homological) operators of the normative convention of stage 02, \pathtt{if:s02-indef}, it is $-1$, and there $S_\ell$ acts as $[\ell]^{-2}$ (Remark~11.4,
+  exponent table, (R3)).
+\item On the $\chi$-eigenpiece of $V_{U^1_p}\otimes\cOE$ for a character $\chi:\Zp^\times\to\cOE^\times$ (via $[\cdot]$), $T_\ell$ acts by
+  $(1+\ell)\chi(\ell)$.
+\end{enumerate}
+\emph{Status.} \stpmc{} (proof below; the stage tex has \sttoprove{} with a sketch, which upgrades the seed's ``Hecke action \stsketch''). The
+well-definedness of $\varepsilon$, $\varepsilon\circ\alpha=0$, surjectivity and the formula $\varepsilon\circ T_g=\deg(UgU)[\ell^m]\circ\varepsilon$ are \stproved{}
+outright; $\ker\varepsilon\subseteq\mathrm{im}\,\alpha$ uses Cor.~10.5(ii$'$), hence (iii) and the density of $\GU$ in $U^1_p$ (full strong
+approximation, (R4)); the identification with $H_0(\GU,V)$ is Prop.~7.18(b),(c). Lean (S03-L11): the definitions \lean{Langlandscape.Ribet.tau}, \lean{Langlandscape.Ribet.diamond}, \lean{Langlandscape.Ribet.epsilon} and the predicate
+\lean{Langlandscape.Ribet.EpsWellDefined} \stformal{} (definitions only); clause (a) is the \emph{registered hypothesis} \lean{Langlandscape.Hyp.IharaH0} over
+\pathtt{Ribet.alphaV} (an assumption, not a formalized theorem); clause (b) is
+maths only here (the Hecke operators with coefficients, S04-L15a, now exist in Lean, but clause (b) itself is neither stated nor proved), \leanplanned
+\end{quoted}
+\begin{outline}
+Two auxiliary lemmas, both \stproved: the \emph{unfolding identity} (main.pdf, Lemma~11.1) $\sum_{[x]\in\XB U}w_x^{-1}\sum_{u\in U/U''}F(xu)=\sum_{[y]\in\XB{U''}}w_y^{-1}F(y)$
+for $-1\in U''\iff-1\in U$ (orbit counting, the factor-$2$ hypothesis of (C3) holds for $U'$, $U'_\alpha$, $U\cap gUg^{-1}$); and \emph{adjoints with coefficients}
+(Lemma~11.2): for $\langle f,\varphi\rangle_U=\sum_xw_x^{-1}\langle f(x),\varphi(x)\rangle$, $s_{j*}$ is adjoint to $s_j^*$, $T_g^\dagger=T_{g^{-1}}$, the
+pairing with $V^*=\Hom(V,\Qp/\Zp)$ is perfect, and $\deg(Ug^{-1}U)=\deg(UgU)$ (unimodularity).
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{(a1) Well defined:} for $x'=\gamma xu$, $\tau(x')=\tau(x)\det u_p$ and $f_j(x')=u_p^{-1}f_j(x)$, and $u_p^{-1}$ acts on $V_{U^1_p}$ as $[\det u_p]^{-1}$. \stproved
+\item \emph{(a2) $\varepsilon\circ\alpha=0$:} with $F(y)=[\tau(y)]\overline{g(y)}$, unfolding turns both components of $\varepsilon(-s_{0*}g,s_{1*}g)$ into $\sum_{[y]\in\XB{U'}}w_y^{-1}F(y)$
+  (for $s_1$ using $\tau(xu\alpha^{-1})=q\tau(x)$, which is the reason for the factor $[q]$). \stproved
+\item \emph{(a3) Onto:} the function supported on $[x]$ with value $N_xv$ maps to $[\tau(x)]\bar v$, since $H_x\subseteq U^1_p$ acts trivially on coinvariants. \stproved
+\item \emph{(a4) $\ker\varepsilon=\mathrm{im}\,\alpha$:} by Pontryagin duality and Lemma~11.2, $(\mathrm{im}\,\alpha)^\perp=\ker(\alpha^\vee)$ on $\Brandt U{V^*}^2$, which
+  by Cor.~10.5(ii$'$) with $W=V^*$ is $\{(f_\varphi,f_{[q]^{-1}\varphi})\}$; the pairing with these is $\varphi(\varepsilon(f_0,f_1))$. Hence
+  $\ker\varepsilon=(\mathrm{im}\,\alpha)^{\perp\perp}=\mathrm{im}\,\alpha$. \stpmc{} (via (ii$'$): density of $\GU$ in $U^1_p$)
+\item \emph{Identification} $\coker\alpha\cong H_0(\GU,V)=V_{U^1_p}$: Thm.~10.2(b) and main.pdf, Prop.~7.18(c). \stpmc
+\item \emph{(b)} With $m=v_\ell(\Nrd g)$, $\tau(yg)=\ell^{-m}\tau(y)$; unfolding for $W=U\cap gUg^{-1}$ and $W'=g^{-1}Wg$ gives
+  $\varepsilon(T_gf_0,T_gf_1)=[U:W'][\ell^m]\varepsilon(f_0,f_1)$ and $[U:W']=\deg(UgU)$. For $T_\ell$: $(1+\ell)[\ell]$; for $S_\ell$ ($g=z_\ell$, one coset): $[\ell]^2$.
+  A duality cross-check on $H^0$ gives the same exponent. \stproved{} (as an identity for $\varepsilon$; via $\bar\varepsilon$ it inherits (a4))
+\item \emph{(c)} is immediate from (b). \stproved
+\end{enumerate}
+\emph{Exponent.} For the homological (transposed) operators of stage 02 the exponent is $-1$: $T_\ell\mapsto(1+\ell)[\ell]^{-1}$, $S_\ell\mapsto[\ell]^{-2}$, so the
+normative $T_\ell,S_\ell$ are the classical $S_\ell^{-1}T_\ell,S_\ell^{-1}$ (main.pdf, Remark~11.4 and the exponent table, \stproved). HACS test T6 ($B_3$, tree at
+$q=2$, $p\in\{5,7\}$, $\Uone p$-level) distinguishes the two exponents and finds $+1$ (cohomological) and $-1$ (homological) as predicted \stcomp{},
+\res{s03/T6.json}. At maximal level $U_p=\GL_2(\Zp)$ and $2<k\le p+1$, $H_0(\GU,\Vk)=0$ (irreducibility of $\Sym^{k-2}\F_p^2$ and Nakayama); at
+$\Uone{p^s}$-level, $H_0\ne0$ for every $k$ (main.pdf, Remark~11.6(a),(b), \stpmc{} given Prop.~7.18(c)); the latter is the finite-level Eisenstein cokernel that stage 04 kills
+with the ordinary projector.
+\end{outline}
+
+\begin{quoted}{Corollary}{11.5}{98}{cor:s03-eis}{Eisenstein support}{chapters/s03/4-ihara.tex}\label{rpt:cor:s03-eis}
+Call a maximal ideal $\m$ of the Hecke algebra $\T$ (generated over $\Zp$ by the $T_\ell,S_\ell$ with $\ell\nmid NDpq$, where $N$ is the level of $U$ away from $Dpq$) \emph{Eisenstein}
+if there is $a\in\Z/(p-1)$ such that $T_\ell-\ell^a(1+\ell)\in\m$ and $S_\ell-\ell^{2a}\in\m$ for all such $\ell$. This implies
+Eisenstein in the sense of [DT, p.~439--440]. Then every $\m$ in the support of $H_0(\GU,V)$ is Eisenstein, and
+$H_0(\GU,V)_\m=0$ for non-Eisenstein $\m$. \stpmc{} (proof below, from Thm~11.3). The classical analogue is [DT,
+Lemma~2 and Cor.~1, pp.~445--446] \stcited{} \cite[Lemma 2, p.~445, and Cor.~1, p.~446]{DT} (Lemma~2 is the Ihara-type lemma, Cor.~1 the Eisenstein-support statement).
+Lean (planned, optional, S03-L11): \pathtt{Ribet.eis\_support\_of\_IharaH0}. \leanplanned
+\end{quoted}
+\begin{outline}
+By Thm.~11.3(b), $\T$ acts on $H_0\cong V_{U^1_p}$ through $\T\to A$, $T_\ell\mapsto(1+\ell)[\ell]$, $S_\ell\mapsto[\ell]^2$, where $A$ is the (finite, commutative) image of
+$\Zp[\Zp^\times]$. For $\m$ in the support choose a maximal ideal $\mathfrak n$ of $A$ above it (lying over); $t\mapsto[t]\bmod\mathfrak n$ is a continuous character to a finite
+field of characteristic $p$, trivial on the pro-$p$ group $1+p\Zp$, hence $t\mapsto\bar t^a$. So $T_\ell\equiv(1+\ell)\ell^a$, $S_\ell\equiv\ell^{2a}$ mod $\m$. \stpmc{}
+(inherits the status of Thm.~11.3)
+\end{outline}
+
+\paragraph{5. The Betti side for $\GL_2$.} Let $(M,q)=1$, $\Gamma=\Gamma_0(M)$, $G=\Gamma_0(M)[\frac1q]$, $\alpha'=\mathrm{diag}(q,1)$,
+$\Gamma'=\alpha'^{-1}\Gamma\alpha'$, so $\Gamma\cap\Gamma'=\Gamma_0(Mq)$; $l$ prime with $l>k$, $l\ne q$; $k\ge4$ even; $V=\Sym^{k-2}(\Z_{(l)}^2)$ (standard column
+representation).
+\begin{itemize}
+\item \emph{Amalgam} (main.pdf, Prop.~12.2, \stpmc): $G=\Gamma*_{\Gamma_0(Mq)}\Gamma'$, by \cite[II.1.4 Thm~3, p.~79]{Se} \stcited{} applied to the action on $\cT_q$;
+  Serre's hypothesis (D), density of $G$ in $\SL_2(\Qq)$, is proved elementarily from the unipotent subgroups (Lemma~12.1(d), \stproved).
+\item \emph{Mayer--Vietoris} (main.pdf, Prop.~12.3, \stpmc; \cite[III.6 Exercise, p.~74]{Br} \stcited): $0\to H^1(G,V)\to H^1(\Gamma,V)^2\xrightarrow\Psi H^1(\Gamma_0(Mq),V)\to H^2(G,V)\to0$
+  with $\Psi(x,y)=\mathrm{res}\,x-\mathrm{res}(cy)$. The end terms vanish because $\Sym^{k-2}\F_l^2$ has no invariants under $\Gamma_0(Mq)$ (also if $l\mid M$) and
+  $\Gamma$ is virtually free with torsion prime to $l$; $H^1(\Gamma,V)$ is torsion-free. By Lemma~12.8, $H^1(G,V)=0$: the kernel of $\Psi$ is killed by
+  $\det(\Psi^*\Psi)$, and no Hecke eigenvalue $\lambda$ of $T_q$ on $H^1(\Gamma,V\otimes\C)$ (cusp forms by Ramanujan--Petersson \cite[Thm.~8.2]{De74}, Eisenstein series
+  by their explicit eigenvalues, both \stcited) satisfies $\lambda^2=q^{k-2}(q+1)^2$. \stpmc
+\end{itemize}
+
+\begin{quoted}{Proposition}{12.6}{104}{prop:s03-PsiPsi}{$\Psi^*\Psi$}{chapters/s03/5-amalgam.tex}\label{rpt:prop:s03-PsiPsi}
+Put $\Psi^*(z):=\big(\mathrm{cor}^\Gamma_{\Gamma_0(Mq)}z,\ -c^{-1}\mathrm{cor}^{\Gamma'}_{\Gamma_0(Mq)}z\big)$. Then
+\[\Psi^*\Psi=\begin{pmatrix}q+1&-T'_q\\-T''_q&q+1\end{pmatrix}\ \text{ on }H^1(\Gamma,V)^2,\qquad
+T'_q=\mathrm{cor}\circ\mathrm{res}\circ c,\quad T''_q=c^{-1}\circ\mathrm{cor}'\circ\mathrm{res}.\]
+Here $T'_q=T_{\alpha'^{-1}}$ is the operator of the double coset $\Gamma\alpha'^{-1}\Gamma=q^{-1}\Gamma\alpha'^\iota\Gamma$ (acting through its elements), and
+$T''_q=T_{\alpha'}$ is that of $\Gamma\alpha'\Gamma$. For $V=\Sym^{k-2}$ of the standard (column) representation and $T_q:=T_{\alpha'}$, the classical
+operator (Lemma~12.5),
+\[T'_q=q^{2-k}T_q,\qquad T''_q=T_q,\qquad \Psi^*\Psi=\begin{pmatrix}q+1&-q^{2-k}T_q\\-T_q&q+1\end{pmatrix},\]
+\[\det(\Psi^*\Psi)=(q+1)^2-q^{2-k}T_q^2=-q^{2-k}\big(T_q^2-q^{k-2}(q+1)^2\big),\]
+which is Ribet's level-raising condition up to a unit. \stpmc{} (formal properties of $\mathrm{res},\mathrm{cor},c_g$ cited from Brown, Lemma~12.4;
+the identification of $T_q$ with the classical operator is Lemma~12.5(d); the stage tex has \sttoprove). The determinant is \stcomp{}
+(see after the table below).
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=(\arabic*)]
+\item Diagonal: $\mathrm{cor}\circ\mathrm{res}=[\Gamma:\Gamma_0(Mq)]=q+1$ (Lemma~12.4(c), 12.1(b)). Off-diagonal: by definition. \stpmc{} (Brown cited)
+\item Compatibility of $c_g$ with $\mathrm{res}$ and $\mathrm{cor}$ identifies $T'_q=T_{\alpha'^{-1}}$ and $T''_q=T_{\alpha'}$. \stpmc
+\item $\alpha'^{-1}=q^{-1}\alpha'^\iota$, scalars act by $\lambda^{k-2}$, and $\Gamma\alpha'^\iota\Gamma=\Gamma\alpha'\Gamma$ (explicit matrices, Lemma~12.1(c)), so $T'_q=q^{2-k}T_q$. \stproved
+\item $T_q=T_{\alpha'}$ is the classical Hecke operator: on $H^1_P$ via the Eichler--Shimura isomorphism \cite[\S6.3, Thm.~1, p.~177]{Hi93} \stcited, on the Eisenstein part by
+  Lemma~12.5(e) \stpmc; checked on all of $H^1$ in 14 cases (HACS, \res{s03/C3\_rerun.json}, \stcomp).
+\item The determinant is computed in the commutative ring $\Z_{(l)}[T_q]$; $\det$ and $\coker$ are independent of the normalisation (conjugation by $\mathrm{diag}(1,q^{2-k})$). \stproved
+\end{enumerate}
+$\det(\Psi^*\Psi)\ne0$ on each $T_q$-eigenvalue of $S_k(\Gamma_0(M))$ in all 121 cases of \res{s03/betti\_det.json} \stcomp. Which off-diagonal slot carries $q^{2-k}$ is
+not tested numerically; it rests on the proof. The \emph{Betti level-raising module} $\mathrm{LR}_q(M,k)_\m:=\coker(\Psi^*\Psi)_\m$ (main.pdf, Def.~12.9) is finite whenever
+$T_q^2-q^{k-2}(q+1)^2$ is a non-zero-divisor, which holds under the hypotheses of Lemma~12.8 \stproved; stage 06 uses it as the Betti incarnation of the
+level-raising ideal. The classical source is \cite[\S2--3]{Ri84} \stcited.
+\end{outline}
+
+\begin{quoted}{Conjecture}{12.10}{107}{conj:s03-iharaGL2}{Ihara lemma for $\GL_2$, Betti form}{chapters/s03/5-amalgam.tex}\label{rpt:conj:s03-iharaGL2}
+Let $\m$ be a maximal ideal of $\T^{(Mql)}$ (Lemma~12.7); call $\m$ \emph{Eisenstein} if there is $d\ge1$ such that $T_p-2\in\m$ for all but finitely
+many primes $p\equiv1\bmod d$. This is the notion of [DT, p.~439--440]
+\cite[p.~439--440]{DT}; DT's second condition $S_p-1\in\m$ is automatic for $p\equiv1\bmod dl$, since the
+scalar $p$ acts as $p^{k-2}$ (Lemma~12.4(b)) and $l\in\m$. Compare Cor.~11.5 on the quaternionic side.
+For non-Eisenstein $\m$, $(\coker\Psi)_{\m,\mathrm{tors}}=0$. Equivalently, $\Psi\otimes\F_l$ is injective after localisation at
+$\m$, because the groups $H^1(\cdot,V)$ are torsion-free (so the Tor sequence of $\otimes\F_l$ has no extra term; $H^2(\Gamma,V/l)$ plays no role) and $\Psi$ is injective (Lemma~12.8). \stexp{} (consistent with C3: all torsion found is
+Eisenstein, at $l=k+1$). The classical route uses Ihara's lemma [Ih75] (not in \pathtt{literature/}; \texttt{ihara\_1966} there is a different paper) or the congruence subgroup
+property of $\SL_2(\Z[\frac1q])$ (\pathtt{literature/serre\_1970\_*}, scan, theorem not checked). The indefinite quaternionic analogue
+is [MS19, Thm~1.1]
+\cite[Thm 1.1, p.~2]{MS19} \stcited.
+The ``equivalently'' needs $\ker\Psi=H^1(G,V)=0$, which is Lemma~12.8. Writing $0\to K\to A\xrightarrow\Psi B\to C\to0$ with
+$A=H^1(\Gamma,V)^2$, $B=H^1(\Gamma_0(Mq),V)$ free over $\Z_{(l)}$ (Prop.~12.3), one has $\ker(\Psi\otimes\F_l)\supseteq K/l$ and
+$\ker(\Psi\otimes\F_l)/(K/l)\cong C[l]$; so, as $K=0$, $\Psi\otimes\F_l$ is injective after localisation at $\m$ iff $C[l]_\m=0$ iff $C_{\m,\mathrm{tors}}=0$
+(all maps are $\T^{(Mql)}$-linear by Lemma~12.7).
+\end{quoted}
+\begin{outline}
+No proof is claimed; the statement is \stexp. What is proved is the equivalence of the two formulations (from $\ker\Psi=0$, Lemma~12.8, \stpmc, and
+the freeness of $H^1(\Gamma_0(Mq),V)$) and the Hecke linearity of $\Psi$ for $p\nmid Mql$ (Lemma~12.7, \stpmc). The quaternionic counterpart, the
+definite Ihara lemma (Cor.~10.5, Thm.~11.3, Cor.~11.5), \emph{is} proved on the tree route; the $\GL_2$ statement would follow classically from
+\cite{Ih75} or the congruence subgroup property of $\SL_2(\Z[\frac1q])$, neither of which is checked here.
+\end{outline}
+
+\subsubsection*{What this stage does not prove}
+\begin{itemize}
+\item The $\GL_2$ Ihara lemma in Betti form (Conj.~12.10) is \stexp{}; only the quaternionic (definite) Ihara lemma is proved.
+\item The identification of $\Phicomb(\GDR_q(\hat\cO^\times))$ with the component group of $J_0(q)$ (Remark~8.9), and of $H_1(\BG(U,q))$ with a character group of a
+  Shimura curve or $J_0$ (\v{C}erednik--Drinfeld, $\HypX$; stage 05), are \stcited{} resp.\ outside this stage; the tree route does not use them.
+\item The inputs not proved here: the mass and Eichler class number formulas and the list of unit groups (Lemma~8.7, \stcited); the tree property and
+  Shapiro's lemma behind Prop.~7.18(b) (Thm.~10.2(b)); full strong approximation, i.e.\ density of $\GU$ in $U^1_p$ (Cor.~10.5(ii$'$), Thm.~11.3, Cor.~11.5);
+  Serre's amalgam theorem, Brown's Mayer--Vietoris, Hida's Eichler--Shimura comparison and Deligne's Ramanujan--Petersson bound (Section 12); all \stcited.
+\item Lean: Thm.~10.2(b) with coefficients, Cor.~10.5(ii$'$), Thm.~11.3(b) and Cor.~11.5 are not formalized; Thm.~11.3(a) is the registered hypothesis
+  \texttt{Hyp.IharaH0}; Lemma~8.7 is \pathtt{Hyp.EllipticCount} and step (1) of Prop.~9.5 is \pathtt{Hyp.BrandtStabFree} (proved or cited on paper; the former is open in Lean, the latter discharged by \BSFdischargeName).
+  None of Section 12 is formalized.
+\item The off-diagonal slot of $q^{2-k}$ in $\Psi^*\Psi$ is not independently confirmed numerically (PARI/HACS test only $\det$).
+\end{itemize}
+Secondary results omitted above, with statuses: Lemma~9.1 (neighbours) \stproved; Remarks~9.3, 9.4 (decomposition of $\ell$; ideal language) \stproved{} resp.\
+\stpmc; Lemma~12.4 \stpmc; Lemma~12.5 (a)--(c) \stproved, (d), (e) \stpmc; Lemma~12.7 \stpmc; Remark~11.6 (a), (b) \stpmc, (c) \stcomp.

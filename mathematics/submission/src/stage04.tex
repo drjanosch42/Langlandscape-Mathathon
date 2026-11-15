@@ -1,0 +1,467 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 04 section of the submission report (proof outlines condensed from mathematics/chapters/s04; statements verbatim).
+% Literature pointers (the chapter macro lit, file stem + location) of the chapter text (also inside the verbatim boxes) were mechanically
+% converted to \cite[loc]{KEY} with the corresponding key of report.bib.
+\subsection{Stage 04: the ordinary and \texorpdfstring{$\Lambda$}{Lambda}-adic passage}\label{ss:stage04}
+Stage~04 passes from the finite levels of stage~01 to Hida families on the definite side. It constructs the ordinary
+projector $e$, shows that $e$ kills every Eisenstein-type term met in stages~02--03 (degree, vertex and component terms), proves
+freeness and control of the $\Lam$-adic Brandt module $\Mord(U)$ by an elementary argument, proves the $\Lam$-adic definite
+Ribet sequence, and translates Hsieh's Gorenstein and self-pairing results for $\eta^B_F$ into the conventions of stage~01,
+together with the commutative-algebra $\eta$-principle behind them. On the route to the integral defect formula of stage~06 it
+supplies (i) the $\Lam$-adic objects $\Mord$, $\Xord_{Dq}$ that stage~05 compares with the character group of Hida's
+$Dq$-new family, and (ii) the description $\eta^B_F=(B_N(F^D,F^D))$ of the definite congruence ideal, which is the
+right-hand factor of $\eta_f(N)=c_q(f)\,\eta^B_f$. In main.pdf the stage occupies pp.~107--126 (Sections~13--18).
+
+\subsubsection*{Key definitions}
+\emph{Standing notation} (main.pdf, \S13.1, p.~108). $p\ge5$, $p\nmid D$; $\cO=\cOE$ is the ring of integers of a finite
+extension $E/\Qp$, $\Lam=\cOE[[1+p\Zp]]$. A \emph{level prime to $p$} is a compact open $U=U^{(p)}\times\GL_2(\Zp)\subseteq\hat\cO^\times$
+with $\Nrd U=\Zhat^\times$. For $s\ge0$: $\Kp s=\iota_p^{-1}\Uone{p^s}_p$, $\Kpp s=\Kp s\cap\iota_p^{-1}\Uzero{p^{s+1}}_p$,
+$UU_s=U^{(p)}\times\Kp s$, $X_s(U)=\XB{UU_s}$, $X'_s(U)=\XB{U^{(p)}\Kpp s}$, $\pi:X_{s+1}\to X_s$ the projection with pushforward
+$\pi_*$. $\Delta_s=(1+p\Zp)/(1+p^s\Zp)$ acts on $X_s$ by adelic diamonds $\langle d\rangle[x]=[x\delta_d]$,
+$\delta_d=\iota_p^{-1}\mathrm{diag}(1,d)$. Facts from stage~01 used throughout ($s\ge1$): (N1) all stabilisers $\Gamma_x$ at the levels
+$UU_s$, $U^{(p)}\Kpp s$, $\Uzero qUU_s$ are trivial, so the Brandt pairing is $\langle[x],[y]\rangle=\delta_{xy}$; (N2) $\Delta_s$ acts
+freely on $X_s$; (N3) all fibres of $X_{s+1}\to X_s$ have $p^2$ elements, so $|X_s|=p^{2(s-1)}|X_1|$; (N4) $U_p$ is the operator
+$\NUp$ of (main.pdf, Def.~4.2): $U_p[x]=\sum_{j=0}^{p-1}[x\varpi_j]$, $\varpi_j=\iota_p^{-1}\left(\begin{smallmatrix}p&j\\0&1\end{smallmatrix}\right)$,
+commuting with $\pi_*$, $\langle d\rangle$ and the Hecke operators away from $p$ (main.pdf, Lemma~4.3).
+
+\emph{Ordinary projector} (main.pdf, Def.~13.1, p.~108). For a finitely generated $\Zp$-module $M$ with endomorphism $T$,
+$e_T:=\lim_{n\to\infty}T^{n!}$; it is an idempotent in the closure of $\Zp[T]$, $M=e_TM\oplus(1-e_T)M$ with $T$ invertible on
+$e_TM$ and topologically nilpotent on $(1-e_T)M$, and $M\mapsto e_TM$ is exact and functorial. $e:=e_{U_p}$, $e^*:=e_{U_p^*}$ with
+$U_p^*$ the $\langle,\rangle$-adjoint. \stproved{} (finite monoids: $x^{n!}$ is eventually the identity of the cyclic group
+$\{x^a:a\ge i\}$; then pass to $M/p^m$ and take the limit; uniqueness and functoriality by reduction mod $p^m$; exactness because
+the sequence splits as a direct sum of the $e$- and $(1-e)$-parts); existence also \stknown{} \cite[\S7.2, Lemma~1, p.~201]{Hi93}.
+\stformal{} for $\cO=\Zp$ in the form $\mathrm{ordPart}=\bigcap_nT^nM$, $\mathrm{nilPart}$, with the registered hypothesis discharged:
+\pathtt{Ordinary.ordProj}, \pathtt{Ordinary.padicOrdDecomp\_holds} (which discharges \pathtt{Hyp.PadicOrdDecomp}); the limit
+formula itself and general $\cOE$ are not formalized.
+
+\emph{$\Lam$-adic Brandt module} (main.pdf, Def.~14.1, p.~112). $\Mord(U):=\varprojlim_{s\ge1}e\,\cOE[X_s(U)]$ along $\pi_*$, with
+$\Lam$ acting through the adelic diamonds, $[u]\cdot a=\langle u\rangle a$; it carries $U_p$ and all $T_\ell,S_\ell,U_\ell,\Pi_\ell$.
+$\mu_{p-1}$-eigenpieces exist integrally; eigenpieces for $\mu_{p-1}\times(\Z/M)^\times$ ($U=\Uone M$) exist integrally only if
+$p\nmid\varphi(M)$. \stproved{} (well-definedness); \stformal{} for $E=\Qp$, $U=\Uone M$ as compatible families
+(\pathtt{Ordinary.Mord}, \pathtt{Ordinary.Mord.lamModule}), with the diamond representations commuting with $\pi_*$ as an
+explicit argument.
+
+\emph{Arithmetic points} (main.pdf, Def.~16.1, p.~119). $P^{\rm ad}_k:=\ker(\Lam\to\cOE,\ [u]\mapsto u^{-(k-2)})$, $k\ge2$; the
+seed's $P_k=\ker([u]\mapsto u^{k-2})$ is its image under $[u]\mapsto[u^{-1}]$ (classical diamonds). \stproved: with
+$\mathrm{ev}(P)=P(0,1)$ on $\Vk$, $\mathrm{ev}\circ F$ for $F\in\Brandt{U\Kp1}{\Vk}$ is a function on $X_s$ modulo $p^s$, the adelic
+diamond $\langle d\rangle$ acts on it by $d^{-(k-2)}$, and $\mathrm{ev}$ intertwines $U_p$ with the cohomological $U_p$.
+
+\emph{Hsieh's twisted pairing} (main.pdf, Def.~16.4, p.~121). For $\Lam$-adic forms $f,f'\in eS^D(N,\chi,\mathbb I)$, $N=MD$,
+$B_N=\varprojlim_\alpha B_{N,\alpha}$ with
+$B_{N,\alpha}(f,f')=\sum_{[x]\in X_0(Np^\alpha)}U_p^{-\alpha}f(x\tau^D_{Np^\alpha})f'(x)\chi_{\mathbb I}(\Nrd x)(\#\Gamma_{Np^\alpha,x})^{-1}$
+modulo $P_\alpha$ ($\tau^D$ Atkin--Lehner at $N^+p^\alpha$). \stcited{} \cite[\S4.4, Def.~4.3, pp.~32--33]{Hs}: $B_N$ is
+Hecke-equivariant and perfect. The translation (\stproved, as a reading) records: Hsieh's $U_p$ is $\NUp$, his
+$\#\Gamma_{N,x}$ is our $w_x$, his forms-side projector is our $e^*$ (not $e$) under $\nu$, and the twist by $U_p^{-\alpha}$ and
+$\tau^D$ intertwines $U_p$ with $U_p^*$, which turns the $(e,e^*)$-duality of Lemma~13.2(d) into a pairing on $eS^D\times eS^D$.
+
+\emph{Residual condition} (main.pdf, Hyp.~16.5, p.~121). (CR$_D$) for a maximal ideal $\m\subset\TordB(\Uone M)$: $\bar\rho_\m$ is
+absolutely irreducible, $p$-distinguished, and ramified at every $\ell\mid D$ with $\ell\equiv1\pmod p$. \stcited{}
+\cite[\S1.4, (CR,$\Sigma$), p.~4]{Hs}; in Lean the schematic hypothesis \texttt{Hyp.HsiehCR}, never discharged.
+
+\emph{Gorenstein, congruence ideal} (main.pdf, \S17, p.~123). For a commutative ring $A$ and a commutative $A$-algebra $S$,
+$\ell\in\Hom_A(S,A)$ is a \emph{trace} ($S$ is \emph{Gorenstein with trace $\ell$}) if $S$ is finite free over $A$ and
+$s\mapsto\ell(s\,\cdot)$ is a bijection $S\to\Hom_A(S,A)$. For an $A$-algebra map $\mu:S\to A$,
+$\mathrm{congruenceIdeal}(\mu):=\mu(\Ann_S\ker\mu)$; this is $\eta(S,\mu)$.
+
+\subsubsection*{Main results and proof outlines}
+
+\paragraph{Eisenstein-killing.}
+\begin{quoted}{Lemma}{13.2}{109}{lem:s04-ekills}{$e$ kills degree, vertex and component terms; seed Lemma ekills}{chapters/s04/ordinary.tex}\label{rpt:lem:s04-ekills}
+Let $s\ge1$, $V=\Zp$, $U$ of level prime to $p$.
+\begin{enumerate}[label=(\alph*)]
+\item $\deg:\Zp[X_s(U)]\to\Zp$ satisfies $\deg\circ U_p=p\cdot\deg$. Hence $e$ kills $\Zp$ (with $U_p=p$), $e\,\Zp[X_s]^0=e\,\Zp[X_s]$,
+  and, for $q\nmid Dp$ and $U_q=\GL_2(\Zq)$, $e$ kills $H_0(\Gamma_{UU_s},\Zp)\cong\Zp$ (with the $U_p$-action induced from
+  $\coker\partial$, \texttt{if:s02-coh}).
+  \revnote{S04-M1: the $H_0$ clause uses that $\BG(UU_s,q)$ is connected (as in Thm.~lambdaribet, F7); the stage tex's proof
+  says ``the connected graph'' but the statement does not list the hypothesis.} Mathematically the hypothesis is a theorem:
+  $\Nrd(UU_s)=\hat\Z^\times$ and $B_q$ is split, so strong approximation for $B^1$ (Eichler, Kneser) gives connectivity; it is kept as
+  a hypothesis because the Lean side carries it as \texttt{Hyp.SA}. (Also, $H_0(\Gamma,\Zp)\cong\Zp$ holds for any group; connectivity
+  is needed for its identification with $\coker\partial$.)
+\item ($B=B^{(q)}$, the definite algebra ramified exactly at $\{q,\infty\}$, written $B_q$ in stage~03, Def.~8.6; not
+  the local algebra $B\otimes\Q_q$ of (N4); here $U=\Uone M$, so that $UU_s=\Uone{Mp^s}$ is a level of Def.~8.6, defined on
+  $\hat B^{(q)\times}$ by the same local conditions; DR graph $\GDR_q(UU_s)$, \pathtt{if:s03-graph}.) Let $U_p$ act on the vertex module $\Zp[\{v_0,v_1\}]$ by $p$; then
+  $\partial$ is $U_p$-equivariant, $e$ kills the vertex term, and $e\,\Xcomb_q(UU_s)\otimes\Zp=e\,\Zp[\XBq{UU_s}]$.
+\item ($B=B^{(q)}$ as in (b).) $\Phicomb(\GDR_q(UU_s))\otimes\Zp\cong\Zp/|X_s|$ carries the action $\varphi\mapsto\varphi\circ U_p^*$ induced from
+  $\Hom(X,\Z)$, which is multiplication by $p$; so $e(\Phicomb\otimes\Zp)=0$. This is a non-trivial statement: $v_p|X_s|\ge 2s-2$.
+\item (Any $B$.) The Brandt pairing $\langle[x],[y]\rangle=\delta_{xy}$ on $\Zp[X_s]$ restricts to a perfect pairing
+  \[e\,\Zp[X_s]\times e^*\Zp[X_s]\to\Zp,\]
+  and $\nu$ identifies $e^*\Zp[X_s]$ with $e\,\Zp^{X_s}$ for the \emph{cohomological} $U_p$ ($f\mapsto\sum_jf(\cdot\,\varpi_j)$).
+  Thus the perfect pairing is the evaluation pairing $e\,\Zp[X_s]\times e\,\Zp^{X_s}\to\Zp$. ($e$ and $e^*$ differ in general:
+  Remark~13.3.)
+\end{enumerate}
+Here $U_p^*=T_{\varpi_p^{-1}}=\langle p\rangle_MU'_p$, where $U'_p=[UU_s\,\eta_p\,UU_s]$, $\eta_p=\iota_p^{-1}\mathrm{diag}(1,p)$, and
+$\langle p\rangle_M$ is right translation by the central idele $t$ with $t_\ell=p$ for $\ell\ne p$ and $t_p=1$; for
+$U^{(p)}=\Uone M$ this is the diamond $\langle d\rangle$ with $d\equiv p\bmod M$, $d\equiv1\bmod p^s$ (Lemma~4.3(d)).
+\stproved{} below ((a)--(c) as in the seed, with the missing equivariance details; (d) with the identification of $e^*$; the
+$H_0$ clause of (a) under the connectivity hypothesis). \emph{Lean} (for $\Zp$, $U=\Uone M$, $p\ge5$; the argument \texttt{hdec} is discharged by
+\pathtt{padicOrdDecomp\_holds}): (a), degree part, \stformal: \lean{Langlandscape.Ordinary.deg\_comp\_UpHom},
+\lean{Langlandscape.Ordinary.ekillsA\_tower} ($e\,\Zp[X_s]^0=e\,\Zp[X_s]$; abstract form \lean{Langlandscape.Ordinary.ordPart\_ker\_deg}); (d), perfect pairing,
+\stformal: \lean{Langlandscape.Ordinary.perfect\_ordPart\_pairing\_tower\_padic}, \lean{Langlandscape.Ordinary.brandtPairing\_eq\_deltaPairing}. For (b), (c) only
+the \emph{abstract} parts are formalized (\lean{Langlandscape.Ordinary.ordPart\_le\_ker\_of\_vertex}, \lean{Langlandscape.Ordinary.ordPart\_tensor\_phiComb\_eq\_bot}, with the
+graph inputs and the identification $\Phicomb\cong\Z/|X_s|$ as hypotheses; the valuation bound $v_p|X_s|\ge2s-2$ modulo \pathtt{Hyp.EichlerMass} and a level-index input
+\texttt{hlev}). Not formalized: the $H_0$ clause, the flatness identification $\Xcomb\otimes\Zp=\ker\partial_{\Zp}$, and the identification of $e^*$ with $e\,\Zp^{X_s}$
+under $\nu$. So the lemma as a whole stays \stproved{} (tex).
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=\arabic*.]
+\item (a) $\deg U_p[x]=p$, so $\deg\circ U_p=p\deg$; on $\Zp$ with $U_p=p$, $p^{n!}\to0$, so $e=0$, and exactness of $e$ on
+  $0\to\Zp[X_s]^0\to\Zp[X_s]\xrightarrow{\deg}\Zp\to0$ gives $e\Zp[X_s]^0=e\Zp[X_s]$. \stproved.
+\item (a), $H_0$ clause. If $\BG(UU_s,q)$ is connected, $H_0(\Gamma_{UU_s},\Zp)=\coker\partial$ for the two-term complex
+  $\partial=(-s_{0*},s_{1*}):\Zp[\XB{\Uzero qUU_s}]\to\Zp[X_s]^2$ of (main.pdf, \S7.2, p.~63); $(a,b)\mapsto\deg a+\deg b$ induces
+  $\coker\partial\cong\Zp$; $U_p$ commutes with $s_{0*},s_{1*}$ (supported at $q\ne p$) and acts on $\coker\partial$ by $p$. \stproved{}
+  under the connectivity hypothesis.
+\item (b) On the Deligne--Rapoport graph every edge runs from $v_0$ to $v_1$ with weight $1$, so $\partial\epsilon=v_1-v_0$ and
+  $\partial(U_p\epsilon)=p\,\partial\epsilon$; $e$ kills the vertex term $\Z(v_1-v_0)$ ($U_p=p$), and $e$ applied to
+  $0\to\Xcomb_q\to\Z[E]\to\Z[V]^0\to0$ gives $e\,\Xcomb_q\otimes\Zp=e\Zp[E]$. \stproved.
+\item (c) $\Phicomb=\Z^E/(\Z[E]^0+\Z\mathbf1)\cong\Z/|E|$ via $\Sigma:\varphi\mapsto\sum_\epsilon\varphi(\epsilon)$. Since the matrix of
+  $U_p^*$ is the transpose of that of $U_p$, $\Sigma(\varphi\circ U_p^*)=\sum_{\epsilon'}\varphi(\epsilon')\deg U_p[\epsilon']=p\,\Sigma(\varphi)$: $U_p$ acts by
+  the nilpotent map $p$ on $\Zp/p^{v_p|E|}$. Non-triviality: $|E|=p^{2(s-1)}|\XBq{UU_1}|$ by (N3). \stproved.
+\item (d) Orbit counting gives $T_g^*=T_{g^{-1}}$, so $U_p^*=T_{\varpi_p^{-1}}=\langle p\rangle_MU'_p$. Continuity gives
+  $\langle ea,b\rangle=\langle a,e^*b\rangle$, so the perfect pairing $\delta_{xy}$ is block diagonal for
+  $e\oplus(1-e)$ versus $e^*\oplus(1-e^*)$, and each block is perfect. Finally $\nu\circ U_p^*=U_p^{\rm coh}\circ\nu$, so
+  $\nu(e^*\Zp[X_s])=e\,\Zp^{X_s}$. \stproved.
+\end{enumerate}
+That $e\ne e^*$ in general (main.pdf, Rem.~13.3) is \stcomp: for $D=2$, $M=7$, $p=5$, $s=1$ (48 points) $e$ has rank $27$ and
+$e\not\equiv e^{\mathsf T}\pmod5$ (\res{s04/M95_e_vs_estar.json}). Lean qualifiers as in the box.
+\end{outline}
+
+\paragraph{Hida's lemma, freeness and control.}
+At finite level, $e\,\Zp[X_s(U)]$ is a free $\Zp[\Delta_s]$-module (main.pdf, Prop.~14.2, p.~112; \stproved: $\Zp[X_s]$ is free since
+$\Delta_s$ acts freely, $e\Zp[X_s]$ is a $\Zp[\Delta_s]$-direct summand, and projective modules over the local ring
+$\Zp[\Delta_s]$ are free; \stformal{} for $\cO=\Zp$, $U=\Uone M$: \pathtt{Ordinary.ordFree\_finite}, under the stated hypotheses; the registered hypothesis \pathtt{Hyp.PadicOrdDecomp} is discharged). The
+comparison between consecutive levels is the following lemma, on which Thm~14.4(a) rests.
+
+\begin{quoted}{Lemma}{14.3}{113}{lem:s04-hida}{Hida's lemma, definite form}{chapters/s04/control.tex}\label{rpt:lem:s04-hida}
+Let $s\ge1$, $\pi':X'_s\to X_s$ the projection ($[\Kp s:\Kpp s]=p$) and $\pi'':X_{s+1}\to X'_s$ (a $\ker(\Delta_{s+1}\to\Delta_s)$-torsor).
+\begin{enumerate}[label=(\alph*)]
+\item $\Kpp s\varpi_p\Kpp s=\coprod_j\varpi_j\Kpp s$ with the same $\varpi_j$; so $U_p$ is defined compatibly on $X_{s+1},X'_s,X_s$.
+\item For $u\in\Kp s$ and each $j$ there are $i$ and $u_j\in\Kpp s$ with $u\varpi_j=\varpi_iu_j$. Hence, cohomologically,
+  $U_p\big(\Zp^{X'_s}\big)\subseteq\pi'^*\Zp^{X_s}$, and homologically $U_p(\ker\pi'_*)=0$.
+\item $e\pi'_*:e\Zp[X'_s]\to e\Zp[X_s]$ is an isomorphism; and $\pi''_*$ induces $\Zp[X_{s+1}]\otimes_{\Zp[\Delta_{s+1}]}\Zp[\Delta_s]
+  \xrightarrow{\sim}\Zp[X'_s]$.
+\item Consequently $\pi_*$ induces $e\Zp[X_{s+1}]\otimes_{\Zp[\Delta_{s+1}]}\Zp[\Delta_s]\xrightarrow{\sim}e\Zp[X_s]$, and
+  $\rk_{\Zp[\Delta_s]}e\Zp[X_s]$ is independent of $s\ge1$.
+\end{enumerate}
+\stproved{} below (all steps elementary). \emph{Lean} (for $\Zp$, $U=\Uone M$, $p\ge5$; \stformal{} unless stated): (a), (b)
+\lean{Langlandscape.Local.Kpp\_mul\_varpi\_mul\_Kpp}, \lean{Langlandscape.Local.exists\_varpi\_conj}, and (b) at the level of $\Zp[X]$:
+\lean{Langlandscape.Ordinary.Up\_ker\_push\_eq\_zero}; (c) second claim:
+\lean{Langlandscape.Local.kppQuotEquiv}, \lean{Langlandscape.Ordinary.piPP\_eq\_iff}, \lean{Langlandscape.Ordinary.piPP\_free}; (d), finite-level
+control: \lean{Langlandscape.Ordinary.ord\_control\_finite} ($e\pi_*$ surjective with kernel $e\cap\ker\pi''_*$, i.e.\ the tensor isomorphism in
+kernel form, hypothesis \texttt{hdec} discharged by \pathtt{padicOrdDecomp\_holds}). Not formalized: the first claim of (c) as a separate statement,
+the tensor product isomorphism as a stated equivalence, and the rank independence of $s$ in (d) (\pathtt{ordRank\_const} does not exist).
+\end{quoted}
+\begin{outline}
+Write $H=\ker(\Delta_{s+1}\to\Delta_s)$, of order $p$.
+\begin{enumerate}[label=\arabic*.]
+\item (a) For $K=\Kpp s$, $\varpi^{-1}k\varpi\in K$ iff $b\in p\Zp$, and for each $k$ exactly one $j$ has $b-jd\in p\Zp$; so
+  $K\varpi K=\coprod_j\varpi_jK$ with the same representatives as at $UU_{s+1}$, $UU_s$. \stproved.
+\item (b) $\varpi_i^{-1}u\varpi_j=\left(\begin{smallmatrix}a-ic&(aj+b-i(cj+d))/p\\pc&cj+d\end{smallmatrix}\right)$; exactly one $i$ makes it
+  integral, and then it lies in $\Kpp s$; $j\mapsto i(j)$ is a bijection. Hence $U_pf$ is $\Kp s$-invariant for $f\in\Zp^{X'_s}$, and by
+  transposition $U_p(\ker\pi'_*)=0$. \stproved.
+\item (c) $e$ kills $\ker\pi'_*$, so $e\pi'_*$ is an isomorphism by exactness of $e$. The map $\Kpp s\to H$,
+  $\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\mapsto d$, is a surjective homomorphism with kernel $\Kp{s+1}$; so $\pi''$ is the
+  quotient by the free $H$-action and $\Zp[X_{s+1}]\otimes_{\Zp[\Delta_{s+1}]}\Zp[\Delta_s]=\Zp[X_{s+1}]_H\cong\Zp[X'_s]$. \stproved.
+\item (d) Reduction modulo $I=\ker(\Zp[\Delta_{s+1}]\to\Zp[\Delta_s])$ preserves the ordinary decomposition ($U_p$ surjective on
+  $\overline{eM}$, hence bijective by Vasconcelos; topologically nilpotent on $\overline{(1-e)M}$). Composing with (c) gives the
+  isomorphism; rank independence follows from Prop.~14.2 and well-defined ranks over $\Zp[\Delta_s]$. \stproved.
+\end{enumerate}
+This explains the factor $p$ between the fibre size $p^2$ and $|H|=p$: the extra $p$ is the step $X'_s\to X_s$, which $e$ collapses.
+\end{outline}
+
+\begin{quoted}{Theorem}{14.4}{114}{thm:s04-control}{$\Lambda$-freeness and control; seed Prop.~free (b); \texttt{if:s04-Mord}}{chapters/s04/control.tex}\label{rpt:thm:s04-control}
+Let $U$ be of level prime to $p$ and $r:=\rk_{\Zp}e\,\Zp[X_1(U)]$.
+\begin{enumerate}[label=(\alph*)]
+\item $\Mord(U)$ is a free $\Lam$-module of rank $r$, and for every $s\ge1$,
+  $\Mord(U)\otimes_\Lam\cOE[\Delta_s]\xrightarrow{\sim}e\,\cOE[X_s(U)]$, compatibly with all Hecke operators.
+\item (weights; $U=\Uone M$) For $k\ge2$, $\Mord(U)\otimes_\Lam\Lam/P^{\rm ad}_k$ is dual to $e\,\Brandt{U\Kp1}{\Vk\otimes\cOE}$ (Def.~16.1).
+  On the component where $\mu_{p-1}$ acts by $\omega^{-(k-2)}$ it is dual to $e\,\Brandt{U\cdot\iota_p^{-1}\Uzero{p}_p}{\Vk\otimes\cOE}$, for every $k\ge2$.
+  For $k\ge3$ the latter equals $e\,\Brandt{U}{\Vk\otimes\cOE}$ by $p$-stabilisation (\stexp{} in our normalisation).
+  The first sentence is claimed integrally (over $\cOE$) only if $p\nmid\varphi(M)$; for $p\mid\varphi(M)$ it holds after inverting $p$,
+  and its integral form is \stsketch{} (Remark~16.2(iv)). For a general level $U$ prime to $p$, (b) is \stexp{}
+  (source: Hida 1988, Thm.~9.4, not checked here).
+  \revnote{F4: (b) restated so that the character piece and the level match; before: ``For $k\ge2$ and $\chi$ the component on which $\mu_{p-1}$ acts by $\omega^{-(k-2)}$, $\Mord(U)^{(\chi)}\otimes_\Lam\Lam/P^{\rm ad}_k$ is dual to $e\,M(U\Kp1;\Vk\otimes\cOE)$; for $k\ge3$ one may replace $U\Kp1$ by $U\cdot\iota_p^{-1}\Uzero p_p$ (Hida's control at $\Gamma_0(p)$-level; expected)''; the left side was one $\mu_{p-1}$-eigenpiece and the right side the whole level-$U\Kp1$ module.}
+\end{enumerate}
+Status: (a) \stproved{} from Lemma~14.3 and Prop.~14.2 (choose compatible bases by Nakayama;
+$\Lam=\varprojlim\cOE[\Delta_s]$); proof below, which uses only stage-01 results and elementary commutative algebra (raised from
+\stpmc{} after the chapter audit S04-M9). Also \stcited{} \cite[{Thm.~4.2 and
+its proof, p.~32: $\varprojlim_\alpha e\cO[X_\alpha]$ is $\Lam[\Delta_p]$-free, via [Hid88b, Cor.~10.1]}]{Hs} (Hsieh's ``Cor.~10.1'' is
+\emph{Theorem}~10.1 in Hida's paper; there is no Cor.~10.1) and
+\cite[{Prop.~3.6 and its proof, p.~28: $\varprojlim_r
+S_2(U_r,\cO_f)^{\rm ord}$ is $\Lam$-free by [Hid88b, Cor.~10.4]}]{LV11}.
+(b) for $U=\Uone M$: \stcited{}, integrally if $p\nmid\varphi(M)$ (otherwise the integral form is \stsketch); general $U$: \stexp.
+\cite[{Thm.~4.2(2), p.~32 (forms side; via
+[Hid88b, Thm.~9.4])}]{Hs}; \cite[{Thm.~3.7, p.~28 (eigen-components,
+over a field)}]{LV11}; the dictionary to our $\NUp$, $\Vk$ and $P^{\rm ad}_k$ is Remark~16.2 (S04-M4), whose key
+computation is Def.~16.1. The original source is
+\cite[{Thm.~8.6, p.~362 (weight independence of $\mathcal V^{\rm ord}$);
+Thm.~9.4, p.~369 (control); Thm.~10.1, p.~370 (freeness over $\cO[[Z_a]]$ under $p$-divisibility); Cor.~10.4, p.~373 ($\Lam$-freeness,
+$p>2$)}]{Hi88b}: the theorem headers and page numbers are located in the OCR text, but the statements are only partly legible, so their exact
+hypotheses are taken from Hsieh and LV11.
+\emph{Lean status of (a):} the finite-level part is \stformal{} for $\Zp$, $U=\Uone M$, $p\ge5$: control as surjectivity plus kernel
+(\lean{Langlandscape.Ordinary.ord\_control\_finite}, \lean{Langlandscape.Ordinary.TowerHyp.mordTrans\_surjective},
+\lean{Langlandscape.Ordinary.Mord.proj\_surjective}), freeness at level $s$ (\lean{Langlandscape.Ordinary.ordFree\_finite}). \emph{Not} formalized:
+the constancy of the rank in $s$ (\pathtt{ordRank\_const}); the $\Lam$-adic half ($\Mord$ free of finite rank over $\Lam$ and the control
+isomorphism for all $s$) is only stated, as the open hypothesis \lean{Langlandscape.Hyp.MordLambdaFree} (Lean-side status: open, S04-L14b). Thus
+(a) as a whole stays \stproved{} (tex), with the Lean part \emph{formalized modulo \pathtt{Hyp.MordLambdaFree}} for the $\Lam$-adic half. The
+Lean hypothesis \lean{Langlandscape.Hyp.MordLambdaFree} is thus the statement of a tex-proved theorem (not a merely cited one), taken as an argument because the data
+$G_n=\Delta_{n+1}$, the reduction maps and the diamond representations are not yet in Lean; it has no named consumer in the stage-05/06 plans.
+\emph{(b), Lean form (M9.3 sub-check, recorded):} \lean{Langlandscape.Hyp.HidaControl} is schematic, on abstract \emph{modules} $M_k$, $M_2$, $Q_k$ (the tex theorem is stated on
+duals, $P^{\rm ad}_k$-quotients); it carries the guard $p\nmid\varphi(M)$ (M9.3) and $U_1(M)$-type levels only; its arguments \texttt{hk} and \texttt{h$\varphi$} are not used in the
+statement (audit item O1 not applied).
+\end{quoted}
+\begin{outline}
+Proof of (a), \stproved{} (elementary; uses only stage~01 and the results above). Put $R_s=\cO[\Delta_s]$, $M_s=e\,\cO[X_s(U)]$.
+\begin{enumerate}[label=\arabic*.]
+\item By Prop.~14.2 and Lemma~14.3(d) (over $\cO$), $M_s$ is $R_s$-free of rank independent of $s$, equal to $r$ at $s=1$
+  ($\Delta_1=1$). Each $R_s$ is local and $\ker(R_{s+1}\to R_s)\subseteq\m_{s+1}$.
+\item \emph{Compatible bases.} $\pi_*:M_{s+1}\to M_s$ is surjective (it factors through $M_{s+1}\otimes R_s\cong M_s$). Lifts of an
+  $R_s$-basis of $M_s$ generate $M_{s+1}/\m_{s+1}M_{s+1}$, hence $M_{s+1}$ (Nakayama); the resulting surjection $R_{s+1}^r\to M_{s+1}$
+  is bijective (Vasconcelos). Inductively $\pi_*b^{(s+1)}_i=b^{(s)}_i$.
+\item \emph{Freeness and control.} The bases identify $(M_s,\pi_*)$ with $(R_s^r,\text{proj})$, so
+  $\Mord(U)\cong\varprojlim R_s^r=\Lam^r$, and $\Mord(U)\otimes_\Lam R_s\to M_s$ maps a basis to a basis. Hecke-equivariance: $U_p$
+  commutes with $\pi_*$ (main.pdf, Lemma~4.3(b)), operators at $\ell\ne p$ are right translations away from $p$, and $\delta_d$
+  normalises every $UU_s$.
+\end{enumerate}
+Proof of (b) for $U=\Uone M$: Hsieh's control theorem \cite[Thm.~4.2(2), p.~32]{Hs} together with the dictionary of
+(main.pdf, Rem.~16.2), which is \stpmc{} (cited input, translation proved):
+(i) Hsieh's $\mathbf V^{\rm ord}(N)=\varprojlim_\alpha e\,\cO[X_\alpha]$ is our $\Mord(\Uone M)$, with the same $U_p$ and $\Lam$-action;
+(ii) $eS^D(N,\Lam)=\Hom_\Lam(\Mord,\Lam)\otimes_{\Lam,\iota_2}\Lam$ with $\iota_2([z])=z^2[z]^{-1}$ \cite[(4.6), Def.~4.1, p.~31]{Hs};
+(iii) a weight-$k$ point $[z]\mapsto z^k$ becomes $[z]\mapsto z^{-(k-2)}$ after $\iota_2$, with kernel $P^{\rm ad}_k$, and $\Lam$-freeness
+from (a) turns specialisation of the dual into the dual of $\Mord\otimes\Lam/P^{\rm ad}_k$; (iv) Hsieh's specialisation is our
+$\mathrm{ev}$; summing over the characters of $(\Z/pM)^\times$ is integral only if $p\nmid\varphi(M)$ (otherwise \stsketch, via Hsieh's
+norm maps \cite[Thm.~4.2(1)]{Hs}); (v) matching the character at $p$ gives the $\omega^{-(k-2)}$-piece and level
+$U\cdot\iota_p^{-1}\Uzero p_p$; (vi) $p$-stabilisation for $k\ge3$ is \stexp. The printed formula for $\iota_2$ in Hsieh after (4.6)
+contradicts his Def.~4.1; the chapter follows Def.~4.1 (main.pdf, Rem.~16.3, \stproved{} as a consistency check).
+\end{outline}
+
+\paragraph{The $\Lam$-adic definite Ribet sequence.}
+\begin{quoted}{Theorem}{15.1}{116}{thm:s04-lambdaribet}{$\Lambda$-adic definite Ribet sequence; seed Thm.~lambdaribet; \pathtt{if:s04-lambdaribet}}{chapters/s04/lambdaribet.tex}\label{rpt:thm:s04-lambdaribet}
+Let $q\nmid Dp$, $U$ of level prime to $pq$ with $U_q=\GL_2(\Zq)$ ($q$-admissible in the sense of stage 02). Assume $\BG(UU_s,q)$ is
+connected for every $s\ge1$ (equivalently, Prop.~quot holds at all these levels). This follows from \texttt{Hyp.SA} $\wedge$
+\texttt{Hyp.HS} (in Lean also \texttt{Hyp.BTtree}); it is not a finite check, and it does not imply $H_0=V_{U_p^1}$.
+\revnote{F7: connectivity hypothesis made explicit; before: no such hypothesis was stated (only the implicit ``$q$-admissible'').}
+Here $\Gamma_{UU_s}:=(\cO_{UU_s}[1/q])^1$ is the norm-one $\{q\}$-arithmetic group (as in Step~2 of the proof of Prop.~18.1); it does not
+contain the central $q^{\Z}$. Put
+\[\Xord_{Dq}(U):=\varprojlim_se\,H_1(\Gamma_{UU_s},\Zp)\otimes\cOE\]
+(transition maps: corestriction, i.e.\ the restriction of $\pi_*$ on $\Zp[X^{(q)}_s]$-chains; over $\Zp$, $p\ge5$,
+$H_1(\Gamma,\Zp)=H_1(\BG,\Z)\otimes\Zp$ by stage 02, D1). Then:
+\begin{enumerate}[label=(\alph*)]
+\item the sequence of $\Lam$-modules, equivariant for all Hecke operators supported away from $q$ (including $U_p$, $\langle d\rangle$,
+  $\Pi_\ell$ for $\ell\mid D$),
+  \[0\to\Xord_{Dq}(U)\to\Mord(\Uzero{q}U)\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\Mord(U)^{\oplus2}\to0\]
+  is exact;
+\item all three terms are $\Lam$-free, and $\rk_\Lam\Xord_{Dq}(U)=\rk_\Lam\Mord(\Uzero qU)-2\rk_\Lam\Mord(U)$;
+\item at finite level $s\ge1$: $\rk_{\Zp}H_1(\Gamma_{UU_s},\Zp)=(q-1)|X_s(U)|+1$, and $\rk_{\Zp}e\,H_1=\rk e\Zp[X^{(q)}_{s}]-2\rk e\Zp[X_s]$,
+  the ``$+1$'' being the degree line killed by $e$ (here $X^{(q)}_s$ is the level $\Uzero qUU_s$).
+\end{enumerate}
+Status: (a) \stproved{} below given \pathtt{if:s03-ribet}, Lemma~13.2(a) and $\NUp$; (b) \stproved{} via
+Thm.~14.4(a); (c) \stproved{} (seed rank check; \pathtt{if:s02-indef}). \emph{Lean status:} \stformal{} for $E=\Q_p$, $U=\Uone M$, $p\ge5$, $q\ne p$:
+the finite-level sequence of (a) and (c) at every $s\ge1$ (\lean{Langlandscape.Ordinary.ordRibet\_exact\_Utower\_uncond},
+\lean{Langlandscape.Ordinary.rank\_ordRibet\_uncond}, \lean{Langlandscape.Ordinary.rank\_ordRibet\_full\_uncond}; connectivity of $\BG(UU_s,q)$ is an explicit
+argument, \pathtt{Hyp.PadicOrdDecomp} is discharged). The limit statement of (a) is \emph{formalized modulo \pathtt{Hyp.InvLimExact}}
+(and the connectivity argument): \lean{Langlandscape.Ordinary.lim\_exact\_ribet} proves injectivity, exactness in the middle and surjectivity of $\alpha$ on the
+limits, but takes the surjectivity of the $A$-transitions $e\,H_1(\Gamma_{UU_{s+1}})\to e\,H_1(\Gamma_{UU_s})$ as the literal argument
+\texttt{hA : $\forall n$, Function.Surjective (H.transA n)} (not a term of type \lean{Langlandscape.Hyp.InvLimExact}: that hypothesis is the implication
+``$\forall s\ge1$ \texttt{BGConnected} $\Rightarrow\forall n$, \texttt{Surjective (H.transA n)}'', so \texttt{hA} is its conclusion, available once the connectivity argument is supplied). This $A$-surjectivity is \emph{not} formalized (undischarged; the snake-lemma route was dropped in S04-L13b), so
+(a) stays \stproved{} (tex) and is not upgraded. Not formalized: (b) (the $\Lam$-rank formula).
+\end{quoted}
+\begin{outline}
+Put $A_s=e\,H_1(\Gamma_{UU_s},\Zp)$, $B_s=e\,\Zp[X^{(q)}_s]$, $C_s=e\,\Zp[X_s]^2$, $X^{(q)}_s=\XB{\Uzero qUU_s}$.
+\begin{enumerate}[label=\arabic*.]
+\item \emph{Finite level} (main.pdf, Lemma~15.2, \stproved{} given (main.pdf, Thm.~10.2/Interface~10.6)). Under connectivity of
+  $\BG(UU_s,q)$, the definite Ribet sequence of stage~03, tensored with $\Zp$, is
+  $0\to H_1\to\Zp[X^{(q)}_s]^0\xrightarrow{\alpha}(\Zp[X_s]^0)^2\to0$. It is $U_p$-equivariant ($s_{0*},s_{1*}$ are supported at
+  $q$), so applying the exact functor $e$ and Lemma~13.2(a) gives $0\to A_s\to B_s\to C_s\to0$; $\alpha$ is
+  $\Zp[\Delta_s]$-linear and commutes with $\pi_*$; this uses $U_p=\NUp$ (with the seed's $U'_p$ it fails). $B_s,C_s$ are free by Prop.~14.2.
+\item \emph{Rank check (c)}, \stproved. $|X^{(q)}_s|=(q+1)|X_s|$ by (N3), so
+  $\rk H_1=(|X^{(q)}_s|-1)-2(|X_s|-1)=(q-1)|X_s|+1$, consistent with stage~02; after $e$ the degree line disappears
+  (Lemma~13.2(a)).
+\item \emph{Limits} (main.pdf, Lemma~15.3, \stproved). If the $A$-transitions are surjective, $\varprojlim$ is exact on the system
+  (lift step by step, correcting by a lift from $A_{s+1}$).
+\item \emph{Surjectivity of $A_{s+1}\to A_s$} (D-lim route, \stproved). By Lemma~14.3(d) at the levels $\Uzero qU$ and $U$,
+  $\ker b=I_sB_{s+1}$, $\ker c=I_sC_{s+1}$ with $I_s=\ker(\Zp[\Delta_{s+1}]\to\Zp[\Delta_s])$, and $b,c$ are onto;
+  $\alpha_{s+1}(I_sB_{s+1})=I_sC_{s+1}$ by linearity and surjectivity of $\alpha_{s+1}$; the snake lemma
+  $\ker b\to\ker c\to\coker a\to\coker b=0$ gives $\coker a=0$. A second proof uses compactness ($\varprojlim^1=0$ for
+  compact $A_s$; \stproved, standard). Base change to $\cOE$ is flat. Equivariance passes to the limit.
+\item \emph{(b)}, \stproved{} via Thm~14.4(a): the surjection onto the free $\Mord(U)^{\oplus2}$ splits, so $\Xord_{Dq}(U)$ is a
+  direct summand of a free module over the local ring $\Lam$, hence free.
+\end{enumerate}
+Lean: the finite-level sequence and (c) are \stformal{} (box); the limit is formalized only modulo \pathtt{Hyp.InvLimExact}, since
+\pathtt{Ordinary.lim\_exact\_ribet} takes the $A$-surjectivity of step~4 as an argument; (b) is not formalized. The identification
+of $\rk_\Lam\Xord_{Dq}(U)$ with the rank of the $Dq$-new ordinary Hecke algebra of $\GL_2$ is \stexp{} (main.pdf, \S15, p.~119).
+\end{outline}
+
+\paragraph{Hsieh's Gorenstein and self-pairing results.}
+\begin{quoted}{Theorem}{16.6}{122}{thm:s04-Gor}{Gorenstein and freeness; \texttt{if:s04-Mord}, second half}{chapters/s04/hsieh.tex}\label{rpt:thm:s04-Gor}
+Let $p>3$, $p\nmid MD$, $N=MD$, and let $F\in eS(N,\chi,\mathbb I)$ be an ordinary $\Lam$-adic newform of tame conductor $N$ with
+$\mathrm{supp}\,N^-\subseteq\Sigma^0_F$ (discrete series at every $\ell\mid D$; Hsieh's hypothesis for the factorisation of
+$\lambda_F$ through JL, [Hs, \S4.5, p.~34]), satisfying (CR, $\mathrm{supp}\,N^-$) (Hyp.~16.5). Let $\m_F\subset\T^D(N,\mathbb I)$
+be the maximal ideal containing $\ker\lambda^D_F$ (above the maximal ideal $\m$ of Hyp.~16.5; all localisations below are
+at $\m_F$, of $\T^D(N,\mathbb I)$-modules). Then:
+\begin{enumerate}[label=(\roman*)]
+\item Hsieh's $eS^D(N,\mathbb I)_{\m_F}$ is free of rank one over $\T^D(N,\mathbb I)_{\m_F}$ (proof of [Hs, Thm.~4.5]);
+\item $eS^D(N,\chi,\mathbb I)_{\m_F}$ is free of rank one over $\T^D(N,\chi,\mathbb I)_{\m_F}$, and $\T^D(N,\chi,\mathbb I)_{\m_F}$ is
+  Gorenstein (ibid.);
+\item the eigenline $eS^D(N,\mathbb I)[\lambda^D_F]$ is free of rank one over $\mathbb I$ (its generator $F^D$: the primitive JL lift)
+  ([Hs, Thm.~4.5]);
+\item if moreover $p\nmid\varphi(M)$, then $\T^D(N,\mathbb I)_{\m_F}=\T^D(N,\chi,\mathbb I)_{\m_F}$ is Gorenstein, and
+  $(\Mord(\Uone M)\otimes_\Lam\mathbb I)_{\m_F}$, which is the $\iota_2$-twisted $\mathbb I$-dual of $eS^D(N,\mathbb I)_{\m_F}$
+  (Remark~16.3), is free of rank one over $\T^D(N,\mathbb I)_{\m_F}$.
+\end{enumerate}
+If $p\mid\varphi(M)$, Gorenstein-ness of the full $\T^D(N,\mathbb I)_{\m_F}$ and the homological freeness in (iv) are not cited and
+not proved here (\stexp). For other $\m$ satisfying (CR$_D$) (old at $M$, or of smaller conductor) the conclusions are \stexp{}
+(cf.\ [Wil95, Thm.~2.1], [Hel07, Cor.~8.11]; not checked here).
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent Registered in Lean as the hypothesis \lean{Langlandscape.Hyp.HsiehGor} (cited, not discharged; used by \lean{Langlandscape.Defect.Setting.gor\_new}, stage~6, which instantiates it over $\Lambda$).
+\noindent\stcited{} (i)--(iii) \cite[{Thm.~4.5 and its proof, p.~34}]{Hs};
+(iv) \stproved{} from (ii): if $p\nmid\varphi(M)$, the torsion of the diamond group, of order $(p-1)\varphi(M)$, is prime to $p$, so
+(after enlarging $\cO$) its idempotents lie in $\T^D(N,\mathbb I)$ and $eS^D(N,\mathbb I)=\bigoplus_{\chi'}eS^D(N,\chi',\mathbb I)$; the
+characters $\chi'$ have distinct reductions (orders prime to $p$), so exactly one idempotent, that of $\chi$, survives in the local ring
+$\T^D(N,\mathbb I)_{\m_F}$, giving $\T^D(N,\mathbb I)_{\m_F}=\T^D(N,\chi,\mathbb I)_{\m_F}$; dualising a free rank-one module over a
+Gorenstein ring gives a free rank-one module. The proof of Thm.~4.5 cites [Wil95, Thm.~2.1], [Hel07, Cor.~8.11, Rem.~8.12]
+(\cite[{Cor.~8.11 and Rem.~8.12, p.~31; journal
+version p.~110, not checked here}]{Hel04}) and [PW11, Prop.~6.4, 6.5]
+(\cite[{Prop.~6.4, p.~19; Prop.~6.5, p.~20}]{PW}); the
+freeness statement itself there is PW Thm.~6.2, p.~19, transported to the definite side by Prop.~6.5 (Prop.~6.4 is the self-pairing
+statement, conditional on freeness). The inputs carry their own hypotheses (PW's CR; Helm's ``controllable'' $\m$; Wiles' Thm.~2.1);
+that (CR, $\mathrm{supp}\,N^-$) suffices for this chain is Hsieh's claim and is not re-verified here. Gorenstein
+follows from freeness plus the perfect pairing $B_N$. The freeness in (i), (ii) is in the \emph{proof}, not the statement, of
+Thm.~4.5 (seed cites only ``Thm.~4.5''), and Hsieh states Gorenstein only for the $\chi$-piece $\T^D(N,\chi,\mathbb I)_{\m_F}$. Passing between $\Mord$ (homological) and $eS^D$ (forms) uses Hsieh (4.6) and
+Thm.~4.2(1); dualising a free rank-one module over a Gorenstein ring is again free of rank one.
+\end{quoted}
+\begin{outline}
+\begin{enumerate}[label=\arabic*.]
+\item (i)--(iii): \stcited{} \cite[Thm.~4.5 and its proof, p.~34]{Hs}. Hsieh's proof rests on \cite[Thm.~2.1]{Wi95},
+  \cite[Cor.~8.11, Rem.~8.12]{Hel} and \cite[Thm.~6.2, Prop.~6.4, 6.5]{PW}; that (CR, $\mathrm{supp}\,N^-$) suffices for this chain is
+  Hsieh's claim and is not re-verified.
+\item (iv), \stproved{} from (ii): if $p\nmid\varphi(M)$, the torsion of the diamond group has order $(p-1)\varphi(M)$ prime to $p$; its
+  idempotents lie in $\T^D(N,\mathbb I)$, the characters have distinct reductions, so only the $\chi$-idempotent survives in the
+  local ring at $\m_F$ and $\T^D(N,\mathbb I)_{\m_F}=\T^D(N,\chi,\mathbb I)_{\m_F}$; the $\iota_2$-twisted dual of a free rank-one
+  module over a Gorenstein ring is free of rank one.
+\item \emph{Gorenstein from freeness}, \stproved{} given the cited freeness and the cited properties of $B_N$. With
+  $T=\T^D(N,\chi,\mathbb I)_{\m_F}$ and $H=eS^D(N,\chi,\mathbb I)_{\m_F}\cong T$: Hecke idempotents are self-adjoint, so $B_N$ restricts
+  to a perfect equivariant pairing on $H$; $T$ is $\mathbb I$-free (a direct summand over the local ring $\mathbb I$); Prop.~17.1(a)
+  then gives $T\cong\Hom_{\mathbb I}(T,\mathbb I)$.
+\end{enumerate}
+For $p\mid\varphi(M)$ or other $\m$ the conclusions are \stexp. Lean: the registered hypothesis \pathtt{Hyp.HsiehGor} (cited, not discharged).
+\end{outline}
+
+\begin{quoted}{Theorem}{16.7}{123}{thm:s04-etaB}{$\eta^B_F$ as a self-pairing; \texttt{if:s04-etaB}}{chapters/s04/hsieh.tex}\label{rpt:thm:s04-etaB}
+Under Hyp.~16.5, let $F$ be a primitive $\mathbb I$-adic family of tame conductor $N=MD$ with residual ideal $\m$ and $\m_F$ as in Thm.~16.6, $F^D$ a
+generator of its eigenline (Thm.~16.6), $\lambda^D_F:\T^D(N,\chi,\mathbb I)\to\mathbb I$ its eigensystem, and
+$\eta^B_F:=\eta(\T^D(N,\chi,\mathbb I)_{\m_F},\lambda^D_F)=\lambda^D_F(\Ann\ker\lambda^D_F)$ (seed \S2.6). Then
+\[\eta^B_F=\big(B_N(F^D,F^D)\big)\subseteq\mathbb I .\]
+Moreover $(\eta^B_F)\supseteq(\eta_F)$ (the $\GL_2$ congruence ideal), with equality if $\bar\rho_\m$ is ramified at all $\ell\mid D$.
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent\stcited{} \cite[{Def.~4.12, p.~43 ($\eta_{F^D}:=B_{N_F}(F^D,F^D)$);
+Remark~7.8, p.~71 (it generates the congruence ideal of $\lambda_f:\T^D(N,\psi,\mathbb I)\to\mathbb I$ under (CR,$\Sigma^-$), and
+$(\eta_{f^D})\supseteq(\eta_f)$, equality if ramified at all $\ell\in\Sigma^-$)}]{Hs}. The general principle (free rank one over Gorenstein
++ perfect equivariant pairing $\Rightarrow$ congruence ideal $=$ self-pairing of a generator) is proved below as pure commutative
+algebra, Prop.~17.1 (cf.\ \cite[{Remark~7.3,
+p.~67: $T$ Gorenstein, $H$ free of rank $d$ with perfect equivariant pairing $\Rightarrow C(\lambda)^d=(\det\langle e_i,e_j\rangle)$}]{Hs}). This is
+a statement about $B$ alone; the comparison with $\eta_F$ is the input to stage 06.
+
+\noindent\emph{Proof of the first claim from Thm.~16.6} \stpmc. Apply Prop.~17.1 with $A=\mathbb I$,
+$S=T=\T^D(N,\chi,\mathbb I)_{\m_F}$ ($\mathbb I$-free, see above), $M=H=eS^D(N,\chi,\mathbb I)_{\m_F}$ with an isomorphism $H\cong T$
+(Thm.~16.6), $B=B_N|_{H\times H}$ (perfect and $T$-equivariant, see above), $\mu=\lambda^D_F$ (an $\mathbb I$-algebra map, as
+$\ker\lambda^D_F\subseteq\m_F$), and $m_0=F^D$: the eigenline $H[\lambda^D_F]=\{m:tm=\lambda^D_F(t)m\ \forall t\}$ is
+$eS^D(N,\chi,\mathbb I)_{\m_F}[\lambda^D_F]=\mathbb I F^D$ by Thm.~16.6 (Hsieh's eigenline is defined with all of
+$\T^D(N,\mathbb I)$, and $T$ is generated by the images of the same operators). The conclusion
+$\mathrm{congruenceIdeal}(\lambda^D_F)=\lambda^D_F(\Ann_T\ker\lambda^D_F)=\big(B_N(F^D,F^D)\big)$ is the first claim. The second claim
+(comparison with $\eta_F$) is only cited.
+\end{quoted}
+\begin{outline}
+First claim, \stpmc: apply Prop.~17.1 with $A=\mathbb I$, $S=T=\T^D(N,\chi,\mathbb I)_{\m_F}$, $M=H\cong T$ (Thm~16.6),
+$B=B_N|_{H\times H}$ (perfect, $T$-equivariant), $\mu=\lambda^D_F$ and $m_0=F^D$, whose $\mathbb I$-span is the eigenline (Thm~16.6(iii)).
+Then $\eta^B_F=\mathrm{congruenceIdeal}(\lambda^D_F)=(B_N(F^D,F^D))$. Also \stcited{} \cite[Def.~4.12, p.~43; Rem.~7.8, p.~71]{Hs}. The
+comparison $(\eta^B_F)\supseteq(\eta_F)$ is only \stcited{} \cite[Rem.~7.8]{Hs}; the first claim is a statement about $B$ alone, and the comparison with $\eta_F$ is the input to stage~06.
+\end{outline}
+
+\paragraph{The $\eta$-principle.}
+\begin{quoted}{Proposition}{17.1}{124}{prop:s04-etaprinciple}{$\eta$-principle; \pathtt{thm:s04-etaB}, \texttt{lem:s06-S}}{chapters/s04/etaprinciple.tex}\label{rpt:prop:s04-etaprinciple}
+Let $A$ be a commutative ring and $S$ a commutative $A$-algebra that is finite free as an $A$-module. Let $M$ be an $S$-module with an
+$S$-linear isomorphism $e:M\xrightarrow{\sim}S$, and let $B:M\times M\to A$ be an $A$-bilinear form such that
+\begin{itemize}
+\item $B$ is \emph{perfect}: the $A$-linear map $M\to\Hom_A(M,A)$, $m\mapsto B(m,\cdot)$, is bijective;
+\item $B$ is \emph{$S$-equivariant}: $B(sm,n)=B(m,sn)$ for all $s\in S$, $m,n\in M$.
+\end{itemize}
+Let $\mu:S\to A$ be a homomorphism of $A$-algebras, and let $m_0\in M$ generate the eigenline
+\[M[\mu]:=\{m\in M:\ sm=\mu(s)m\ \text{for all }s\in S\},\qquad\text{i.e.\ }M[\mu]=A\,m_0.\]
+Then:
+\begin{enumerate}[label=(\alph*)]
+\item $S$ is Gorenstein with trace $\ell(s):=B(m_1,s\,m_1)$, where $m_1:=e^{-1}(1)$ (\lean{Langlandscape.CommAlg.EtaPrinciple.isGorensteinWith\_of\_pairing});
+\item $\mathrm{congruenceIdeal}(\mu)=\big(B(m_0,m_0)\big)$, the principal ideal of $A$ generated by $B(m_0,m_0)$
+  (\lean{Langlandscape.CommAlg.EtaPrinciple.congruenceIdeal\_eq\_span\_pairing}).
+\end{enumerate}
+\stproved{} below. \stformal{} (S06-L17, \pathtt{CommAlg/EtaPrinciple.lean}), in full generality of the statement and without registered hypotheses: \lean{Langlandscape.CommAlg.EtaPrinciple.isGorensteinWith\_of\_pairing} for (a) and \lean{Langlandscape.CommAlg.EtaPrinciple.congruenceIdeal\_eq\_span\_pairing} for (b); the trace in Lean is \texttt{traceOfPairing}, $\ell=B(e^{-1}(1),e^{-1}(\cdot))$.
+\end{quoted}
+\begin{outline}
+\stproved; \stformal{} without registered hypotheses (box).
+\begin{enumerate}[label=\arabic*.]
+\item (a) With $m_1=e^{-1}(1)$, equivariance gives $B(sm_1,tm_1)=\ell(st)$, so $s\mapsto\ell(s\,\cdot)$ is the composite of
+  $e^{-1}$, the perfect pairing $m\mapsto B(m,\cdot)$, and $\varphi\mapsto\varphi\circ e^{-1}$, three bijections. ($B$ is
+  then symmetric.)
+\item (b), annihilator. Let $\theta\in S$ with $\ell(\theta x)=\mu(x)$ for all $x$. Then $\theta\ker\mu=0$ (injectivity of
+  $s\mapsto\ell(s\,\cdot)$); if $z\ker\mu=0$ then $zx=\mu(x)z$ and $z=\ell(z)\theta$; and $a\theta=0$ forces
+  $a=\ell(a\theta)=a\mu(1)=0$. So $\Ann_S\ker\mu=A\theta$ and $\mathrm{congruenceIdeal}(\mu)=(\mu(\theta))$.
+\item Eigenline: $m\in M[\mu]$ iff $e(m)\in\Ann_S\ker\mu$, so $M[\mu]=A\,\theta m_1$, freely.
+\item Generators: $m_0=a\,\theta m_1$ with $a\in A^\times$; and $B(\theta m_1,\theta m_1)=\ell(\theta^2)=\mu(\theta)$, so
+  $(B(m_0,m_0))=(a^2\mu(\theta))=\mathrm{congruenceIdeal}(\mu)$.
+\end{enumerate}
+No locality, noetherianity, domain or reducedness hypothesis is used; this is \cite[Rem.~7.3, p.~67]{Hs} for $d=1$, without
+Hsieh's assumptions. Step~2 is Lemma~S of stage~06 (main.pdf, Lemma~19.3).
+\end{outline}
+
+\paragraph{Coefficients $\Vk$.}
+\begin{quoted}{Proposition}{18.1}{125}{prop:s04-ekillsVk}{$e$ kills $H_0$ with $\Vk$-coefficients}{chapters/s04/vk.tex}\label{rpt:prop:s04-ekillsVk}
+Let $s\ge1$, $k\ge2$, $q\nmid Dp$, $U$ of level prime to $pq$ with $U_q=\GL_2(\Zq)$. Assume $\BG(UU_s,q)$ is connected and \texttt{Hyp.SA}
+(both are used in Step~3, through \texttt{if:s02-coh}(c) and \texttt{if:s02-SA}). Then $e$ kills $H_0(\Gamma_{UU_s},\Vk)$ (with
+$U_p$ induced from $\coker\partial$). Consequently, for every $k$,
+\[0\to e\,H_1(\Gamma_{UU_s},\Vk)\to e\,\Brandt{\Uzero{q}UU_s}{\Vk}_*\xrightarrow{\ \partial\ }e\,\Brandt{UU_s}{\Vk}_*^{\,2}\to0\]
+is exact, \emph{without} localisation at a non-Eisenstein $\m$.
+\par\smallskip\noindent{\scriptsize\itshape [Status paragraph following the statement in the chapter:]}\par
+\noindent\sttoprove{} (the transfer step below is not written; the other steps are proved).
+\end{quoted}
+\begin{outline}
+\sttoprove{} as a whole; the status of each step is as in the chapter. Write $n=k-2$, $\mathrm{ev}(P)=P(0,1)$.
+\begin{enumerate}[label=\arabic*.]
+\item (\stproved) Every $g\in\varpi_j\Kp s$ has $a\equiv c\equiv0$, $d\equiv1\pmod p$, so modulo $p$, $gP=P(0,1)(bX+dY)^n$ factors
+  through $\mathrm{ev}$ and $\mathrm{ev}(gP)\equiv\mathrm{ev}(P)$.
+\item (\stproved) $\Gamma_{UU_s}$ lies in $\Kp s$ at $p$, so $\mathrm{ev}$ induces a surjection $(\Vk)_\Gamma\to\Z/p^s$; in particular
+  $H_0(\Gamma_{UU_s},\Vk)\ne0$ for all $k\ge2$, $s\ge1$.
+\item (\sttoprove) Under $H_0=(\Vk)_\Gamma$ (\stpmc{} via strong approximation, main.pdf, Thm.~7.7), $U_p$ should act by
+  $v\mapsto\sum_i\xi_iv$ for global $\xi_i\in B^\times$ with $\xi_i\in\varpi_{j(i)}\Kp s$ at $p$. Writing this transfer of $U_p$ from
+  $\coker\partial$ to group homology is the step not yet done.
+\item (\stproved{} given step~3) By step~1, $\mathrm{ev}(U_pv)\equiv p\,\mathrm{ev}(v)\equiv0$ and $U_p^2v\equiv0\pmod p$, so $U_p$ is
+  topologically nilpotent on $(\Vk)_\Gamma$ and $e=0$; the exact sequence follows by applying $e$ to the two-term complex.
+\end{enumerate}
+So $e$ would kill a non-zero, non-ordinary Ihara cokernel at level $\Uone{p^s}$.
+\end{outline}
+
+\paragraph{Omitted secondary statements.}
+Prop.~14.2 (finite-level freeness, \stproved, \stformal), Lemma~15.2 (finite-level ordinary Ribet sequence, \stproved{} given
+stage~03), Lemma~15.3 (exactness of $\varprojlim$, \stproved) and Rem.~13.3 ($e\ne e^*$, \stcomp) are used in the outlines above; the
+remaining remarks are the GL$_2$-side pointers (Rem.~14.5, \stcited{} \cite[Thm.~3.1, Cor.~3.2--3.3]{Hi86b}), the dictionary
+(Rem.~16.2, \stpmc, integral form for $p\mid\varphi(M)$ \stsketch), the $\iota_2$ consistency check (Rem.~16.3, \stproved) and the
+nearly ordinary tower (Rem.~18.2, \stsketch).
+
+\subsubsection*{What this stage does not prove}
+\begin{itemize}
+\item Prop.~18.1 (with $\Vk$-coefficients): \sttoprove; the transfer of $U_p$ (step~3) is not written.
+\item Thm~14.4(b): for general $U$ prime to $p$ only \stexp{} (Hida 1988, Thm.~9.4, whose statement is only partly legible in the
+  available copy); for $U=\Uone M$ \stcited, integrally only if $p\nmid\varphi(M)$ (integral form otherwise \stsketch);
+  $p$-stabilisation for $k\ge3$ \stexp.
+\item Thm~16.6 (i)--(iii), the properties of $B_N$, Hyp.~16.5 and the second claim of Thm~16.7 are \stcited{} \cite{Hs}; their
+  hypotheses are not re-verified. For $p\mid\varphi(M)$ and for other $\m$ the Gorenstein and freeness statements are \stexp.
+\item Thm~15.1 is proved under the hypothesis that $\BG(UU_s,q)$ is connected for every $s\ge1$; this follows from the
+  strong-approximation input of stage~02 (\texttt{Hyp.SA}, \texttt{Hyp.HS}) and is not a finite check. The same hypothesis
+  enters the $H_0$ clause of Lemma~13.2(a).
+\item The rank identification of $\Xord_{Dq}(U)$ with the $Dq$-new ordinary Hecke algebra of $\GL_2$ is \stexp; the nearly
+  ordinary comparison (Rem.~18.2) is \stsketch.
+\item Lean: the $\Lam$-adic half of Thm~14.4(a) is the open hypothesis \pathtt{Hyp.MordLambdaFree} (a tex-proved statement);
+  Thm~14.4(b) is the schematic open hypothesis \pathtt{Hyp.HidaControl}; the limit of Thm~15.1(a) is formalized only modulo
+  \pathtt{Hyp.InvLimExact} (the $A$-surjectivity is not formalized) and Thm~15.1(b) not at all; Thm~16.6 is the cited
+  hypothesis \pathtt{Hyp.HsiehGor}; the $H_0$ clause of Lemma~13.2(a), the rank constancy in $s$ (Lemma~14.3(d)) and general
+  $\cOE$ are not formalized.
+\end{itemize}

@@ -1,0 +1,66 @@
+REQUEST TO THE HACS / ORBIFOLD SESSION  (from the homotopical Jacquet-Langlands feasibility project; 2026-11-13)
+You cannot reply to us directly; the PI forwards this. Please read it as an OPTIONAL, LOW-PRIORITY side request (no deadline).
+It must not disturb your roadmap; do only what fits, in the order given, and stop whenever it stops being cheap.
+
+0. THANKS
+Task 0 of the v4 request (task0_inscope/results.md) arrived and was cross-checked on our side: agreement at D=3 (congruence
+module Z/17) and D=5 (primes {29,131}); ordinary ranks agree. Thank you.
+
+1. CONTEXT
+Our zig-zag needs an S-arithmetic intermediate object: on the GL_2/Q side SL_2(Z[1/p]) acting on the Bruhat-Tits tree of Q_p,
+on the definite side O(M)[1/l]^x acting on the tree (the planned S1b of the definite module). The new-group requests
+(Sp(1,1), GL_2(B)) remain WITHDRAWN (PI decision 2026-11-12). Below: one new item that reuses existing HACS machinery
+(Task 1), one extension of the planned definite module (Task 2), one later oracle (Task 3). Status tags: [proved] [sketched]
+[conjectural] [cited]. Our expectations are NOT results.
+
+2. TASKS
+Task 1 (NEW, GL_2/Q side; small-moderate; reuses Shapiro induction and restriction maps; no new geometry).
+  Amalgam: SL_2(Z[1/p]) = SL_2(Z) *_{Gamma_0(p)} SL_2(Z) [cited: Serre, Trees, II.1.4 (page unverified)], where the second
+  embedding of SL_2(Z) is conjugated by diag(p,1). With V = Sym^{k-2} (integral lattice) the Mayer-Vietoris sequence reads
+    ... -> H^q(SL_2(Z[1/p]),V) -> H^q(SL_2(Z),V)^2 -> H^q(Gamma_0(p),V) -> H^{q+1}(SL_2(Z[1/p]),V) -> ...
+  [sketched: standard for amalgams; sign and the second map (restriction along the conjugate inclusion) to be fixed by you;
+  please STATE YOUR CONVENTION, including how the conjugation acts on V].
+  Requested outputs over Z_(l), l > k, l != p (elementary divisors / torsion, not only ranks):
+   (a) H^1 and H^2 of SL_2(Z[1/p]) with coefficients V;
+   (b) the torsion of coker(alpha), alpha = the degeneracy (MV) map H^1(SL_2(Z),V)^2 -> H^1(Gamma_0(p),V); its free part
+       has rank 2 dim S_k^{p-new}(p). Expected [cited, Ihara's lemma / Ribet 1984, unverified page]: no torsion at
+       non-Eisenstein l, so the torsion of H^2(SL_2(Z[1/p]),V) is Eisenstein only;
+   (c) the Ribet level-raising module: coker(alpha^* alpha) on H^1(SL_2(Z),V)^2 (alpha^* = the adjoint / trace map),
+       i.e. old-intersect-new; compare with a_p^2 - (p+1)^2 p^{k-2} on level-1 eigenforms [sketched: the determinant of
+       alpha^* alpha restricted to the cuspidal part is a unit times prod_f (a_p(f)^2 - (p+1)^2 p^{k-2}); please give its
+       elementary divisors per maximal ideal];
+   (d) Hecke T_q, q != p, on all groups in the sequence (normalisation and coset representatives please).
+  Test range: p = 3,5,7,11,13; k = 4..14. Anchors: p=3, k=12, l=17 (Delta; tau(3)^2 - 3^10*16 divisible by 17);
+  p=5, k=12, l in {29,131}.
+  Why: it is the split-side mirror of the planned S1b; together they are the two ends of our intermediate object.
+
+Task 2 (EXTENSION of planned M8 / S1b / M7 of the definite module; record/export only, no new models).
+  For definite B/Q of discriminant D, please export, in addition to what is planned:
+   (a) elementary divisors of the M8 Gram matrix on the cuspidal lattice, and on Hecke-stable saturated sublattices
+       (congruence modules eta^B, per maximal ideal of the Hecke algebra);
+   (b) torsion of the S1b Mayer-Vietoris sequence (quaternionic Ihara cokernel);
+   (c) W_p (p | D) as an integral matrix on the lattice.
+  Test range: D = 2,3,5,7,11,13 (plus one omega(D)=3 case, e.g. D=30, if S1 reaches it); k = 2..14; l > k.
+  Purpose: we compare with GL_2 congruence modules of D-new forms (integral JL defect, expected to be local factors at
+  l | D in Ribet-Takahashi / Pollack-Weston form [conjectural/unverified statement]). No JL code is needed in HACS.
+
+Task 3 (LATER; do NOT start before stage S2, Iwahori level / U_p, exists).
+  Oracle: tr(T_n U_p^m) at Iwahori level on the definite side, to compare with the GL_2 side (Popa II, Thm 3, p. 8 for the
+  GL_2 trace [cited]) for small n, m, p, k. It tests our open hypothesis Hyp.IwahoriTrace [conjectural]. Cheap once S2 exists.
+
+3. INTEGRALITY AND HECKE
+Give answers over Z or Z_(l) with torsion (elementary divisors), not only over Q or F_l. Please report the normalisations:
+coset representatives for T_q / U_p / W_p; Sym convention (degree n = k-2, action on polynomials vs dual); and for the
+Brandt/Gram pairing whether weights are |Gamma_i| or |Gamma_i/+-1| (they differ by a factor 2 at -I). If an operator is
+too costly, give the cohomology first.
+
+4. OUTPUT LOCATION (neutral directory; nothing goes into the JL repo)
+$JL_EXCHANGE/task1_v6/   (new subfolder; parent exists). In it: README.md with one status line per task
+(not started / feasibility only / partial / done) and a short "feasibility" paragraph even for tasks you decline; results as
+text / markdown / JSON; the exact scripts or the commit hash of the HACS repo used; the exact input data (presentations,
+relators); the run log (wall time, memory). State clearly anything you did not verify.
+
+5. BOX ETIQUETTE
+Shared machine with Lean and GPU sessions: follow your own $HACS_RUN_LOG conventions and flock / LEAN_NUM_THREADS rules,
+keep memory modest (these systems are small; sparse / mod-p elimination suffices, no GPU needed). Do not touch the Lean trees
+of other projects. No action is required on our side, and no deadline.

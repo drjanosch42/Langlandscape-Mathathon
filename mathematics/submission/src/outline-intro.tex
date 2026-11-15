@@ -1,0 +1,39 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Head of the stage-by-stage proof outline (after chapter s00's outline): how the stage subsections are made.
+\subsection{How the stage subsections are made}\label{ss:outline-how}
+The six subsections below contain, for each stage, the key definitions, the main statements and outlines of their proofs.
+\begin{itemize}
+\item \emph{Statements} are quoted \emph{verbatim} from the chapter sources \pathtt{mathematics/chapters/s0N/*.tex} (each quoted
+  block names its number and page in \mainpdf{} \cite{LLmain}, its label and its source file), including their status markers.
+  The only changes are mechanical: labels are moved into the header, cross-references are replaced by their numbers in
+  \mainpdf, and the chapters' pointers to local copies of the literature are written as ordinary citations. Where a quoted
+  statement carries a revision note (printed ``[revision note: \dots]''), the note records a change made after an internal audit
+  and the previous wording; it does not change the status markers. The model decisions recorded in such notes (FD1: the
+  $\mu_N$-model with Picard functoriality for $\HypX$; FD2: $U_q\mapsto+\Pi_q$; the lift of (F1), (F1$'$) to \stpmc) have since been
+  taken by the team. The quoted text also contains internal identifiers of our working documents: \texttt{if:sNN-\dots} names
+  an interface (the statement a later stage is allowed to use), ``stage tex'' and ``seed'' are earlier planning documents, and
+  codes such as S04-M9, F7, D3, ``batch 6 (E3)'' or (R4) are work-package, audit-finding and remark numbers; none of them is
+  needed to read the statements.
+\item \emph{Proof outlines} are condensed from the proofs in the chapters; each step carries the status the chapter gives it.
+  The full proofs are in \mainpdf; a pointer such as \mainref{Thm~10.2} refers to it.
+\item \emph{Lean pointers} \pathtt{Langlandscape.X.y} name declarations of the Lean library (\S\ref{sec:lean},
+  Appendix~\ref{app:decls}). ``Formalized modulo \texttt{Hyp.X}'' means Lean-conditional on the registered hypothesis \texttt{Hyp.X}.
+\end{itemize}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=0.5cm and 0.45cm, >={Stealth},
+  st/.style={draw,rounded corners=2pt,inner sep=3pt,font=\small,align=center}]
+  \node[st] (s1) {01\\foundations};
+  \node[st,right=of s1] (s2) {02\\tree quotients};
+  \node[st,right=of s2] (s3) {03\\Ribet--Ihara};
+  \node[st,right=of s3] (s4) {04\\$\Lambda$-adic};
+  \node[st,above right=0.05cm and 0.6cm of s4] (s5) {05\\comparison $\HypX$};
+  \node[st,below right=0.05cm and 0.6cm of s4] (s6) {06\\integral defect};
+  \draw[->] (s1)--(s2); \draw[->] (s2)--(s3); \draw[->] (s3)--(s4); \draw[->] (s4)--(s5); \draw[->] (s4)--(s6);
+\end{tikzpicture}
+\caption{Dependency of the six stages: a chain of arrows from stage 01 (foundations) to stage 02 (tree quotients), stage 03
+(Ribet sequence and Ihara lemma) and stage 04 ($\Lambda$-adic passage); from stage 04 two arrows branch to stage 05 (the comparison
+hypothesis $\HypX$) and to stage 06 (the integral defect), which are independent of each other: stage 06 does not use $\HypX$.}
+\label{fig:stages}
+\end{figure}

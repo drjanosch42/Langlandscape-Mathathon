@@ -1,0 +1,240 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit and the Langlandscape team
+% Stage 03, WP S03-M3: Lemma bip (any ring R), the definite Ribet sequence, the definite Ihara lemma (i), (ii), (ii').
+% Labels are fixed by plan/staged/stage-03-ribet-ihara.tex; new label: rem:s03-torsion (the tex's unlabelled remark after thm:s03-ribet),
+% Owner of the interface if:s03-ribet. Conventions (C1)--(C6): \S\ref{ss:s03-conv} (chapters/s03/4-ihara.tex).
+\section{The definite Ribet sequence}\label{ss:s03-ribet}
+
+\emph{Standing notation.} As in stage 02: $q\nmid D$, $q\ne p$, $U$ is $q$-admissible (Def.~\ref{def:s02-GU}),
+$U':=\Uzero{q}U$, $U'_\alpha:=\alpha^{-1}U'\alpha$, $\alpha=\iota_q^{-1}\mathrm{diag}(1,q)$, and $s_0[y]=[y]$, $s_1[y]=[y\alpha]$ are the
+degeneracies $\XB{U'}\to\XB U$ (Def.~\ref{def:s02-BG}). ``(iii)'' means condition (iii) of Prop.~\ref{prop:s02-BG}: the bipartite Brandt graph
+$\BG(U,q)$ is connected. $R$ denotes an arbitrary commutative ring and $A$ an arbitrary abelian group.
+
+\subsection*{The sign table (C1)}
+Convention (C1) of \S\ref{ss:s03-conv} is the sign line of \texttt{if:s02-coh}. We state it once, as a table, with the corresponding rows of the
+``Sign and index table'' of \S\ref{ss:s02-coh}. One notational point: in this chapter (following the stage tex and (C3)) $s_{j*}$ denotes the
+pushforward on the homological modules \emph{and} the trace on the cohomological Brandt modules; stage 02 writes $\mathrm{tr}_j$ for the
+latter. The two are intertwined by the norm map, $\nu\circ s_{j*}=\mathrm{tr}_j\circ\nu'$ with no index factor
+(Prop.~\ref{prop:s02-Mhomprops}(d)), so no ambiguity arises.
+
+\begin{center}\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright}p{3.3cm}>{\raggedright}p{5.4cm}>{\raggedright\arraybackslash}p{5.6cm}}
+\toprule
+object & this chapter (stage 03) & stage 02 (\S\ref{ss:s02-coh}, \texttt{if:s02-coh})\\\midrule
+orientation & every edge $0\to1$; on $\BG(U,q)$: $o=s_0$, $t=s_1$ & same (Def.~\ref{def:s02-tree}, Prop.~\ref{prop:s02-quot}(a))\\
+boundary $\partial=\alpha$ & $\alpha=(-s_{0*},s_{1*})$, $[y]\mapsto(-[y],[y\alpha])$; $\partial e=[s_1e]_1-[s_0e]_0$ & $\partial=(-s_{0*},s_{1*})$, \texttt{partialHom}, \pathtt{Graph.boundary}\\
+transpose & $\alpha^\vee(f_0,f_1)=s_1^*f_1-s_0^*f_0$ (the seed's $\alpha^*=(-s_0^*,s_1^*)$) & $\delta(f_0,f_1)=s_1^*f_1-s_0^*f_0$, \texttt{deltaCoh}; $\delta=\partial^{\mathsf T}$ (Prop.~\ref{prop:s02-duality}(a))\\
+traces (C3) & $\alpha=(-s_{0*},s_{1*})$ on $\Brandt{U'}{V}\to\Brandt UV^2$ & $(-\mathrm{tr}_0,\mathrm{tr}_1)=\nu\,\partial\,\nu'^{-1}$\\
+Ribet [Ri90] & $\delta_{\rm Ri}=(s_{0*},s_{1*})$, no sign & ---\\\bottomrule
+\end{tabular}
+\end{center}
+The maps $\alpha$ and $\delta_{\rm Ri}$ differ by the automorphism $\sigma(x,y)=(-x,y)$ of the target: $\delta_{\rm Ri}=\sigma\circ\alpha$. Hence
+$\ker\delta_{\rm Ri}=\ker\alpha$, $\mathrm{im}\,\delta_{\rm Ri}=\sigma(\mathrm{im}\,\alpha)$ (in general $\ne\mathrm{im}\,\alpha$, e.g.\ in (b), where
+$\mathrm{im}\,\alpha$ is the kernel of the map to $H_0$), and $\sigma$ induces $\coker\alpha\cong\coker\delta_{\rm Ri}$. So the exactness statements of
+Thm~\ref{thm:s03-ribet}(a), (b) carry over to Ribet's sign, with the maps out of the target composed with $\sigma$. The transposes satisfy
+$\delta_{\rm Ri}^\vee=\alpha^\vee\circ\sigma^\vee$, so their kernels differ by $\sigma^\vee(f_0,f_1)=(-f_0,f_1)$: in Ribet's sign the kernels in
+Cor.~\ref{cor:s03-ihara}(ii), (ii$'$) are $\{(c\mathbf1,-c\mathbf1)\}$ and $\{(f_w,-f_{[q]^{-1}w})\}$. The sign change also flips the sign of the
+off-diagonal entries of $\alpha\alpha^\dagger$ (Prop.~\ref{prop:s03-LRdef}, \S2).
+Lean: the sign is fixed in one lemma, \lean{Langlandscape.Graph.boundary\_ofBip} (S03-L1), which says that, over any commutative ring $R$ and transported along
+$R[V_0\sqcup V_1]\simeq R[V_0]\times R[V_1]$, the boundary of the weighted graph \lean{Langlandscape.Graph.ofBip} (all weights $1$, edges $0\to1$) is
+$(-s_{0*},s_{1*})$, stage 02's \pathtt{Graph.boundary}; the two-vertex collapse is \lean{Langlandscape.Graph.collapse2} \stformal{}.
+
+\begin{lemma}[bipartite collapse]\label{lem:s03-bip}
+Let $\G$ be a finite \emph{connected} bipartite multigraph with parts $V_0,V_1$, edge set $E$, and maps $s_j:E\to V_j$. Put
+$\partial=(-s_{0*},s_{1*}):\Z[E]\to\Z[V_0]\oplus\Z[V_1]$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\ker\partial\subseteq\Z[E]^0$, and $\partial$ restricts to a surjection $\Z[E]^0\twoheadrightarrow\Z[V_0]^0\oplus\Z[V_1]^0$.
+  Hence there is an exact sequence $0\to H_1(\G)\to\Z[E]^0\to\Z[V_0]^0\oplus\Z[V_1]^0\to0$, and $\rk H_1=|E|-|V_0|-|V_1|+1$.
+\item For every abelian group $A$, the kernel of $\partial^\vee:A^{V_0}\oplus A^{V_1}\to A^E$, $(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0$, is
+  the diagonal $\{(c\mathbf1,c\mathbf1):c\in A\}$.
+\item If $E\ne\emptyset$ (equivalently, $V_0,V_1\ne\emptyset$), the sequence in (a) is the long exact homology sequence of the collapse
+  $\G\to\G^{(2)}$ onto the graph with the same edges and two vertices. The connecting map is $\partial|_{\Z[E]^0}$. (If $E=\emptyset$, $\G$ is a
+  single vertex and the sequence in (a) is $0$.)
+\end{enumerate}
+Parts (a) and (c) hold verbatim with $\Z$ replaced by any commutative ring $R$ ($R[E]$, $R[V_j]^0$, $H_1(\G,R)=\ker\partial$); the rank formula holds
+for $R=\Z$ and for $\rk_R$ over any integral domain $R$. \stproved{} (proof below; the stage tex has \sttoprove; the seed's proof of Thm ribet(a)
+is (c)). This is the Lean target: no quaternions are involved. Lean (S03-L2, any \texttt{CommRing R}): \lean{Langlandscape.Graph.bip\_ker\_le\_deg0}, \lean{Langlandscape.Graph.bip\_surj\_deg0}, \lean{Langlandscape.Graph.bip\_exact}, \lean{Langlandscape.Graph.bip\_rank} (over $\Z$), \lean{Langlandscape.Graph.bip\_ker\_dual} (any \texttt{AddCommGroup A}), \lean{Langlandscape.Graph.bip\_collapse\_connecting}, \lean{Langlandscape.Graph.bip\_collapse\_exact}, \lean{Langlandscape.Graph.bip\_collapse\_surjective} \stformal{}
+\end{lemma}
+\begin{proof}
+Write $\deg$ for the augmentation $R[S]\to R$ of any finite set $S$, and $\mathrm{aug}(a,b):=\deg a+\deg b$ on $R[V_0]\oplus R[V_1]$.
+
+\emph{Step 0: the image of $\partial$.} For $e\in E$, $\partial e=(-[s_0e],[s_1e])$, i.e.\ $\partial e=[t(e)]-[o(e)]$ in $R[V_0\sqcup V_1]$ with
+$o=s_0$, $t=s_1$. Hence $\mathrm{aug}\circ\partial=0$. Conversely, $\ker(\mathrm{aug})$ is spanned by the differences $[v]-[v_*]$ for a fixed vertex
+$v_*$ (as $\sum_vc_v[v]=\sum_vc_v([v]-[v_*])$ when $\sum_vc_v=0$). If $v,v'$ are the ends of an edge $e$, then $[v]-[v']=\pm\partial e$; by
+connectedness every $v$ is joined to $v_*$ by a chain of edges, and $[v]-[v_*]$ is the telescoping sum of the corresponding $\pm\partial e$. Hence
+$\partial(R[E])=\ker(\mathrm{aug})$ (this is stage 02's \pathtt{range\_boundary\_of\_connected}, Lean, any \texttt{CommRing R}).
+
+(a) If $\partial y=0$, then the second component gives $s_{1*}y=0$, and $\deg y=\deg s_{1*}y=0$, because $s_{1*}$ maps each basis vector to a basis
+vector. So $\ker\partial\subseteq R[E]^0$, and likewise $\partial(R[E]^0)\subseteq R[V_0]^0\oplus R[V_1]^0$ (components $-s_{0*}y$, $s_{1*}y$ have degree
+$\mp\deg y$). Given $(a,b)$ with $\deg a=\deg b=0$, Step~0 gives $y\in R[E]$ with $\partial y=(a,b)$, and then $\deg y=\deg s_{1*}y=\deg b=0$. So
+$\partial:R[E]^0\to R[V_0]^0\oplus R[V_1]^0$ is onto with kernel $H_1(\G,R)=\ker\partial$, which is the exact sequence.
+
+\emph{Rank.} By Step~0 the augmented complex $0\to H_1(\G)\to\Z[E]\xrightarrow{\partial}\Z[V_0]\oplus\Z[V_1]\xrightarrow{\mathrm{aug}}\Z\to0$ is exact
+($\mathrm{aug}$ is onto because $V_0\sqcup V_1\ne\emptyset$). Additivity of rank gives $\rk H_1-|E|+|V_0|+|V_1|-1=0$. The same holds over an integral
+domain with $\rk_R$ (all modules are free except possibly $H_1$, whose rank is then defined over $\mathrm{Frac}\,R$). (This avoids the case
+distinction $V_j=\emptyset$, where $\Z[V_j]^0=0$ has rank $0$, not $|V_j|-1$.)
+
+(b) $\partial^\vee(f_0,f_1)(e)=f_1(s_1e)-f_0(s_0e)$. Let $F:V_0\sqcup V_1\to A$ be $f_0$ on $V_0$ and $f_1$ on $V_1$. Then $\partial^\vee(f_0,f_1)=0$ iff
+$F(o(e))=F(t(e))$ for every $e$, iff $F$ is constant on the classes of the equivalence relation generated by $o(e)\sim t(e)$. As $\G$ is connected,
+iff $F$ is constant, i.e.\ $(f_0,f_1)=(c\mathbf1,c\mathbf1)$. Constants lie in the kernel. (No hypothesis on $A$ is used.)
+
+(c) Assume $E\ne\emptyset$; as $\G$ is connected, $V_0$ and $V_1$ are then nonempty, and conversely $V_0,V_1\ne\emptyset$ forces $E\ne\emptyset$ by
+connectedness. (For $E=\emptyset$, $\pi_*$ below is not onto in degree $0$, which is why this case is excluded.) Let $\pi:\G\to\G^{(2)}$ be the morphism that is the identity on edges and maps $V_j$ to the vertex $j$ of $\G^{(2)}$ ($j=0,1$; every edge of
+$\G^{(2)}$ goes from $0$ to $1$). On chain complexes ($C_1=R[E]$, $C_0=R[\text{vertices}]$, differential $\partial$) $\pi_*$ is surjective, with kernel
+the complex $K_\bullet$: $K_1=0$, $K_0=\ker\big(R[V_0]\oplus R[V_1]\xrightarrow{(\deg,\deg)}R^2\big)=R[V_0]^0\oplus R[V_1]^0$. The long exact homology
+sequence of $0\to K_\bullet\to C_\bullet(\G)\to C_\bullet(\G^{(2)})\to0$ reads
+\[0=H_1(K)\to H_1(\G)\to H_1(\G^{(2)})\xrightarrow{\ \delta\ }H_0(K)\to H_0(\G)\to H_0(\G^{(2)})\to0 .\]
+Here $H_1(\G^{(2)})=\ker\big(R[E]\to R^2,\ e\mapsto(-1,1)\big)=R[E]^0$ and $H_0(K)=K_0=R[V_0]^0\oplus R[V_1]^0$. Both $\G$ and $\G^{(2)}$ are connected (for
+$\G^{(2)}$ because $E\ne\emptyset$), so $H_0(\G)\to H_0(\G^{(2)})$ is the identity of
+$R$ and $H_0(K)\to H_0(\G)$ is $0$. So the sequence is $0\to H_1(\G)\to R[E]^0\xrightarrow{\delta}R[V_0]^0\oplus R[V_1]^0\to0$. The connecting map is
+computed by lifting $y\in H_1(\G^{(2)})$ to $C_1(\G)$ (the same $y$) and applying $\partial_\G$: $\delta y=\partial y\in K_0$. So
+$\delta=\partial|_{R[E]^0}$, and the sequence is the one of (a).
+\end{proof}
+
+\begin{theorem}[definite Ribet sequence as a vertex collapse; seed Thm ribet]\label{thm:s03-ribet}
+Let $q\nmid D$, $U$ as in \texttt{if:s02-quot}, $\G:=\GU\quot\cT_q$, and $|\G|$ its underlying graph, with the orientation (C1).
+\begin{enumerate}[label=(\alph*)]
+\item Over $\Z$ there is an exact sequence, equivariant for all Hecke operators $T=[UgU]$ with $g$ supported at a finite set $\Sigma\not\ni q$ of
+  places at which $U$ is factorisable (Prop.~\ref{prop:s02-quot}(c); this holds for all standard levels):
+  \[0\to H_1(|\G|,\Z)\to\Z[\XB{U'}]^0\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\big(\Z[\XB U]^0\big)^{2}\to0.\]
+\item Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Then, with the traces of (C3),
+  \[0\to H_1(\GU,V)\to\Brandt{U'}V\xrightarrow{\alpha}\Brandt UV^{2}\to H_0(\GU,V)\to0.\]
+\item $\rk_\Z H_1(|\G|)=|\XB{U'}|-2|\XB U|+1$. At a level where all $\Gamma_x$ are trivial, this is $(q-1)|\XB U|+1$, as in
+  \pathtt{if:s02-indef}. For $V=\Zp$, $p\ge5$: $H_1(\GU,\Zp)=H_1(|\G|,\Z)\otimes\Zp$.
+\end{enumerate}
+Part (a) holds over every commutative ring $R$ in place of $\Z$ (with $H_1(|\G|,R)$).
+\emph{Status.} Given (iii): (a), (c) first two sentences \stproved{} (Lemma~\ref{lem:s03-bip} and Prop.~\ref{prop:s02-quot}); (b) and the last
+sentence of (c) \stpmc{} (Prop.~\ref{prop:s02-coh}(b), which rests on the cited tree property and Shapiro's lemma; Lean \pathtt{Hyp.SerreCoh}). Without
+assuming (iii): \stpmc{} via $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}\Rightarrow$(iii) (Prop.~\ref{prop:s02-quot}). The definite form of Ribet's
+surjectivity is [Ri90, Thm~3.15, p.~451]
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Thm 3.15, p.~451} \stcited. Ribet proves it with Eichler's
+theorems. [Ri90, Rem.~3.18, p.~452]
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Rem.~3.18, p.~452} records the graph-connectivity
+proof (Livn\'e, Edixhoven), which is ours. Lean (S03-L9, any \texttt{CommRing R}, under \pathtt{Tree.BGConnected}, or under $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}$ in the \texttt{\_of\_SA\_HS} versions): \lean{Langlandscape.Ribet.ribet\_exact}, \lean{Langlandscape.Ribet.ribet\_rank}, \lean{Langlandscape.Ribet.ribet\_hecke\_equivariant}, \lean{Langlandscape.Ribet.boundary\_BG\_eq}, \lean{Langlandscape.Ribet.boundary\_BG\_apply}, \lean{Langlandscape.Ribet.ribet\_exact\_of\_SA\_HS}, \lean{Langlandscape.Ribet.ribet\_rank\_of\_SA\_HS} \stformal{} for (a) and the rank in (c);
+coefficient layer for (b), definitions and compatibilities only (S03-L14): \lean{Langlandscape.Ribet.CoeffData}, \lean{Langlandscape.Ribet.CoeffData.ofLocal},
+\lean{Langlandscape.Ribet.alphaV}, \lean{Langlandscape.Ribet.alphaVee}, \lean{Langlandscape.Ribet.s0TrV\_comp\_s0PullV}, \lean{Langlandscape.Ribet.alphaV\_triv},
+\lean{Langlandscape.Ribet.alphaVee\_triv} \stformal{}; the exactness statement (b) with coefficients $V$ itself is not formalized (\leanplanned)
+\end{theorem}
+\begin{proof}
+(a) Under (iii), Prop.~\ref{prop:s02-quot}(a) identifies $|\G|$ with $\BG(U,q)$: $V_0=V_1=\XB U$, $E=\XB{U'}$, $o=s_0$, $t=s_1$, edges oriented
+$0\to1$ (C1). $\BG(U,q)$ is connected by (iii), so Lemma~\ref{lem:s03-bip}(a) gives the exact sequence (over any $R$), with
+$\partial=(-s_{0*},s_{1*})=\alpha$.
+
+\emph{Hecke equivariance.} Let $T=[UgU]$ with $g$ supported at $\Sigma\not\ni q$ and $U$ factorisable at $\Sigma$, as in the statement
+(the hypothesis of Prop.~\ref{prop:s02-quot}(c)). On $\Z[\XB{U''}]$ ($U''\in\{U,U'\}$) it acts by $T[x]=\sum_i[xg_i]$ with the \emph{same} representatives $g_i$ at both
+levels (proof of Prop.~\ref{prop:s02-quot}(c)). So $\deg T[x]=\deg(UgU)$ for every $x$ at both levels, and $T$ preserves the degree-zero parts. It
+commutes with $s_{0*},s_{1*}$ by Prop.~\ref{prop:s02-quot}(c), hence with $\alpha$, and so preserves $H_1=\ker\alpha$. All maps of the sequence are
+therefore $T$-equivariant.
+
+(b) Assume first that $-1\notin U$ or that $-1$ acts trivially on $V$ (the standing hypothesis of Def.~\ref{def:s02-Mhom}). By
+Prop.~\ref{prop:s02-coh}(b), $H_*(\GU,V)$ is the homology of $\partial=(-s_{0*},s_{1*}):\Brandt{U'}{V}_*\to(\Brandt UV_*)^2$. Since $p\ge5$, the norm
+maps $\nu'=\nu_{U'}$ and $\nu=\nu_U$ are isomorphisms (Prop.~\ref{prop:s02-Mhomprops}(c)), and $\nu\circ s_{j*}=\mathrm{tr}_j\circ\nu'$
+(Prop.~\ref{prop:s02-Mhomprops}(d)). The traces $\mathrm{tr}_j$ are the maps $s_{j*}$ of (C3): the sum over $u\in U/U'$, resp.\ $U/U'_\alpha$, can be
+taken over representatives with $u_p=1$, because $U$, $U'$ and $U'_\alpha$ agree away from $q$, and then the factor $u_p$ in Def.~\ref{def:s02-Mhom}(iv)
+disappears. Hence $(\nu\oplus\nu)\circ\partial=\alpha\circ\nu'$, and transporting the exact sequence
+$0\to\ker\partial\to\Brandt{U'}V_*\to(\Brandt UV_*)^2\to\coker\partial\to0$ by $\nu',\nu$ gives the claim. In general $V=V^+\oplus V^-$ with $-1$
+acting by $\pm1$, and all four terms vanish for $V^-$ (Remark~\ref{rem:s02-minusone}); apply the first case to $V^+$.
+
+(c) By (a) (Lemma~\ref{lem:s03-bip}(a) with $|V_0|=|V_1|=|\XB U|$, $|E|=|\XB{U'}|$), $\rk H_1=|\XB{U'}|-2|\XB U|+1$. If all $\Gamma_x$ are trivial at levels $U$
+and $U'$, then $|\XB{U'}|=(q+1)|\XB U|$ (Prop.~\ref{prop:s02-free}(b)), so the rank is $(q-1)|\XB U|+1$. The last claim is
+Prop.~\ref{prop:s02-indefprops}(b) (with $H_1(|\G|,\Z)=H_1(\BG(U,q),\Z)=\cX^{(q)}_{Dq}(U)$, Def.~\ref{def:s02-indef}).
+\end{proof}
+
+\begin{example}[T2: ranks of $H_1$ and the collapsed graph]\label{ex:s03-T2}
+Three cases of Thm.~\ref{thm:s03-ribet}, computed by exact linear algebra (HACS/PARI, WP S03-C3), $U=\hat\cO^\times$ ($M=1$), $|\XB U|$ the class number of $B$ (per vertex type), and
+$\Phicomb$ that of the collapsed two-vertex graph (all edges $0\to1$, edge weights as listed). \stcomp{}, \pathtt{code/results/s03/T2.json}
+(provenance: commit \texttt{518e93aa}, script \pathtt{langlandscape.ribet.collapse}, PARI 2.15.4).
+\begin{center}\small
+\begin{tabular}{rrrrrlr}\toprule
+$D$ & $q$ & $|\XB U|$ & $|\XB{U'}|$ & $\rk H_1(|\G|)$ & edge weights & $|\Phicomb|$\\\midrule
+$2$ & $7$ & $1$ & $2$ & $1$ & $(3,3)$ & $6$\\
+$2$ & $13$ & $1$ & $3$ & $2$ & $(3,3,2)$ & $21$\\
+$11$ & $2$ & $2$ & $3$ & $0$ & $(2,1,1)$ & $5$\\\bottomrule
+\end{tabular}
+\end{center}
+In each case the rank agrees with Thm.~\ref{thm:s03-ribet}(c), $|\XB{U'}|-2|\XB U|+1$ ($2-2+1$, $3-2+1$, $3-4+1$), and the file records that $\alpha$ has rank
+$1,1,3$ with $\ker\alpha$ saturated of rank $1,2,0$, $\coker\alpha\cong\Z$ (torsion free, of rank $1$) and $\varepsilon\circ\alpha=0$, as in Thm.~\ref{thm:s03-ribet}(a)
+and Cor.~\ref{cor:s03-ihara}. For $D=2$ one has $\Z[\XB U]^0=0$ and $T_q=q+1$ ($=8,14$) on $\Z[\XB U]=\Z$; for $D=11$ the Brandt matrix $T_2$ has eigenvalues $3=q+1$ and $-2$, and $-2$ is its value on $\Z[\XB U]^0$. The case $B_{11}$, $q=2$ is continued in Example~\ref{ex:s03-LRB11} (the determinant of $\alpha\alpha^\dagger$).
+\end{example}
+
+\begin{remark}[torsion; the underlying graph]\label{rem:s03-torsion}
+In (a), $H_1(|\G|,\Z)$ is the homology of the \emph{underlying graph}. It differs from $H_1(\GU,\Z)$ by torsion supported at $2,3$
+(the vertex groups). The two agree after $\otimes\Z[\frac16]$ (Prop.~\ref{prop:s02-indefprops}(a), Remark~\ref{rem:s02-torsion}; the example
+$D=2$, $q=3$ there has $H_1(\GU,\Z)\cong\Z/3$ and $H_1(|\G|,\Z)=0$). In line with the amended \pathtt{if:s02-indef}, the
+indefinite stage over $\Z$ is $H_1(|\G|,\Z)=H_1(\BG(U,q),\Z)=H_1(\GU,\Z)/\mathrm{torsion}$ (Def.~\ref{def:s02-indef}). Part (a) needs only the
+connectivity of $\BG(U,q)$, which is a finite check at a single level (Prop.~\ref{prop:s02-BG}). Part (b) needs (iii) together with the cited tree property and
+Shapiro's lemma, but no density. The identification $H_0(\GU,V)=V_{U^1_p}$ of its last term, and Cor.~\ref{cor:s03-ihara}(ii$'$), need full strong
+approximation (see (R4) below).
+Ribet's version for $\GL_2$ character groups is (a) together with two identifications that the tree
+route does not prove: \v{C}erednik--Drinfeld (Remark~\ref{rem:s02-CD}), and $\HypX$ at a second prime (stage 05). \stproved{} (the comparison
+with $H_1(\GU,\Z)$ \stpmc{} as in Prop.~\ref{prop:s02-indefprops}(a)). \emph{New label} (the stage tex leaves this remark unlabelled).
+\end{remark}
+
+\subsection*{The definite Ihara lemma, (i)--(ii$'$)}
+
+\begin{corollary}[definite Ihara lemma, (i)--(ii); seed Cor.~ihara]\label{cor:s03-ihara}
+(i) $\alpha$ in Thm~\ref{thm:s03-ribet}(a) is surjective over $\Z$.
+(ii) For every abelian group $A$ (in particular $A=\F_\ell$ for every prime $\ell$), the kernel of
+$\alpha^\vee:(A^{\XB U})^2\to A^{\XB{U'}}$, $(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0$, is the line of constants $A\cdot(\mathbf1,\mathbf1)$.
+(ii$'$) Let $p\ge5$ and let $W$ be a $\Zp$-module with continuous $U_p$-action. Then
+\[\ker\big(\alpha^\vee:\Brandt UW^2\to\Brandt{U'}W\big)=\big\{(f_w,\,f_{[q]^{-1}w}):w\in W^{U^1_p}\big\},\qquad f_w(x):=[\tau(x)]^{-1}w,\]
+and this is $H^0(\GU,W)=W^{U^1_p}$.
+\stproved{} for (i), (ii) given (iii) (Lemma~\ref{lem:s03-bip} and Prop.~\ref{prop:s02-quot}). (ii$'$): \stpmc{} (proof below, new: it checks
+$f_w\in\Brandt UW$ by (C5) and $s_1^*f_{[q]^{-1}w}=s_0^*f_w$, and uses Lemma~\ref{lem:s02-cellmod} (given (iii); the tree property is cited)
+and the density of $\GU$ in $U^1_p$, i.e.\ Thm.~\ref{thm:s02-SA}; see (R4)). Here $U$ is assumed factorisable at $p$, $U=U_p\times U^{(p)}$ (true
+for all standard levels), so that $\det:U_p\to\Zp^\times$ is onto and (C6) applies; ``continuous'' refers to a Hausdorff topology on $W$ for which
+$W$ is a topological $\Zp$-module (e.g.\ $W$ finitely generated with the $p$-adic topology, or discrete). Lean (S03-L9): \lean{Langlandscape.Ribet.ihara\_surj}, \lean{Langlandscape.Ribet.ihara\_surj\_of\_SA\_HS} (i), \lean{Langlandscape.Ribet.ihara\_ker\_const}, \lean{Langlandscape.Ribet.ihara\_ker\_const\_of\_SA\_HS} (ii, any $A$) \stformal{}; (ii$'$) is not formalized.
+\end{corollary}
+\begin{proof}
+(i) is the surjectivity in Thm.~\ref{thm:s03-ribet}(a), i.e.\ Lemma~\ref{lem:s03-bip}(a) for $\BG(U,q)$.
+
+(ii) is Lemma~\ref{lem:s03-bip}(b) for the connected graph $\BG(U,q)$: with $A^{\XB U}=A^{V_j}$ and $s_j^*f=f\circ s_j$, the map $\alpha^\vee$ is
+$\partial^\vee$.
+
+(ii$'$) We use (C5) and (C6) of \S\ref{ss:s03-conv}: $\tau(\gamma xu)=\tau(x)\det(u_p)$ for $\gamma\in B^\times$, $u\in U$, and
+$\tau(x\alpha)=q^{-1}\tau(x)$; and $U_p$ acts on $W^{U^1_p}$ through $\det$, by $u\mapsto[\det u]$ (as $U^1_p$ is normal in $U_p$, $W^{U^1_p}$ is
+$U_p$-stable, and $U^1_p$ acts trivially on it).
+
+\emph{Step 1: $f_w\in\Brandt UW$.} Left $B^\times$-invariance: $\tau(\gamma x)=\tau(x)$. For $u\in U$:
+$f_w(xu)=[\tau(x)\det u_p]^{-1}w=[\det u_p]^{-1}[\tau(x)]^{-1}w=u_p^{-1}f_w(x)$, since $[\cdot]$ is a homomorphism on the commutative group $\Zp^\times$
+and $u_p^{-1}$ acts on $W^{U^1_p}$ as $[\det u_p]^{-1}$.
+
+\emph{Step 2: $(f_w,f_{[q]^{-1}w})\in\ker\alpha^\vee$.} $(s_1^*f_{[q]^{-1}w})(y)=f_{[q]^{-1}w}(y\alpha)=[q^{-1}\tau(y)]^{-1}[q]^{-1}w=[\tau(y)]^{-1}w
+=(s_0^*f_w)(y)$.
+
+\emph{Step 3: these are all.} By Lemma~\ref{lem:s02-cellmod}(a),(b) (given (iii)), $\Psi_0:\Brandt UW^2\xrightarrow\sim\Hom_{\GU}(C_0,W)$ and
+$\Psi_1:\Brandt{U'}W\xrightarrow\sim\Hom_{\GU}(C_1,W)$ identify $\alpha^\vee=\delta$ with $\partial^*:F\mapsto F\circ\partial$. (Lemma~\ref{lem:s02-cellmod} is
+stated for $\Zp[U_p]$-modules; its proof of (a), (b) uses no finiteness of $W$.) The sequence $0\to C_1\to C_0\xrightarrow{\deg}\Z\to0$ of free
+$\Z$-modules \eqref{eq:s02-chains} stays exact under $\Hom_\Z(-,W)$, and taking $\GU$-invariants (left exact) gives
+$\ker\partial^*=\Hom_{\GU}(\Z,W)=W^{\GU}$, embedded as the constant cochains $F_w(c)=w$. For a tree representative $g\in B^1_q$ one has
+$\Nrd g=1$, so $\tau(g)=1$ and $\tau(g\alpha)=q^{-1}$. Hence $\Psi_0^{-1}(F_w)=(f_0,f_1)$ with $f_0(g)=F_w(gv_0)=w=f_w(g)$ and
+$f_1(g\alpha)=F_w(g\alpha v_0)=w=[q^{-1}]^{-1}[q]^{-1}w=f_{[q]^{-1}w}(g\alpha)$. By (iii) and Prop.~\ref{prop:s02-quot}(a), tree representatives exhaust
+$\XB U$ (both types), and elements of $\Brandt UW$ are determined by their values on representatives, so $\Psi_0^{-1}(F_w)=(f_w,f_{[q]^{-1}w})$ (for
+$w\in W^{\GU}$, which will be $W^{U^1_p}$). Thus $\ker\alpha^\vee=\{(f_w,f_{[q]^{-1}w}):w\in W^{\GU}\}$, and this is $H^0(\GU,W)=W^{\GU}$.
+
+\emph{Step 4: $W^{\GU}=W^{U^1_p}$.} $\GU$ acts on $W$ through $\gamma\mapsto\gamma_p\in U^1_p$ (as $\Nrd\gamma=1$). Its image is dense in $U^1_p$ (proof of
+Prop.~\ref{prop:s02-coh}(c): this uses Thm.~\ref{thm:s02-SA} and that $U$ is factorisable at $p$). For $w\in W$ the stabiliser
+$\{h\in U_p:hw=w\}$ is closed (preimage of the closed point $\{w\}$, $W$ Hausdorff, action continuous), so it contains the image of $\GU$ iff it contains
+$U^1_p$. Hence $W^{\GU}=W^{U^1_p}$, and Step~1 applies to these $w$.
+\end{proof}
+
+\paragraph{(R4) What each statement needs.} This makes the strong-approximation dependence explicit (deviation D3 of stage 02).
+\begin{center}\small
+\begin{tabular}{>{\raggedright}p{5.4cm}>{\raggedright\arraybackslash}p{9.4cm}}\toprule
+statement & arithmetic input\\\midrule
+Lemma~\ref{lem:s03-bip} & none (connected graph is a hypothesis)\\
+Thm.~\ref{thm:s03-ribet}(a), (c) (first two sentences), Cor.~\ref{cor:s03-ihara}(i), (ii) & connectivity (iii) of $\BG(U,q)$ only: a finite check at one level
+  (Prop.~\ref{prop:s02-BG}); it is implied by $\HypSA\wedge\HypHS\wedge\mathrm{Hyp.BTtree}$\\
+Thm.~\ref{thm:s03-ribet}(b), last sentence of (c) & (iii) and Prop.~\ref{prop:s02-coh}(b) (tree property, Shapiro; Lean \pathtt{Hyp.SerreCoh}); no density\\
+Cor.~\ref{cor:s03-ihara}(ii$'$), $H_0(\GU,V)=V_{U^1_p}$, Thm.~\ref{thm:s03-iharaH0} & (iii) \emph{and} the density of $\GU$ in $U^1_p$, i.e.\
+  full strong approximation (Thm.~\ref{thm:s02-SA}, Prop.~\ref{prop:s02-coh}(c)); \emph{not} discharged by the per-level finite check\\\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{interface}[\pathtt{if:s03-ribet}]\label{if:s03-ribet}
+Thm~\ref{thm:s03-ribet}(a) over $\Z$ (and over any commutative ring $R$), Hecke-equivariant for $T=[UgU]$ with $g$ supported at a finite
+$\Sigma\not\ni q$ at which $U$ is factorisable, and (b) with coefficients, with $\alpha=(-s_{0*},s_{1*})$, edges oriented
+$0\to1$, and $s_{j*}$ the traces (C3) on Brandt modules (the pushforwards on $\Z[X]$); the sign table above. The abstract core is
+Lemma~\ref{lem:s03-bip}. Optional: $\alpha\alpha^\dagger$ (Prop.~\ref{prop:s03-LRdef}, \S2, WP S03-M2). Status: \stpmc{} (given \texttt{if:s02-quot},
+\texttt{if:s02-coh}); (a) \stproved{} given the connectivity (iii).
+\end{interface}

@@ -1,0 +1,123 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Final talk (<= 20 min). Storyline: submission brief D (Fabian's talk philosophy).
+% Frames of the earlier 22-frame talk are kept, not included, in slides/backup/.
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme{default}
+% colour scheme: blue / light grey, no red (team decision); black text
+\definecolor{LLdarkblue}{HTML}{1F3A5F}% titles, structure
+\definecolor{LLblue}{HTML}{3D5A80}% emphasis, alerts
+\definecolor{LLgrey}{HTML}{ECEEF2}% block bodies
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=LLdarkblue}
+\setbeamercolor{title}{fg=white,bg=LLdarkblue}
+\setbeamercolor{subtitle}{fg=white}
+\setbeamercolor{frametitle}{fg=LLdarkblue,bg=LLgrey}
+\setbeamercolor{framesubtitle}{fg=LLblue}
+\setbeamercolor{block title}{fg=white,bg=LLdarkblue}
+\setbeamercolor{block body}{fg=black,bg=LLgrey}
+\setbeamercolor{block title alerted}{fg=white,bg=LLblue}
+\setbeamercolor{block body alerted}{fg=black,bg=LLgrey}
+\setbeamercolor{block title example}{fg=white,bg=LLblue}
+\setbeamercolor{block body example}{fg=black,bg=LLgrey}
+\setbeamercolor{alerted text}{fg=LLblue}
+\setbeamercolor{item}{fg=LLdarkblue}
+\setbeamercolor{enumerate item}{fg=LLdarkblue}
+\setbeamercolor{author}{fg=black}
+\setbeamercolor{institute}{fg=black}
+\setbeamercolor{date}{fg=black}
+\setbeamercolor{footline}{fg=LLdarkblue}
+\setbeamercolor{page number in head/foot}{fg=LLdarkblue}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{appendixnumberbeamer}% backup frames after \appendix are not counted in the frame total
+\input{slides/counts}
+\usetikzlibrary{positioning}
+
+% ---- math macros ----
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Ohat}{\widehat{\mathcal O}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\T}{\mathbb T}
+\newcommand{\cc}{\mathfrak c}
+\newcommand{\tq}{\mathfrak t}
+\newcommand{\m}{\mathfrak m}
+\newcommand{\Phicomb}{\Phi^{\mathrm{comb}}}
+\newcommand{\GDR}{\mathcal G^{\mathrm{DR}}}
+\newcommand{\Ann}{\mathrm{Ann}}
+% status words (same vocabulary as mathematics/preamble.tex)
+\newcommand{\stproved}{\emph{proved}}
+\newcommand{\stpmc}{\emph{proved modulo cited results}}
+\newcommand{\stcited}{\emph{cited}}
+\newcommand{\stcomp}{\emph{computed}}
+\newcommand{\stopen}{\emph{open}}
+\newcommand{\sthyp}{\emph{hypothesis}}
+\newcommand{\src}[1]{{\tiny\color{gray}#1}}
+\definecolor{LLtag}{HTML}{6B7280}% status tags: grey, distinct from \alert (LLblue)
+\newcommand{\stattag}[1]{\textcolor{LLtag}{\scriptsize(#1)}}
+\newcommand{\reftag}[1]{\textcolor{LLtag}{(#1)}}% literature references: same grey, normal size
+
+\title{Congruences and the Jacquet--Langlands correspondence}
+\subtitle{An integral, combinatorial route through Bruhat--Tits trees,\\ Hida theory and the defect formula\\
+  mathematics, Lean 4, computations (HACS) and an agentic process}
+\author{Abhijit A J and Fabian Januszewski\\[0.3ex] team Langlandscape}
+\institute{Caltech $\times$ SAIR Mathathon 2026}
+\date{15 November 2026}
+\setbeamerfont{institute}{size=\small}
+\setbeamerfont{date}{size=\small}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ---- frames (one \input per file; order per Fabian, 2026-11-15) ----
+\input{slides/f01a-quaternion}
+\input{slides/f01b-brandt}
+% \input{slides/f02-jl}  % moved to the backup section (after \appendix), team decision
+\input{slides/f03-want}
+\input{slides/f03-setup}
+\input{slides/f05-ribet}
+% \input{slides/f05b-jlproof}  % moved to the backup section (after \appendix), team decision
+\input{slides/f07-tree}
+\input{slides/f15b-lanes}
+% \input{slides/f08-cokernel}  % moved to the backup section (after \appendix), team decision
+% \input{slides/f09-lambda}  % moved to the backup section (after \appendix), team decision
+% \input{slides/f06-converse}  % moved to the backup section (after \appendix), team decision
+% \input{slides/f11-defect-why}  % moved to the backup section (after \appendix), team decision
+\input{slides/f12-question}
+\input{slides/f10-defect}
+\input{slides/f13-lean}
+\input{slides/f14-computations}
+\input{slides/f15-process}
+% \input{slides/f16-new-known}  % moved to the backup section (after \appendix), team decision
+\input{slides/f17-thanks}
+\input{slides/acknowledgments}
+\appendix
+% backup pile, in the mathematical order of the talk (team decision); process last
+\input{slides/b00-divider}
+\input{slides/f16-new-known}
+\input{slides/b03-hypx}
+\input{slides/b02-hypotheses}
+\input{slides/f05b-jlproof}
+\input{slides/f06-converse}
+\input{slides/f08-cokernel}
+\input{slides/f09-lambda}
+\input{slides/f11-defect-why}
+\input{slides/b01-lessons}
+% ---- backup frames (not counted in the talk) ----
+% \input{slides/f02-jl}  % removed from the backup pile, team decision
+% ---- end frames ----
+
+\end{document}

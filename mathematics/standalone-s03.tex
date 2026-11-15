@@ -1,0 +1,16 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit and the Langlandscape team
+\documentclass[11pt]{amsart}
+% Standalone build of stages 01--03. Build from this directory: latexmk -pdf -interaction=nonstopmode standalone-s03.tex
+% Per-WP bib files were merged into references.bib at S03-M9.
+\input{preamble}
+\title{Jacquet--Langlands: stage 03 (standalone)}
+\author{Langlandscape project}
+\date{\today}
+\begin{document}
+\maketitle
+\IfFileExists{chapters/s01.tex}{\input{chapters/s01}}{}
+\IfFileExists{chapters/s02.tex}{\input{chapters/s02}}{}
+\input{chapters/s03}
+\printbibliography
+\end{document}

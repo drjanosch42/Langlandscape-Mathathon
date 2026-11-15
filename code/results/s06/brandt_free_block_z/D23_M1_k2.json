@@ -1,0 +1,468 @@
+{
+ "data": {
+  "checks": {
+   "charpoly": true,
+   "commute": true,
+   "fnv": true,
+   "row_sums": true,
+   "square": true,
+   "symmetry": true,
+   "symn_charpoly": null
+  },
+  "free_block_z": {
+   "D": 23,
+   "F": [
+    [
+     [
+      "1",
+      "1",
+      "1"
+     ],
+     [
+      "2",
+      "1",
+      "0"
+     ],
+     [
+      "3",
+      "0",
+      "0"
+     ]
+    ],
+    [
+     [
+      "3",
+      "1",
+      "0"
+     ],
+     [
+      "2",
+      "0",
+      "2"
+     ],
+     [
+      "0",
+      "3",
+      "1"
+     ]
+    ],
+    [
+     [
+      "2",
+      "2",
+      "2"
+     ],
+     [
+      "4",
+      "2",
+      "0"
+     ],
+     [
+      "6",
+      "0",
+      "0"
+     ]
+    ],
+    [
+     [
+      "4",
+      "2",
+      "2"
+     ],
+     [
+      "4",
+      "4",
+      "0"
+     ],
+     [
+      "6",
+      "0",
+      "2"
+     ]
+    ],
+    [
+     [
+      "6",
+      "4",
+      "2"
+     ],
+     [
+      "8",
+      "0",
+      "4"
+     ],
+     [
+      "6",
+      "6",
+      "0"
+     ]
+    ],
+    [
+     [
+      "9",
+      "3",
+      "2"
+     ],
+     [
+      "6",
+      "6",
+      "2"
+     ],
+     [
+      "6",
+      "3",
+      "5"
+     ]
+    ],
+    [
+     [
+      "12",
+      "4",
+      "2"
+     ],
+     [
+      "8",
+      "6",
+      "4"
+     ],
+     [
+      "6",
+      "6",
+      "6"
+     ]
+    ],
+    [
+     [
+      "10",
+      "6",
+      "4"
+     ],
+     [
+      "12",
+      "4",
+      "4"
+     ],
+     [
+      "12",
+      "6",
+      "2"
+     ]
+    ],
+    [
+     [
+      "15",
+      "9",
+      "6"
+     ],
+     [
+      "18",
+      "6",
+      "6"
+     ],
+     [
+      "18",
+      "9",
+      "3"
+     ]
+    ],
+    [
+     [
+      "15",
+      "9",
+      "8"
+     ],
+     [
+      "18",
+      "12",
+      "2"
+     ],
+     [
+      "24",
+      "3",
+      "5"
+     ]
+    ],
+    [
+     [
+      "22",
+      "10",
+      "6"
+     ],
+     [
+      "20",
+      "10",
+      "8"
+     ],
+     [
+      "18",
+      "12",
+      "8"
+     ]
+    ],
+    [
+     [
+      "25",
+      "11",
+      "6"
+     ],
+     [
+      "22",
+      "10",
+      "10"
+     ],
+     [
+      "18",
+      "15",
+      "9"
+     ]
+    ],
+    [
+     [
+      "24",
+      "12",
+      "8"
+     ],
+     [
+      "24",
+      "12",
+      "8"
+     ],
+     [
+      "24",
+      "12",
+      "8"
+     ]
+    ],
+    [
+     [
+      "27",
+      "13",
+      "8"
+     ],
+     [
+      "26",
+      "12",
+      "10"
+     ],
+     [
+      "24",
+      "15",
+      "9"
+     ]
+    ]
+   ],
+   "F_fnv": [
+    "0xa3d3eb457c26ac60",
+    "0x36896d50dd4bd81f",
+    "0x2fe128f8124b9dd9",
+    "0x59391d0965704dc7",
+    "0x6ecc5f30679af3e3",
+    "0xcabc0c0a7b32c011",
+    "0x3ff21750d7f57c98",
+    "0x5cb85eb653b0c98e",
+    "0x5a89115504302c24",
+    "0x6281be9ed256a57a",
+    "0x335c8d789bd2e25f",
+    "0xa55bf2730efc1356",
+    "0x1c1c94200acb193e",
+    "0xf6c6da6f2f0d9bb7"
+   ],
+   "M": 1,
+   "N": 23,
+   "basis_fnv": "0x4c257c2088bfb9f7",
+   "basis_rule": "brandt_k2_canonical/v2: b_j = 1_{c_j}, c_j the j-th left-ideal class; classes sorted ascending by (|Gamma_c|, (r_c(1),...,r_c(20))), r_c(m) = #{x in O_r(I_c) : nrd x = m} (x, -x both counted); ties listed in order_ties, order within a tie unspecified",
+   "bits_F": [
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+   ],
+   "bound_basis": "-",
+   "charpoly_Z": [
+    [
+     "3",
+     "-4",
+     "-2",
+     "1"
+    ],
+    [
+     "20",
+     "-5",
+     "-4",
+     "1"
+    ],
+    [
+     "24",
+     "-16",
+     "-4",
+     "1"
+    ],
+    [
+     "32",
+     "12",
+     "-10",
+     "1"
+    ],
+    [
+     "-48",
+     "-68",
+     "-6",
+     "1"
+    ],
+    [
+     "-126",
+     "93",
+     "-20",
+     "1"
+    ],
+    [
+     "-72",
+     "112",
+     "-24",
+     "1"
+    ],
+    [
+     "-80",
+     "-76",
+     "-16",
+     "1"
+    ],
+    [
+     "-270",
+     "-171",
+     "-24",
+     "1"
+    ],
+    [
+     "1440",
+     "-45",
+     "-32",
+     "1"
+    ],
+    [
+     "152",
+     "72",
+     "-40",
+     "1"
+    ],
+    [
+     "798",
+     "65",
+     "-44",
+     "1"
+    ],
+    [
+     "0",
+     "0",
+     "-44",
+     "1"
+    ],
+    [
+     "240",
+     "-5",
+     "-48",
+     "1"
+    ]
+   ],
+   "class_keys": [
+    "((Fraction(2, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(2, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), Fraction(1, 1)))",
+    "((Fraction(1, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), Fraction(1, 1)))",
+    "((Fraction(4, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(2, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(2, 1), Fraction(1, 1), Fraction(2, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(1, 1)))"
+   ],
+   "convention": "column: T_p b_j = sum_i F[i][j] b_i; F = B_p (B[c][c'] = #neighbours of c in c'); row sums l+1",
+   "d_algebra": 3,
+   "e_eis": 1,
+   "gammas": [
+    2,
+    4,
+    6
+   ],
+   "k": 2,
+   "lattice": "functions",
+   "n": 0,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47
+   ],
+   "order_ties": [],
+   "origin": "jl:brandt.py(theta,cross-checked)",
+   "phi_fnv": "-",
+   "proof": [
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count"
+   ],
+   "q0_key": "-",
+   "rank": 3,
+   "saturation": "exact_basis",
+   "schema": "langlandscape_brandt/v2",
+   "status": "ok",
+   "tag": "computed"
+  },
+  "schema": "langlandscape_brandt/v2",
+  "writer": "python:brandt_export@b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty"
+ },
+ "provenance": {
+  "commit": "b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty",
+  "date": "2026-11-15T01:27:38+00:00",
+  "notes": "HJ-B0; format plan/hacs/freeblockz-export-format.md (v2); computed",
+  "params": {
+   "D": 23,
+   "M": 1,
+   "k": 2,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 5.736928579994128,
+  "script": "code/python/langlandscape/hacs_bridge/brandt_export.py"
+ }
+}

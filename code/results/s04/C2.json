@@ -1,0 +1,2214 @@
+{
+ "data": {
+  "A_rank_s1": {
+   "Eisenstein_line": "constants, U_p = p (deg U_p = p), killed by e",
+   "U_p": [
+    [
+     3,
+     2
+    ],
+    [
+     2,
+     3
+    ]
+   ],
+   "U_p_charpoly_on_e_mod_q": [
+    1,
+    124
+   ],
+   "X1_size": 2,
+   "deg_Up_eq_p": true,
+   "dim_3new_total": 1,
+   "eisenstein_killed": true,
+   "m": 3,
+   "ordinary_total": 1,
+   "per_char": {
+    "1": {
+     "charpoly_U5": "x-1",
+     "dim_3new": 1,
+     "dim_new_15": 1,
+     "dim_new_3": 0,
+     "ordinary": 1
+    },
+    "4": {
+     "charpoly_U5": "1",
+     "dim_3new": 0,
+     "dim_new_15": 0,
+     "dim_new_3": 0,
+     "ordinary": 0
+    }
+   },
+   "rank_check": true,
+   "rank_e": 1
+  },
+  "B_diamonds": {
+   "s=2": {
+    "X_s_size": 50,
+    "all_match": {
+     "P_k,chi": false,
+     "P_k,chi^-1": false,
+     "Pad_k,chi": false,
+     "Pad_k,chi^-1": true
+    },
+    "iota_i": 7,
+    "q": 25,
+    "rank_e_Zq_Xs": 5,
+    "rows": [
+     {
+      "charpoly_U5": "x-1",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 1,
+      "dim_new_15": 1,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       24
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         24
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         24
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         24
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         24
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 24,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 24,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 24,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 24,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 24,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 7,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 7,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 18,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 7,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 18,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 18,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 18,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 7,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 18,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 7,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 2,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 2,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 13,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 13,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 24,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 23,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 23,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 12,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 12,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^2+Mod(-6*t+2,t^2+1)*x+Mod(-15*t-20,t^2+1)",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 2,
+      "dim_new_15": 2,
+      "dim_new_3": 0,
+      "iota(chi(2))": 7,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 14,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         19
+        ],
+        "lambda": 11,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         4
+        ],
+        "lambda": 16,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 9,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^2+Mod(6*t+2,t^2+1)*x+Mod(15*t-20,t^2+1)",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 2,
+      "dim_new_15": 2,
+      "dim_new_3": 0,
+      "iota(chi(2))": 18,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       4
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         19
+        ],
+        "lambda": 11,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 14,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 9,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         4
+        ],
+        "lambda": 16,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^2-25",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 2,
+      "dim_new_15": 2,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 4,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 4,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 19,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 19,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4-6*x^3-110*x^2-750*x+15625",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 24,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       9
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         14
+        ],
+        "lambda": 21,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         14
+        ],
+        "lambda": 21,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         9
+        ],
+        "lambda": 6,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         9
+        ],
+        "lambda": 6,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 7,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 3,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 22,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 8,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 17,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 18,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 22,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 3,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 17,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 8,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 8,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 8,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 22,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 22,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 24,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 17,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 17,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 3,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 3,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4+Mod(36*t+42,t^2+1)*x^3+Mod(1605*t+535,t^2+1)*x^2+Mod(33750*t-7500,t^2+1)*x+Mod(234375*t-312500,t^2+1)",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 7,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       14
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         9
+        ],
+        "lambda": 6,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 19,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 4,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         14
+        ],
+        "lambda": 21,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4+Mod(-36*t+42,t^2+1)*x^3+Mod(-1605*t+535,t^2+1)*x^2+Mod(-33750*t-7500,t^2+1)*x+Mod(-234375*t-312500,t^2+1)",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 18,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 19,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         9
+        ],
+        "lambda": 6,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         14
+        ],
+        "lambda": 21,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 4,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^6-6*x^5+1875*x^4+7500*x^3-3515625*x^2-2343750*x+1220703125",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 6,
+      "dim_new_15": 4,
+      "dim_new_3": 1,
+      "iota(chi(2))": 1,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       19
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         4
+        ],
+        "lambda": 16,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         4
+        ],
+        "lambda": 16,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         19
+        ],
+        "lambda": 11,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         19
+        ],
+        "lambda": 11,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4-120*x^3+9850*x^2-375000*x+9765625",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 24,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 9,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 9,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 14,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 14,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 7,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 12,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 13,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 2,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 23,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 18,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 13,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 12,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 23,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 2,
+        "match": true,
+        "rank": 0
+       }
+      }
+     }
+    ],
+    "s": 2
+   },
+   "s=3": {
+    "X_s_size": 1250,
+    "all_match": {
+     "P_k,chi": false,
+     "P_k,chi^-1": false,
+     "Pad_k,chi": false,
+     "Pad_k,chi^-1": true
+    },
+    "iota_i": 57,
+    "q": 125,
+    "rank_e_Zq_Xs": 25,
+    "rows": [
+     {
+      "charpoly_U5": "x-1",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 1,
+      "dim_new_15": 1,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       124
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         124
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         124
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         124
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         124
+        ],
+        "lambda": 1,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 124,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 124,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 124,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 124,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 124,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 57,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 57,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 68,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 57,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 68,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 68,
+      "k": 2,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 68,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 57,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 68,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 57,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 2,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 2,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 63,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 63,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 124,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 123,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 123,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 62,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 62,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^2+Mod(-6*t+2,t^2+1)*x+Mod(-15*t-20,t^2+1)",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 2,
+      "dim_new_15": 2,
+      "dim_new_3": 0,
+      "iota(chi(2))": 57,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 114,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         94
+        ],
+        "lambda": 11,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         104
+        ],
+        "lambda": 91,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 34,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^2+Mod(6*t+2,t^2+1)*x+Mod(15*t-20,t^2+1)",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 2,
+      "dim_new_15": 2,
+      "dim_new_3": 0,
+      "iota(chi(2))": 68,
+      "k": 3,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       104
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         94
+        ],
+        "lambda": 11,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 114,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 34,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         104
+        ],
+        "lambda": 91,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^2-25",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 2,
+      "dim_new_15": 2,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 4,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 4,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 94,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 94,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4-6*x^3-110*x^2-750*x+15625",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 124,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       34
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         14
+        ],
+        "lambda": 121,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         14
+        ],
+        "lambda": 121,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         34
+        ],
+        "lambda": 31,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         34
+        ],
+        "lambda": 31,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 57,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 103,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 22,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 108,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 17,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 68,
+      "k": 4,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 22,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 103,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 17,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 108,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 1,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 8,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 8,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 47,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 47,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 124,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 117,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 117,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 78,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 78,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4+Mod(36*t+42,t^2+1)*x^3+Mod(1605*t+535,t^2+1)*x^2+Mod(33750*t-7500,t^2+1)*x+Mod(234375*t-312500,t^2+1)",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 57,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       39
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         9
+        ],
+        "lambda": 81,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 44,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 54,
+        "match": false,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         39
+        ],
+        "lambda": 71,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4+Mod(-36*t+42,t^2+1)*x^3+Mod(-1605*t+535,t^2+1)*x^2+Mod(-33750*t-7500,t^2+1)*x+Mod(-234375*t-312500,t^2+1)",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 68,
+      "k": 5,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 44,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         9
+        ],
+        "lambda": 81,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         39
+        ],
+        "lambda": 71,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 54,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^6-6*x^5+1875*x^4+7500*x^3-3515625*x^2-2343750*x+1220703125",
+      "chi(2)": [
+       1,
+       0
+      ],
+      "chi_conrey_mod15": 1,
+      "dim_3new": 6,
+      "dim_new_15": 4,
+      "dim_new_3": 1,
+      "iota(chi(2))": 1,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1,
+       119
+      ],
+      "mf_ord_rank": 1,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1,
+         79
+        ],
+        "lambda": 16,
+        "match": false,
+        "rank": 1
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1,
+         79
+        ],
+        "lambda": 16,
+        "match": false,
+        "rank": 1
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1,
+         119
+        ],
+        "lambda": 86,
+        "match": true,
+        "rank": 1
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1,
+         119
+        ],
+        "lambda": 86,
+        "match": true,
+        "rank": 1
+       }
+      }
+     },
+     {
+      "charpoly_U5": "x^4-120*x^3+9850*x^2-375000*x+9765625",
+      "chi(2)": [
+       -1,
+       0
+      ],
+      "chi_conrey_mod15": 4,
+      "dim_3new": 4,
+      "dim_new_15": 4,
+      "dim_new_3": 0,
+      "iota(chi(2))": 124,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 109,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 109,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 39,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 39,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       1
+      ],
+      "chi_conrey_mod15": 7,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 57,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 37,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 88,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 27,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 98,
+        "match": true,
+        "rank": 0
+       }
+      }
+     },
+     {
+      "charpoly_U5": "1",
+      "chi(2)": [
+       0,
+       -1
+      ],
+      "chi_conrey_mod15": 13,
+      "dim_3new": 0,
+      "dim_new_15": 0,
+      "dim_new_3": 0,
+      "iota(chi(2))": 68,
+      "k": 6,
+      "mf_ord_charpoly_mod_q": [
+       1
+      ],
+      "mf_ord_rank": 0,
+      "quat": {
+       "P_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 88,
+        "match": true,
+        "rank": 0
+       },
+       "P_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 37,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 98,
+        "match": true,
+        "rank": 0
+       },
+       "Pad_k,chi^-1": {
+        "charpoly": [
+         1
+        ],
+        "lambda": 27,
+        "match": true,
+        "rank": 0
+       }
+      }
+     }
+    ],
+    "s": 3
+   }
+  },
+  "conventions": {
+   "P_k,chi": "adelic <2> acts by iota(chi(2))^1 * 2^{k-2}",
+   "P_k,chi^-1": "adelic <2> acts by iota(chi(2))^-1 * 2^{k-2}",
+   "Pad_k,chi": "adelic <2> acts by iota(chi(2))^1 * 2^{2-k}",
+   "Pad_k,chi^-1": "adelic <2> acts by iota(chi(2))^-1 * 2^{2-k}"
+  },
+  "diamond_convention": "<d>[x] = [x diag(1,d)] at p (adelic, homological; tower.diamond)",
+  "setting": "B_3 (definite, h=1), p=5, X_s = X_B(U_1(5^s)_5), M=N0=1; classical: S_k(Gamma_1(5) cap Gamma_0(3))^{3-new}",
+  "verdict": {
+   "matching_conventions": [
+    "Pad_k,chi^-1"
+   ],
+   "rank_equal": true,
+   "statement": "on the piece of e Z_p[X_s] matching ord S_k(Gamma_0(15), chi)^{3-new}, the adelic <d> = [x diag(1,d)] acts by chi(d)^{-1} d^{2-k} = (classical chi(d) d^{k-2})^{-1}: weight point P^ad_k (not seed P_k) and the classical nebentypus enters inverted (rem:s01-diamond, thm:s01-lambdaJL classical <d> -> seed <d>^{-1})"
+  }
+ },
+ "provenance": {
+  "commit": "ecc3d2df8be85dd312fa97d053ba4f08e1568ea8-dirty",
+  "date": "2026-11-14T22:04:26+00:00",
+  "notes": "S04-C4 (seed C2): rk e Z_p[X_1] vs PARI ordinary 3-new weight-2 forms; diamond normalisation P^ad_k; '-dirty' comes only from other WPs' untracked files in the shared worktree (seed_c2.py and its test are committed unchanged at ecc3d2d)",
+  "params": {
+   "D": 3,
+   "M": 1,
+   "N0": 1,
+   "chars_mod15": [
+    1,
+    4,
+    7,
+    13
+   ],
+   "k": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "p": 5,
+   "s": [
+    2,
+    3
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 2.285,
+  "script": "code/python/langlandscape/ordinary/seed_c2.py (cd code/python && python3 -m langlandscape.ordinary.seed_c2)"
+ }
+}

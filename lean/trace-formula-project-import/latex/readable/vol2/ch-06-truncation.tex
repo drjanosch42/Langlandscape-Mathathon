@@ -1,0 +1,143 @@
+% Document A (readable edition). Lean counterpart: the module group of this chapter (docs/sprints/M9a-plan.md §1.1,
+% tools/chapter_modules.py): lean/GL2TF/VolII/{TruncationCosets,TruncationPartition,Truncation,TruncationL2,TruncationDecayCore,TruncationDecay}.lean.
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% M9a W0 (A1): all 30 items of docs/sprints/M9a-plan.md §1.2 drafted; the headline items against the clause files docs/census/M9a/*.clauses;
+% §5 follows L1's spike (docs/notes/M9a-l2-spike.md: N-averaging identity instead of the N(A)T(Q) tower). No \tfplanned line remains.
+% Fork algebraic_jl: §§1--2 kept (T_0, chamber functions, sums over B(Q)\G(Q)); §§3 ff. (compact part, truncation operator,
+% L^2 theory, rapid decay) dropped; title, overview and notation rewritten (../../EDITS.md).
+
+\chapter{\texorpdfstring{The point $T_0$ and sums over $B(\Q)\backslash G(\Q)$}{The point T0 and sums over B(Q)\textbackslash G(Q)}}\label{ch:ch-06-truncation}
+
+\noindent\emph{Scope:} area \texttt{trunc} (its combinatorial part). \emph{Sources:} \cite[§§5, 6, 9]{AIntro}; \cite[Lecture III §2]{Gel}.
+
+\noindent\emph{Overview.} In the parent project this chapter introduces Arthur's truncation operator. Only its two combinatorial sections are
+kept: §1 shows $T_0=0$ and states the range of the truncation parameter; §2 proves, from the height lemma of \cref{ch:ch-0-08-reduction}, that for
+$x\in G(\A)^1$ and $c\ge0$ at most one coset $B(\Q)\delta$ has $\alpha(\HB(\delta x))>c$ (\cref{II.trunc.thm:coset-sum-at-most-one}), the
+finiteness statements for sums over $B(\Q)\backslash G(\Q)$, and the continuity of the height.
+
+\noindent\emph{Notation.} Elements of $G(\Q)=\GL_2(\Q)$ are regarded as elements of $G(\A)^1$ (\texttt{I.conv.def:gl2}). $B(\Q)\backslash G(\Q)$ is the set of right cosets
+$B(\Q)\delta$, $\delta\in G(\Q)$; it is countable, as $G(\Q)$ is. $\HB$ is the height map (\texttt{I.decomp.def:height-map}), $\alpha$ the simple root
+(\texttt{I.conv.def:simple-root}), $\operatorname{ht}$ the height of \texttt{I.red.def:height-primitive}, $\tau_B,\hat\tau_B$ the chamber functions
+(\texttt{I.conv.def:chamber-functions}), and $T$ ranges over $\aB$; only $\alpha(T)$ enters.
+
+Three facts from \cref{ch:ch-0-08-reduction} are used throughout; $\delta,\delta'\in G(\Q)$ and $x\in G(\A)$.
+(H1) $\HB(b\delta x)=\HB(\delta x)$ for $b\in B(\Q)$ (\texttt{I.decomp.thm:height-map-equivariance}), so $\alpha(\HB(\delta x))$ depends only on
+the coset $B(\Q)\delta$.
+(H2) $\alpha(\HB(\delta x))=\log\abs{\det x}_\A-2\log\norm{e_2\delta x}_\A$ (by \texttt{I.decomp.def:height-map}, and $\abs{\det\delta}_\A=1$ by
+\texttt{I.adele.thm:product-formula}); for $x\in G(\A)^1$ this is $-2\log\norm{e_2\delta x}_\A$.
+(H3) $\alpha(\HB(\delta x))\le\operatorname{ht}(x)$, with equality for some $\delta$ (\texttt{I.red.thm:height-attained}).
+
+\section{The point \texorpdfstring{$T_0$}{T0} and the chamber functions}\label{sec:trunc-t-zero}
+
+\noindent\emph{Sources for this section:} \cite[§9, (9.4)]{AIntro} (the canonical point $T_0$; ``if $G=\GL(n)$ and $K$ is the standard maximal compact
+subgroup, $T_0=0$''); \cite[§5]{AIntro} (the functions $\tau_P$, $\hat\tau_P$).
+
+\begin{lemma}[the Weyl element has height zero]
+\tfstmt{II.trunc.lem:weyl-height-zero}
+\uses{I.conv.def:weyl-element, I.decomp.def:height-map, I.topgrp.def:max-compact-adelic}
+\end{lemma}
+\begin{proof}
+\uses{I.decomp.thm:height-map-equivariance}
+$w^{-1}=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$. Both matrices have integer entries and determinant $1$, so their $p$-components lie in
+$K_p=\GL_2(\Zp)$ for every $p$, and they are orthogonal, so their $\infty$-components lie in $\Kinf=\Ort(2)$. Hence $w,w^{-1}\in K$, and
+\texttt{I.decomp.thm:height-map-equivariance} with $n=t=x=1$ gives $\HB(w)=\HB(w^{-1})=\HB(1)$. Finally $\HB(1)=0$: $\abs{\det1}_\A=1$ and the
+bottom row $(0,1)$ has norm $1$ at every place (\texttt{I.decomp.def:height-map}).
+\end{proof}
+
+\begin{theorem}[$T_0=0$]
+\tfstmt{II.trunc.thm:t-zero}
+\uses{I.conv.def:weyl-element, I.conv.def:space-a-b-g, I.decomp.def:height-map}
+\end{theorem}
+\begin{proof}
+\uses{II.trunc.lem:weyl-height-zero}
+By \cref{II.trunc.lem:weyl-height-zero}, the condition reads $T_0-sT_0=0$. For $T_0=(t,-t)\in\aBG$, $sT_0=(-t,t)$ and $T_0-sT_0=(2t,-2t)$, which
+vanishes exactly when $t=0$.
+\end{proof}
+\noindent This is \cite[(9.4)]{AIntro} for $\GL_2$: the Weyl group is $W_0=\{1,s\}$, the condition for $s=1$ is empty ($\HB(1)=0=T_0-T_0$), and the
+representative $w_s=w$ of $s$ lies in $G(\Q)\cap K$, so no separate representative $\tilde w_s\in K$ is needed. In the parent project the point $T_0$ enters
+the trace formula at the end, where a polynomial $J^T(f)$ is evaluated at $T=T_0=0$ \cite[§9]{AIntro}.
+
+\emph{The range of $T$} (decision D-TRANGE; \texttt{docs/PLAN.md} §3.F). Every statement of this chapter that needs a condition on $T$ assumes
+$\alpha(T)\ge\alpha(T_0)=0$, which is where the height lemma applies (\cref{II.trunc.thm:coset-sum-at-most-one}), and not ``$T$ sufficiently regular''.
+
+\begin{lemma}[the two chamber functions agree]
+\tfstmt{II.trunc.lem:chamber-functions-rank-one}
+\uses{I.conv.def:chamber-functions, I.conv.def:simple-root}
+\end{lemma}
+\begin{proof}
+$\tau_B(h)=1$ if and only if $\alpha(h)>0$, and $\hat\tau_B(h)=1$ if and only if $\varpi(h)=\frac12\alpha(h)>0$, that is, $\alpha(h)>0$; otherwise both
+are $0$. For the second assertion apply this to $h=H-T$ and use the linearity of $\alpha$.
+\end{proof}
+\noindent In higher rank $\tau_P$ (the chamber) and $\hat\tau_P$ (the cone over the fundamental weights) differ, and the partition lemma uses $\tau_P$ while
+$\Lambda^T$ uses $\hat\tau_P$ (\cite[Lemma~8.2, (13.1)]{AIntro}). For $\GL_2$ the only root and the only fundamental weight are positive multiples of each
+other, and the lemma lets us pass freely between the two forms.
+
+\section{Sums over \texorpdfstring{$B(\Q)\backslash G(\Q)$}{B(Q)\textbackslash G(Q)}}\label{sec:trunc-cosets}
+
+\noindent\emph{Sources for this section:} \cite[Lecture III, after (2.5)]{Gel} (``the sum over $\delta$ is finite, by Fact 1 of Lecture II''); \cite[§13,
+after (13.1)]{AIntro} (``the inner sum may be taken over a finite set (that depends on $x$)''); \cite[§8, p.~39, Fig.~8.3]{AIntro} (if $\gamma\in\SL_2(\Z)$ and
+both $z$ and $\gamma z$ have imaginary part $>e^T$, then $\gamma$ is upper triangular); \cite[Lecture II §2, Fact~1, p.~10; §4, Lemma~4.1, p.~14]{Gel}. The proofs reduce to \cref{ch:ch-0-08-reduction}.
+
+We use the notation of the conventions of \cref{ch:ch-0-08-reduction}: for a row $u\in\A^2$ with $\norm u_p=1$ for almost all $p$,
+$\norm u_\A=\norm{u_\infty}_2\prod_p\norm{u_p}_p$, and for $h\in\GL_2(\R)$, $h'\in\GL_2(\Qp)$, $\norm{u_\infty h}_2\le\norm h_{\mathrm{op}}\norm{u_\infty}_2$,
+$\norm{u_ph'}_p\le\norm{h'}_p\norm{u_p}_p$ with $\norm{h'}_p=\max_{ij}\abs{h'_{ij}}_p$, and $\norm{u_pk}_p=\norm{u_p}_p$ for $k\in K_p$.
+
+\phantomsection\label{fact:trunc-local-bound}(L) \emph{For every compact $C\subseteq G(\A)$ there is $M\ge1$ with $\norm{e_2gy}_\A\le M\norm{e_2g}_\A$ for all
+$g\in G(\A)$ and $y\in C$.} \emph{Proof.} Put $\mathcal N(y)=\norm{y_\infty}_{\mathrm{op}}\prod_p\norm{y_p}_p$, a finite product since $\norm{y_p}_p=1$ when
+$y_p\in K_p$ (almost all $p$, \texttt{I.topgrp.thm:gl2-adelic-restricted-product}). Multiplying the local operator bounds over all places gives
+$\norm{e_2gy}_\A\le\mathcal N(y)\norm{e_2g}_\A$. The proof of \texttt{I.red.lem:height-locally-bounded} shows that $\mathcal N$ is bounded on every
+compact subset of $G(\A)$; take $M=\max(1,\sup_C\mathcal N)$. $\square$
+
+\phantomsection\label{fact:trunc-norm-continuous}(C) \emph{The map $g\mapsto\norm{e_2g}_\A$ is continuous on $G(\A)$; hence so is
+$x\mapsto\alpha(\HB(\delta x))$ for every $\delta\in G(\Q)$.} \emph{Proof.} The set $U=\{h\in G(\A):h_p\in K_p\text{ for all }p\}$ is an open
+subgroup of $G(\A)$ (\texttt{I.topgrp.thm:gl2-adelic-restricted-product}). Let $g_0\in G(\A)$ and $u=e_2g_0$. For $h\in U$,
+$\norm{e_2g_0h}_\A=\norm{u_\infty h_\infty}_2\prod_p\norm{u_ph_p}_p=\norm{u_\infty h_\infty}_2\prod_p\norm{u_p}_p$, a continuous function of
+$h_\infty$, hence of $h$. As $h\mapsto g_0h$ is a homeomorphism of $U$ onto the open neighbourhood $g_0U$ of $g_0$, the map is continuous at $g_0$. The
+second assertion follows from (H2), since $x\mapsto\abs{\det x}_\A$ and $x\mapsto\delta x$ are continuous. $\square$
+
+\begin{theorem}[finiteness of the coset sums]
+\tfstmt{II.trunc.thm:coset-sum-finite}
+\uses{I.conv.def:simple-root, I.decomp.def:height-map, I.conv.def:borel, I.topgrp.def:gl2-adelic}
+\end{theorem}
+\begin{proof}
+\uses{I.red.lem:primitive-vector-finiteness, I.decomp.thm:height-map-equivariance, I.adele.thm:product-formula, I.red.lem:height-locally-bounded, I.topgrp.thm:gl2-adelic-restricted-product}
+The first assertion is (H1). Part (a) is (b) for $\Omega=\{x\}$. For (b), the function $x\mapsto\log\abs{\det x}_\A$ is continuous, so it is bounded
+by some $L$ on $\Omega$; and $\Omega^{-1}$ is compact, so (L) gives $M$ with $\norm{e_2gx^{-1}}_\A\le M\norm{e_2g}_\A$ for $g\in G(\A)$, $x\in\Omega$. Let
+$x\in\Omega$ and $\alpha(\HB(\delta x))>c$. By (H2), $2\log\norm{e_2\delta x}_\A<\log\abs{\det x}_\A-c\le L-c$, so
+\[
+  \norm{e_2\delta}_\A=\norm{e_2\delta x\,x^{-1}}_\A\le M\norm{e_2\delta x}_\A<Me^{(L-c)/2}.
+\]
+By \texttt{I.red.lem:primitive-vector-finiteness} (at the point $1$, with $C=Me^{(L-c)/2}$) these $\delta$ lie in finitely many cosets $B(\Q)\delta$.
+\end{proof}
+
+\begin{theorem}[at most one coset in the cusp]
+\tfstmt{II.trunc.thm:coset-sum-at-most-one}
+\uses{I.red.def:height-primitive, I.conv.def:simple-root, I.decomp.def:height-map, I.conv.def:borel, I.topgrp.def:norm-one-group}
+\end{theorem}
+\begin{proof}
+\uses{I.red.thm:height-lemma, I.red.thm:height-attained}
+(b) By (H3), $\alpha(\HB(\delta x))\le\operatorname{ht}(x)\le c$. (a) If $\delta\delta_0^{-1}\in B(\Q)$, then $\alpha(\HB(\delta x))=\alpha(\HB(\delta_0x))=
+\operatorname{ht}(x)>c$ by (H1). Conversely, if $\alpha(\HB(\delta x))>c$, then $\delta$ and $\delta_0$ both satisfy the hypothesis of the height lemma
+(\texttt{I.red.thm:height-lemma}) with $t_0=e^c\ge1$, so $\delta\delta_0^{-1}\in B(\Q)$. The last sentence summarizes (a) and (b).
+\end{proof}
+\noindent The condition $c\ge0$ is sharp (sharpness remark after \texttt{I.red.thm:height-lemma}): for $x=1$, $c<0$, the two cosets $B(\Q)$ and $B(\Q)w$
+both have $\alpha(\HB(\delta x))=0>c$. This is the source of the condition $\alpha(T)\ge0$ throughout. Classically
+(\cite[Fig.~8.3]{AIntro}): for $\gamma\in\SL_2(\Z)$ not upper triangular and $z\in\mathbb H$, $\operatorname{Im}(z)\operatorname{Im}(\gamma z)\le1$.
+
+\begin{theorem}[the height is continuous]
+\tfstmt{II.trunc.thm:height-continuous}
+\uses{I.red.def:height-primitive, I.topgrp.def:gl2-adelic}
+\end{theorem}
+\begin{proof}
+\uses{II.trunc.thm:coset-sum-finite, I.red.thm:height-attained, I.topgrp.thm:gl2-adelic-locally-compact}
+Let $x_0\in G(\A)$ and let $\Omega$ be a compact neighbourhood of $x_0$ ($G(\A)$ is locally compact, \texttt{I.topgrp.thm:gl2-adelic-locally-compact}). By (C),
+$x\mapsto\alpha(\HB(x))$ is continuous, so it has a minimum $m$ on $\Omega$; put $c=m-1$. By (H3) with $\delta=1$, $\operatorname{ht}(x)\ge\alpha(\HB(x))>c$
+for $x\in\Omega$. By \cref{II.trunc.thm:coset-sum-finite}(b) there are $\delta_1,\dots,\delta_r\in G(\Q)$ such that every $\delta$ with
+$\alpha(\HB(\delta x))>c$ for some $x\in\Omega$ lies in some $B(\Q)\delta_i$. For $x\in\Omega$ choose $\delta_0$ with $\alpha(\HB(\delta_0x))=\operatorname{ht}(x)$
+(H3); as this value is $>c$, $\delta_0\in B(\Q)\delta_i$ for some $i$, and $\operatorname{ht}(x)=\alpha(\HB(\delta_ix))$ by (H1). With (H3),
+\[
+  \operatorname{ht}(x)=\max_{1\le i\le r}\alpha(\HB(\delta_ix))\qquad(x\in\Omega),
+\]
+a maximum of finitely many continuous functions (C). So $\operatorname{ht}$ is continuous on the neighbourhood $\Omega$ of $x_0$.
+\end{proof}
+\noindent On $G(\A)^1$, $\operatorname{ht}\ge\log(\sqrt3/2)$ (\texttt{I.red.thm:siegel-covering} and (H3)), and $\operatorname{ht}(1)=0$.

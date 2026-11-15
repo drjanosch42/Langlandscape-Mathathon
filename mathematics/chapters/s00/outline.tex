@@ -1,0 +1,70 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction), part 6: stage-by-stage outline with the main results and their statuses. No \input; reusable in the report.
+\section{Outline of the stages}\label{ss:s00-outline}
+The six stages build on each other as $01\to02\to03\to04$, after which stage~05 (the comparison hypothesis) and stage~06 (the
+integral defect) branch off independently; stage~06 does not use stage~05's hypothesis. Each item names the main results with
+the status printed in the chapter. ``Given (iii)'' means given the connectivity of the Brandt graph (Prop.~\ref{prop:s02-BG}).
+
+\begin{description}[leftmargin=0pt,itemsep=4pt]
+\item[Stage 01: quaternionic foundations.] The algebra $B=\Bd$, levels, class sets, Brandt modules and the Brandt pairing, the
+  Hecke operators with the fixed normalisation $\NUp$, the conventions dictionary, and the cited targets. Main results: finiteness
+  (Prop.~\ref{prop:s01-finite}, \stknown; \stformal{}: finiteness and $|\Gamma_x|\mid24$); the Eichler mass formula (Thm.~\ref{thm:s01-mass}, \stcited{} with parts \stproved,
+  \stpmc, \stformal); adjoints and the equivariance of $\nu$ (Prop.~\ref{prop:s01-adjoint}, \stproved, (a) also \stcited; \stformal{} for the clauses marked there); the Hecke relations
+  (Prop.~\ref{prop:s01-relations}, \stproved, \stformal, parts \stknown). Cited targets: classical JL (Thm.~\ref{thm:s01-JLclassical}), Chenevier
+  (Thm.~\ref{thm:s01-chenevier}), $\Lambda$-adic Hecke JL (Thm.~\ref{thm:s01-lambdaJL}), all \stcited; in Lean the first and third are
+  schematic interfaces only.
+\item[Stage 02: tree quotients.] Class sets as quotients of $\cT_q$ by $\GU$, the Brandt graph, and the (co)homology. Main results:
+  strong approximation for one level is equivalent to the connectivity of $\BG(U,q)$, a finite check
+  (Prop.~\ref{prop:s02-BG}, \stproved; the connectedness of $\cT_q$, \stcited, in one direction); strong approximation itself
+  (Thm.~\ref{thm:s02-SA}, \stcited; blueprint Thm.~\ref{thm:s02-sa-main}, \stpmc); the quotient graph
+  (Prop.~\ref{prop:s02-quot}), the two-term complex (Prop.~\ref{prop:s02-coh}) and harmonic cochains (Prop.~\ref{prop:s02-harm}),
+  \stproved{} or \stpmc{} clause by clause as printed there.
+\item[Stage 03: weighted graphs, the definite Ribet sequence and the Ihara lemma.] Main results: the Mazur check
+  $\Phicomb(\GDR_q(\hat\cO^\times))\cong\Z/\mathrm{num}\frac{q-1}{12}$ (Prop.~\ref{prop:s03-mazur}, \stpmc); $\Phicomb$ is Eisenstein
+  (Prop.~\ref{prop:s03-phieis}, \stproved); the definite Ribet sequence as a vertex collapse (Thm.~\ref{thm:s03-ribet}: (a) \stproved{}
+  given (iii), (b) \stpmc); the definite Ihara lemma (Cor.~\ref{cor:s03-ihara}: (i), (ii) \stproved{} given (iii), (ii$'$) \stpmc);
+  Ihara (iii), $H_0$ and its Hecke action (Thm.~\ref{thm:s03-iharaH0}, \stpmc; in Lean clause (a) is the hypothesis
+  \texttt{Hyp.IharaH0}). The $\GL_2$ (Betti) side: amalgam, Mayer--Vietoris, $\Psi^*\Psi$ (Props.~\ref{prop:s03-amalgam},
+  \ref{prop:s03-MV}, \ref{prop:s03-PsiPsi}, \stpmc); the $\GL_2$ Ihara lemma in Betti form (Conj.~\ref{conj:s03-iharaGL2}, \stexp).
+\item[Stage 04: the ordinary and $\Lambda$-adic passage.] Main results: $e$ kills the degree, vertex and component terms
+  (Lemma~\ref{lem:s04-ekills}, \stproved); $\Lambda$-freeness and control (Thm.~\ref{thm:s04-control}: (a) \stproved, (b) \stcited{} for
+  $\Uone M$, integrally if $p\nmid\varphi(M)$, otherwise \stsketch; general $U$ \stexp); the $\Lambda$-adic definite Ribet sequence
+  (Thm.~\ref{thm:s04-lambdaribet}, \stproved{} given connectivity at all $s$); the $\eta$-principle
+  (Prop.~\ref{prop:s04-etaprinciple}, \stproved, \stformal); Hsieh's Gorenstein and self-pairing results transported to our
+  conventions (Thms.~\ref{thm:s04-Gor}, \ref{thm:s04-etaB}, \stcited).
+\item[Stage 05: the comparison hypothesis and the simplicial shape.] The single geometric input $\HypX$ (Hyp.~\ref{hyp:s05-X},
+  \sthyp), with all normalisations fixed: $\varepsilon=+1$ and exponent $+1$ (Prop.~\ref{prop:s05-sign}, \stpmc{} in the parts printed
+  there). Main results: the sub- versus quotient lattice (Prop.~\ref{prop:s05-subquot}, \stproved, \stformal); $\HypXiso$
+  non-canonically (Prop.~\ref{prop:s05-Xiso}, \stpmc); the $\Lambda$-adic version (Prop.~\ref{prop:s05-Xlambda}: (a) \stproved{} given
+  $\HypXchar$, (b), (c1), (d1)--(d3) \stpmc, (c2) \stopen, (d4) \stsketch); no tree-only chain (Prop.~\ref{prop:s05-nochain},
+  \stproved); the literature at $\Gamma_0$-type level (Thm.~\ref{thm:s05-G}, \stcited); a simplicial realisation
+  (Conj.~\ref{conj:s05-O2}, \stconj, \stopen). The model (FD1: $\mu_N$-model, Picard functoriality) and the sign (FD2: $U_q\mapsto+\Pi_q$,
+  the opposite sign in \cite{Hs} treated as an erratum) are team decisions recorded in the chapter.
+\item[Stage 06: the integral Jacquet--Langlands defect.] For $D=q$, on the $\GL_2$ side, with $B_q$ entering only through the
+  $\Lambda$-adic Hecke JL. Main results: the combinatorial half (Thm.~\ref{thm:s06-E}, \stproved; \stformalized{} in abstract form, (i)--(iv), with the exceptions listed after the theorem); the Galois
+  comparison $\tq_q(F)\subseteq\cc_q(F)$ (Prop.~\ref{prop:s06-galois}, \stpmc); fixed-weight level lowering
+  (Cor.~\ref{cor:s06-fixed}, \stpmc); the \emph{defect formula} $(h_F)=\cc_q(F)=\tq_q(F)$ (Thm.~\ref{thm:s06-defect}, \stpmc{} under
+  the standing hypotheses, \stopen{} for $q\equiv-1\bmod p$ outside (Lev)); all weights of the branch
+  (Cor.~\ref{cor:s06-allweights}, \stpmc); the inclusion without (H0$^-$) (Prop.~\ref{prop:s06-levM}, \stpmc{} in the cases (F0),
+  (F1), (F1$'$), \stopen{} for $N(\bar\rho)>1$); the Betti incarnation (Prop.~\ref{prop:s06-betti}: (a) \stproved, (b), (c) \stpmc); several ramified primes
+  (Conj.~\ref{conj:s06-several}, \stconj). $\HypX$ is not used.
+\end{description}
+
+\paragraph{Computations.} Every number is \stcomp{} and is read from a result file under \pathtt{code/results/}; a computation
+validates a statement and is never part of a proof. Python with PARI/GP covers all stages (e.g.\ JL characteristic polynomials
+for $D\in\{2,3,5,7,11,13\}$, $k\le12$, $66/66$; the Brandt-graph validation, $240$ cases; the Mazur check; the stage-06 tests T4,
+T5 and the partial regression C2). HACS v0.2.1 (doi:10.5281/zenodo.24231446) with the census data hacs-data v0.2.0
+(doi:10.5281/zenodo.24147012), extended by a clearly marked Jacquet--Langlands module, adds a native quaternion core and exact
+integral congruence modules of Brandt lattices. Through it the definite Eisenstein congruence module is
+$\Z/\mathrm{num}\frac{q-1}{12}$ for every prime $q\le600$ at $\ell\ge5$ ($109/109$ levels), exactly including the $2$- and $3$-parts
+for the first $80$ primes $q\le409$ (a capped, partial run). Nothing is called ``certified''.
+
+\paragraph{Lean.} The formalized statements are named by \texttt{\textbackslash lean} references next to each result. Geometric
+and cited inputs enter Lean as named \texttt{Prop}-valued hypotheses passed as explicit arguments, never as axioms, so every
+audited theorem is free of \texttt{sorry}, uses only the standard axioms, and shows in its type which hypotheses it uses. The final gate
+built the tree from scratch (Lean tree \texttt{c70ef3a9}, after the merge of the \pathtt{Hyp.BrandtStabFree} discharge) and checked $955/955$ declarations
+against the standard axioms
+(\texttt{propext}, \pathtt{Classical.choice}, \texttt{Quot.sound}); the one \texttt{sorry} in the built tree lies in a frozen
+imported file and in none of the audited declarations (the previous gates, at \texttt{28d2b091} and \texttt{2323a252}, had checked $950/950$ and $840/840$). Of the $29$ registered hypotheses, three are discharged and one
+is conditionally discharged.

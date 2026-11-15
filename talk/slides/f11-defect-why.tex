@@ -1,0 +1,28 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 11 (climax II): why the defect formula holds; "cokernel = congruence module"; Lean status.
+% Sources: chapters/s06/s06-m1.tex thm:s06-E (proved), rem:s06-gor-uses; s06-m2.tex def:s06-ctam; s06-m4.tex prop:s06-galois (pmc);
+% s06-m3.tex lem:s06-control (pmc), thm:s06-defect (cited inputs; proof: squeeze, locality); s06-m7.tex prop:s06-betti (a) proved, (b), (c) pmc;
+% Lean: Defect/Main.lean defect_formula (formalized modulo registered Hyp, abstract Defect.Setting), Defect.freeRankTwo_iff_le,
+% CommAlg/ThmE.lean, CommAlg/DVR.lean, CommAlg/Squeeze.lean; final-report sections/lean.tex (audit M5 wording).
+\begin{frame}{Why the defect formula holds: cokernel $=$ congruence module}
+  \small
+  \begin{enumerate}\setlength{\itemsep}{1pt}
+    \item \emph{Commutative algebra} (Thm~E) \stattag{proved}: $S$ finite free Gorenstein over $A$, $\mathfrak a,\mathfrak b$ the new/old kernels,
+      $\cc_q=\lambda(\mathfrak b)$: $\eta(S,\lambda)=\cc_q\cdot\eta(S/\mathfrak a,\lambda')$ if $S/\mathfrak a$ is Gorenstein or $A$ is a DVR.
+    \item \emph{Galois half}: $\tq_q(F)\subseteq\cc_q(F)$ \stattag{proved modulo cited results}.
+    \item \emph{Squeeze} at a local $P:I_F\to\widetilde{\mathcal O}_P$: $(\varpi^t)=P(\tq_q)\subseteq P(\cc_q)=\cc_q(f)\subseteq(\varpi^t)$; locality lifts it to $I_F$.
+  \end{enumerate}
+  {\footnotesize Cited inputs: Hida freeness and control; Gorenstein properties (Hsieh, on Wiles, Mazur--Wiles, Helm); $\Lambda$-adic JL;
+  Kim--Ota at one point under (H0$^-$), its extension under (Lev) (fixed weight; in the line of Wiles' numerical criterion and Ribet--Takahashi).}
+
+  \smallskip
+  \textbf{Cokernel $=$ congruence module.} $\T'/\cc\cong\T/(\mathfrak a+\mathfrak b)$; on the Betti side ($p>k\ge4$, $q\not\equiv-1\bmod p$)
+  $\operatorname{coker}(\Psi^*\Psi)_\m\cong(\T_k(M)_\m/\delta)^{2}$, $\delta=(q+1)^2-q^{2-k}T_q^2$, and
+  $\operatorname{ord}\cc_q(f)=\tfrac12\operatorname{length}\operatorname{coker}(\Psi^*\Psi)_\m$ if $\operatorname{rk}\T'_{k,\m}=1$
+  \stattag{proved modulo cited results}.
+
+  {\footnotesize\textbf{Lean.} \texttt{Defect.defect\_formula} \stattag{formalized modulo registered hypotheses, abstract setting: Hida's Hecke algebra and $\rho_F$ are not built in Lean}.
+  Galois half: given residual absolute irreducibility, the registered hypothesis ``free of rank two'' is equivalent to $\tq_q\subseteq\cc_q$.
+  Thm~E (i)--(iv) \stattag{formalized, abstract; exceptions as listed in the report}.}
+\end{frame}

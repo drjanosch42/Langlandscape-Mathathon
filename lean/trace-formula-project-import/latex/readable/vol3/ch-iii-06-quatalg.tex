@@ -1,0 +1,447 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/Common/{QuaternionNorm,QuaternionHilbert}.lean, lean/GL2TF/VolIII/P2/{QuatAlg,Ramification,LocalStructure}.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note (Q2: TITAN, branch r2/q2).
+% Q2 W1 (A1T, TITAN): statement outline from docs/sprints/Q2-plan.md v1.0 §1.2 (items 1-20 and 34), \uses per §1.4 (B-only candidate 24 is
+% not cited; its role is taken by III.qord.def:order). Q2 W3 (A1T): complete proofs (plan §2.4 routes; divergences in
+% docs/notes/Q2-titan/A-revisions.md). B-only items (hilbert-symbol-symm, order-free-rank-four) are proved inline where used.
+
+\chapter{Quaternion algebras over $\Q$}\label{ch:ch-iii-06-quatalg}
+
+\noindent\emph{Scope:} area \texttt{qalg} and the existence of level structures (\texttt{III.qord.thm:level-structure-exists}); milestone Q2.
+\emph{Sources:} \cite{Piz}; \cite{Voi}; \cite{Shz}; Serre's \emph{Cours d'arithm\'etique}, ch.~III, for the Hilbert symbol (self-contained proofs here).
+
+\noindent\emph{Overview.} This chapter fixes the quaternion algebras of Vol.~III and their local behaviour. One carrier serves every base ring:
+for $a,b\in\Z$ and a commutative ring $R$, $\Bq_R=\Bq_R(a,b)$ has basis $1,i,j,k$ with $i^2=a$, $j^2=b$, $ij=-ji=k$, and $\Bq=\Bq_\Q$,
+$\Bq_{\Qp}$, $\Binf=\Bq_\R$, $\Bhat=\Bq_{\Af}$, $\BA=\Bq_\A$ are all of this form, with coordinatewise base change. Reduced norm and trace are
+defined once (§1). For $a,b<0$ the reduced norm dominates the Euclidean norm of the coordinates, which makes $\Bq$ and $\Bq_\R$ division algebras
+and drives every finiteness statement of Ch.~III.7. Every quaternion algebra over $\Q$ has such an integral model, and the algebras used in
+Vol.~III are $(-1,-1)$, $(-1,-p)$ for $p\equiv3\pmod 4$ and $(-2,-p)$ for $p\equiv5\pmod8$ (Pizer's choices). §2 defines the Hilbert symbol by
+isotropy, computes it where needed (odd $p$; $p=2$ when $v_2(a)+v_2(b)\le1$) and shows that these algebras are ramified exactly at the expected
+prime. §3 describes the completions of orders: $\Oord_p\cong\Mat_2(\Zp)$ at the unramified primes, the valuation ring of the division algebra at
+the ramified ones, and from this the existence of level structures.
+
+\noindent\emph{Hypotheses.} No item of this chapter uses a hypothesis.
+
+\noindent\emph{Conventions.} $a,b\in\Z$ throughout; ``$a,b<0$'' (\emph{definite}) is always written out, never a defined notion. $x_0,\dots,x_3$ are
+the coordinates of $x$ in the basis $1,i,j,k$. A \emph{lattice} is a finitely generated $\Z$-submodule $L\subseteq\Bq$ with $\Q L=\Bq$; an order is
+a lattice that is a subring (\cref{III.qord.def:order}). Topologies on $\Bq_{\Qp}$, $\Bq_\R$, $\Bhat$, $\BA$ are transported from $R^4$ along the
+coordinates (they live on type synonyms in Lean, plan trap 3). $\hilb abp$ is the Hilbert symbol and $(\frac up)$ the Legendre symbol. The printed
+symbols are those of the notation table (\hyperref[notation:q2]{Vol.~III, Q2 block}); conventions rows N4, N6, N9, N20 of
+\texttt{docs/specs/quaternion-conventions.md} concern Ch.~III.7.
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Quaternion algebras, reduced norm and trace}\label{sec:qalg-basic}
+
+\begin{definition}[quaternion algebras $\Bq_R(a,b)$]
+\tfstmt{III.qalg.def:quaternion-algebra}
+\end{definition}
+
+\begin{definition}[reduced norm]
+\tfstmt{III.qalg.def:reduced-norm}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+
+\begin{definition}[reduced trace]
+\tfstmt{III.qalg.def:reduced-trace}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+
+\begin{lemma}[norm and trace]
+\tfstmt{III.qalg.lem:reduced-norm-basic}
+\uses{III.qalg.def:reduced-norm, III.qalg.def:reduced-trace}
+\end{lemma}
+\begin{proof}
+\uses{III.qalg.def:quaternion-algebra, III.qalg.def:reduced-norm, III.qalg.def:reduced-trace}
+The map $R\to\Bq_R$, $r\mapsto r\cdot1$, is injective because $1,i,j,k$ is a basis, and its image is central. From $i^2=a$, $j^2=b$, $ij=-ji=k$
+and associativity,
+\[
+  k^2=ijij=-i^2j^2=-ab,\qquad ik=i^2j=aj=-ki,\qquad jk=jij=-ij^2=-bi=-kj
+\]
+(for instance $ki=iji=-i^2j$ and $kj=ij^2=bi$). So any two distinct elements of $\{i,j,k\}$ anticommute, and their product lies in $R$ times the third.
+Write $x=x_0+v$ with $v=x_1i+x_2j+x_3k$. Expanding $v^2$, the cross terms cancel in pairs and
+\[
+  v^2=ax_1^2+bx_2^2-abx_3^2\in R,\qquad\text{so}\qquad \nrd(x)=x_0^2-v^2,\qquad \bar x=x_0-v .
+\]
+(a) Since $x_0$ is central, $x\bar x=(x_0+v)(x_0-v)=x_0^2-v^2=\nrd(x)$, likewise $\bar xx=\nrd(x)$, and $x+\bar x=2x_0=\trd(x)$.
+(b) By (a), $x^2-\trd(x)x+\nrd(x)=x^2-(x+\bar x)x+\bar xx=0$.
+(c) Conjugation is $R$-linear and satisfies $\overline{yz}=\bar z\,\bar y$: both sides are $R$-bilinear in $(y,z)$, so it suffices to take $y,z$ in
+the basis. If one of them is $1$ this is clear. For $e\in\{i,j,k\}$, $e^2\in R$ and $\bar e\bar e=(-e)(-e)=e^2=\overline{e^2}$. For distinct
+$e,f\in\{i,j,k\}$, $ef$ is an $R$-multiple of the third basis element, so $\overline{ef}=-ef=fe=(-f)(-e)=\bar f\bar e$. Hence, using (a) and the
+centrality of $\nrd(y)$,
+\[
+  \nrd(xy)=xy\,\overline{xy}=x\,(y\bar y)\,\bar x=\nrd(y)\,x\bar x=\nrd(x)\nrd(y).
+\]
+The coefficient of $1$ in $xy$ is $x_0y_0+ax_1y_1+bx_2y_2-abx_3y_3$, since products of distinct elements of $\{i,j,k\}$ have no component along
+$1$; it is symmetric in $x,y$, so $\trd(xy)=\trd(yx)$.
+(d) $f_{\Bq}(x)$ has coordinates $f(x_0),\dots,f(x_3)$, and $f$ maps the images of $a,b$ in $R$ to those in $S$. Applying the ring
+homomorphism $f$ to $\nrd(x)=x_0^2-ax_1^2-bx_2^2+abx_3^2$ and to $\trd(x)=2x_0$ gives the claims.
+The computation uses only that $a,b$ are central scalars; it holds verbatim for $\Bq_F(a,b)$ with $a,b$ in a field $F$ (used in
+\cref{III.qalg.thm:split-iff-isotropic}). \emph{Source:} \cite[§3.3]{Voi}.
+\end{proof}
+
+\begin{lemma}[units]
+\tfstmt{III.qalg.lem:unit-iff-reduced-norm-unit}
+\uses{III.qalg.lem:reduced-norm-basic}
+\end{lemma}
+\begin{proof}
+\uses{III.qalg.lem:reduced-norm-basic}
+If $\nrd(x)\in R^\times$, put $y=\nrd(x)^{-1}\bar x$. By \cref{III.qalg.lem:reduced-norm-basic}(a) and centrality of $R$, $xy=\nrd(x)^{-1}x\bar x=1$
+and $yx=1$, so $x$ is a unit with inverse $y$. Conversely, if $xy=yx=1$, then $\nrd(x)\nrd(y)=\nrd(xy)=\nrd(1)=1$ by
+\cref{III.qalg.lem:reduced-norm-basic}(c), so $\nrd(x)\in R^\times$. The formula for $x^{-1}$ follows from the uniqueness of inverses. As for
+\cref{III.qalg.lem:reduced-norm-basic}, the argument holds verbatim for $\Bq_F(a,b)$ with $a,b\in F$.
+\end{proof}
+
+\begin{lemma}[determinant of multiplication]
+\tfstmt{III.qalg.lem:left-multiplication-det}
+\uses{III.qalg.def:reduced-norm}
+\end{lemma}
+\noindent This is the local input of the index computations of Ch.~III.7: $[\beta\Oord:\beta'\Oord]$ and $[\beta_p\Oord_p:\Oord_p]$ are powers of
+$\nrd$.
+\begin{proof}
+\uses{III.qalg.lem:reduced-norm-basic, III.qalg.def:reduced-norm}
+By the multiplication table (proof of \cref{III.qalg.lem:reduced-norm-basic}) the images of $1,i,j,k$ under $y\mapsto xy$ are
+$x$, $ax_1+x_0i-ax_3j-x_2k$, $bx_2+bx_3i+x_0j+x_1k$ and $-abx_3-bx_2i+ax_1j+x_0k$, so in the basis $1,i,j,k$ this map has the matrix
+\[
+  \Lambda(x)=\begin{pmatrix}x_0&ax_1&bx_2&-abx_3\\ x_1&x_0&bx_3&-bx_2\\ x_2&-ax_3&x_0&ax_1\\ x_3&-x_2&x_1&x_0\end{pmatrix}.
+\]
+Let $P\in\Z[A,B,X_0,\dots,X_3]$ be the determinant of the matrix obtained from $\Lambda(x)$ by replacing $a,b,x_\mu$ with the indeterminates
+$A,B,X_\mu$, and $N=X_0^2-AX_1^2-BX_2^2+ABX_3^2$. For every field $F$ and $x\in\Bq_F$, $\det(y\mapsto xy)=P(a,b,x)$ and $\nrd(x)=N(a,b,x)$
+(images in $F$). So it suffices to prove $P=N^2$, and for this it suffices to prove $P(a,b,X)=N(a,b,X)^2$ in $\Z[X_0,\dots,X_3]$ for all integers
+$a,b\ne0$: the difference $P-N^2$ is then a polynomial in $A,B$ over $\Z[X]$ vanishing on $(\Z\setminus\{0\})^2$, hence zero.
+
+Fix integers $a,b\ne0$, let $K=\Q(X_0,\dots,X_3)$ and $x=X_0+X_1i+X_2j+X_3k\in\Bq_K$. The symmetric bilinear form $\beta(y,z)=\trd(y\bar z)$ on $\Bq_K$
+has the matrix $G=\operatorname{diag}(2,-2a,-2b,2ab)$ in the basis $1,i,j,k$ (the coefficient of $1$ in $y\bar z$ is
+$y_0z_0-ay_1z_1-by_2z_2+aby_3z_3$). By \cref{III.qalg.lem:reduced-norm-basic}(a),(c),
+\[
+  \beta(xy,xz)=\trd(x\,y\bar z\,\bar x)=\trd(\bar xx\,y\bar z)=\nrd(x)\,\beta(y,z),
+\]
+that is $\Lambda(x)^{\mathsf T}G\Lambda(x)=\nrd(x)\,G$. Taking determinants, $P(a,b,X)^2\det G=N(a,b,X)^4\det G$ with $\det G=16a^2b^2\ne0$. In the
+domain $\Z[X]$ this gives $(P-N^2)(P+N^2)=0$, so $P(a,b,X)=\pm N(a,b,X)^2$; at $X=(1,0,0,0)$ the matrix is the identity and $P=1=N^2$, so the sign
+is $+$. For $y\mapsto yx$ the same argument applies with $\beta(yx,zx)=\trd(y\,x\bar x\,\bar z)=\nrd(x)\beta(y,z)$.
+\end{proof}
+
+\begin{lemma}[the definite case]
+\tfstmt{III.qalg.lem:reduced-norm-definite}
+\uses{III.qalg.def:reduced-norm}
+\end{lemma}
+\begin{proof}
+\uses{III.qalg.def:reduced-norm}
+Since $a,b$ are negative integers, $-a\ge1$, $-b\ge1$ and $ab\ge1$. In the ordered field $R$,
+$\nrd(x)=x_0^2+(-a)x_1^2+(-b)x_2^2+ab\,x_3^2\ge x_0^2+x_1^2+x_2^2+x_3^2\ge0$. If $\nrd(x)=0$, every $x_\mu^2$ vanishes, so $x=0$; and $\nrd(0)=0$.
+\end{proof}
+
+\begin{theorem}[definite algebras are division algebras]
+\tfstmt{III.qalg.thm:definite-division}
+\uses{III.qalg.lem:reduced-norm-definite, III.qalg.lem:unit-iff-reduced-norm-unit}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.lem:reduced-norm-definite, III.qalg.lem:unit-iff-reduced-norm-unit}
+Let $R\in\{\Q,\R\}$ and $x\in\Bq_R$, $x\ne0$. By \cref{III.qalg.lem:reduced-norm-definite}, $\nrd(x)\ne0$, so $\nrd(x)\in R^\times$, and $x$ is a
+unit by \cref{III.qalg.lem:unit-iff-reduced-norm-unit}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The Hilbert symbol and ramification}\label{sec:qalg-hilbert}
+
+\noindent The Hilbert symbol is defined by isotropy and is not computable as it stands; every value used below comes from
+\cref{III.qalg.thm:hilbert-symbol-unramified,III.qalg.thm:hilbert-symbol-odd,III.qalg.thm:hilbert-symbol-two}. The general formula at $p=2$
+and Hilbert reciprocity are not needed: the parity of the number of ramified primes stays inside the datum $\operatorname{RamEx}$.
+
+\begin{definition}[Hilbert symbol]
+\tfstmt{III.qalg.def:hilbert-symbol}
+\end{definition}
+
+\begin{remark}[elementary properties and Hensel's lemma]\label{rem:qalg-hilbert-tools}
+Let $F$ be a field and $a,b,c\in F^\times$. The following follow from the definition by a change of variables.
+\begin{enumerate}[label=(F\arabic*)]
+\item $\hilb abF=\hilb baF$: exchange $x$ and $y$.
+\item $\hilb{ac^2}bF=\hilb abF$: $(x,y,z)\mapsto(cx,y,z)$ is a bijection between the nonzero solutions of $z^2=ac^2x^2+by^2$ and of $z^2=ax^2+by^2$.
+\item $\hilb abF=\hilb a{-ab}F$: if $z^2=ax^2+by^2$, then $(ax)^2=az^2+(-ab)y^2$, and $(z,y,ax)\ne0$ if $(x,y,z)\ne0$ (as $a\ne0$). So
+  $\hilb abF=1$ implies $\hilb a{-ab}F=1$; applying this to $(a,-ab)$ and using (F2), $\hilb a{-ab}F=1$ implies $\hilb a{a^2b}F=\hilb abF=1$.
+\item If $a=c^2$ is a square, then $\hilb abF=1$: take $(x,y,z)=(1,0,c)$.
+\end{enumerate}
+For $F=\Qp$ every nonzero solution can be scaled by a power of $p$ to a \emph{primitive} one: $x,y,z\in\Zp$, not all in $p\Zp$.
+We use Hensel's lemma in the form: if $f\in\Zp[X]$ and $\alpha\in\Zp$ satisfy $\abs{f(\alpha)}_p<\abs{f'(\alpha)}_p^2$, then $f$ has a root in $\Zp$
+(Serre, ch.~II, §2.2; Mathlib \texttt{hensels\_lemma}). Consequences:
+\begin{enumerate}[label=(H\arabic*)]
+\item for $p$ odd, $u\in\Zp^\times$ is a square in $\Zp$ if and only if $u\bmod p$ is a square in $\mathbb F_p$: if $u\equiv\alpha^2$, apply Hensel to
+  $X^2-u$ at $\alpha$, where $\abs{\alpha^2-u}_p<1=\abs{2\alpha}_p^2$;
+\item $u\in\Z_2^\times$ is a square in $\Z_2$ if and only if $u\equiv1\pmod8$: if $u\equiv1\pmod 8$, $\abs{1-u}_2\le2^{-3}<2^{-2}=\abs{2}_2^2$; conversely
+  a square root of a unit is a unit $1+2t$, and $(1+2t)^2=1+4t(t+1)\equiv1\pmod8$.
+\end{enumerate}
+\end{remark}
+
+\begin{theorem}[split if and only if isotropic]
+\tfstmt{III.qalg.thm:split-iff-isotropic}
+\uses{III.qalg.def:hilbert-symbol, III.qalg.def:reduced-norm, III.qalg.lem:unit-iff-reduced-norm-unit}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.def:hilbert-symbol, III.qalg.lem:reduced-norm-basic, III.qalg.lem:unit-iff-reduced-norm-unit}
+We use \cref{III.qalg.lem:reduced-norm-basic,III.qalg.lem:unit-iff-reduced-norm-unit} for $\Bq_F(\alpha,\beta)$ with $\alpha,\beta\in F$, as
+remarked in their proofs, and the following \emph{presentation property}: if $A$ is an $F$-algebra, $\alpha,\beta\in F$ and $u,w\in A$ satisfy
+$u^2=\alpha$, $w^2=\beta$, $uw=-wu$, then the $F$-linear map $\Phi\colon\Bq_F(\alpha,\beta)\to A$, $1,i,j,k\mapsto1,u,w,uw$, is a homomorphism of
+$F$-algebras. Indeed, by bilinearity it suffices to compare products of basis elements, and in both algebras these are computed from the three
+relations and associativity alone (as in the proof of \cref{III.qalg.lem:reduced-norm-basic}: $k^2=-\alpha\beta$, $ik=\alpha j=-ki$,
+$jk=-\beta i=-kj$, and the same for $u,w,uw$). If moreover $1,u,w,uw$ are linearly independent and $\dim_FA=4$, then $\Phi$ is bijective.
+
+(i)$\Rightarrow$(ii). Let $(x,y,z)\ne0$ with $z^2=ax^2+by^2$. Then $w=z+xi+yj\ne0$ and $\nrd(w)=z^2-ax^2-by^2=0$.
+
+(ii)$\Rightarrow$(i). Let $w\ne0$ with $\nrd(w)=0$, i.e.\ $w_0^2-aw_1^2=b(w_2^2-aw_3^2)$. Put $n=w_2^2-aw_3^2$.
+If $(w_2,w_3)=(0,0)$, then $w_0^2=aw_1^2$ with $(w_0,w_1)\ne0$, hence $w_1\ne0$, and $(x,y,z)=(w_1,0,w_0)$ is a nonzero solution.
+If $(w_2,w_3)\ne(0,0)$ and $n=0$, then $w_3\ne0$ (else $w_2^2=0$), so $a=(w_2/w_3)^2$ is a square and $(1,0,w_2/w_3)$ is a solution.
+If $n\ne0$, the identity $(p^2-aq^2)(r^2-as^2)=(pr+aqs)^2-a(ps+qr)^2$ with $(p,q,r,s)=(w_0,w_1,w_2,w_3)$ gives
+$bn^2=(w_0w_2+aw_1w_3)^2-a(w_0w_3+w_1w_2)^2$, so $(x,y,z)=(w_0w_3+w_1w_2,\,n,\,w_0w_2+aw_1w_3)$ is a solution with $y\ne0$.
+
+(i)$\Rightarrow$(iii). First, there is a solution with $z\ne0$. Let $(x_0,y_0,z_0)\ne0$ be a solution with $z_0=0$. Then $ax_0^2=-by_0^2$, and
+since $a,b\ne0$ both $x_0,y_0$ are nonzero; with $s=y_0/x_0\ne0$ we get $a=-bs^2$ and $ax^2+by^2=b(y-sx)(y+sx)$. Solving $y+sx=1$,
+$y-sx=b^{-1}$ (possible as $2s\ne0$) gives $x,y$ with $ax^2+by^2=1$, i.e.\ the solution $(x,y,1)$.
+So let $z\ne0$ and put $u=(xi+yj)/z$. Then $u^2=(ax^2+by^2)/z^2=1$; $k$ anticommutes with $i$ and $j$, hence with $u$; $k^2=-ab$; and
+$uk=(axj-byi)/z$. The elements $1,u,k,uk$ are linearly independent: $1$ and $k$ are independent of $\langle i,j\rangle$, and $u,uk\in\langle i,j\rangle$
+have coordinate determinant $\det\begin{psmallmatrix}x&y\\-by&ax\end{psmallmatrix}/z^2=(ax^2+by^2)/z^2=1$. By the presentation property,
+$\Phi_1\colon\Bq_F(1,-ab)\to\Bq_F(a,b)$, $i\mapsto u$, $j\mapsto k$, is an isomorphism. In $\Mat_2(F)$, $E=\begin{psmallmatrix}1&0\\0&-1\end{psmallmatrix}$
+and $K=\begin{psmallmatrix}0&-ab\\1&0\end{psmallmatrix}$ satisfy $E^2=1$, $K^2=-ab$, $EK=\begin{psmallmatrix}0&-ab\\-1&0\end{psmallmatrix}=-KE$, and
+$1,E,K,EK$ are independent ($1,E$ span the diagonal matrices because $2\ne0$; $K\pm EK$ are $\begin{psmallmatrix}0&-2ab\\0&0\end{psmallmatrix}$ and
+$\begin{psmallmatrix}0&0\\2&0\end{psmallmatrix}$). So $\Phi_2\colon\Bq_F(1,-ab)\to\Mat_2(F)$, $i\mapsto E$, $j\mapsto K$, is an isomorphism, and
+$\Phi_2\circ\Phi_1^{-1}\colon\Bq_F(a,b)\cong\Mat_2(F)$.
+
+(iii)$\Rightarrow$(ii). If $\Phi\colon\Bq_F(a,b)\cong\Mat_2(F)$, then $x=\Phi^{-1}\begin{psmallmatrix}1&0\\0&0\end{psmallmatrix}$ is nonzero and not a unit,
+so $\nrd(x)\notin F^\times$ by \cref{III.qalg.lem:unit-iff-reduced-norm-unit}, i.e.\ $\nrd(x)=0$.
+
+Finally, if (i)--(iii) fail, then by (ii) every $x\ne0$ has $\nrd(x)\in F^\times$, hence is a unit by \cref{III.qalg.lem:unit-iff-reduced-norm-unit}.
+\emph{Source:} \cite[§5.4]{Voi}; Serre, ch.~III, §1.1.
+\end{proof}
+
+\begin{theorem}[unramified primes]
+\tfstmt{III.qalg.thm:hilbert-symbol-unramified}
+\uses{III.qalg.def:hilbert-symbol}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.def:hilbert-symbol}
+Since $p\nmid2ab$, $p$ is odd and $a,b$ are units mod $p$. In $\mathbb F_p$ there are $(p+1)/2$ squares (including $0$), so each of the sets
+$\{ax^2:x\in\mathbb F_p\}$ and $\{1-by^2:y\in\mathbb F_p\}$ has $(p+1)/2$ elements; as $(p+1)/2+(p+1)/2>p$, they meet. Choose $x_0,y_0\in\Z$ with
+$ax_0^2+by_0^2\equiv1\pmod p$. Then $w=ax_0^2+by_0^2\in\Zp^\times$ reduces to the square $1$, so $w=z_0^2$ with $z_0\in\Zp$ by (H1) of
+\cref{rem:qalg-hilbert-tools}, and $z_0\ne0$. Hence $(x_0,y_0,z_0)$ is a nonzero solution of $z^2=ax^2+by^2$ in $\Qp$. \emph{Source:}
+Serre, ch.~III, Thm.~1.
+\end{proof}
+
+\begin{theorem}[odd primes]
+\tfstmt{III.qalg.thm:hilbert-symbol-odd}
+\uses{III.qalg.def:hilbert-symbol}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.def:hilbert-symbol, III.qalg.thm:hilbert-symbol-unramified}
+Write $s(\alpha,\beta,u,v)$ for the right-hand side. It depends on $\alpha,\beta$ only modulo $2$ (the parity of $\alpha\beta(p-1)/2$ depends only on
+those of $\alpha,\beta$, and $(\frac up),(\frac vp)=\pm1$). By (F2) of \cref{rem:qalg-hilbert-tools}, $p^{2m}u$ and $u$ give the same symbol, so we may
+assume $\alpha,\beta\in\{0,1\}$. All four numbers $a,b$ below are nonzero.
+
+$(\alpha,\beta)=(0,0)$: $p\nmid 2uv$, so $\hilb uvp=1=s$ by \cref{III.qalg.thm:hilbert-symbol-unramified}.
+
+$(\alpha,\beta)=(1,0)$: we show $\hilb{pu}vp=(\frac vp)=s$. If $(\frac vp)=1$, then $v$ is a square in $\Zp$ by (H1), and $\hilb{pu}vp=\hilb v{pu}p=1$ by
+(F1), (F4). If $(\frac vp)=-1$, suppose $z^2=pux^2+vy^2$ with $(x,y,z)$ primitive. Modulo $p$, $z^2\equiv vy^2$; if $y\notin p\Zp$, then $v\equiv(z/y)^2$
+would be a square mod $p$. So $y\in p\Zp$, hence $z\in p\Zp$, hence $pux^2=z^2-vy^2\in p^2\Zp$ and $x\in p\Zp$ as $u$ is a unit, contradicting
+primitivity. So $\hilb{pu}vp=-1$.
+
+$(\alpha,\beta)=(0,1)$: by (F1) and the previous case, $\hilb u{pv}p=\hilb{pv}up=(\frac up)=s$.
+
+$(\alpha,\beta)=(1,1)$: by (F3) and (F2), $\hilb{pu}{pv}p=\hilb{pu}{-p^2uv}p=\hilb{pu}{-uv}p$, which is $(\frac{-uv}p)$ by the case $(1,0)$ ($-uv$ is
+prime to $p$). By multiplicativity of the Legendre symbol and Euler's criterion $(\frac{-1}p)=(-1)^{(p-1)/2}$, this is
+$(-1)^{(p-1)/2}(\frac up)(\frac vp)=s$. \emph{Source:} Serre, ch.~III, Thm.~1; \cite[§12.4]{Voi}.
+\end{proof}
+
+\begin{theorem}[the prime $2$, low valuations]
+\tfstmt{III.qalg.thm:hilbert-symbol-two}
+\uses{III.qalg.def:hilbert-symbol}
+\end{theorem}
+\noindent Only $v_2(a)+v_2(b)\le1$ is claimed; this covers every pair of \cref{III.qalg.thm:pizer-algebras} together with the symmetry
+$\hilb abF=\hilb baF$, which is immediate from the definition.
+\begin{proof}
+\uses{III.qalg.def:hilbert-symbol}
+We use \cref{rem:qalg-hilbert-tools}. Odd squares are $\equiv1\pmod 8$, and squares are $\equiv0$ or $1\pmod4$.
+
+\emph{The symbol $\hilb uv2$.} Suppose $u\equiv1\pmod4$. If $u\equiv1\pmod8$, $u$ is a square in $\Z_2$ by (H2), and $\hilb uv2=1$ by (F4). If
+$u\equiv5\pmod8$, then $u+4v\equiv5+4\equiv1\pmod8$ ($v$ odd), so $u+4v=w^2$ with $w\in\Z_2$, and $(x,y,z)=(1,2,w)$ is a solution. So
+$\hilb uv2=1$; by (F1) the same holds if $v\equiv1\pmod 4$. Now let $u\equiv v\equiv3\pmod4$ and suppose $z^2=ux^2+vy^2$ with $(x,y,z)$ primitive.
+Modulo $4$, $x^2+y^2+z^2\equiv0$; as each square is $0$ or $1$ mod $4$, all three are even, a contradiction. So $\hilb uv2=-1$. In all cases
+$\hilb uv2=(-1)^{\varepsilon(u)\varepsilon(v)}$, since $\varepsilon(u)=1$ exactly when $u\equiv3\pmod 4$.
+
+\emph{The symbol $\hilb u{2v}2$.} We show: $\hilb u{2v}2=1$ if and only if $u\equiv1\pmod 8$ or $u+2v\equiv1\pmod8$. If $u\equiv1\pmod8$, use (H2) and
+(F4); if $u+2v\equiv1\pmod 8$, then $u+2v=w^2$ in $\Z_2$ and $(1,1,w)$ is a solution. Conversely let $z^2=ux^2+2vy^2$ with $(x,y,z)$ primitive. If $x$
+were even, then $z^2\equiv2vy^2\pmod 4$ forces $z$ even, then $2vy^2=z^2-ux^2\equiv0\pmod4$ forces $y$ even, a contradiction. So $x$ is odd and $x^2\equiv1
+\pmod 8$, and $z$ is odd as $z^2\equiv ux^2\pmod 2$. If $y$ is even, $z^2\equiv ux^2\pmod 8$ gives $u\equiv1\pmod8$; if $y$ is odd, $1\equiv u+2v\pmod 8$.
+
+It remains to compare with $(-1)^{\varepsilon(u)\varepsilon(v)+\omega(u)}$, where $\omega(u)=0$ for $u\equiv\pm1$ and $\omega(u)=1$ for $u\equiv\pm3\pmod8$.
+For $u\equiv1\pmod8$: exponent $0$, symbol $1$. For $u\equiv3$: $3+2v\equiv1\pmod 8$ iff $v\equiv3\pmod4$ iff $\varepsilon(v)=1$, and the exponent is
+$\varepsilon(v)+1$. For $u\equiv5$: $5+2v\equiv1\pmod8$ would need $v\equiv2\pmod 4$, impossible, so the symbol is $-1$, and the exponent is $0+1$. For
+$u\equiv7$: $7+2v\equiv1\pmod 8$ iff $v\equiv1\pmod4$ iff $\varepsilon(v)=0$, and the exponent is $\varepsilon(v)$. \emph{Source:} Serre, ch.~III,
+Thm.~1 (the case $p=2$).
+\end{proof}
+
+\begin{definition}[definite and ramified exactly at $D$]
+\tfstmt{III.qalg.def:ramified-exactly}
+\uses{III.qalg.def:hilbert-symbol}
+\end{definition}
+\noindent For $D$ with an even number of prime factors the predicate is empty (Hilbert reciprocity); this is not used.
+
+\begin{theorem}[Pizer's algebras]
+\tfstmt{III.qalg.thm:pizer-algebras}
+\uses{III.qalg.def:ramified-exactly, III.qalg.thm:hilbert-symbol-unramified, III.qalg.thm:hilbert-symbol-odd, III.qalg.thm:hilbert-symbol-two}
+\end{theorem}
+\noindent These cover $D=2,3,5,7,11,13$. \emph{Source:} \cite{Piz} pp.~341--342.
+\begin{proof}
+\uses{III.qalg.def:ramified-exactly, III.qalg.thm:hilbert-symbol-unramified, III.qalg.thm:hilbert-symbol-odd, III.qalg.thm:hilbert-symbol-two}
+In each case $a,b<0$, and $D\in\{2,p\}$ is prime, hence squarefree; for a prime $q$ we must show $\hilb abq=-1$ exactly for $q=D$. For odd $q$
+not dividing $ab$, $\hilb abq=1$ by \cref{III.qalg.thm:hilbert-symbol-unramified}. We use $(\frac{-1}p)=(-1)^{(p-1)/2}$, $(\frac2p)=(-1)^{(p^2-1)/8}$ and
+(F1) of \cref{rem:qalg-hilbert-tools}.
+
+(a) $(a,b)=(-1,-1)$: the only remaining prime is $q=2$, and $\hilb{-1}{-1}2=(-1)^{\varepsilon(-1)^2}=-1$ by \cref{III.qalg.thm:hilbert-symbol-two}, as
+$\varepsilon(-1)=1$.
+
+(b) $(a,b)=(-1,-p)$, $p\equiv3\pmod4$: at $q=2$, $-p\equiv1\pmod 4$, so $\varepsilon(-p)=0$ and $\hilb{-1}{-p}2=1$. At $q=p$, apply
+\cref{III.qalg.thm:hilbert-symbol-odd} with $\alpha=0$, $u=-1$, $\beta=1$, $v=-1$: $\hilb{-1}{-p}p=(\frac{-1}p)=-1$.
+
+(c) $(a,b)=(-2,-p)$, $p\equiv5\pmod8$: at $q=2$, $\hilb{-2}{-p}2=\hilb{-p}{2\cdot(-1)}2=(-1)^{\varepsilon(-p)\varepsilon(-1)+\omega(-p)}$ by (F1) and
+\cref{III.qalg.thm:hilbert-symbol-two}; here $-p\equiv3\pmod8$, so $\varepsilon(-p)=\omega(-p)=1$, and the exponent is $2$: the symbol is $1$. At $q=p$,
+\cref{III.qalg.thm:hilbert-symbol-odd} with $\alpha=0$, $u=-2$, $\beta=1$, $v=-1$ gives $\hilb{-2}{-p}p=(\frac{-2}p)=(\frac{-1}p)(\frac2p)=1\cdot(-1)=-1$,
+since $p\equiv1\pmod 4$ and $(p^2-1)/8$ is odd for $p\equiv5\pmod8$. \emph{Source:} \cite[pp.~341--342]{Piz}.
+\end{proof}
+
+\begin{theorem}[primes $p\equiv1\pmod8$; optional]
+\tfstmt{III.qalg.thm:pizer-algebras-one-mod-eight}
+\uses{III.qalg.def:ramified-exactly, III.qalg.thm:hilbert-symbol-unramified, III.qalg.thm:hilbert-symbol-odd, III.qalg.thm:hilbert-symbol-two}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.def:ramified-exactly, III.qalg.thm:hilbert-symbol-unramified, III.qalg.thm:hilbert-symbol-odd, III.qalg.thm:hilbert-symbol-two}
+Here $a=-p<0$, $b=-q<0$, $p\ne q$ (their residues mod $4$ differ), and $p$ is squarefree. For primes $r\nmid2pq$, $\hilb{-p}{-q}r=1$ by
+\cref{III.qalg.thm:hilbert-symbol-unramified}. At $r=2$: $-p\equiv7\pmod8$ and $-q\equiv1\pmod4$, so $\varepsilon(-p)=1$, $\varepsilon(-q)=0$ and the symbol is
+$1$ by \cref{III.qalg.thm:hilbert-symbol-two}. At $r=q$, \cref{III.qalg.thm:hilbert-symbol-odd} ($\alpha=0$, $u=-p$, $\beta=1$, $v=-1$) gives
+$(\frac{-p}q)=(\frac{-1}q)(\frac pq)=(-1)(-1)=1$. At $r=p$ ($\alpha=1$, $u=-1$, $\beta=0$, $v=-q$) it gives $(\frac{-q}p)=(\frac{-1}p)(\frac qp)=(\frac qp)$,
+and $(\frac qp)=(\frac pq)=-1$ by quadratic reciprocity, as $p\equiv1\pmod4$ (Mathlib \texttt{legendreSym.quadratic\_reciprocity}).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Local structure}\label{sec:qalg-local}
+
+\noindent This section uses orders, maximal orders and level structures from Ch.~III.7, §§1--2 (forward references; the Lean modules follow the
+same order).
+
+\begin{definition}[completion of a lattice]
+\tfstmt{III.qalg.def:local-order}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+
+\begin{lemma}[completions of lattices and orders]
+\tfstmt{III.qalg.lem:local-order-basic}
+\uses{III.qalg.def:local-order, III.qord.def:order}
+\end{lemma}
+\begin{proof}
+\uses{III.qalg.def:local-order, III.qord.def:order, III.qalg.def:quaternion-algebra}
+We first record three facts on lattices, used throughout Ch.~III.6--7. For a family $e_1,\dots,e_4$ in $\Bq$ let $C(e)\in\Mat_4(\Q)$ be the matrix
+whose rows are the coordinates of the $e_\mu$ in $1,i,j,k$.
+\begin{enumerate}[label=(L\arabic*)]
+\item \emph{Every lattice $L$ is a free $\Z$-module of rank $4$, and every $\Z$-basis of $L$ is a $\Q$-basis of $\Bq$.} $L$ is finitely generated and
+  torsion-free, hence free (structure theorem over the principal ideal domain $\Z$). A $\Z$-basis is $\Q$-linearly independent (clear denominators in a
+  $\Q$-relation) and spans $\Bq=\Q L$ over $\Q$; so it has $4$ elements. In particular $\det C(e)\ne0$.
+\item \emph{Index.} If $L'\subseteq L$ are lattices with bases $e',e$, then $e'_\mu=\sum_\nu P_{\mu\nu}e_\nu$ with $P\in\Mat_4(\Z)$, $C(e')=PC(e)$,
+  $\det P\ne0$, and $[L:L']=\abs{\det P}$ (Smith normal form, \cite[§9.6]{Voi}); in particular $[L:L']$ is finite and $[L:L']\,L\subseteq L'$.
+\item \emph{Comparison.} For lattices $L,L'$ there is $N\ge1$ with $NL'\subseteq L$ (express a basis of $L'$ in a basis of $L$ and clear denominators).
+\end{enumerate}
+Let $e$ be a $\Z$-basis of $L$ and $e'_\mu$ the image of $e_\mu$ in $\Bq_{\Qp}$.
+(b) Base change is additive, so the image of $\sum c_\mu e_\mu$ ($c\in\Z^4$) is $\sum c_\mu e'_\mu$, and the $\Zp$-span of the image of $L$ is the
+$\Zp$-span of $e'_1,\dots,e'_4$.
+(a) The coordinate rows of the $e'_\mu$ form the image of $C(e)$ in $\Mat_4(\Qp)$, whose determinant is $\det C(e)\ne0$. So the $e'_\mu$ are a
+$\Qp$-basis of $\Bq_{\Qp}$, and by (b) $L_p=\{\sum c_\mu e'_\mu:c\in\Zp^4\}$. In coordinates, $L_p$ is the image of $\Zp^4$ under the invertible linear map
+$c\mapsto c\,C(e)$ of $\Qp^4$, a homeomorphism; as $\Zp^4$ is compact and open in $\Qp^4$, so is $L_p$ in $\Bq_{\Qp}$. It spans $\Bq_{\Qp}$.
+(c) Let $n=[L:L']$, finite by (L2) with $nL\subseteq L'$. Clearly $L'_p\subseteq L_p$. For $\ell\in L$, $n\ell\in L'$, and $n\in\Zp^\times$ as $p\nmid n$; so
+the image of $\ell$ is $n^{-1}$ times the image of $n\ell$, which lies in $L'_p$. Hence $L_p\subseteq L'_p$.
+(d) The image of $\Oord$ under the ring homomorphism $\Bq\to\Bq_{\Qp}$ is closed under multiplication and contains $1$. Since $\Zp$ acts by
+central scalars, the product of two $\Zp$-combinations of elements of this image is again one; so $\Oord_p$ is a subring, and with (a) a $\Zp$-order.
+\emph{Source:} \cite[§§9.3--9.5]{Voi}.
+\end{proof}
+
+\begin{theorem}[maximal orders split at unramified primes]
+\tfstmt{III.qalg.thm:maximal-order-local-split}
+\uses{III.qalg.thm:split-iff-isotropic, III.qalg.def:ramified-exactly, III.qalg.lem:local-order-basic, III.qord.def:maximal-order}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.thm:split-iff-isotropic, III.qalg.def:ramified-exactly, III.qalg.lem:local-order-basic, III.qord.def:maximal-order}
+\emph{Step 1 (local maximality; no hypothesis on $a,b,p$).} Let $\Oord$ be a maximal order of $\Bq$ and $p$ a prime. We show: \emph{every subring
+$\Lambda\subseteq\Bq_{\Qp}$ with $\Oord_p\subseteq\Lambda$ that is a finitely generated $\Zp$-module equals $\Oord_p$.} Let $e$ be a $\Z$-basis of $\Oord$ and
+$e'_\mu$ the images, a $\Zp$-basis of $\Oord_p$ and a $\Qp$-basis of $\Bq_{\Qp}$ (\cref{III.qalg.lem:local-order-basic}(a),(b)); write $x_p$ for the image of
+$x\in\Bq$. Each of the finitely many generators of $\Lambda$ has coordinates in $p^{-m}\Zp$ in the basis $e'$ for $m$ large, so $\Lambda\subseteq p^{-m}\Oord_p$
+for some $m\ge0$. Let $\Oord[1/p]=\bigcup_{n\ge0}p^{-n}\Oord$, a subring of $\Bq$, and
+\[
+  \Oord'=\{x\in\Oord[1/p]:x_p\in\Lambda\},
+\]
+a subring of $\Bq$ containing $\Oord$ (preimage of a subring under a ring homomorphism, intersected with a subring). If $x=p^{-n}\sum_\mu c_\mu e_\mu\in\Oord'$
+with $c\in\Z^4$ and $n\ge m$, then $x_p=\sum_\mu p^{-n}c_\mu e'_\mu\in p^{-m}\Oord_p$ gives $p^{n-m}\mid c_\mu$ in $\Zp$, hence in $\Z$, so $x\in p^{-m}\Oord$.
+Thus $\Oord'\subseteq p^{-m}\Oord$ is finitely generated, and it spans $\Bq$ as it contains $\Oord$: it is an order containing $\Oord$, so $\Oord'=\Oord$.
+Now let $\lambda\in\Lambda$ and write $p^m\lambda=\sum c_\mu e'_\mu$ with $c\in\Zp^4$. Choose $c'\in\Z^4$ with $c'_\mu\equiv c_\mu\pmod{p^m\Zp}$ and
+put $x=p^{-m}\sum c'_\mu e_\mu\in\Oord[1/p]$. Then $x_p-\lambda=\sum p^{-m}(c'_\mu-c_\mu)e'_\mu\in\Oord_p\subseteq\Lambda$, so $x_p\in\Lambda$, $x\in\Oord'=\Oord$,
+$x_p\in\Oord_p$ and $\lambda=x_p-(x_p-\lambda)\in\Oord_p$.
+
+\emph{Step 2 (splitting).} Since $p\nmid D$, $\operatorname{RamEx}(a,b,D)$ gives $\hilb abp\ne-1$, i.e.\ $\hilb abp=1$; and $2\ne0$ in $\Qp$, $a,b\ne0$ as
+$a,b<0$. By \cref{III.qalg.thm:split-iff-isotropic} there is a $\Qp$-algebra isomorphism $\iota\colon\Bq_{\Qp}\to\Mat_2(\Qp)$.
+
+\emph{Step 3 (conjugation).} $\Lambda_0=\iota(\Oord_p)$ is a subring of $\Mat_2(\Qp)$ spanned over $\Zp$ by the four matrices $\iota(e'_\mu)$. Let
+$N\subseteq\Qp^2$ be the $\Zp$-span of all $\lambda v$ with $\lambda\in\Lambda_0$, $v\in\Zp^2$; it is spanned by the eight vectors $\iota(e'_\mu)\varepsilon_t$
+($\varepsilon_1,\varepsilon_2$ the standard basis), so it is finitely generated, and torsion-free, hence free; it contains $\Zp^2$ because $1\in\Lambda_0$, so it
+has rank $2$. Let $g\in\GL_2(\Qp)$ have a $\Zp$-basis of $N$ as columns, so $N=g\Zp^2$. Since $\Lambda_0$ is closed under multiplication,
+$\Lambda_0N\subseteq N$, hence $g^{-1}\lambda g\,\Zp^2\subseteq\Zp^2$, i.e.\ $g^{-1}\lambda g\in\Mat_2(\Zp)$, for every $\lambda\in\Lambda_0$. So
+$\Lambda=\iota^{-1}(g\Mat_2(\Zp)g^{-1})$ is a subring of $\Bq_{\Qp}$ containing $\Oord_p$ and a finitely generated $\Zp$-module. By Step 1,
+$\Lambda=\Oord_p$, that is $\iota(\Oord_p)=g\Mat_2(\Zp)g^{-1}$. Then $\iota_p(y)=g^{-1}\iota(y)g$ is a $\Qp$-algebra isomorphism with
+$\iota_p(\Oord_p)=\Mat_2(\Zp)$. \emph{Source:} \cite[§10.5]{Voi}, \cite[Prop.~1.1, p.~344]{Piz}.
+\end{proof}
+
+\begin{theorem}[the maximal order at a ramified prime; movable to Q4]
+\tfstmt{III.qalg.thm:division-maximal-order}
+\uses{III.qalg.thm:split-iff-isotropic, III.qalg.def:ramified-exactly, III.qalg.lem:local-order-basic, III.qord.lem:order-integral, III.qord.def:maximal-order}
+\end{theorem}
+\begin{proof}
+\uses{III.qalg.thm:split-iff-isotropic, III.qalg.def:ramified-exactly, III.qalg.lem:reduced-norm-basic, III.qalg.lem:local-order-basic, III.qord.lem:order-integral, III.qord.def:maximal-order, III.qalg.thm:maximal-order-local-split}
+Write $v$ for the $p$-adic valuation. Since $p\mid D$, $\hilb abp=-1$, so by \cref{III.qalg.thm:split-iff-isotropic} (with $2\ne0$ and $a,b\ne0$ in $\Qp$)
+every nonzero element of $\Bq_{\Qp}$ is a unit and $\nrd(x)\ne0$ for $x\ne0$. Put $\Oord_{D,p}=\{x:\nrd(x)\in\Zp\}$.
+
+\emph{(i) Traces.} Let $\nrd(x)=n\in\Zp$ and $t=\trd(x)$; we show $t\in\Zp$. If $x\in\Qp$, then $n=x^2$ and $t=2x$ lie in $\Zp$. Otherwise suppose $v(t)<0$.
+Then $c=n/t^2\in p^2\Zp$, and $g(Y)=Y^2-Y+c$ satisfies $\abs{g(1)}_p<1=\abs{g'(1)}_p^2$, so Hensel's lemma (\cref{rem:qalg-hilbert-tools}) gives a root
+$Y_0\in\Zp$. With $r=tY_0\in\Qp$, $r^2-tr+n=0$, and by \cref{III.qalg.lem:reduced-norm-basic}(b), $(x-r)(x-(t-r))=x^2-tx+n=0$. As $\Bq_{\Qp}$ is a division
+algebra, $x\in\{r,t-r\}\subseteq\Qp$, a contradiction.
+
+\emph{(ii) $\Oord_{D,p}$ is a subring and a $\Zp$-submodule.} It contains $1$ and is closed under products ($\nrd$ is multiplicative) and under $x\mapsto cx$,
+$c\in\Zp$ ($\nrd(cx)=c^2\nrd(x)$). For sums, $(x+y)\overline{(x+y)}=x\bar x+y\bar y+x\bar y+\overline{x\bar y}$ gives $\nrd(x+y)=\nrd(x)+\nrd(y)+\trd(x\bar y)$,
+and $\nrd(x\bar y)=\nrd(x)\nrd(y)\in\Zp$, so $\trd(x\bar y)\in\Zp$ by (i).
+
+\emph{(iii) Compact, open, spanning.} The set $S$ of $x$ with coordinates in $\Zp$, not all in $p\Zp$, is compact, and $\nrd$ is continuous and nonzero on $S$,
+so $v(\nrd(y))\le m_0$ on $S$ for some $m_0$. Every $x\ne0$ is $p^ry$ with $y\in S$ and $r=\min_\mu v(x_\mu)$, and $v(\nrd(x))=2r+v(\nrd(y))$. For
+$x\in\Oord_{D,p}$ this gives $2r\ge-m_0$, so $\Oord_{D,p}$ lies in the compact set of $x$ with coordinates in $p^{-\lceil m_0/2\rceil}\Zp$; it is closed ($\nrd$ is
+continuous), hence compact, and finitely generated over $\Zp$ (a submodule of a finitely generated module over the noetherian ring $\Zp$). It contains the
+open subgroup of elements with coordinates in $\Zp$ (as $a,b\in\Z$), so it is open, and it contains $1,i,j,k$.
+
+\emph{(iv) Integral elements.} Let $x$ be a root of a monic $P\in\Zp[X]$. If $x\in\Qp$, then $x\in\Zp$ ($\Zp$ is integrally closed) and $\nrd(x)=x^2\in\Zp$.
+Otherwise $X^2-\trd(x)X+\nrd(x)$ is the minimal polynomial of $x$ over $\Qp$, by \cref{III.qalg.lem:reduced-norm-basic}(b), so it divides $P$ in $\Qp[X]$,
+and by Gauss's lemma its coefficients lie in $\Zp$.
+
+\emph{(v) Maximal orders.} Let $\Oord$ be maximal. Elements of $\Oord$ have integral reduced norm (\cref{III.qord.lem:order-integral}), so the image of $\Oord$
+lies in the $\Zp$-module $\Oord_{D,p}$, and $\Oord_p\subseteq\Oord_{D,p}$. By (ii), (iii) and Step~1 of the proof of
+\cref{III.qalg.thm:maximal-order-local-split}, $\Oord_p=\Oord_{D,p}$. \emph{Source:} \cite[§13.3]{Voi}.
+\end{proof}
+
+\begin{theorem}[existence of level structures]
+\tfstmt{III.qord.thm:level-structure-exists}
+\uses{III.qalg.thm:maximal-order-local-split, III.qord.def:level-structure, III.qalg.def:ramified-exactly, III.qord.def:maximal-order}
+\end{theorem}
+\noindent Equivalent definitions of Eichler orders (the intersection of two maximal orders of index $M$; Pizer's local conjugacy,
+\cite[Def.~1.2]{Piz}) agree with $\Oord(M;\phi)$ for maximal $\Oord$ and $\gcd(M,D)=1$; this is recorded without proof and not used.
+\begin{proof}
+\uses{III.qalg.thm:maximal-order-local-split, III.qalg.lem:local-order-basic, III.qord.def:level-structure, III.qalg.def:ramified-exactly, III.qord.def:maximal-order}
+If $M=1$, $\Mat_2(\Z/1\Z)$ is the zero ring and the zero map is a surjective ring homomorphism. Let $M=\prod_{\ell\in P}\ell^{e_\ell}$ with $P\ne\emptyset$ the
+set of primes dividing $M$; as $\gcd(M,D)=1$, $\ell\nmid D$ for $\ell\in P$. Fix $\ell\in P$, $e=e_\ell$. By
+\cref{III.qalg.thm:maximal-order-local-split} there is $\iota_\ell\colon\Bq_{\Q_\ell}\cong\Mat_2(\Q_\ell)$ with $\iota_\ell(\Oord_\ell)=\Mat_2(\Z_\ell)$. Let
+\[
+  \phi_\ell\colon\Oord\to\Oord_\ell\xrightarrow{\iota_\ell}\Mat_2(\Z_\ell)\to\Mat_2(\Z_\ell/\ell^e\Z_\ell)=\Mat_2(\Z/\ell^e\Z),
+\]
+a ring homomorphism. It is surjective: with $e'_\mu$ as in \cref{III.qalg.lem:local-order-basic}, given $m\in\Mat_2(\Z_\ell)$ write $\iota_\ell^{-1}(m)=\sum c_\mu e'_\mu$
+($c\in\Z_\ell^4$) and pick $c'\in\Z^4$ with $c'\equiv c\pmod{\ell^e}$; then $x=\sum c'_\mu e_\mu\in\Oord$ has image $\iota_\ell(x_\ell)\in m+\ell^e\Mat_2(\Z_\ell)$, because
+$\iota_\ell(\ell^e\Oord_\ell)=\ell^e\Mat_2(\Z_\ell)$. By the Chinese remainder theorem $\Z/M\Z\cong\prod_{\ell\in P}\Z/\ell^{e_\ell}\Z$, which induces a ring isomorphism
+$\chi\colon\Mat_2(\Z/M\Z)\cong\prod_\ell\Mat_2(\Z/\ell^{e_\ell}\Z)$. Put $\phi=\chi^{-1}\circ(\phi_\ell)_{\ell\in P}$. It is surjective: given $(m_\ell)_\ell$, choose
+$x_\ell\in\Oord$ with $\phi_\ell(x_\ell)=m_\ell$ and integers $c_\ell\equiv1\pmod{\ell^{e_\ell}}$, $c_\ell\equiv0\pmod{\ell'^{e_{\ell'}}}$ for $\ell'\ne\ell$; then
+$x=\sum_\ell c_\ell x_\ell$ satisfies $\phi_{\ell'}(x)=\sum_\ell c_\ell\phi_{\ell'}(x_\ell)=m_{\ell'}$ for every $\ell'\in P$.
+\end{proof}

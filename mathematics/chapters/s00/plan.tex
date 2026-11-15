@@ -1,0 +1,99 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 00 (introduction): the plan for stage 2 of the Mathathon (the two months after the event). A PLAN, not results:
+% nothing here is claimed. No \input; reused verbatim in the submission report (after "Limitations and next steps").
+% Sources: lean/Langlandscape/HYPOTHESES.md, mathematics/report/hypotheses.tex, the milestone closures in
+% plan/implementation/outbox/, the HACS closures in plan/hacs/outbox/, plan/hacs/HACS-JL-PLAN.md.
+\section{Stage 2 of the Mathathon: next steps}\label{sec:stage2}
+
+This section is a plan for the two months after the event. It states what we intend to do and why we think it is within
+reach; it contains no results, and every item below is \emph{planned}.
+
+\subsection{Discharging registered hypotheses}\label{ss:stage2-hyp}
+The Lean development registers 29 hypotheses (\pathtt{lean/Langlandscape/HYPOTHESES.md}; the hypotheses report
+\pathtt{mathematics/report/hypotheses.tex}). Three are discharged (\texttt{PadicOrdDecomp}, \texttt{RamNrdSurj}, and \texttt{BrandtStabFree} by \pathtt{Hyp.brandtStabFree\_holds},
+from an external draft that our agents integrated, audited and gated) and one is
+discharged conditionally (\texttt{ResidualBurnside}, given absolute irreducibility of the residual representation). The
+25 open hypotheses fall into five groups (\texttt{LambdaJL} is counted in (D)); the reasons are those recorded in the registry and the milestone closures. Group (E) also names the condition behind the conditionally discharged \texttt{ResidualBurnside}.
+\begin{enumerate}[label=(\Alph*)]
+\item \emph{Within reach now} (elementary, or proved in our chapters with the needed infrastructure in Mathlib or close to it).
+  \begin{itemize}  \item \texttt{BTtree} (the Bruhat--Tits tree of $\PGL_2(\Q_q)$ is a $(q+1)$-regular tree): a port of an existing Lean
+    formalization from Lean v4.19 to v4.35.
+  \item \texttt{EllipticCount} (the numbers of classes with $w=2$, $w=3$): needs Eichler's class number formula, which is in
+    neither the import nor Mathlib; it will be formalized for $D$ prime in the form used by the Mazur check.
+  \item \texttt{InvLimExact} (surjectivity of the transition maps in the $\Lambda$-adic Ribet sequence): proved in the chapter
+    under connectivity by the control-and-snake route; the Lean version needs a concrete Ribet system.
+  \item \texttt{MordLambdaFree} (the $\Lambda$-adic half of \pathtt{thm:s04-control}(a)): proved in the chapter; needs
+    compatible bases (Nakayama) and the Iwasawa algebra in Lean.
+  \end{itemize}
+\item \emph{Proved modulo cited inputs; the proved part will be formalized, the cited part stays a hypothesis}:
+  \texttt{OldDecomp} (\pathtt{lem:s06-decomp}, from Hida and Carayol) and \texttt{TamSpec} (\texttt{lem:s06-tam}, from the
+  Kim--Ota definition and the uniqueness of the lattice under (H2)).
+\item \emph{Through the GL(2) trace-formula formalization}: \texttt{JLClassical} and the reused \pathtt{GL2TF.Hyp.EichlerMass}.
+  Our prior GL(2) trace-formula Lean project (about 170k lines; about 30k imported here) continues, and its completion, together with the comparison with the quaternionic side and a non-schematic statement on $S_2(\Gamma_0(N))$ (the hypotheses appendix of the submission report, entry \pathtt{Hyp.JLClassical}), is the
+  main route to discharge \texttt{JLClassical} ourselves, and possibly the classical input of \texttt{LambdaJL}; the mass
+  formula is chapter III.13 of its plan. This is \emph{route~1} of \S\ref{ss:s00-whycited}: it would also remove the JL input to
+  the comparison beyond $D=q$ (the Shimura-curve version of $\HypX$), provided the trace-formula comparison is carried out for the quaternion algebra occurring there. Status: planned; timing uncertain.
+\item \emph{Deep literature; cited, not reproved in stage 2}: \texttt{SA} (strong approximation for $\SL_1(B)$),
+  \texttt{HS} (Hasse--Schilling), \texttt{SerreCoh} and \texttt{SerreFree} (Serre's theory of groups acting on trees),
+  \texttt{IharaH0} (the cited inclusion in Thm.~\ref{thm:s03-iharaH0}, which is proved modulo cited inputs in the chapter; it also needs \texttt{SA}), \texttt{HidaControl} and \texttt{HidaControlGL2} (Hida's control
+  theorems), \texttt{HsiehGor} and \texttt{HsiehGorFull} (Hsieh's Gorenstein theorems), \texttt{FreeRankTwo} (the cited steps of
+  \pathtt{prop:s06-galois}, itself proved modulo cited inputs), \texttt{KimOta} and \texttt{KimOtaRT} (Kim--Ota), the $p$-adic and $\Lambda$-adic content of
+  \texttt{LambdaJL} (Chenevier, Hida), and the three geometric hypotheses \texttt{Hyp.X.char}, \texttt{Hyp.X.gal},
+  \texttt{Hyp.X.iso} (Deligne--Rapoport, Raynaud, SGA\,7; Hsieh's freeness). For these, stage 2 will re-check the statements
+  against the sources and strengthen the toy instances, not prove them.
+\item \emph{Conditions by design}: \texttt{HsiehCR} (a condition on the residual representation) and the absolute
+  irreducibility behind \texttt{ResidualBurnside} ((H2)); they are standing assumptions of the theorems and stay explicit.
+\end{enumerate}
+
+\subsection{$\HypX$ at $\Gamma_1$-level and the twisted pairing (c2)}\label{ss:stage2-hypX}
+$\HypX$ (Hypothesis~\ref{hyp:s05-X}) compares the character group of the toric part of $J_1(Mp^s)$ at $q$ with degree-zero
+divisors on the supersingular set, along the $\Gamma_1$-tower and compatibly with $U_p$. At $\Gamma_0$-type level the
+ingredients are cited; at $\Gamma_1(Mp^s)$-level with $U_p$ we found no reference. The plan is to prove the tower comparison
+with the $\mu_N$-model and Picard functoriality (team decision FD1), and then to attack the $\Lambda$-adic twisted pairing
+(c2). Remark~\ref{rem:s05-c2open} lists what (c2) needs: (i) an Atkin--Lehner extension of (X1); (ii) an integral Brandt-side
+operator at level $U_1(N)$; (iii) the identification of stage 04's $B_{N,\alpha}$ (closed there by citation); (iv) tower
+compatibility of the pairings; (v) the norm twist; (vi) a precise statement of (c2), with its normalising constant. Items
+(ii), (v) and (vi) will be addressed first, since (vi) decides what (c2) asserts. For $D=q$ the content of $\HypX$ is expected by the same
+Deligne--Rapoport and Deuring geometry as at $\Gamma_0$-level, without JL (Remark~\ref{rem:s05-Xstatus}, \stexp); carrying this out is
+the $D=q$ part of \emph{route~2} of \S\ref{ss:s00-whycited}. Beyond $D=q$, JL enters at the Shimura-curve comparison; a JL-free
+discharge there would be new mathematics, and whether it is possible is unclear (\stopen). Route~1 removes that JL input through
+\texttt{JLClassical} instead, provided the trace-formula comparison is carried out for the quaternion algebra occurring there.
+
+\subsection{HACS: the Ribet sequence and its arithmetic applications}\label{ss:stage2-hacs}
+Done during the event by HACS Lane~C (merged on the main branch; numbers and statuses in the HACS section of the submission
+report and in \pathtt{plan/hacs/outbox/20261115T1347Z\_laneC-closure.md}): HJ-3 (levels), HJ-4 ($\Sym^n$ Brandt modules with all
+Hecke operators on an intrinsic lattice, so that the $p$-parts of the congruence modules at $k>2$ are invariants for $p\nmid D$), HJ-7 (tree quotients, the Ribet
+map and the exact Ihara cokernel natively), HJ-8 (the integral defect comparison $\eta_f(q)=\cc_q(f)\,\eta^B$ of
+Theorem~\ref{thm:s06-defect} on T5, H3 and a census) and HJ-9 (the $\Lambda$-adic definite side). Remaining work packages of
+\pathtt{plan/hacs/HACS-JL-PLAN.md}:
+\begin{itemize}
+\item HJ-8 leftovers: the three T5 cells at weight $k+p-1$ still open on the HACS route, the six old-congruent census cells not run, and the 120 definite
+  blocks not determined (ramified or residue degree~2 Hecke fields); for HJ-7, $W_p$ for composite $D$ and weight $k>2$ on the tower;
+\item HJ-5 (a JSON command line and verbs), the full HJ-11 registration (catalogue, expected names), HJ-10 (the census on GPUs) and
+  the final audit HJ-12b;
+\item the remaining validation steps: the digests, \pathtt{LABEL\_CENSUS}, \texttt{--all-full} and the device lane.
+\end{itemize}
+
+\subsection{Optimisation on CPUs and GPUs}\label{ss:stage2-gpu}
+HJ-10: device paths for dense characteristic polynomials and row reduction modulo $\ell$ of Brandt matrices, batched small
+matrices, and Smith forms modulo $\ell^K$, accepted only if CPU and GPU results are bit-identical on 50 random cells. The Mazur
+census will be extended to $q\approx10^5$; this needs a sparse record format (v3; the dense format reaches about 4\,GB per
+level at $q=10^5$) and a second class invariant to cut the exact identifications (Lane~B closure, \S5: about 4000 core-hours
+with the Eisenstein $T_\ell$, about 300 with operators $<50$). The census itself runs on CPUs from a prepared batch script
+(\pathtt{plan/hacs/}); the GPU runs are planned on an external HPC allocation (H100 GPUs).
+
+\subsection{Audit and HACS record merge}\label{ss:stage2-audit}
+By team decision no HACS run was made to the full record standard before the deadline (relaxed protocol, deviation D1). After
+the event: a contract text for the JL reads and its review, the remaining validation rows (the four digests,
+\pathtt{LABEL\_CENSUS}, the slow tier, the device lane), the final audit HJ-12b (code against interfaces, provenance of every
+result file, licensing and hook minimality), and then the merge of the JL module with HACS's own record words.
+
+\subsection{Exposition}\label{ss:stage2-exposition}
+Make the mathematical exposition more digestible for human readers and improve the presentation (streamlined chapters,
+fewer forward references, more worked examples and figures; a consolidated article version). Planned.
+
+\subsection{Correspondence}\label{ss:stage2-hsieh}
+We will write to the author of \cite{Hs} about the sign of the Hecke operator at the ramified prime in the Jacquet--Langlands
+dictionary ($U_q\mapsto+\Pi_q$ in our normalisation), with our computations and the comparison of conventions, and ask
+whether the difference is one of normalisation.

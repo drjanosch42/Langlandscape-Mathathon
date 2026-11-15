@@ -1,0 +1,24 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 8: the cokernel is the component group; Mazur; HACS census; why p >= 5.
+% Sources: chapters/s03/1-graphs.tex def:s03-graph, prop:s03-phi, lem:s03-elliptic, prop:s03-mazur (pmc), rem:s03-mazur (Mazur, cited);
+% chapters/s05/geometric.tex thm:s05-G (G3, G4: SGA7 monodromy pairing, cited); chapters/s03/3-ribet.tex thm:s03-ribet(b),(c) (p >= 5);
+% plan/hacs/outbox/20261115T0150Z_laneB-closure.md sec. 6; code/results/laneB/congruence_k.json; code/results/s03/T1.json.
+% Slide source line (moved to comment): \src{Sources: def.\ s03-graph, prop.\ s03-phi, lem.\ s03-elliptic, prop./rem.\ s03-mazur; thm.\ s05-G; HACS Lane B closure \S6; code/results/laneB/congruence\_k.json, code/results/s03/T1.json.   Lean: \texttt{Ribet.mazur\_check} formalized modulo \texttt{Hyp.EllipticCount}, \texttt{Hyp.EichlerMass}.}
+\begin{frame}{The cokernel on the tree: Mazur, through HACS}
+  \small
+  \begin{itemize}\setlength{\itemsep}{0pt}
+    \item The cokernel of the monodromy sequence $0\to\mathcal X_q\to\mathcal X_q^\vee\to\Phi_q\to0$, combinatorially: for a weighted graph ($\langle e,e'\rangle_w=w_e\delta_{ee'}$):
+      $\Phicomb(\mathcal G)=\operatorname{coker}\big(X(\mathcal G)\to\operatorname{Hom}(X(\mathcal G),\ZZ)\big)$; for two vertices
+      $|\Phicomb|=\big(\prod_e w_e\big)\sum_e w_e^{-1}$ \stattag{proved}.
+    \item \textbf{Mazur check} \stattag{proved modulo cited results}: $\Phicomb\big(\GDR_q(\Ohat^\times)\big)\cong\ZZ/\operatorname{num}\frac{q-1}{12}$, cyclic;
+      e.g.\ $q=11$: $w=(2,3)$, $6(\frac12+\frac13)=5$. Mazur's component group of $J_0(q)$ \stattag{cited} has the same order and structure.
+    \item \textbf{Through HACS} \stattag{computed}: the Eisenstein congruence module of our Brandt lattices, read by HACS's integral engine, is
+      $\ZZ/\operatorname{num}\frac{q-1}{12}$ for \emph{every prime $q\le600$ at $\ell\ge5$} ($109/109$ levels), and exactly
+      ($2$- and $3$-parts included) for the first $80$ primes, $q\le409$ \stattag{own exact Smith route; run capped at 15\,min}.
+    \item \textbf{Why $p\ge5$.} The weights $w_e\in\{1,2,3\}$ are half the stabiliser orders (elliptic classes),
+      and all stabiliser orders divide $24$: the torsion of $H_1(\Gamma_U,\ZZ)$ is killed by $24$ (e.g.\ $\ZZ/3$ for $B_2$ at the tree
+      prime $3$ \stattag{computed}), so only $p=2,3$ are affected. For $p\ge5$, $H_1(\Gamma_U,\ZZ_p)=H_1(|\mathcal G|,\ZZ)\otimes\ZZ_p$, also with
+      coefficients \stattag{proved modulo cited results}.
+  \end{itemize}
+\end{frame}

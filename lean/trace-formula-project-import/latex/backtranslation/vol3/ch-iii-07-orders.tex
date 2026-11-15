@@ -1,0 +1,1332 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-iii-07-orders (parent commit 84818d0); kept items only.
+\chapter{Orders, class sets and the mass}\label{ch:ch-iii-07-orders}
+
+\noindent\emph{Scope:} areas \texttt{qord}, \texttt{qcls}. \emph{Sources:} \cite{Piz}; \cite{Shz}; \cite{Voi}.
+
+\noindent The items of A appear here in the order of A with the same \texttt{\textbackslash label}. The B-only items (\texttt{[B-only]} flag) are the definitions and instances that
+A states inline or leaves implicit: the subalgebras carrying the standard and Eichler orders, the subtype of maximal orders, the ring, algebra, topology and embedding
+structures of $\Bhat$, $\BA$ and $\Binf$, the lattice $L_x$, the unit group $\Ohat^\times$, the reduced norm as a monoid homomorphism, the group $\BA^1$ and $\Gamma_{\Bq}$, the orders of the
+instances, and the three lemmas on discriminants, ranks and topological groups. \emph{Conventions of the Lean code} (the same in all items): $a,b$ are integers, $\Bq(a,b)$ is \texttt{QuatAlg ℚ a b}; orders are bundled
+(\texttt{QOrder a b}); an index $[\,\cdot:\cdot\,]$ of lattices is \texttt{relIndex} of the underlying additive groups, which is $0$ for an infinite index; $\abs{\Gamma}$ is \texttt{Nat.card} (junk value $0$ for an infinite group);
+$M\ge1$ is the instance binder \texttt{[NeZero M]}; ``$a<0$, $b<0$'' are explicit binders of the theorem or, inside a conjunction, implications; local lattices $L_p$ are written inline as $\Zp$-spans;
+topologies on $\Bhat$, $\BA$, $\Binf$ live on type synonyms and units carry Mathlib's \texttt{Units} topology; $\Oord$ ranges over \texttt{QOrder a b} and a ``maximal order'' over \texttt{MaxOrder a b}.
+Clause-form statements \texttt{∀ h : IsMaximalOrder O, Hyp.EichlerMass \dots} state a closed instance of H-EM without assuming it.
+%----------------------------------------------------------------------------------------------------
+
+\section{Orders and discriminants}\label{sec:qord-orders}
+
+\begin{definition}[orders]
+\tfstmt{III.qord.def:order}
+\lean{GL2TF.Quat.QOrder}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qord.def:order}
+\tfsem{III.qord.def:order}{bc6dad0183c16aecae4e12698b99e4e513fd9b6db8ce2b9caabbe1b8e1f0f4f8}
+\tfhyps{III.qord.def:order}{}
+\tfbinder{III.qord.def:order}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qord.def:order}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+Bundled: a structure with the ring $\Oord$ as a \texttt{Subalgebra ℤ (QuatAlg ℚ a b)} (a $\Z$-subalgebra is the same as a subring, since $\Z$ is initial) and the two Prop fields \texttt{fg} (finitely generated as a $\Z$-module) and \texttt{span\_eq\_top} ($\Q\Oord=\Bq$); this is A's ``the subring together with these two properties''. $\Bq=\Bq(a,b)$ is \texttt{QuatAlg ℚ a b}, i.e.\ \texttt{ℍ[ℚ,a,0,b]} with $a,b\in\Z$ cast to $\Q$. The statement of A that every order is free of rank $4$ is the B-only \cref{III.qord.lem:order-free-rank-four}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}[the standard order]
+\tfstmt{III.qord.def:standard-order}
+\lean{GL2TF.Quat.standardOrder}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order,III.qord.def:standard-order-subalgebra}
+\end{definition}
+\begin{tfformal}{III.qord.def:standard-order}
+\tfsem{III.qord.def:standard-order}{c65503ecbbe26def7d32b29bbcc69580d139f25e9ee515d0d67555403058fa06}
+\tfhyps{III.qord.def:standard-order}{}
+\tfbinder{III.qord.def:standard-order}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qord.def:standard-order}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+A noncomputable \texttt{def} into \texttt{QOrder a b}; the underlying subalgebra is the B-only \cref{III.qord.def:standard-order-subalgebra} (elements with all four coordinates in $\Z$), which is the set $\Z+\Z i+\Z j+\Z k$ of A. The two order fields are proved inside the definition (no \texttt{sorry}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qord.def:standard-order-subalgebra}
+\bonly
+\lean{GL2TF.Quat.standardSubalgebra}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:standard-order-subalgebra}
+\tfsem{III.qord.def:standard-order-subalgebra}{f1c20b204e537cc3c024ad8aa70a1cf82798aeb2544ab63a90e42819d78dc798}
+\tfhyps{III.qord.def:standard-order-subalgebra}{}
+\tfbinder{III.qord.def:standard-order-subalgebra}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qord.def:standard-order-subalgebra}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the carrier is the set of $x$ with \texttt{∃ n : ℤ, x.re = n} and likewise for \texttt{imI}, \texttt{imJ}, \texttt{imK}; closure under products is the explicit multiplication table. A states it inside the definition of the standard order.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[elements of orders are integral]
+\tfstmt{III.qord.lem:order-integral}
+\lean{GL2TF.Quat.trd_nrd_int_of_mem}
+\uses{III.qord.def:order,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.def:quaternion-algebra}
+\end{lemma}
+\begin{tfformal}{III.qord.lem:order-integral}
+\tfsem{III.qord.lem:order-integral}{dcbdcb4663aead1b6bba8658316c15249dea2629506c551973a0961a24f900f0}
+\tfhyps{III.qord.lem:order-integral}{}
+\tfbinder{III.qord.lem:order-integral}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.lem:order-integral}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.lem:order-integral}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qord.lem:order-integral}{3}{cc311b3c}{the element $x\in\Bq$}
+\tfbinder{III.qord.lem:order-integral}{4}{8fe9733f}{$x\in\Oord$ (\texttt{x ∈ O.toSubalgebra})}
+\begin{tffidelity}
+$\trd(x)\in\Z$ and $\nrd(x)\in\Z$ are stated as \texttt{∃ n : ℤ, trd x = n} and \texttt{∃ n : ℤ, nrd x = n}, since \texttt{trd}, \texttt{nrd} are \texttt{ℚ}-valued (\texttt{GL2TF.Common.QuaternionNorm}). The order $\Oord$ is bundled, so $x\in\Oord$ is membership in \texttt{O.toSubalgebra}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Each $x\in O$ is integral over $\Z$ (\texttt{IsIntegral.of\_mem\_of\_fg}); the coefficients of \texttt{minpoly ℚ x} are integral (\texttt{Polynomial.isIntegral\_coeff\_of\_dvd}, valid in the non-commutative algebra), hence in $\Z$. If the degree is $1$, $x\in\Z$; if it is $2$, the minimal polynomial is $X^2-\trd(x)X+\nrd(x)$.
+\end{proof}
+
+\begin{lemma}
+\tfstmt{III.qord.lem:order-free-rank-four}
+\bonly
+\lean{GL2TF.Quat.order_free_rank_four}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{lemma}
+\begin{tfformal}{III.qord.lem:order-free-rank-four}
+\tfsem{III.qord.lem:order-free-rank-four}{6db1fb721feb6cbba48956e6a35cd6518399fd9b20b53b252c7f8509bc2b17b4}
+\tfhyps{III.qord.lem:order-free-rank-four}{}
+\tfbinder{III.qord.lem:order-free-rank-four}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.lem:order-free-rank-four}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.lem:order-free-rank-four}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+B-only (A states the content inline in \cref{III.qord.def:order}). One conjunction: \texttt{Module.Free ℤ O}, \texttt{Module.finrank ℤ O = 4}, and for every finite index type $\iota$ (\texttt{Fintype ι}, \texttt{ι : Type}) and every $\Z$-basis \texttt{e : Module.Basis ι ℤ O} an \texttt{f : Module.Basis ι ℚ (QuatAlg ℚ a b)} with \texttt{f i = e i} for all $i$: ``a $\Z$-basis of $\Oord$ is a $\Q$-basis of $\Bq$''. The module $\Oord$ is \texttt{Subalgebra.toSubmodule O.toSubalgebra}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The $\Z$-module $O$ is finitely generated and torsion-free, hence free; a $\Z$-basis is a $\Q$-basis of $\Bq$ (helpers \texttt{exists\_rat\_basis\_of\_basis}, \texttt{exists\_lattice\_basis}, \texttt{mem\_lattice\_iff\_repr}), so the rank is $4$.
+\end{proof}
+
+\begin{definition}[discriminant]
+\tfstmt{III.qord.def:discriminant}
+\lean{GL2TF.Quat.discriminant}
+\uses{III.qord.def:order,III.qalg.def:reduced-trace,III.qord.lem:order-integral,III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qord.def:discriminant}
+\tfsem{III.qord.def:discriminant}{4646b489f60bbc5c40c5bf88d7456a040f4dcae2ae5179b36216f32fd1ace91d}
+\tfhyps{III.qord.def:discriminant}{}
+\tfbinder{III.qord.def:discriminant}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.def:discriminant}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.def:discriminant}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+A fixes a $\Z$-basis once and for all and takes values in $\Z$; Lean takes the basis \texttt{Module.Free.chooseBasis ℤ O} (index type \texttt{Module.Free.ChooseBasisIndex}), a fixed choice, and the value is $\Q$-valued: \texttt{discriminant O : ℚ}, the determinant of the matrix \texttt{Matrix.of fun i j => trd (e i * star (e j))} ($\bar{\ }$ is \texttt{star}, the conjugation). The two instance arguments needed for \texttt{chooseBasis} (\texttt{Module.IsTorsionFree ℤ B}, \texttt{Module.Finite ℤ O}) are supplied inside the body. Basis independence, integrality and positivity for $a,b<0$ are the B-only \cref{III.qord.lem:discriminant-basic}; A states them as parenthetical remarks.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}
+\tfstmt{III.qord.lem:discriminant-basic}
+\bonly
+\lean{GL2TF.Quat.discriminant_basic}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qord.def:discriminant,III.qord.def:order,III.qord.lem:order-integral}
+\end{lemma}
+\begin{tfformal}{III.qord.lem:discriminant-basic}
+\tfsem{III.qord.lem:discriminant-basic}{ba892895b353c21959372f6e57cb2925d648e74899055e5eba9e3987e48ec526}
+\tfhyps{III.qord.lem:discriminant-basic}{}
+\tfbinder{III.qord.lem:discriminant-basic}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.lem:discriminant-basic}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.lem:discriminant-basic}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+B-only (A states the content in parentheses in \cref{III.qord.def:discriminant}). Three conjuncts: for every finite index type with decidable equality and every $\Z$-basis $e$, \texttt{discriminant O =} the determinant for $e$; \texttt{∃ n : ℤ, discriminant O = n}; and $a<0\to b<0\to0<\texttt{discriminant O}$ (the definiteness hypotheses are implications inside the statement, not binders).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Change of basis for the trace Gram matrix (\texttt{LinearMap.toMatrix₂\_mul\_basis\_toMatrix}) with a $\Z$-matrix of determinant $\pm1$ gives independence of the basis. Positivity: $\det\operatorname{Gram}(1,i,j,k)=16a^2b^2>0$ computed directly, and the change of basis to a $\Q$-basis multiplies by a square; no positive-definiteness theory is used.
+\end{proof}
+
+\begin{lemma}[discriminant and index]
+\tfstmt{III.qord.lem:discriminant-index}
+\lean{GL2TF.Quat.discriminant_eq_index_sq_mul}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-trace,III.qord.def:discriminant,III.qord.def:order,III.qord.lem:discriminant-basic}
+\end{lemma}
+\begin{tfformal}{III.qord.lem:discriminant-index}
+\tfsem{III.qord.lem:discriminant-index}{e8ded853f1e33253346d774975720185ef17abf16be01b53397c1ca68b36defa}
+\tfhyps{III.qord.lem:discriminant-index}{}
+\tfbinder{III.qord.lem:discriminant-index}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.lem:discriminant-index}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.lem:discriminant-index}{2}{40134c82}{the order $\Oord$}
+\tfbinder{III.qord.lem:discriminant-index}{3}{f3b0eb81}{the order $\Oord'$}
+\tfbinder{III.qord.lem:discriminant-index}{4}{55e3bd1f}{$\Oord\subseteq\Oord'$ (\texttt{O.toSubalgebra ≤ O'.toSubalgebra})}
+\begin{tffidelity}
+The index $[\Oord':\Oord]$ is \texttt{relIndex} of the additive subgroups underlying the two orders (the underlying submodules); \texttt{relIndex} is $0$ for an infinite index, so finiteness is the first conjunct \texttt{relIndex ≠ 0} and the equation is $d(\Oord)=\texttt{(relIndex : ℚ)}^2\,d(\Oord')$ in $\Q$ (A: in $\Z$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{AddSubgroup.relIndex\_eq\_abs\_det} gives $[O':O]=|\det|$ for the change-of-basis matrix; the Gram matrices are related by the change of basis, so $d(O)=[O':O]^2d(O')$.
+\end{proof}
+
+\begin{definition}[maximal orders]
+\tfstmt{III.qord.def:maximal-order}
+\lean{GL2TF.Quat.IsMaximalOrder}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:maximal-order}
+\tfsem{III.qord.def:maximal-order}{8fc72e05f7114b596ba845631178506ecab5acf7e9c1102080ebc510788da5ba}
+\tfhyps{III.qord.def:maximal-order}{}
+\tfbinder{III.qord.def:maximal-order}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.def:maximal-order}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.def:maximal-order}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+\texttt{IsMaximalOrder O : Prop} is \texttt{∀ O' : QOrder a b, O.toSubalgebra ≤ O'.toSubalgebra → O'.toSubalgebra = O.toSubalgebra}; equality of underlying subalgebras is equality of orders since the other fields are Props. The set $\operatorname{MaxOrder}(a,b)$ of A is the B-only subtype \cref{III.qord.def:maximal-order-subtype}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qord.def:maximal-order-subtype}
+\bonly
+\lean{GL2TF.Quat.MaxOrder}
+\uses{III.qord.def:maximal-order,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:maximal-order-subtype}
+\tfsem{III.qord.def:maximal-order-subtype}{03efdda429f3c51b074c1b5b4e25a7db5bfaa2707a370a8d41e652409d902adf}
+\tfhyps{III.qord.def:maximal-order-subtype}{}
+\tfbinder{III.qord.def:maximal-order-subtype}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qord.def:maximal-order-subtype}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only: an \texttt{abbrev} for the subtype \texttt{\{O : QOrder a b // IsMaximalOrder O\}}. Elements are pairs $(\Oord,h)$; \texttt{O.1} is the order. Items taking a ``maximal order'' take an argument of this type.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{theorem}[existence of maximal orders]
+\tfstmt{III.qord.thm:exists-maximal-order}
+\lean{GL2TF.Quat.exists_maxOrder_ge}
+\uses{III.qord.lem:discriminant-index,III.qord.def:maximal-order,III.qalg.def:quaternion-algebra,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qalg.def:reduced-trace,III.qord.def:discriminant,III.qord.lem:discriminant-basic}
+\end{theorem}
+\begin{tfformal}{III.qord.thm:exists-maximal-order}
+\tfsem{III.qord.thm:exists-maximal-order}{04a06205dcf4ef7102c0c173e81c0371589ad053ccf605f16bbd882c24f56f4c}
+\tfhyps{III.qord.thm:exists-maximal-order}{}
+\tfbinder{III.qord.thm:exists-maximal-order}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.thm:exists-maximal-order}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.thm:exists-maximal-order}{2}{2d9e61ff}{$a\ne0$ (\texttt{a ≠ 0})}
+\tfbinder{III.qord.thm:exists-maximal-order}{3}{07b0a656}{$b\ne0$ (\texttt{b ≠ 0})}
+\tfbinder{III.qord.thm:exists-maximal-order}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+The conclusion \texttt{∃ O' : MaxOrder a b, O.toSubalgebra ≤ O'.1.toSubalgebra} says that $\Oord$ is contained in a maximal order; the hypotheses $a,b\ne0$ are explicit binders.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Among the orders containing $O$ choose, by \texttt{Nat.find} on $|d|\in\N$ (nonzero by a helper), one of minimal discriminant. Orders properly containing it would have strictly smaller $|d|$ by \cref{III.qord.lem:discriminant-index}, so it is maximal.
+\end{proof}
+
+\begin{lemma}[a maximality criterion]
+\tfstmt{III.qord.lem:maximal-criterion}
+\lean{GL2TF.Quat.isMaximalOrder_of_criterion}
+\uses{III.qord.lem:order-integral,III.qord.lem:discriminant-index,III.qord.def:maximal-order,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qord.def:discriminant,III.qord.def:order,III.qord.lem:discriminant-basic}
+\end{lemma}
+\begin{tfformal}{III.qord.lem:maximal-criterion}
+\tfsem{III.qord.lem:maximal-criterion}{49b2a72bbe04f9a34dd94b90b0c214ecf0cceab90973c6d9efeab5e5c7c93070}
+\tfhyps{III.qord.lem:maximal-criterion}{}
+\tfbinder{III.qord.lem:maximal-criterion}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.lem:maximal-criterion}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.lem:maximal-criterion}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qord.lem:maximal-criterion}{3}{c3131260}{the hypothesis of A (the criterion for all primes $p$)}
+\begin{tffidelity}
+The criterion is the binder \texttt{h}. ``$p^2\mid d(\Oord)$'' is written \texttt{∃ n : ℤ, discriminant O = p\^{}2 * n} (the discriminant is $\Q$-valued), ``$x\in p^{-1}\Oord$'' is \texttt{(p : ℚ) • x ∈ O.toSubalgebra}, ``$x\notin\Oord$'' is \texttt{x ∉ O.toSubalgebra}, and ``$\trd(x),\nrd(x)\in\Z$'' is the conjunction of two existentials as in \cref{III.qord.lem:order-integral}; the prime $p$ is \texttt{p : ℕ} with \texttt{p.Prime}. The conclusion is \texttt{IsMaximalOrder O}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Suppose $O\subsetneq O'$. Then $O'/O$ is a nontrivial finite group, so by Cauchy (\texttt{exists\_prime\_addOrderOf\_dvd\_card'}) it has an element of prime order $p$; the criterion's hypotheses at $p$ then contradict integrality (\cref{III.qord.lem:order-integral}) of the lifted element.
+\end{proof}
+
+
+\section{Level structures, Eichler orders and units}\label{sec:qord-eichler}
+
+\begin{definition}[level structures]
+\tfstmt{III.qord.def:level-structure}
+\lean{GL2TF.Quat.LevelStructure}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:level-structure}
+\tfsem{III.qord.def:level-structure}{a2f99d3736405a1a23b3639cae79a424586cce8ade3c4f95ec550b2ffd6b4855}
+\tfhyps{III.qord.def:level-structure}{}
+\tfbinder{III.qord.def:level-structure}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.def:level-structure}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.def:level-structure}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qord.def:level-structure}{3}{f7bc01e4}{the level $M$ (explicit, \texttt{ℕ})}
+\tfbinder{III.qord.def:level-structure}{4}{7d8a64c1}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\begin{tffidelity}
+Bundled structure: a ring homomorphism \texttt{toRingHom : O.toSubalgebra →+* Matrix (Fin 2) (Fin 2) (ZMod M)} with the Prop field \texttt{surjective}. $M\ge1$ is the instance binder \texttt{[NeZero M]}. $\operatorname{LevelStructure}(\Oord,M)$ is the type itself.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}[Eichler orders]
+\tfstmt{III.qord.def:eichler-order}
+\lean{GL2TF.Quat.eichlerOrder}
+\uses{III.qord.def:level-structure,III.qord.def:eichler-order-subalgebra,III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:eichler-order}
+\tfsem{III.qord.def:eichler-order}{3aa40fc2f78a13fa76416f8946400f02505f474c2ecec271fbd48f950ce487db}
+\tfhyps{III.qord.def:eichler-order}{}
+\tfbinder{III.qord.def:eichler-order}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.def:eichler-order}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.def:eichler-order}{2}{6729fe52}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qord.def:eichler-order}{3}{97b94027}{the level $M$ (implicit, \texttt{ℕ})}
+\tfbinder{III.qord.def:eichler-order}{4}{7d8a64c1}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\tfbinder{III.qord.def:eichler-order}{5}{1a48b7f2}{the level structure $\phi$ (\texttt{LevelStructure O M})}
+\begin{tffidelity}
+The order is bundled: the subring is the B-only \cref{III.qord.def:eichler-order-subalgebra} (carrier \texttt{\{x | ∃ hx : x ∈ O.toSubalgebra, φ.toRingHom ⟨x, hx⟩ 1 0 = 0\}}; \texttt{1 0} is the entry in row $2$, column $1$ in zero-based indexing, i.e.\ $\phi(x)_{21}$), and the two order fields (\texttt{fg} by finite generation of $\Oord$, spanning because $M\Oord\subseteq\Oord(M;\phi)$) are proved inside the definition. So Lean proves what A asserts (``an order of $\Bq$'').
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qord.def:eichler-order-subalgebra}
+\bonly
+\lean{GL2TF.Quat.eichlerSubalgebra}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:level-structure,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:eichler-order-subalgebra}
+\tfsem{III.qord.def:eichler-order-subalgebra}{9087a20fd19c1773fb321595632a0f302ce78c08f1faf28c94e825227d1784a2}
+\tfhyps{III.qord.def:eichler-order-subalgebra}{}
+\tfbinder{III.qord.def:eichler-order-subalgebra}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.def:eichler-order-subalgebra}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.def:eichler-order-subalgebra}{2}{6729fe52}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qord.def:eichler-order-subalgebra}{3}{97b94027}{the level $M$ (implicit, \texttt{ℕ})}
+\tfbinder{III.qord.def:eichler-order-subalgebra}{4}{7d8a64c1}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\tfbinder{III.qord.def:eichler-order-subalgebra}{5}{1a48b7f2}{the level structure $\phi$ (\texttt{LevelStructure O M})}
+\begin{tffidelity}
+B-only plumbing: the $\Z$-subalgebra carrying the Eichler order; closure under products uses that $(\phi(x)\phi(y))_{21}=\phi(x)_{21}\phi(y)_{11}+\phi(x)_{22}\phi(y)_{21}$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[index and discriminant of Eichler orders]
+\tfstmt{III.qord.lem:eichler-order-index}
+\lean{GL2TF.Quat.eichlerOrder_index}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:discriminant,III.qord.def:eichler-order,III.qord.def:eichler-order-subalgebra,III.qord.def:level-structure,III.qord.def:order,III.qord.lem:discriminant-index}
+\end{lemma}
+\begin{tfformal}{III.qord.lem:eichler-order-index}
+\tfsem{III.qord.lem:eichler-order-index}{c5018b15ffc27cc7620c63f77f37f0de53061d228e0408afc1dea10f1833c8fb}
+\tfhyps{III.qord.lem:eichler-order-index}{}
+\tfbinder{III.qord.lem:eichler-order-index}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.lem:eichler-order-index}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.lem:eichler-order-index}{2}{6729fe52}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qord.lem:eichler-order-index}{3}{97b94027}{the level $M$ (implicit, \texttt{ℕ})}
+\tfbinder{III.qord.lem:eichler-order-index}{4}{7d8a64c1}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\tfbinder{III.qord.lem:eichler-order-index}{5}{1a48b7f2}{the level structure $\phi$ (\texttt{LevelStructure O M})}
+\begin{tffidelity}
+$[\Oord:\Oord(M;\phi)]=M$ is \texttt{relIndex = M} in $\N$ (the index of the underlying additive subgroups, as in \cref{III.qord.lem:discriminant-index}); $d(\Oord(M;\phi))=M^2d(\Oord)$ is an equation in $\Q$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $x\mapsto\varphi(x)_{21}$ induces $O/O(M;\varphi)\cong\Z/M$ (\texttt{AddSubgroup.index\_ker}, surjectivity of $\varphi$), so the index is $M$, and the discriminant formula is \cref{III.qord.lem:discriminant-index}.
+\end{proof}
+
+\begin{definition}[unit groups]
+\tfstmt{III.qord.def:unit-group}
+\lean{GL2TF.Quat.unitGroup}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qord.def:unit-group}
+\tfsem{III.qord.def:unit-group}{ecb2fe6a37c198420d1bc5bdc1ba619333308efede3e036f788fe33f631bd983}
+\tfhyps{III.qord.def:unit-group}{}
+\tfbinder{III.qord.def:unit-group}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.def:unit-group}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.def:unit-group}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+A \texttt{Subgroup (QuatAlg ℚ a b)ˣ} with carrier \texttt{\{u | ↑u ∈ O.toSubalgebra ∧ ↑u⁻¹ ∈ O.toSubalgebra\}}: the subgroup of the unit group of $\Bq$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{theorem}[units of definite orders]
+\tfstmt{III.qord.thm:units-finite}
+\lean{GL2TF.Quat.unitGroup_eq_nrd_one_finite}
+\uses{III.qord.def:unit-group,III.qalg.lem:unit-iff-reduced-norm-unit,III.qalg.lem:reduced-norm-definite,III.qord.lem:order-integral,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qord.def:order,III.qalg.def:reduced-trace}
+\end{theorem}
+\begin{tfformal}{III.qord.thm:units-finite}
+\tfsem{III.qord.thm:units-finite}{945e6413bf0a82b809d352239d0512d009bbd53df2a0a767a224abd950652ca6}
+\tfhyps{III.qord.thm:units-finite}{}
+\tfbinder{III.qord.thm:units-finite}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.thm:units-finite}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.thm:units-finite}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qord.thm:units-finite}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\tfbinder{III.qord.thm:units-finite}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+The equality of subsets of $\Bq$ is stated for the image of \texttt{unitGroup O} under the coercion \texttt{Bˣ → B}: \texttt{(↑) '' unitGroup O = \{x | x ∈ O.toSubalgebra ∧ nrd x = 1\}}; finiteness is \texttt{Finite (unitGroup O)} (the subtype).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$O^\times=\{\nrd=1\}$ by \cref{III.qalg.lem:unit-iff-reduced-norm-unit} and positivity of $\nrd$ on $O$. Coordinates in a $\Z$-basis lie in $\frac1D\Z$ for a common denominator $D$ and are bounded by $1$ (\texttt{coord\_sq\_le\_nrd}), so the set is finite.
+\end{proof}
+
+\begin{theorem}[the order of the unit group]
+\tfstmt{III.qord.thm:units-order-divides-24}
+\lean{GL2TF.Quat.card_unitGroup_dvd_24}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qord.def:order,III.qord.def:unit-group,III.qord.lem:order-integral,III.qord.thm:units-finite}
+\end{theorem}
+\begin{tfformal}{III.qord.thm:units-order-divides-24}
+\tfsem{III.qord.thm:units-order-divides-24}{eb544c316447566a9bbfe78b42d7d8634b6ae41fc49ada3a7e2d8413892ac1ff}
+\tfhyps{III.qord.thm:units-order-divides-24}{}
+\tfbinder{III.qord.thm:units-order-divides-24}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qord.thm:units-order-divides-24}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qord.thm:units-order-divides-24}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qord.thm:units-order-divides-24}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\tfbinder{III.qord.thm:units-order-divides-24}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+$\abs{\Oord^\times}$ is \texttt{Nat.card (unitGroup O)}, which is $0$ for an infinite group; finiteness for $a,b<0$ is \cref{III.qord.thm:units-finite}, so the conclusion \texttt{Even \dots ∧ \dots ∣ 24 ∧ \dots ∈ ({2,4,6,8,12,24} : Finset ℕ)} has its intended meaning (and excludes the junk value $0$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A unit $u$ has $\trd(u)\in\{-2,\dots,2\}$ (helper \texttt{unit\_cases}), hence $u^{12}=1$, so $|O^\times|$ is divisible only by $2$ and $3$ (Cauchy). A $2$-subgroup has order at most $8$: the centraliser of an element $X$ of order $4$ is $\{\pm1,\pm X\}$, every other element commutes or anticommutes with $X$ ($\trd(XU)\in\{0,\pm2\}$), and the anticommuting ones form one coset. Subgroups of order $9$ are abelian and the commuting cube roots satisfy $(u-x)(u+x+1)=0$, so $3^2\nmid|O^\times|$. Sylow's theorem and \texttt{Nat.factorization\_le\_iff\_dvd} give $|O^\times|\mid 24$; no classification of finite subgroups of $\mathrm{SO}(3)$ is used.
+\end{proof}
+
+
+\section{The finite-adelic algebra and the local--global principle}\label{sec:qcls-adelic}
+
+\begin{definition}[the finite-adelic algebra]
+\tfstmt{III.qcls.def:finite-adelic-algebra}
+\lean{GL2TF.Quat.BHat}
+\uses{III.qalg.def:quaternion-algebra,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{III.qcls.def:finite-adelic-algebra}
+\tfsem{III.qcls.def:finite-adelic-algebra}{b23c17a2a23bdf1f7224d7f84594caddfa795d2c4ac61ff2345ba6ddaa0152b1}
+\tfhyps{III.qcls.def:finite-adelic-algebra}{}
+\tfbinder{III.qcls.def:finite-adelic-algebra}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:finite-adelic-algebra}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+\texttt{BHat a b} is a type synonym (\texttt{def}) for \texttt{QuatAlg FinAdele a b} so that its topology cannot clash with other instances on $\Bq_{\Af}$ (convention: topology only on type synonyms). The ring, algebra and topology structures are the B-only instances \cref{III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-topology}; $\iota$ is the B-only \cref{III.qcls.def:finite-adelic-embedding}; $\Af$ is the working model \texttt{FinAdele}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:finite-adelic-algebra-ring}
+\bonly
+\lean{GL2TF.Quat.instRingBHat}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qcls.def:finite-adelic-algebra}
+\end{definition}
+\begin{tfformal}{III.qcls.def:finite-adelic-algebra-ring}
+\tfsem{III.qcls.def:finite-adelic-algebra-ring}{b501fbfd68dc4253e11a472d2eaa392f5016b4dd34e6ad55c59121c5d1c5657b}
+\tfhyps{III.qcls.def:finite-adelic-algebra-ring}{}
+\tfbinder{III.qcls.def:finite-adelic-algebra-ring}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:finite-adelic-algebra-ring}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the instance \texttt{Ring (BHat a b)}, inherited from \texttt{QuatAlg FinAdele a b}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:finite-adelic-algebra-algebra}
+\bonly
+\lean{GL2TF.Quat.instAlgebraBHat}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring}
+\end{definition}
+\begin{tfformal}{III.qcls.def:finite-adelic-algebra-algebra}
+\tfsem{III.qcls.def:finite-adelic-algebra-algebra}{2d2fd6216dbeaade322584260f475b15761a89be57b95f7e8dcdef59f7201e17}
+\tfhyps{III.qcls.def:finite-adelic-algebra-algebra}{}
+\tfbinder{III.qcls.def:finite-adelic-algebra-algebra}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:finite-adelic-algebra-algebra}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the instance \texttt{Algebra FinAdele (BHat a b)}, coordinatewise scalar multiplication (this is how $\Bhat$ becomes a $\Zhat$-module by restriction of scalars along \texttt{Zhat ≤ FinAdele}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:finite-adelic-algebra-topology}
+\bonly
+\lean{GL2TF.Quat.instTopologicalSpaceBHat}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qcls.def:finite-adelic-algebra}
+\end{definition}
+\begin{tfformal}{III.qcls.def:finite-adelic-algebra-topology}
+\tfsem{III.qcls.def:finite-adelic-algebra-topology}{9af623d77575dba9a79ce23899bab5a2e6ed0e4e0208b679ae030b8ea27e8ebc}
+\tfhyps{III.qcls.def:finite-adelic-algebra-topology}{}
+\tfbinder{III.qcls.def:finite-adelic-algebra-topology}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:finite-adelic-algebra-topology}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the topology \texttt{TopologicalSpace.induced} along \texttt{QuaternionAlgebra.equivTuple} of the product topology on $\Af^4$; this is A's ``topology for which the coordinate map is a homeomorphism''.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:finite-adelic-embedding}
+\bonly
+\lean{GL2TF.Quat.finEmbed}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring}
+\end{definition}
+\begin{tfformal}{III.qcls.def:finite-adelic-embedding}
+\tfsem{III.qcls.def:finite-adelic-embedding}{185ae34d9900a133c1d7e4813c9762d15628a83fa8bd558aab1b1b9ae85f48f9}
+\tfhyps{III.qcls.def:finite-adelic-embedding}{}
+\tfbinder{III.qcls.def:finite-adelic-embedding}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:finite-adelic-embedding}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{finEmbed a b : QuatAlg ℚ a b →+* BHat a b} is the base change \texttt{baseChange a b (algebraMap ℚ FinAdele)} (the diagonal embedding on each coordinate); it is a ring homomorphism, A's $\iota$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}
+\tfstmt{III.qcls.lem:finite-adelic-algebra-topology}
+\bonly
+\lean{GL2TF.Quat.bHat_topology}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:finadele-locally-compact-instance,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-algebra-topology}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:finite-adelic-algebra-topology}
+\tfsem{III.qcls.lem:finite-adelic-algebra-topology}{92f7a9cdd92cccef6b6448b282390c9e424e6f97b01725a866c15a494e93ff46}
+\tfhyps{III.qcls.lem:finite-adelic-algebra-topology}{}
+\tfbinder{III.qcls.lem:finite-adelic-algebra-topology}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.lem:finite-adelic-algebra-topology}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only (A states it parenthetically in \cref{III.qcls.def:finite-adelic-algebra}). One conjunction: \texttt{IsTopologicalRing (BHat a b)}, \texttt{LocallyCompactSpace}, \texttt{T2Space} and \texttt{IsTopologicalGroup (BHat a b)ˣ}, where the topology on the units is Mathlib's \texttt{Units} topology (the one making $u\mapsto(u,u^{-1})$ an embedding).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Coordinates in the basis $1,i,j,k$ give a homeomorphism of $\hat B$ with $\hat{\Q}^4$ (\texttt{isOpenEmbedding\_bhat\_coords}); continuity of the ring operations follows from continuity of the coordinate polynomials (\texttt{continuousMul\_bhat}), and of the inverse on units from the \texttt{embedProduct} topology.
+\end{proof}
+
+\begin{definition}[completions of lattices]
+\tfstmt{III.qcls.def:order-completion}
+\lean{GL2TF.Quat.latticeCompletion}
+\uses{III.qcls.def:finite-adelic-algebra,III.qord.def:order,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding}
+\end{definition}
+\begin{tfformal}{III.qcls.def:order-completion}
+\tfsem{III.qcls.def:order-completion}{220557c2099b822b80ca4278927a33c37629c2ca0e21f00536cf89f8d406386c}
+\tfhyps{III.qcls.def:order-completion}{}
+\tfbinder{III.qcls.def:order-completion}{0}{9f2c4084}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:order-completion}{1}{dafe0b68}{the integer $b$ (explicit)}
+\tfbinder{III.qcls.def:order-completion}{2}{1400fb9d}{the $\Z$-submodule $L\subseteq\Bq$ (\texttt{Submodule ℤ (QuatAlg ℚ a b)})}
+\begin{tffidelity}
+$\Lhat$ is defined for every $\Z$-submodule $L$ (not only lattices) as \texttt{Submodule.span Zhat (finEmbed a b '' L)}, a \texttt{Submodule Zhat (BHat a b)}; $\Ohat$ for an order is \texttt{latticeCompletion (Subalgebra.toSubmodule O.toSubalgebra)}. The group $\Ohat^\times$ of A is the B-only \cref{III.qcls.def:order-completion-units}; A has both in one item.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:order-completion-units}
+\bonly
+\lean{GL2TF.Quat.orderCompletionUnits}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:order-completion-units}
+\tfsem{III.qcls.def:order-completion-units}{70e0e94fff6f7eaeecca6fa80b3c177c3fcba44cb93c9b4369f9c2b5f7d256ea}
+\tfhyps{III.qcls.def:order-completion-units}{}
+\tfbinder{III.qcls.def:order-completion-units}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.def:order-completion-units}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.def:order-completion-units}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+B-only plumbing: a \texttt{Subgroup (BHat a b)ˣ} with carrier \texttt{\{u | ↑u ∈ Ô ∧ ↑u⁻¹ ∈ Ô\}}; closure under products uses that $\Ohat$ is closed under multiplication and contains $1$ (helper lemmas).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[compactness and openness]
+\tfstmt{III.qcls.lem:order-completion-compact-open}
+\lean{GL2TF.Quat.latticeCompletion_compact_open}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-algebra-topology,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qord.def:order}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:order-completion-compact-open}
+\tfsem{III.qcls.lem:order-completion-compact-open}{481ed9b7db32e9ae38a3238407c72b6e10d14868fbbf63e81e2d44f5dfb1ecc6}
+\tfhyps{III.qcls.lem:order-completion-compact-open}{}
+\tfbinder{III.qcls.lem:order-completion-compact-open}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.lem:order-completion-compact-open}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+Two conjuncts. (1) For every \texttt{L : Submodule ℤ B} with \texttt{L.FG} and \texttt{span ℚ L = ⊤} (a lattice), \texttt{IsCompact} and \texttt{IsOpen} of the carrier set of \texttt{latticeCompletion L} in \texttt{BHat a b}. (2) For every \texttt{O : QOrder a b}, \texttt{orderCompletionUnits O} is compact and open as a subset of \texttt{(BHat a b)ˣ} with the units topology. ``For every lattice/order'' are quantifiers inside the statement, not binders.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For the base-changed basis $F$ of $L$, $\hat L=F.\texttt{equivFun}^{-1}(\hat{\Z}^4)$, with continuity of $F.\texttt{equivFun}$ and its inverse (\texttt{LinearMap.continuous\_on\_pi}); $\hat{\Z}^4$ is compact and open. For $\hat O^\times$: compact by \texttt{Submonoid.units\_isCompact}, open by the \texttt{embedProduct} topology.
+\end{proof}
+
+\begin{theorem}[local--global principle for lattices]
+\tfstmt{III.qcls.thm:lattice-local-global}
+\lean{GL2TF.Quat.lattice_local_global}
+\uses{III.qcls.def:order-completion,III.qalg.def:local-order,III.qcls.def:finite-idele-lattice,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qord.def:order,I.adele.def:rat-embedding}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:lattice-local-global}
+\tfsem{III.qcls.thm:lattice-local-global}{6e83d9a1bb99ace34bcd4aec88320b147c612aeb1d547395db47f3338b40b6af}
+\tfhyps{III.qcls.thm:lattice-local-global}{}
+\tfbinder{III.qcls.thm:lattice-local-global}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.thm:lattice-local-global}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+Three conjuncts (a), (b), (c). The local lattice $L_p$ (\cref{III.qalg.def:local-order}) is written inline as \texttt{Submodule.span ℤ\_[p] (baseChange a b (algebraMap ℚ ℚ\_[p]) '' L)} for \texttt{p : Nat.Primes}. In (b), the lattice $L_x=\iota^{-1}(x\Ohat)$ is the B-only \cref{III.qcls.def:finite-idele-lattice}; ``$L_x$ is a lattice'' is \texttt{FG ∧ span ℚ = ⊤}, and $\widehat{L_x}=x\Ohat$ is an equality of carrier sets with the pointwise action \texttt{(x : BHat a b) • (Ô : Set)}. In (c), ``$L_p=L'_p$ for all $p$ $\Rightarrow L=L'$'' and ``$\Lhat=\widehat{L'}\iff L=L'$'' are the two conjuncts of the third clause. Lattices are \texttt{FG} submodules with $\Q$-span $\Bq$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a),(b) are proved by the algebraic coordinate route: $z\in L\iff$ the coordinates of $z$ in a $\Z$-basis of $L$ lie in $\Zp$ for every $p$ (read off the coordinates of $\iota_p(z)$ in the base-changed basis); no $\Zp$-freeness of $L_p$ is used. (b) uses the approximation $\A_f=\Q+\hat{\Z}$ and a common denominator $N$ with $Nx^{\pm1}\hat O\subseteq\hat O$. (c) is the local part of the same coordinate criterion.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:finite-idele-lattice}
+\bonly
+\lean{GL2TF.Quat.finiteIdeleLattice}
+\uses{III.qcls.def:order-completion,III.qcls.def:finite-adelic-embedding,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:finite-idele-lattice}
+\tfsem{III.qcls.def:finite-idele-lattice}{66c6d351936778364d03e8d9744913ec1b7407a59f9a92ee6dbfc9c41d724c18}
+\tfhyps{III.qcls.def:finite-idele-lattice}{}
+\tfbinder{III.qcls.def:finite-idele-lattice}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.def:finite-idele-lattice}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.def:finite-idele-lattice}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.def:finite-idele-lattice}{3}{bc973937}{the idele $x\in\Bhat^\times$}
+\begin{tffidelity}
+B-only plumbing (A uses the notation $L_x=\iota^{-1}(x\Ohat)$ inline): a \texttt{Submodule ℤ (QuatAlg ℚ a b)} with carrier \texttt{\{z | ∃ y ∈ Ô, finEmbed z = x * y\}}, i.e.\ $\iota^{-1}(x\Ohat)$. That it is a lattice is \cref{III.qcls.thm:lattice-local-global}(b).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+
+\section{Class sets}\label{sec:qcls-classes}
+
+\begin{definition}[class set]
+\tfstmt{III.qcls.def:class-set}
+\lean{GL2TF.Quat.classSet}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:class-set}
+\tfsem{III.qcls.def:class-set}{99d16341e8215adb315a86ca5fd7198a8b0e2120a87a230a79444152570a4347}
+\tfhyps{III.qcls.def:class-set}{}
+\tfbinder{III.qcls.def:class-set}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.def:class-set}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.def:class-set}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+\texttt{classSet O} is \texttt{DoubleCoset.Quotient (Units.map finEmbed).range Ô$^\times$}, the set of double cosets $\iota(\Bq^\times)\,x\,\Ohat^\times$ (coerced to sets of \texttt{(BHat a b)ˣ}); $\Bq^\times$ acts on the left and $\Ohat^\times$ on the right. The class $[x]$ is \texttt{DoubleCoset.mk \_ \_ x}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{theorem}[classes and right ideals]
+\tfstmt{III.qcls.thm:class-set-right-ideals}
+\lean{GL2TF.Quat.classSet_right_ideals}
+\uses{III.qcls.thm:lattice-local-global,III.qcls.def:class-set,III.qalg.def:local-order,III.qcls.def:finite-idele-lattice,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qord.def:order,I.adele.def:rat-embedding,I.adele.def:zhat,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:order-completion}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:class-set-right-ideals}
+\tfsem{III.qcls.thm:class-set-right-ideals}{a73b46062cbfd0f84267fc193a245a92d82e33866e17548cbab259847e0cc0e2}
+\tfhyps{III.qcls.thm:class-set-right-ideals}{}
+\tfbinder{III.qcls.thm:class-set-right-ideals}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.thm:class-set-right-ideals}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.thm:class-set-right-ideals}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+Four conjuncts (a)--(d) with $x,y,\gamma,u$ quantified inside. $L_x$ is the B-only \cref{III.qcls.def:finite-idele-lattice}; $\gamma L_x$ is the image of $L_x$ under \texttt{LinearMap.mulLeft ℤ γ}. In (d), the right-module condition is \texttt{∀ y z, y ∈ L → z ∈ O → y * z ∈ L}; the finite set $S$ is \texttt{S : Finset Nat.Primes} and the family $\beta$ is the total family \texttt{β : ∀ p, (QuatAlg ℚ\_[p] a b)ˣ} (only its values on $S$ enter the hypotheses). The local lattices $L_p$, $\Oord_p$ are inline $\Zp$-spans as in \cref{III.qcls.thm:lattice-local-global}, and $\beta_p\Oord_p$ is the image under \texttt{LinearMap.mulLeft ℤ\_[p] (β p)}. A says ``$L=L_x$ for the element $x\in\Bhat^\times$ whose components are\dots'': Lean states \texttt{∃ x : (BHat a b)ˣ} whose $p$-components (by \texttt{baseChange} along \texttt{RestrictedProduct.evalRingHom}) are $\beta_p$ on $S$ and $1$ off $S$ and with $L=L_x$, so the existence of such an idele is part of the claim.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a),(b),(c) are proved with the local lattice criterion of \cref{III.qcls.thm:lattice-local-global} (c uses its part (b)). (d): $\hat L_x\ni w$ iff $w_p\in L_p$ for all $p$ (helper \texttt{mem\_latticeCompletion\_iff\_local\_aux}); the idele with components $\beta_p$ on a finite set $S$ and $1$ elsewhere (\texttt{glueAux}) realises the given local data, and $L\le L_x$ follows by the local criterion for $\hat O$ and $L_x\le L$ by \texttt{le\_of\_forall\_padic\_span}.
+\end{proof}
+
+\begin{lemma}[the index is a square]
+\tfstmt{III.qcls.lem:index-square}
+\lean{GL2TF.Quat.index_square}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.lem:left-multiplication-det,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.thm:class-set-right-ideals,III.qcls.thm:lattice-local-global,III.qord.def:order}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:index-square}
+\tfsem{III.qcls.lem:index-square}{99811ccb6fd745ae08077b649c6947b16398b42cdbf66e5dcc718d846c7c1e7e}
+\tfhyps{III.qcls.lem:index-square}{}
+\tfbinder{III.qcls.lem:index-square}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.lem:index-square}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.lem:index-square}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.lem:index-square}{3}{bc973937}{the idele $x\in\Bhat^\times$}
+\tfbinder{III.qcls.lem:index-square}{4}{2cdaa345}{$\Oord\subseteq L_x$ (as submodules)}
+\begin{tffidelity}
+$[L_x:\Oord]$ is \texttt{relIndex} of the underlying subgroups, a natural number, and the conclusion is \texttt{IsSquare}. Since \texttt{relIndex} is $0$ for an infinite index and $0=0^2$, the statement does not by itself assert finiteness of the index (A: ``the index''); finiteness holds as $L_x$ is a lattice (\cref{III.qcls.thm:lattice-local-global}(b)).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+With $\Q$-bases $f_O,f_L$ from $\Z$-bases of $O\subseteq L_x$, $[L_x:O]=|q|$ with $q=\det_{f_L}(f_O)$ (\texttt{AddSubgroup.relIndex\_eq\_abs\_det}). At each $p$, base change to $\Qp$: $\iota_p(q)=u\cdot\nrd(x_p^{-1})^2$ with $|u|_p=1$, since both change-of-basis matrices between $F_L$ and $x_pF_O$ have $\Zp$ entries (local description of $\hat L_x=x\hat O$); so $v_p(q)$ is even for all $p$ and $q>0$ is a rational square (\texttt{Rat.isSquare\_iff\_even\_factorization}).
+\end{proof}
+
+\begin{theorem}[Minkowski bound]
+\tfstmt{III.qcls.thm:minkowski-bound}
+\lean{GL2TF.Quat.minkowski_bound}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:left-multiplication-det,III.qalg.lem:reduced-norm-definite,III.qalg.thm:definite-division,III.qord.def:discriminant,III.qord.def:order,III.qord.lem:discriminant-basic}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:minkowski-bound}
+\tfsem{III.qcls.thm:minkowski-bound}{87093ac2524d3d13e38cc04d1a73f93c3c9eb13c1945833df4ffe64ebedc6ce9}
+\tfhyps{III.qcls.thm:minkowski-bound}{}
+\tfbinder{III.qcls.thm:minkowski-bound}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.thm:minkowski-bound}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.thm:minkowski-bound}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qcls.thm:minkowski-bound}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\tfbinder{III.qcls.thm:minkowski-bound}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.thm:minkowski-bound}{5}{64e3b073}{the lattice $L$ (\texttt{Submodule ℤ B})}
+\tfbinder{III.qcls.thm:minkowski-bound}{6}{e1f8c518}{$L$ finitely generated (\texttt{L.FG})}
+\tfbinder{III.qcls.thm:minkowski-bound}{7}{25038015}{$\Q L=\Bq$}
+\tfbinder{III.qcls.thm:minkowski-bound}{8}{28779fd1}{$L\Oord\subseteq L$ (\texttt{∀ y z, y ∈ L → z ∈ O → y * z ∈ L})}
+\begin{tffidelity}
+A lattice is the triple $L$, \texttt{L.FG}, \texttt{span ℚ L = ⊤} of binders. The element $\beta\ne0$ of A is a unit \texttt{β : (QuatAlg ℚ a b)ˣ} with \texttt{↑β ∈ L}; for $a,b<0$ the algebra is a division algebra (the reduced norm is positive definite), so non-zero and invertible agree. $\beta^{-1}L$ is \texttt{L.map (LinearMap.mulLeft ℤ ↑β⁻¹)}; $\Oord\subseteq\beta^{-1}L$ is the second conjunct. The inequality is in $\R$: \texttt{π\^{}2 * (relIndex : ℝ) ≤ 8 * √(discriminant O : ℝ)}; the index is the \texttt{relIndex} (so $0$ for an infinite index, which does not occur, \cref{III.qcls.lem:bounded-superlattices-finite}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Euclidean coordinates \texttt{eucl} with $\|\texttt{eucl}\,x\|^2=\nrd(x)$ turn $L$ into a lattice in $\R^4$. Mathlib's \texttt{exists\_ne\_zero\_mem\_lattice\_of\_measure\_mul\_two\_pow\_le\_measure} on the fundamental domain \texttt{ZSpan.fundamentalDomain} and a closed ball of volume $\pi^2r^4/2$ gives a nonzero lattice vector of small norm. The covolume is controlled by $d(O)\nrd(\beta)^4=[\beta^{-1}L:O]^2\det\operatorname{trd}(f_i\bar f_j)$ (\texttt{det\_gram\_change}).
+\end{proof}
+
+\begin{lemma}[bounded superlattices]
+\tfstmt{III.qcls.lem:bounded-superlattices-finite}
+\lean{GL2TF.Quat.bounded_superlattices_finite}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:bounded-superlattices-finite}
+\tfsem{III.qcls.lem:bounded-superlattices-finite}{8306d5408a5de5a37c68c462bb5e1e6da2ed4f0eb75f105c32b344df49c33c6d}
+\tfhyps{III.qcls.lem:bounded-superlattices-finite}{}
+\tfbinder{III.qcls.lem:bounded-superlattices-finite}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.lem:bounded-superlattices-finite}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.lem:bounded-superlattices-finite}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.lem:bounded-superlattices-finite}{3}{f7bc01e4}{the bound $K$ (\texttt{ℕ})}
+\begin{tffidelity}
+The set \texttt{\{J | J.FG ∧ span ℚ J = ⊤ ∧ O ≤ J ∧ relIndex O J ≤ K\}} is \texttt{Set.Finite}; $K=0$ is allowed (A: $K\in\N$). For lattices $J\supseteq\Oord$ the index is finite, so \texttt{relIndex ≤ K} has no spurious infinite-index members.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Every superlattice $L'\supseteq O$ with bounded index is contained in $\frac1N O$ for a fixed $N$ (helpers \texttt{exists\_nsmul\_mem\_order}, \texttt{exists\_nsmul\_le\_order}), and the finitely many subgroups of the finite group $\frac1NO/O$ give the finite list of representatives.
+\end{proof}
+
+\begin{theorem}[finiteness of the class set]
+\tfstmt{III.qcls.thm:class-set-finite}
+\lean{GL2TF.Quat.classSet_finite}
+\uses{III.qcls.thm:class-set-right-ideals,III.qcls.thm:minkowski-bound,III.qcls.lem:bounded-superlattices-finite,III.qcls.def:class-set,III.qord.def:order,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.thm:lattice-local-global,III.qord.def:discriminant}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:class-set-finite}
+\tfsem{III.qcls.thm:class-set-finite}{a52f7b66ded1d2abd4e9c45c1dc57b4a1a248ecbebed1fb827ff01b49d414c64}
+\tfhyps{III.qcls.thm:class-set-finite}{}
+\tfbinder{III.qcls.thm:class-set-finite}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.thm:class-set-finite}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.thm:class-set-finite}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qcls.thm:class-set-finite}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\tfbinder{III.qcls.thm:class-set-finite}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+\texttt{Finite (classSet O)}, the \texttt{Finite} typeclass-Prop on the type \texttt{classSet O}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Normalise each class by Minkowski (\cref{III.qcls.thm:minkowski-bound}) applied to $L_x$ so that $L_{\iota(\beta^{-1})x}$ lies in the finite set of \cref{III.qcls.lem:bounded-superlattices-finite}; the map to this set is well defined and injective by \cref{III.qcls.thm:class-set-right-ideals}(c) with $\gamma=1$, so the class set is finite.
+\end{proof}
+
+\begin{corollary}[open subgroups]
+\tfstmt{III.qcls.cor:class-set-finite-open-subgroup}
+\lean{GL2TF.Quat.classSet_finite_of_open}
+\uses{III.qcls.thm:class-set-finite,III.qcls.lem:order-completion-compact-open,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-algebra-topology,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qord.def:order,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:order-completion,III.qcls.lem:finite-adelic-algebra-topology}
+\end{corollary}
+\begin{tfformal}{III.qcls.cor:class-set-finite-open-subgroup}
+\tfsem{III.qcls.cor:class-set-finite-open-subgroup}{fc3f54342a6fefc5cd69b36c4a96c590b0808a9b8e1e69851ae42042581acce5}
+\tfhyps{III.qcls.cor:class-set-finite-open-subgroup}{}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{5}{1def7be7}{the subgroup $U\le\Bhat^\times$ (\texttt{Subgroup (BHat a b)ˣ})}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{6}{7cd3fd45}{$U\le\Ohat^\times$ (\texttt{U ≤ orderCompletionUnits O})}
+\tfbinder{III.qcls.cor:class-set-finite-open-subgroup}{7}{2380c0d4}{$U$ is open (\texttt{IsOpen (U : Set (BHat a b)ˣ)})}
+\begin{tffidelity}
+The double coset space $\Bq^\times\backslash\Bhat^\times/U$ is \texttt{DoubleCoset.Quotient (Units.map finEmbed).range U} and its finiteness is \texttt{Finite}. Openness of $U$ is in $\Bhat^\times$ with the units topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$V=\hat O^\times$ is compact (\cref{III.qcls.lem:order-completion-compact-open}), so an open subgroup $U\le V$ has finite index (\texttt{Subgroup.quotient\_finite\_of\_isOpen}). The map $(c,q)\mapsto H\,(x_c\,\tilde q)\,U$ from the finite set $X(O)\times V/U$ onto the double cosets is surjective (write $g\in H\,x_c\,V$ as $g=h'\,x_c\,k'$ and use the class of $k'$ in $V/U$), so the target is finite.
+\end{proof}
+
+\begin{definition}[stabilizers]
+\tfstmt{III.qcls.def:stabilizer}
+\lean{GL2TF.Quat.classStabilizer}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion}
+\end{definition}
+\begin{tfformal}{III.qcls.def:stabilizer}
+\tfsem{III.qcls.def:stabilizer}{94ab3471fb73a6b83de8d64698dfaaf763422d06f7371e381beebea0c6a4bfc8}
+\tfhyps{III.qcls.def:stabilizer}{}
+\tfbinder{III.qcls.def:stabilizer}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.def:stabilizer}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.def:stabilizer}{2}{86dbe078}{the subgroup $U\le\Bhat^\times$}
+\tfbinder{III.qcls.def:stabilizer}{3}{bc973937}{the idele $x\in\Bhat^\times$}
+\begin{tffidelity}
+$\Gamma_x(U)=\{\gamma:\iota(\gamma)\in xUx^{-1}\}$ is \texttt{(U.map (MulAut.conj x).toMonoidHom).comap (Units.map finEmbed)}, a \texttt{Subgroup (QuatAlg ℚ a b)ˣ}. The notation $\Gamma_x=\Gamma_x(\Ohat^\times)$ of A for an order is not a Lean definition: it is \texttt{classStabilizer (orderCompletionUnits O) x} wherever it is used.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[stabilizers are unit groups of left orders]
+\tfstmt{III.qcls.lem:stabilizer-units}
+\lean{GL2TF.Quat.stabilizer_units}
+\uses{III.qcls.thm:lattice-local-global,III.qcls.def:stabilizer,III.qord.def:unit-group,III.qord.thm:units-finite,III.qord.thm:units-order-divides-24,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qord.def:order,I.adele.def:rat-embedding,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qcls.def:finite-idele-lattice}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:stabilizer-units}
+\tfsem{III.qcls.lem:stabilizer-units}{4c26d82f4d4a421fa3208416b8588e79f8f4efcb8ee67350b1cc3455df9c81cc}
+\tfhyps{III.qcls.lem:stabilizer-units}{}
+\tfbinder{III.qcls.lem:stabilizer-units}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.lem:stabilizer-units}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.lem:stabilizer-units}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.lem:stabilizer-units}{3}{bc973937}{the idele $x\in\Bhat^\times$}
+\begin{tffidelity}
+Three conjuncts. (a) $\Oord_x=\iota^{-1}(x\Ohat x^{-1})$ has no Lean definition: the statement is \texttt{∃ Ox : QOrder a b} whose carrier equals \texttt{finEmbed ⁻¹' ((fun y => x * y * x⁻¹) '' Ô)}, together with \texttt{classStabilizer (orderCompletionUnits O) x = unitGroup Ox}; so ``is an order'' is the existence of the bundled order. (b) conjugation $\gamma\Gamma_x\gamma^{-1}$ is \texttt{.map (MulAut.conj γ).toMonoidHom}, with $\gamma,u$ quantified inside. (c) $a<0\to b<0\to\dots$ are implications inside (not binders); $\abs{\Gamma_x}$ is \texttt{Nat.card}, finiteness is \texttt{Finite} and the value lies in \texttt{(\{2,4,6,8,12,24\} : Finset ℕ)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) $\Gamma_x(\hat O^\times)$ is the unit group of an order, via the helper \texttt{exists\_den\_mul\_latticeCompletion} (common denominators in $\hat O$); (b) is a direct conjugation computation ($\hat O^\times$ is normalised by $u\in\hat O^\times$), not using (a); (c) follows from (a) and \cref{III.qord.thm:units-finite,III.qord.thm:units-order-divides-24} (finiteness and $|\cdot|\mid24$).
+\end{proof}
+
+
+\section{The mass}\label{sec:qcls-mass}
+
+\begin{definition}[mass]
+\tfstmt{III.qcls.def:mass}
+\lean{GL2TF.Quat.mass}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:mass}
+\tfsem{III.qcls.def:mass}{c6cd29280ccd4d68d83eb07959f838e957bc2ee6c5be70de48c78e1694bcae15}
+\tfhyps{III.qcls.def:mass}{}
+\tfbinder{III.qcls.def:mass}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.def:mass}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.def:mass}{2}{40134c82}{the order $\Oord$ (\texttt{QOrder a b})}
+\begin{tffidelity}
+\texttt{mass O : ℚ} is \texttt{∑ᶠ c : classSet O, 1 / (Nat.card (classStabilizer (orderCompletionUnits O) (Quotient.out c)) : ℚ)}: the fixed representatives of A are \texttt{Quotient.out}. \texttt{finsum} is $0$ if the support is infinite and $1/0=0$ in $\Q$, matching A's conventions for infinite $X(\Oord)$ and infinite $\Gamma$ (for an infinite $X(\Oord)$ with finitely many non-zero summands Lean would return their sum; this does not occur, \cref{III.qcls.thm:class-set-finite}). The full stabilizers (conventions row N4, no quotient by $\pm1$) are used.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}[orbit count]
+\tfstmt{III.qcls.lem:mass-orbit-count}
+\lean{GL2TF.Quat.mass_orbit_count}
+\uses{III.qcls.def:stabilizer,III.qcls.def:mass,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:mass-orbit-count}
+\tfsem{III.qcls.lem:mass-orbit-count}{a49959eeef0f84a8a22fb0ac76d8df2000b12852b08a40e3513da8c11ab9e7a4}
+\tfhyps{III.qcls.lem:mass-orbit-count}{}
+\tfbinder{III.qcls.lem:mass-orbit-count}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.lem:mass-orbit-count}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.lem:mass-orbit-count}{2}{86dbe078}{the subgroup $U'\le\Bhat^\times$}
+\tfbinder{III.qcls.lem:mass-orbit-count}{3}{63d3fc66}{the subgroup $U\le\Bhat^\times$}
+\tfbinder{III.qcls.lem:mass-orbit-count}{4}{3b6fd8c5}{$U'\le U$}
+\tfbinder{III.qcls.lem:mass-orbit-count}{5}{cfa445b2}{$[U:U']$ finite (\texttt{U'.relIndex U ≠ 0})}
+\tfbinder{III.qcls.lem:mass-orbit-count}{6}{077a16c3}{$\Bq^\times\backslash\Bhat^\times/U$ finite (\texttt{Finite (DoubleCoset.Quotient \dots U)})}
+\begin{tffidelity}
+$[U:U']$ is \texttt{U'.relIndex U} (an index in $\N$, finite iff $\ne0$), cast to $\Q$. The two sums are \texttt{finsum}s over the double coset spaces with the representatives \texttt{Quotient.out}, with the stabilizers \texttt{classStabilizer U' \_} and \texttt{classStabilizer U \_}. Finiteness of the $U'$ space is not a hypothesis (it follows).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A generic group lemma (\texttt{orbit\_count\_aux}, for any $\iota\colon K\to G$): the map $(c,uU')\mapsto[c.\texttt{out}\cdot u]$ onto $H\backslash G/U'$ is surjective, its fibre over $(c,q)$ is the orbit of $q$ under $\Gamma_c$ acting on $U/U'$, the stabiliser is $\Gamma_{xu}(U')$, and $|{\rm stab}|\cdot|{\rm orbit}|=|\Gamma_c|$ (\texttt{Subgroup.card\_mul\_index}, \texttt{MulAction.index\_stabilizer}). Junk values for infinite groups agree on both sides.
+\end{proof}
+
+\begin{lemma}[the index of the Borel subgroup]
+\tfstmt{III.qcls.lem:gl2-borel-index}
+\lean{GL2TF.Quat.gl2_borel_index}
+\uses{I.conv.def:borel,III.ef.def:dedekind-psi}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:gl2-borel-index}
+\tfsem{III.qcls.lem:gl2-borel-index}{236aea6ce1745f14289d2b6cb208f83c08477f169f29400b660665e6c097fba4}
+\tfhyps{III.qcls.lem:gl2-borel-index}{}
+\tfbinder{III.qcls.lem:gl2-borel-index}{0}{52ee410f}{the level $M$ (explicit, \texttt{ℕ})}
+\tfbinder{III.qcls.lem:gl2-borel-index}{1}{9e3edbd7}{$1\le M$ (\texttt{1 ≤ M})}
+\begin{tffidelity}
+The upper triangular subgroup is \texttt{borel (ZMod M)} of \texttt{GL2TF.VolI.P0.Conventions} (a \texttt{Subgroup (GL (Fin 2) (ZMod M))}); its \texttt{index} (as a natural number) is cast to $\Q$ and compared with \texttt{dedekindPsi M : ℚ} (\cref{III.ef.def:dedekind-psi}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For any commutative ring $R$: by orbit--stabiliser on $e_0$, $[\mathrm{GL}_2(R):B(R)]\cdot|R^\times|$ is the number of primitive columns, with $B(R)/\mathrm{Stab}(e_0)\cong R^\times$ via $g\mapsto g_{00}$. Over $\Z/M$ the number of primitive pairs is $M^2\prod(1-p^{-2})$ by the Chinese remainder theorem (\texttt{ZMod.chineseRemainder}) and the local count $p^{2k}-p^{2k-2}$; divide by $\varphi(M)$.
+\end{proof}
+
+\begin{theorem}[mass under level change]
+\tfstmt{III.qcls.thm:mass-level-change}
+\lean{GL2TF.Quat.mass_level_change}
+\uses{III.qord.def:eichler-order,III.qord.lem:eichler-order-index,III.qcls.thm:lattice-local-global,III.qcls.lem:mass-orbit-count,III.qcls.lem:gl2-borel-index,III.qcls.def:mass,III.ef.def:dedekind-psi,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion-units,III.qord.def:level-structure,III.qord.def:order,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.conv.def:borel,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:stabilizer,III.qcls.thm:class-set-finite,III.qord.def:eichler-order-subalgebra,III.qord.lem:order-integral}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:mass-level-change}
+\tfsem{III.qcls.thm:mass-level-change}{1cd3514c68933aadbda48b0d49ddb898c21511dd85e43bbf1f99490a4a330c08}
+\tfhyps{III.qcls.thm:mass-level-change}{}
+\tfbinder{III.qcls.thm:mass-level-change}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.thm:mass-level-change}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.thm:mass-level-change}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qcls.thm:mass-level-change}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\tfbinder{III.qcls.thm:mass-level-change}{4}{d75f8c76}{the order $\Oord$ (\texttt{QOrder a b})}
+\tfbinder{III.qcls.thm:mass-level-change}{5}{7c9e60af}{the level $M$ (implicit, \texttt{ℕ})}
+\tfbinder{III.qcls.thm:mass-level-change}{6}{3c0ce3f4}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\tfbinder{III.qcls.thm:mass-level-change}{7}{99c9bc84}{the level structure $\phi$ (\texttt{LevelStructure O M})}
+\begin{tffidelity}
+The index $[\Ohat^\times:\widehat{\Oord(M;\phi)}^\times]$ is \texttt{(orderCompletionUnits (eichlerOrder φ)).relIndex (orderCompletionUnits O)} cast to $\Q$, compared with \texttt{dedekindPsi M}. The second conjunct is \texttt{mass (eichlerOrder φ) = dedekindPsi M * mass O} in $\Q$. The level $M\ge1$ is the instance \texttt{NeZero M}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The reduction $\Psi\colon\hat O^\times\to\mathrm{GL}_2(\Z/M)$ is built from the approximation $\hat O=\iota(O)+M\hat O$; $\hat O(M;\varphi)^\times=\Psi^{-1}(B)$. $\Psi$ is surjective by gluing local components at $p\mid M$; that a lift is a unit at $p\mid M$ follows from \texttt{nrd\_not\_dvd\_of\_isUnit} (if $p\mid\nrd z$ then $\varphi_p(\bar z)=0$ would force $\varphi_p(O)$ into the scalars, contradicting surjectivity). The index is thus $[\mathrm{GL}_2:B]=\psi(M)$ by \cref{III.qcls.lem:gl2-borel-index}, and the mass identity follows from \cref{III.qcls.lem:mass-orbit-count} and finiteness of the class set.
+\end{proof}
+
+\begin{hypothesis}[Eichler's mass formula, H-EM]
+\tfstmt{III.qcls.hyp:eichler-mass}
+\lean{GL2TF.Hyp.EichlerMass}
+\uses{III.qalg.def:ramified-exactly,III.qord.def:maximal-order,III.qcls.def:mass,III.qord.def:maximal-order-subtype,III.qord.def:order}
+\end{hypothesis}
+\begin{tfformal}{III.qcls.hyp:eichler-mass}
+\tfsem{III.qcls.hyp:eichler-mass}{4d0bcc2c384c7e563c92bff195a284e285cbb2290013d866184474661b2b3d97}
+\tfhyps{III.qcls.hyp:eichler-mass}{}
+\tfbinder{III.qcls.hyp:eichler-mass}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.hyp:eichler-mass}{1}{c6513842}{the integer $b$ (explicit)}
+\tfbinder{III.qcls.hyp:eichler-mass}{2}{18782426}{the integer $D$ (explicit, \texttt{ℕ})}
+\tfbinder{III.qcls.hyp:eichler-mass}{3}{22450252}{the maximal order $\Oord$ (\texttt{MaxOrder a b})}
+\begin{tffidelity}
+\texttt{Hyp.EichlerMass a b D O : Prop} is \texttt{RamifiedExactly a b D → mass O.1 = 1/24 * ∏ p ∈ D.primeFactors, ((p : ℚ) - 1)}: a Prop family indexed by $(a,b,D,\Oord)$, taken by consumers as an explicit hypothesis binder (registry entry in \texttt{hypotheses.tex}). The antecedent $\operatorname{RamEx}(a,b,D)$ is inside the body, so the statement is vacuous at every index where the ramification datum fails. The product over primes dividing $D$ is over \texttt{D.primeFactors}; $\Mass$ is \cref{III.qcls.def:mass} with full unit groups. The maximal order is an element of the subtype \texttt{MaxOrder a b} (\cref{III.qord.def:maximal-order-subtype}), $\Oord$ = \texttt{O.1}. This declaration lies in the \texttt{Hyp} namespace and imports only a restricted vocabulary.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a hypothesis (a \texttt{Prop}-valued definition in \texttt{Hyp}).
+\end{proof}
+
+\begin{corollary}[the mass of an Eichler order, conditional on H-EM]
+\tfstmt{III.qcls.cor:eichler-order-mass}
+\lean{GL2TF.Quat.eichlerOrder_mass}
+\uses{III.ef.def:dedekind-psi,III.qalg.def:hilbert-symbol,III.qalg.def:ramified-exactly,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:mass,III.qcls.def:order-completion-units,III.qcls.hyp:eichler-mass,III.qcls.thm:mass-level-change,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order}
+\end{corollary}
+\begin{tfformal}{III.qcls.cor:eichler-order-mass}
+\tfsem{III.qcls.cor:eichler-order-mass}{8286215251ed712084e08afeb182d208e9c5841dd40a7e620f71f04b61419e5f}
+\tfhyps{III.qcls.cor:eichler-order-mass}{EichlerMass}
+\tfbinder{III.qcls.cor:eichler-order-mass}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.cor:eichler-order-mass}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.cor:eichler-order-mass}{2}{48b1c944}{the natural number $D$ (implicit)}
+\tfbinder{III.qcls.cor:eichler-order-mass}{3}{22450252}{the maximal order $\Oord$ (\texttt{MaxOrder a b})}
+\tfbinder{III.qcls.cor:eichler-order-mass}{4}{6d2f4c1f}{H-EM$(a,b,D,\Oord)$ (\texttt{Hyp.EichlerMass a b D O}; hypothesis binder)}
+\tfbinder{III.qcls.cor:eichler-order-mass}{5}{4d9d663b}{$\operatorname{RamEx}(a,b,D)$ (\texttt{RamifiedExactly a b D}; hypothesis binder, a project data predicate)}
+\tfbinder{III.qcls.cor:eichler-order-mass}{6}{6f93b58a}{the level $M$ (implicit, \texttt{ℕ})}
+\tfbinder{III.qcls.cor:eichler-order-mass}{7}{67b7b9e9}{the instance \texttt{NeZero M} (encodes $M\ge1$)}
+\tfbinder{III.qcls.cor:eichler-order-mass}{8}{484a847c}{the level structure $\phi$ (\texttt{LevelStructure O.1 M})}
+\begin{tffidelity}
+Conditional on H-EM (\cref{III.qcls.hyp:eichler-mass}) and on $\operatorname{RamEx}(a,b,D)$, both as hypothesis binders in the order of A. The conclusion \texttt{mass (eichlerOrder φ) = (1/24) * ∏ p ∈ D.primeFactors, ((p : ℚ) - 1) * dedekindPsi M} is A's formula in $\Q$. The maximal order is the subtype element \texttt{O}, and $\phi$ is a level structure on \texttt{O.1}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Rewrite with \cref{III.qcls.thm:mass-level-change} and the hypothesis \texttt{Hyp.EichlerMass}, then \texttt{ring}.
+\end{proof}
+
+
+\section{The adelic group and compactness}\label{sec:qcls-compact}
+
+\begin{definition}[the adelic quaternion group]
+\tfstmt{III.qcls.def:adelic-quaternion-group}
+\lean{GL2TF.Quat.AdelicQuat}
+\uses{III.qcls.def:finite-adelic-algebra,I.adele.def:adele-ring,I.adele.def:ideles,I.adele.def:idele-norm,I.adele.thm:product-formula,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-quaternion-group}
+\tfsem{III.qcls.def:adelic-quaternion-group}{57dcc97eff08e34c0e99ca75ef2ac42d9a28ca9b718389ba87cef179726c3ee9}
+\tfhyps{III.qcls.def:adelic-quaternion-group}{}
+\tfbinder{III.qcls.def:adelic-quaternion-group}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-quaternion-group}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+\texttt{AdelicQuat a b} is a type synonym for \texttt{QuatAlg Adele a b} (topology only on type synonyms). The ring structure and topology are the B-only \cref{III.qcls.def:adelic-quaternion-ring,III.qcls.def:adelic-quaternion-topology}; $\iota_\A$ is \cref{III.qcls.def:adelic-embedding}; $\nrd\colon\BA^\times\to\A^\times$ is \cref{III.qcls.def:adelic-reduced-norm} (through the monoid homomorphism \cref{III.qcls.def:reduced-norm-hom}), with $\A^\times$ the type \texttt{Idele}; $\BA^1$ is \cref{III.qcls.def:adelic-norm-one}, the kernel of \texttt{ideleNorm.comp (adelicNrd a b)}; $\Gamma_{\Bq}$ is \cref{III.qcls.def:adelic-diagonal}, the subgroup \texttt{(Units.map adelicEmbed).range.subgroupOf (adelicNormOne a b)} of $\BA^1$ (A: the image lies in $\BA^1$ by the product formula; Lean defines $\Gamma_{\Bq}$ as the intersection of the image with $\BA^1$ and the first conjunct of \cref{III.qcls.thm:diagonal-discrete} says it is all of the image). The unit group carries Mathlib's units topology, $\BA^1$ the subspace topology. The splitting $\BA^\times\cong\Binf^\times\times\Bhat^\times$ is the B-only \cref{III.qcls.lem:adelic-units-product}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:adelic-quaternion-ring}
+\bonly
+\lean{GL2TF.Quat.instRingAdelicQuat}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qcls.def:adelic-quaternion-group}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-quaternion-ring}
+\tfsem{III.qcls.def:adelic-quaternion-ring}{6be984ad76601ae92969094f4021ead86d655e37d521b71606a879a5ae3fc3af}
+\tfhyps{III.qcls.def:adelic-quaternion-ring}{}
+\tfbinder{III.qcls.def:adelic-quaternion-ring}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-quaternion-ring}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the instance \texttt{Ring (AdelicQuat a b)}, inherited from \texttt{QuatAlg Adele a b}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:adelic-quaternion-topology}
+\bonly
+\lean{GL2TF.Quat.instTopologicalSpaceAdelicQuat}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qcls.def:adelic-quaternion-group}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-quaternion-topology}
+\tfsem{III.qcls.def:adelic-quaternion-topology}{f602d27c9cf92fdfbee9b56e5ba52699db9064e1e4e750c0a74eb82b93a1390f}
+\tfhyps{III.qcls.def:adelic-quaternion-topology}{}
+\tfbinder{III.qcls.def:adelic-quaternion-topology}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-quaternion-topology}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the topology induced along \texttt{equivTuple} from the product topology of \texttt{Adele}$^4$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:real-quaternion-algebra}
+\bonly
+\lean{GL2TF.Quat.QuatInf}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qcls.def:real-quaternion-algebra}
+\tfsem{III.qcls.def:real-quaternion-algebra}{a33d3ec9e4cb9c402a96bc650c8a80b9e95814aaae657a2b23b1431f55378421}
+\tfhyps{III.qcls.def:real-quaternion-algebra}{}
+\tfbinder{III.qcls.def:real-quaternion-algebra}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:real-quaternion-algebra}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only: a type synonym for \texttt{QuatAlg ℝ a b}, $\Binf=\Bq_\R$ (A introduces it inside \cref{III.qcls.lem:adelic-units-product}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:real-quaternion-ring}
+\bonly
+\lean{GL2TF.Quat.instRingQuatInf}
+\uses{III.qcls.def:real-quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qcls.def:real-quaternion-ring}
+\tfsem{III.qcls.def:real-quaternion-ring}{b73b3f34f5a756baffd39df2632e416feda8c3c43dfa42f429b1ebbdb9f3842f}
+\tfhyps{III.qcls.def:real-quaternion-ring}{}
+\tfbinder{III.qcls.def:real-quaternion-ring}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:real-quaternion-ring}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the instance \texttt{Ring (QuatInf a b)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:real-quaternion-topology}
+\bonly
+\lean{GL2TF.Quat.instTopologicalSpaceQuatInf}
+\uses{III.qcls.def:real-quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qcls.def:real-quaternion-topology}
+\tfsem{III.qcls.def:real-quaternion-topology}{7d3bfc707ee0a48aaa25d4ef3b88d46374a455df35a9382fd64f6d46283c071c}
+\tfhyps{III.qcls.def:real-quaternion-topology}{}
+\tfbinder{III.qcls.def:real-quaternion-topology}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:real-quaternion-topology}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: the topology induced along \texttt{equivTuple} from the product topology of $\R^4$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:reduced-norm-hom}
+\bonly
+\lean{GL2TF.Quat.nrdHom}
+\uses{III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm}
+\end{definition}
+\begin{tfformal}{III.qcls.def:reduced-norm-hom}
+\tfsem{III.qcls.def:reduced-norm-hom}{82d6937c00b551c8b0778bdf181c557e19eaafb485164ba478bf6a7e9571872e}
+\tfhyps{III.qcls.def:reduced-norm-hom}{}
+\tfbinder{III.qcls.def:reduced-norm-hom}{0}{6b8b0c0f}{the commutative ring $R$ (universe-polymorphic)}
+\tfbinder{III.qcls.def:reduced-norm-hom}{1}{63738b18}{the instance \texttt{CommRing R}}
+\tfbinder{III.qcls.def:reduced-norm-hom}{2}{37c43f62}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:reduced-norm-hom}{3}{d4710ca0}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{nrdHom R a b : QuatAlg R a b →* R}, the reduced norm \texttt{nrd} bundled as a monoid homomorphism (multiplicativity is a polynomial identity, proved in helper lemmas \texttt{nrdHom\_one\_aux}, \texttt{nrdHom\_mul\_aux}); the reduced norm \texttt{nrd} itself is that of \texttt{GL2TF.Common.QuaternionNorm}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:adelic-embedding}
+\bonly
+\lean{GL2TF.Quat.adelicEmbed}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:adelic-quaternion-group,III.qcls.def:adelic-quaternion-ring}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-embedding}
+\tfsem{III.qcls.def:adelic-embedding}{ab3f1c35d24e1b03418a9d72b702fb8a127c5d17d1f6d72a09cdf3a8b474ffec}
+\tfhyps{III.qcls.def:adelic-embedding}{}
+\tfbinder{III.qcls.def:adelic-embedding}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-embedding}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{adelicEmbed a b : QuatAlg ℚ a b →+* AdelicQuat a b} is \texttt{baseChange a b (algebraMap ℚ Adele)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:adelic-reduced-norm}
+\bonly
+\lean{GL2TF.Quat.adelicNrd}
+\uses{III.qcls.def:reduced-norm-hom,III.qcls.def:adelic-quaternion-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance,III.qcls.def:adelic-quaternion-ring}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-reduced-norm}
+\tfsem{III.qcls.def:adelic-reduced-norm}{6146ec84e7d8eda34df68ee983ef0ff243d69f8009100af086418c74f2ff7c05}
+\tfhyps{III.qcls.def:adelic-reduced-norm}{}
+\tfbinder{III.qcls.def:adelic-reduced-norm}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-reduced-norm}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{adelicNrd a b : (AdelicQuat a b)ˣ →* Idele} is \texttt{Units.map (nrdHom Adele a b)} (\texttt{Idele} is \texttt{Adeleˣ}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:adelic-norm-one}
+\bonly
+\lean{GL2TF.Quat.adelicNormOne}
+\uses{III.qcls.def:adelic-reduced-norm,I.adele.def:idele-norm,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:ideles,I.adele.lem:primes-fact-instance,III.qcls.def:adelic-quaternion-group,III.qcls.def:adelic-quaternion-ring}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-norm-one}
+\tfsem{III.qcls.def:adelic-norm-one}{f89bc67c0a20c61d7db3e300f77f9c2e707d9a1e9a3feb99d8913ac68b6812c3}
+\tfhyps{III.qcls.def:adelic-norm-one}{}
+\tfbinder{III.qcls.def:adelic-norm-one}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-norm-one}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{adelicNormOne a b : Subgroup (AdelicQuat a b)ˣ} is \texttt{(ideleNorm.comp (adelicNrd a b)).ker}, where \texttt{ideleNorm : Idele →* ℝ} is the idele norm; so it is $\{x:\abs{\nrd x}_\A=1\}$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:adelic-diagonal}
+\bonly
+\lean{GL2TF.Quat.adelicDiagonal}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:adelic-embedding,III.qcls.def:adelic-norm-one,III.qcls.def:adelic-quaternion-group,III.qcls.def:adelic-quaternion-ring}
+\end{definition}
+\begin{tfformal}{III.qcls.def:adelic-diagonal}
+\tfsem{III.qcls.def:adelic-diagonal}{c30d30d6903e57385e9ab9673e2dbba27dec28237efa15703325cc45a1b1bc27}
+\tfhyps{III.qcls.def:adelic-diagonal}{}
+\tfbinder{III.qcls.def:adelic-diagonal}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.def:adelic-diagonal}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{adelicDiagonal a b : Subgroup (adelicNormOne a b)} is \texttt{(Units.map adelicEmbed).range.subgroupOf (adelicNormOne a b)}, the intersection of $\iota_\A(\Bq^\times)$ with $\BA^1$ as a subgroup of the type $\BA^1$. It is the group acting in \cref{III.qcls.thm:quotient-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{lemma}
+\tfstmt{III.qcls.lem:adelic-units-product}
+\bonly
+\lean{GL2TF.Quat.adelic_units_product}
+\uses{III.qcls.def:adelic-quaternion-group,III.qcls.def:real-quaternion-algebra,III.qcls.def:finite-adelic-algebra,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qcls.def:adelic-quaternion-ring,III.qcls.def:adelic-quaternion-topology,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-algebra-topology,III.qcls.def:real-quaternion-ring,III.qcls.def:real-quaternion-topology}
+\end{lemma}
+\begin{tfformal}{III.qcls.lem:adelic-units-product}
+\tfsem{III.qcls.lem:adelic-units-product}{8680d9e4d7688c0bfef5b1493f878e1c21033bc54f18d4aaf8117e0799db18d5}
+\tfhyps{III.qcls.lem:adelic-units-product}{}
+\tfbinder{III.qcls.lem:adelic-units-product}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.lem:adelic-units-product}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+B-only (A states the content inline in \cref{III.qcls.def:adelic-quaternion-group}). \texttt{∃ e : (AdelicQuat a b)ˣ ≃ₜ* (QuatInf a b)ˣ × (BHat a b)ˣ} (an isomorphism of topological groups, units topologies) with \texttt{e x} equal to the pair of the images under \texttt{Units.map} of the base changes along \texttt{RingHom.fst ℝ FinAdele} and \texttt{RingHom.snd ℝ FinAdele} (using \texttt{Adele = ℝ × FinAdele}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The maps $x\mapsto(f_1x,f_2x)$ with $f_1,f_2$ the base changes along the two projections $\A\to\R$, $\A\to\A_f$, and the glueing map $g$ in the other direction are mutually inverse monoid homomorphisms, continuous on coordinates (\texttt{continuous\_equivTuple\_*}); the unit-group version is the homeomorphism \texttt{Homeomorph.prodUnits} composed with these.
+\end{proof}
+
+\begin{theorem}[discreteness]
+\tfstmt{III.qcls.thm:diagonal-discrete}
+\lean{GL2TF.Quat.diagonal_discrete}
+\uses{III.qcls.def:adelic-quaternion-group,I.adele.thm:rat-discrete,III.qalg.def:quaternion-algebra,III.qcls.def:adelic-diagonal,III.qcls.def:adelic-embedding,III.qcls.def:adelic-norm-one,III.qcls.def:adelic-quaternion-ring,III.qcls.def:adelic-quaternion-topology,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:primes-fact-instance,I.adele.thm:product-formula,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qcls.def:adelic-reduced-norm,III.qcls.def:reduced-norm-hom}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:diagonal-discrete}
+\tfsem{III.qcls.thm:diagonal-discrete}{7c5d07ca80f6be793d767a4978b5e4a39cb6ce27102a8af9af6185b15a6ac572}
+\tfhyps{III.qcls.thm:diagonal-discrete}{}
+\tfbinder{III.qcls.thm:diagonal-discrete}{0}{2722ba5a}{the integer $a$ (explicit)}
+\tfbinder{III.qcls.thm:diagonal-discrete}{1}{c6513842}{the integer $b$ (explicit)}
+\begin{tffidelity}
+Two conjuncts: \texttt{(Units.map adelicEmbed).range ≤ adelicNormOne a b} (the inclusion $\Gamma_{\Bq}\le\BA^1$, via the product formula) and \texttt{DiscreteTopology (adelicDiagonal a b)}, with the subtype topology of $\BA^1$ restricted to $\Gamma_{\Bq}$ (Mathlib's \texttt{subgroupOf}-subtype). A states both claims, the inclusion and the discreteness, in the same two-part form; $\Gamma_{\Bq}$ is \texttt{(Units.map adelicEmbed).range} as a subgroup of $\BA^1$ (\texttt{adelicDiagonal}). No difference.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Containment in $\BA^1$: \texttt{adelicNrd} of $\iota_\A(\beta)$ is the principal idele of $\nrd\beta$, and the product formula (Vol.~I, \texttt{product\_formula}) gives $\|\cdot\|=1$. Discreteness: for $\gamma_0\in\Gamma_{\Bq}$ the set of $\gamma$ with all coordinates of $\gamma-\gamma_0$ in $(-1,1)\times\hat{\Z}$ is open; the coordinates of $\gamma-\gamma_0$ are rational (via $\Gamma_{\Bq}=\iota_\A(\Bq^\times)$) and lie in $\Z$ at the finite places and in $(-1,1)$ at $\infty$, hence vanish (Vol.~I, \texttt{rat\_discrete}), so the box meets $\Gamma_{\Bq}$ only in $\gamma_0$.
+\end{proof}
+
+\begin{theorem}[compactness of the quotient]
+\tfstmt{III.qcls.thm:quotient-compact}
+\lean{GL2TF.Quat.quotient_compact}
+\uses{III.qalg.lem:reduced-norm-definite,III.qcls.lem:order-completion-compact-open,III.qcls.thm:class-set-finite,III.qcls.def:adelic-quaternion-group,III.qcls.thm:diagonal-discrete,I.adele.thm:product-formula,III.qcls.def:adelic-diagonal,III.qcls.def:adelic-norm-one,III.qcls.def:adelic-quaternion-ring,III.qcls.def:adelic-quaternion-topology,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-inf-fin,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:idele-norm-spec,I.adele.lem:primes-fact-instance,I.adele.lem:zhat-units-explicit,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qcls.def:adelic-embedding,III.qcls.def:adelic-reduced-norm,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-algebra-topology,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:real-quaternion-algebra,III.qcls.def:real-quaternion-ring,III.qcls.def:real-quaternion-topology,III.qcls.def:reduced-norm-hom,III.qcls.lem:adelic-units-product,III.qcls.lem:finite-adelic-algebra-topology,III.qord.def:order,III.qord.def:standard-order,III.qord.def:standard-order-subalgebra}
+\end{theorem}
+\begin{tfformal}{III.qcls.thm:quotient-compact}
+\tfsem{III.qcls.thm:quotient-compact}{9b6e2a6832d01e996e2003c76aabc4544908937b265337e30325e1160a1adb91}
+\tfhyps{III.qcls.thm:quotient-compact}{}
+\tfbinder{III.qcls.thm:quotient-compact}{0}{9f2c4084}{the integer $a$ (implicit; $\Bq=\Bq(a,b)$)}
+\tfbinder{III.qcls.thm:quotient-compact}{1}{dafe0b68}{the integer $b$ (implicit)}
+\tfbinder{III.qcls.thm:quotient-compact}{2}{611cd948}{$a<0$ (\texttt{a < 0})}
+\tfbinder{III.qcls.thm:quotient-compact}{3}{19d1f9ce}{$b<0$ (\texttt{b < 0})}
+\begin{tffidelity}
+Two conjuncts, in the binder shape of \texttt{II.cpt.thm:compact-trace-formula}: \texttt{DiscreteTopology (adelicDiagonal a b)} and \texttt{CompactSpace (MulAction.orbitRel.Quotient (adelicDiagonal a b) (adelicNormOne a b))}, the orbit space of $\Gamma_{\Bq}$ acting on the type $\BA^1$ by left multiplication with the quotient topology. $\BA^1$ is the subtype of \texttt{(AdelicQuat a b)ˣ} with the subspace topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+With $O$ the standard order, the class set is finite (\cref{III.qcls.thm:class-set-finite}) with representatives $x_c$. The sets $C_c=e^{-1}(\{y\in B_\infty^\times:\nrd y=|\nrd x_c|_f^{-1}\}\times x_c\hat O^\times)$ ($e$ from \cref{III.qcls.lem:adelic-units-product}) are compact (level sets of $\nrd$ on $B_\infty^\times$ are compact by definiteness proved by hand; $\hat O^\times$ is compact) and lie in $\BA^1$ ($|\nrd h|_\A=|\nrd h_\infty|\,|\nrd h_f|_f$, and $|\nrd u|_f=1$ on $\hat O^\times$ of the standard order by coordinates in $\hat{\Z}$). Every $g\in\BA^1$ has $\gamma^{-1}g\in\bigcup C_c$ for some $\gamma\in\Gamma_{\Bq}$; the quotient is therefore the continuous image of the compact set $\bigcup C_c$ under the quotient map (discreteness, \cref{III.qcls.thm:diagonal-discrete}, is only needed for the first conjunct of the statement).
+\end{proof}
+
+
+\section{Instances}\label{sec:qcls-instances}
+
+\begin{example}[the Hurwitz order]
+\tfstmt{III.qcls.ex:hurwitz-order-mass}
+\lean{GL2TF.Quat.hurwitz_order_mass}
+\uses{III.qord.def:standard-order,III.qord.lem:maximal-criterion,III.qcls.thm:minkowski-bound,III.qcls.thm:class-set-finite,III.qcls.lem:stabilizer-units,III.qcls.def:mass,III.qcls.hyp:eichler-mass,III.qalg.thm:pizer-algebras,III.qcls.def:hurwitz-order,III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qord.def:discriminant,III.qord.def:maximal-order,III.qord.def:order,III.qord.def:unit-group,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.thm:class-set-right-ideals,III.qcls.thm:lattice-local-global,III.qord.lem:discriminant-basic,III.qord.thm:units-finite}
+\end{example}
+\begin{tfformal}{III.qcls.ex:hurwitz-order-mass}
+\tfsem{III.qcls.ex:hurwitz-order-mass}{f78bf81fe8e31c25d7cb57617fa22787abc2586ae5ab1203360da5a7a40b6f93}
+\tfhyps{III.qcls.ex:hurwitz-order-mass}{}
+\begin{tffidelity}
+One conjunction (a)--(d) with no binders. The order $\Oord_H$ is the B-only \cref{III.qcls.def:hurwitz-order}, \texttt{hurwitzOrder : QOrder (-1) (-1)}. (a) \texttt{IsMaximalOrder hurwitzOrder ∧ discriminant hurwitzOrder = 4}; (b) $\abs{X(\Oord_H)}=1$ is \texttt{Nat.card (classSet hurwitzOrder) = 1} (so the class set is finite and a singleton) and $\abs{\Oord_H^\times}=24$ is \texttt{Nat.card (unitGroup hurwitzOrder) = 24}; (c) \texttt{mass hurwitzOrder = 1/24}; (d) is in clause form: \texttt{∀ h : IsMaximalOrder hurwitzOrder, Hyp.EichlerMass (-1) (-1) 2 ⟨hurwitzOrder, h⟩}, since the hypothesis is indexed by an element of the subtype \texttt{MaxOrder}; together with (a) this is A's ``H-EM$(-1,-1,2,\Oord_H)$ holds''. This is a closed instance of the hypothesis of \cref{III.qcls.hyp:eichler-mass} (rule 12), without taking it as an assumption.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$d(O_H)$ is computed from an explicit $\Z$-basis by expanding the $4\times4$ Gram determinant (through the basis formula of the discriminant, \texttt{discriminant\_basic}); maximality by \cref{III.qord.lem:maximal-criterion} (at $2$ via $t^2+(t+c_1)^2+(t+c_2)^2+(t+c_3)^2\equiv0\pmod 4\Rightarrow c_i$ even). The units are enumerated in a box in basis coordinates by \texttt{decide}. By Minkowski (\cref{III.qcls.thm:minkowski-bound}) a class has a superlattice of index $<2$, so $|X(O_H)|=1$, and the mass is $1/|O_H^\times|$.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:hurwitz-order}
+\bonly
+\lean{GL2TF.Quat.hurwitzOrder}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:hurwitz-order}
+\tfsem{III.qcls.def:hurwitz-order}{acc9e52575a3e2f51ff7d639fc6f0007e0c2c48623fb9648ecdf88ebad25496c}
+\tfhyps{III.qcls.def:hurwitz-order}{}
+\begin{tffidelity}
+B-only plumbing: \texttt{hurwitzOrder : QOrder (-1) (-1)} with subring the $\Z$-span of $\tfrac{1+i+j+k}2,i,j,k$ (a subring by the explicit integral multiplication table, \texttt{hurwitz\_table}), \texttt{fg} and \texttt{span\_eq\_top} proved in the definition. The basis is written \texttt{![⟨1/2,1/2,1/2,1/2⟩, ⟨0,1,0,0⟩, ⟨0,0,1,0⟩, ⟨0,0,0,1⟩]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{example}[Pizer's order for $D=11$]
+\tfstmt{III.qcls.ex:eichler-mass-instance-d11}
+\lean{GL2TF.Quat.eichler_mass_instance_d11}
+\uses{III.qalg.thm:pizer-algebras,III.qord.lem:maximal-criterion,III.qcls.thm:class-set-right-ideals,III.qcls.lem:index-square,III.qcls.thm:minkowski-bound,III.qcls.lem:stabilizer-units,III.qcls.def:mass,III.qcls.hyp:eichler-mass,III.qcls.def:pizer-order-minus-one,III.qalg.def:quaternion-algebra,III.qalg.def:ramified-exactly,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qord.def:discriminant,III.qord.def:maximal-order,III.qord.def:order,III.qord.def:unit-group,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.thm:lattice-local-global,III.qord.lem:discriminant-basic,III.qord.thm:units-finite}
+\end{example}
+\begin{tfformal}{III.qcls.ex:eichler-mass-instance-d11}
+\tfsem{III.qcls.ex:eichler-mass-instance-d11}{e8219bf22aa2204ec980f831dfff66fcc626b8612194134f41658b030e24303f}
+\tfhyps{III.qcls.ex:eichler-mass-instance-d11}{}
+\begin{tffidelity}
+One conjunction (a)--(e), no binders; $\Oord_{11}$ is \texttt{pizerOrderI (-11) (by norm\_num)} (\cref{III.qcls.def:pizer-order-minus-one} with $b=-11$, where \texttt{by norm\_num} proves $-11\bmod4=1$). (a) \texttt{RamifiedExactly (-1) (-11) 11}; (b) maximality and \texttt{discriminant = 121}; (c) \texttt{Nat.card (classSet \dots) = 2}, $\abs{\Gamma_1}$ is \texttt{Nat.card (classStabilizer (orderCompletionUnits \dots) 1) = 4} ($1$ the identity idele) together with \texttt{Nat.card (unitGroup \dots) = 4}, and the other class is \texttt{∃ x, DoubleCoset.mk \dots x ≠ DoubleCoset.mk \dots 1 ∧ Nat.card (classStabilizer \dots x) = 6}; (d) \texttt{mass \dots = 5/12}; (e) clause form \texttt{∀ h : IsMaximalOrder \dots, Hyp.EichlerMass (-1) (-11) 11 ⟨\dots, h⟩}. A closed instance of \cref{III.qcls.hyp:eichler-mass} (exit item).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Maximality of $O_{11}$ at $11$ uses that $-1$ is a non-square mod $11$ ($u^2+v^2\equiv0\Rightarrow u\equiv v\equiv0$). By Minkowski and \cref{III.qcls.lem:index-square} the index of a reduced right ideal over $O_{11}$ is $1$ or $4$; the index-$4$ ideals are classified through the residue map to $(\Z/4)^4$ and two \texttt{decide} lemmas (no element of order $4$ is compatible with right multiplication, exactly $3$ Klein subgroups are). The representatives are $J_1=\gamma_1O$, a certificate ideal $J_2$ realised as $L_{x_2}$ via \cref{III.qcls.thm:class-set-right-ideals}(d) with $S=\{2\}$, and $J_3=\gamma_3J_2$; $|\Gamma_{x_2}|=6$ is computed from the left order, and $[x_2]\neq[1]$ since $6\neq4=|\Gamma_1|$. The mass is $\frac14+\frac16$.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:pizer-order-minus-one}
+\bonly
+\lean{GL2TF.Quat.pizerOrderI}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:pizer-order-minus-one}
+\tfsem{III.qcls.def:pizer-order-minus-one}{6c69b3889bfb159cd58e7d363ba9195f6f80db8743c05c4312c8b6ac0a7cb2e0}
+\tfhyps{III.qcls.def:pizer-order-minus-one}{}
+\tfbinder{III.qcls.def:pizer-order-minus-one}{0}{2722ba5a}{the integer $b$ (explicit)}
+\tfbinder{III.qcls.def:pizer-order-minus-one}{1}{6480c44c}{$b\equiv1\pmod4$ (\texttt{b \% 4 = 1})}
+\begin{tffidelity}
+B-only plumbing: \texttt{pizerOrderI b hb : QOrder (-1) b} with subring the $\Z$-span of $\tfrac{1+j}2,\tfrac{i+k}2,j,k$ in $\Bq(-1,b)$; the condition $b\equiv1\pmod4$ is an explicit proof binder (needed for integrality of the multiplication table, with $b=4q+1$). \texttt{fg} and \texttt{span\_eq\_top} are proved in the definition.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{definition}
+\tfstmt{III.qcls.def:pizer-order-minus-two}
+\bonly
+\lean{GL2TF.Quat.pizerOrderII}
+\uses{III.qalg.def:quaternion-algebra,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qcls.def:pizer-order-minus-two}
+\tfsem{III.qcls.def:pizer-order-minus-two}{89906d10b4ff48e0fa688672e78b67c93ed8fd79f6a05f098ca6cdb3b71ee703}
+\tfhyps{III.qcls.def:pizer-order-minus-two}{}
+\tfbinder{III.qcls.def:pizer-order-minus-two}{0}{2722ba5a}{the integer $b$ (explicit)}
+\tfbinder{III.qcls.def:pizer-order-minus-two}{1}{26cb9e9f}{$b\equiv3\pmod8$ (\texttt{b \% 8 = 3})}
+\begin{tffidelity}
+B-only plumbing: \texttt{pizerOrderII b hb : QOrder (-2) b} with subring the $\Z$-span of $\tfrac{1+j+k}2,\tfrac{i+2j+k}4,j,k$ in $\Bq(-2,b)$; the condition $b\equiv3\pmod8$ is an explicit proof binder (with $b=8q+3$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+No proof: a definition.
+\end{proof}
+
+\begin{example}[Eichler orders of levels $2$ and $3$ for $D=11$]
+\tfstmt{III.qord.ex:eichler-order-d11-levels}
+\lean{GL2TF.Quat.eichler_order_d11_levels}
+\uses{III.qord.def:level-structure,III.qord.def:eichler-order,III.qord.lem:eichler-order-index,III.qcls.thm:mass-level-change,III.qcls.ex:eichler-mass-instance-d11,III.qcls.def:mass,III.qcls.def:pizer-order-minus-one,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.ef.def:dedekind-psi,III.ef.lem:dedekind-psi-multiplicative,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.lem:index-square,III.qcls.lem:stabilizer-units,III.qcls.thm:class-set-right-ideals,III.qcls.thm:lattice-local-global,III.qcls.thm:minkowski-bound,III.qord.def:discriminant,III.qord.def:order,III.qord.def:unit-group,III.qord.lem:discriminant-basic,III.qord.thm:units-finite}
+\end{example}
+\begin{tfformal}{III.qord.ex:eichler-order-d11-levels}
+\tfsem{III.qord.ex:eichler-order-d11-levels}{1ba50555c400e8d9649618cf0b35eb800190288b28c646f587773db1c739b962}
+\tfhyps{III.qord.ex:eichler-order-d11-levels}{}
+\begin{tffidelity}
+Two existence claims, no binders: \texttt{∃ φ : LevelStructure O₁₁ 2, mass (eichlerOrder φ) = 5/4} and likewise for level $3$ and $5/3$ (the instances \texttt{NeZero 2}, \texttt{NeZero 3} are found by Lean). A: ``there are level structures $\phi_2,\phi_3$ \dots and for them''; the Lean statement existentially quantifies $\phi$ with the mass equation inside, equivalent by \cref{III.qcls.thm:mass-level-change} (which makes the mass independent of $\phi$). $\Oord_{11}$ is \texttt{pizerOrderI (-11) (by norm\_num)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The structure $\varphi$ is taken from the certificate; the ring homomorphism is built from the integral multiplication table of $O_{11}$, the table identities in $M_2(\Z/M)$ and surjectivity are closed by \texttt{decide}; the masses follow from \cref{III.qcls.thm:mass-level-change} with $\psi(2)=3$, $\psi(3)=4$.
+\end{proof}
+
+\begin{example}[$D=3,5,7,13$; stretch]
+\tfstmt{III.qcls.ex:eichler-mass-instances-small}
+\lean{GL2TF.Quat.eichler_mass_instances_small}
+\uses{III.qalg.thm:pizer-algebras,III.qord.def:maximal-order,III.qcls.def:class-set,III.qcls.lem:stabilizer-units,III.qcls.def:mass,III.qcls.hyp:eichler-mass,III.qcls.def:pizer-order-minus-two,III.qcls.def:pizer-order-minus-one,III.qalg.def:quaternion-algebra,III.qord.def:order,III.qord.def:unit-group}
+\end{example}
+\begin{tfformal}{III.qcls.ex:eichler-mass-instances-small}
+\tfsem{III.qcls.ex:eichler-mass-instances-small}{c9e86511db86bd9920c6090461e3c252d558c4c6a3a8d6f699bcffde15b063af}
+\tfhyps{III.qcls.ex:eichler-mass-instances-small}{}
+\begin{tffidelity}
+Four conjuncts, one per $(a,b,D)\in\{(-1,-3,3),(-2,-5,5),(-1,-7,7),(-2,-13,13)\}$, no binders; the orders are \texttt{pizerOrderI (-3) \_}, \texttt{pizerOrderII (-5) \_}, \texttt{pizerOrderI (-7) \_}, \texttt{pizerOrderII (-13) \_} (\cref{III.qcls.def:pizer-order-minus-one,III.qcls.def:pizer-order-minus-two}). Each conjunct is \texttt{IsMaximalOrder \dots ∧ Nat.card (classSet \dots) = 1 ∧ Nat.card (unitGroup \dots) = 12\,/\,6\,/\,4\,/\,2 ∧ ∀ h, Hyp.EichlerMass a b D ⟨\dots, h⟩}: A's (a) and (b) merged, with (b) in clause form (the hypothesis is indexed by an element of \texttt{MaxOrder}). Stretch item.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Not proved.
+\end{proof}
+

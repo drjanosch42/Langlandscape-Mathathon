@@ -1,0 +1,204 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-02-parabolic (parent commit 84818d0); kept items only.
+\chapter{\texorpdfstring{Parabolic combinatorics and $(G,M)$-families for $\GL(2)$}{Parabolic combinatorics and (G,M)-families for GL(2)}}\label{ch:ch-02-parabolic}
+
+\noindent\emph{Scope:} area \texttt{par}. \emph{Sources:} \cite[§§5, 17]{AIntro}; \cite[Lecture VII]{Gel}; \cite{A-FE2}.
+
+\noindent\emph{Lean conventions of this chapter.} $\aB=\R^2$ is \texttt{SpaceAB = Fin 2 → ℝ} (\texttt{I.conv.def:space-a-b}), the projection
+$h\mapsto h_B^G$ is \texttt{projABG} (B-only \texttt{I.conv.def:projection-a-b-g}) and $\alpha$ is \texttt{simpleRoot} (\texttt{I.conv.def:simple-root}). The index
+sets $\mathcal P$ and $\mathcal P(T)$ are the B-only inductive types \texttt{ParStd} and \texttt{ParT} (\cref{II.par.def:standard-parabolic-index,II.par.def:levi-parabolic-index});
+$\aBG$ is not a separate type: $Y_P(x,T)$ takes values in $\aB$ and lies in $\aBG$ by construction. The parameter $\lambda\in\R$ of a $(G,T)$-family stands
+for the linear form $\Lambda_\lambda$ (B-only \cref{II.par.def:lambda-form}); A uses a real parameter $\lambda$ where Arthur uses $\Lambda\in i(\aBG)^*$ (a real parameter is the restriction to the real line of Arthur's holomorphic functions, and only the value at $0$ is used).
+
+\section{Parabolic subgroups and heights}\label{sec:par-heights}
+
+\begin{definition}
+\tfstmt{II.par.def:standard-parabolic-index}
+\bonly
+\lean{GL2TF.ParStd}
+\end{definition}
+\begin{tfformal}{II.par.def:standard-parabolic-index}
+\tfsem{II.par.def:standard-parabolic-index}{94f44c62b491280c68107984eede599168e60d1469ced888ea1175c2622cdeed}
+\tfhyps{II.par.def:standard-parabolic-index}{}
+\begin{tffidelity}
+B-only. \texttt{inductive ParStd | B | G} (with \texttt{DecidableEq}): the two-element index set $\mathcal P$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.par.def:levi-parabolic-index}
+\bonly
+\lean{GL2TF.ParT}
+\end{definition}
+\begin{tfformal}{II.par.def:levi-parabolic-index}
+\tfsem{II.par.def:levi-parabolic-index}{e1060b6e9b17e86e651c9dc36691b235976ab426bd7bbe0d1206bd67f5205646}
+\tfhyps{II.par.def:levi-parabolic-index}{}
+\begin{tffidelity}
+B-only. \texttt{inductive ParT | B | Bbar} (with \texttt{DecidableEq}): the two-element index set $\mathcal P(T)$; \texttt{Bbar} is $\Bbar$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.par.lem:levi-parabolic-fintype-instance}
+\bonly
+\lean{GL2TF.ParT.instFintype}
+\uses{II.par.def:levi-parabolic-index}
+\end{lemma}
+\begin{tfformal}{II.par.lem:levi-parabolic-fintype-instance}
+\tfsem{II.par.lem:levi-parabolic-fintype-instance}{381025db549a625140f4e1e32fc7988966c3a3e5f309d1de231dede99bdbf081}
+\tfhyps{II.par.lem:levi-parabolic-fintype-instance}{}
+\begin{tffidelity}
+B-only; a global instance \texttt{Fintype ParT} with \texttt{univ = \{B, Bbar\}}, written by hand (\texttt{deriving Fintype} fails at the pinned Mathlib version). It makes $\sum_{P\in\mathcal P(T)}$ in \texttt{II.par.def:gt-family-value} a finite sum.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The instance is given by the explicit finset $\{B,\bar B\}$; completeness by case analysis on the two constructors.
+\end{proof}
+
+\begin{definition}[standard parabolic subgroups]
+\tfstmt{II.par.def:standard-parabolics}
+\lean{GL2TF.parabolic}
+\uses{I.conv.def:borel,I.conv.def:opposite-borel,II.par.def:levi-parabolic-index,II.par.def:standard-parabolic-index}
+\end{definition}
+\begin{tfformal}{II.par.def:standard-parabolics}
+\tfsem{II.par.def:standard-parabolics}{8136010e879a833b4475e855f5613b1b925d87f738aac6f09ca7ef9adbaabbdb}
+\tfhyps{II.par.def:standard-parabolics}{}
+\tfbinder{II.par.def:standard-parabolics}{0}{6b8b0c0f}{the type of the commutative ring $R$}
+\tfbinder{II.par.def:standard-parabolics}{1}{63738b18}{the commutative ring structure of $R$ (A: ``commutative'')}
+\tfbinder{II.par.def:standard-parabolics}{2}{9ec2b368}{the index $P\in\mathcal P\sqcup\mathcal P(T)$ (A: ``$P\in\mathcal P\cup\mathcal P(T)$ stands for the subgroup $P(R)$'')}
+\begin{tffidelity}
+\texttt{parabolic R : ParStd ⊕ ParT → Subgroup (GL (Fin 2) R)}: one map on the disjoint union $\mathcal P\sqcup\mathcal P(T)$ of the two index sets, with \texttt{.inl .B ↦ borel R}, \texttt{.inl .G ↦ ⊤}, \texttt{.inr .B ↦ borel R}, \texttt{.inr .Bbar ↦ oppositeBorel R} (\texttt{I.conv.def:borel}, \texttt{I.conv.def:opposite-borel}). A's ``$P\in\mathcal P\cup\mathcal P(T)$'' is a union in which $B$ occurs once; in Lean $B(R)$ appears twice, once from each index set (same subgroup). $R$ is any commutative ring, as in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.par.def:weyl-action-a}
+\bonly
+\lean{GL2TF.weylAct}
+\uses{I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{II.par.def:weyl-action-a}
+\tfsem{II.par.def:weyl-action-a}{9a0b9d227829baa7f48e12c00f9e3972f29a17f0cf0f822f148accbbce5af9e9}
+\tfhyps{II.par.def:weyl-action-a}{}
+\tfbinder{II.par.def:weyl-action-a}{0}{cc9ccfb6}{the point $h\in\aB$}
+\begin{tffidelity}
+B-only. \texttt{weylAct h = ![h 1, h 0]}, i.e.\ $w(h_1,h_2)=(h_2,h_1)$ (A defines it inside \cref{II.par.def:parabolic-height,II.par.def:y-vector}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[height maps]
+\tfstmt{II.par.def:parabolic-height}
+\lean{GL2TF.heightP}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.conv.def:space-a-b,I.conv.def:weyl-element,I.decomp.def:height-map,II.par.def:levi-parabolic-index,II.par.def:weyl-action-a}
+\end{definition}
+\begin{tfformal}{II.par.def:parabolic-height}
+\tfsem{II.par.def:parabolic-height}{1e704de3bad721f6a31cc0413c26e93b0c78f6555979d3217b47a8c192933eb2}
+\tfhyps{II.par.def:parabolic-height}{}
+\tfbinder{II.par.def:parabolic-height}{0}{0cc617f5}{the parabolic $P\in\mathcal P(T)$}
+\tfbinder{II.par.def:parabolic-height}{1}{7380b38d}{the point $x\in G(\A)$}
+\begin{tffidelity}
+\texttt{heightP : ParT → GL (Fin 2) Adele → SpaceAB}, \texttt{heightP .B x = heightMap x} and \texttt{heightP .Bbar x = weylAct (heightMap (w⁻¹ * x))} with $w$ = \texttt{weylElement Adele} (\texttt{I.conv.def:weyl-element}) and \texttt{heightMap} = $\HB$ (\texttt{I.decomp.def:height-map}); the action of $w$ on $\aB$ is the B-only \cref{II.par.def:weyl-action-a}. As in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.par.lem:height-opposite-spec}
+\bonly
+\lean{GL2TF.heightP_opposite_iwasawa}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.conv.def:diag-element,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:opposite-unipotent-elt,I.conv.def:space-a-b,I.conv.def:weyl-element,I.conv.lem:max-compact-local-mem,I.conv.lem:opposite-unipotent-elt-inv,I.decomp.def:height-map,I.decomp.thm:height-map-iwasawa,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-zhat,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,II.par.def:levi-parabolic-index,II.par.def:parabolic-height,II.par.def:weyl-action-a}
+\end{lemma}
+\begin{tfformal}{II.par.lem:height-opposite-spec}
+\tfsem{II.par.lem:height-opposite-spec}{b2df43b40eb3602ab4b098a1c3567bf45de8cad597ba1a242fec09edc8239995}
+\tfhyps{II.par.lem:height-opposite-spec}{}
+\tfbinder{II.par.lem:height-opposite-spec}{0}{21f67fc1}{the point $u\in\A$}
+\tfbinder{II.par.lem:height-opposite-spec}{1}{8c3d8c92}{the idele $t_1$}
+\tfbinder{II.par.lem:height-opposite-spec}{2}{de6ec88a}{the idele $t_2$}
+\tfbinder{II.par.lem:height-opposite-spec}{3}{05457b44}{the element $k\in G(\A)$}
+\tfbinder{II.par.lem:height-opposite-spec}{4}{94200113}{the assumption $k\in K$}
+\begin{tffidelity}
+B-only (A: remark (ii) after \cref{II.par.def:parabolic-height}). \texttt{heightP .Bbar (oppositeUnipotentElt u * diagElt t₁ t₂ * k) = ![log |t₁|, log |t₂|]} with \texttt{oppositeUnipotentElt u} = $\bar n(u)$ (B-only \texttt{I.conv.def:opposite-unipotent-elt}) and \texttt{ideleNorm} for $\abs\cdot_\A$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, remark (ii) after \cref{II.par.def:parabolic-height} (see the parent repository's notes: same). The matrix identity $w^{-1}\bar n(u)\,\mathrm{diag}(t_1,t_2)=n(-u)\,\mathrm{diag}(t_2,t_1)\,w^{-1}$ (entrywise, with the explicit inverse of $w$) gives $w^{-1}\bar n(u)tk=n(-u)t^w(w^{-1}k)$ with $w^{-1}k\in K$ ($w\in K$, \texttt{ParAux.weyl\_mem\_maxCompact}: $w$ is orthogonal at $\infty$ and lies in $\GL_2(\hat\Z)$ at the finite places). Then \texttt{I.decomp.thm:height-map-iwasawa} gives $H_B(w^{-1}\bar n(u)tk)=(\log\abs{t_2}_\A,\log\abs{t_1}_\A)$, and the Weyl action swaps the coordinates back.
+\end{proof}
+
+\begin{definition}[the points $Y_P(x,T)$]
+\tfstmt{II.par.def:y-vector}
+\lean{GL2TF.yVec}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.conv.def:projection-a-b-g,I.conv.def:space-a-b,II.par.def:levi-parabolic-index,II.par.def:parabolic-height,II.par.def:weyl-action-a}
+\end{definition}
+\begin{tfformal}{II.par.def:y-vector}
+\tfsem{II.par.def:y-vector}{02620fa4a93ccebac746400d7e28796ef2b51a7681bd5e8020cac516ba4603a3}
+\tfhyps{II.par.def:y-vector}{}
+\tfbinder{II.par.def:y-vector}{0}{0cc617f5}{the parabolic $P\in\mathcal P(T)$}
+\tfbinder{II.par.def:y-vector}{1}{7380b38d}{the point $x\in G(\A)$}
+\tfbinder{II.par.def:y-vector}{2}{bb9fb5a8}{the point $T\in\aB$}
+\begin{tffidelity}
+\texttt{yVec P x T := projABG (T\_P − heightP P x)} with $T_P$ an inline \texttt{match} ($T_B=T$, $T_{\Bbar}=$ \texttt{weylAct T}). The value lies in $\aB$; A's ``$\in\aBG$'' holds because \texttt{projABG} is the projection onto $\aBG\subseteq\aB$ (B-only \texttt{I.conv.def:projection-a-b-g}); no separate type for $\aBG$ is used.
+\end{tffidelity}
+\end{tfformal}
+
+\section{\texorpdfstring{$(G,T)$-families and the weight $v(x,T)$}{(G,T)-families and the weight v(x,T)}}\label{sec:par-families}
+
+\begin{definition}
+\tfstmt{II.par.def:coroot}
+\bonly
+\lean{GL2TF.coroot}
+\uses{I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{II.par.def:coroot}
+\tfsem{II.par.def:coroot}{319de90e7dcba45a2bcaf71f0c4b3511cd508629ec10377f81fadf9019119e84}
+\tfhyps{II.par.def:coroot}{}
+\begin{tffidelity}
+B-only. \texttt{coroot : SpaceAB := ![1, -1]} (A: ``$\alpha^\vee=(1,-1)\in\aBG$'', inside \cref{II.par.def:theta}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{II.par.def:lambda-form}
+\bonly
+\lean{GL2TF.lamForm}
+\uses{I.conv.def:simple-root,I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{II.par.def:lambda-form}
+\tfsem{II.par.def:lambda-form}{b1e01e7e88fec59fc887e0f0739d17aef0d7d4b376010a796da542bc344accc8}
+\tfhyps{II.par.def:lambda-form}{}
+\tfbinder{II.par.def:lambda-form}{0}{dc6ede6d}{the parameter $\lambda\in\R$}
+\tfbinder{II.par.def:lambda-form}{1}{c9ed044d}{the point $h\in\aB$}
+\begin{tffidelity}
+B-only. \texttt{lamForm l h := l * (simpleRoot h / 2)}: A's $\Lambda_\lambda$, the linear form on $\aBG$ with $\Lambda_\lambda(\alpha^\vee)=\lambda$ (\cref{II.par.lem:lambda-form-spec}), \emph{extended by zero on $\mathfrak a_G$} to all of $\aB$ (A defines $\Lambda_\lambda$ on $\aBG$ only; it is evaluated only at the points $Y_P(x,T)\in\aBG$, so the extension does not matter).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.par.lem:lambda-form-spec}
+\bonly
+\lean{GL2TF.lamForm_spec}
+\uses{I.conv.def:simple-root,I.conv.def:space-a-b,II.par.def:coroot,II.par.def:lambda-form}
+\end{lemma}
+\begin{tfformal}{II.par.lem:lambda-form-spec}
+\tfsem{II.par.lem:lambda-form-spec}{e2d240c26cf61e6c1ba2d58d595268ab765965078b1130c3e848692ee8941eca}
+\tfhyps{II.par.lem:lambda-form-spec}{}
+\tfbinder{II.par.lem:lambda-form-spec}{0}{dc6ede6d}{the parameter $\lambda\in\R$}
+\begin{tffidelity}
+B-only, proved: \texttt{lamForm l coroot = l ∧ ∀ r, lamForm l ![r, r] = 0}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct evaluation: $\alpha(\alpha^\vee)=2$ and $\alpha(r,r)=0$ (\texttt{simp} with the definitions of \texttt{lamForm}, \texttt{coroot} and \texttt{simpleRoot}).
+\end{proof}
+
+\begin{definition}[the functions $\theta_P$]
+\tfstmt{II.par.def:theta}
+\lean{GL2TF.theta}
+\uses{II.par.def:levi-parabolic-index}
+\end{definition}
+\begin{tfformal}{II.par.def:theta}
+\tfsem{II.par.def:theta}{8ff440a8aec0d9c7684a296e1df5cc1e22d018d9674a3fba11903eef3bd93776}
+\tfhyps{II.par.def:theta}{}
+\tfbinder{II.par.def:theta}{0}{0cc617f5}{the parabolic $P\in\mathcal P(T)$}
+\tfbinder{II.par.def:theta}{1}{4635c287}{the parameter $\lambda\in\R$}
+\begin{tffidelity}
+\texttt{theta : ParT → ℝ → ℝ}, \texttt{theta .B l = l}, \texttt{theta .Bbar l = -l}. Only the functions $\theta_P$ are the tagged definition. The coroot and $\Lambda_\lambda$ that A introduces in the same snippet are the B-only \cref{II.par.def:coroot,II.par.def:lambda-form}. The identification $(\aBG)^*\cong\R$, $\Lambda\mapsto\Lambda(\alpha^\vee)$, is the parametrization by $\lambda$ itself. The normalization $\vol(\aBG/\Z\alpha^\vee)=1$ of the Haar measure on $\aBG$ has \emph{no Lean counterpart}: it fixes the constant in Arthur's $\theta_P(\Lambda)=\vol(\aBG/\Z\alpha^\vee)^{-1}\Lambda(\alpha^\vee)$ to $1$, which is exactly the formula $\theta_B(\lambda)=\lambda$ that Lean defines. Relative to \cite{Gel}: the weight $v$ built from this $\theta_P$ is exactly the bracket of \cite[Lecture IV, Prop.~1.1]{Gel}; the $v$ of \cite[Lecture IV, §3]{Gel} (convex hull measured by $\dd t$ on $\diag(e^t,1)$) is $2v$, the factor being absorbed in the measure on $G_\gamma(\A)\backslash G(\A)$.
+\end{tffidelity}
+\end{tfformal}

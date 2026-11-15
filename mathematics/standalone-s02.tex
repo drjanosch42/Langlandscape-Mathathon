@@ -1,0 +1,15 @@
+\documentclass[11pt]{amsart}
+% Standalone build of stages 01 and 02. Build from this directory: latexmk -pdf -interaction=nonstopmode standalone-s02.tex
+\input{preamble}
+\IfFileExists{bib/s02-m2.bib}{\addbibresource{bib/s02-m2.bib}}{}
+\IfFileExists{bib/s02-m3.bib}{\addbibresource{bib/s02-m3.bib}}{}
+\IfFileExists{bib/s02-m5.bib}{\addbibresource{bib/s02-m5.bib}}{}
+\title{Jacquet--Langlands: stage 02 (standalone)}
+\author{Langlandscape project}
+\date{\today}
+\begin{document}
+\maketitle
+\input{chapters/s01}
+\input{chapters/s02}
+\printbibliography
+\end{document}

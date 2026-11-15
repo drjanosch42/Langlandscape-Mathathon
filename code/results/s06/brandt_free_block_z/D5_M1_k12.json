@@ -1,0 +1,282 @@
+{
+ "data": {
+  "checks": {
+   "charpoly": true,
+   "commute": true,
+   "fnv": true,
+   "row_sums": null,
+   "square": true,
+   "symmetry": null,
+   "symn_charpoly": true
+  },
+  "free_block_z": {
+   "D": 5,
+   "F": [
+    [
+     [
+      "-31",
+      "-555",
+      "0"
+     ],
+     [
+      "-9",
+      "11",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "34"
+     ]
+    ],
+    [
+     [
+      "-222",
+      "-2960",
+      "0"
+     ],
+     [
+      "-48",
+      "2",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "-792"
+     ]
+    ],
+    [
+     [
+      "25254",
+      "-97680",
+      "0"
+     ],
+     [
+      "-1584",
+      "32646",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "-17556"
+     ]
+    ],
+    [
+     [
+      "-124288",
+      "4884000",
+      "0"
+     ],
+     [
+      "79200",
+      "-493888",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "-468788"
+     ]
+    ],
+    [
+     [
+      "1797178",
+      "2379840",
+      "0"
+     ],
+     [
+      "38592",
+      "1617082",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "-374042"
+     ]
+    ],
+    [
+     [
+      "-226726",
+      "-23407680",
+      "0"
+     ],
+     [
+      "-379584",
+      "1544666",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "-3724286"
+     ]
+    ],
+    [
+     [
+      "740740",
+      "-50793600",
+      "0"
+     ],
+     [
+      "-823680",
+      "4584580",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "-379460"
+     ]
+    ]
+   ],
+   "F_fnv": [
+    "0xb0536c4dce375edf",
+    "0x828ef3aa80b835ea",
+    "0x1fa1df71512cb9b5",
+    "0xe560bfec17d5e4b8",
+    "0xead6acf0ba4cd5a3",
+    "0x1ff8e1b2ed48b402",
+    "0xcbd005be90c67168"
+   ],
+   "M": 1,
+   "N": 5,
+   "basis_in_Q_coords": [
+    [
+     "1/3",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "1"
+    ]
+   ],
+   "basis_rule": "brandt_symn_int_canonical/v2: Lambda = Z[T_p : p in ops] . Z^d (the Hecke-stable hull: the smallest Hecke-stable lattice containing Z^d), Z^d = the Q-coordinates of symn.SymBrandt's rational model (+)_c V_Q^{Gamma_c} (V_Q = V^phi, Q-basis and Gamma_c-invariant bases as in symn.py) with the class blocks in the k = 2 canonical order (classes sorted ascending by (|Gamma_c|, (r_c(1),...,r_c(20))), r_c(m) = #{x in O_r(I_c) : nrd x = m} (x, -x both counted); ties listed in order_ties, order within a tie unspecified); basis = the columns of the lower-triangular HNF of Lambda; depends on the ops list and on symn.py's class representatives (canonical: false)",
+   "bits_F": [
+    10,
+    12,
+    17,
+    23,
+    22,
+    25,
+    26
+   ],
+   "bound_basis": "-",
+   "canonical": false,
+   "charpoly_Z": [
+    [
+     "181424",
+     "-6016",
+     "-14",
+     "1"
+    ],
+    [
+     "-112879008",
+     "31716",
+     "1012",
+     "1"
+    ],
+    [
+     "11757551019984",
+     "-346775436",
+     "-40344",
+     "1"
+    ],
+    [
+     "-152556951401033728",
+     "-35634957568",
+     "1086964",
+     "1"
+    ],
+    [
+     "1052681889423375272",
+     "1537264770396",
+     "-3040218",
+     "1"
+    ],
+    [
+     "-34395258815390573896",
+     "-14143782239476",
+     "2406346",
+     "1"
+    ],
+    [
+     "-14587083937388248000",
+     "-40462436586000",
+     "-4945860",
+     "1"
+    ]
+   ],
+   "convention": "column: T_p b_j = sum_i F[i][j] b_i; b_j = the j-th column of basis_in_Q_coords (a basis of the Hecke-stable hull Lambda); no row-sum identity (no Eisenstein system at k > 2)",
+   "d_algebra": 3,
+   "e_eis": 0,
+   "gammas": [
+    6
+   ],
+   "k": 12,
+   "lattice": "functions",
+   "n": 10,
+   "ops": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17,
+    19
+   ],
+   "order_ties": [],
+   "origin": "jl:symn.py+integral_basis",
+   "phi_fnv": "-",
+   "proof": [
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model"
+   ],
+   "q0_key": "-",
+   "rank": 3,
+   "saturation": "exact_basis",
+   "schema": "langlandscape_brandt/v2",
+   "status": "ok",
+   "tag": "computed"
+  },
+  "schema": "langlandscape_brandt/v2",
+  "writer": "python:brandt_export@b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty"
+ },
+ "provenance": {
+  "commit": "b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty",
+  "date": "2026-11-15T01:28:32+00:00",
+  "notes": "HJ-B0; format plan/hacs/freeblockz-export-format.md (v2); computed",
+  "params": {
+   "D": 5,
+   "M": 1,
+   "k": 12,
+   "ops": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17,
+    19
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 1.6158624950039666,
+  "script": "code/python/langlandscape/hacs_bridge/brandt_export.py"
+ }
+}

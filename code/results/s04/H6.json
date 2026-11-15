@@ -1,0 +1,132 @@
+{
+ "data": {
+  "cases": [
+   {
+    "D": 2,
+    "M": 7,
+    "s1": {
+     "adjoint_identity_exact_integer": true,
+     "adjoint_identity_mod_5^3": true,
+     "adjoint_other_sign_mod_5^3": false,
+     "e_ne_e_star": true,
+     "e_star_eq_e_transpose": true,
+     "hida_d_s1_to_s2": {
+      "(1-e')_1_pi_e'_2_nonzero_mod_5^3 (info: pi_* e'X2 lands in e'X1 even though pi_* e' != e' pi_*)": false,
+      "(1-e)_1_pi_e_2_zero_mod_5^3 (pi_* e X2 in e X1)": true,
+      "failure_witnessed": true,
+      "pi_Up_equals_Up_pi_integer": true,
+      "pi_Uprime_equals_Uprime_pi_integer": false,
+      "pi_e_equals_e_pi_mod_5^3": true,
+      "pi_eprime_equals_eprime_pi_mod_5^3": false,
+      "rk_e_X2": 135,
+      "rk_eprime_X2": 135
+     },
+     "n": 48,
+     "p_M_trivial": false,
+     "pairing_e_estar_gram_invertible_mod_5": true,
+     "rk_e": 27,
+     "rk_e_prime": 27,
+     "rk_e_star": 27
+    },
+    "s2": {
+     "adjoint_identity_exact_integer": true,
+     "adjoint_identity_mod_5^3": true,
+     "adjoint_other_sign_mod_5^3": false,
+     "e_ne_e_star": true,
+     "e_star_eq_e_transpose": true,
+     "n": 1200,
+     "p_M_trivial": false,
+     "pairing_e_estar_gram_invertible_mod_5": true,
+     "rk_e": 135,
+     "rk_e_prime": 135,
+     "rk_e_star": 135
+    }
+   },
+   {
+    "D": 3,
+    "M": 1,
+    "s1": {
+     "adjoint_identity_exact_integer": true,
+     "adjoint_identity_mod_5^3": true,
+     "adjoint_other_sign_mod_5^3": true,
+     "e_ne_e_star": false,
+     "e_star_eq_e_transpose": true,
+     "hida_d_s1_to_s2": {
+      "(1-e')_1_pi_e'_2_nonzero_mod_5^3 (info: pi_* e'X2 lands in e'X1 even though pi_* e' != e' pi_*)": false,
+      "(1-e)_1_pi_e_2_zero_mod_5^3 (pi_* e X2 in e X1)": true,
+      "failure_witnessed": true,
+      "pi_Up_equals_Up_pi_integer": true,
+      "pi_Uprime_equals_Uprime_pi_integer": false,
+      "pi_e_equals_e_pi_mod_5^3": true,
+      "pi_eprime_equals_eprime_pi_mod_5^3": false,
+      "rk_e_X2": 5,
+      "rk_eprime_X2": 5
+     },
+     "n": 2,
+     "p_M_trivial": true,
+     "pairing_e_estar_gram_invertible_mod_5": true,
+     "rk_e": 1,
+     "rk_e_prime": 1,
+     "rk_e_star": 1
+    },
+    "s2": {
+     "adjoint_identity_exact_integer": true,
+     "adjoint_identity_mod_5^3": true,
+     "adjoint_other_sign_mod_5^3": true,
+     "e_ne_e_star": true,
+     "e_star_eq_e_transpose": true,
+     "n": 50,
+     "p_M_trivial": true,
+     "pairing_e_estar_gram_invertible_mod_5": true,
+     "rk_e": 5,
+     "rk_e_prime": 5,
+     "rk_e_star": 5
+    }
+   }
+  ],
+  "checks": {
+   "adjoint_identity_exact_mod_5^3": true,
+   "e_ne_e_star_D2_M7": true,
+   "e_ne_e_star_by_case": {
+    "D2M7": [
+     true,
+     true
+    ],
+    "D3M1": [
+     false,
+     true
+    ]
+   },
+   "failure_witnessed": true
+  },
+  "sign_from_C3a": "+1"
+ },
+ "provenance": {
+  "commit": "6f007be7188a48e918ff7229bf2f899f1f5e5f62",
+  "date": "2026-11-14T22:05:08+00:00",
+  "notes": "S04-C3: H6; literal U'_p breaks Hida (d) with pi_*; U_p^* = <p>_M U'_p (\"-dirty\" stripped: worktree held only other WPs' untracked files; this WP's code is exactly this commit)",
+  "params": {
+   "cases": [
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     1
+    ]
+   ],
+   "m": 3,
+   "p": 5,
+   "s": [
+    1,
+    2
+   ],
+   "sign": "+1"
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 26.44,
+  "script": "code/python/langlandscape/ordinary/h6.py (cd code/python && python -m langlandscape.ordinary.h6)"
+ }
+}

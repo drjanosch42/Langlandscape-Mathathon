@@ -1,0 +1,135 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 00 (introduction): how the route makes JL computable, and how we implemented it in HACS, for non-specialists.
+% Written from our sources only; no new mathematics, no status upgrades. Every number is computed (checked where it equals an
+% independent reference); nothing is certified. Sources: plan/hacs/HACS-JL-PLAN.md, plan/hacs/REPORT.md, the lane closures
+% plan/hacs/outbox/20261115T0137Z_laneA-closure.md, 20261115T0150Z_laneB-closure.md (with its errata),
+% 20261115T0830Z_laneC-summary.md, 20261115T1347Z_laneC-closure.md, code/hacs/CHANGES.md, code/hacs/README.md, and the
+% report's HACS and Lean sections (mathematics/submission/src/hacs.tex, lean-discipline.tex, lean.tex). No \input; shared by
+% main.tex, the article and the submission report. Guards: \sOOsummary is defined only in the report, \sOOnoplan only in
+% the article (\ref{ss:s00-question} resolves in all three: achieved.tex, resp. article/mainresults.tex); labels of the report's own sections are referenced only under \ifdefined\sOOsummary.
+\section{How the route makes JL computable, and how we implemented it in HACS}\label{ss:s00-computing}
+This section explains, for a reader who is neither a specialist in automorphic forms nor in computer algebra, why every
+object on our route can be computed exactly, what the software HACS is, what we added to it during the event, and how the
+three strands of the project (mathematics, Lean, computations) check each other. It adds no mathematics. Every number below
+is \emph{computed}; where it equals an independent reference it is \emph{checked}; none is called ``certified''. A computation
+validates a statement; it is never part of a proof.
+
+\subsection*{Why the route is computable}
+On the definite side every object of the route is finite, and every map between them is an explicit matrix of integers.
+\begin{itemize}
+\item A \emph{class set} (the double coset space of the quaternion algebra at a given level) is a finite set; it can be listed
+  by enumerating ideal classes, and its size is controlled by Eichler's mass and class number formulas.
+\item A \emph{Brandt module} (functions on the class set, possibly with values in a weight module) is a finitely generated
+  free $\Z$-module, so it is $\Z^n$ once a basis is fixed.
+\item A \emph{Hecke operator} (``sum over the neighbours of a class'') is then an $n\times n$ integer matrix, the classical
+  Brandt matrix.
+\item A \emph{tree quotient} (the quotient of the Bruhat--Tits tree by a quaternionic group) is a finite graph, given by finitely
+  many vertices, edges and edge weights.
+\item The \emph{Ribet map} $\alpha=(-s_{0*},\,s_{1*})$, which sends an edge to its two endpoints (with signs), and the
+  \emph{Ihara map} $\iota=(s_0^*,-s_1^*)$, which pulls functions on the vertices back to the edges, are built from the two
+  ways $s_0,s_1$ in which an edge of the graph meets its endpoints; both are explicit integer matrices.
+\end{itemize}
+The arithmetic questions of the route are then questions about integer matrices, and these are answered by exact integer
+linear algebra. The \emph{Smith normal form} brings an integer matrix, by invertible integer row and column operations, to a
+diagonal form $\mathrm{diag}(d_1,d_2,\dots)$ with $d_1\mid d_2\mid\cdots$; from it (and the transforming matrices) one reads off the kernel, the free rank of
+the cokernel and its torsion, $\bigoplus_i\Z/d_i$. A \emph{congruence module} $C_f=L/(L_f\oplus L_f^c)$, which measures how an
+eigensystem $f$ is glued to the others inside the lattice $L$, is a finite group whose order is an index of lattices, i.e.\ an
+absolute value of a determinant; its finer structure is again a Smith form. The determinant of a weighted pairing (a Gram
+determinant) gives the self-pairing of an eigenline. There is no rounding: our own routes are exact over $\Z$; HACS's local read works modulo a power of one prime $\ell$ at a time,
+which is why the $2$- and $3$-parts below come from our exact route.
+
+The contrast is with a trace identity (\S\ref{ss:s00-map}): equal traces, or equal characteristic polynomials, compare Hecke
+modules only over a field, where the finite groups above (the congruence modules and the torsion of the cokernels) all vanish. The integral map is what makes the congruences visible, and
+it is also what makes them computable. This is item (e) of the question (\S\ref{ss:s00-hope}); its status is the one recorded
+in
+\S\ref{ss:s00-question}: all definite-side
+objects are finite, the computations are \stcomp, and computing the $\GL_2$-side map itself at $\Gamma_1$-level remains open
+(it needs $\HypX$); the $\GL_2$ data were computed independently and compared.
+
+\subsection*{What HACS is, and what is ours}
+HACS, the Harder Arithmetic Cohomology System, version 0.2.1 \cite{HACS021}, with its data release hacs-data v0.2.0
+\cite{HACSdata020}, is a C++ system (with optional AVX-512 and CUDA acceleration) for the cohomology of arithmetic groups on the
+$\GL_2$ side: cohomology of $\mathrm{SL}_2(\Z)$ and its congruence subgroups with integral symmetric-power coefficients, the Hecke
+action, Hecke algebras and their localisations, and congruence phenomena, with an exact integral engine. It has no external test
+framework: every check is a named \emph{validation} in a registry compiled into the executable (\texttt{hacs --list} lists them,
+\texttt{hacs --all} runs the standard ones), and a stored \emph{golden reference} of previously computed values is compared in
+two tiers, A and B, by a strict regression validation.
+
+\emph{Frozen v0.2.1} means: HACS v0.2.1 is prepared prior work, a published release, imported into our repository as a seed and
+kept unchanged. The release is code-identical to the initial snapshot in \pathtt{code/hacs/}; the import itself changed no
+upstream file beyond the documented removal of local file paths (\pathtt{code/hacs/CHANGES.md}). Our event work is exactly:
+\begin{itemize}
+\item the marked \emph{JL module} inside the tree: \pathtt{code/hacs/src/hacs/Registry/JL/} (with the native quaternion core
+  \pathtt{Registry/JL/quat/}: quaternion orders, class sets, Brandt modules, tree quotients), its build file
+  \pathtt{code/hacs/cmake/jl/JL.cmake}, and its documentation and scripts in \pathtt{code/hacs/jl/};
+\item the \emph{three hook lines} in upstream files, each marked \texttt{Langlandscape JL hook}: one \texttt{include} in
+  \pathtt{CMakeLists.txt}, and the declaration and the call of \texttt{RegisterJL()} in \pathtt{src/hacs/ValidationRegistry.cpp};
+  the upstream list of 294 validations keeps its order and our names follow it (otherwise only the change log and two
+  generator-regenerated tables of the manual changed);
+\item the \emph{Python drivers} outside the binary, in \pathtt{code/python/langlandscape/hacs\_bridge/}, which run the shipped
+  executable, record provenance (commit, parameters, binary hash) and compare with our Python and PARI results.
+\end{itemize}
+
+\subsection*{What we implemented, lane by lane}
+The work ran in three lanes (plan \pathtt{plan/hacs/HACS-JL-PLAN.md}; closures in \pathtt{plan/hacs/outbox/}); the headline numbers
+are these\ifdefined\sOOsummary{} (details and worked examples in Section~\ref{sec:hacs})\fi.
+
+\emph{Lane~A (the bridge).} The $\GL_2$-side characteristic polynomials of the $D$-new parts, computed through HACS, reproduce our
+quaternionic ones on $66/66$ cells and our stored sign data on $8/8$ (\emph{checked}); the definite Hecke algebra at $D=11$,
+$k=2$ is non-\'etale and Gorenstein at Mazur's prime $5$, with clean negative controls; $74$ Brandt lattices were exported as
+integer matrices in a fixed format that HACS reads.
+
+\emph{Lane~B (the integral reads).} HACS's integral engine reads these lattices and computes the congruence modules $C_f$ exactly.
+A separate Python implementation with PARI gives the same Smith lists on $69/69$ orbits (\emph{checked}). At weight $2$ and $D=q$
+prime the Eisenstein congruence module is $\Z/\mathrm{num}\frac{q-1}{12}$, as Mazur's theorem predicts, for every prime $q\le600$ at
+$\ell\ge5$ ($109/109$ levels), and exactly, including the $2$- and $3$-parts, for the first $80$ primes $q\le409$ (a run stopped by
+its time cap, so partial). Beyond Mazur, at $D=13$, $k=8$ (class number $1$, a Brandt module of rank $7$), two of the three Galois orbits have
+$C_f\cong\Z/37$ and the third has $C_f=0$. This is on the lattice of Lane~B, which is Hecke-stable but not canonical, and $C_f$
+depends on that choice (Lane~C below removes the dependence away from $D$). On the $\GL_2$ side $37$ divides only the
+resultant of these two factors of the characteristic polynomial of $T_2$ (consistent with the congruence, not a confirmation of
+it there).
+
+\emph{Lane~C (the tree map).} The native core now builds the integral $\Sym^n$ Brandt modules on an intrinsic lattice (its
+characteristic polynomials agree with ours on $66/66$ cells and with PARI on $374/374$ operators). On it the congruence modules
+at $k>2$ are invariants for $p\nmid D$, while their $D$-parts still depend on the lattice choice; at $D=13$, $k=8$ the indices of
+the three orbits are $2\cdot37$, $2^2\cdot37$ and $2^3$ (\pathtt{code/results/laneC/hj4\_congruence.json}), so only the factor
+$37$ reappears. It builds the tree quotients and the Ribet and Ihara maps as integer matrices, reproducing the stage-02/03
+reference values on $288/288$ cells at weight $2$, and computes the exact $\Z$-cokernel of the Ihara map at weight $k$ on $210$
+cells by two independent routes that agree on $210/210$. On the $\Lambda$-adic definite side (for $B_3$, $q=2$, $p=5$) the ordinary
+part has rank $1$ over the group ring of $\Delta_s$ for $s=1,\dots,5$. The integral defect comparison $\eta_f(q)=\cc_q(f)\,\eta^B$ of stage~06 was run against
+HACS's $\GL_2$ side: the stage-06 table T5 at weight $k$, $7/7$ agree; the comparison H3, $9/9$ blocks; a census of $5869$ cells with a
+non-zero module ($q\le50$ prime, even $k\le20$, primes $k<p<200$ with $p\ge5$, $p\ne q$, $p\nmid q^2-1$) in which the $5$ genuine definite congruences agree $5/5$, $44$ of
+$50$ old-congruent cells agree (the other $6$ were not run), $120$ definite blocks are not determined, and no computed block
+disagrees. In three cells the needed sign was taken from PARI (called from our Python driver, not from HACS); this is disclosed,
+and where HACS's sign is unique PARI agrees, $30/30$.
+
+\emph{Validation protocol.} By team decision the lanes ran under a relaxed protocol: targeted validation per work package, every
+deviation from HACS's own process disclosed in \pathtt{code/hacs/CHANGES.md}, and HACS's stronger record words re-labelled in our
+output. At the close of Lane~C one battery ran on the integrated tree: \texttt{--all} $253/253$, and the strict golden
+regression with $0$ failures in both tiers; the slow tier, the digests, the label census and the device lane were not run.
+
+\subsection*{Three lanes in parallel}
+The project ran three strands side by side. \emph{Mathematics}: the chapters (stages~01--06) state and prove the results, each with
+its status. \emph{Lean}: a formalization of the statements, audited declaration by declaration. \emph{Computations}: Python and PARI
+first, then HACS. They check each other in fixed ways. Each Lean declaration is named next to the statement it formalizes (and,
+in the submission report, in a table that records the claim it supports and every difference between the Lean statement and the
+text). The computations test the chapters' predictions (Mazur's order, the Ribet sequence on the graphs, the defect formula), and
+HACS reproduces the earlier Python and PARI results before it is trusted with new cells. A disagreement between two strands points to an error in one of them. Where one occurred it is recorded and the text was
+corrected: for instance, a computed counterexample refuted one step of a stage-06 proof outside the hypotheses now stated
+(that case is marked open), and one planned stage-06 check turned out to be false as posed. In the comparisons reported
+above no computed cell or block disagrees with its reference.
+
+\emph{What Lean checks, in plain language.} Lean is a proof assistant: a program that accepts a theorem only together with a proof
+that it checks step by step down to its logical foundations. ``Formalized'' here means that the statement and its proof compile in Lean~4 with
+a pinned version of the Mathlib library, that the proof contains no gap (no \texttt{sorry}), and that it depends on no axiom
+beyond the three standard ones of the system; this was checked mechanically, by printing the axioms of each of the
+\ifdefined\GateAudited\GateAudited\else 950\fi{} audited declarations in a from-scratch build. Inputs that we cite from the
+literature, or prove on paper without formalizing, are not slipped in as axioms: each is a named statement (a \emph{registered
+hypothesis}, a \texttt{Prop}), and a theorem that needs it takes a proof of it as an explicit argument. So the \emph{type} of a
+theorem shows exactly what it assumes, and a conditional theorem is a checked implication ``hypotheses $\Rightarrow$ claim'', no
+more. Of the $29$ registered hypotheses, three are discharged in Lean and one conditionally; the others stay open, and a hypothesis
+that the chapters attribute to a cited theorem stays cited. Where the chapters speak about actual Hecke algebras or Galois
+representations, the Lean statement is usually about abstract data satisfying the relevant axioms, and classical and
+$\Lambda$-adic JL are schematic interfaces only. What is formalized and what is not is listed
+\ifdefined\sOOsummary in Section~\ref{sec:lean}\else in the Lean section of the submission report\fi.

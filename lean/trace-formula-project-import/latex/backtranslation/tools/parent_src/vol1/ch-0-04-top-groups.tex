@@ -1,0 +1,779 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/TopGroups.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline: planned IDs (\tfplanned) only; no statements or proofs yet.
+
+\chapter{\texorpdfstring{$\GL_2$ as a topological group, locally and adelically}{GL₂ as a topological group, locally and adelically}}\label{ch:ch-0-04-top-groups}
+
+\noindent\emph{Sources:} \cite[§2]{AIntro}; \cite{GH}; \cite{Bor-fin}.
+
+\section{\texorpdfstring{$\GL_2$ over a topological field}{GL₂ over a topological field}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{lemma}[$\GL_n(F)$ is open in $\Mat_n(F)$]
+\tfstmt{X.topgrp.lem:gln-units-open-embedding}
+\bonly
+\lean{GL2TF.gln_units_isOpenEmbedding}
+\end{lemma}
+\begin{tfformal}{X.topgrp.lem:gln-units-open-embedding}
+\tfsem{X.topgrp.lem:gln-units-open-embedding}{b82f84f6478871cdb96cbf58c64d0d425117fd227df1771b5313fa6e7f665e1f}
+\tfhyps{X.topgrp.lem:gln-units-open-embedding}{}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{0}{6b8b0c0f}{the index type $n$ of rows and columns}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{1}{f4476285}{finiteness of the index type}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{2}{07de6e58}{decidable equality on the index type}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{3}{9587907e}{the type of the field $F$}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{4}{eaab8d41}{the field structure of $F$}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{5}{00227397}{the topology of $F$}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{6}{57b541a3}{continuity of addition on $F$}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{7}{6e38b3e5}{continuity of multiplication on $F$}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{8}{6b9a2e80}{continuity of inversion on $F^\times$}
+\tfbinder{X.topgrp.lem:gln-units-open-embedding}{9}{f76e9c00}{closedness of points of $F$ (the $T_1$ property)}
+\begin{tffidelity}
+B-only. The $\GL_n$ version of \cref{X.topgrp.thm:gl2-units-open-embedding}, with $\GL_n(F)$ as \texttt{GL n F}, $n$ an arbitrary finite type with decidable equality (the snippet's $n\ge0$ is the case of \texttt{Fin n}); the image is \texttt{\{X | X.det ≠ 0\}}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The range is $\{\det\ne0\}$ since a matrix is a unit iff its determinant is. Embedding: \texttt{Units.isEmbedding\_val\_mk'} with inversion on $\{\det\ne0\}$ continuous (\texttt{continuousAt\_matrix\_inv}, using continuity of inversion on $F^\times$ for the determinant). Openness: the range is $\det^{-1}(\{0\}^c)$, and $\{0\}^c$ is open since points are closed ($T_1$).
+\end{proof}
+
+\begin{theorem}[$\GL_2(F)$ is open in $\Mat_2(F)$]
+\tfstmt{X.topgrp.thm:gl2-units-open-embedding}
+\lean{GL2TF.gl2_units_isOpenEmbedding}
+\uses{X.topgrp.lem:gln-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{X.topgrp.thm:gl2-units-open-embedding}
+\tfsem{X.topgrp.thm:gl2-units-open-embedding}{8cb2387f2f87eed96c9eb5ee1358eec70660962406ae90855f3b7a2f8883d351}
+\tfhyps{X.topgrp.thm:gl2-units-open-embedding}{}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{0}{6b8b0c0f}{the type of the field $F$}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{2}{041b9d8e}{the topology of $F$}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{3}{de2c96e5}{continuity of addition on $F$}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{4}{90c4bb16}{continuity of multiplication on $F$}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{5}{d86a2d6d}{continuity of inversion on $F^\times$}
+\tfbinder{X.topgrp.thm:gl2-units-open-embedding}{6}{33b9f0d5}{closedness of points of $F$ (the $T_1$ property)}
+\begin{tffidelity}
+``Addition and multiplication are continuous, inversion continuous on $F^\times$, points are closed'' are the four instance binders \texttt{ContinuousAdd}, \texttt{ContinuousMul}, \texttt{ContinuousInv₀}, \texttt{T1Space}. The inclusion is \texttt{Units.val : GL (Fin 2) F → Matrix (Fin 2) (Fin 2) F}, with the units topology on the source and the product topology on the target; ``open embedding'' is \texttt{Topology.IsOpenEmbedding}. The image is \texttt{\{X | X.det ≠ 0\}}. The proof goes through the B-only \cref{X.topgrp.lem:gln-units-open-embedding}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The case $n=\texttt{Fin 2}$ of \cref{X.topgrp.lem:gln-units-open-embedding}.
+\end{proof}
+
+\begin{theorem}[units topology $=$ subspace topology]
+\tfstmt{X.topgrp.thm:gl2-units-topology-eq-subspace}
+\lean{GL2TF.gl2_units_topology_eq_induced}
+\uses{X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{X.topgrp.thm:gl2-units-topology-eq-subspace}
+\tfsem{X.topgrp.thm:gl2-units-topology-eq-subspace}{7c7d6f3b7fc6e61ed6a6e6f09815c1cfb45fd56ade34f9d1238953fbcac61785}
+\tfhyps{X.topgrp.thm:gl2-units-topology-eq-subspace}{}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{0}{6b8b0c0f}{the type of the field $F$}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{2}{041b9d8e}{the topology of $F$}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{3}{de2c96e5}{continuity of addition on $F$}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{4}{90c4bb16}{continuity of multiplication on $F$}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{5}{d86a2d6d}{continuity of inversion on $F^\times$}
+\tfbinder{X.topgrp.thm:gl2-units-topology-eq-subspace}{6}{33b9f0d5}{closedness of points of $F$ (the $T_1$ property)}
+\begin{tffidelity}
+The equality of topologies is \texttt{inferInstance = TopologicalSpace.induced Units.val inferInstance}, the units topology on the left (the instance on \texttt{GL (Fin 2) F}), the induced topology on the right. Binders as in \cref{X.topgrp.thm:gl2-units-open-embedding}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+An embedding induces its topology: \texttt{IsInducing.eq\_induced} applied to \cref{X.topgrp.thm:gl2-units-open-embedding}.
+\end{proof}
+
+\begin{definition}[the product $\sigma$-algebra on matrices]
+\tfstmt{X.topgrp.def:matrix-measurable-space}
+\bonly
+\lean{GL2TF.instMeasurableSpaceMatrix}
+\end{definition}
+\begin{tfformal}{X.topgrp.def:matrix-measurable-space}
+\tfsem{X.topgrp.def:matrix-measurable-space}{5034f250b47ed7128dc3785caf16a7b776e54081565cef797e272154ee46b56f}
+\tfhyps{X.topgrp.def:matrix-measurable-space}{}
+\tfbinder{X.topgrp.def:matrix-measurable-space}{0}{fe5aea28}{the row index type $m$}
+\tfbinder{X.topgrp.def:matrix-measurable-space}{1}{51c895c7}{the column index type $n$}
+\tfbinder{X.topgrp.def:matrix-measurable-space}{2}{450696e7}{the type $\alpha$ of the entries}
+\tfbinder{X.topgrp.def:matrix-measurable-space}{3}{09bfb507}{the $\sigma$-algebra of $\alpha$}
+\begin{tffidelity}
+B-only plumbing, new in this project. \texttt{Matrix} is a type synonym for \texttt{m → n → α}, so it does not inherit the instance of the function type. Mathlib v4.35 (\texttt{Mathlib/Analysis/Matrix/MeasurableSpace.lean}) has its own \texttt{MeasurableSpace} instance on \texttt{Matrix m n α}, with the same body as the project's; the project instance is kept (same definition, so the statements are unchanged). The instance is the product $\sigma$-algebra of \texttt{m → n → α}, obtained by \texttt{inferInstanceAs}. It is a global instance of the project, used by \cref{X.topgrp.thm:gl2-borel-measurable} (the $\sigma$-algebra on $\GL_2(F)$ is Mathlib's \texttt{Units.instMeasurableSpace}, the comap along \texttt{Units.val}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the Borel structure on $\GL_2(F)$]
+\tfstmt{X.topgrp.thm:gl2-borel-measurable}
+\lean{GL2TF.gl2_borelSpace}
+\uses{X.topgrp.def:matrix-measurable-space, X.topgrp.thm:gl2-units-topology-eq-subspace}
+\end{theorem}
+\begin{tfformal}{X.topgrp.thm:gl2-borel-measurable}
+\tfsem{X.topgrp.thm:gl2-borel-measurable}{0b1d064ea7f94fc76d93436679e9cdfd65352b3d2562d60b68ed9d3bfc4d9589}
+\tfhyps{X.topgrp.thm:gl2-borel-measurable}{}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{0}{6b8b0c0f}{the type of the field $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{2}{041b9d8e}{the topology of $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{3}{de2c96e5}{continuity of addition on $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{4}{90c4bb16}{continuity of multiplication on $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{5}{d86a2d6d}{continuity of inversion on $F^\times$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{6}{33b9f0d5}{closedness of points of $F$ (the $T_1$ property)}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{7}{b65fb731}{second countability of $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{8}{1effb80e}{the $\sigma$-algebra of $F$}
+\tfbinder{X.topgrp.thm:gl2-borel-measurable}{9}{c2a5d447}{the assumption that this $\sigma$-algebra is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+``$F$ second countable with its Borel $\sigma$-algebra'' is the three binders \texttt{SecondCountableTopology F}, \texttt{MeasurableSpace F}, \texttt{BorelSpace F}. The conclusion \texttt{BorelSpace (GL (Fin 2) F)} refers to the $\sigma$-algebra on $\GL_2(F)$ that is Mathlib's \texttt{Units.instMeasurableSpace}, which is the comap along \texttt{Units.val} of the $\sigma$-algebra of $\Mat_2(F)$; this $\sigma$-algebra on $\Mat_2(F)$ is the product $\sigma$-algebra given by the new project instance \cref{X.topgrp.def:matrix-measurable-space} (not in Mathlib). So the snippet's ``$\sigma$-algebra induced by the inclusion'' is the instance, and the statement says it is Borel for the units topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The product $\sigma$-algebra on $\Mat_2(F)=F^{2\times2}$ is its Borel $\sigma$-algebra because $F$ is second countable (\texttt{BorelSpace} of the finite product, via \cref{X.topgrp.def:matrix-measurable-space}). The $\sigma$-algebra of $\GL_2(F)$ is the comap along \texttt{Units.val}; \texttt{borel\_comap} identifies it with the Borel $\sigma$-algebra of the induced topology, which is the units topology by \cref{X.topgrp.thm:gl2-units-topology-eq-subspace}.
+\end{proof}
+
+\begin{lemma}[the mirabolic matrices form a subgroup]
+\tfstmt{I.topgrp.lem:mirabolic-subgroup}
+\bonly
+\lean{GL2TF.mirabolic_isSubgroup}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:mirabolic-subgroup}
+\tfsem{I.topgrp.lem:mirabolic-subgroup}{6be680eeecef2378a6dcb9fa00f022a427b6d71fc272312697febb0c92f162ca}
+\tfhyps{I.topgrp.lem:mirabolic-subgroup}{}
+\tfbinder{I.topgrp.lem:mirabolic-subgroup}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.topgrp.lem:mirabolic-subgroup}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. The set $\{g_{21}=0,\ g_{22}=1\}$ (Lean indices \texttt{1 0} and \texttt{1 1}) contains $1$ and is closed under products and inverses; the three fields of the \texttt{Subgroup} structure of \cref{I.topgrp.def:mirabolic}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Same pattern as \cref{I.conv.lem:opposite-borel-subgroup}: $1$ qualifies; for a product the entries $(1,0)$ and $(1,1)$ are computed with \texttt{Matrix.mul\_apply} and are $0$ and $1$ after rewriting (\texttt{ring}). For the inverse, $\det g=g_{00}$ is a unit (since $g_{10}=0,g_{11}=1$), and the adjugate formula (\texttt{adjugate\_fin\_two}) gives the entries $0$ and $g_{00}^{-1}g_{00}=1$ (\texttt{Ring.inverse\_mul\_cancel}).
+\end{proof}
+
+\begin{definition}[the mirabolic subgroup]
+\tfstmt{I.topgrp.def:mirabolic}
+\bonly
+\lean{GL2TF.mirabolic}
+\uses{I.topgrp.lem:mirabolic-subgroup}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:mirabolic}
+\tfsem{I.topgrp.def:mirabolic}{8ec16001109f992c80599c1c1bb40540b68e2650d1a9c0b554aaffb7c0d8f135}
+\tfhyps{I.topgrp.def:mirabolic}{}
+\tfbinder{I.topgrp.def:mirabolic}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.topgrp.def:mirabolic}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. The subgroup of $\GL_2(R)$ of matrices with $g_{21}=0$ and $g_{22}=1$, i.e.\ of the form $\begin{psmallmatrix}a&b\\0&1\end{psmallmatrix}$ with $a\in R^\times$. It is used to define $K_1(N)$ (\cref{I.topgrp.def:congruence-k1}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the $\sigma$-algebra of $\Mat_2(\alpha)$ is Borel]
+\tfstmt{X.topgrp.lem:matrix-borel-space}
+\bonly
+\lean{GL2TF.matrix_borelSpace}
+\uses{X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{X.topgrp.lem:matrix-borel-space}
+\tfsem{X.topgrp.lem:matrix-borel-space}{95f82ffcbbf363c48e0566afd5c609c58e1a510fe4df1875d3c3f60c13d7e4a5}
+\tfhyps{X.topgrp.lem:matrix-borel-space}{}
+\tfbinder{X.topgrp.lem:matrix-borel-space}{0}{fe5aea28}{the underlying type of the topological space $\alpha$}
+\tfbinder{X.topgrp.lem:matrix-borel-space}{1}{ca81b5b8}{the topology of $α$}
+\tfbinder{X.topgrp.lem:matrix-borel-space}{2}{746bd334}{the $\sigma$-algebra of $α$}
+\tfbinder{X.topgrp.lem:matrix-borel-space}{3}{1e90d651}{the assumption that this is the Borel $\sigma$-algebra of $α$}
+\tfbinder{X.topgrp.lem:matrix-borel-space}{4}{21dad7ac}{the assumption that $α$ is second countable}
+\begin{tffidelity}
+B-only. For a second countable topological space with its Borel $\sigma$-algebra, the instance \texttt{BorelSpace (Matrix (Fin 2) (Fin 2) α)}. The $\sigma$-algebra on matrices is that of \cref{X.topgrp.def:matrix-measurable-space}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$M_2(\alpha)=\mathrm{Fin}\,2\to\mathrm{Fin}\,2\to\alpha$ definitionally, with the product topology and the product $\sigma$-algebra. For second countable $\alpha$ with Borel $\sigma$-algebra, a finite product of such spaces has the Borel $\sigma$-algebra equal to the product $\sigma$-algebra (Mathlib's instance \texttt{Pi.borelSpace}), so the type-class instance for $\mathrm{Fin}\,2\to\mathrm{Fin}\,2\to\alpha$ is transferred by \texttt{inferInstanceAs}.
+\end{proof}
+
+\section{\texorpdfstring{$\GL_2$ over a non-archimedean local field}{GL₂ over a non-archimedean local field}}
+\begin{theorem}[$\GL_2(F)$ is locally compact]
+\tfstmt{I.topgrp.thm:gl2-local-locally-compact}
+\lean{GL2TF.Local.gl2_locallyCompact_t2_secondCountable}
+\uses{I.lf.def:nalf, I.lf.lem:nalf-t2, I.lf.thm:nalf-second-countable, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:gl2-local-locally-compact}
+\tfsem{I.topgrp.thm:gl2-local-locally-compact}{2fefd05395f39e0986fe757faccad8acc89e174b7ffe7e2a4e9c4caa3fa70f2f}
+\tfhyps{I.topgrp.thm:gl2-local-locally-compact}{}
+\tfbinder{I.topgrp.thm:gl2-local-locally-compact}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.topgrp.thm:gl2-local-locally-compact}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.topgrp.thm:gl2-local-locally-compact}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.topgrp.thm:gl2-local-locally-compact}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.topgrp.thm:gl2-local-locally-compact}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The three properties are the conjunction \texttt{LocallyCompactSpace ∧ T2Space ∧ SecondCountableTopology} of the units topology (the topology instance of \texttt{GL (Fin 2) F}). The explicit and instance binders are exactly the ones listed in the binder table; no further assumption is hidden in the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Transport along the open embedding $\GL_2(F)\to\Mat_2(F)$ of \cref{X.topgrp.thm:gl2-units-open-embedding}: $\Mat_2(F)=F^{2\times2}$ is locally compact and second countable as a finite product of copies of $F$ (\cref{I.lf.thm:nalf-second-countable}); an open embedding gives local compactness, and an induced topology gives second countability; Hausdorff by instance search (\cref{I.lf.lem:nalf-t2}).
+\end{proof}
+
+\begin{theorem}[$K_F$ is compact open]
+\tfstmt{I.topgrp.thm:max-compact-local-compact-open}
+\lean{GL2TF.Local.maxCompact_isCompact_isOpen}
+\uses{I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.lem:nalf-t2, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:max-compact-local-compact-open}
+\tfsem{I.topgrp.thm:max-compact-local-compact-open}{51720e7b26255a7310b6a8bc9b4e2e80aff410cf5b637307caabaa4db01b3dc5}
+\tfhyps{I.topgrp.thm:max-compact-local-compact-open}{}
+\tfbinder{I.topgrp.thm:max-compact-local-compact-open}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.topgrp.thm:max-compact-local-compact-open}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.topgrp.thm:max-compact-local-compact-open}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.topgrp.thm:max-compact-local-compact-open}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.topgrp.thm:max-compact-local-compact-open}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+``Compact open subgroup'' is split as: the underlying set is compact and open (that it is a subgroup is part of \cref{I.conv.def:max-compact-local}). $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \cref{I.conv.lem:max-compact-local-mem} (and \texttt{mem\_K\_iff}-type argument for the unit) $K_F$ is the preimage under $\GL_2(F)\to\Mat_2(F)$ of $C=\{X: X_{ij}\in\Ocal_F,\ v(\det X)=1\}$. $\Ocal_F$ is compact and open (Mathlib: \texttt{isCompact\_closedBall}, \texttt{isOpen\_integer}) and $\{v=1\}$ is clopen, so $C$ is compact and open in $\Mat_2(F)$, and $K_F$ is open as a preimage. Compactness: $C\subseteq\{\det\neq0\}$ is the image of $K_F$ under the open embedding, so $K_F$ is compact (\texttt{IsEmbedding.isCompact\_iff}). As in A.
+\end{proof}
+
+
+
+\begin{theorem}[$\GL_2(\R)$ is locally compact]
+\tfstmt{I.topgrp.thm:gl2-real-locally-compact}
+\lean{GL2TF.gl2Real_locallyCompact_t2_secondCountable_borel}
+\uses{X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:gl2-borel-measurable, X.topgrp.def:matrix-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:gl2-real-locally-compact}
+\tfsem{I.topgrp.thm:gl2-real-locally-compact}{4ee7dc1d12dac5da7cb4aa90d7998e8d9a1011cd136dafcf9305c4cb1e10c840}
+\tfhyps{I.topgrp.thm:gl2-real-locally-compact}{}
+\end{tfformal}
+\begin{proof}[Lean proof]
+All four properties are transported along the open embedding $\GL_2(\R)\hookrightarrow M_2(\R)$ (\texttt{gl2\_units\_isOpenEmbedding}, \cref{X.topgrp.thm:gl2-units-open-embedding}): local compactness is inherited from the open subspace $M_2(\R)\cong\R^4$ (\texttt{IsOpenEmbedding.locallyCompactSpace}), second countability from the inducing map, and the Borel property is \texttt{gl2\_borelSpace} (\cref{X.topgrp.thm:gl2-borel-measurable}); T2 is an instance for the units topology.
+\end{proof}
+
+\begin{theorem}[$\Kinf$ is compact]
+\tfstmt{I.topgrp.thm:max-compact-real-compact}
+\lean{GL2TF.maxCompactReal_isCompact}
+\uses{I.conv.def:max-compact-real, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:max-compact-real-compact}
+\tfsem{I.topgrp.thm:max-compact-real-compact}{54ec9160aa00f5226cf219d3ca1812930de2a1e5373adfea8ed1b54aba47f5bf}
+\tfhyps{I.topgrp.thm:max-compact-real-compact}{}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $C=\{M\in M_2(\R):M^{\mathsf T}M=1\}$. It is closed (preimage of a point under a continuous map) and contained in the product of intervals $[-1,1]$, since each diagonal entry of $M^{\mathsf T}M$ gives $M_{0j}^2+M_{1j}^2=1$ (\texttt{nlinarith}); hence compact. Every $M\in C$ has $\det M\neq0$ (take determinants), so $C$ is the image of $K_\infty$ under the open embedding $\GL_2(\R)\hookrightarrow M_2(\R)$, and compactness is pulled back by \texttt{IsEmbedding.isCompact\_iff}.
+\end{proof}
+
+
+\section{\texorpdfstring{$\GL_2(\R)$}{GL₂(ℝ)}}
+
+\section{\texorpdfstring{Adelic $\GL_2$}{Adelic GL₂}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{definition}[adelic $\GL_2$]
+\tfstmt{I.topgrp.def:gl2-adelic}
+\lean{GL2TF.gl2RatAdelic}
+\uses{I.adele.def:adele-ring, I.conv.def:gl2, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:gl2-adelic}
+\tfsem{I.topgrp.def:gl2-adelic}{283d4c7d44a1a8d848b68f37c86049fc91c567aee071de8967e16b32bda07160}
+\tfhyps{I.topgrp.def:gl2-adelic}{}
+\begin{tffidelity}
+The groups $G(\A)$ and $G(\Af)$ are \texttt{GL (Fin 2) Adele} and \texttt{GL (Fin 2) FinAdele}, with Mathlib's units topology; they are not separately tagged. The tagged declaration is the subgroup $G(\Q)\le G(\A)$ (\texttt{gl2RatAdelic}), defined as the range of the homomorphism \texttt{gl2Map (algebraMap ℚ Adele)}. The coordinate homomorphisms $g\mapsto g_\infty,g_f,g_p$ are the B-only declarations \cref{I.topgrp.def:adelic-component-inf}, \cref{I.topgrp.def:adelic-component-fin}, \cref{I.topgrp.def:adelic-component-place} and \cref{I.topgrp.def:finite-adelic-component-place}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$G(\Af)$ as a restricted product]
+\tfstmt{I.topgrp.thm:gl2-adelic-restricted-product}
+\lean{GL2TF.gl2Adelic_restrictedProduct}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:max-compact-local, I.adele.def:finite-adeles-model, I.adele.def:adele-ring, I.adele.lem:primes-fact-instance, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.conv.def:gl2, I.conv.lem:max-compact-local-mem, I.lf.def:padic-nalf-instance, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:max-compact-fin-adelic, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:gl2-adelic-restricted-product}
+\tfsem{I.topgrp.thm:gl2-adelic-restricted-product}{9f4ca8e202ce1d7425aa4b04bfe0121f78299eaea0f0e856d65339de0c8f99db}
+\tfhyps{I.topgrp.thm:gl2-adelic-restricted-product}{}
+\begin{tffidelity}
+Both parts assert the existence of a continuous group isomorphism with an explicit defining formula (\texttt{≃ₜ*}): (a) \texttt{e g p = compFinPlace p g} onto Mathlib's restricted product $\prod'_p(\GL_2(\Qp),K_p)$ over the cofinite filter, (b) \texttt{e g = (compInf g, compFin g)}. The formula determines $e$, so nothing is hidden.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a): the map is $g\mapsto(g_p)_p$ with inverse $x\mapsto$ the matrix whose $(i,j)$ entry is the finite adele $(x_p)_{ij}$ (\texttt{resEntry}; it is a finite adele because $x_p\in K_p$ for almost all $p$, \cref{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}); both maps are multiplicative (\texttt{resEntry\_mul}) and the two composites are the identity (\texttt{rfl} on entries). Both are continuous homomorphisms, so (divergence note, \texttt{gl2-adelic-restricted-product}) continuity is checked at $1$ only: $K_f$ is open in $G(\A_f)$ (\texttt{isOpen\_maxCompactFin}) and on it the map is the structure map $\prod_pK_p\to\Pi'_p(\GL_2(\Q_p),K_p)$ composed with the continuous components (\texttt{isEmbedding\_structureMap}); in the other direction the structure map is an open embedding (\texttt{isOpenEmbedding\_structureMap}), so it suffices to check continuity of $\prod_pK_p\to G(\A_f)$ on the open box, where the matrix entries and the entries of the inverse lie in $\hat\Z=\prod_p\Z_p$ and are continuous in each coordinate. (b): \texttt{glProdEquiv}, the isomorphism $\GL_2(R\times S)\simeq\GL_2(R)\times\GL_2(S)$ of topological groups (entrywise pairing of matrices, \texttt{matPair}, inverse \texttt{glPair}); applied to $\A=\R\times\A_f$.
+\end{proof}
+
+\begin{theorem}[local compactness and second countability]
+\tfstmt{I.topgrp.thm:gl2-adelic-locally-compact}
+\lean{GL2TF.gl2Adelic_locallyCompact}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:max-compact-fin-adelic, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-local-compact-open, X.topgrp.def:matrix-measurable-space, X.topgrp.lem:restricted-product-second-countable-instance, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:gl2-adelic-locally-compact}
+\tfsem{I.topgrp.thm:gl2-adelic-locally-compact}{205933034dccb82e972f222fd7e3c7202cc13b8e060a7568833e7735ac226636}
+\tfhyps{I.topgrp.thm:gl2-adelic-locally-compact}{}
+\begin{tffidelity}
+A conjunction of six instance statements: \texttt{LocallyCompactSpace}, \texttt{T2Space} and \texttt{SecondCountableTopology} for \texttt{GL (Fin 2) Adele} and for \texttt{GL (Fin 2) FinAdele}. The instances used elsewhere are the B-only \cref{I.topgrp.lem:gl2-adelic-locally-compact-instance} and \cref{I.topgrp.lem:gl2-fin-adelic-locally-compact-instance}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A_f)\simeq\Pi'_p(\GL_2(\Q_p),K_p)$ by \cref{I.topgrp.thm:gl2-adelic-restricted-product}(a) with $K_p$ open (\texttt{isOpen\_Kp}) and compact (\texttt{Kp\_compactSpace}), so locally compact (generic restricted-product instance of \texttt{Common/RestrictedProduct.lean}, transported by the closed embedding of a topological group isomorphism) and second countable (each $\GL_2(\Q_p)$ is, \cref{I.topgrp.thm:gl2-local-locally-compact}); Hausdorff is an instance for the units topology. $G(\A)\simeq\GL_2(\R)\times G(\A_f)$ by part (b); the real factor is locally compact and second countable by \cref{I.topgrp.thm:gl2-real-locally-compact}, and these properties pass to products.
+\end{proof}
+
+\begin{theorem}[$G(\Q)$ is discrete]
+\tfstmt{I.topgrp.thm:gl2-rat-discrete}
+\lean{GL2TF.gl2Rat_discrete}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:rat-embedding-diagonal, I.adele.thm:rat-discrete, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:gl2-rat-discrete}
+\tfsem{I.topgrp.thm:gl2-rat-discrete}{a02a71edbf1383f6e0e6a8d5d70f435cc60d4dde03bd2bb903f1b441d0069239}
+\tfhyps{I.topgrp.thm:gl2-rat-discrete}{}
+\begin{tffidelity}
+Three clauses: injectivity of \texttt{gl2Map (algebraMap ℚ Adele)}, closedness of the subgroup $G(\Q)$ (\texttt{gl2RatAdelic}) and discreteness of its subspace topology (\texttt{DiscreteTopology}). Same content as A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Injectivity: compare entries; the diagonal embedding $\Q\to\A$ is injective (\cref{I.adele.lem:rat-embedding-diagonal}). Discreteness (divergence note, \texttt{gl2-rat-discrete}): by \texttt{discreteTopology\_of\_isOpen\_singleton\_one} it suffices to show $\{1\}$ is open in $G(\Q)$. Let $V=(-1,1)\times\hat\Z\subseteq\A$ and $U=\{g:(g-1)_{ij}\in V\ \forall i,j\}$, open since the entries are continuous. A rational matrix $\gamma$ has image in $U$ iff all entries of $\gamma-1$ lie in $V$, hence are $0$ by \cref{I.adele.thm:rat-discrete}, i.e.\ $\gamma=1$. Closedness: a discrete subgroup of a Hausdorff topological group is closed (\texttt{Subgroup.isClosed\_of\_discrete}).
+\end{proof}
+
+\begin{definition}[the maximal compact subgroups $\Kf$ and $K$]
+\tfstmt{I.topgrp.def:max-compact-adelic}
+\lean{GL2TF.maxCompactAdelic}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:max-compact-adelic}
+\tfsem{I.topgrp.def:max-compact-adelic}{a4cf0eef18c937fd6328b2c944f509825623cce8ee8c193d0aec111b8350b604}
+\tfhyps{I.topgrp.def:max-compact-adelic}{}
+\begin{tffidelity}
+The tagged declaration is $K$ (\texttt{maxCompactAdelic}), defined as the intersection of the pre-image of $K_\infty$ under $g\mapsto g_\infty$ and the pre-images of the $K_p$ under $g\mapsto g_p$. The group $K_f$ is the B-only \cref{I.topgrp.def:max-compact-fin-adelic}, defined analogously on $G(\Af)$. That both are subgroups holds by construction.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[compactness of $\Kf$ and $K$]
+\tfstmt{I.topgrp.thm:max-compact-adelic-compact}
+\lean{GL2TF.maxCompactAdelic_compact}
+\uses{I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-fin-adelic, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.conv.def:gl2, I.conv.lem:max-compact-local-mem, I.lf.def:padic-nalf-instance, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.thm:max-compact-real-compact, X.haar.lem:restricted-product-box-compact, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:max-compact-adelic-compact}
+\tfsem{I.topgrp.thm:max-compact-adelic-compact}{513d6e90350f8df99cc3df965369f9be8aa310e13f5a841ffc4a691e94bcd996}
+\tfhyps{I.topgrp.thm:max-compact-adelic-compact}{}
+\begin{tffidelity}
+Compactness and openness are the first three clauses (\texttt{IsCompact}, \texttt{IsOpen} for $K_f$, \texttt{IsCompact} for $K$). The correspondence under the isomorphisms is stated for \emph{every} continuous group isomorphism $e$ onto the restricted product (resp.\ the product $\GL_2(\R)\times G(\Af)$) with the defining formula of \cref{I.topgrp.thm:gl2-adelic-restricted-product}: its image of $K_f$ is the box $\{x:x_p\in K_p\ \forall p\}$ and its image of $K$ is $K_\infty\times K_f$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Images: $e(K_f)=\{x:x_p\in K_p\ \forall p\}$ and $e(K)=K_\infty\times K_f$ for any isomorphism with the stated components, by \texttt{image\_equiv\_eq} and the componentwise descriptions \texttt{mem\_maxCompactFin\_iff}, \texttt{mem\_maxCompactAdelic\_iff}. Compactness of $K_f$: the box $\prod_pK_p$ in the restricted product is compact (\texttt{resProd\_box\_isCompact}, using each $K_p$ compact), and $K_f$ is its image under the continuous inverse of $e$. $K_f$ is open by \texttt{isOpen\_maxCompactFin} (it is $\{g:\text{entries of }g,g^{-1}\in\hat\Z\}$, with $\hat\Z$ open). $K=K_\infty\times K_f$ is compact as a product of compact sets, transported by the inverse of \texttt{glProdEquiv}.
+\end{proof}
+
+\begin{definition}[adelic subgroups]
+\tfstmt{I.topgrp.def:adelic-subgroups}
+\lean{GL2TF.torusNormOne}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:center, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.conv.def:diag-hom, I.adele.def:norm-one-ideles}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:adelic-subgroups}
+\tfsem{I.topgrp.def:adelic-subgroups}{89374e742fd158abe258ff278428ee432ecd8db2261c8c0b0f496036caa7cce5}
+\tfhyps{I.topgrp.def:adelic-subgroups}{}
+\begin{tffidelity}
+$B(\A)$, $T(\A)$, $N(\A)$, $Z(\A)$ are the subgroups \texttt{borel Adele}, \texttt{torus Adele}, \texttt{unipotent Adele}, \texttt{center Adele} of \cref{I.conv.def:borel,I.conv.def:torus,I.conv.def:unipotent,I.conv.def:center} (and likewise over \texttt{FinAdele}); they are not separately tagged. The tagged declaration is $T(\A)^1$ (\texttt{torusNormOne}), the image of $\A^1\times\A^1$ under $(t_1,t_2)\mapsto\diag(t_1,t_2)$, where $\A^1$ is the kernel of the idele norm. This is the set $\{\diag(t_1,t_2):\abs{t_1}_\A=\abs{t_2}_\A=1\}$ of the snippet.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the adelic subgroups are closed]
+\tfstmt{I.topgrp.thm:adelic-subgroups-closed}
+\lean{GL2TF.adelic_subgroups_closed}
+\uses{I.topgrp.def:adelic-subgroups, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:center, I.conv.def:torus, I.conv.def:unipotent, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:norm-one-ideles, I.adele.lem:idele-norm-spec, I.conv.def:diag-element, I.conv.def:diag-hom, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:adelic-subgroups-closed}
+\tfsem{I.topgrp.thm:adelic-subgroups-closed}{d0190385e6ac2a49b2b9a4f77c5c788ad863fc28b3a077e3cc69f47f40c04b5a}
+\tfhyps{I.topgrp.thm:adelic-subgroups-closed}{}
+\begin{tffidelity}
+Five \texttt{IsClosed} clauses for the sets \texttt{borel Adele}, \texttt{torus Adele}, \texttt{unipotent Adele}, \texttt{center Adele} and \texttt{torusNormOne} in \texttt{GL (Fin 2) Adele}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The entries $g_{ij}$ and those of $g^{-1}$ are continuous functions on $G(\A)$ (\texttt{Units.continuous\_val}, \texttt{continuous\_coe\_inv}). $B$ is $\{g_{10}=0\}$ and $T$ is $\{g_{01}=0=g_{10}\}$, closed as zero sets. $N$ equals $\{g_{10}=0,\ g_{00}=1,\ g_{11}=1\}$ (given such $g$, $g=n(g_{01})$ by \texttt{fin\_cases} on the entries). $Z$ equals $\{g_{01}=0=g_{10},\ g_{00}=g_{11}\}$: for such $g$, $g_{00}^2=\det g$ is a unit, so $g_{00}$ is a unit and $g$ is the scalar matrix. $T(\A)^1$: the idele group embeds as a closed subset of $\A\times\A^{\mathrm{op}}$ (the norm-one ideles $=|\cdot|_\A^{-1}(1)$ are closed, \cref{I.adele.lem:idele-norm-spec}), so $T(\A)^1$ is the intersection of $T(\A)$ with the preimages of this closed set under $g\mapsto(g_{ii},\mathrm{op}(g^{-1})_{ii})$, $i=0,1$ (\texttt{exists\_diagElt\_of\_mem\_torus'} for the identification of $T$ with pairs of ideles).
+\end{proof}
+
+\begin{definition}[the component at $\infty$]
+\tfstmt{I.topgrp.def:adelic-component-inf}
+\bonly
+\lean{GL2TF.compInf}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:adelic-component-inf}
+\tfsem{I.topgrp.def:adelic-component-inf}{f58b3017ae5afd95dda89b08a19634b3c88dba6c4e38b85264b86ae4b3aeb8ed}
+\tfhyps{I.topgrp.def:adelic-component-inf}{}
+\begin{tffidelity}
+B-only. $g\mapsto g_\infty$ as a monoid homomorphism \texttt{GL (Fin 2) Adele →* GL (Fin 2) ℝ}, the map \texttt{gl2Map} of the first coordinate projection $\A\to\R$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the finite component]
+\tfstmt{I.topgrp.def:adelic-component-fin}
+\bonly
+\lean{GL2TF.compFin}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:adelic-component-fin}
+\tfsem{I.topgrp.def:adelic-component-fin}{b11faa5dc3ba2eb377be784610c9b6c4d7ad4a77b2ec533f0e21f82f0bb44682}
+\tfhyps{I.topgrp.def:adelic-component-fin}{}
+\begin{tffidelity}
+B-only. $g\mapsto g_f$ as a monoid homomorphism \texttt{GL (Fin 2) Adele →* GL (Fin 2) FinAdele}, the map \texttt{gl2Map} of the second coordinate projection $\A\to\Af$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the component at $p$ of a finite adelic matrix]
+\tfstmt{I.topgrp.def:finite-adelic-component-place}
+\bonly
+\lean{GL2TF.compFinPlace}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:finite-adelic-component-place}
+\tfsem{I.topgrp.def:finite-adelic-component-place}{abaf5c77fc68243c7ca58d5fe1a6722679a225512bae8299a205a07a7da730eb}
+\tfhyps{I.topgrp.def:finite-adelic-component-place}{}
+\tfbinder{I.topgrp.def:finite-adelic-component-place}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. $g\mapsto g_p$ on $G(\Af)$ as a monoid homomorphism into \texttt{GL (Fin 2) ℚ\_[p]}, the map \texttt{gl2Map} of the evaluation $\Af\to\Qp$ at $p$. The prime $p$ is an explicit argument of type \texttt{Nat.Primes}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the component at $p$]
+\tfstmt{I.topgrp.def:adelic-component-place}
+\bonly
+\lean{GL2TF.compPlace}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:adelic-component-fin, I.topgrp.def:finite-adelic-component-place}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:adelic-component-place}
+\tfsem{I.topgrp.def:adelic-component-place}{b52a15322eea3e8deacf3f281bf614a27d1afaf114314f6032712634da83dcee}
+\tfhyps{I.topgrp.def:adelic-component-place}{}
+\tfbinder{I.topgrp.def:adelic-component-place}{0}{81fa68c4}{the prime $p$}
+\begin{tffidelity}
+B-only. $g\mapsto g_p$ on $G(\A)$, the composite of \cref{I.topgrp.def:adelic-component-fin} and \cref{I.topgrp.def:finite-adelic-component-place}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the finite part $K_f$]
+\tfstmt{I.topgrp.def:max-compact-fin-adelic}
+\bonly
+\lean{GL2TF.maxCompactFin}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:max-compact-local, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:finite-adelic-component-place}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:max-compact-fin-adelic}
+\tfsem{I.topgrp.def:max-compact-fin-adelic}{6e8daea5dfa7671c28dfc10b4980849487e846de5f8162fdc154db8ae7f18e10}
+\tfhyps{I.topgrp.def:max-compact-fin-adelic}{}
+\begin{tffidelity}
+B-only. $K_f=\bigcap_p\{k:k_p\in K_p\}$, as an infimum of pre-images of the $K_p$ under \cref{I.topgrp.def:finite-adelic-component-place}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\GL_2(\Zhat)$ inside $G(\Af)$]
+\tfstmt{I.topgrp.def:gl2-zhat}
+\bonly
+\lean{GL2TF.gl2Zhat}
+\uses{I.adele.def:zhat, I.topgrp.def:gl2-adelic, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:gl2-zhat}
+\tfsem{I.topgrp.def:gl2-zhat}{d719b846b9a8a80ba3cd326905608db112d9d4ead79c25d73b64ed04096f710e}
+\tfhyps{I.topgrp.def:gl2-zhat}{}
+\begin{tffidelity}
+B-only. The monoid homomorphism \texttt{GL (Fin 2) Zhat →* GL (Fin 2) FinAdele}, the map \texttt{gl2Map} of the inclusion $\Zhat\subseteq\Af$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$G(\Af)\to\prod'_p(\GL_2(\Qp),K_p)$]
+\tfstmt{I.topgrp.def:gl2-fin-to-restricted-product}
+\bonly
+\lean{GL2TF.gl2FinToResProd}
+\uses{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.topgrp.def:finite-adelic-component-place}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:gl2-fin-to-restricted-product}
+\tfsem{I.topgrp.def:gl2-fin-to-restricted-product}{ba3209da11f90b1b6777a410c0cc432f07c72d0aa6a43f2a2a1c8bd443c1efe1}
+\tfhyps{I.topgrp.def:gl2-fin-to-restricted-product}{}
+\tfbinder{I.topgrp.def:gl2-fin-to-restricted-product}{0}{10e6582c}{the element $g\in G(\Af)$}
+\begin{tffidelity}
+B-only. $g\mapsto(g_p)_p$ with values in Mathlib's restricted product $\prod'_p(\GL_2(\Qp),K_p)$; the finiteness condition is \cref{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[components of a finite adelic matrix]
+\tfstmt{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\bonly
+\lean{GL2TF.gl2Fin_eventually_mem}
+\uses{I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-fin-adelic, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\tfsem{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}{757b6d9c1c14f9c9cf36f131fb9e99b2031f42cfe92b3c7ac89e5ef5669db15c}
+\tfhyps{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}{}
+\tfbinder{I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}{0}{10e6582c}{the element $g\in G(\Af)$}
+\begin{tffidelity}
+B-only. For $g\in G(\Af)$: \texttt{∀ᶠ p in cofinite, compFinPlace p g ∈ 𝐊[ℚ\_[p]]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Each entry of $g$ and of $g^{-1}$ is a finite adele, hence lies in $\Z_p$ for almost all $p$; as there are finitely many ($8$) entries, for almost all $p$ all of them lie in $\Z_p$ (\texttt{Filter.eventually\_all}). For such $p$ the characterization of $K_p$ by integral entries of $g_p$ and $g_p^{-1}$ (\cref{I.conv.lem:max-compact-local-mem}, via \texttt{mem\_maxCompact\_tfae}; $\Z_p=\mathcal O_{\Q_p}$ by \texttt{padic\_mem\_integer\_iff}) gives $g_p\in K_p$.
+\end{proof}
+
+\begin{lemma}[$G(\A)$ is locally compact]
+\tfstmt{I.topgrp.lem:gl2-adelic-locally-compact-instance}
+\bonly
+\lean{GL2TF.gl2Adele_locallyCompactSpace}
+\uses{I.topgrp.thm:gl2-adelic-locally-compact, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:gl2-adelic-locally-compact-instance}
+\tfsem{I.topgrp.lem:gl2-adelic-locally-compact-instance}{7c3567e64eb640d02e379fe0b9d522444e0cf3eaa53a3395ae53520363213210}
+\tfhyps{I.topgrp.lem:gl2-adelic-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace (GL (Fin 2) Adele)}, the first component of \cref{I.topgrp.thm:gl2-adelic-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first clause of \cref{I.topgrp.thm:gl2-adelic-locally-compact} (the $G(\A)$ part), exposed as an instance.
+\end{proof}
+
+\begin{lemma}[$G(\Af)$ is locally compact]
+\tfstmt{I.topgrp.lem:gl2-fin-adelic-locally-compact-instance}
+\bonly
+\lean{GL2TF.gl2FinAdele_locallyCompactSpace}
+\uses{I.topgrp.thm:gl2-adelic-locally-compact, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:gl2-fin-adelic-locally-compact-instance}
+\tfsem{I.topgrp.lem:gl2-fin-adelic-locally-compact-instance}{0902bfcf1b397121006d19b7cbe457ec18588942c7a4fcaaffc4ca27a1f3b024}
+\tfhyps{I.topgrp.lem:gl2-fin-adelic-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace (GL (Fin 2) FinAdele)}, the locally compact component for $G(\Af)$ in \cref{I.topgrp.thm:gl2-adelic-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The second clause of \cref{I.topgrp.thm:gl2-adelic-locally-compact} (the $G(\A_f)$ part), exposed as an instance.
+\end{proof}
+
+\section{\texorpdfstring{$G(\A)^1$ and $A_G^+$}{G(𝔸)¹ and AG⁺}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{definition}[$G(\A)^1$]
+\tfstmt{I.topgrp.def:norm-one-group}
+\lean{GL2TF.normOneGroup}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:norm-one-group}
+\tfsem{I.topgrp.def:norm-one-group}{975659509e74b819ef535e7b8694562f9bdf39d92f8aa7946d75715c4443ccd2}
+\tfhyps{I.topgrp.def:norm-one-group}{}
+\begin{tffidelity}
+$G(\A)^1$ is the kernel of the homomorphism $\abs{\det(\cdot)}_\A=\texttt{ideleNorm}\circ\det$ on \texttt{GL (Fin 2) Adele}, a \texttt{Subgroup}. That it is closed and normal is the B-only \cref{I.topgrp.lem:norm-one-group-closed-normal}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\AGplus$]
+\tfstmt{I.topgrp.def:central-split-component}
+\lean{GL2TF.splitComponent}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:central-element}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:central-split-component}
+\tfsem{I.topgrp.def:central-split-component}{9b83fffffaaf27fe7f24640faa934b59e1e53202907c42801371c10f7fbb0bc8}
+\tfhyps{I.topgrp.def:central-split-component}{}
+\begin{tffidelity}
+The tagged declaration is $\AGplus$ (\texttt{splitComponent}), the image of the subgroup $\R_{>0}$ of $\R^\times$ under the homomorphism $a$ (the B-only \cref{I.topgrp.def:central-element}, defined for all $r\in\R^\times$). The properties listed in the snippet are the B-only \cref{I.topgrp.lem:central-split-component}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$G(\A)=\AGplus\times G(\A)^1$]
+\tfstmt{I.topgrp.thm:norm-one-splitting}
+\lean{GL2TF.norm_one_splitting}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:central-split-component, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.topgrp.def:central-element, I.topgrp.def:gl2-adelic, I.adele.def:idele-inf-fin, I.adele.def:idele-norm-fun, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.adele.thm:product-formula, I.conv.def:diag-element, I.conv.def:gl2, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.lem:central-split-component}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:norm-one-splitting}
+\tfsem{I.topgrp.thm:norm-one-splitting}{8ab343821b8af5805312197b6a51dcf4a1cb205e24d12162c4012c23127b37bd}
+\tfhyps{I.topgrp.thm:norm-one-splitting}{}
+\begin{tffidelity}
+Existence of a continuous group isomorphism $e$ with $e(a,g)=a\cdot g$, together with the explicit inverse: for every $g$ and every unit $r\in\R^\times$ with $r=\abs{\det g}_\A^{1/2}$ (the positive square root of the idele norm), the components of $e^{-1}(g)$ are $a(r)$ and $a(r)^{-1}g$. The final clause is $G(\Q)\le G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Helpers: $a(r)$ is central and continuous, $\det a(r)=r^2$ so $|\det a(r)|_\A=r^2$ (\texttt{det\_centralElt}, \texttt{ideleNorm\_det\_centralElt}), $a$ is injective, and $g\mapsto\sqrt{|\det g|_\A}$ is continuous with positive values (\texttt{sqrtNormDet}). Put $\sigma(g)=a(\sqrt{|\det g|})$. Then $\sigma(g)^{-1}g\in G(\A)^1$ (\texttt{hrest}, since $|\det g|_\A\neq 0$), and $E(a,g)=ag$ is a homomorphism because $A_G^+$ is central (\texttt{hcomm}). $E$ and $g\mapsto(\sigma(g),\sigma(g)^{-1}g)$ are inverse: for $E(a(r),g_1)=a(r)g_1$ with $|\det g_1|=1$ the square root of its norm is $r$ (\texttt{hleft}). Both directions are continuous (products of continuous maps); the explicit formula for the inverse is by construction. $G(\Q)\subseteq G(\A)^1$: for $\gamma\in G(\Q)$, $\det\gamma$ is the idele $\mathrm{ratIdele}(\det\gamma)$ and has norm $1$ by the product formula (\cref{I.adele.thm:product-formula}).
+\end{proof}
+
+\begin{definition}[the central element $a(r)$]
+\tfstmt{I.topgrp.def:central-element}
+\bonly
+\lean{GL2TF.centralElt}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:central-element}
+\tfsem{I.topgrp.def:central-element}{81ad61451cdf266947dc3b3843cf58f14fcbca7123b25fbb38a6a41acd8935f9}
+\tfhyps{I.topgrp.def:central-element}{}
+\begin{tffidelity}
+B-only. $a\colon\R^\times\to G(\A)$ is a monoid homomorphism, the map induced on units by $r\mapsto$ the scalar matrix of the adele $(r,1)\in\A$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[properties of $A_G^+$]
+\tfstmt{I.topgrp.lem:central-split-component}
+\bonly
+\lean{GL2TF.splitComponent_spec}
+\uses{I.topgrp.def:central-split-component, I.topgrp.def:central-element, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:central-split-component}
+\tfsem{I.topgrp.lem:central-split-component}{757672ac952d982ea7711b481969052c00cbbacea04f952bc7e4e9fd90e2a849}
+\tfhyps{I.topgrp.lem:central-split-component}{}
+\begin{tffidelity}
+B-only. Three claims of \cref{I.topgrp.def:central-split-component}: $a(r)_\infty=\diag(r,r)$ and $a(r)_f=1$ for $r\in\R^\times$; $\AGplus\le$ the centre of $G(\A)$; and a continuous group isomorphism $\R_{>0}\to\AGplus$ extending $r\mapsto a(r)$. Here $\R_{>0}$ is \texttt{Units.posSubgroup ℝ}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Components of $a(r)$: entrywise (\texttt{fin\_cases}), $\mathrm{diag}(r,r)$ at $\infty$ and $1$ at the finite places. Centrality: $a(r)$ is a scalar matrix (\texttt{centralElt\_mem\_center}). The isomorphism $\R_{>0}\to A_G^+$ is $r\mapsto a(r)$: a homomorphism onto $A_G^+$ by definition, injective by \texttt{centralElt\_injective}, hence bijective (\texttt{MulEquiv.ofBijective}); it is continuous, and its inverse is $g\mapsto\sqrt{|\det g|_\A}$ (\texttt{hinv}, as $|\det a(r)|_\A=r^2$), which is continuous (\texttt{continuous\_sqrtNormDet}).
+\end{proof}
+
+\begin{lemma}[$G(\A)^1$ is closed and normal]
+\tfstmt{I.topgrp.lem:norm-one-group-closed-normal}
+\bonly
+\lean{GL2TF.normOneGroup_closed_normal}
+\uses{I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:norm-one-group-closed-normal}
+\tfsem{I.topgrp.lem:norm-one-group-closed-normal}{8c7b51b62806abc9213cf02566682e1363b666cb1f4a5687ecc39bf8bdbae471}
+\tfhyps{I.topgrp.lem:norm-one-group-closed-normal}{}
+\begin{tffidelity}
+B-only. \texttt{IsClosed} and \texttt{Normal} for $G(\A)^1$; the claims of \cref{I.topgrp.def:norm-one-group}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is the kernel of the homomorphism $\mathrm{ideleNorm}\circ\det\colon G(\A)\to\R$ (here $\R$ as multiplicative group), hence normal (\texttt{MonoidHom.normal\_ker}); closed because it is the preimage of the point $1$ under a continuous map (\cref{I.adele.lem:idele-norm-spec} and continuity of $\det$).
+\end{proof}
+
+\section{Strong approximation}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+
+\begin{definition}[congruence subgroups]
+\tfstmt{I.topgrp.def:congruence-subgroups}
+\lean{GL2TF.congruenceK0}
+\uses{I.topgrp.def:max-compact-adelic, I.adele.def:zhat, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:congruence-subgroups}
+\tfsem{I.topgrp.def:congruence-subgroups}{33400493e199275c965909864312c9625b6adb6284c71e02df0048d215df2db4}
+\tfhyps{I.topgrp.def:congruence-subgroups}{}
+\tfbinder{I.topgrp.def:congruence-subgroups}{0}{52ee410f}{the natural number $N$}
+\begin{tffidelity}
+The tagged declaration is $K_0(N)$ (\texttt{congruenceK0 N}, $N\in\N$), defined as the image under $\GL_2(\Zhat)\to G(\Af)$ of the pre-image of $B(\Zhat/N\Zhat)$ under the reduction \cref{I.topgrp.def:gl2-zhat-reduction}. The groups $K_1(N)$ and $K_f(N)$ are the B-only \cref{I.topgrp.def:congruence-k1} and \cref{I.topgrp.def:congruence-kf}, and the entry descriptions and the inclusions are the B-only \cref{I.topgrp.lem:congruence-subgroups-explicit} (for $N\ge1$). This differs from the snippet, which defines all three groups by conditions on matrix entries of $K_f$; Lean defines them via reduction mod $N$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$\SL_2(\Z)\to\SL_2(\Z/N)$ is surjective]
+\tfstmt{I.topgrp.thm:sl2-reduction-surjective}
+\lean{GL2TF.sl2_reduction_surjective}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:sl2-reduction-surjective}
+\tfsem{I.topgrp.thm:sl2-reduction-surjective}{15c0c9e19c7cba7750ee6d3eb13e1cf3cf6c2e26f0044c4d531dd0bc3ae78dcd}
+\tfhyps{I.topgrp.thm:sl2-reduction-surjective}{}
+\tfbinder{I.topgrp.thm:sl2-reduction-surjective}{0}{52ee410f}{the natural number $N$}
+\tfbinder{I.topgrp.thm:sl2-reduction-surjective}{1}{9e3edbd7}{the assumption $N\ge1$ (A: $N\ge1$)}
+\begin{tffidelity}
+For $N\ge1$ (hypothesis \texttt{1 ≤ N}) the map \texttt{Matrix.SpecialLinearGroup.map (Int.castRingHom (ZMod N))} is surjective. Same content as A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Lift the four entries of $g\in\mathrm{SL}_2(\Z/N)$ to integers $a,b,c,d$ (\texttt{ZMod.cast}), so $ad-bc\equiv1\pmod N$. Step 1 (\texttt{exists\_coprime\_lift}): $(c,d)$ is lifted to a coprime pair $(c',d')\equiv(c,d)\pmod N$, after first replacing $c=0$ by $N$ and then adjusting; a prime dividing both $c$ and $d$ divides $ad-bc\equiv1$, so does not divide $N$. Step 2: since $\gcd(c',d')=1$ there are $u,v$ with $uc'+vd'=1$ (B\'ezout). Writing $ad'-bc'=1+Nk$, put $a'=a-kNv$, $b'=b+kNu$; then $a'd'-b'c'=1$ (\texttt{linear\_combination}) and the matrix $\begin{psmallmatrix}a'&b'\\c'&d'\end{psmallmatrix}\in\mathrm{SL}_2(\Z)$ reduces to $g$ (entrywise, \texttt{fin\_cases}).
+\end{proof}
+
+\begin{theorem}[strong approximation for $\SL_2$]
+\tfstmt{I.topgrp.thm:sl2-strong-approximation}
+\lean{GL2TF.sl2_strong_approximation}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.adele.def:zhat, I.adele.def:zhat-reduction, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:zhat-compact-instance, I.adele.lem:zhat-reduction-spec, I.conv.def:opposite-unipotent-elt, I.conv.def:opposite-unipotent-hom, I.conv.lem:opposite-unipotent-elt-hom, I.conv.lem:opposite-unipotent-elt-inv, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:sl2-strong-approximation}
+\tfsem{I.topgrp.thm:sl2-strong-approximation}{885af6984a8f755028223a3a69ab456f739f105d9b2925ab140c2d7a0e294b6b}
+\tfhyps{I.topgrp.thm:sl2-strong-approximation}{}
+\begin{tffidelity}
+The group $\SL_2(\Af)$ is the kernel of $\det$ on $G(\Af)$ with its subspace topology; $\SL_2(\Q)$ is the image of $\{\gamma:\det\gamma=1\}\subseteq\GL_2(\Q)$ under \texttt{gl2Map (algebraMap ℚ FinAdele)}, pulled back to this kernel. The statement is \texttt{Dense}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs from A (divergence note, \texttt{sl2-strong-approximation}); \cref{I.topgrp.thm:sl2-reduction-surjective} is not used. (i) $\Q$ is dense in $\A_f$ (\texttt{dense\_rat\_finAdele}): for $x\in\A_f$ and a neighbourhood $U$, pull back $U-x$ to a neighbourhood of $0$ in $\hat\Z$, which contains $N\hat\Z$ for some $N$ (compactness, \texttt{zhat\_exists\_dvd\_subset}); by $\A_f=\Q+\hat\Z$ write $x=q_0+z$ with $z\in\hat\Z$, and by the reduction $\hat\Z\to\Z/N$ (\cref{I.adele.lem:zhat-reduction-spec}) $z\equiv m\in\Z\pmod{N\hat\Z}$; then $q_0+m\in U$. (ii) Let $\Gamma$ be the image of $\mathrm{SL}_2(\Q)$ and $H$ its closure, a closed subgroup of $G(\A_f)$ (\texttt{Subgroup.topologicalClosure}). For the continuous maps $x\mapsto n(x)$ and $x\mapsto\bar n(x)$, $\A_f\to G(\A_f)$ (\texttt{continuous\_upperRightHom}, \texttt{continuous\_oppositeUnipotentHom}) the preimage of $H$ is closed and contains the dense set $\Q$, so $n(x),\bar n(x)\in H$ for all $x\in\A_f$ (\texttt{hel}). (iii) Let $g\in\mathrm{SL}_2(\A_f)$, $\det g=1$. Choose $t\in\A_f$ such that $u=g_{10}+tg_{00}$ is a unit of $\A_f$ (\texttt{exists\_lower\_left\_unit}): componentwise $t_p=0$ if $g_{10}\ne0$ and $|g_{00}|_p\le|g_{10}|_p$, and $t_p=1$ otherwise (\texttt{local\_lower\_left\_choice}), which makes $|u_p|\ge$ the maximum of the norms and equal to $1$ when all entries are integral, using $ad-bc=1$ and the ultrametric inequality; this is a finite adele since $t_p\in\Z_p$. Then the matrix identity $\bar n(t)g=n\bigl((g_{00}-1)u^{-1}\bigr)\bar n(u)\,n\bigl((g_{11}+tg_{01}-1)u^{-1}\bigr)$ holds (\texttt{lower\_left\_decomp\_mat}, \texttt{linear\_combination}), so $g=\bar n(t)^{-1}n(\cdot)\bar n(u)n(\cdot)\in H$. Hence $H\supseteq\mathrm{SL}_2(\A_f)$ and $\Gamma$ is dense in the subspace topology.
+\end{proof}
+
+\begin{theorem}[strong approximation for $\GL_2$]
+\tfstmt{I.topgrp.thm:strong-approximation}
+\lean{GL2TF.strong_approximation}
+\uses{I.topgrp.def:fin-embedding, I.topgrp.def:inf-embedding, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:max-compact-fin-adelic, I.adele.def:idele-inf-fin, I.adele.def:ideles, I.adele.def:rat-ideles-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.topgrp.thm:sl2-strong-approximation, I.topgrp.def:gl2-product-equiv}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:strong-approximation}
+\tfsem{I.topgrp.thm:strong-approximation}{b00c3698842ff579efa894bd97156f19de0b9e916f9ebda707edbef06a9a9ef5}
+\tfhyps{I.topgrp.thm:strong-approximation}{}
+\tfbinder{I.topgrp.thm:strong-approximation}{0}{1c1d1c2d}{the subgroup $K'\le G(\Af)$}
+\tfbinder{I.topgrp.thm:strong-approximation}{1}{8700a51e}{the assumption $K'\le K_f$ (A: $K'\subseteq K_f$)}
+\tfbinder{I.topgrp.thm:strong-approximation}{2}{0aa0f26f}{the assumption that $K'$ is open (A: ``open'')}
+\tfbinder{I.topgrp.thm:strong-approximation}{3}{7238c874}{the assumption $\det K'=\Zhat^\times$ (A: $\det(K')=\Zhat^\times$)}
+\tfbinder{I.topgrp.thm:strong-approximation}{4}{e4851625}{the element $g\in G(\A)$}
+\begin{tffidelity}
+$K'\le K_f$ is a \texttt{Subgroup} of \texttt{GL (Fin 2) FinAdele} with hypotheses $K'\le K_f$, \texttt{IsOpen} and $\det K'=\Zhat^\times$ (as the image of the units of $\Zhat$). The conclusion is for every $g\in G(\A)$ the existence of $\gamma\in\GL_2(\Q)$ and $h,k\in G(\A)$ with $h_\infty\in\GL_2^+(\R)$, $h_f=1$, $k_\infty=1$, $k_f\in K'$ and $g=\gamma hk$; that is, $G(\R)^+$ and $K'$ are not elements of the type but conditions on the components of $h$ and $k\in G(\A)$, which is the same as viewing them in $G(\A)$ as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Reduction to a claim (\texttt{strong\_approx\_claim}). By \cref{I.adele.thm:idele-decomposition} write $\det g=q\cdot(r,u)$ with $q\in\Q^\times$, $r>0$, $u\in\hat\Z^\times$. The hypothesis $\det K'=\hat\Z^\times$ gives $\delta\in K'$ with $\det\delta=u$. \emph{Claim:} for every open subgroup $K'$ and every $\delta\in G(\A_f)$ with $\det\delta=u$ there are $\gamma\in G(\Q)$, $a\in\GL_2(\R)^+$, $k\in K'$ with $g=\gamma\,a\,(\delta k)$ (embedded at $\infty$, resp.\ at the finite places). Proof: put $\gamma_0=\mathrm{diag}(q,1)$ and $g_1=\gamma_0^{-1}g$, so $\det g_1=(r,u)$. The element $s=g_{1,f}\delta^{-1}$ has determinant $1$, and $s$ lies in the open set $W=\{y:g_{1,f}^{-1}y\,\delta\in K'\}$ (it is sent to $1\in K'$). By \cref{I.topgrp.thm:sl2-strong-approximation} the set $W$ contains the image of some $\gamma_1\in\mathrm{SL}_2(\Q)$. Take $\gamma=\gamma_0\gamma_1$, $a=\gamma_1^{-1}g_{1,\infty}$ (determinant $r>0$) and $k=k_1^{-1}$, where $k_1=g_{1,f}^{-1}\gamma_1\delta\in K'$. The identity $g=\gamma\,a\,\delta k$ is checked separately at the infinite and the finite component (\texttt{gl\_adele\_ext}, \texttt{group}). The theorem follows with $h=a$ at $\infty$ and $\delta k$ at the finite places.
+\end{proof}
+
+\begin{theorem}[double cosets and the determinant]
+\tfstmt{I.topgrp.thm:double-coset-det}
+\lean{GL2TF.double_coset_det}
+\uses{I.topgrp.def:fin-embedding, I.topgrp.def:inf-embedding, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.adele.thm:idele-decomposition, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:max-compact-fin-adelic, I.adele.def:idele-inf-fin, I.adele.def:rat-ideles-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.conv.def:diag-hom, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-zhat, I.topgrp.thm:sl2-strong-approximation, I.topgrp.def:gl2-product-equiv}
+\end{theorem}
+\begin{tfformal}{I.topgrp.thm:double-coset-det}
+\tfsem{I.topgrp.thm:double-coset-det}{50ef9ca3041528d5f43de6deed185b765e40313ea7aff7decf464d4177ea51bd}
+\tfhyps{I.topgrp.thm:double-coset-det}{}
+\tfbinder{I.topgrp.thm:double-coset-det}{0}{1c1d1c2d}{the subgroup $K'\le G(\Af)$}
+\tfbinder{I.topgrp.thm:double-coset-det}{1}{8700a51e}{the assumption $K'\le K_f$ (A: $K'\subseteq K_f$)}
+\tfbinder{I.topgrp.thm:double-coset-det}{2}{0aa0f26f}{the assumption that $K'$ is open (A: ``open'')}
+\tfbinder{I.topgrp.thm:double-coset-det}{3}{27b432bc}{the group isomorphism $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$}
+\tfbinder{I.topgrp.thm:double-coset-det}{4}{4bb0ebee}{the assumption that $e(q,r,u)=q\cdot(r,u)$ for all $q,r,u$ (this determines $e$) (A: the isomorphism $e$ of the snippet, fixed by its formula)}
+\begin{tffidelity}
+The isomorphism $e\colon\Q^\times\times\R_{>0}\times\Zhat^\times\to\A^\times$ of \cref{I.adele.thm:idele-decomposition} is an argument together with its defining formula $e(q,r,u)=q\cdot(r,u)$, which determines it. The subgroup $\det(K')\le\Zhat^\times$ is the pre-image, under $\Zhat^\times\to\Af^\times$, of the image of $K'$ under $\det$. The bijection of the snippet is stated in three clauses: $\det(K')$ is open; the map $g\mapsto u(\det g)\det(K')$ from $G(\A)$ to the quotient group $\Zhat^\times/\det(K')$ is surjective; and two elements $g,g'$ have the same image if and only if $g'=\gamma g h k$ with $\gamma\in\GL_2(\Q)$ and $h,k\in G(\A)$ such that $h_\infty\in\GL_2^+(\R)$, $h_f=1$, $k_\infty=1$, $k_f\in K'$ (the groups $G(\R)^+$ and $K'$ embedded in $G(\A)$ as in \cref{I.topgrp.thm:strong-approximation}). The double coset space $G(\Q)\backslash G(\A)/G(\R)^+K'$ itself is not formed; surjectivity and the fibre statement together say that the map induces a bijection from it. In the Lean statement $e$ is only a multiplicative isomorphism (\texttt{≃*}), not assumed to be an isomorphism of topological groups as in \cref{I.adele.thm:idele-decomposition}; its defining formula determines it, so the hypothesis is weaker than in A but admits the same $e$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs from A in the openness argument (divergence note, \texttt{double-coset-det}). Notation: $\iota\colon\hat\Z^\times\to\A_f^\times$, $D=\iota^{-1}(\det K')$, $U$ the $\hat\Z^\times$-component of the decomposition $e$ (a homomorphism); $U(q\cdot(r,u))=u$ (\texttt{hUe}), so $U$ kills $\Q^\times$ and $\R_{>0}$. Openness: $u\mapsto\mathrm{diag}(u,1)$ is a continuous homomorphism $\hat\Z^\times\to K_f$, the preimage of the open $K'$ is an open subgroup, contained in $D$ since $\det\mathrm{diag}(u,1)=u$; a subgroup containing an open subgroup is open (\texttt{Subgroup.isOpen\_mono}). Surjectivity: a class $[v]$ is the image of $g=(1,\mathrm{diag}(v,1))$, as $U(\det g)=v$ (\texttt{hdetfin}). ``$\Leftarrow$'' of the equivalence: for $g'=\gamma g h k$ with $h\in G(\R)^+$ at $\infty$, $k\in K'$ at the finite places, $U(\det g')=U(\det g)\cdot w$ where $\iota(w)=\det k_f\in\det K'$ (\texttt{hdh}, \texttt{hdk}, \texttt{hd\gamma}: $\det\gamma$ is a rational idele and $\det h$ lies in $\R_{>0}$), so the classes agree. ``$\Rightarrow$'': the equality of classes gives $k_0\in K'$ with $\det k_0\in\iota(U(\det g)^{-1}U(\det g'))$. Write $\det g=q(r,u)$, $\det g'=q'(r',u'')$ (\texttt{exists\_ratIdele\_mul\_ideleInfFin}). Apply the claim of \cref{I.topgrp.thm:strong-approximation} (\texttt{strong\_approx\_claim}) to $g'$ with $\delta'=\mathrm{diag}(u'',1)$ and to $g$ with $\delta=\mathrm{diag}(u'',1)k_0^{-1}$ (its determinant is $\iota(u)$ by the choice of $k_0$): $g'=\gamma'a'\delta'k'$ and $g=\gamma a\delta k$. Eliminating the common factor $\delta'$, $g'=(\gamma'\gamma^{-1})\,g\,(a^{-1}a')\,\bigl((k_0^{-1}k)^{-1}k'\bigr)$, where $a^{-1}a'\in\GL_2(\R)^+$ sits at $\infty$ and $(k_0^{-1}k)^{-1}k'\in K'$ at the finite places; they commute with each other and the identity is checked at each component (\texttt{gl\_adele\_ext}).
+\end{proof}
+
+
+\begin{definition}[reduction $\GL_2(\Zhat)\to\GL_2(\Zhat/N\Zhat)$]
+\tfstmt{I.topgrp.def:gl2-zhat-reduction}
+\bonly
+\lean{GL2TF.gl2ZhatRed}
+\uses{I.adele.def:zhat, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:gl2-zhat-reduction}
+\tfsem{I.topgrp.def:gl2-zhat-reduction}{82379f4534bc925cef5f6322bbea8ada655855671c11a5bc9239a4541bf7735d}
+\tfhyps{I.topgrp.def:gl2-zhat-reduction}{}
+\tfbinder{I.topgrp.def:gl2-zhat-reduction}{0}{52ee410f}{the natural number $N$}
+\begin{tffidelity}
+B-only. Reduction $\GL_2(\Zhat)\to\GL_2(\Zhat/N\Zhat)$ for $N\in\N$, as \texttt{gl2Map} of the quotient map onto \texttt{Zhat ⧸ Ideal.span \{N\}}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the group $K_1(N)$]
+\tfstmt{I.topgrp.def:congruence-k1}
+\bonly
+\lean{GL2TF.congruenceK1}
+\uses{I.topgrp.def:congruence-subgroups, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction, I.topgrp.def:mirabolic}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:congruence-k1}
+\tfsem{I.topgrp.def:congruence-k1}{e2f232f310238dccc2fa402d63c3311dc5997f477334507e3d131905419d9773}
+\tfhyps{I.topgrp.def:congruence-k1}{}
+\tfbinder{I.topgrp.def:congruence-k1}{0}{52ee410f}{the natural number $N$}
+\begin{tffidelity}
+B-only. The image under $\GL_2(\Zhat)\to G(\Af)$ of the pre-image of the mirabolic subgroup (\cref{I.topgrp.def:mirabolic}) under the reduction mod $N$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the group $K_f(N)$]
+\tfstmt{I.topgrp.def:congruence-kf}
+\bonly
+\lean{GL2TF.congruenceKf}
+\uses{I.topgrp.def:congruence-subgroups, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction}
+\end{definition}
+\begin{tfformal}{I.topgrp.def:congruence-kf}
+\tfsem{I.topgrp.def:congruence-kf}{cad67f041b8dae0d862df2711ee05f0bfad47802cb73d15d62f402a5d09d2685}
+\tfhyps{I.topgrp.def:congruence-kf}{}
+\tfbinder{I.topgrp.def:congruence-kf}{0}{52ee410f}{the natural number $N$}
+\begin{tffidelity}
+B-only. The image under $\GL_2(\Zhat)\to G(\Af)$ of the kernel of the reduction mod $N$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[explicit description of the congruence subgroups]
+\tfstmt{I.topgrp.lem:congruence-subgroups-explicit}
+\bonly
+\lean{GL2TF.congruence_explicit}
+\uses{I.topgrp.def:congruence-subgroups, I.topgrp.def:congruence-k1, I.topgrp.def:congruence-kf, I.topgrp.def:max-compact-fin-adelic, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-zhat, I.topgrp.def:gl2-zhat-reduction, I.topgrp.def:mirabolic}
+\end{lemma}
+\begin{tfformal}{I.topgrp.lem:congruence-subgroups-explicit}
+\tfsem{I.topgrp.lem:congruence-subgroups-explicit}{9baa40e8ad44628789ce49e1ecbd61ff35c5e0c46ce8fa313edf4d50265a0ee2}
+\tfhyps{I.topgrp.lem:congruence-subgroups-explicit}{}
+\tfbinder{I.topgrp.lem:congruence-subgroups-explicit}{0}{52ee410f}{the natural number $N$}
+\tfbinder{I.topgrp.lem:congruence-subgroups-explicit}{1}{9e3edbd7}{the assumption $N\ge1$}
+\begin{tffidelity}
+B-only. For $N\ge1$ the three descriptions by matrix entries of $K_0(N)$, $K_1(N)$, $K_f(N)$ (entries in $\Zhat$, written as ``there is $z\in\Zhat$ with entry $=N\cdot z$'') and the chain $K_f(N)\le K_1(N)\le K_0(N)\le K_f$. Claims of \cref{I.topgrp.def:congruence-subgroups}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Each of $K_0(N)$, $K_1(N)$, $K_f(N)$ is defined as the image under $\GL_2(\hat\Z)\to G(\A_f)$ (injective, \texttt{gl2Zhat\_injective}) of the preimage under the reduction $\GL_2(\hat\Z)\to\GL_2(\hat\Z/N\hat\Z)$ of $B$, of the mirabolic subgroup, resp.\ of $1$. The image of $\GL_2(\hat\Z)$ is $K_f$ (\texttt{mem\_maxCompactFin\_iff\_gl2Zhat}: integral entries of $k$ and $k^{-1}$ give the two matrices over $\hat\Z$ inverse to each other). Two elements of $\hat\Z$ have the same class mod $N\hat\Z$ iff their difference is $Nz$ with $z\in\hat\Z$ (\texttt{quot\_mk\_eq\_iff}), which turns membership in the three preimages into the stated entry conditions. The chain $K_f(N)\le K_1(N)\le K_0(N)\le K_f$ follows from the explicit descriptions (the $(1,0)$ and $(1,1)$ entries of $k-1$ are divisible by $N$).
+\end{proof}

@@ -1,0 +1,10 @@
+For $D,k,n\in\N$, $c\in\Q$ and a function $F\colon\Z\times\N\times\Z\to\Q$ the \emph{general Eichler expression} is
+\[
+\begin{aligned}
+  \EichB_{\mathrm{gen}}(D,k,n;c,F)={}&C(k,n)\prod_{p\mid D}(p-1)\cdot c\\
+  &+\sum_{\substack{t\in\Z\\ t^2<4n}}P_k(t,n)\sum_{f\in\Ford(t,n)}\frac{h(\Delta_f)}{\wnum(\Delta_f)}\prod_{p\mid D}\mD_p(\Delta_f)\cdot F(t,f,\Delta_f)\in\Q,
+\end{aligned}
+\]
+where $\Delta_f=(t^2-4n)/f^2$, the products run over the primes dividing $D$ (empty if $D=0$), $C(k,n)$ is as in
+\cref{III.ef.def:lefschetz-es-expression-general}, and $P_k$, $\Ford$, $h$, $\wnum$, $\mD_p$ are as in
+\cref{III.ef.def:hecke-polynomial,III.ef.def:order-index-set,III.ef.def:class-number-forms,III.ef.def:unit-number,III.ef.def:local-factor-ramified}.

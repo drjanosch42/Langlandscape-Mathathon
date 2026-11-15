@@ -1,0 +1,490 @@
+%% gl2tf.sty -- shared style for document A (readable) and document B (back-translation).
+%% Fork copy for algebraic_jl/ (from tex/shared/gl2tf.sty @ 84818d0; edits listed in algebraic_jl/latex/EDITS.md).
+%%
+%% ======================================================================================
+%% MACRO CONTRACT (agreed with tools/tex_extract.py, tools/status.py, tools/tfcheck.py;
+%% keep in sync with docs/notes/M0-latex.md). Engine: LuaLaTeX + biber (tools/texbuild.sh).
+%%
+%% Edition switch (document level ONLY; never inside tex/items/):
+%%   \usepackage[A]{gl2tf}   or   \usepackage[B]{gl2tf}
+%%   Internally \iftfB ... \fi; \tfedition expands to A or B.
+%%
+%% Items (A and B):
+%%   \begin{<env>}[<optional title>] \tfstmt{<ID>} ... \end{<env>}
+%%     <ID> = <vol>.<area>.<kind>:<slug>, vol in {I,II,III,X},
+%%     kind in {def,thm,prop,lem,cor,hyp,ex}; env must match kind:
+%%       def->definition thm->theorem prop->proposition lem->lemma
+%%       cor->corollary hyp->hypothesis ex->example        (mismatch = LaTeX error)
+%%     Inside the env only: \tfstmt \label \lean \uses \bonly \notready \tfsem \tfhyps
+%%     \tfbinder and the nested envs tfformal, tffidelity (any other text = tfcheck error).
+%%     \tfstmt emits \label{<ID>}, a named PDF destination "tf:<ID>", inputs the
+%%     snippet tex/items/<vol>/<area>/<kind>--<slug>.tex (missing file = error),
+%%     and then
+%%       A: a margin marker (filled square = done, half = done-conditional,
+%%          empty = otherwise) with an "in B" link;
+%%       B: \leanok if generated status says axiom-clean, and the status line;
+%%       both: "[conditional on H...]" if the generated status line contains
+%%          conditional{...}.
+%%     Each ID may be typeset by \tfstmt at most once per document (error otherwise).
+%%   \tfstmttext{<ID>}   inputs the snippet text only (no label, no status). Used ONLY
+%%     in tex/shared/hypotheses.tex; it is a reference, not an item occurrence.
+%%   \bonly              B-only flag; written inside the item's env in B. Error in A.
+%%   \lean{<decl>,...}   Lean declaration name(s) (leanblueprint). B prints; A ignores.
+%%   \uses{<ID>,...}     hand-written dependencies (leanblueprint). B prints; A ignores.
+%%   \notready           leanblueprint marker (hand-writable; B prints a tag).
+%%   \leanok \mathlibok  DEFINED here, but NEVER hand-written (tfcheck check 5): they are
+%%     only emitted by \tfstmt from generated data.
+%%
+%% Outlines (G0; A and B):
+%%   \begin{tfoutline} \tfplanned{<ID>}{<informal description>} ... \end{tfoutline}
+%%     A planned ID is NOT an item: no label, no snippet, ignored by tex_extract.
+%%     When the item is written, the \tfplanned line is replaced by the real env.
+%%
+%% Formal blocks (B only; error in A). Inside or right after the item's env:
+%%   \begin{tfformal}{<ID>}
+%%     \tfsem{<ID>}{<sem_hash, 64 hex>} sem_hash recorded by the B translator (full hash)
+%%     \tfhyps{<ID>}{<H1,H2,...>}      hypothesis set (empty 2nd arg = unconditional)
+%%     \tfbinder{<ID>}{<pos>}{<hash8>}{<phrase or "B-only: reason">}   one per binder
+%%     \begin{tffidelity} ... \end{tffidelity}   fidelity notes
+%%   \end{tfformal}
+%%   \tfsem/\tfhyps/\tfbinder carry the ID, so tex_extract reads them anywhere in B.
+%%   The block prints the generated signature, the body, then recorded vs current
+%%   hash, hypotheses, axioms and the binder table (rows printed at \end{tfformal}).
+%%
+%% Generated files (tex/backtranslation/generated/, written by tools/status.py only;
+%% loaded by both editions at \begin{document} if present). Text arguments are
+%% LaTeX-escaped by the tool (\ { } $ & # ^ _ % ~), newlines as \tfbr{}; IDs and
+%% hashes are raw.
+%%   status.tex     \tfgenstamp{<lean tree hash>}{<tex tree hash>}{<timestamp>}   (first line)
+%%                  \tfsetstatus{<ID>}{<open|done|donecond>}{<axiom-clean: 0|1>}{<line>}
+%%                    line e.g. "done · axiom-clean · conditional\{Dummy\} · audited 2026-10-20"
+%%   signatures.tex \tfsetsignature{<ID>}{<Lean name>}{<sem_hash (64 hex)>}{<pretty type>}
+%%   binders.tex    \tfsetbinder{<ID>}{<pos>}{<binder info>}{<hash8>}{<pretty type>}
+%%   axioms.tex     \tfsetaxioms{<ID>}{<comma list of axioms>}
+%%
+%% Hypothesis registry (tex/shared/hypotheses.tex only):
+%%   \tfhypentry{<ID>}{short=..., lean=..., informal=..., usedby=..., cite=...,
+%%                     why=..., instance=... | waiver=..., instdecl=..., discharge=...}
+%%   instdecl = machine-readable proved instance (Lean decl in GL2TFTests, or its ID; check 16)
+%%   (keyval; brace values that contain commas. tfcheck requires cite, discharge and
+%%   instance or waiver.)
+%%
+%% Cross-document links (A only, preamble):
+%%   \tfsetBpdf{<path of B's PDF relative to A's PDF>}    e.g. ../B/vol1.pdf
+%%   \tfsetBaux{<path of B's .aux without extension>}     optional; B numbers via xr
+%% ======================================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gl2tf}[2026/10/17 v0.1 GL(2) trace formula: A/B editions]
+
+\newif\iftfB
+\DeclareOption{A}{\tfBfalse\def\tfedition{A}}
+\DeclareOption{B}{\tfBtrue\def\tfedition{B}}
+\ExecuteOptions{A}
+\ProcessOptions\relax
+
+%% ---------- packages ----------
+\RequirePackage{iftex}
+\RequireLuaTeX
+\RequirePackage{etoolbox}
+\RequirePackage{amsmath,amssymb,amsthm,mathtools}
+\RequirePackage{mathrsfs}
+\RequirePackage{fontspec}
+\setmainfont{Latin Modern Roman}
+\directlua{
+  luaotfload.add_fallback("tfmonofallback", {
+    "STIX Two Math:mode=harf;",
+    "DejaVu Sans:mode=harf;",
+  })
+}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85,RawFeature={fallback=tfmonofallback}]
+\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage{geometry}
+\geometry{a4paper,margin=2.5cm,marginparwidth=1.8cm,marginparsep=3mm}
+\RequirePackage{enumitem}
+\RequirePackage{booktabs,longtable,tabularx,array}
+\RequirePackage{tikz}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{refcount}
+\RequirePackage{csquotes}
+\RequirePackage[backend=biber,style=alphabetic,maxalphanames=4,maxbibnames=8]{biblatex}
+\RequirePackage{xr-hyper}
+\RequirePackage[colorlinks,linkcolor=MidnightBlue,citecolor=OliveGreen,urlcolor=Maroon]{hyperref}
+\RequirePackage[capitalise,nameinlink]{cleveref}
+
+\colorlet{tfstatus}{Gray}
+\colorlet{tfwarn}{BrickRed}
+\colorlet{tfoutline}{Gray!80!black}
+
+%% ---------- running heads (no uppercase, small) ----------
+\AtBeginDocument{%
+  \renewcommand\chaptermark[1]{\markboth{\footnotesize\ifnum\c@secnumdepth>\m@ne\thechapter.\ \fi #1}{}}%
+  \renewcommand\sectionmark[1]{\markright{\footnotesize\ifnum\c@secnumdepth>\z@\thesection.\ \fi #1}}}
+
+%% ---------- theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\crefname{hypothesis}{Hypothesis}{Hypotheses}
+\crefname{definition}{Definition}{Definitions}
+
+\def\tf@envkind{}
+\def\tf@setenvkind#1#2{\AtBeginEnvironment{#1}{\def\tf@envkind{#2}}%
+  \@namedef{tf@kindenv@#2}{#1}}
+\tf@setenvkind{definition}{def}
+\tf@setenvkind{theorem}{thm}
+\tf@setenvkind{proposition}{prop}
+\tf@setenvkind{lemma}{lem}
+\tf@setenvkind{corollary}{cor}
+\tf@setenvkind{hypothesis}{hyp}
+\tf@setenvkind{example}{ex}
+
+%% ---------- ID parsing ----------
+% \tf@parseid{I.haar.thm:iwasawa-integration} sets \tf@vol \tf@area \tf@kind \tf@slug
+\def\tf@parseid#1{\tf@parseid@a#1..:\@nil}
+\def\tf@parseid@a#1.#2.#3:#4\@nil{%
+  \def\tf@vol{#1}\def\tf@area{#2}\def\tf@kind{#3}\tf@parseid@b#4\@nil}
+\def\tf@parseid@b#1..:#2\@nil{\def\tf@slug{#1}}
+% call after \tf@parseid / \tf@checkid; expandable
+\def\tf@itempath{items/\tf@vol/\tf@area/\tf@kind--\tf@slug.tex}
+
+\def\tf@checkid#1{%
+  \tf@parseid{#1}%
+  \def\tf@ok{0}%
+  \ifdefstring{\tf@vol}{I}{\def\tf@ok{1}}{}%
+  \ifdefstring{\tf@vol}{II}{\def\tf@ok{1}}{}%
+  \ifdefstring{\tf@vol}{III}{\def\tf@ok{1}}{}%
+  \ifdefstring{\tf@vol}{X}{\def\tf@ok{1}}{}%
+  \ifnum\tf@ok=0 \PackageError{gl2tf}{Bad volume in ID `#1'}{Use I, II, III or X.}\fi
+  \ifcsname tf@kindenv@\tf@kind\endcsname\else
+    \PackageError{gl2tf}{Bad kind `\tf@kind' in ID `#1'}{Use def thm prop lem cor hyp ex.}\fi
+  \ifdefempty{\tf@slug}{\PackageError{gl2tf}{Empty slug in ID `#1'}{}}{}%
+}
+
+%% ---------- generated data ----------
+\newcommand\tfsetstatus[4]{%
+  \@namedef{tf@st@state@#1}{#2}\@namedef{tf@st@clean@#1}{#3}\@namedef{tf@st@line@#1}{#4}%
+  \tf@findcond#4conditional\{\}\@nil\expandafter\let\csname tf@st@hyps@#1\endcsname\tf@tmpcond}
+\long\def\tf@findcond#1conditional\{#2\}#3\@nil{\def\tf@tmpcond{#2}}
+\newcommand\tfbr{\newline}
+\newcommand\tfgenstamp[3]{\gdef\tfgenstampline{lean #1 · tex #2 · #3}}
+\def\tfgenstampline{none (placeholder files)}
+\newcommand\tfsetsignature[4]{%
+  \@namedef{tf@sig@name@#1}{#2}\@namedef{tf@sig@hash@#1}{#3}\@namedef{tf@sig@type@#1}{#4}}
+\newcommand\tfsetbinder[5]{%
+  \@namedef{tf@bd@kind@#1@#2}{#3}\@namedef{tf@bd@hash@#1@#2}{#4}\@namedef{tf@bd@type@#1@#2}{#5}}
+\newcommand\tfsetaxioms[2]{\@namedef{tf@ax@#1}{#2}}
+
+\def\tf@generateddir{backtranslation/generated/}
+\AtBeginDocument{%
+  \@for\tf@f:=status,signatures,binders,axioms\do{%
+    \IfFileExists{\tf@generateddir\tf@f.tex}{\input{\tf@generateddir\tf@f.tex}}{}}}
+
+% \tf@get{prefix}{ID} expands to the stored value or to nothing
+\def\tf@get#1#2{\ifcsname tf@#1@#2\endcsname\csname tf@#1@#2\endcsname\fi}
+
+%% ---------- markers ----------
+\newcommand\tf@sqempty{\tikz[baseline=0pt]\draw[line width=.5pt] (0,0) rectangle (.6em,.6em);}
+\newcommand\tf@sqfull{\tikz[baseline=0pt]\fill (0,0) rectangle (.6em,.6em);}
+\newcommand\tf@sqhalf{\tikz[baseline=0pt]{\fill (0,0) -- (.6em,0) -- (0,.6em) -- cycle;
+  \draw[line width=.5pt] (0,0) rectangle (.6em,.6em);}}
+\def\tf@marker#1{%
+  \edef\tf@tmpstate{\tf@get{st@state}{#1}}%
+  \ifdefstring{\tf@tmpstate}{done}{\tf@sqfull}%
+    {\ifdefstring{\tf@tmpstate}{donecond}{\tf@sqhalf}{\tf@sqempty}}}
+\def\tf@conditional#1{%
+  \edef\tf@tmphyps{\tf@get{st@hyps}{#1}}%
+  \ifdefempty{\tf@tmphyps}{}{\par\smallskip\noindent
+    {\normalfont\small\color{tfwarn}[conditional on \tf@tmphyps]}}}
+
+%% ---------- cross-document link A -> B ----------
+\def\tf@Bpdf{}
+\newcommand\tfsetBpdf[1]{\def\tf@Bpdf{#1}}
+\newcommand\tfsetBaux[1]{\iftfB\else
+  \IfFileExists{#1.aux}{\externaldocument[B-]{#1}}{}\fi}
+\def\tf@inB#1{%
+  \ifdefempty{\tf@Bpdf}{}{%
+    \href{\tf@Bpdf\#tf:#1}{in B\ifcsname r@B-#1\endcsname: \getrefnumber{B-#1}\fi}}}
+
+%% ---------- Vol II/III -> earlier volumes: references (same edition) ----------
+%% Vol II cites Vol I items, Vol III cites Vol I and Vol II items, by \cref{<vol>.<area>.<kind>:<slug>}; the labels are
+%% read from the earlier volumes' .aux (xr-hyper) and each \cref number is tagged "(Vol. I)" or "(Vol. II)".
+%% Build order: vol1, vol2, vol3 (texbuild.sh does this). Contract (tools/sty_contract.json, T16):
+%%   vol1 imports nothing; vol2 imports I.*, X.*, eq:* of vol1; vol3 imports I.*, X.* of vol1 and II.*, X.* of vol2
+%%   (no eq:* labels: Vol I and Vol II both define them, and the clash would be a multiply defined label).
+%%   A label is imported iff its prefix up to the first "." is in the allowed list of that import (III.* never).
+\DeclareRobustCommand\tf@volItag{\,(Vol.~I)}
+\DeclareRobustCommand\tf@volIItag{\,(Vol.~II)}
+\let\tf@voltag\tf@volItag
+\def\tf@first#1#2\@nil{#1}
+% expand \tf@voltag one level now (inside the import group); it is reset for the next import
+\def\tf@tagcref[#1][#2][#3]#4\@nil{\expandafter\tf@tagcref@\expandafter{\tf@voltag}[#1][#2][#3]#4\@nil}
+\def\tf@tagcref@#1[#2][#3][#4]#5\@nil{[#2][#3][#4]#5#1}
+\def\tf@tagval#1#2\@nil{\expandafter\ifx\expandafter[\tf@first#1\relax\@nil
+  \expandafter\tf@valcref\else\expandafter\tf@valnum\fi{#1}#2\@nil}
+\def\tf@valcref#1#2\@nil{% cleveref label: tag the number; \expanded (not an assignment: we run inside xr's \protected@xdef)
+  \expanded{\noexpand\tf@oldaddURL{{\tf@tagcref#1\@nil}\unexpanded{{#2}}}}}
+\def\tf@valnum#1#2#3#4#5\@nil{\tf@oldaddURL{{#1}{#2}{}{#4}{#5}}}% ordinary label: drop the title (it may hold macros of notation.tex)
+\def\tf@addURL#1{\tf@tagval#1\@nil}
+%% import only the item labels of the allowed prefixes (\tf@allow, comma list) and, if \tf@eqok=1, the equation
+%% labels eq:* (ch:, notation:, ... of the earlier volumes would clash with the importing volume's own)
+\let\tf@xrY\@firstoftwo \let\tf@xrN\@secondoftwo
+\def\tf@labpre#1.#2\@nil{\def\tf@pre{#1}}
+\def\tf@chkpre#1{\ifdefstring{\tf@pre}{#1}{\def\tf@pok{1}}{}}
+\def\tf@iseq#1#2#3\@nil{\if#1e\if#2q\def\tf@pok{1}\fi\fi}
+\def\tf@isIX#1\@nil{%
+  \def\tf@pok{0}\tf@labpre#1.\relax\@nil\expandafter\forcsvlist\expandafter\tf@chkpre\expandafter{\tf@allow}
+  \ifx\tf@eqok\tf@one\tf@iseq#1..\@nil\fi
+  \csname tf@xr\ifnum\tf@pok=1 Y\else N\fi\endcsname}
+\def\tf@one{1}
+\long\def\tf@xrtest#1#2#3#4\XR@{% tail-recursive: no \fi may stay pending (XR@read recurses through here)
+  \ifx#1\newlabel\expandafter\tf@xrnl\else\expandafter\tf@oldxrtest\fi#1{#2}{#3}#4\XR@}
+\long\def\tf@xrnl#1#2#3#4\XR@{%
+  \tf@isIX#2\@nil{\tf@oldxrtest#1{#2}{#3}#4\XR@}{\tf@oldxrtest\relax{#2}{#3}#4\XR@}}
+% \tf@import{<aux base name>}{<allowed prefixes>}{<1 = import eq:* too, else 0>}{<tag macro>}
+\newcommand\tf@import[4]{%
+  \IfFileExists{../../build/tex/\tfedition/#1.aux}{%
+    \begingroup
+    \def\tf@allow{#2}\def\tf@eqok{#3}\let\tf@voltag#4%
+    \let\tf@oldaddURL\XR@addURL
+    \let\XR@addURL\tf@addURL
+    \let\tf@oldxrtest\XR@test \let\XR@test\tf@xrtest
+    \externaldocument{../../build/tex/\tfedition/#1}[#1.pdf]%
+    \endgroup}{}}
+\edef\tf@job{\jobname}
+%% Fork algebraic_jl (2026-11-14): one self-contained document per edition; no cross-volume xr imports.
+%% (The two \tf@import calls of the parent, for jobs vol2 and vol3, are removed; the macros stay unused.)
+
+%% ---------- \tfstmt ----------
+\newcommand\tfstmt[1]{%
+  \tf@checkid{#1}%
+  \ifcsname tf@seen@#1\endcsname
+    \PackageError{gl2tf}{ID `#1' typeset twice by \string\tfstmt}{}\fi
+  \global\@namedef{tf@seen@#1}{}%
+  \ifdefequal{\tf@kind}{\tf@envkind}{}{%
+    \PackageError{gl2tf}{Kind `\tf@kind' of `#1' does not match environment
+      (\ifdefempty{\tf@envkind}{none}{\tf@envkind})}{Use the environment of the ID's kind.}}%
+  \leavevmode\label{#1}\hypertarget{tf:#1}{}%
+  \def\tf@curid{#1}%
+  \iftfB\else
+    \marginpar{\footnotesize\raggedright\tf@marker{#1}\par\tf@inB{#1}}%
+  \fi
+  \edef\tf@path{\tf@itempath}%
+  \IfFileExists{\tf@path}{\input{\tf@path}\unskip}%
+    {\PackageError{gl2tf}{Snippet file `\tf@path' for `#1' not found}{}}%
+  \iftfB
+    \ifnum0\tf@get{st@clean}{#1}=1 \leanok\fi
+    \tf@statusline{#1}%
+  \fi
+  \tf@conditional{#1}%
+}
+\newcommand\tfstmttext[1]{%
+  \tf@checkid{#1}\edef\tf@path{\tf@itempath}%
+  \IfFileExists{\tf@path}{\input{\tf@path}\unskip}%
+    {{\color{tfoutline}(statement snippet for \texttt{#1} not yet written)}}}
+
+\def\tf@statusline#1{%
+  \par\smallskip\noindent{\normalfont\footnotesize\color{tfstatus}%
+    [\texttt{#1}\enspace·\enspace
+     \ifcsname tf@st@line@#1\endcsname\csname tf@st@line@#1\endcsname
+     \else planned (no generated status)\fi]}}
+
+%% ---------- leanblueprint vocabulary ----------
+\newcommand\leanok{\iftfB\leavevmode{\normalfont\footnotesize\color{OliveGreen}\enspace[leanok]}\fi}
+\newcommand\mathlibok{\iftfB\leavevmode{\normalfont\footnotesize\color{OliveGreen}\enspace[mathlibok]}\fi}
+\newcommand\notready{\iftfB\leavevmode{\normalfont\footnotesize\color{tfwarn}\enspace[not ready]}\fi}
+\newcommand\lean[1]{\iftfB\par\noindent{\normalfont\footnotesize Lean:
+  \tf@commalist{#1}{\tf@leanname}}\fi}
+\def\tf@leanname#1{\texttt{\detokenize{#1}}}
+\newcommand\uses[1]{\iftfB\par\noindent{\normalfont\footnotesize Uses:
+  \tf@commalist{#1}{\tf@useref}}\fi}
+\def\tf@useref#1{\ifcsname r@#1\endcsname\cref{#1}~(\texttt{#1})\else\texttt{#1}\fi}
+\def\tf@commalist#1#2{\def\tf@sep{}\@for\tf@x:=#1\do{\tf@sep
+  \expandafter#2\expandafter{\tf@x}\def\tf@sep{, }}}
+\newcommand\bonly{\iftfB\leavevmode{\normalfont\footnotesize\color{Plum}\enspace[B-only]}%
+  \else\PackageError{gl2tf}{\string\bonly\space used in edition A}{A may never contain a B-only item.}\fi}
+
+%% ---------- outlines ----------
+\newenvironment{tfoutline}{\par\begingroup\color{tfoutline}\small\raggedright
+  \begin{itemize}[leftmargin=1.5em,itemsep=0pt,label=$\circ$]}{\end{itemize}\endgroup\par}
+\newcommand\tfplanned[2]{\item \texttt{#1}\enspace--\enspace #2}
+
+%% ---------- formal blocks (B) ----------
+\newtoks\tf@rows
+\def\tf@chkfid#1#2{\ifdefined\tf@fid\ifdefstring{\tf@fid}{#1}{}{\PackageError{gl2tf}{#2{#1}
+  inside tfformal{\tf@fid}}{The ID argument must be the ID of the formal block.}}\fi}
+\newcommand\tfsem[2]{\tf@chkfid{#1}{\string\tfsem}\gdef\tf@recsem{#2}}
+\newcommand\tfhyps[2]{\tf@chkfid{#1}{\string\tfhyps}\gdef\tf@rechyps{#2}}
+\newenvironment{tffidelity}{\par\noindent\textit{Fidelity note.}\ }{\par}
+\newcommand\tfbinder[4]{\global\tf@rows\expandafter{\the\tf@rows\tf@row{#1}{#2}{#3}{#4}}}
+\def\tf@leantype#1{{\raggedright\ttfamily #1\par}}
+\def\tf@row#1#2#3#4{%
+  \ifdefstring{\tf@fid}{#1}{}{\textcolor{tfwarn}{ID?}~}#2 &
+  \tf@get{bd@kind}{#1@#2} &
+  {\ttfamily\raggedright\tf@get{bd@type}{#1@#2}} &
+  \tf@hashcell{#1}{#2}{#3} &
+  #4 \\}
+\def\tf@hashcell#1#2#3{%
+  \edef\tf@a{\detokenize{#3}}\edef\tf@b{\tf@get{bd@hash}{#1@#2}}%
+  \edef\tf@b{\expandafter\detokenize\expandafter{\tf@b}}%
+  \ifdefempty{\tf@b}{\texttt{\tf@a}\textsuperscript{?}}%
+    {\ifdefequal{\tf@a}{\tf@b}{\texttt{\tf@a}}{\textcolor{tfwarn}{\texttt{\tf@a}$\neq$\texttt{\tf@b}}}}}
+\newenvironment{tfformal}[1]{%
+  \iftfB\else\PackageError{gl2tf}{tfformal used in edition A}{Formal blocks are B only.}\fi
+  \def\tf@fid{#1}\global\tf@rows{}\gdef\tf@recsem{}\gdef\tf@rechyps{}%
+  \begin{tcolorbox}[breakable,enhanced,colback=gray!4,colframe=gray!50,boxrule=.4pt,
+    arc=0pt,left=4pt,right=4pt,top=3pt,bottom=3pt,fontupper=\small]
+  \noindent\textbf{Formal statement} (\texttt{#1})\par
+  \ifcsname tf@sig@name@#1\endcsname
+    \noindent\texttt{\csname tf@sig@name@#1\endcsname}\,:\par
+    \tf@leantype{\csname tf@sig@type@#1\endcsname}%
+  \else\noindent{\color{tfstatus}(no generated signature yet)}\par\fi
+  \medskip}
+ {\par\medskip
+  \edef\tf@cur{\tf@get{sig@hash}{\tf@fid}}%
+  \edef\tf@rec{\tf@recsem}%
+  \noindent sem\_hash recorded: \texttt{\ifdefempty{\tf@rec}{--}{\tf@rec}}%
+  \ifdefempty{\tf@cur}{}{%
+    \edef\tf@tmpc{\noexpand\in@{\detokenize\expandafter{\tf@cur}}{\detokenize\expandafter{\tf@rec}}}\tf@tmpc
+    \ifin@\else\enspace{\color{tfwarn}\bfseries current \texttt{\tf@cur}: B stale}\fi}\par
+  \noindent Hypotheses: \ifdefempty{\tf@rechyps}{none}{\tf@rechyps}\par
+  \ifcsname tf@ax@\tf@fid\endcsname\noindent Axioms: \csname tf@ax@\tf@fid\endcsname\par\fi
+  \smallskip\noindent
+  \begin{tabular}{@{}l l >{\raggedright\arraybackslash}p{.34\linewidth} l
+                       >{\raggedright\arraybackslash}p{.30\linewidth}@{}}
+  \toprule \# & kind & Lean binder type & hash & snippet phrase \\ \midrule
+  \the\tf@rows
+  \bottomrule
+  \end{tabular}
+  \end{tcolorbox}}
+
+%% ---------- hypothesis registry (used in tex/shared/hypotheses.tex) ----------
+\RequirePackage{keyval}
+\def\tf@defhypkey#1{\define@key{tfhyp}{#1}{\@namedef{tf@hyp@#1}{##1}}}
+\tf@defhypkey{short}\tf@defhypkey{lean}\tf@defhypkey{informal}\tf@defhypkey{usedby}
+\tf@defhypkey{cite}\tf@defhypkey{why}\tf@defhypkey{instance}\tf@defhypkey{waiver}
+\tf@defhypkey{discharge}\tf@defhypkey{instdecl}
+\def\tf@hypitem#1#2{\ifcsname tf@hyp@#2\endcsname\item[#1] \csname tf@hyp@#2\endcsname\fi}
+\newcommand\tfhypentry[2]{%
+  \begingroup
+  \@for\tf@k:=short,lean,informal,usedby,cite,why,instance,waiver,instdecl,discharge\do{%
+    \expandafter\let\csname tf@hyp@\tf@k\endcsname\@undefined}%
+  \setkeys{tfhyp}{#2}%
+  \par\medskip{\raggedright\noindent\textbf{\csname tf@hyp@short\endcsname}\quad\texttt{#1}%
+    \ifcsname tf@hyp@lean\endcsname\quad(\texttt{GL2TF.Hyp.\csname tf@hyp@lean\endcsname})\fi\par}%
+  \begin{description}[leftmargin=2em,style=nextline,itemsep=1pt,font=\normalfont\itshape]
+  \item[Exact statement] \tfstmttext{#1}
+  \tf@hypitem{Informal statement}{informal}
+  \tf@hypitem{Used by}{usedby}
+  \tf@hypitem{Citation}{cite}
+  \tf@hypitem{Why isolated}{why}
+  \tf@hypitem{Proved instance}{instance}
+  \ifcsname tf@hyp@instdecl\endcsname\item[Instance declaration]
+    \texttt{\expandafter\detokenize\expandafter{\csname tf@hyp@instdecl\endcsname}}\fi
+  \tf@hypitem{Waiver}{waiver}
+  \tf@hypitem{Discharge}{discharge}
+  \end{description}
+  \endgroup}
+
+%% ---------- notation macros (the table is tex/shared/notation.tex) ----------
+\newcommand\Q{\mathbb{Q}}
+\newcommand\R{\mathbb{R}}
+\newcommand\C{\mathbb{C}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\N{\mathbb{N}}
+\providecommand\A{}\renewcommand\A{\mathbb{A}}
+\newcommand\Af{\mathbb{A}_f}
+\newcommand\Zp{\mathbb{Z}_p}
+\newcommand\Qp{\mathbb{Q}_p}
+\newcommand\Zhat{\widehat{\mathbb{Z}}}
+\newcommand\Ocal{\mathcal{O}}
+\newcommand\unif{\varpi}
+\newcommand\GL{\mathrm{GL}}
+\newcommand\SL{\mathrm{SL}}
+\newcommand\Ort{\mathrm{O}}
+\newcommand\Mat{\mathrm{M}}
+\newcommand\Bbar{\overline{B}}
+\newcommand\Nbar{\overline{N}}
+\newcommand\Kinf{K_\infty}
+\newcommand\Kf{K_f}
+\newcommand\Gone{G(\A)^1}
+\newcommand\AGplus{A_G^+}
+\newcommand\aB{\mathfrak{a}_B}
+\newcommand\aBG{\mathfrak{a}_B^G}
+\newcommand\HB{H_B}
+\newcommand\deltaB{\delta_B}
+\newcommand\Hecke{\mathcal{H}}
+\newcommand\HeckeTwo{\mathcal{H}^{(2)}}
+\newcommand\Schw{\mathcal{S}}
+\newcommand\Sat{\mathscr{S}}
+\newcommand\Ltwo{L^2}
+\newcommand\Lcusp{L^2_{\mathrm{cusp}}}
+\newcommand\Lres{L^2_{\mathrm{res}}}
+\newcommand\Lcont{L^2_{\mathrm{cont}}}
+\newcommand\dd{\mathrm{d}}
+\newcommand\dtimes{\mathrm{d}^\times}
+\DeclareMathOperator\tr{tr}
+\DeclareMathOperator\vol{vol}
+\DeclareMathOperator\diag{diag}
+\DeclareMathOperator\supp{supp}
+\DeclareMathOperator\Ind{Ind}
+\DeclareMathOperator\Hom{Hom}
+\DeclareMathOperator\End{End}
+\DeclareMathOperator\sgn{sgn}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+
+%% ---------- Vol III notation (decision D6, user 2026-11-10; docs/notes/Q0/notation-vol3-draft.md) ----------
+\newcommand\Bq{\mathbb{B}}
+\newcommand\Oord{\mathbb{O}}
+\DeclareMathOperator\nrd{nrd}
+\DeclareMathOperator\trd{trd}
+\DeclareMathOperator\Pic{Pic}
+\DeclareMathOperator\Mass{Mass}
+\newcommand\XB{X_{\Bq}}
+\newcommand\Sk[2]{S_{#1}(\Gamma_0(#2))}
+\newcommand\Mk[2]{M_{#1}(\Oord(#2))}
+\newcommand\Vk{V_k}
+\newcommand\Tcl{T^{\mathrm{cl}}}
+\newcommand\TB{T^{\Bq}}
+\newcommand\Brandt[1]{\mathsf{B}(#1)}
+\newcommand\Lef{\Lambda^{\mathrm{Lef}}}
+\newcommand\hw{h_w}
+\newcommand\wnum{w}
+\newcommand\embnum{m}
+\newcommand\Eichsym[2]{\Bigl(\tfrac{#1}{#2}\Bigr)}
+\newcommand\dedpsi{\psi}
+\newcommand\ncusps{c}
+\newcommand\Eis{\mathrm{Eis}}
+\newcommand\EichB{E^{\Bq}}
+\newcommand\LamES{\Lambda^{\mathrm{ES}}}
+\newcommand\Ham{\mathbb{H}_{\mathrm{Ham}}}
+\newcommand\embmu{\mu}
+%% Vol III, Ch. III.1 (lead log L6; Q1 A outline)
+\newcommand\Ford{\mathcal{F}}
+\newcommand\esym{e}
+\newcommand\cbd{c}
+\newcommand\Eist{\widetilde{\mathrm{Eis}}}
+\newcommand\TC{T^{\mathrm{C}}}
+\newcommand\mD{m^{D}}
+\newcommand\mone{m^{(1)}}
+%% Vol III, Ch. III.6-7 (Q2 W0, lead; docs/sprints/Q2-plan.md §5 row N19)
+\newcommand\Bhat{\widehat{\Bq}}
+\newcommand\Ohat{\widehat{\Oord}}
+\newcommand\Lhat{\widehat{L}}
+\newcommand\BA{\Bq_{\A}}
+\newcommand\Binf{\Bq_{\infty}}
+\newcommand\hilb[3]{\Bigl(\tfrac{#1,\,#2}{#3}\Bigr)}
+
+%% Layout only (Q1 G3 m-1): vol3 line breaking tolerates long inline math in imported snippets.
+\emergencystretch=4em\relax % fork: the whole document imports Vol III snippets
+
+\endinput

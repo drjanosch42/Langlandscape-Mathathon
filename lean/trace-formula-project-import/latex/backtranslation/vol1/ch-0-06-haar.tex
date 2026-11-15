@@ -1,0 +1,444 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-06-haar (parent commit 84818d0); kept items only.
+\chapter{\texorpdfstring{Haar measures on $\GL_2(F)$, $\GL_2(\R)$, $\GL_2(\A)$ and $G(\A)^1$}{Haar measures on GL₂(F), GL₂(ℝ), GL₂(𝔸) and G(𝔸)¹}}\label{ch:ch-0-06-haar}
+
+\noindent\emph{Sources:} \cite[§§1--2]{AIntro}; \cite[§1]{A-I}; \cite[§§2, 7]{JL}.
+
+\section{\texorpdfstring{Haar measure on $\GL_2(F)$}{Haar measure on GL₂(F)}}
+\begin{lemma}[$\GL_2(F)$ is locally compact]
+\tfstmt{I.haar.lem:gl2-local-locally-compact-instance}
+\bonly
+\lean{GL2TF.Local.gl2_locallyCompactSpace}
+\uses{I.lf.def:nalf,I.topgrp.thm:gl2-local-locally-compact}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-local-locally-compact-instance}
+\tfsem{I.haar.lem:gl2-local-locally-compact-instance}{e033dcd805703a2476938be702a78d814f4da4eaa19d05bc8bb1cd978e006466}
+\tfhyps{I.haar.lem:gl2-local-locally-compact-instance}{}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace (GL (Fin 2) F)}, the first component of \cref{I.topgrp.thm:gl2-local-locally-compact}; units topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first component of \cref{I.topgrp.thm:gl2-local-locally-compact}.
+\end{proof}
+
+\begin{lemma}[$K_F$ is compact]
+\tfstmt{I.haar.lem:max-compact-local-compact-instance}
+\bonly
+\lean{GL2TF.Local.maxCompact_compactSpace}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.topgrp.thm:max-compact-local-compact-open}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:max-compact-local-compact-instance}
+\tfsem{I.haar.lem:max-compact-local-compact-instance}{23b87954e0c2539016e508e29dd48b2d44242efca3b2b5198bc40e92f5af15c3}
+\tfhyps{I.haar.lem:max-compact-local-compact-instance}{}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The instance \texttt{CompactSpace 𝐊[F]}, the compactness half of \cref{I.topgrp.thm:max-compact-local-compact-open}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$K_F$ is compact by \cref{I.topgrp.thm:max-compact-local-compact-open} (\texttt{isCompact\_iff\_compactSpace}).
+\end{proof}
+
+\section{\texorpdfstring{Haar measure on $\GL_2(\R)$}{Haar measure on GL₂(ℝ)}}
+
+\begin{lemma}[$\GL_2(\R)$ is locally compact]
+\tfstmt{I.haar.lem:gl2-real-locally-compact-instance}
+\bonly
+\lean{GL2TF.gl2Real_locallyCompactSpace}
+\uses{I.topgrp.thm:gl2-real-locally-compact,X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-real-locally-compact-instance}
+\tfsem{I.haar.lem:gl2-real-locally-compact-instance}{6c12ba851643c0de8b5432569494526843369bf273f1b828bc5cad6659e3c0ac}
+\tfhyps{I.haar.lem:gl2-real-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace (GL (Fin 2) ℝ)}, a component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{proof}
+
+\begin{lemma}[$\GL_2(\R)$ is second countable]
+\tfstmt{I.haar.lem:gl2-real-second-countable-instance}
+\bonly
+\lean{GL2TF.gl2Real_secondCountableTopology}
+\uses{I.topgrp.thm:gl2-real-locally-compact,X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-real-second-countable-instance}
+\tfsem{I.haar.lem:gl2-real-second-countable-instance}{02141ece3b712b97eefb739b532179ec3be4704628143a547b30cbd225f64bfe}
+\tfhyps{I.haar.lem:gl2-real-second-countable-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{SecondCountableTopology (GL (Fin 2) ℝ)}, a component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The third component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{proof}
+
+\begin{lemma}[$K_\infty$ is compact]
+\tfstmt{I.haar.lem:max-compact-real-compact-instance}
+\bonly
+\lean{GL2TF.maxCompactReal_compactSpace}
+\uses{I.topgrp.thm:max-compact-real-compact,I.conv.def:max-compact-real}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:max-compact-real-compact-instance}
+\tfsem{I.haar.lem:max-compact-real-compact-instance}{5ac0241f7df983125b9ff65be176bcb8d6bda2ef18d46493e0f1617f4b3ae3dc}
+\tfhyps{I.haar.lem:max-compact-real-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{CompactSpace maxCompactReal}, from \cref{I.topgrp.thm:max-compact-real-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$K_\infty$ is compact by \cref{I.topgrp.thm:max-compact-real-compact} (\texttt{isCompact\_iff\_compactSpace}).
+\end{proof}
+
+\section{Integration in Iwasawa coordinates}
+
+\begin{definition}[coordinates on $B(R)$]
+\tfstmt{I.haar.def:borel-coordinates}
+\bonly
+\lean{GL2TF.borelCoord}
+\uses{I.haar.lem:borel-coordinates-mem,I.conv.def:borel,I.conv.def:diag-element}
+\end{definition}
+\begin{tfformal}{I.haar.def:borel-coordinates}
+\tfsem{I.haar.def:borel-coordinates}{401baf7936ff0287d06d944dcb1287a6fb058f6fbb77f51110793770a9972e2e}
+\tfhyps{I.haar.def:borel-coordinates}{}
+\tfbinder{I.haar.def:borel-coordinates}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.def:borel-coordinates}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.def:borel-coordinates}{2}{34961c5b}{the triple $(x,t_1,t_2)\in R\times R^\times\times R^\times$}
+\begin{tffidelity}
+B-only. The map $(x,t_1,t_2)\mapsto n(x)\diag(t_1,t_2)$ from \texttt{R × Rˣ × Rˣ} to the subtype \texttt{borel R}; well-defined by \cref{I.haar.lem:borel-coordinates-mem}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$n(x)\diag(t_1,t_2)\in B(R)$]
+\tfstmt{I.haar.lem:borel-coordinates-mem}
+\bonly
+\lean{GL2TF.borelCoord_mem}
+\uses{I.conv.def:borel,I.conv.def:diag-element}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:borel-coordinates-mem}
+\tfsem{I.haar.lem:borel-coordinates-mem}{43a40b1828b1e4361b59ba9ccfa71e480b8259cfd61b6a2e9855b624a0007452}
+\tfhyps{I.haar.lem:borel-coordinates-mem}{}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{2}{3bf910e8}{the element $x\in R$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{3}{80b5bf7a}{the unit $t_1\in R^\times$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{4}{3d67046f}{the unit $t_2\in R^\times$}
+\begin{tffidelity}
+B-only. $n(x)\diag(t_1,t_2)\in B(R)$, with $n$ Mathlib's \texttt{upperRightHom}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The $(2,1)$-entry of $n(x)\,\mathrm{diag}(t_1,t_2)$ is $0\cdot t_1+1\cdot0=0$ (\texttt{Matrix.mul\_apply}, \texttt{Fin.sum\_univ\_two}, \texttt{simp}).
+\end{proof}
+
+\begin{lemma}[diagonal entries of $B(R)$ are units]
+\tfstmt{I.haar.lem:borel-diag-is-unit}
+\bonly
+\lean{GL2TF.borel_diag_isUnit}
+\uses{I.conv.def:borel}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:borel-diag-is-unit}
+\tfsem{I.haar.lem:borel-diag-is-unit}{899cfc53a42f70a59b2d65883e06cfdcbf7ce40e8fc0ac92667fb8c2b4052815}
+\tfhyps{I.haar.lem:borel-diag-is-unit}{}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{2}{f62fcbfe}{the element $b\in B(R)$}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{3}{27502d9a}{the index $i\in\{1,2\}$}
+\begin{tffidelity}
+B-only. For $b\in B(R)$ (an element of the subtype \texttt{borel R}) and $i\in\{0,1\}$ the diagonal entry $b_{ii}$ is a unit (\texttt{IsUnit}); this makes $\delta_B$ well-defined.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $b\in B(R)$, $b_{21}=0$, so $\det b=b_{11}b_{22}$ (\texttt{Matrix.det\_fin\_two}). This is a unit, as $b\in\GL_2(R)$, hence each factor is a unit (\texttt{isUnit\_of\_mul\_isUnit\_left}/\texttt{right}).
+\end{proof}
+
+\begin{lemma}[$\diag(t_1,t_2)\in T(R)$]
+\tfstmt{I.haar.lem:diag-elt-mem-torus}
+\bonly
+\lean{GL2TF.diagElt_mem_torus}
+\uses{I.conv.def:torus,I.conv.def:diag-element}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:diag-elt-mem-torus}
+\tfsem{I.haar.lem:diag-elt-mem-torus}{b6c0f1903b2b09a9b4011856376bf11dfb56c06ca1b7d1d3c6e5f484d06bf7e8}
+\tfhyps{I.haar.lem:diag-elt-mem-torus}{}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{2}{7e426d5e}{the unit $t_1\in R^\times$}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{3}{80b5bf7a}{the unit $t_2\in R^\times$}
+\begin{tffidelity}
+B-only. $\diag(t_1,t_2)\in T(R)$ for $t_1,t_2\in R^\times$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{simp} with the definitions of \texttt{torus} and \texttt{diagElt}: the off-diagonal entries of $\mathrm{diag}(t_1,t_2)$ are $0$.
+\end{proof}
+
+\section{Adelic Haar measures}
+\begin{theorem}[second countability of restricted products]
+\tfstmt{X.topgrp.thm:restricted-product-second-countable}
+\lean{GL2TF.resProd_secondCountableTopology}
+\end{theorem}
+\begin{tfformal}{X.topgrp.thm:restricted-product-second-countable}
+\tfsem{X.topgrp.thm:restricted-product-second-countable}{b0b51cc8165ace18511e3ca390513072615af651f9ba8453630fbc131c9574af}
+\tfhyps{X.topgrp.thm:restricted-product-second-countable}{}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{1}{51c6bf8e}{the assumption that the index set $\iota$ is countable (A: ``countable'')}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{2}{ce532c75}{the family of types $X_i$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{3}{b85b1d8c}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{4}{a461e99c}{the assumption that every $X_i$ is second countable (A: ``second countable'')}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{5}{c136b664}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{6}{9fd77963}{the assumption that every $A_i$ is open (A: ``open'')}
+\begin{tffidelity}
+The restricted product is Mathlib's \texttt{RestrictedProduct (fun i => X i) (fun i => A i) Filter.cofinite} with its restricted-product topology. The hypothesis that the subsets $A_i$ are open is an explicit argument \texttt{(∀ i, IsOpen (A i))} after $A$; countability of the index set and second countability of the $X_i$ are instance binders. The instance form with \texttt{Fact (∀ i, IsOpen (A i))} is the B-only \cref{X.topgrp.lem:restricted-product-second-countable-instance}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For a finite $F\subseteq\iota$, the principal restricted product $\prod'_i[X_i,A_i]_{\mathcal P(F^c)}$ embeds as an open subspace of the restricted product (\texttt{isOpenEmbedding\_inclusion\_principal}) and is second countable, being a subspace of $\prod_iX_i$ (\texttt{isEmbedding\_coe\_of\_principal}). Each point $x$ has all but finitely many coordinates in $A_i$, so lies in the image for some $F$ (\texttt{exists\_inclusion\_eq\_of\_eventually}); as $\iota$ is countable there are countably many finite $F$, and a space covered by countably many open second countable subspaces is second countable (\texttt{secondCountableTopology\_of\_countable\_cover}).
+\end{proof}
+
+\begin{lemma}[$G(\A)^1$ is locally compact]
+\tfstmt{I.haar.lem:norm-one-locally-compact-instance}
+\bonly
+\lean{GL2TF.normOneGroup_locallyCompactSpace}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:norm-one-locally-compact-instance}
+\tfsem{I.haar.lem:norm-one-locally-compact-instance}{03190756656363e040396af1e0afda3860c5efba9fc783262b0ef8d016b54f3b}
+\tfhyps{I.haar.lem:norm-one-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace normOneGroup}, obtained from the closed embedding of $G(\A)^1$ in $G(\A)$; it is used by instance search wherever \texttt{IsUnimodular normOneGroup} or a Haar measure on $G(\A)^1$ is formed.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is closed in $G(\A)$ (\texttt{normOneGroup\_closed\_normal}), so the inclusion is a closed embedding, and a closed subspace of the locally compact space $G(\A)$ is locally compact (\texttt{IsClosedEmbedding.locallyCompactSpace}).
+\end{proof}
+
+\begin{lemma}[second countability as an instance]
+\tfstmt{X.topgrp.lem:restricted-product-second-countable-instance}
+\bonly
+\lean{GL2TF.resProd_secondCountableTopology_inst}
+\uses{X.topgrp.thm:restricted-product-second-countable}
+\end{lemma}
+\begin{tfformal}{X.topgrp.lem:restricted-product-second-countable-instance}
+\tfsem{X.topgrp.lem:restricted-product-second-countable-instance}{8627c98e049558e863e3061d65eb868693a6788c51789e7841862a710501d223}
+\tfhyps{X.topgrp.lem:restricted-product-second-countable-instance}{}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{1}{51c6bf8e}{the assumption that the index set $\iota$ is countable}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{2}{ce532c75}{the family of types $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{3}{b85b1d8c}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{4}{a461e99c}{the assumption that every $X_i$ is second countable}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{5}{c136b664}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{6}{cdfeedc8}{the assumption that every $A_i$ is open (as a typeclass assumption)}
+\begin{tffidelity}
+B-only. Instance form of \cref{X.topgrp.thm:restricted-product-second-countable}: the openness of the $A_i$ is a \texttt{Fact (∀ i, IsOpen (A i))} instance binder instead of an explicit argument.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\cref{X.topgrp.thm:restricted-product-second-countable} with the openness hypothesis taken from the \texttt{Fact} (\texttt{hA.out}).
+\end{proof}
+
+\begin{definition}[the Borel $\sigma$-algebra of a restricted product]
+\tfstmt{X.topgrp.def:restricted-product-measurable-space}
+\bonly
+\lean{GL2TF.resProd_measurableSpace}
+\end{definition}
+\begin{tfformal}{X.topgrp.def:restricted-product-measurable-space}
+\tfsem{X.topgrp.def:restricted-product-measurable-space}{571b148121198b02b2a9eff7e810bbef8354c7e9083259ae15843a89698f7ff4}
+\tfhyps{X.topgrp.def:restricted-product-measurable-space}{}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{1}{f9101264}{the family of types $X_i$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{2}{f12aabfe}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{3}{ab247d6b}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{4}{345f9cfa}{the filter on the index set $\iota$ defining the restricted product}
+\begin{tffidelity}
+B-only. The Borel $\sigma$-algebra (\texttt{borel}) on Mathlib's \texttt{RestrictedProduct} for an arbitrary filter $\mathcal F$ on the index set; all $X_i$ carry topologies.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the $\sigma$-algebra of a restricted product is Borel]
+\tfstmt{X.topgrp.lem:restricted-product-borel-space}
+\bonly
+\lean{GL2TF.resProd_borelSpace}
+\uses{X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{X.topgrp.lem:restricted-product-borel-space}
+\tfsem{X.topgrp.lem:restricted-product-borel-space}{bf8516381f2ff455f033d1715007b225a21f2e0fc02c634bff9110ceb1b7845c}
+\tfhyps{X.topgrp.lem:restricted-product-borel-space}{}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{1}{f9101264}{the family of types $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{2}{f12aabfe}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{3}{ab247d6b}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{4}{345f9cfa}{the filter on the index set $\iota$ defining the restricted product}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace} for the $\sigma$-algebra of \cref{X.topgrp.def:restricted-product-measurable-space}, for every filter.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By definition (\texttt{resProd\_measurableSpace}) the $\sigma$-algebra on the restricted product is \texttt{borel}, so the claim holds by \texttt{rfl}.
+\end{proof}
+
+\begin{lemma}[the box is compact]
+\tfstmt{X.haar.lem:restricted-product-box-compact}
+\bonly
+\lean{GL2TF.resProd_box_isCompact}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-box-compact}
+\tfsem{X.haar.lem:restricted-product-box-compact}{dfc8008ef99648773daa84f727fc6f85178c61f464a0b4a7654dabe17fbcae7f}
+\tfhyps{X.haar.lem:restricted-product-box-compact}{}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{5}{13df567e}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. The box $\{x:\forall i,\ x_i\in K_i\}$ is compact if each $K_i$ is compact (instance binders).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The box $\{x:\forall i,\ x_i\in K_i\}$ is the range of the structure map $\prod_iK_i\to\prod'_i[G_i,K_i]$ (\texttt{range\_structureMap}); the source is compact (Tychonoff) and the structure map is continuous (\texttt{isEmbedding\_structureMap}), so \texttt{isCompact\_range} applies.
+\end{proof}
+
+\begin{lemma}[the box is open]
+\tfstmt{X.haar.lem:restricted-product-box-open}
+\bonly
+\lean{GL2TF.resProd_box_isOpen}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-box-open}
+\tfsem{X.haar.lem:restricted-product-box-open}{245d55406e33d31edb0520dd1a52577a906013dc45985beca5c62d3afdc94f14}
+\tfhyps{X.haar.lem:restricted-product-box-open}{}
+\tfbinder{X.haar.lem:restricted-product-box-open}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{5}{4c3d9d04}{the assumption that every $K_i$ is open}
+\begin{tffidelity}
+B-only. The box is open if each $K_i$ is open (explicit argument \texttt{hK}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{RestrictedProduct.isOpen\_forall\_mem} applied to the open subgroups $K_i$.
+\end{proof}
+
+\begin{lemma}[the box has non-empty interior]
+\tfstmt{X.haar.lem:restricted-product-box-interior-nonempty}
+\bonly
+\lean{GL2TF.resProd_box_interior_nonempty}
+\uses{X.haar.lem:restricted-product-box-open}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-box-interior-nonempty}
+\tfsem{X.haar.lem:restricted-product-box-interior-nonempty}{23d8ccdff287d8f234e96e7a05652ef7f439ffafbdebc8dc60e76fa366973fad}
+\tfhyps{X.haar.lem:restricted-product-box-interior-nonempty}{}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{5}{4c3d9d04}{the assumption that every $K_i$ is open}
+\begin{tffidelity}
+B-only. The box has non-empty interior if each $K_i$ is open.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \cref{X.haar.lem:restricted-product-box-open} the box is open, hence equals its interior, which contains $1$.
+\end{proof}
+
+\begin{definition}[the box as a positive compact set]
+\tfstmt{X.haar.def:restricted-product-box}
+\bonly
+\lean{GL2TF.resProdBox}
+\uses{X.haar.lem:restricted-product-box-compact,X.haar.lem:restricted-product-box-interior-nonempty}
+\end{definition}
+\begin{tfformal}{X.haar.def:restricted-product-box}
+\tfsem{X.haar.def:restricted-product-box}{9ea000a9743c7b6eb0308c4f3b7332bd3a9100bf905b79d5da9923d371cf1bb9}
+\tfhyps{X.haar.def:restricted-product-box}{}
+\tfbinder{X.haar.def:restricted-product-box}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.def:restricted-product-box}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{5}{4c3d9d04}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.def:restricted-product-box}{6}{308af00e}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. The box as an element of Mathlib's \texttt{PositiveCompacts} (a compact set with non-empty interior) of the restricted product, built from \cref{X.haar.lem:restricted-product-box-compact} and \cref{X.haar.lem:restricted-product-box-interior-nonempty}; used to normalize Haar measure in \texttt{X.haar.def:restricted-product-measure}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the box (additive groups)]
+\tfstmt{X.haar.def:restricted-product-add-box}
+\bonly
+\lean{GL2TF.resProdAddBox}
+\uses{X.haar.lem:restricted-product-add-box-compact,X.haar.lem:restricted-product-add-box-interior-nonempty}
+\end{definition}
+\begin{tfformal}{X.haar.def:restricted-product-add-box}
+\tfsem{X.haar.def:restricted-product-add-box}{7d2ed0342ef7e02c4590e1552ce554b19c60f2577b00ce797b5f6b23049752f7}
+\tfhyps{X.haar.def:restricted-product-add-box}{}
+\tfbinder{X.haar.def:restricted-product-add-box}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.def:restricted-product-add-box}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{4}{34121211}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{5}{c34c8e16}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.def:restricted-product-add-box}{6}{a31e7aaa}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\texttt{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The box as a \texttt{PositiveCompacts} of the additive restricted product.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the box is compact (additive groups)]
+\tfstmt{X.haar.lem:restricted-product-add-box-compact}
+\bonly
+\lean{GL2TF.resProdAdd_box_isCompact}
+\uses{X.haar.lem:restricted-product-box-compact}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-add-box-compact}
+\tfsem{X.haar.lem:restricted-product-add-box-compact}{b4bcbb3aa5605fe7e8f0c49c9fa38d81cfa54bbd4f7ffff2309fd30aeae0019e}
+\tfhyps{X.haar.lem:restricted-product-add-box-compact}{}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{4}{34121211}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{5}{a32f57c2}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\texttt{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The box is compact if each $K_i$ is.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.lem:restricted-product-box-compact}: same proof (range of the structure map, \texttt{isCompact\_range}).
+\end{proof}
+
+\begin{lemma}[the box has non-empty interior (additive groups)]
+\tfstmt{X.haar.lem:restricted-product-add-box-interior-nonempty}
+\bonly
+\lean{GL2TF.resProdAdd_box_interior_nonempty}
+\uses{X.haar.lem:restricted-product-box-interior-nonempty}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-add-box-interior-nonempty}
+\tfsem{X.haar.lem:restricted-product-add-box-interior-nonempty}{4472201c411e0aa5f5d64aae1d1759da8b6749e07c0c4782a281e3109a7c15d7}
+\tfhyps{X.haar.lem:restricted-product-add-box-interior-nonempty}{}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{4}{34121211}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{5}{c34c8e16}{the assumption that every $K_i$ is open}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\texttt{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The box has non-empty interior if each $K_i$ is open.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.lem:restricted-product-box-interior-nonempty}: the box is open (\texttt{isOpen\_forall\_mem}) and contains $0$.
+\end{proof}

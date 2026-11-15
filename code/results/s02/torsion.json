@@ -1,0 +1,121 @@
+{
+ "data": {
+  "D": 2,
+  "H1_Gamma_U_Z_cyclic": true,
+  "H1_Gamma_U_Z_description": "Z/3",
+  "H1_Gamma_U_Z_exponent": 3,
+  "H1_Gamma_U_Z_order": 3,
+  "class_number_S01": 1,
+  "edge_to_vertex_images_in_ab": {
+   "image_of_gen_e_in_Z/3+Z/3": [
+    1,
+    2
+   ],
+   "image_order": 3
+  },
+  "edges_at_v0": 4,
+  "edges_at_v0_in_orbit_of_e": 4,
+  "gamma_S01": [
+   24
+  ],
+  "gamma_e": [
+   [
+    "-1",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "-1/2",
+    "-1/2",
+    "1/2",
+    "-1/2"
+   ],
+   [
+    "-1/2",
+    "1/2",
+    "-1/2",
+    "1/2"
+   ],
+   [
+    "1/2",
+    "-1/2",
+    "1/2",
+    "-1/2"
+   ],
+   [
+    "1/2",
+    "1/2",
+    "-1/2",
+    "1/2"
+   ],
+   [
+    "1",
+    "0",
+    "0",
+    "0"
+   ]
+  ],
+  "gamma_e_cyclic": true,
+  "gamma_e_element_orders": {
+   "1": 1,
+   "2": 1,
+   "3": 2,
+   "6": 2
+  },
+  "gamma_e_order": 6,
+  "gamma_v0_element_orders": {
+   "1": 1,
+   "2": 1,
+   "3": 8,
+   "4": 6,
+   "6": 8
+  },
+  "gamma_v0_order": 24,
+  "gamma_v1_element_orders": {
+   "1": 1,
+   "2": 1,
+   "3": 8,
+   "4": 6,
+   "6": 8
+  },
+  "gamma_v1_order": 24,
+  "gamma_v_abelianisation_order": [
+   3,
+   3
+  ],
+  "gamma_v_is_SL2F3": true,
+  "level": "U = O^_^x (Hurwitz order)",
+  "mass_convention": "sum 1/|Gamma_e| with Gamma_e containing -1; modulo +-1 it is 1/3",
+  "mass_edge_Ge": "1/6",
+  "mass_edge_Ge_mod_pm1": "1/3",
+  "mass_edge_formula_(q+1)/24": "1/6",
+  "mass_vertex": "1/24",
+  "matches_tex": true,
+  "one_edge_orbit": true,
+  "pi": [
+   "1",
+   "1",
+   "1",
+   "0"
+  ],
+  "q": 3,
+  "tex_expectation": "Gamma_e cyclic order 6, H_1 = Z/3",
+  "vertex_orbits_per_type": 1
+ },
+ "provenance": {
+  "commit": "27746a569d3cdf8d2f95aad2a45ac15579dc2c7a-dirty",
+  "date": "2026-11-14T18:59:08+00:00",
+  "notes": "S02-C4; computed, direct quaternion arithmetic; H_1 = coker via Mayer-Vietoris",
+  "params": {
+   "D": 2,
+   "level": "O^_^x",
+   "pi": "1+i+j",
+   "q": 3
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.16191493500082288,
+  "script": "code/python/langlandscape/torsion_s02.py"
+ }
+}

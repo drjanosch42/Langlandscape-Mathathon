@@ -1,0 +1,26 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 7: the Bruhat-Tits tree route (stages 02-03).
+% Sources: chapters/s02/2-quotient.tex thm:s02-SA (cited), prop:s02-BG, prop:s02-quot; chapters/s03/3-ribet.tex thm:s03-ribet, cor:s03-ihara;
+% chapters/s03/1-graphs.tex def:s03-graph, prop:s03-phi; chapters/s05/geometric.tex thm:s05-G(ii) (Ribet Prop. 3.1, cited);
+% chapters/s05/sign.tex prop:s05-sign(a) (identification X_q(J_0(N)) = Z[Sigma(M')]^0); Lean: Tree.BGConnected_of_SA_HS, Ribet.ihara_surj, Ribet.ihara_ker_const.
+% Status of thm:s03-ribet(a), cor:s03-ihara(i),(ii): proved given (iii) = connectivity; Lean formalized given Tree.BGConnected (or SA, HS, BTtree).
+\begin{frame}{Its Bruhat--Tits tree incarnation (stages 02--03)}
+  \small
+  \begin{center}
+    \large $0\to H_1(\mathrm{BG})\to\ZZ[X_B(U')]^0\xrightarrow{\ \alpha\ }\big(\ZZ[X_B(U)]^0\big)^2\to0$\\[2pt]
+    \normalsize the Ribet sequence, combinatorially \stattag{proved given connectivity}
+  \end{center}
+  \begin{itemize}\setlength{\itemsep}{1pt}
+    \item \textbf{Tree} (Ihara, Serre). Here $B=B_D$, and $q\nmid D$ is a \emph{second} prime ($D$, $q$ play Ribet's $q$, $p$):
+      $\Gamma_U=\mathcal O_U[1/q]^1$ acts on the tree $\mathcal T_q$ of $\GL_2(\QQ_q)$;
+      the quotient is the finite Brandt graph $\mathrm{BG}(U,q)$ (vertices $X_B(U)^{\sqcup2}$, edges $X_B(U\cap U_0(q))$), given connectivity.
+    \item \textbf{SA} becomes a finite check: $\mathrm{BG}(U,q)$ connected\\
+      (SA itself \stattag{cited}; in Lean a registered hypothesis).
+    \item \textbf{Ihara}: $\ker\alpha^\vee=$ constants, over every abelian group \stattag{proved given connectivity}.
+  \end{itemize}
+  {\footnotesize Replace bad reduction by a group acting on a tree. The two-vertex graph $\GDR$ (edges $X_{B_q}(U)$, weights $w_e$; $X(\GDR)=\ZZ[E]^0$
+  \stattag{proved}) is the combinatorial dual graph (identification at $\Gamma_0$-level: Deligne--Rapoport, Deuring, Ribet; along the tower: the comparison hypothesis Hyp.X, open).}
+  % Removed from the slide (said orally; team decision): "Both (proved given connectivity; formalized given connectivity, or modulo the
+  % registered hypotheses SA, HS, BTtree). Combinatorial, computable, integral, and it generalises along the p-power tower."
+\end{frame}

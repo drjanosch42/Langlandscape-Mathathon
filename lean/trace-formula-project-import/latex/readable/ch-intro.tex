@@ -1,0 +1,57 @@
+% Document A of the fork algebraic_jl/: introduction (new text of the fork; no items).
+\chapter*{Introduction}\addcontentsline{toc}{chapter}{Introduction}\label{ch:intro}
+
+\noindent\emph{Purpose.} This volume collects the \emph{algebraic, arithmetic and topological} material of the
+trace\_formula\_gl2 project that is needed for an approach to the Jacquet--Langlands correspondence between
+$\GL_2$ over $\Q$ and a definite quaternion algebra $\Bq$ over $\Q$ that does not go through the trace formula.
+Such approaches (Eichler's and Shimizu's comparison of Brandt matrices with Hecke operators, read through the
+cohomology of the finite double coset spaces $\Bq^\times\backslash\Bhat^\times/\Ohat^\times$ and of the
+congruence subgroups of $\SL_2(\Z)$; or the geometric approach through supersingular points and the reduction of
+modular curves) need the arithmetic of quaternion orders, the class sets and their Hecke operators, the Brandt
+matrices, the spherical Hecke algebra of $\GL_2(\Qp)$ and its Satake isomorphism, and the group-theoretic
+structure of $\GL_2$ over $\Qp$, $\R$ and the adeles: decompositions, maximal compact and congruence subgroups,
+double cosets and strong approximation. They do not need Haar measures, integration, $L^2$ spaces, automorphic
+forms, Eisenstein series, kernels or spectral theory, and none of this is contained here.
+
+\noindent\emph{Origin.} The volume is a fork of the parent project at commit \texttt{84818d0} (2026-11-14). It
+consists, as the parent, of three documents: this readable edition (A), a back-translation edition (B) that mirrors
+the Lean code, and the Lean~4 code on Mathlib (C), with the invariants A $\subseteq$ B $\cong$ C. Every statement is
+the parent's statement, with the same identifier (\texttt{I.\dots}, \texttt{II.\dots}, \texttt{III.\dots},
+\texttt{X.\dots}) and the same text, so that each item can be traced to the parent; the identifiers therefore still
+carry the volume prefixes of the parent. The analytic declarations of the parent were removed; every resulting
+change of a kept chapter (a dropped item, a proof that used a dropped analytic item and is replaced by a remark
+with a citation, a statement from which a reference to a dropped item was deleted) is recorded in the file
+\texttt{latex/EDITS.md} of the fork.
+
+\noindent\emph{Contents.} Part~I treats the split group $G=\GL_2$ over $\Q$: conventions on the algebraic groups
+(\cref{ch:ch-0-01-conventions}); non-archimedean local fields and their normalized absolute values
+(\cref{ch:ch-0-02-local-field}); the adeles and ideles of $\Q$ as rings and topological groups
+(\cref{ch:ch-0-03-adeles}); $\GL_2$ as a topological group over $\Qp$, $\R$ and $\A$, its maximal compact and
+congruence subgroups and strong approximation (\cref{ch:ch-0-04-top-groups}); the Bruhat, Iwasawa and Cartan
+decompositions and the index of a double coset (\cref{ch:ch-0-05-decompositions}); local compactness and restricted products (\cref{ch:ch-0-06-haar}); discrete subgroups and compact
+quotients (\cref{ch:ch-0-07-quotient}); Siegel sets (\cref{ch:ch-0-08-reduction}); smooth and admissible representations (\cref{ch:ch-0-10-reps}); the spherical Hecke algebra and
+the Satake isomorphism (\cref{ch:ch-1-01-spherical}); the algebraic theory of smooth representations of $\GL_2(\Qp)$
+(\cref{ch:ch-1-02-smooth}); and parabolic subgroups, conjugacy classes, elliptic centralizers and the combinatorics of
+cosets $B(\Q)\backslash G(\Q)$ (\cref{ch:ch-02-parabolic,ch:ch-03-kernel,ch:ch-04-orbital,ch:ch-06-truncation}).
+Part~II is the parent's Volume~III without its analytic part: quaternion algebras over $\Q$, the Hilbert symbol and
+ramification (\cref{ch:ch-iii-06-quatalg}); orders, Eichler orders, class sets, the mass and the compactness of
+$\Bq^\times\backslash\Bq^\times(\A)^1$ (\cref{ch:ch-iii-07-orders}); quaternionic forms, Hecke operators and Brandt
+matrices (\cref{ch:ch-iii-08-brandt}). \Cref{ch:ch-iii-01-explicit} (an appendix) is the finite arithmetic layer of
+the Jacquet--Langlands identity: explicit formulas and local factors, compared as rational expressions, with no
+analysis.
+
+\noindent\emph{Hypotheses.} The only unproved input is Eichler's mass formula (\cref{ch:hypotheses}), used for the
+mass of Eichler orders; it is a \texttt{Prop}-valued hypothesis, not an axiom, and it is proved for the instances
+$D=2$ and $D=11$.
+
+\noindent\emph{Chapter numbers in the text.} Kept prose sometimes names chapters by the parent's numbering. The
+correspondence is: Vol.~I, Ch.~0.1--0.8, 0.10, 1.1, 1.2 are
+\cref{ch:ch-0-01-conventions,ch:ch-0-02-local-field,ch:ch-0-03-adeles,ch:ch-0-04-top-groups,ch:ch-0-05-decompositions,ch:ch-0-06-haar,ch:ch-0-07-quotient,ch:ch-0-08-reduction,ch:ch-0-10-reps,ch:ch-1-01-spherical,ch:ch-1-02-smooth}
+(in this order; the other chapters of the parent's Vol.~I are not included); Vol.~II,
+Ch.~2, 3, 4, 6 are \cref{ch:ch-02-parabolic,ch:ch-03-kernel,ch:ch-04-orbital,ch:ch-06-truncation}; Ch.~III.1 is
+\cref{ch:ch-iii-01-explicit}, and Ch.~III.6, III.7, III.8 are \cref{ch:ch-iii-06-quatalg,ch:ch-iii-07-orders,ch:ch-iii-08-brandt}.
+File paths quoted in the text (\texttt{docs/\dots}, \texttt{tools/\dots}, \texttt{lean/GL2TF/\dots},
+\texttt{tex/\dots}) are those of the parent repository at \texttt{84818d0} (design notes and checks); the fork's own Lean files are
+\texttt{lean/AlgJL/\dots}, with unchanged declaration names. Later chapters of the parent's Volume~III (III.9 and beyond: the fixed-point trace and the trace identity) and
+the analytic chapters of Volumes~I and~II are not part of this volume; where the kept text mentions them, this
+is background only.

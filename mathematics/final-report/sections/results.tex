@@ -1,0 +1,50 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+\section{Results of the six stages}\label{sec:results}
+
+\paragraph{How this section is made.} Each box below is a statement copied \emph{verbatim} from the chapter source
+\texttt{mathematics/chapters/s0N/*.tex} by \texttt{tools/extract\_statements.py}, including its status markers and
+\verb|\provisional| notes. Where the chapter prints the status in a paragraph directly after the statement (as in stage~02
+and in parts of stage~04), that paragraph is copied as well, below the statement and marked as such; a \stformal{} there
+is the Lean status of the result (for Thm~6.1 and Thm~6.3 a schematic interface), not a claim about its mathematics. The only changes are mechanical: the \verb|\label| is moved into the box header, and every
+cross-reference is replaced by its number in \mainpdf{} (built from the chapters of this submission tree, 170 pp; Lean tree 2323a252); so ``Thm~21.5'' inside a box
+means Theorem~21.5 of \mainpdf. Hypotheses such as (H0)--(H2), (P), (Lev) and the cited inputs are defined there.
+Each header gives the number and page in \mainpdf{} (the page is that of the label; in a few cases the statement
+starts on the next page). Proofs are not reproduced. A box may carry several status markers;
+each marker refers to the part of the statement it is attached to. Table~\ref{tab:allresults} at the end of the section
+lists every theorem, proposition, corollary and conjecture of the chapters with the markers occurring in its statement.
+
+\subsection{Stage 01: quaternionic foundations}
+Chapter: \mainpdf, pp.~1--24. Lean: 17 results of the chapter are marked formalized (milestone closure S01).
+\input{generated/statements-s01}
+
+\subsection{Stage 02: tree quotients}
+Chapter: \mainpdf, pp.~24--50. 72 \verb|\lean| markers at the S02 closure.
+\input{generated/statements-s02}
+
+\subsection{Stage 03: weighted graphs, the definite Ribet sequence and the Ihara lemma}
+Chapter: \mainpdf, pp.~50--82.
+\input{generated/statements-s03}
+
+\subsection{Stage 04: the ordinary and \texorpdfstring{$\Lambda$}{Lambda}-adic passage}
+Chapter: \mainpdf, pp.~82--101.
+\input{generated/statements-s04}
+
+\subsection{Stage 05: the comparison hypothesis and the simplicial shape}
+Chapter: \mainpdf, pp.~101--134. The hypothesis $\HypX$ is never called known; in Lean it is split into
+\texttt{Hyp.X.char}, \texttt{Hyp.X.iso}, \texttt{Hyp.X.gal} (\S\ref{sec:lean}). FD1 (the model for $\HypX$:
+$\mu_N$-model with Picard functoriality) and FD2 (the sign $U_q\mapsto+\Pi_q$, \S\ref{sec:hsieh}) were decided by Fabian
+on 15 November 2026; the chapter text below still carries the \verb|\provisional| notes recording the change.
+\input{generated/statements-s05}
+
+\subsection{Stage 06: the integral Jacquet--Langlands defect}
+Chapter: \mainpdf, pp.~134--162. On the case $q\equiv-1\bmod p$ with $\bar\rho$ unramified at $q$: Fabian lifted the
+\verb|\provisional| marks on (F1) and (F1$'$) (15 November 2026); $N(\bar\rho)>1$ and non-squarefree $M$ ($\ell^2\mid M$ at a prime where $\bar\rho$ is unramified) are \stopen{} and are not claimed
+(Prop.~23.2 and the note after the stage-06 boxes).
+\input{generated/statements-s06}
+\noindent\emph{Note.} The status remark for Prop.~23.2 (Remark~23.8 of \mainpdf, p.~156) records: (F0) \stpmc; (F1) \stpmc; (F1$'$) \stpmc{} in our sign-fixed reading R4 of \cite[Thm~3.14]{KO},
+which is our reading, not \cite{KO}'s text; $N(\bar\rho)>1$ \stopen. There is no numerical test of (F1) or (F1$'$).
+
+\subsection{All results of the chapters}
+{\small
+\input{generated/results-table}}

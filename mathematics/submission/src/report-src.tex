@@ -1,0 +1,109 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Modular SOURCE of the Mathathon submission report of team Langlandscape.
+% Build (modular draft): cd mathematics/submission/src && latexmk -pdf report-src.tex   (bibtex, amsalpha)
+% The single self-contained report.tex is produced from this file by ../tools/flatten.py (it inlines every \input,
+% decides the \IfFileExists switches, strips comments and inlines the bibliography as thebibliography).
+% Rules: plain \cite only; no images; every figure has a caption of >= 12 words describing it; no person, machine or
+% user names outside the title block (\title ... \maketitle), which is stripped for the anonymous review.
+\documentclass[11pt]{article}
+\input{macros}
+\input{hyp-macros}
+\input{counts}
+\hypersetup{pdftitle={The definite Jacquet-Langlands correspondence over Q, integral and Lambda-adic},pdfauthor={},pdfsubject={Mathathon submission report}}
+\numberwithin{equation}{section}
+\setcounter{tocdepth}{2}
+
+% Parallel inputs: the Lean table and discipline paragraph (branch final/leantable). If a file is not (yet) present, a
+% temporary stub from src/stubs/ is used; the flattener decides the switch. Chapter s00 (mathematics/chapters/s00/) supplies
+% Sections 1-5 and the head of Section 6 with its own \section headings; its \ref's to chapter labels are rewritten by
+% the flattener into main.pdf numbers (in this modular build they print as ??).
+
+%=============================================================================== TITLE BLOCK (stripped for review)
+% The title block is the ONLY place naming persons, affiliations and the repository. The acknowledgments wording
+% (mathematics/acknowledgments.tex, fixed) names a team member; it is therefore placed here, as a \thanks note, so
+% that the body after \maketitle stays anonymous.
+\title{The definite Jacquet--Langlands correspondence over $\Q$, integral and $\Lambda$-adic:\\
+a Bruhat--Tits tree route, a Lean~4 formalization and computations\\[4pt]
+\large Submission report, Caltech $\times$ SAIR Mathathon 2026}
+\author{M.Sc. Abhijit Aryampilly Jayanthan\thanks{Institute of Mathematics, Department EIM, Paderborn University.}
+  \and Prof.\ Dr.\ Fabian Januszewski\thanks{Institute of Mathematics, Department EIM, Paderborn University.}
+  \thanks{\textbf{Acknowledgments.} We gratefully acknowledge support from an NVIDIA Academic Grant Program award to Fabian Januszewski (CUDA-GNFS project), which provided two NVIDIA RTX PRO 6000 Max-Q Workstation Edition GPUs used for the HACS computations, and from the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) -- SFB-TRR 358/1 2023 -- 491392403. We thank the organizers of the Caltech $\times$ SAIR Mathathon 2026 for compute credits on the Open Math Model platform (\url{https://os.openmathmodel.org/}), which were used in this project (the opencode models Muse Spark Open and Mistral Large 4).}}
+\date{Track: Algebra/Number Theory\\ Repository: \url{https://github.com/drjanosch42/Langlandscape-Mathathon}, commit \texttt{\PublicCommitHash}\thanks{Content commit of the public repository; the next commit changes only the line defining this hash (in the report sources and the flattened report) and its PDF.}\\ 15 November 2026}
+\begin{document}
+\maketitle
+%=============================================================================== END OF TITLE BLOCK
+
+\input{abstract}
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+% Sections 1-5 and the head of Section 6 come from chapter s00 (each file starts with its own \section).
+\input{../../chapters/s00/legend}
+\newcommand{\sOOsummary}{\input{summary}}% detailed summary at the start of s00/motivation (report only)
+\input{../../chapters/s00/motivation}
+\input{../../chapters/s00/whycited}
+\input{../../chapters/s00/question}
+\input{../../chapters/s00/ribet}
+\input{../../chapters/s00/scope}
+\input{../../chapters/s00/setup}
+\IfFileExists{defs.tex}{\subsection{Definitions and remarks of the chapters referred to above}\label{ss:defs}
+\input{defs}}{}
+\input{../../chapters/s00/guide}
+\input{../../chapters/s00/computing}
+\input{../../chapters/s00/achieved}
+\input{../../chapters/s00/route}
+\input{../../chapters/s00/outline}
+\input{outline-intro}
+\IfFileExists{stage01.tex}{\input{stage01}}{\input{stubs/stage-stub01}}
+\IfFileExists{stage02.tex}{\input{stage02}}{\input{stubs/stage-stub02}}
+\IfFileExists{stage03.tex}{\input{stage03}}{\input{stubs/stage-stub03}}
+\IfFileExists{stage04.tex}{\input{stage04}}{\input{stubs/stage-stub04}}
+\IfFileExists{stage05.tex}{\input{stage05}}{\input{stubs/stage-stub05}}
+\IfFileExists{stage06.tex}{\input{stage06}}{\input{stubs/stage-stub06}}
+
+\input{../../chapters/s00/newknown}
+\input{../../chapters/s00/prior}
+
+\section{Main results and their support status}\label{sec:results}
+\input{results}
+\input{hsieh}
+
+\section{The Lean formalization}\label{sec:lean}
+\input{lean}
+
+\section{Computations}\label{sec:comp}
+\input{computations}
+
+\input{hacs}
+
+\section{Work during the 40-hour event and prior work}\label{sec:event}
+\input{event}
+
+\section{AI use}\label{sec:ai}
+\input{aiuse}
+
+\input{agentic}
+
+\section{Sources and acknowledgements}\label{sec:sources}
+\input{sources}
+
+\section{Limitations and next steps}\label{sec:limits}
+\input{limitations}
+
+\input{../../chapters/s00/plan}
+
+{\sloppy
+\bibliographystyle{amsalpha}
+\bibliography{report}}
+
+\appendix
+\section{The hypotheses report (text)}\label{app:hyp}
+\input{appendix-hyp}
+
+\section{All audited Lean declarations}\label{app:decls}
+\input{appendix-decls}
+
+\input{commits}
+\end{document}

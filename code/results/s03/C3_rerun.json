@@ -1,0 +1,619 @@
+{
+ "data": {
+  "T1_mazur": {
+   "agrees": true,
+   "gcd": 5,
+   "lambda_minus_(1+q)": {
+    "2": -5,
+    "3": -5,
+    "5": -5,
+    "7": -10,
+    "13": -10
+   },
+   "mazur_numerator_of_(N-1)/12": 5,
+   "statement": "Mazur: |Phi| = numerator((11-1)/12) = 5; Eisenstein congruence a_q = 1+q mod 5 for the weight-2 level-11 newform",
+   "status": "computed (HACS exact char_Z(T_q | H^1(Gamma_0(11);Z))); congruence modulus read from a_q - (1+q), not from a HACS congruence-module record"
+  },
+  "acceptance": {
+   "all_overlapping_cases_agree": true,
+   "n_cases": 14,
+   "n_overlap": 14
+  },
+  "cases": [
+   {
+    "M": 1,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     24
+    ],
+    "det": "135/16",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -2001,
+     -97776,
+     -1180224
+    ],
+    "k": 12,
+    "lambda": -24,
+    "norm_Dint": 8640,
+    "overlap_with_C5": true,
+    "q": 2
+   },
+   {
+    "M": 1,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -252
+    ],
+    "det": "10880/729",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -177652,
+     89346096,
+     -11249606592
+    ],
+    "k": 12,
+    "lambda": 252,
+    "norm_Dint": 881280,
+    "overlap_with_C5": true,
+    "q": 3
+   },
+   {
+    "M": 1,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -4830
+    ],
+    "det": "13129344/390625",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -48837786,
+     471703026060,
+     -1139106468641400
+    ],
+    "k": 12,
+    "lambda": 4830,
+    "norm_Dint": 328233600,
+    "overlap_with_C5": true,
+    "q": 5
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     2
+    ],
+    "det": "5",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     1,
+     -8,
+     -12
+    ],
+    "k": 2,
+    "lambda": -2,
+    "norm_Dint": 5,
+    "overlap_with_C5": true,
+    "q": 2
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     1
+    ],
+    "det": "15",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -2,
+     -7,
+     -4
+    ],
+    "k": 2,
+    "lambda": -1,
+    "norm_Dint": 15,
+    "overlap_with_C5": true,
+    "q": 3
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -1
+    ],
+    "det": "35",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -8,
+     13,
+     -6
+    ],
+    "k": 2,
+    "lambda": 1,
+    "norm_Dint": 35,
+    "overlap_with_C5": true,
+    "q": 5
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -2,
+     -2
+    ],
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "dim": 2,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -22,
+     153,
+     -316,
+     -140,
+     576,
+     324
+    ],
+    "k": 4,
+    "norm_Dint": 1012,
+    "overlap_with_C5": true,
+    "q": 2
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     2,
+     -47
+    ],
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "dim": 2,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -52,
+     470,
+     7988,
+     -57823,
+     -271096,
+     1731856
+    ],
+    "k": 4,
+    "norm_Dint": 8833,
+    "overlap_with_C5": true,
+    "q": 3
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -2,
+     -191
+    ],
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "dim": 2,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -256,
+     16506,
+     32516,
+     -6157175,
+     2936052,
+     579172356
+    ],
+    "k": 4,
+    "norm_Dint": 499081,
+    "overlap_with_C5": true,
+    "q": 5
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     16,
+     -13178,
+     -227796,
+     54836568,
+     885037968,
+     -84563182720,
+     -1292418714112,
+     40327019356160,
+     476447287050240,
+     -4651538641846272
+    ],
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "dim": 10,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -4066,
+     4041165,
+     240429344,
+     -105707096528,
+     -4804903819104,
+     1118358125141668,
+     46238538311300048,
+     -6216606289901670288,
+     -244827438296512309120,
+     19740697403018675854528,
+     758086785199210907258112,
+     -36283147361419932055271168,
+     -1391330689818086318982295552,
+     37174003706483004876715130880,
+     1465209550106699707256605638656,
+     -19430620252714705609871663562752,
+     -815301435869662905724774398296064,
+     4753210716055356693648816771956736,
+     212415720365581217970067320223039488,
+     -603863481987393120301325323994136576,
+     -18697769124172540400495978030397652992,
+     90840012031707249029039102351936323584
+    ],
+    "k": 12,
+    "norm_Dint": 56648377404239737031034276283416576000,
+    "overlap_with_C5": true,
+    "q": 2
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -271,
+     -889223,
+     194792277,
+     272801404935,
+     -49702325601645,
+     -32816522761000893,
+     5710443726916405143,
+     1363067786756742043644,
+     -226888769322889498517616,
+     -5812392522243567318287040
+    ],
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "dim": 10,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -354838,
+     31571737331,
+     -16403778341068,
+     -53813021217982375,
+     26913623807288480438,
+     38832309869983860055075,
+     -18458468264515971214199064,
+     -15327841084879629964880547045,
+     6985552383557498637826722802998,
+     3565837540945902650885135322839505,
+     -1602816141667155523317537976138418028,
+     -489710495631415801675967372429662962357,
+     229151915343535382528971280105747977923690,
+     37095998052907029792907723755136594165626393,
+     -19956088428786526938710422229322796923002764272,
+     -1186876323007006578608728052780179128891814434240,
+     974097098016318915528866692443119388420746620084992,
+     -10798297255040024347122216570722137676167196057197056,
+     -21506136098371856701892894783884290779675632925496250368,
+     1117283995057051821213892001133975547918082515370577444864,
+     82757550665145720487362588980594609517275077286568407531520,
+     1060186763609027887848535457993607138369087402717417834086400
+    ],
+    "k": 12,
+    "norm_Dint": 52876296872570173812023475674006859451467244418432237568000,
+    "overlap_with_C5": true,
+    "q": 3
+   },
+   {
+    "M": 11,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     6043,
+     -222665801,
+     -353993524125,
+     18332434010844525,
+     -36423840205908424875,
+     -470244113392679613626875,
+     2020039597986259250010040625,
+     -33580888472549803543547781250,
+     -8845018726284815135305721406562500,
+     6908768643776722536204940458459375000
+    ],
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "dim": 10,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -97644166,
+     2383005206396451,
+     28855190470246407956,
+     -974355953133689712186455,
+     -8112152291018724000569144538,
+     195393590968771939953516035596051,
+     731345301627227407763957810201129000,
+     -22457774048185179058775607557729873975925,
+     3752404385403614095041046329810165003779750,
+     1420273816151545629432194170472350598193063810625,
+     -4576488262710227747194406688172701971049704279887500,
+     -41550722245129403226905538964918655439191911143060453125,
+     267896204835834251371310471248917872969123535823820282656250,
+     181245230418712303174549534776777932990353174263347852928515625,
+     -5309045843336290518360830574087577815931526622704371611667093750000,
+     11943522032382339432126769368900124568771942637226717480117603281250000,
+     18313905881881842330987312472122494773474033235231801295048868725000000000,
+     -100689490658735018611698359870341544818785364621543730124688741444476562500000,
+     67956054890105767298819340740539682807761427462862737720142453947123437500000000,
+     185430908866095126996738336026019552534184037014932465258826752503718046875000000000,
+     -291391220404576068259677037145697522042944246725536899668072446976420125140625000000000,
+     113799777336830334210301859152203251861334979874476830928397010138644381745351562500000000
+    ],
+    "k": 12,
+    "norm_Dint": 5450251784601912175233972242743335900572979512360443141083830778521760000000000000000,
+    "overlap_with_C5": true,
+    "q": 5
+   },
+   {
+    "M": 5,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     4
+    ],
+    "det": "5",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -10,
+     -47,
+     360,
+     1296
+    ],
+    "k": 4,
+    "lambda": -4,
+    "norm_Dint": 20,
+    "overlap_with_C5": true,
+    "q": 2
+   },
+   {
+    "M": 5,
+    "agrees_charpoly": true,
+    "agrees_dim": true,
+    "agrees_norm_Dint": true,
+    "agrees_s": true,
+    "charpoly_Tq": [
+     1,
+     -2
+    ],
+    "det": "140/9",
+    "det_formula": "(q+1)^2 - q^(2-k) lambda^2",
+    "det_matrix_check": true,
+    "det_vanishes": false,
+    "dim": 1,
+    "hacs_charpoly_H1_high_to_low": [
+     1,
+     -60,
+     1012,
+     -3360,
+     3136
+    ],
+    "k": 4,
+    "lambda": 2,
+    "norm_Dint": 140,
+    "overlap_with_C5": true,
+    "q": 3
+   }
+  ],
+  "hacs_runs": [
+   {
+    "M": 1,
+    "descent_script": "set coefficient_ring = \"Z\";\nd = descent(1, 10, [2, 3, 5]);\nprint(\"@@STATUS \" + json(d.status));\nprint(\"@@GROUPS \" + json(d.groups));\nfor c in d.charpoly { print(\"@@CP \" + json([c.p, c.exact, c.determined])); }\n",
+    "groups": [
+     "0",
+     "Z^3 + Z/2 + Z/2^2 + Z/3",
+     "Z/2",
+     "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/3"
+    ],
+    "k": 12,
+    "status": "ok",
+    "wall_s": 0.10810306800703984
+   },
+   {
+    "M": 11,
+    "descent_script": "set coefficient_ring = \"Z\";\nd = descent(11, 0, [2, 3, 5, 7, 13]);\nprint(\"@@STATUS \" + json(d.status));\nprint(\"@@GROUPS \" + json(d.groups));\nfor c in d.charpoly { print(\"@@CP \" + json([c.p, c.exact, c.determined])); }\n",
+    "groups": [
+     "Z",
+     "Z^3",
+     "Z/2",
+     "Z/2 + Z/2 + Z/2"
+    ],
+    "k": 2,
+    "status": "ok",
+    "wall_s": 0.30923317300039344
+   },
+   {
+    "M": 11,
+    "descent_script": "set coefficient_ring = \"Z\";\nd = descent(11, 2, [2, 3, 5]);\nprint(\"@@STATUS \" + json(d.status));\nprint(\"@@GROUPS \" + json(d.groups));\nfor c in d.charpoly { print(\"@@CP \" + json([c.p, c.exact, c.determined])); }\n",
+    "groups": [
+     "0",
+     "Z^6 + Z/2",
+     "Z/2",
+     "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2"
+    ],
+    "k": 4,
+    "status": "ok",
+    "wall_s": 0.12448747400048887
+   },
+   {
+    "M": 11,
+    "descent_script": "set coefficient_ring = \"Z\";\nd = descent(11, 10, [2, 3, 5]);\nprint(\"@@STATUS \" + json(d.status));\nprint(\"@@GROUPS \" + json(d.groups));\nfor c in d.charpoly { print(\"@@CP \" + json([c.p, c.exact, c.determined])); }\n",
+    "groups": [
+     "0",
+     "Z^22 + Z/2 + Z/2^2 + Z/3 + Z/11",
+     "Z/2 + Z/2",
+     "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2"
+    ],
+    "k": 12,
+    "status": "ok",
+    "wall_s": 0.8622427880036412
+   },
+   {
+    "M": 5,
+    "descent_script": "set coefficient_ring = \"Z\";\nd = descent(5, 2, [2, 3]);\nprint(\"@@STATUS \" + json(d.status));\nprint(\"@@GROUPS \" + json(d.groups));\nfor c in d.charpoly { print(\"@@CP \" + json([c.p, c.exact, c.determined])); }\n",
+    "groups": [
+     "0",
+     "Z^4 + Z/2",
+     "0",
+     "Z/2 + Z/2 + Z/2 + Z/2 + Z/2^2"
+    ],
+    "k": 4,
+    "status": "ok",
+    "wall_s": 0.07196331399609335
+   }
+  ],
+  "normalisation_table": {
+   "agrees_C5_det": true,
+   "agrees_C5_entries": true,
+   "agrees_C5_matrix": true,
+   "agrees_C5_q_2_minus_k_slot": true,
+   "all_agree": true,
+   "det": "(q+1)^2 - q^(2-k)*lambda^2",
+   "entries": {
+    "(1,1)": "q+1",
+    "(1,2)": "-q^(2-k)*lambda",
+    "(2,1)": "-lambda",
+    "(2,2)": "q+1"
+   },
+   "matrix": [
+    [
+     "q+1",
+     "-q^(2-k)*lambda"
+    ],
+    [
+     "-lambda",
+     "q+1"
+    ]
+   ],
+   "q_2_minus_k_slot": "(1,2)",
+   "source": "C5 normalisation (betti_det.json); here checked on the HACS values numerically via det of the 2x2 matrix"
+  }
+ },
+ "provenance": {
+  "commit": "05f7fe7200346d15313ce080d8122787b22f53b8-dirty",
+  "date": "2026-11-14T20:36:05+00:00",
+  "hacs_version": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+  "notes": "S03-H1: C3 det(Psi*Psi) re-run on HACS data; compared with code/results/s03/betti_det.json (C5).",
+  "params": {
+   "M_k": [
+    [
+     1,
+     12
+    ],
+    [
+     11,
+     2
+    ],
+    [
+     11,
+     4
+    ],
+    [
+     11,
+     12
+    ],
+    [
+     5,
+     4
+    ]
+   ],
+   "T1_q": [
+    2,
+    3,
+    5,
+    7,
+    13
+   ],
+   "hacs": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+   "hacs_verb": "descent (coefficient_ring=Z)",
+   "q": [
+    2,
+    3,
+    5
+   ]
+  },
+  "pari_version": null,
+  "python": "3.10.12",
+  "runtime_s": 1.5608225010000751,
+  "script": "code/hacs/jl/s03_h1_rerun.py",
+  "sympy": "1.9"
+ }
+}

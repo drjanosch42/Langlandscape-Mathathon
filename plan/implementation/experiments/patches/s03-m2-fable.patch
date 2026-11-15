@@ -1,0 +1,331 @@
+diff --git a/mathematics/bib/s03-m2.bib b/mathematics/bib/s03-m2.bib
+new file mode 100644
+index 0000000..808631f
+--- /dev/null
++++ b/mathematics/bib/s03-m2.bib
+@@ -0,0 +1,2 @@
++% Per-WP bibliography of S03-M2.
++% All sources of this WP are cited via \lit{}{} and already have entries in references.bib (Ri90, DT); no new entries are needed.
+diff --git a/mathematics/chapters/s03/2-eisenstein.tex b/mathematics/chapters/s03/2-eisenstein.tex
+new file mode 100644
+index 0000000..55d5b7b
+--- /dev/null
++++ b/mathematics/chapters/s03/2-eisenstein.tex
+@@ -0,0 +1,317 @@
++% Stage 03, WP S03-M2: the Eisenstein property of Phi^comb (prop:s03-phieis, steps (1)--(4) in full) and the definite
++% level-raising operator alpha alpha^dagger (prop:s03-LRdef, trivial coefficients).
++% Labels fixed by plan/staged/stage-03-ribet-ihara.tex: prop:s03-phieis, prop:s03-LRdef.
++% New labels: ss:s03-eisenstein, lem:s03-stabfree, lem:s03-eisabs, rem:s03-phieis-notes, lem:s03-transfer, rem:s03-LRnotes.
++\section{The Eisenstein property and the level-raising operator}\label{ss:s03-eisenstein}
++
++\emph{Standing notation.} Class sets, stabilisers and weights are those of Def.~\ref{def:s01-classset}:
++$\XB U=B^\times\backslash\Bhat^\times/U$, $\Gamma_x=B^\times\cap xUx^{-1}$, $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$. Hecke operators act on
++$\Z[\XB U]$ in the homological convention of Def.~\ref{def:s01-hecke}: $T_g[x]=\sum_i[xg_i]$ for $UgU=\coprod_ig_iU$. The pairing on
++$\Z[\XB U]$ is $\langle[x],[y]\rangle=w_x\delta_{xy}$ (Def.~\ref{def:s01-pairing}); for $B=B_q$ it is the pairing $\langle,\rangle_w$ of
++the graph $\GDR_q(U)$ (Def.~\ref{def:s03-DR}, Def.~\ref{def:s03-graph}).
++
++\subsection{The Eisenstein property of \texorpdfstring{$\Phicomb$}{Phi-comb}}
++
++The proof of Prop.~\ref{prop:s03-phieis} has a quaternionic part (step (1), Lemma~\ref{lem:s03-stabfree}) and a part that is finite linear
++algebra (steps (2)--(4), Lemma~\ref{lem:s03-eisabs}).
++
++\begin{lemma}[neighbours in other classes have trivial stabiliser]\label{lem:s03-stabfree}
++Let $B=\Bd$ be definite, $M\ge1$ with $(M,D)=1$, $U=\Uzero M$, and $\ell$ a prime with $\ell\nmid DM$. Let
++$U\varpi_\ell U=\coprod_{i=0}^{\ell}g_iU$ and, for $x,y\in\Bhat^\times$, $B_\ell(x,y):=\#\{i:[xg_i]=[y]\}$, so that
++$T_\ell[x]=\sum_{[y]\in\XB U}B_\ell(x,y)[y]$. Then:
++\begin{enumerate}[label=(\alph*)]
++\item $\sum_{[y]}B_\ell(x,y)=\ell+1$.
++\item The group $\Gamma_x/\{\pm1\}$ acts on the set $N_x:=\{xg_iU\}=xU\varpi_\ell U/U$ of \emph{neighbours} of $x$ by
++  $\gamma\cdot xgU:=\gamma xgU$, and the class map $N_x\to\XB U$, $xgU\mapsto[xg]$, is constant on orbits.
++\item If $\gamma\in\Gamma_x$, $\gamma\ne\pm1$, fixes a neighbour $xgU\in N_x$, then $[xg]=[x]$. More precisely, there is
++  $\pi\in\Z[\gamma]\subset B^\times$ with $\Nrd\pi=\ell$ and $\pi xU=xgU$.
++\item $w_x\mid B_\ell(x,y)$ whenever $[y]\ne[x]$.
++\end{enumerate}
++\stproved{} (proof below; valid for every $D$, in particular $D=q$ any prime, and every $\ell\nmid DM$, including $\ell\in\{2,3\}$). Lean: (d) is
++the registered hypothesis \texttt{Langlandscape.Hyp.BrandtStabFree} (S03-L8); \leanplanned
++\end{lemma}
++\begin{proof}
++\emph{(a).} The number of cosets in $U\varpi_\ell U/U$ is $\ell+1$: this is $T_\ell\mathbf1=(\ell+1)\mathbf1$ at level $\Uzero M$,
++Prop.~\ref{prop:s01-relations}(d). (Directly: via $\iota_\ell$, $gU_\ell\mapsto g\Z_\ell^2$ is a bijection from $U_\ell\varpi_\ell U_\ell/U_\ell$ onto the set of
++sublattices of index $\ell$ in $\Z_\ell^2$, by the elementary divisor theorem; these correspond to the $\ell+1$ lines in $\F_\ell^2$.) Each index $i$ contributes to exactly one class $[y]=[xg_i]$.
++
++\emph{(b).} Let $\gamma\in\Gamma_x$, so $k:=x^{-1}\gamma x\in U$. Then $\gamma xgU=x\,kgU$ and $kgU\subseteq U\varpi_\ell U$, so $\gamma$ maps $N_x$ to
++itself; this is an action of $\Gamma_x$ by left multiplication. Since $-1$ is central and lies in $U$, it acts trivially. Finally
++$[\gamma xg]=[xg]$ in $\XB U$, because $\gamma\in B^\times$. As $i\mapsto xg_iU$ is a bijection onto $N_x$, $B_\ell(x,y)$ is the cardinality of the
++fibre of the class map over $[y]$, and this fibre is a union of $\Gamma_x/\{\pm1\}$-orbits.
++
++\emph{(c).} We proceed in six steps. Recall that $\Uzero M=\hat R^\times$ for the Eichler order $\hat R=\hat\cO(M)$
++(Prop.~\ref{prop:s01-eichler}), and put $R_x:=B\cap x\hat Rx^{-1}$, an order of $B$ with $\Gamma_x=R_x^\times$ (same argument as for $\cO_x$ in the
++proof of Prop.~\ref{prop:s01-finite}).
++
++\emph{Step 1: the ring $\Z[\gamma]$.} The group $\Gamma_x$ is finite (Prop.~\ref{prop:s01-finite}), so $\gamma$ has finite order $n$. As
++$\gamma\ne\pm1$ and the only elements of finite order in $\Q^\times$ are $\pm1$, we have $\gamma\notin\Q$. Since $B$ is a division algebra,
++$K:=\Q(\gamma)$ is a field, and it is quadratic over $\Q$ because $\gamma$ is a root of its reduced characteristic polynomial
++$f(X)=X^2-\Trd(\gamma)X+\Nrd(\gamma)$; so $f$ is the minimal polynomial of $\gamma$, and $\Nrd|_K=N_{K/\Q}$. Thus $\gamma$ is a primitive $n$-th root
++of unity in a quadratic field, hence $\varphi(n)=2$ and $n\in\{3,4,6\}$. Therefore $O:=\Z[\gamma]$ is $\Z[i]$ ($n=4$) or
++$\Z[\omega]$, $\omega=e^{2\pi i/3}$ ($n=3,6$; note $\Z[-\omega]=\Z[\omega]$). In both cases $O$ is the \emph{full} ring of integers of $K$
++($K=\Q(i)$ resp.\ $\Q(\sqrt{-3})$), and it is a principal ideal domain (it is Euclidean for the norm). Consequently, for \emph{every} prime $\ell$
++(split, inert or ramified in $K$; $\ell=2,3$ included), $O_\ell:=O\otimes\Z_\ell$ is the maximal order of $K_\ell:=K\otimes\Q_\ell$, namely
++$O_\ell=\prod_{\mathfrak p\mid\ell}O_{\mathfrak p}$, a finite product of discrete valuation rings, inside $K_\ell=\prod_{\mathfrak p\mid\ell}K_{\mathfrak p}$.
++Finally $\gamma\in xUx^{-1}\subseteq x\hat Rx^{-1}$ and the latter is a ring, so $O=\Z[\gamma]\subseteq R_x$.
++
++\emph{Step 2: translation to lattices at $\ell$.} Since $\ell\nmid DM$, $U_\ell=\cO_\ell^\times$ and $\iota_\ell:\cO_\ell\xrightarrow\sim M_2(\Z_\ell)$. Let
++$\rho:B_\ell\to M_2(\Q_\ell)$, $\rho(b):=\iota_\ell(x_\ell^{-1}bx_\ell)$, an injective homomorphism of $\Q_\ell$-algebras. It maps $R_x$, hence $O$, into
++$M_2(\Z_\ell)$, and so it makes $\Lambda_0:=\Z_\ell^2$ (column vectors) an $O_\ell$-module and $V:=\Q_\ell^2$ a $K_\ell$-module. Put
++$u:=\rho(\gamma)\in\GL_2(\Z_\ell)$. By the factorisation $U\varpi_\ell U=U_\ell\varpi_\ell U_\ell\times\prod_{v\ne\ell}U_v$ (proof of Def.~\ref{def:s01-hecke})
++we may and do take the representative $g$ of the given neighbour with $g_v=1$ for $v\ne\ell$; put $g_\ell':=\iota_\ell(g_\ell)\in M_2(\Z_\ell)$,
++$\det g'_\ell\in\ell\Z_\ell^\times$, and $\Lambda':=g'_\ell\Lambda_0\subset\Lambda_0$. Then $[\Lambda_0:\Lambda']=\ell$, and for $h\in M_2(\Q_\ell)$:
++\begin{equation}\label{eq:s03-lattice}
++h\Lambda_0=\Lambda'\iff g_\ell'^{-1}h\in\GL_2(\Z_\ell)\iff h\in g'_\ell\GL_2(\Z_\ell).
++\end{equation}
++The hypothesis $\gamma xgU=xgU$ says $kgU=gU$ with $k=x^{-1}\gamma x\in U$. Away from $\ell$ this is the empty condition $k_vU_v=U_v$; at $\ell$ it
++reads $ug'_\ell\GL_2(\Z_\ell)=g'_\ell\GL_2(\Z_\ell)$, i.e.\ $u\Lambda'=\Lambda'$. So $\Lambda'$ is an $O_\ell$-submodule of $\Lambda_0$ of index $\ell$.
++
++\emph{Step 3: $\Lambda_0$ is free of rank one over $O_\ell$.} The elements $1,\gamma$ are linearly independent over $\Q$ in $B$, hence over $\Q_\ell$
++in $B_\ell=B\otimes\Q_\ell$; as $\rho$ is injective, $u$ is not a scalar matrix. A non-scalar $2\times2$ matrix has a vector $v\in V$ that is not an
++eigenvector, so $v,uv$ is a basis of $V$. The $\Q_\ell$-linear map $K_\ell\to V$, $a\mapsto\rho(a)v$, has $v$ and $uv$ in its image and both spaces have
++dimension $2$; so it is an isomorphism of $K_\ell$-modules. Under it, $\Lambda_0$ corresponds to an $O_\ell$-submodule $\mathfrak M\subset K_\ell$ that is
++finitely generated and of rank $2$ over $\Z_\ell$. Decomposing by the idempotents of $O_\ell=\prod_{\mathfrak p}O_{\mathfrak p}$,
++$\mathfrak M=\prod_{\mathfrak p}\mathfrak M_{\mathfrak p}$ with $\mathfrak M_{\mathfrak p}\subset K_{\mathfrak p}$ a finitely generated $O_{\mathfrak p}$-submodule, nonzero for
++each $\mathfrak p$ because $\mathfrak M$ spans $K_\ell$ over $\Q_\ell$. Since $O_{\mathfrak p}$ is a discrete valuation ring,
++$\mathfrak M_{\mathfrak p}=c_{\mathfrak p}O_{\mathfrak p}$ with $c_{\mathfrak p}\in K_{\mathfrak p}^\times$. Hence $\mathfrak M=cO_\ell$ with $c=(c_{\mathfrak p})\in K_\ell^\times$, and
++\[\Lambda_0=\rho(O_\ell)\,v_0,\qquad v_0:=\rho(c)v,\]
++with $a\mapsto\rho(a)v_0$ an isomorphism $O_\ell\xrightarrow\sim\Lambda_0$ of $O_\ell$-modules. (Here the maximality of $O_\ell$ is used. No Morita theory is
++needed: the lattice $\Lambda_0$ itself is the rank-two $\Z_\ell[\gamma]$-lattice ``$L$'' of the stage tex.)
++
++\emph{Step 4: $\Lambda'=\pi\Lambda_0$.} By Step 3, $\Lambda'=\rho(\mathfrak a)v_0$ for the ideal $\mathfrak a:=\{a\in O_\ell:\rho(a)v_0\in\Lambda'\}$ of $O_\ell$,
++and $O_\ell/\mathfrak a\cong\Lambda_0/\Lambda'$ has order $\ell$. A group of order $\ell$ is killed by $\ell$, so $\ell O_\ell\subseteq\mathfrak a$. Let
++$\mathfrak p\subset O$ be the preimage of $\mathfrak a/\ell O_\ell$ under $O\to O/\ell O=O_\ell/\ell O_\ell$. It is an ideal of $O$ containing $\ell$ with
++$|O/\mathfrak p|=\ell$, and $\mathfrak pO_\ell=\mathfrak a$ (both contain $\ell O_\ell$ and have the same image modulo $\ell$). As $O$ is a principal ideal
++domain, $\mathfrak p=\pi O$ with $\pi\in O$, and
++\[\Nrd(\pi)=N_{K/\Q}(\pi)=|O/\pi O|=\ell\]
++(the norm of a nonzero element of an imaginary quadratic order is positive and equals the index of the ideal it generates). Then
++$\mathfrak a=\pi O_\ell$ and
++\[\Lambda'=\rho(\pi O_\ell)v_0=\rho(\pi)\Lambda_0 .\]
++(If $\ell$ is inert in $K$, there is no ideal of index $\ell$, so this case does not occur: then no $\gamma$ with $\Q(\gamma)=K$ fixes any
++neighbour. If $\ell$ splits, there are two such ideals; if $\ell$ ramifies, i.e.\ $(\ell,n)\in\{(2,4),(3,3),(3,6)\}$, one.)
++
++\emph{Step 5: from local to global.} We claim $x^{-1}\pi x\in gU$. At $\ell$: by \eqref{eq:s03-lattice} with $h=\rho(\pi)$,
++$\iota_\ell(x_\ell^{-1}\pi x_\ell)\in g'_\ell\GL_2(\Z_\ell)$, i.e.\ $x_\ell^{-1}\pi x_\ell\in g_\ell U_\ell$. At $v\ne\ell$: $g_v=1$, and $a:=x_v^{-1}\pi x_v$ lies in the
++order $\hat R_v$ (as $\pi\in O\subseteq R_x$) and has $\Nrd a=\ell\in\Z_v^\times$. Its conjugate $\bar a=\Trd(a)-a$ lies in $\hat R_v$ as well and
++$a\bar a=\Nrd a$, so $a^{-1}=\bar a/\Nrd a\in\hat R_v$ and $a\in\hat R_v^\times=U_v$. This proves the claim, i.e.\ $\pi xU=xgU$.
++
++\emph{Step 6: the class.} By Step 5, $xg\in\pi xU$ with $\pi\in B^\times$, hence $[xg]=[\pi x]=[x]$ in $\XB U=B^\times\backslash\Bhat^\times/U$.
++
++\emph{(d).} Let $[y]\ne[x]$. By (c), no element of $\Gamma_x/\{\pm1\}$ other than the identity fixes a point of the fibre of the class map over
++$[y]$. So this fibre is a disjoint union of orbits of size $|\Gamma_x/\{\pm1\}|=w_x$ (note $-1\in\Uzero M$), and $w_x$ divides its cardinality
++$B_\ell(x,y)$ by (b).
++\end{proof}
++
++\begin{remark}[ideal-theoretic form; comparison with the stage tex]\label{rem:s03-phieis-notes}
++(a) \emph{Left and right.} Let $R=B\cap\hat R$ be the Eichler order of level $M$. To $x\in\Bhat^\times$ attach the lattice $I_x:=B\cap x\hat R$. It is
++a \emph{right} $R$-ideal, its left order is $R_x=B\cap x\hat Rx^{-1}$, and $I_{\gamma xu}=\gamma I_x$ for $\gamma\in B^\times$, $u\in U$. So $\XB U$ is
++the set of right $R$-ideals modulo \emph{left} multiplication by $B^\times$, and $\Gamma_x=R_x^\times=\cO_L(I_x)^\times$ acts on $I_x$, and on its
++sublattices, from the \emph{left}. The neighbours $xg_iU$ are the $\ell+1$ right $R$-ideals $J=I_{xg_i}\subset I_x$ with
++$\Nrd(J)=\ell\,\Nrd(I_x)$; they agree with $I_x$ outside $\ell$. In this language Lemma~\ref{lem:s03-stabfree}(c) reads: if
++$\gamma J=J$ with $\gamma\in\cO_L(I)^\times\setminus\{\pm1\}$, then $J_\ell=\pi I_\ell$ and $J_v=I_v=\pi I_v$ for $v\ne\ell$ (as $\pi\in\cO_L(I)$ has norm
++prime to $v$), so $J=\pi I$; and $\pi I$ is in the class of $I$ because $\pi\in\Z[\gamma]\subseteq\cO_L(I)$ multiplies on the left, which is the
++side on which $B^\times$ is divided out. (With left ideals and right multiplication the same proof applies after applying the canonical
++involution.)
++
++(b) \emph{Points checked against the stage tex.} (i) The claim ``$\Z_\ell[\gamma]$ is the maximal order at $\ell$'' holds for all $\ell$, because
++$\Z[\gamma]$ is the full ring of integers of $\Q(\gamma)$ for $\gamma$ of order $3,4,6$; no condition on $\ell$ beyond $\ell\nmid DM$ (needed for
++$R_\ell\cong M_2(\Z_\ell)$ and for $T_\ell$) enters, and the ramified cases $\ell=2$ ($n=4$), $\ell=3$ ($n=3,6$) are covered by Step~4.
++(ii) The stage tex's Morita step is replaced by Steps 2--3: the cosets $gU_\ell$ are index-$\ell$ sublattices of $\Z_\ell^2$ and
++$\Z_\ell^2$ is free of rank one over $\Z_\ell[\gamma]$; the freeness needs that $\rho(\gamma)$ is not scalar, which the stage tex left implicit
++(``faithful''). (iii) The stage tex's ``$J_v=I_v=\pi I_v$ for $v\ne\ell$'' needs $\pi\in\cO_L(I)$ and $\Nrd\pi=\ell$; this is Step~5. (iv) The lemma
++does not assert $w_x\mid B_\ell(x,x)$, which is false in general (e.g.\ $B_{11}$, $\ell=2$: $B_2=\left(\begin{smallmatrix}1&2\\3&0\end{smallmatrix}\right)$ with
++$w=(2,3)$; see the example after Prop.~\ref{prop:s03-phieis}).
++\end{remark}
++
++\begin{lemma}[abstract Eisenstein property]\label{lem:s03-eisabs}
++Let $\G$ be a two-vertex weighted graph as in Prop.~\ref{prop:s03-phi}, with edge set $E\ne\emptyset$ and weights $w_e$, and let $c\in\Z$. Let
++$(B(e,e'))_{e,e'\in E}$ be an integer matrix and $T$ the endomorphism $T[e]=\sum_{e'}B(e,e')[e']$ of $\Z[E]$. Assume
++\begin{enumerate}[label=(\roman*)]
++\item $\sum_{e'}B(e,e')=c$ for every $e$;
++\item $w_e\mid B(e,e')$ for all $e\ne e'$;
++\item $w_{e'}B(e,e')=w_eB(e',e)$ for all $e,e'$.
++\end{enumerate}
++Then $T$ preserves $X(\G)=\Z[E]^0$ and is self-adjoint for $\langle,\rangle_w$; the transpose $T^\vee:\varphi\mapsto\varphi\circ T$ on
++$\Hom(X(\G),\Z)$ preserves the image of $X(\G)$, so $T$ acts on $\Phicomb(\G)$; and $T-c$ is zero on $\Phicomb(\G)$.
++\stproved{} (proof below). Lean: \texttt{Langlandscape.Graph.phiComb\_eisenstein} (S03-L7); \leanplanned
++\end{lemma}
++\begin{proof}
++By (i), $\deg T[e]=c$, so $\deg\circ T=c\deg$ and $T\Z[E]^0\subseteq\Z[E]^0$; $X(\G)=\Z[E]^0$ by Prop.~\ref{prop:s03-phi}. By (iii),
++$\langle T[e],[e']\rangle_w=w_{e'}B(e,e')=w_eB(e',e)=\langle[e],T[e']\rangle_w$, so $T$ is self-adjoint on $\Z[E]$, hence on $X(\G)$.
++Let $j:X(\G)\to\Hom(X(\G),\Z)$, $j(x)=\langle x,\cdot\rangle_w$. Then $j(Tx)=\langle Tx,\cdot\rangle_w=\langle x,T\,\cdot\rangle_w=T^\vee j(x)$. So $j$ is
++equivariant, $T^\vee$ preserves $j(X(\G))$, and $T^\vee$ induces an endomorphism of $\Phicomb(\G)=\coker j$; this is the action of $T$ on
++$\Phicomb(\G)$.
++
++We make it explicit in the model $\Phicomb(\G)=\Z^E/(W\Z[E]^0+\Z\mathbf1)$ of Prop.~\ref{prop:s03-phi}. There
++$\Hom(X(\G),\Z)=\Z^E/\Z\mathbf1$ by restriction of functionals, $\varphi\in\Z^E$ being the functional $[e]\mapsto\varphi(e)$, and $j(x)$ is the class of
++$Wx:e\mapsto w_ex_e$. The transpose of $T$ on $\Z^E$ is
++\[(T^\vee\varphi)(e)=\varphi(T[e])=\sum_{e'}B(e,e')\varphi(e'),\]
++it restricts to $T^\vee$ on functionals on $\Z[E]^0$, and $T^\vee\mathbf1=c\mathbf1$ by (i). Let $\varphi\in\Z^E$. By (i),
++\[\big((T^\vee-c)\varphi\big)(e)=\sum_{e'}B(e,e')\big(\varphi(e')-\varphi(e)\big)=\sum_{e'\ne e}B(e,e')\big(\varphi(e')-\varphi(e)\big)=w_ex_e,\]
++\[x_e:=\sum_{e'\ne e}S(e,e')\big(\varphi(e')-\varphi(e)\big),\qquad S(e,e'):=B(e,e')/w_e\quad(e\ne e').\]
++By (ii), $S(e,e')\in\Z$, so $x_e\in\Z$; by (iii), $S(e,e')=B(e,e')/w_e=B(e',e)/w_{e'}=S(e',e)$. Hence
++\[\sum_ex_e=\sum_{(e,e'):e\ne e'}S(e,e')\big(\varphi(e')-\varphi(e)\big)=0,\]
++because the summand changes sign under $(e,e')\leftrightarrow(e',e)$. So $x:=\sum_ex_e[e]\in\Z[E]^0=X(\G)$ and $(T^\vee-c)\varphi=Wx=j(x)$. Thus
++$(T^\vee-c)\Z^E\subseteq W\Z[E]^0$, and $T-c$ is zero on $\Phicomb(\G)$.
++\end{proof}
++
++\begin{proposition}[$\Phicomb$ is Eisenstein]\label{prop:s03-phieis}
++Let $q$ be any prime, $U=\Uzero M$, $B=B_q$, $\ell\nmid qM$, and let $T_\ell$ act on $\Z[\XBq U]$ by the Brandt matrix (homological
++convention, $[x]\mapsto\sum_i[xg_i]$). Then $T_\ell$ is self-adjoint for $\langle,\rangle_w$, so it acts on $\Phicomb(\GDR_q(U))$, and
++$T_\ell-(1+\ell)$ annihilates $\Phicomb(\GDR_q(U))$.
++\stproved{} (proof below, steps (1)--(4); valid for all primes $q$, including $q\in\{2,3\}$, all $M$ prime to $q$ and all $\ell\nmid qM$, including
++$\ell\in\{2,3\}$). Lean: steps (2)--(4) are \texttt{Langlandscape.Graph.phiComb\_eisenstein}; the instantiation at $U=\hat\cO^\times$ is
++\texttt{Langlandscape.Ribet.phiComb\_eisenstein\_Ohat}, with step (1) entering as the registered hypothesis
++\texttt{Langlandscape.Hyp.BrandtStabFree}; \leanplanned
++\end{proposition}
++\noindent\emph{Cross-reference} (not used in the proof). The statement for the character group of $J_0(qM)$ at $q$ is [Ri90, Thm~3.12, p.~449] \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Thm 3.12, p.~449; proof pp.~449--450}.
++Ribet's argument rests on the same divisibility of the off-diagonal Brandt entries by $e(i)=w_i$, which is step (1) below.
++\begin{proof}
++Write $E=\XBq U$ and $B(e,e'):=B_\ell(x,y)$ for $e=[x]$, $e'=[y]$ (notation of Lemma~\ref{lem:s03-stabfree}; the number depends only on the
++classes, $T_\ell$ being well defined on $\Z[E]$), so $T_\ell[e]=\sum_{e'}B(e,e')[e']$. The graph $\GDR_q(U)$ has two vertices, edge set $E$ and
++weights $w_e=|\Gamma_e/\{\pm1\}|$ (Def.~\ref{def:s03-DR}; $-1\in U$), and $E\ne\emptyset$. We verify the hypotheses of
++Lemma~\ref{lem:s03-eisabs} with $c=\ell+1$.
++\begin{enumerate}[label=(\arabic*)]
++\item \emph{Row sums and divisibility.} $\sum_{e'}B(e,e')=\ell+1$ by Lemma~\ref{lem:s03-stabfree}(a), and $w_e\mid B(e,e')$ for $e'\ne e$ by
++  Lemma~\ref{lem:s03-stabfree}(d), applied with $D=q$. These are hypotheses (i) and (ii).
++\item \emph{Symmetry.} By Prop.~\ref{prop:s01-adjoint}(a) (proved there for trivial coefficients and any $g\in\Bhat^\times$), the adjoint of
++  $T_\ell=T_{\varpi_\ell}$ on $\Z[E]$ is $T_{\varpi_\ell^{-1}}$. At level $\Uzero M$ these agree (the last clause of Prop.~\ref{prop:s01-adjoint}(b));
++  explicitly, $\varpi_\ell^{-1}=z_\ell^{-1}\iota_\ell^{-1}\mathrm{diag}(1,\ell)$ and $U\,\iota_\ell^{-1}\mathrm{diag}(1,\ell)\,U=U\varpi_\ell U$
++  (Def.~\ref{def:s01-hecke}), so $U\varpi_\ell^{-1}U=\coprod_iz_\ell^{-1}g_iU$; and $[yz_\ell^{-1}g_i]=[\ell\,yz_\ell^{-1}g_i]=[yg_it]=[yg_i]$, where
++  $\ell\in\Q^\times\subset B^\times$ and $t:=\ell z_\ell^{-1}$ is a central idele with $t_\ell=1$ and $t_v=\ell\in\Z_v^\times$ for $v\ne\ell$, so $t\in\Uzero M$.
++  Hence $T_\ell$ is self-adjoint:
++  \[w_{e'}B(e,e')=\langle T_\ell[e],[e']\rangle=\langle[e],T_\ell[e']\rangle=w_eB(e',e).\]
++  This is hypothesis (iii) (in the import: \texttt{brandt\_weighted\_symmetry}, cf.\ the status line of Prop.~\ref{prop:s01-adjoint}).
++\item \emph{Action on the dual.} By Lemma~\ref{lem:s03-eisabs}, $T_\ell$ preserves $X(\GDR_q(U))=\Z[E]^0=\Xcomb_q(U)$, the map
++  $x\mapsto\langle x,\cdot\rangle_w$ is equivariant for $T_\ell$ and its transpose, and so $T_\ell$ acts on
++  $\Phicomb(\GDR_q(U))=\Z^E/(W\Z[E]^0+\Z\mathbf1)$ through $(T_\ell\varphi)(e)=\sum_{e'}B(e,e')\varphi(e')$; this is the operator
++  $(T_\ell\varphi)(x)=\sum_i\varphi(xg_i)$ of Def.~\ref{def:s01-hecke} on $\Z^E$. Moreover, for $\varphi\in\Z^E$,
++  \[\big((T_\ell-(\ell+1))\varphi\big)(e)=w_ex_e,\qquad x_e=\sum_{e'\ne e}\frac{B(e,e')}{w_e}\big(\varphi(e')-\varphi(e)\big)\in\Z,\qquad\sum_ex_e=0.\]
++\item \emph{Conclusion.} So $(T_\ell-(\ell+1))\Z^E\subseteq W\Z[E]^0$, the image of $X(\GDR_q(U))$, and $T_\ell-(1+\ell)$ is zero on
++  $\Phicomb(\GDR_q(U))$.
++\end{enumerate}
++The argument uses neither $q\ge5$, nor cyclic stabilisers, nor the mass formula, nor that $D$ is prime.
++\end{proof}
++
++\noindent\emph{Example} (\stpmc: the weights of Example~\ref{ex:s03-mazur} and strong approximation). $q=11$, $M=1$, $\ell=2$:
++$E=\{e_1,e_2\}$, $w=(2,3)$, and $B_2=\left(\begin{smallmatrix}1&2\\3&0\end{smallmatrix}\right)$. Indeed the rows sum to $3$ and
++$3B(e_1,e_2)=2B(e_2,e_1)$ by step (2), so $(B(e_1,e_2),B(e_2,e_1))$ is $(0,0)$ or $(2,3)$; and $(0,0)$ would make $T_2$ diagonal, so that
++$(e_1,0)$ and $(e_1,1)$ would form a connected component of the bipartite graph $\BG(\hat\cO^\times,2)$ of $B_{11}$ (its edges join $(x,0)$ to the
++$(xg_i,1)$, Lemma~\ref{lem:s03-transfer}(b)), contradicting its connectedness (Prop.~\ref{prop:s02-BG}, Thm.~\ref{thm:s02-SA}). Then $S(e_1,e_2)=2/2=1=3/3=S(e_2,e_1)$, and
++$(T_2-3)\varphi=(\varphi(e_2)-\varphi(e_1))\cdot(2,-3)=W\cdot(1,-1)\,(\varphi(e_2)-\varphi(e_1))\in W\Z[E]^0$, in accordance with $\Phicomb\cong\Z/5$
++(Prop.~\ref{prop:s03-mazur}) and $T_2\equiv3$ on it.
++
++\subsection{The definite level-raising operator}
++
++\emph{Setting and identifications.} We use the standing notation of \S\ref{ss:s03-ribet} and \S\ref{ss:s03-conv}: $B=\Bd$, $q\nmid D$,
++$U$ a $q$-admissible level (Def.~\ref{def:s02-GU}), $\alpha=\iota_q^{-1}\mathrm{diag}(1,q)$,
++\[U'=\Uzero qU=U\cap\alpha U\alpha^{-1},\qquad U'':=\alpha^{-1}U'\alpha=U\cap\alpha^{-1}U\alpha\]
++(Lemma~\ref{lem:s02-tree}(d): $\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\Iw_q$; $U,U',U''$ agree away from $q$). The bipartite Brandt graph
++$\BG(U,q)$ of Def.~\ref{def:s02-BG} has vertices of type $0$ and of type $1$, each set being a copy of $\XB U$, edges $\XB{U'}$, and
++\[s_0[y]=[y]\ \text{(origin, type $0$)},\qquad s_1[y]=[y\alpha]\ \text{(target, type $1$)}.\]
++The sign convention is (C1) (sign table of \S\ref{ss:s03-ribet}): $\alpha=(-s_{0*},s_{1*}):\Z[\XB{U'}]\to\Z[\XB U]\oplus\Z[\XB U]$, first component
++type $0$. (The letter $\alpha$ denotes both the idele and this map, as elsewhere in this chapter; the context decides.) Weights: $w_x$ at level
++$U$, $w_e$ at level $U'$; by (C3), $-1\in U'\iff-1\in U$, so $w_x/w_e=|\Gamma_x|/|\Gamma_e|$ whenever both are formed. The pairings are
++$\langle[x],[x']\rangle_U=w_x\delta_{xx'}$ on $\Z[\XB U]$, $\langle[e],[e']\rangle_{U'}=w_e\delta_{ee'}$ on $\Z[\XB{U'}]$, and the orthogonal sum on
++$\Z[\XB U]^2$. Finally $T_q:=T_{\varpi_q}=[U\varpi_qU]=[U\alpha U]$ is the Hecke (Brandt) operator at $q$ on $\Z[\XB U]$ in the homological
++convention (Def.~\ref{def:s01-hecke}, where $[U\varpi_qU]=[U\,\mathrm{diag}(1,q)\,U]$ is noted; $q$ is prime to the level of $U$).
++
++\begin{lemma}[weighted adjoints of the degeneracies]\label{lem:s03-transfer}
++Let $U$ be $q$-admissible. For $j\in\{0,1\}$ let $s_j^\dagger:\Q[\XB U]\to\Q[\XB{U'}]$ be the adjoint of $s_{j*}$, i.e.\
++$\langle s_{j*}a,b\rangle_U=\langle a,s_j^\dagger b\rangle_{U'}$. Then:
++\begin{enumerate}[label=(\alph*)]
++\item $s_j^\dagger[x]=\sum_{e:\,s_je=x}\frac{w_x}{w_e}[e]$, and $\frac{w_x}{w_e}=[\Gamma_x:\Gamma_e]\in\Z_{\ge1}$ for suitable representatives: for $e=[y]$,
++  $\Gamma^{U'}_y\subseteq\Gamma^U_y$ ($j=0$) and $\Gamma^{U'}_y\subseteq\Gamma^U_{y\alpha}$ ($j=1$). So $s_j^\dagger$ maps $\Z[\XB U]$ to $\Z[\XB{U'}]$.
++\item $s_0^\dagger[x]=\sum_{u\in U/U'}[xu]$ and $s_1^\dagger[x]=\sum_{u\in U/U''}[xu\alpha^{-1}]$ (classes in $\XB{U'}$).
++\item $\deg s_j^\dagger[x]=\sum_{e:\,s_je=x}w_x/w_e=q+1$.
++\end{enumerate}
++\stproved{} (proof below).
++\end{lemma}
++\begin{proof}
++\emph{(a).} Write $s_j^\dagger[x]=\sum_ec_e[e]$. Then $w_ec_e=\langle[e],s_j^\dagger[x]\rangle_{U'}=\langle s_{j*}[e],[x]\rangle_U=w_x\delta_{s_je,x}$, which is
++the formula. Let $e=[y]$. For $j=0$, $x=[y]$ and $\Gamma^{U'}_y=B^\times\cap yU'y^{-1}\subseteq B^\times\cap yUy^{-1}=\Gamma^U_y$. For $j=1$,
++$x=[y\alpha]$ and $\Gamma^{U'}_y\subseteq B^\times\cap y\alpha U\alpha^{-1}y^{-1}=\Gamma^U_{y\alpha}$, because $U'\subseteq\alpha U\alpha^{-1}$. The orders
++$|\Gamma_x|$, $|\Gamma_e|$ do not depend on the representatives ($\Gamma_{\gamma xu}=\gamma\Gamma_x\gamma^{-1}$), and
++$w_x/w_e=|\Gamma_x|/|\Gamma_e|$ as noted above. So $w_x/w_e$ is the index of a subgroup.
++
++\emph{(b), (c).} Let $H\in\{U',U''\}$ and $\beta:=1$ for $H=U'$, $\beta:=\alpha^{-1}$ for $H=U''$, so that $\beta U'\beta^{-1}=H\subseteq U$,
++and $s_j[z]=[z\beta^{-1}]$ for the corresponding $j$ ($j=0$ for $U'$, $j=1$ for $U''$). Fix $x\in\Bhat^\times$ and consider
++\[\theta:U/H\to\XB{U'},\qquad uH\mapsto[xu\beta].\]
++It is well defined ($xuh\beta=xu\beta\cdot\beta^{-1}h\beta$ and $\beta^{-1}h\beta\in U'$ for $h\in H$), and $s_j\theta(uH)=[xu]=[x]$. Its image is the whole
++fibre $s_j^{-1}[x]$: if $[z\beta^{-1}]=[x]$, then $z\beta^{-1}=\gamma xu$ with $\gamma\in B^\times$, $u\in U$, and $[z]=[xu\beta]$. The group $\Gamma_x=\Gamma_x^U$ acts
++on $U/H$ by $\gamma\cdot uH:=(x^{-1}\gamma x)uH$, and the fibres of $\theta$ are exactly its orbits: $[xu\beta]=[xu'\beta]$ iff
++$\gamma xu\beta\in xu'\beta U'$ for some $\gamma\in B^\times$, iff $(x^{-1}\gamma x)u\in u'H$ for some $\gamma\in B^\times$; such a $\gamma$ lies in
++$xUx^{-1}$, i.e.\ in $\Gamma_x$. The stabiliser of $uH$ is
++\[\{\gamma\in\Gamma_x:x^{-1}\gamma x\in uHu^{-1}\}=B^\times\cap(xu\beta)U'(xu\beta)^{-1}=\Gamma^{U'}_{xu\beta}\]
++(using $uHu^{-1}\subseteq U$ and $\beta U'\beta^{-1}=H$). So the fibre of $\theta$ over $e=[xu\beta]$ has $|\Gamma_x|/|\Gamma_e|=w_x/w_e$ elements, and
++\[\sum_{u\in U/H}[xu\beta]=\sum_{e:\,s_je=x}\frac{w_x}{w_e}[e]=s_j^\dagger[x]\]
++by (a). This is (b). Taking degrees, $\sum_{e:s_je=x}w_x/w_e=[U:H]$. Now $[U:U']=[\GL_2(\Zq):\Iw_q]=q+1$ (the orbit of the line $\F_q(1,0)^{\mathsf T}$ in
++$\mathbb P^1(\F_q)$; in Lean \texttt{Langlandscape.Tree.relIndex\_U0q}, see after Def.~\ref{def:s02-BG}), and $U''_q=\alpha^{-1}\Iw_q\alpha$ is the group of
++matrices in $\GL_2(\Zq)$ with upper right entry in $q\Zq$, which is $w\Iw_qw^{-1}$ for
++$w=\left(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\right)\in\GL_2(\Zq)$; so $[U:U'']=q+1$ as well. This is (c).
++\end{proof}
++
++\begin{proposition}[definite level-raising operator]\label{prop:s03-LRdef}
++Let $V=\Z$ and $U=\Uzero M$ with $q\nmid DM$ (trivial character). Let $s_j^\dagger$ be the adjoint of $s_{j*}$ for the weighted pairings on
++$\Z[\XB U]$ and $\Z[\XB{U'}]$. Explicitly, $s_j^\dagger[x]=\sum_{e:s_je=x}[\Gamma_x:\Gamma_e]\,[e]$, which is integral because
++$\Gamma_e\subseteq\Gamma_x$. Then $\alpha^\dagger=(-s_0^\dagger,s_1^\dagger)$, $(a_0,a_1)\mapsto-s_0^\dagger a_0+s_1^\dagger a_1$, is the adjoint of
++$\alpha=(-s_{0*},s_{1*})$; it maps $(\Z[\XB U]^0)^2$ into $\Z[\XB{U'}]^0$, and
++\[\alpha\alpha^\dagger=\begin{pmatrix}q+1&-T_q\\-T_q&q+1\end{pmatrix}\ \text{ on }\Z[\XB U]^2\text{ and on }(\Z[\XB U]^0)^2,\qquad
++\det=(q+1)^2-T_q^2,\]
++with $T_q=s_{1*}s_0^\dagger=s_{0*}s_1^\dagger$ the Brandt operator at $q$ at level $U$ (homological convention). Here the matrix acts on columns
++$(a_0,a_1)^{\mathsf T}$, and $\det$ is the determinant of a matrix with commuting entries: with
++$\beta:=\left(\begin{smallmatrix}q+1&T_q\\T_q&q+1\end{smallmatrix}\right)$ one has $\beta\cdot\alpha\alpha^\dagger=\alpha\alpha^\dagger\cdot\beta=\big((q+1)^2-T_q^2\big)\cdot\mathrm{id}$.
++\stproved{} (proof below). Lean: \texttt{Langlandscape.Graph.alpha\_alphaDagger\_eq} (S03-L10, abstract form with index weights and the fibre-sum
++identity of Lemma~\ref{lem:s03-transfer}(c) as data); \leanplanned
++\end{proposition}
++\begin{proof}
++\emph{Adjoint, integrality, degree.} For $a\in\Z[\XB{U'}]$ and $(b_0,b_1)\in\Z[\XB U]^2$,
++$\langle\alpha a,(b_0,b_1)\rangle=-\langle s_{0*}a,b_0\rangle_U+\langle s_{1*}a,b_1\rangle_U=\langle a,-s_0^\dagger b_0+s_1^\dagger b_1\rangle_{U'}$, so
++$\alpha^\dagger$ is the adjoint of $\alpha$. The explicit formula and the integrality are Lemma~\ref{lem:s03-transfer}(a). By
++Lemma~\ref{lem:s03-transfer}(c), $\deg\circ s_j^\dagger=(q+1)\deg$, so $\deg\alpha^\dagger(a_0,a_1)=(q+1)(\deg a_1-\deg a_0)$; in particular
++$\alpha^\dagger$ maps $(\Z[\XB U]^0)^2$ into $\Z[\XB{U'}]^0$.
++
++\emph{Diagonal entries.} $s_{j*}s_j^\dagger[x]=\sum_{e:s_je=x}\frac{w_x}{w_e}[s_je]=(q+1)[x]$ by Lemma~\ref{lem:s03-transfer}(a), (c).
++
++\emph{Entry $s_{1*}s_0^\dagger$.} By Lemma~\ref{lem:s03-transfer}(b), $s_{1*}s_0^\dagger[x]=\sum_{u\in U/U'}[xu\alpha]$. Since $U'=U\cap\alpha U\alpha^{-1}$ is
++the stabiliser of the coset $\alpha U$ under left multiplication by $U$, we have $U\alpha U=\coprod_{u\in U/U'}u\alpha U$. Hence
++$s_{1*}s_0^\dagger=T_\alpha=[U\alpha U]=T_q$.
++
++\emph{Entry $s_{0*}s_1^\dagger$.} Likewise $s_{0*}s_1^\dagger[x]=\sum_{u\in U/U''}[xu\alpha^{-1}]$ and
++$U\alpha^{-1}U=\coprod_{u\in U/U''}u\alpha^{-1}U$, as $U''=U\cap\alpha^{-1}U\alpha$. So $s_{0*}s_1^\dagger=T_{\alpha^{-1}}$, which is the adjoint of
++$T_\alpha$, in accordance with Prop.~\ref{prop:s01-adjoint}(a) and with $(s_{1*}s_0^\dagger)^\dagger=s_{0*}s_1^\dagger$. At level $\Uzero M$ we have
++$T_{\alpha^{-1}}=T_\alpha$: $\alpha^{-1}=z_q^{-1}\varpi_q$, $U\alpha^{-1}U=z_q^{-1}U\varpi_qU$, and $[yz_q^{-1}g]=[q\,yz_q^{-1}g]=[ygt]=[yg]$ for the central
++idele $t=qz_q^{-1}\in\Uzero M$ ($t_q=1$, $t_v=q\in\Z_v^\times$ for $v\ne q$); this is the clause ``$S_q=1$, $T_q$ self-adjoint'' of
++Prop.~\ref{prop:s01-adjoint}(b). So $s_{0*}s_1^\dagger=T_q$.
++
++\emph{The matrix.} For $(a_0,a_1)\in\Z[\XB U]^2$,
++\[\alpha\alpha^\dagger(a_0,a_1)=\big(s_{0*}s_0^\dagger a_0-s_{0*}s_1^\dagger a_1,\ -s_{1*}s_0^\dagger a_0+s_{1*}s_1^\dagger a_1\big)
++=\big((q+1)a_0-T_qa_1,\ -T_qa_0+(q+1)a_1\big).\]
++The signs: the diagonal entries are $(-1)^2$ and $(+1)^2$ times $s_{j*}s_j^\dagger$, the off-diagonal ones $(-1)(+1)$ times $s_{0*}s_1^\dagger$ and
++$s_{1*}s_0^\dagger$. Since $\deg\circ T_q=(q+1)\deg$, the matrix preserves $(\Z[\XB U]^0)^2$. The entries $q+1$ and $T_q$ commute, so
++$\beta\cdot\alpha\alpha^\dagger=\big((q+1)^2-T_q^2\big)\mathrm{id}$ by direct multiplication.
++\end{proof}
++
++\begin{remark}[signs, generality, comparison]\label{rem:s03-LRnotes}
++(a) \emph{Ribet's sign.} With $\delta_{\rm Ri}=(s_{0*},s_{1*})$ (sign table of \S\ref{ss:s03-ribet}) the same computation gives
++$\delta_{\rm Ri}\delta_{\rm Ri}^\dagger=\left(\begin{smallmatrix}q+1&T_q\\T_q&q+1\end{smallmatrix}\right)$, the matrix $\beta$ above, with the same
++determinant. This is the shape of the matrix $\left(\begin{smallmatrix}p+1&t\\t&p+1\end{smallmatrix}\right)$ of [Ri90, p.~454] \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{p.~454},
++and the definite analogue of [DT, Cor.~1, p.~446] \stcited{} \lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{Cor.~1, p.~446}.
++
++(b) \emph{General $q$-admissible $U$.} Lemma~\ref{lem:s03-transfer} and the proof above give, for every $q$-admissible $U$ and trivial
++coefficients,
++\[\alpha\alpha^\dagger=\begin{pmatrix}q+1&-T_q^\dagger\\-T_q&q+1\end{pmatrix},\qquad T_q=T_\alpha=s_{1*}s_0^\dagger,\quad T_q^\dagger=T_{\alpha^{-1}}=s_{0*}s_1^\dagger,\]
++and $T_q^\dagger=T_q$ as soon as the central idele $qz_q^{-1}$ lies in $U$ (e.g.\ $U=\Uzero M$); for $U=\Uone N$ the two differ by a diamond
++operator (Prop.~\ref{prop:s01-adjoint}(b)). \stproved
++
++(c) \emph{Weighted versus unweighted.} $s_j^\dagger$ is the transfer $\pi^!$ of Prop.~\ref{prop:s01-adjoint}(c), not the multiplicity-free fibre sum
++$\pi^\sharp$: with $\pi^\sharp$ in place of $s_j^\dagger$ the diagonal entries would be $|s_j^{-1}(x)|$, which is $<q+1$ when some $w_x/w_e>1$.
++
++(d) \emph{Example} (\stpmc, as the example after Prop.~\ref{prop:s03-phieis}). $B=B_{11}$, $U=\hat\cO^\times$, $q=2$: $T_2[e]=\sum_{e'}B(e,e')[e']$ with
++$(B(e,e'))=\left(\begin{smallmatrix}1&2\\3&0\end{smallmatrix}\right)$ acts on $\Z[\XB U]^0=\Z([e_1]-[e_2])$ by $-2$, so $\alpha\alpha^\dagger=\left(\begin{smallmatrix}3&2\\2&3\end{smallmatrix}\right)$ on $(\Z[\XB U]^0)^2\cong\Z^2$,
++with determinant $9-4=5$ (test T2 of S03-C3).
++
++(e) \emph{Coefficients.} With coefficients $\Vk$ the entries acquire powers of $q$ through the norm weight of the pairing. That normalisation is
++out of scope here (stage 06); the Betti-side table is Prop.~\ref{prop:s03-PsiPsi}.
++\end{remark}

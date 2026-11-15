@@ -1,0 +1,16 @@
+\documentclass[11pt]{amsart}
+% Standalone build of stages 01 and 04. Build from this directory:
+%   latexmk -pdf -interaction=nonstopmode standalone-s04.tex
+% Package abhijit/s04-math (S04-M1, M2, M3, M4, M6, M7). Only stage 01 is input: interfaces of stages 02, 03, 05, 06
+% are cited as \texttt{if:...} text, never by \ref (stage-04.md, section 6).
+\input{preamble}
+\IfFileExists{bib/s04.bib}{\addbibresource{bib/s04.bib}}{}
+\title{Jacquet--Langlands: stage 04 (standalone)}
+\author{Langlandscape project}
+\date{\today}
+\begin{document}
+\maketitle
+\input{chapters/s01}
+\input{chapters/s04}
+\printbibliography
+\end{document}

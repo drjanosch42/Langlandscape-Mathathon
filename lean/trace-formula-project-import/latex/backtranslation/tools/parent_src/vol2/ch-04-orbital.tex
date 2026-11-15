@@ -1,0 +1,1362 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolII/Centralizer.lean (§§1--2, M3e); lean/GL2TF/VolII/Orbital.lean (§§3 ff., M7a).
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §§1--2 written (M3e, units U1--U2; docs/sprints/M3e-plan.md §1.2 items 1--17, 19; item 18 is in vol1 ch-0-07); §§3--4 written (M7a, U6, items 49--58); §§5--6 written (R1, units ORB and VOL, docs/sprints/R1-plan.md §§1.1--1.2).
+
+\chapter{Orbital integrals (local and global)}\label{ch:ch-04-orbital}
+
+\noindent\emph{Scope:} area \texttt{orb}; D9 route ($\beta$). \emph{Sources:} \cite[§8]{A-I}; \cite[§§10--11]{AIntro}; \cite[Lecture II §§1--2, Lecture IV §1]{Gel}; \cite{A-WOI}; \cite[§16]{JL}.
+
+\noindent\emph{Lean conventions of this chapter.} $\iota$ is the local notation \texttt{ι := gl2Map (algebraMap ℚ Adele)} of
+\texttt{Centralizer.lean} ($\iota_\A$ of A); $\iota_R$ is \texttt{gl2Map (algebraMap ℚ R)}. $G(\A)^1$ is the subgroup \texttt{normOneGroup} of
+$G(\A)$, $G_\gamma(\A)^1$ the subgroup \texttt{centralizerNormOne γ} of \texttt{normOneGroup} (a subgroup of a subgroup), and $G_\gamma(\Q)$
+inside $G_\gamma(\A)^1$ the B-only subgroup \texttt{centralizerRatNormOne γ}. Quotients $\Gamma\backslash H$ are
+\texttt{MulAction.orbitRel.Quotient Γ H} with the quotient topology, as in Ch.~0.7 and Ch.~0.8.
+
+\section{Elliptic elements and their centralizers}\label{sec:orb-centralizer}
+
+\begin{definition}[elliptic elements]
+\tfstmt{II.orb.def:elliptic}
+\lean{GL2TF.IsElliptic}
+\end{definition}
+\begin{tfformal}{II.orb.def:elliptic}
+\tfsem{II.orb.def:elliptic}{d681c0335c0e1c1d96488c343de5f946c031f5e4c21afff6970ceb39402c58ae}
+\tfhyps{II.orb.def:elliptic}{}
+\tfbinder{II.orb.def:elliptic}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.def:elliptic}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.def:elliptic}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\begin{tffidelity}
+\texttt{IsElliptic γ} is \texttt{Irreducible (Matrix.charpoly γ)} for $\gamma\in\GL_2(K)$, $K$ any field (implicit binder), with \texttt{Matrix.charpoly} applied to the underlying matrix of $\gamma$. Mathlib's \texttt{Matrix.charpoly} is $\det(X\cdot1-\gamma)$ (the determinant of \texttt{charmatrix}); the explicit form $X^2-\tr(\gamma)X+\det\gamma$ of A is the Mathlib lemma \texttt{Matrix.charpoly\_fin\_two} and is not part of the definition. Name note: Mathlib has an unrelated \texttt{Matrix.IsElliptic} (negative discriminant, real matrices); the project constant is \texttt{GL2TF.IsElliptic}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[elliptic elements have no eigenvector]
+\tfstmt{II.orb.thm:elliptic-iff-no-eigenvector}
+\lean{GL2TF.elliptic_iff_no_eigenvector}
+\uses{I.conv.def:center, II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-iff-no-eigenvector}
+\tfsem{II.orb.thm:elliptic-iff-no-eigenvector}{298016ec82c1abe5abee48078aaaaa78bc94589dd9b131bf9a78885cec08891b}
+\tfhyps{II.orb.thm:elliptic-iff-no-eigenvector}{}
+\tfbinder{II.orb.thm:elliptic-iff-no-eigenvector}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.thm:elliptic-iff-no-eigenvector}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.thm:elliptic-iff-no-eigenvector}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\begin{tffidelity}
+A conjunction of three clauses: (a)$\Leftrightarrow$(b) with (b) stated as \texttt{∀ x : K, ¬ (charpoly γ).IsRoot x}; (a)$\Leftrightarrow$(c) with (c) stated as \texttt{∀ v ≠ 0, det (Matrix.of ![v, vecMul v γ]) ≠ 0}, i.e.\ the matrix with rows $v$ and $v\gamma$ (row vector times matrix, \texttt{vecMul}); and \texttt{IsElliptic γ → γ ∉ center K} (\texttt{I.conv.def:center}). A's chain (a)$\Leftrightarrow$(b)$\Leftrightarrow$(c) is rendered as two equivalences with (a); A's gloss ``linearly independent'' is not formalized separately, the determinant form being the one A gives as its meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. (a)$\Leftrightarrow$(b) (\texttt{isElliptic\_iff\_no\_root}): $P_\gamma$ is monic of degree $2$ (\texttt{Matrix.charpoly\_natDegree\_eq\_dim}); an irreducible polynomial with a root has degree $1$ (\texttt{degree\_eq\_one\_of\_irreducible\_of\_root}), and a polynomial of degree $\le3$ without roots is irreducible (\texttt{irreducible\_of\_degree\_le\_three\_of\_not\_isRoot}). (a)$\Leftrightarrow$(c): $c$ is a root of $P_\gamma=\det(X\cdot1-\gamma)$ iff some row vector $v\ne0$ has $v\gamma=cv$ (\texttt{isRoot\_iff\_eigen}, from \texttt{Matrix.eval\_charpoly} and \texttt{Matrix.exists\_vecMul\_eq\_zero\_iff}), so $\gamma$ is not elliptic iff it has an eigen row vector (\texttt{not\_elliptic\_iff\_eigen}); for $v\ne0$ the matrix with rows $v,w$ has determinant $0$ iff $w=cv$ for some $c$ (\texttt{det\_rows\_eq\_zero\_iff}, a $2\times2$ computation with the cases $v_0=0$, $v_0\ne0$). Non-centrality: a central $\gamma=u\cdot1$ has the root $u$ of $P_\gamma$ (\texttt{not\_elliptic\_of\_scalar}).
+\end{proof}
+
+\begin{theorem}[elliptic means not conjugate into $B$]
+\tfstmt{II.orb.thm:elliptic-iff-not-borel-conjugate}
+\lean{GL2TF.elliptic_iff_not_borel_conjugate}
+\uses{I.conv.def:borel, II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-iff-not-borel-conjugate}
+\tfsem{II.orb.thm:elliptic-iff-not-borel-conjugate}{8fa2b787de76505086ce5c01357f5c75bcb59767481908d14d348a7bc8c6c573}
+\tfhyps{II.orb.thm:elliptic-iff-not-borel-conjugate}{}
+\tfbinder{II.orb.thm:elliptic-iff-not-borel-conjugate}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.thm:elliptic-iff-not-borel-conjugate}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.thm:elliptic-iff-not-borel-conjugate}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\begin{tffidelity}
+Two clauses: \texttt{IsElliptic γ ↔ ∀ δ, δ * γ * δ⁻¹ ∉ borel K} (\texttt{I.conv.def:borel}, the upper triangular subgroup of $\GL_2(K)$), and \texttt{IsElliptic γ → ∀ δ, IsElliptic (δ * γ * δ⁻¹)}. As in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence D-3 (same idea, different last step).} Write $M=\delta\gamma\delta^{-1}$; the basic identity is $(e_2\delta)\gamma=(e_2M)\delta$ (\texttt{row\_conj}, from $M\delta=\delta\gamma$). ($\Rightarrow$) If $M\in B(K)$, i.e.\ $M_{10}=0$, then $e_2M=M_{11}e_2$, so the second row $e_2\delta$ of $\delta$ (non-zero since $\det\delta\ne0$) is an eigen row vector of $\gamma$, contradicting ellipticity (\texttt{not\_elliptic\_iff\_eigen}). ($\Leftarrow$) If $\gamma$ is not elliptic, take $v\ne0$ with $v\gamma=cv$, complete it by $u\in\{e_1,e_2\}$ to rows $(u,v)$ with $\det\ne0$ and let $\delta$ be the matrix with these rows. The basic identity gives $M_{10}u+(M_{11}-c)v=0$ componentwise, hence $M_{10}\det\delta=0$ and $M_{10}=0$, i.e.\ $\delta\gamma\delta^{-1}\in B(K)$. (A computes $e_2\delta\gamma\delta^{-1}=ce_2$ instead.) Conjugation invariance: $\delta\gamma\delta^{-1}$ has the same characteristic polynomial (\texttt{Matrix.charpoly\_units\_conj}).
+\end{proof}
+
+\begin{theorem}[the quadratic field $K{[\gamma]}$]
+\tfstmt{II.orb.thm:elliptic-quadratic-field}
+\lean{GL2TF.elliptic_quadratic_field}
+\uses{II.orb.def:elliptic}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-quadratic-field}
+\tfsem{II.orb.thm:elliptic-quadratic-field}{77a720322eea7d1cceff12a6493b73c028ac608b4b38bc7be12556284c679ebe}
+\tfhyps{II.orb.thm:elliptic-quadratic-field}{}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{0}{fe5aea28}{the type of the field $K$}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{1}{de6d288d}{the field structure of $K$ (A: ``Let $K$ be a field'')}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{2}{cbaa37a6}{the element $\gamma\in\GL_2(K)$}
+\tfbinder{II.orb.thm:elliptic-quadratic-field}{3}{93c375cd}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+``$E$ is a subring of $\Mat_2(K)$'' is rendered as the existence of a $K$-subalgebra \texttt{E : Subalgebra K (Matrix (Fin 2) (Fin 2) K)} whose underlying set is $\{a\cdot1+b\gamma:a,b\in K\}$; since this set determines $E$, this is the subring of A (a $K$-subalgebra is in particular a subring). The further clauses: \texttt{IsField E}; \texttt{LinearIndependent K ![1, γ]}; an isomorphism of $K$-algebras \texttt{e : K[X] ⧸ span \{charpoly γ\} ≃ₐ[K] E} with $e(p\bmod P_\gamma)=p(\gamma)$ (\texttt{aeval}), which is ``induced by $X\mapsto\gamma$''; and every $\eta\in E$, $\eta\ne0$, has $\eta'\in E$ with $\eta\eta'=\eta'\eta=1$ in $\Mat_2(K)$. ``$\dim_KE=2$'' is the parenthetical consequence of linear independence (A: ``so'') and is not a separate clause. Stated over an arbitrary field $K$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence D-2 (route).} Let $\varphi=\texttt{aeval}\,\gamma\colon K[X]\to\Mat_2(K)$ and $E=\varphi(K[X])$ (\texttt{φ.range}). $(P_\gamma)$ is maximal in the principal ideal ring $K[X]$ (\texttt{PrincipalIdealRing.isMaximal\_of\_irreducible}), contained in $\ker\varphi$ by Cayley--Hamilton (\texttt{Matrix.aeval\_self\_charpoly}), and $\ker\varphi\ne K[X]$ as $\varphi(1)=1\ne0$; so $(P_\gamma)=\ker\varphi$. The isomorphism is $K[X]/(P_\gamma)\cong K[X]/\ker\varphi\cong E$ (\texttt{Ideal.quotientEquivAlgOfEq}, \texttt{Ideal.quotientKerEquivRange}); $e(p\bmod P_\gamma)=p(\gamma)$ holds by definition. $E$ is a field as the image of the field $K[X]/(P_\gamma)$ (\texttt{Ideal.Quotient.maximal\_ideal\_iff\_isField\_quotient}, transported along $e$). Underlying set: $\subseteq$ by induction on polynomials, using $\gamma^2=\tr(\gamma)\gamma-\det(\gamma)\cdot1$ (\texttt{sq\_eq\_trace\_det}, Cayley--Hamilton with \texttt{Matrix.charpoly\_fin\_two}) for the monomial step; $\supseteq$ by $a\cdot1+b\gamma=\varphi(a+bX)$. This replaces A's ``dividing with remainder by $P_\gamma$''. Linear independence, by A's direct argument: $s\cdot1+t\gamma=0$ with $t\ne0$ makes $\gamma=-(s/t)\cdot1$ scalar, which is not elliptic (\texttt{not\_elliptic\_of\_scalar}); so $t=0$ and then $s=0$. Inverses: the field inverse $\eta'$ of $\eta\ne0$ in $E$, two-sided by commutativity of the field $E$.
+\end{proof}
+
+\begin{definition}[centralizers]
+\tfstmt{II.orb.def:centralizer}
+\lean{GL2TF.centralizerGL}
+\uses{I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer}
+\tfsem{II.orb.def:centralizer}{4a753b501b4432f3937f2f505f499b14dcf24eabde00dcc9a0e1ca430f6fc55a}
+\tfhyps{II.orb.def:centralizer}{}
+\tfbinder{II.orb.def:centralizer}{0}{6b8b0c0f}{the type of the commutative $\Q$-algebra $R$}
+\tfbinder{II.orb.def:centralizer}{1}{63738b18}{the commutative ring structure of $R$ (A: ``commutative'')}
+\tfbinder{II.orb.def:centralizer}{2}{3d40dd65}{the $\Q$-algebra structure of $R$ (A: ``$\Q$-algebra'')}
+\tfbinder{II.orb.def:centralizer}{3}{b16172ee}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+\texttt{centralizerGL R γ} is Mathlib's \texttt{Subgroup.centralizer \{ι\_R γ\}} in \texttt{GL (Fin 2) R}, where $\iota_R=\texttt{gl2Map (algebraMap ℚ R)}$ (\texttt{I.conv.def:gl2}); its elements are the $g$ with $\iota_R(\gamma)g=g\iota_R(\gamma)$. $R$ is any commutative ring with a $\Q$-algebra structure (binders \texttt{[CommRing R] [Algebra ℚ R]}), i.e.\ a commutative $\Q$-algebra. The cases used are $R=\Q$ ($\iota_\Q$ is the identity map up to \texttt{algebraMap ℚ ℚ = id}) and $R=\A$ (\texttt{Adele}, \texttt{I.topgrp.def:gl2-adelic}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[centralizers of non-central elements]
+\tfstmt{II.orb.thm:centralizer-explicit}
+\lean{GL2TF.centralizer_explicit}
+\uses{I.conv.def:center, I.conv.def:gl2, II.orb.def:centralizer}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-explicit}
+\tfsem{II.orb.thm:centralizer-explicit}{81da4d4bf2601487f7bb25ac051561a195e81d1cec34e8969ed81729ae7fe672}
+\tfhyps{II.orb.thm:centralizer-explicit}{}
+\tfbinder{II.orb.thm:centralizer-explicit}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:centralizer-explicit}{1}{07d6aa89}{the assumption $\gamma\notin Z(\Q)$ (A: ``$\gamma\notin Z(\Q)$'')}
+\tfbinder{II.orb.thm:centralizer-explicit}{2}{b28bf9f1}{the type of the commutative $\Q$-algebra $R$}
+\tfbinder{II.orb.thm:centralizer-explicit}{3}{c282c992}{the commutative ring structure of $R$ (A: ``commutative'')}
+\tfbinder{II.orb.thm:centralizer-explicit}{4}{8769dd56}{the $\Q$-algebra structure of $R$ (A: ``$\Q$-algebra'')}
+\begin{tffidelity}
+The hypothesis $\gamma\notin Z(\Q)$ is \texttt{γ ∉ center ℚ} (\texttt{I.conv.def:center}). The set $\{a\cdot1+b\,\iota_R(\gamma)\}\cap\GL_2(R)$ is rendered as the set of units $g\in\GL_2(R)$ whose underlying matrix is $a\cdot1+b\,\iota_R(\gamma)$ for some $a,b\in R$, as an equality of subsets of $\GL_2(R)$. Commutativity is \texttt{∀ g h ∈ centralizerGL R γ, g * h = h * g}. The quantifier ``for every commutative $\Q$-algebra $R$'' is the binder $R$ (with its instance binders) after $\gamma$ and $h_\gamma$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence D-1 (route).} Instead of A's conjugation to the companion matrix, Lean works with the entries. Write $\gamma=(p\ q;r\ s)$ and $g=(x\ y;z\ w)\in\GL_2(R)$; the entries of $\iota_R(\gamma)$ are the images $f(p),\dots,f(s)$ under $f=\texttt{algebraMap ℚ R}$. A non-central $\gamma$ has $q\ne0$, or $r\ne0$, or $q=r=0$ and $p\ne s$ (\texttt{noncentral\_cases}; otherwise $\gamma=s\cdot1$, $s\ne0$ as $\det\gamma\ne0$). If $g\iota_R(\gamma)=\iota_R(\gamma)g$, the four entry equations give $g=a\cdot1+b\,\iota_R(\gamma)$ with, respectively, $b=y\,f(q^{-1})$, $b=z\,f(r^{-1})$, $b=(x-w)\,f((p-s)^{-1})$, and $a=x-b\,f(p)$ (\texttt{linear\_combination}, using $f(t)f(t^{-1})=1$ for rational $t\ne0$). Conversely, and for commutativity, any two elements $a\cdot1+b\,\iota_R(\gamma)$, $c\cdot1+d\,\iota_R(\gamma)$ commute (\texttt{comm\_lin}). A's proof is not used.
+\end{proof}
+
+\begin{definition}[the norm-one centralizer]
+\tfstmt{II.orb.def:centralizer-norm-one}
+\lean{GL2TF.centralizerNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer-norm-one}
+\tfsem{II.orb.def:centralizer-norm-one}{c58ea9934b55619b2a273f7f71f9cade53b9ddde8f0cc0a266eb00197a5a8e6b}
+\tfhyps{II.orb.def:centralizer-norm-one}{}
+\tfbinder{II.orb.def:centralizer-norm-one}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+\texttt{centralizerNormOne γ = (centralizerGL Adele γ).subgroupOf normOneGroup}: the subgroup of $G(\A)^1$ (\texttt{normOneGroup}, \texttt{I.topgrp.def:norm-one-group}, itself a subgroup of $G(\A)$) of those elements whose image in $G(\A)$ lies in $G_\gamma(\A)$. Its topology is Lean's subtype topology of the subtype $G(\A)^1$ of $G(\A)$, which is the subspace topology of A. Arthur's intrinsic definition (common kernel of the $\abs\chi_\A$) is not formalized (A remark).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$G_\gamma(\Q)$ inside $G_\gamma(\A)^1$]
+\tfstmt{II.orb.def:centralizer-rat-norm-one}
+\bonly
+\lean{GL2TF.centralizerRatNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer-rat-norm-one}
+\tfsem{II.orb.def:centralizer-rat-norm-one}{321647af468a1b799bdacec234a5f26d9b658e33e5a2941118f4ccd48dc6fd19}
+\tfhyps{II.orb.def:centralizer-rat-norm-one}{}
+\tfbinder{II.orb.def:centralizer-rat-norm-one}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{centralizerRatNormOne γ = gl2RatNormOne.subgroupOf (centralizerNormOne γ)}, the trace on $G_\gamma(\A)^1$ of the subgroup $G(\Q)\subseteq G(\A)^1$ (\texttt{gl2RatNormOne}, \texttt{I.quot.def:gl2-rat-norm-one}). By \cref{II.orb.thm:centralizer-rat-points} its elements are exactly the $\iota(\delta)$, $\delta\in G_\gamma(\Q)$: this is how A's ``$G_\gamma(\Q)$, regarded as a subgroup of $G_\gamma(\A)^1$ via $\iota$'' is formalized.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[rational points]
+\tfstmt{II.orb.thm:centralizer-rat-points}
+\lean{GL2TF.centralizer_rat_points}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.thm:gl2-rat-discrete, I.topgrp.thm:norm-one-splitting, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-rat-points}
+\tfsem{II.orb.thm:centralizer-rat-points}{2f4dfc086a55d1562e7b81d7d0c0c99942053078dbc6778fba7b2530bc2a80cf}
+\tfhyps{II.orb.thm:centralizer-rat-points}{}
+\tfbinder{II.orb.thm:centralizer-rat-points}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+Four clauses. (a) \texttt{∀ δ, ι δ ∈ centralizerGL Adele γ ↔ δ ∈ centralizerGL ℚ γ}. (b) For $\delta\in G_\gamma(\Q)$: $\iota(\delta)\in G(\A)^1$ (an existential proof \texttt{h}) and $\langle\iota\delta,h\rangle\in G_\gamma(\A)^1$. (c) is split in two: the B-only subgroup \texttt{centralizerRatNormOne γ} (\cref{II.orb.def:centralizer-rat-norm-one}) has exactly the elements $x$ with $x=\iota(\delta)$ in $G(\A)$ for some $\delta\in G_\gamma(\Q)$ (so it is $\iota(G_\gamma(\Q))$), and it is discrete (\texttt{DiscreteTopology}, subspace topology of $G_\gamma(\A)^1$). ``Subgroup'' is automatic (\texttt{Subgroup}). The B-only \cref{II.orb.lem:centralizer-rat-discrete-instance} repeats discreteness as an instance.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. (a) (\texttt{iota\_mem\_centralizer\_iff}): $\iota$ is an injective homomorphism (first clause of the vol.~I item \texttt{I.topgrp.thm:gl2-rat-discrete}) and $\iota_\Q$ is the identity (\texttt{gl2Map\_rat\_self}), so $\iota(\delta)\iota(\gamma)=\iota(\gamma)\iota(\delta)$ iff $\delta\gamma=\gamma\delta$. (b): $\iota(G(\Q))\subseteq G(\A)^1$ (second clause of the vol.~I item \texttt{I.topgrp.thm:norm-one-splitting}, the product formula), then (a). (c), elements: unfolding the two \texttt{subgroupOf} layers, $x\in\texttt{gl2RatNormOne}$ gives $\delta$ with $\iota(\delta)=x$, and $\delta\in G_\gamma(\Q)$ by (a) since $x\in G_\gamma(\A)$; the converse is immediate. (c), discreteness: as for \cref{II.orb.lem:centralizer-rat-discrete-instance}, a continuous injection into the discrete \texttt{gl2RatNormOne} (\texttt{DiscreteTopology.of\_continuous\_injective}).
+\end{proof}
+
+\begin{lemma}[discreteness of $G_\gamma(\Q)$, as an instance]
+\tfstmt{II.orb.lem:centralizer-rat-discrete-instance}
+\bonly
+\lean{GL2TF.centralizerRatNormOne_discrete}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-rat-discrete-instance}
+\tfsem{II.orb.lem:centralizer-rat-discrete-instance}{4f14820bd56b6d9b7bf5a942ba213403aa8f79859dd1902618e8728795cae303}
+\tfhyps{II.orb.lem:centralizer-rat-discrete-instance}{}
+\tfbinder{II.orb.lem:centralizer-rat-discrete-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : DiscreteTopology (centralizerRatNormOne γ)}; Lean plumbing for the measure statements, which need discreteness as an instance argument (\texttt{X.quot.def:quotient-measure} and \texttt{X.quot.thm:compact-quotient-volume}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $x\mapsto x$ from \texttt{centralizerRatNormOne γ} to \texttt{gl2RatNormOne} (forget the two subtype layers, keep the membership in $G(\Q)$) is continuous and injective, and \texttt{gl2RatNormOne} is discrete (\texttt{gl2RatNormOne\_discrete}, M3); \texttt{DiscreteTopology.of\_continuous\_injective}.
+\end{proof}
+
+\begin{theorem}[closedness]
+\tfstmt{II.orb.thm:centralizer-closed}
+\lean{GL2TF.centralizer_closed}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.orb.def:centralizer, II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-closed}
+\tfsem{II.orb.thm:centralizer-closed}{cd8c27f2703d9f874c77d875004ff48f7181553da5fc840291ae6939227cb691}
+\tfhyps{II.orb.thm:centralizer-closed}{}
+\tfbinder{II.orb.thm:centralizer-closed}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+A conjunction of six clauses: \texttt{IsClosed} of $G_\gamma(\A)$ as a subset of $G(\A)$; \texttt{IsClosed} of $G_\gamma(\A)^1$ as a subset of $G(\A)^1$; and for $G_\gamma(\A)^1$ with its subtype topology \texttt{IsTopologicalGroup}, \texttt{LocallyCompactSpace}, \texttt{T2Space}, \texttt{SecondCountableTopology}. ``Subgroup'' is automatic. The topological statements are also available as the B-only instances \cref{II.orb.lem:centralizer-norm-one-locally-compact-instance} and \cref{II.orb.lem:centralizer-norm-one-second-countable-instance} (Hausdorff and topological group are Mathlib instances on subgroups), and local compactness of $G_\gamma(\A)$ itself is the B-only \cref{II.orb.lem:centralizer-locally-compact-instance} (A uses it in the proof of \cref{II.orb.lem:centralizer-unimodular}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. $G_\gamma(\A)$ is the centralizer of one point in the Hausdorff topological group $G(\A)$, hence closed (\texttt{Set.isClosed\_centralizer}); $G_\gamma(\A)^1$ is its preimage under the continuous inclusion $G(\A)^1\to G(\A)$. Topological group and Hausdorff: Mathlib's subgroup instances. Locally compact: a closed subset of the locally compact $G(\A)^1$ (\texttt{normOneGroup\_topology}, M3; \texttt{IsClosedEmbedding.locallyCompactSpace}). Second countable: a subspace of the second countable $G(\A)^1$ (\texttt{TopologicalSpace.Subtype.secondCountableTopology}).
+\end{proof}
+
+\begin{lemma}[$G_\gamma(\A)$ is locally compact, as an instance]
+\tfstmt{II.orb.lem:centralizer-locally-compact-instance}
+\bonly
+\lean{GL2TF.centralizerGL_locallyCompactSpace}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.lem:gl2-adelic-locally-compact-instance, II.orb.def:centralizer}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-locally-compact-instance}
+\tfsem{II.orb.lem:centralizer-locally-compact-instance}{2a730b0bc98844c68e0fb20e7b7b6cf17ccb7b3537f30d6a224d1df417a24e32}
+\tfhyps{II.orb.lem:centralizer-locally-compact-instance}{}
+\tfbinder{II.orb.lem:centralizer-locally-compact-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : LocallyCompactSpace (centralizerGL Adele γ)} (subtype topology of $G(\A)$). Needed by the statement of \cref{II.orb.lem:centralizer-unimodular} (\texttt{IsUnimodular} takes \texttt{LocallyCompactSpace} as an instance argument).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G_\gamma(\A)$ is closed in $G(\A)$ (\texttt{Set.isClosed\_centralizer}, used through the untagged \texttt{centralizerGL\_adele\_isClosed}), so the inclusion is a closed embedding into the locally compact $G(\A)$ (\texttt{IsClosedEmbedding.locallyCompactSpace}).
+\end{proof}
+
+\begin{lemma}[$G_\gamma(\A)^1$ is locally compact, as an instance]
+\tfstmt{II.orb.lem:centralizer-norm-one-locally-compact-instance}
+\bonly
+\lean{GL2TF.centralizerNormOne_locallyCompactSpace}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.orb.def:centralizer, II.orb.def:centralizer-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-norm-one-locally-compact-instance}
+\tfsem{II.orb.lem:centralizer-norm-one-locally-compact-instance}{ba0b3c6aed814f720004eae905278970a424b02eb0196495be6f78d537a2875c}
+\tfhyps{II.orb.lem:centralizer-norm-one-locally-compact-instance}{}
+\tfbinder{II.orb.lem:centralizer-norm-one-locally-compact-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : LocallyCompactSpace (centralizerNormOne γ)} (subtype topology of $G(\A)^1$); the third topological clause of \cref{II.orb.thm:centralizer-closed} as an instance, needed by the statements of \cref{II.orb.lem:centralizer-unimodular} and \cref{II.orb.thm:elliptic-volume-finite}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is locally compact (\texttt{normOneGroup\_topology}, M3), and $G_\gamma(\A)^1$ is the preimage of the closed set $G_\gamma(\A)$ under the continuous inclusion $G(\A)^1\to G(\A)$, hence closed; a closed embedding into a locally compact space has locally compact domain.
+\end{proof}
+
+\begin{lemma}[$G_\gamma(\A)^1$ is second countable, as an instance]
+\tfstmt{II.orb.lem:centralizer-norm-one-second-countable-instance}
+\bonly
+\lean{GL2TF.centralizerNormOne_secondCountableTopology}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.orb.def:centralizer-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-norm-one-second-countable-instance}
+\tfsem{II.orb.lem:centralizer-norm-one-second-countable-instance}{37e2dd95893805860f529ce8a706cf3501637bf919ca5a2a57cd3978f5b9c6e6}
+\tfhyps{II.orb.lem:centralizer-norm-one-second-countable-instance}{}
+\tfbinder{II.orb.lem:centralizer-norm-one-second-countable-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : SecondCountableTopology (centralizerNormOne γ)}; the fifth topological clause of \cref{II.orb.thm:centralizer-closed} as an instance, needed by \cref{II.orb.thm:elliptic-volume-finite} (the quotient measure requires a second countable group).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is second countable (\texttt{normOneGroup\_topology}, M3), and subspaces of second countable spaces are second countable (\texttt{TopologicalSpace.Subtype.secondCountableTopology}).
+\end{proof}
+
+\begin{lemma}[the Borel $\sigma$-algebra of $G_\gamma(\A)$]
+\tfstmt{II.orb.lem:centralizer-borel-instance}
+\bonly
+\lean{GL2TF.centralizerGL_borelSpace}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.haar.lem:gl2-adelic-borel-instance, II.orb.def:centralizer, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-borel-instance}
+\tfsem{II.orb.lem:centralizer-borel-instance}{c290a78acc18b317825189e8962ca13daffc0155383947c066b1f829e2639703}
+\tfhyps{II.orb.lem:centralizer-borel-instance}{}
+\tfbinder{II.orb.lem:centralizer-borel-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : BorelSpace (centralizerGL Adele γ)}: the subtype $\sigma$-algebra (trace of the Borel $\sigma$-algebra of $G(\A)$, \texttt{I.haar.lem:gl2-adelic-borel-instance}) is the Borel $\sigma$-algebra of the subtype topology. Needed by the statement of \cref{II.orb.lem:centralizer-unimodular} (A: ``their Borel $\sigma$-algebras'').
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Mathlib's \texttt{Subtype.borelSpace}.
+\end{proof}
+
+\begin{lemma}[the Borel $\sigma$-algebra of $G_\gamma(\A)^1$]
+\tfstmt{II.orb.lem:centralizer-norm-one-borel-instance}
+\bonly
+\lean{GL2TF.centralizerNormOne_borelSpace}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.lem:gl2-adelic-borel-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-norm-one-borel-instance}
+\tfsem{II.orb.lem:centralizer-norm-one-borel-instance}{713cf91f8f08919fff311fafbdb105d9151d1af53913e961e1eeeeb8fb8bdd55}
+\tfhyps{II.orb.lem:centralizer-norm-one-borel-instance}{}
+\tfbinder{II.orb.lem:centralizer-norm-one-borel-instance}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{instance : BorelSpace (centralizerNormOne γ)}: the subtype-of-subtype $\sigma$-algebra (trace of the trace of the Borel $\sigma$-algebra of $G(\A)$) is the Borel $\sigma$-algebra of the subtype topology. Needed by \cref{II.orb.lem:centralizer-unimodular} and \cref{II.orb.thm:elliptic-volume-finite} (Haar measures on $G_\gamma(\A)^1$ are Borel measures).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{Subtype.borelSpace} twice: first for $G(\A)^1\subseteq G(\A)$, then for $G_\gamma(\A)^1\subseteq G(\A)^1$.
+\end{proof}
+
+\begin{theorem}[the split centre in $G_\gamma(\A)$]
+\tfstmt{II.orb.thm:centralizer-norm-one-splitting}
+\lean{GL2TF.centralizer_norm_one_splitting}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:gl2, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:central-split-component, I.topgrp.thm:norm-one-splitting, II.orb.def:centralizer, II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:centralizer-norm-one-splitting}
+\tfsem{II.orb.thm:centralizer-norm-one-splitting}{86058eaf2edaf2ec42071aab1d7a2f4bf7a208b8c3bb695d28462150e809a9be}
+\tfhyps{II.orb.thm:centralizer-norm-one-splitting}{}
+\tfbinder{II.orb.thm:centralizer-norm-one-splitting}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+Two clauses: \texttt{splitComponent ≤ centralizerGL Adele γ} ($\AGplus$, \texttt{I.topgrp.def:central-split-component}); and there is an isomorphism of topological groups \texttt{e : splitComponent × centralizerNormOne γ ≃ₜ* centralizerGL Adele γ} with $e(a,g)=ag$ in $G(\A)$. The isomorphism of \texttt{I.topgrp.thm:norm-one-splitting} is given by the same formula $(a,g)\mapsto ag$, so A's ``it is the restriction of the isomorphism $\AGplus\times G(\A)^1\cong G(\A)$'' is rendered by the formula, not by a reference to that isomorphism. Products and subgroups carry the product and subtype topologies.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence D-5 (explicit inverse not needed).} $\AGplus$ is central in $G(\A)$ (\texttt{splitComponent\_spec}), so $\AGplus\le G_\gamma(\A)$. Let $e_0\colon\AGplus\times G(\A)^1\cong G(\A)$, $e_0(a,g)=ag$, be the isomorphism of the vol.~I item \texttt{I.topgrp.thm:norm-one-splitting}. $F(a,g)=ag$ maps $\AGplus\times G_\gamma(\A)^1$ into $G_\gamma(\A)$ (product of two elements of $G_\gamma(\A)$). The inverse is $h\mapsto e_0^{-1}(h)=(a,g)$; only $h=ag$ is used, so $g=a^{-1}h\in G_\gamma(\A)^1$ because $a\in G_\gamma(\A)$ (A's formulas $a=a(|\det h|^{1/2})$, $g=a^{-1}h$ are not needed). $F$ is multiplicative by centrality of $\AGplus$; $F$ and its inverse are continuous as composites of multiplication, $e_0^{-1}$, projections and subtype inclusions. The formula $e(a,g)=ag$ holds by definition.
+\end{proof}
+
+\begin{lemma}[unimodularity]
+\tfstmt{II.orb.lem:centralizer-unimodular}
+\lean{GL2TF.centralizer_unimodular}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:gl2, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:norm-one-group, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.thm:centralizer-explicit, X.haar.def:is-unimodular, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-unimodular}
+\tfsem{II.orb.lem:centralizer-unimodular}{766812be23dcbc940009b066fba9339cdc4ec44b6212b6b232d8c432fd60d431}
+\tfhyps{II.orb.lem:centralizer-unimodular}{}
+\tfbinder{II.orb.lem:centralizer-unimodular}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:centralizer-unimodular}{1}{07d6aa89}{the assumption $\gamma\notin Z(\Q)$ (A: ``$\gamma\notin Z(\Q)$'')}
+\begin{tffidelity}
+Hypothesis \texttt{γ ∉ center ℚ}; conclusion \texttt{IsUnimodular (centralizerGL Adele γ) ∧ IsUnimodular (centralizerNormOne γ)} (\texttt{X.haar.def:is-unimodular}: every left Haar measure is right invariant on measurable sets). \texttt{IsUnimodular} takes the topological-group, locally compact, Hausdorff, measurable-space and Borel instances of its argument; for $G_\gamma(\A)$ and $G_\gamma(\A)^1$ these are Mathlib's subgroup instances and the B-only \cref{II.orb.lem:centralizer-locally-compact-instance}, \cref{II.orb.lem:centralizer-norm-one-locally-compact-instance}, \cref{II.orb.lem:centralizer-borel-instance}, \cref{II.orb.lem:centralizer-norm-one-borel-instance}, which are the ``subspace topologies and their Borel $\sigma$-algebras'' of A. The premises \texttt{μ.IsHaarMeasure} and \texttt{MeasurableSet E} reported by the tools as hidden binders at the paths \texttt{∧.1} and \texttt{∧.2} are the bound variables of the definition \texttt{IsUnimodular} (``for every left Haar measure $\mu$, every measurable $E$ and every $g$''), quantified inside each conjunct; they are not assumptions of the lemma, as for the vol.~I item \texttt{I.haar.thm:gl2-real-unimodular}. The constant \texttt{GL2TF.Local.IsNALF} (\texttt{I.lf.def:nalf}) in the types of the \texttt{∧.2} premises enters only through the instance terms of the subtype $G(\A)^1$ (the idele norm defining \texttt{normOneGroup}), not as an extra hypothesis.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Both groups are commutative: $G_\gamma(\A)$ by \cref{II.orb.thm:centralizer-explicit} with $R=\A$, and $G_\gamma(\A)^1$ through its inclusion into $G_\gamma(\A)$. In a commutative group the right translate $Eg$ equals the left translate $gE$, so $\mu(Eg)=\mu(gE)=\mu(E)$ for every left Haar measure $\mu$ and measurable $E$ (\texttt{isUnimodular\_of\_comm}, \texttt{measure\_smul}). The hypothesis $\gamma\notin Z(\Q)$ is used only to invoke \cref{II.orb.thm:centralizer-explicit}.
+\end{proof}
+
+\section{Compactness and volume of elliptic centralizers}\label{sec:orb-compact}
+
+\begin{lemma}[height bound for elliptic elements]
+\tfstmt{II.orb.lem:elliptic-height-bound}
+\lean{GL2TF.elliptic_height_bound}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.red.lem:adelic-hadamard, I.red.lem:simple-root-height-map, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-adelic-compact, II.orb.def:elliptic, II.orb.thm:elliptic-iff-not-borel-conjugate}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:elliptic-height-bound}
+\tfsem{II.orb.lem:elliptic-height-bound}{911e7d5ac2bfa5cb9e27144204cc78243560791b091015a638749ba6cb4ed35c}
+\tfhyps{II.orb.lem:elliptic-height-bound}{}
+\tfbinder{II.orb.lem:elliptic-height-bound}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:elliptic-height-bound}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\tfbinder{II.orb.lem:elliptic-height-bound}{2}{0bb1352b}{the set $\Omega\subseteq G(\A)$}
+\tfbinder{II.orb.lem:elliptic-height-bound}{3}{bdeb81db}{the assumption that $\Omega$ is compact (A: ``compact'')}
+\begin{tffidelity}
+$\gamma$ in $G(\A)$ is \texttt{ι γ} with $\iota=\texttt{gl2Map (algebraMap ℚ Adele)}$; $x$ ranges over the subtype \texttt{normOneGroup} ($G(\A)^1$) and $x^{-1}\gamma x$ is \texttt{(↑x)⁻¹ * ι γ * ↑x}; $\delta x$ is \texttt{ι δ * ↑x}; $\alpha(\HB(\cdot))$ is \texttt{simpleRoot (heightMap ·)} (\texttt{I.conv.def:simple-root}, \texttt{I.decomp.def:height-map}). The conclusion is \texttt{∃ c : ℝ, ∀ δ x, x⁻¹γx ∈ Ω → α(H\_B(δx)) ≤ c}, as in A. $\Omega$ is a set with an explicit compactness hypothesis.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence D-4 (precision).} The function $\mathcal N=\texttt{adelicEntryNorm}$ is continuous on $G(\A)$ (\texttt{continuous\_adelicEntryNorm}, M4), so $\mathcal N(\Omega)\le M$ for some $M$; put $M'=\max(M,1)$ and $c=\log M'$. Let $\delta\in G(\Q)$, $x\in G(\A)^1$ with $y=x^{-1}\gamma x\in\Omega$, and $b=\norm{e_2\delta x}_\A>0$ (\texttt{bottomRowNorm\_pos}). Since $\gamma$ is elliptic, $\delta\gamma\delta^{-1}\notin B(\Q)$ (\cref{II.orb.thm:elliptic-iff-not-borel-conjugate}), so the vol.~I item \texttt{I.red.lem:adelic-hadamard} with $(\delta,\delta'=\delta\gamma)$ and $|\det x|_\A=1$ gives $1\le b\,\norm{e_2\delta\gamma x}_\A$. From $\delta\gamma x=(\delta x)y$ and $\norm{e_2gy}_\A\le\mathcal N(y)\norm{e_2g}_\A$ (\texttt{bottomRowNorm\_mul\_le}, M4) follows $1\le M'b^2$, i.e.\ $0\le\log M'+2\log b$. Finally $\alpha(H_B(\delta x))=\log|\det\delta x|_\A-2\log b=-2\log b\le c$ (\texttt{simpleRoot\_heightMap}, \texttt{ideleNorm\_det\_rat\_mul}). A's ``bounded on compact sets'' is obtained from continuity of $\mathcal N$.
+\end{proof}
+
+\begin{corollary}[height bound on $G_\gamma(\A)^1$]
+\tfstmt{II.orb.cor:centralizer-height-bound}
+\lean{GL2TF.centralizer_height_bound}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:height-map, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:elliptic, II.orb.lem:elliptic-height-bound}
+\end{corollary}
+\begin{tfformal}{II.orb.cor:centralizer-height-bound}
+\tfsem{II.orb.cor:centralizer-height-bound}{b4c3fe3bb2e804d69ec49f496d0900329d6299e528cf3cba2b885a0ef724a1a7}
+\tfhyps{II.orb.cor:centralizer-height-bound}{}
+\tfbinder{II.orb.cor:centralizer-height-bound}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.cor:centralizer-height-bound}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+\texttt{∃ c : ℝ, ∀ x : centralizerNormOne γ, ∀ δ, simpleRoot (heightMap (ι δ * x)) ≤ c}, with $x$ coerced to $G(\A)$ through $G(\A)^1$. As in A (the quantifiers over $x$ and $\delta$ commute).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Apply \cref{II.orb.lem:elliptic-height-bound} with the compact set $\Omega=\{\iota(\gamma)\}$ (\texttt{isCompact\_singleton}): for $x\in G_\gamma(\A)^1$, $x\iota(\gamma)=\iota(\gamma)x$, so $x^{-1}\iota(\gamma)x=\iota(\gamma)\in\Omega$.
+\end{proof}
+
+\begin{theorem}[relative compactness of the elliptic support]
+\tfstmt{II.orb.thm:elliptic-support-relatively-compact}
+\lean{GL2TF.elliptic_support_relatively_compact}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.red.thm:compactness-criterion, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, II.orb.def:elliptic, II.orb.lem:elliptic-height-bound}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-support-relatively-compact}
+\tfsem{II.orb.thm:elliptic-support-relatively-compact}{a3b46cf8143aab7414f95dcaff1e3f64906b497055bbcd30c538f4787f68338f}
+\tfhyps{II.orb.thm:elliptic-support-relatively-compact}{}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{2}{0bb1352b}{the set $\Omega\subseteq G(\A)$}
+\tfbinder{II.orb.thm:elliptic-support-relatively-compact}{3}{bdeb81db}{the assumption that $\Omega$ is compact (A: ``compact'')}
+\begin{tffidelity}
+$G(\Q)\backslash G(\A)^1$ is \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} with the quotient topology (\texttt{I.quot.def:gl2-rat-norm-one}, as in \texttt{I.red.thm:compactness-criterion}), and $p$ is \texttt{Quotient.mk}. The conclusion is \texttt{IsCompact (closure (p '' \{x : normOneGroup | (↑x)⁻¹ * ι γ * ↑x ∈ Ω\}))}, ``has compact closure''.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Let $c$ be the constant of \cref{II.orb.lem:elliptic-height-bound}. By the vol.~I item \texttt{I.red.thm:compactness-criterion} it suffices to bound $\alpha(H_B(\delta x))\le c$ for all $\delta\in G(\Q)$ and all $x\in G(\A)^1$ with $p(x)\in p(S)$, $S=\{x:x^{-1}\gamma x\in\Omega\}$. Such $x$ is $\iota(\eta)s$ with $s\in S$, $\eta\in G(\Q)$ (\texttt{exists\_rat\_of\_quot\_eq}), so $\delta x=\iota(\delta\eta)s$ and the lemma applies to $\delta\eta$ and $s$.
+\end{proof}
+
+\begin{lemma}[conjugates in a compact set]
+\tfstmt{II.orb.lem:conjugates-meeting-compact-finite}
+\lean{GL2TF.conjugates_meeting_compact_finite}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:gl2-adelic, I.topgrp.thm:gl2-rat-discrete, II.orb.def:centralizer}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:conjugates-meeting-compact-finite}
+\tfsem{II.orb.lem:conjugates-meeting-compact-finite}{ad55445d371bcc293d49e00bc2bd27c1bf8d896b33003366a1898c92e1a344c7}
+\tfhyps{II.orb.lem:conjugates-meeting-compact-finite}{}
+\tfbinder{II.orb.lem:conjugates-meeting-compact-finite}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:conjugates-meeting-compact-finite}{1}{ea8f3523}{the set $C\subseteq G(\A)$}
+\tfbinder{II.orb.lem:conjugates-meeting-compact-finite}{2}{98992c93}{the assumption that $C$ is compact (A: ``compact'')}
+\begin{tffidelity}
+$C$ is a subset of $G(\A)$ with an explicit compactness hypothesis; $\delta^{-1}\gamma\delta$ is \texttt{(ι δ)⁻¹ * ι γ * ι δ} in $G(\A)$. (a) is \texttt{(Set.range (fun δ ↦ (ι δ)⁻¹ * ι γ * ι δ) ∩ C).Finite}. (b): there are $n\in\N$ and \texttt{δs : Fin n → GL (Fin 2) ℚ} with $\{\delta:\delta^{-1}\gamma\delta\in C\}=\{\delta:\exists i,\ \exists\sigma\in G_\gamma(\Q),\ \delta=\sigma\,\delta_i\}$, which is $\bigcup_iG_\gamma(\Q)\delta_i$ written elementwise; $n=0$ (empty set) is allowed, as in A (``finitely many'').
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. $\iota(G(\Q))$ is closed and discrete in $G(\A)$ (the vol.~I item \texttt{I.topgrp.thm:gl2-rat-discrete}), so $\iota(G(\Q))\cap C$ is compact (preimage under a closed embedding) and discrete, hence finite (\texttt{IsCompact.finite\_of\_discrete}); the conjugates $\iota(\delta)^{-1}\iota(\gamma)\iota(\delta)=\iota(\delta^{-1}\gamma\delta)$ (\texttt{iota\_conj}) lie in $\iota(G(\Q))$, which gives (a). (b): enumerate the finite set of (a) by $\mathrm{Fin}\,n$ and choose $\delta_i$ with $\iota(\delta_i^{-1}\gamma\delta_i)$ the $i$-th element. If $\iota(\delta^{-1}\gamma\delta)\in C$, it is some $i$-th element, so $\delta^{-1}\gamma\delta=\delta_i^{-1}\gamma\delta_i$ by injectivity of $\iota$, i.e.\ $\delta\delta_i^{-1}\in G_\gamma(\Q)$ (\texttt{conj\_eq\_iff}) and $\delta=\sigma\delta_i$. Conversely $\sigma\delta_i$ with $\sigma\in G_\gamma(\Q)$ has the same conjugate as $\delta_i$.
+\end{proof}
+
+\begin{lemma}[a compact fundamental set]
+\tfstmt{II.orb.lem:centralizer-compact-fundamental-set}
+\lean{GL2TF.centralizer_compact_fundamental_set}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:height-map, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:gl2-rat-norm-one, I.red.thm:compactness-criterion, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.orb.cor:centralizer-height-bound, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:elliptic, II.orb.lem:conjugates-meeting-compact-finite, II.orb.thm:centralizer-rat-points}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-compact-fundamental-set}
+\tfsem{II.orb.lem:centralizer-compact-fundamental-set}{dfe06bd78b50ad6ed2846f3e859b284a90bad1ac8ae31310b3a0c45759031f5d}
+\tfhyps{II.orb.lem:centralizer-compact-fundamental-set}{}
+\tfbinder{II.orb.lem:centralizer-compact-fundamental-set}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:centralizer-compact-fundamental-set}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+\texttt{∃ C' : Set (centralizerNormOne γ), IsCompact C' ∧ ∀ y, ∃ σ ∈ centralizerRatNormOne γ, ∃ w ∈ C', y = σ * w}. $C'\subseteq G_\gamma(\A)^1$ is automatic ($C'$ is a set of elements of the subtype), and $G_\gamma(\Q)$ acts through the B-only \cref{II.orb.def:centralizer-rat-norm-one}, i.e.\ through $\iota$ (\cref{II.orb.thm:centralizer-rat-points}). Only ``$\subseteq$'' of $G_\gamma(\A)^1=G_\gamma(\Q)C'$ is stated: ``$\supseteq$'' holds by closure of the subgroup under multiplication.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (Steps 1 and 2). Step 1: let $Y=p(G_\gamma(\A)^1)\subseteq G(\Q)\backslash G(\A)^1$. By \cref{II.orb.cor:centralizer-height-bound} and the vol.~I item \texttt{I.red.thm:compactness-criterion} (argument as in \cref{II.orb.thm:elliptic-support-relatively-compact}) $\overline Y$ is compact. The quotient map $p$ is open (\texttt{MulAction.isOpenQuotientMap\_quotientMk}) and surjective, so there is a compact $C\subseteq G(\A)^1$ with $p(C)\supseteq\overline Y$ (\texttt{exists\_compact\_image\_superset}). Step 2: $C_\gamma=\{w\gamma w^{-1}:w\in C\}$ is compact, and \cref{II.orb.lem:conjugates-meeting-compact-finite}(b) gives $\delta_1,\dots,\delta_n$ with $\{\delta:\delta^{-1}\gamma\delta\in C_\gamma\}=\bigcup_iG_\gamma(\Q)\delta_i$. Put $C'=\bigcup_i\bigl(G_\gamma(\A)^1\cap\iota(\delta_i)C\bigr)$, compact since $G_\gamma(\A)^1$ is closed in $G(\A)^1$. For $y\in G_\gamma(\A)^1$: $p(y)\in p(C)$ gives $y=\iota(\delta)w$ with $w\in C$; as $y$ commutes with $\iota(\gamma)$, $\iota(\delta)^{-1}\iota(\gamma)\iota(\delta)=w\gamma w^{-1}\in C_\gamma$, so $\delta=\sigma\delta_i$ with $\sigma\in G_\gamma(\Q)$. Then $\iota(\sigma)\in G_\gamma(\Q)\subseteq G_\gamma(\A)^1$ (\cref{II.orb.thm:centralizer-rat-points}(b),(c)) and $y=\iota(\sigma)\cdot\iota(\sigma)^{-1}y$ with $\iota(\sigma)^{-1}y=\iota(\delta_i)w\in C'$.
+\end{proof}
+
+\begin{theorem}[compactness of $G_\gamma(\Q)\backslash G_\gamma(\A)^1$]
+\tfstmt{II.orb.thm:elliptic-centralizer-compact}
+\lean{GL2TF.elliptic_centralizer_compact}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:elliptic, II.orb.lem:centralizer-compact-fundamental-set}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-centralizer-compact}
+\tfsem{II.orb.thm:elliptic-centralizer-compact}{af3e7e71f17ab7501f6d807d7b61ca94ffb81d0554f2c81c804389b946159949}
+\tfhyps{II.orb.thm:elliptic-centralizer-compact}{}
+\tfbinder{II.orb.thm:elliptic-centralizer-compact}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-centralizer-compact}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\begin{tffidelity}
+\texttt{CompactSpace (MulAction.orbitRel.Quotient (centralizerRatNormOne γ) (centralizerNormOne γ))}: the space of orbits $G_\gamma(\Q)x$ of the left multiplication action of the B-only subgroup \cref{II.orb.def:centralizer-rat-norm-one} on $G_\gamma(\A)^1$, with Mathlib's quotient topology, as in M3/M4.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. With $C'$ from \cref{II.orb.lem:centralizer-compact-fundamental-set}, the image of $C'$ under the continuous quotient map is compact, and it is the whole quotient: each orbit $G_\gamma(\Q)y$ with $y=\sigma w$, $w\in C'$, is the orbit of $w$ (\texttt{quot\_mk\_eq\_iff'}).
+\end{proof}
+
+\begin{theorem}[the volume of $G_\gamma(\Q)\backslash G_\gamma(\A)^1$]
+\tfstmt{II.orb.thm:elliptic-volume-finite}
+\lean{GL2TF.elliptic_volume_finite}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:elliptic, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-norm-one-second-countable-instance, II.orb.lem:centralizer-rat-discrete-instance, II.orb.thm:elliptic-centralizer-compact, X.quot.def:quotient-measure, X.quot.thm:compact-quotient-volume, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-volume-finite}
+\tfsem{II.orb.thm:elliptic-volume-finite}{4bae20fe44204c3afe2022231673b00982386534742e1d5322cfaa079ba0e14c}
+\tfhyps{II.orb.thm:elliptic-volume-finite}{}
+\tfbinder{II.orb.thm:elliptic-volume-finite}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-volume-finite}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'')}
+\tfbinder{II.orb.thm:elliptic-volume-finite}{2}{b1826056}{the measure $\nu$ on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-volume-finite}{3}{04722f46}{the assumption that $\nu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+$\nu$ is a binder \texttt{ν : Measure (centralizerNormOne γ)} with \texttt{[ν.IsHaarMeasure]} (left Haar measure, D13: arbitrary), on the Borel $\sigma$-algebra (\cref{II.orb.lem:centralizer-norm-one-borel-instance}). $\nu_\gamma$ is \texttt{quotientMeasure (centralizerRatNormOne γ) ν} (\texttt{X.quot.def:quotient-measure}), the push-forward under \texttt{Quotient.mk} of $\nu$ restricted to a set $D$ chosen by \texttt{Classical.epsilon} among the measurable $D$ with $\forall y\,\exists!\sigma,\ \sigma^{-1}y\in D$; \texttt{quotientMeasure} takes only \texttt{[Group G] [MeasurableSpace G]}, so discreteness, local compactness and second countability are \emph{not} arguments of it. They matter for the junk guard: with the B-only instances \cref{II.orb.lem:centralizer-rat-discrete-instance}, \cref{II.orb.lem:centralizer-norm-one-locally-compact-instance}, \cref{II.orb.lem:centralizer-norm-one-second-countable-instance}, \cref{II.orb.lem:centralizer-norm-one-borel-instance}, the vol.~I items \texttt{X.quot.thm:exists-fundamental-domain} and \texttt{X.quot.lem:quotient-measure-spec} show that such a $D$ exists (so the \texttt{Classical.epsilon} choice is a genuine Borel fundamental domain, not an arbitrary set) and that \texttt{Quotient.mk} is measurable, so that $\nu_\gamma$ is A's quotient measure; the proof uses them through the vol.~I item \texttt{X.quot.thm:compact-quotient-volume}. The conclusion is \texttt{0 < ν\_γ univ ∧ ν\_γ univ < ∞}, the volume of the whole quotient.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A: the vol.~I item \texttt{X.quot.thm:compact-quotient-volume} for $G=G_\gamma(\A)^1$ and $\Gamma=G_\gamma(\Q)$ (\texttt{centralizerRatNormOne γ}), with compactness from \cref{II.orb.thm:elliptic-centralizer-compact}; its instance hypotheses are the B-only instances listed in the fidelity note.
+\end{proof}
+
+\section{Elliptic orbital integrals}\label{sec:orb-elliptic}
+
+\noindent\emph{Lean counterpart:} \texttt{lean/GL2TF/VolII/Orbital.lean} (milestone M7a, unit U6, elliptic part). \emph{Conventions.} $\gamma\in\GL_2(\Q)$ acts on
+$G(\A)^1$ through the B-only \cref{II.kernel.def:rat-norm-one} \texttt{ratNormOne}; the coset space $G_\gamma(\A)^1\backslash G(\A)^1$ is
+\texttt{MulAction.orbitRel.Quotient (centralizerNormOne γ) normOneGroup} and functions of a coset are evaluated at the representative \texttt{Quotient.out}
+(harmless by \cref{II.orb.lem:orbital-integrand-descends}). $\mu^1$ is \texttt{haarNormOne μ} (\texttt{I.haar.def:haar-norm-one}). Orbital integrals are taken on
+$G(\A)^1$ (decision D-ORB1); the Weil measure $\nu$ is an arbitrary one, with the Weil property as the binder \texttt{hν} (every Weil measure, not a chosen one).
+
+\begin{lemma}
+\tfstmt{II.orb.lem:orbital-integrand-descends}
+\bonly
+\lean{GL2TF.orbital_integrand_descends}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.orb.def:centralizer-norm-one}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:orbital-integrand-descends}
+\tfsem{II.orb.lem:orbital-integrand-descends}{1dfcbeee1d68984255a7c4158fe6260830e28bc686c3b03ce0ac91b77f43ffbf}
+\tfhyps{II.orb.lem:orbital-integrand-descends}{}
+\tfbinder{II.orb.lem:orbital-integrand-descends}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:orbital-integrand-descends}{1}{1ca60fe5}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.lem:orbital-integrand-descends}{2}{11894aa1}{the element $c\in G(\A)^1$}
+\tfbinder{II.orb.lem:orbital-integrand-descends}{3}{53e79934}{the assumption $c\in G_\gamma(\A)^1$}
+\tfbinder{II.orb.lem:orbital-integrand-descends}{4}{1545b40b}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+B-only, proved. \texttt{f ((c * x)⁻¹ * ratNormOne γ * (c * x)) = f (x⁻¹ * ratNormOne γ * x)} for $c\in$ \texttt{centralizerNormOne γ}: A's claim in \cref{II.orb.def:orbital-integral} that $x\mapsto f(x^{-1}\gamma x)$ depends only on $G_\gamma(\A)^1x$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $c\in G_\gamma(\A)^1$, $c$ commutes with $\iota(\gamma)$ (membership in the centralizer, unfolded through the two \texttt{subgroupOf} layers), so $(cx)^{-1}\iota(\gamma)cx=x^{-1}c^{-1}c\,\iota(\gamma)x=x^{-1}\iota(\gamma)x$ (\texttt{group}).
+\end{proof}
+
+\begin{definition}[orbital integrals]
+\tfstmt{II.orb.def:orbital-integral}
+\lean{GL2TF.orbitalIntegral}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.orb.def:centralizer-norm-one, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.orb.def:orbital-integral}
+\tfsem{II.orb.def:orbital-integral}{99b88ba629cbdc9c7ffdcb2bc144d3211f0642aab2b8211e3f765866fd30e0ca}
+\tfhyps{II.orb.def:orbital-integral}{}
+\tfbinder{II.orb.def:orbital-integral}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.def:orbital-integral}{1}{1ca60fe5}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.def:orbital-integral}{2}{47ee39c9}{the measure $\nu$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\begin{tffidelity}
+\texttt{orbitalIntegral γ f ν := ∫ q, f ((out q)⁻¹ * ratNormOne γ * out q) ∂ν}: a Bochner integral ($0$ if not integrable), with the integrand at the chosen representative $\mathrm{out}(q)$ of the coset (A's claim that it depends only on the coset is the B-only \cref{II.orb.lem:orbital-integrand-descends}). $\nu$ is any measure on the quotient, with Mathlib's quotient topology and $\sigma$-algebra (Borel by \texttt{X.quot.lem:right-coset-quotient-borel}, $G_\gamma(\A)^1$ being closed); $f$ is any function. Orbital integrals live on $G(\A)^1$, not on $G(\A)$ (decision D-ORB1; the $G(\A)$-form is milestone M9c).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[unfolding of the elliptic class kernel]
+\tfstmt{II.orb.thm:elliptic-kernel-unfolding}
+\lean{GL2TF.elliptic_kernel_unfolding}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:torus, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:norm-one-unimodular, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-rat-discrete, I.topgrp.thm:norm-one-splitting, II.cpt.def:conj-centralizer, II.cpt.def:kernel, II.kernel.def:class-kernel, II.kernel.def:class-polynomial, II.kernel.def:class-type-index, II.kernel.def:class-types, II.kernel.def:geometric-class, II.kernel.def:kernel, II.kernel.def:rat-norm-one, II.kernel.thm:class-decomposition, II.kernel.thm:class-trichotomy, II.kernel.thm:semisimple-class-conjugacy, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:elliptic, II.orb.def:orbital-integral, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-unimodular, II.orb.lem:orbital-integrand-descends, II.orb.thm:centralizer-closed, II.orb.thm:elliptic-iff-no-eigenvector, II.orb.thm:elliptic-support-relatively-compact, II.orb.thm:elliptic-volume-finite, X.haar.def:is-unimodular, X.quot.def:quotient-measure, X.quot.def:weil-measure, X.quot.thm:quotient-tower, X.quot.thm:unfolding-subgroup, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-kernel-unfolding}
+\tfsem{II.orb.thm:elliptic-kernel-unfolding}{7490bad89744214f5e29dcb1817a84de0028bd6a97ae0178db4259579c9a7e81}
+\tfhyps{II.orb.thm:elliptic-kernel-unfolding}{}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'', \cref{II.orb.def:elliptic})}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{2}{7bc17798}{the geometric class $\mathcal O=(t,d)$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{3}{9fb67864}{the assumption that $\gamma$ has the geometric class $\mathcal O$ (A: ``with geometric class $\mathcal O$'')}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{4}{75d01977}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{5}{52fa10c2}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{6}{1ccaa905}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{7}{bf309ed0}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{8}{a5b9a6ba}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{9}{2d484cdb}{the measure $\nu_\gamma$ on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{10}{031a4236}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{11}{dc9e5395}{the measure $\nu$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-kernel-unfolding}{12}{ca805bec}{the assumption that $\nu$ is a Weil measure for $(\mu^1,\nu_\gamma)$ (A: ``$\nu$ a Weil measure for $(\mu^1,\nu_\gamma)$'', \texttt{X.quot.def:weil-measure})}
+\begin{tffidelity}
+``With geometric class $\mathcal O$'' is the binder $\gamma\in$ \texttt{classFibre c} (\cref{II.kernel.def:geometric-class}). $K^{\abs f}_{\mathcal O}$ is \texttt{classKernel (fun y ↦ (‖f y‖ : ℂ)) c}, the class kernel of $\abs f$ regarded as a $\C$-valued function. Five conjuncts. (1) for $\delta\in G(\Q)$ (the subgroup \texttt{gl2RatNormOne} of $G(\A)^1$, B-only \texttt{I.quot.def:gl2-rat-norm-one}) and all $x$: $K_{\mathcal O}(\delta x,\delta x)=K_{\mathcal O}(x,x)$ and the same for $K^{\abs f}_{\mathcal O}$ (A: ``depend only on $\dot x=G(\Q)x$''). (2) integrability of $\dot x\mapsto K_{\mathcal O}(\mathrm{out}\,\dot x,\mathrm{out}\,\dot x)$ for $\dd\dot x$ = \texttt{automorphicQuotientMeasure μ} (\texttt{I.quot.def:automorphic-quotient-measure}). (3) the $\abs f$-identity in $[0,\infty]$: $\int^-\norm{K^{\abs f}_{\mathcal O}(\dot x,\dot x)}_e\,\dd\dot x=v_\gamma\int^-\norm{f(x^{-1}\gamma x)}_e\,\dd\nu$, where $v_\gamma$ = \texttt{quotientMeasure (centralizerRatNormOne γ) νγ univ} (the quotient measure of $\nu_\gamma$ on $G_\gamma(\Q)\backslash G_\gamma(\A)^1$, with $G_\gamma(\Q)$ the B-only \texttt{II.orb.def:centralizer-rat-norm-one}); the extended norm $\norm{K^{\abs f}_{\mathcal O}}_e$ equals $K^{\abs f}_{\mathcal O}\ge0$. (4) finiteness $\int^-\norm{f(x^{-1}\gamma x)}_e\,\dd\nu<\infty$ (A's ``$<\infty$''). (5) $\int K_{\mathcal O}(\dot x,\dot x)\,\dd\dot x=v_\gamma\,O_\gamma(f;\nu)$ with $v_\gamma$ converted by \texttt{toReal}. The ``finite positive volume'' of $G_\gamma(\Q)\backslash G_\gamma(\A)^1$ is not stated here (it is the M3e item \texttt{II.orb.thm:elliptic-volume-finite}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A in the first identity} (see \texttt{docs/notes/M7a-L1-divergences.md}, item 50). Lean does not use \cref{II.kernel.thm:class-kernel-unfolding}, which indexes by cosets in $\GL_2(\Q)$, but needs sums over $G(\Q)\le G(\A)^1$ indexed by $\Gamma_\gamma\backslash\Gamma$ as in \texttt{X.quot.thm:unfolding-subgroup}: by \cref{II.kernel.thm:semisimple-class-conjugacy}(a) (the class of $\gamma$ is elliptic by \cref{II.kernel.thm:class-trichotomy}), $\gamma'\mapsto\iota(\gamma')$ is a bijection from the fibre $\mathcal O$ onto the $G(\Q)$-conjugates of $\iota(\gamma)$ in $G(\A)^1$ (\texttt{classKernel\_eq\_class\_sum}, injective by \texttt{I.topgrp.thm:gl2-rat-discrete}), and the coset/class reindexing of \cref{II.cpt.thm:geometric-expansion} (\texttt{cpt\_class\_sum}) gives $K_{\mathcal O}(x,x)=\sum_{\delta\in\Gamma_\gamma\backslash\Gamma}F(\delta x)$ with $\Gamma=G(\Q)$, $\Gamma_\gamma=G(\Q)\cap G_\gamma(\A)^1$ and $F(x)=f(x^{-1}\gamma x)$, and likewise for $\abs f$. The rest follows A. Invariance and continuity: \cref{II.kernel.thm:class-decomposition}(c). \emph{Steps 1--2 for $\abs f$} (\texttt{elliptic\_lintegral\_rat\_finite}): \texttt{X.quot.thm:unfolding-subgroup} for $\Gamma_\gamma\le G(\Q)$ (with the measure $\mu^1$, \texttt{I.haar.def:haar-norm-one}) writes $\int_{\Gamma_\gamma\backslash G(\A)^1}\abs F$ as $\int\Psi\,\dd\dot x$ with $\Psi$ the class sum of $\abs f$; $\Psi$ vanishes off the closure $Q$ of the image of $\{y:y^{-1}\gamma y\in\operatorname{supp}f\}$, compact by \cref{II.orb.thm:elliptic-support-relatively-compact}; a compact $C$ with $p(C)\supseteq Q$ exists (\texttt{exists\_compact\_image\_superset'}); and A's bound by $K_{\abs f}$ is replaced by the generic bound $\sum_{\gamma\in G(\Q)}\abs{f(x^{-1}\gamma x)}\le B$ for $x\in C$ (\texttt{cpt\_kernel\_enorm\_bound'} from Vol.~II Ch.~1). So $\Psi\le B\,\mathbf 1_Q$ and the integral is at most $B\,\dd\dot x(Q)<\infty$. \emph{Step 3} (\texttt{elliptic\_tower}): \texttt{X.quot.thm:quotient-tower} for $\Gamma_\gamma\le G_\gamma(\A)^1\le G(\A)^1$, with $G(\A)^1$ unimodular (\texttt{I.haar.thm:norm-one-unimodular}), $G_\gamma(\A)^1$ closed and unimodular (\cref{II.orb.thm:centralizer-closed}, \cref{II.orb.lem:centralizer-unimodular}, $\gamma$ non-central by \cref{II.orb.thm:elliptic-iff-no-eigenvector}); the inner integral is $v_\gamma\abs{F(x)}$, where $\Gamma_\gamma\cap G_\gamma(\A)^1$ is identified with \cref{II.orb.def:centralizer-rat-norm-one} (\texttt{ratCentralizer\_subgroupOf}); $0<v_\gamma<\infty$ by \cref{II.orb.thm:elliptic-volume-finite}, so finiteness of the left side gives $\nu$-integrability of $F$. The identity $\int K^{\abs f}_{\mathcal O}(\dot x,\dot x)=v_\gamma\int\abs F\,\dd\nu$ combines the unfolding with the tower. \emph{Integrability of $K_{\mathcal O}(\dot x,\dot x)$}: $\abs{K_{\mathcal O}(x,x)}\le K^{\abs f}_{\mathcal O}(x,x)$ termwise (\texttt{norm\_tsum\_le\_tsum\_norm}; summability from the same bound $B$). \emph{The final identity}: the integrable forms of \texttt{X.quot.thm:unfolding-subgroup} and of the tower. Lean source note: this proof is elaborated under \texttt{set\_option maxHeartbeats 400000} (twice the default; about 6\,s).
+\end{proof}
+
+\begin{definition}
+\tfstmt{II.orb.def:centralizer-norm-one-incl}
+\bonly
+\lean{GL2TF.centralizerNormOneIncl}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer-norm-one-incl}
+\tfsem{II.orb.def:centralizer-norm-one-incl}{c3043cb3025112c64f7b14e4272d5a44269ee9f825c759c89412ac3a3857eb64}
+\tfhyps{II.orb.def:centralizer-norm-one-incl}{}
+\tfbinder{II.orb.def:centralizer-norm-one-incl}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.def:centralizer-norm-one-incl}{1}{2304aec4}{the element $g\in G_\gamma(\A)^1$}
+\begin{tffidelity}
+B-only. \texttt{centralizerNormOneIncl γ g := ((g : normOneGroup) : GL (Fin 2) Adele)}: the composite of the two subtype inclusions $G_\gamma(\A)^1\subseteq G(\A)^1\subseteq G(\A)$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the norm-one Haar measure on $G_\gamma(\A)^1$]
+\tfstmt{II.orb.def:centralizer-haar-norm-one}
+\lean{GL2TF.centralizerHaarNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.haar.def:norm-one-normalization, I.topgrp.def:norm-one-group, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-norm-one-incl, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.orb.def:centralizer-haar-norm-one}
+\tfsem{II.orb.def:centralizer-haar-norm-one}{d535b2a33e0091d66ac6a36801192e07bfeba9c32edd247d0062804cedc76e4c}
+\tfhyps{II.orb.def:centralizer-haar-norm-one}{}
+\tfbinder{II.orb.def:centralizer-haar-norm-one}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.def:centralizer-haar-norm-one}{1}{04853788}{the measure $\nu$ on $G_\gamma(\A)$ (A: ``a left Haar measure on $G_\gamma(\A)$'')}
+\begin{tffidelity}
+\texttt{centralizerHaarNormOne γ ν := Measure.comap incl (Measure.map normOneNormalize (ν.restrict \{g | √|det g|\_𝔸 ∈ [1, e)\}))}: the recipe of \texttt{I.haar.def:haar-norm-one} applied to $G_\gamma(\A)$: restrict $\nu$ to the slab $1\le\sqrt{\abs{\det g}_\A}<e$, push forward along $g\mapsto a(\sqrt{\abs{\det g}_\A})^{-1}g$ (B-only \texttt{I.haar.def:norm-one-normalization}) and pull back to $G_\gamma(\A)^1$ along the inclusion (B-only \cref{II.orb.def:centralizer-norm-one-incl}). It is defined for every measure $\nu$ (junk $0$ if the inclusion were not a measurable embedding). A's formula $\nu^1(E)=\nu(\{a(r)g:1\le r<e,\ g\in E\})$, the Haar property and the decomposition $\nu=\dd r/r\otimes\nu^1$ are claims, stated in the B-only \cref{II.orb.lem:centralizer-haar-norm-one-spec}. Defined for every $\gamma$, including central $\gamma$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.orb.lem:centralizer-haar-norm-one-spec}
+\bonly
+\lean{GL2TF.centralizerHaarNormOne_spec}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:real-units-haar, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:norm-one-group, I.topgrp.lem:central-split-component, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.orb.def:centralizer, II.orb.def:centralizer-haar-norm-one, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-norm-one-incl, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-norm-one-second-countable-instance, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-norm-one-splitting, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:centralizer-haar-norm-one-spec}
+\tfsem{II.orb.lem:centralizer-haar-norm-one-spec}{d92bfdecfe7bfc094339261937c9f1d7e7fecbbbed925aa21d027ed5e0390f7a}
+\tfhyps{II.orb.lem:centralizer-haar-norm-one-spec}{}
+\tfbinder{II.orb.lem:centralizer-haar-norm-one-spec}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:centralizer-haar-norm-one-spec}{1}{04853788}{the measure $\nu$ on $G_\gamma(\A)$}
+\tfbinder{II.orb.lem:centralizer-haar-norm-one-spec}{2}{75808fdf}{$\nu$ is a left Haar measure on $G_\gamma(\A)$}
+\begin{tffidelity}
+B-only. Three conjuncts: A's formula for $\nu^1(E)$ (Borel $E$; $a(r)$ = \texttt{centralElt r}, $r$ a real unit with $1\le r<e$), \texttt{IsHaarMeasure} of $\nu^1$, and the integration formula $\int F\,\dd\nu=\int_0^\infty r^{-1}\int F(a(r)g)\,\dd\nu^1(g)\,\dd r$ for Borel $F\ge0$ on $G(\A)$ (the form of ``$\nu$ corresponds to $\dd r/r\otimes\nu^1$''; \texttt{realUnitOf}, B-only \texttt{I.haar.def:real-unit-of}, makes $r>0$ a unit).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L1-divergences.md}, ``51 spec''): the M4 proof of \texttt{I.haar.lem:haar-norm-one-spec} with $G(\A)$, $G(\A)^1$ replaced by $G_\gamma(\A)$, $G_\gamma(\A)^1$, and \cref{II.orb.thm:centralizer-norm-one-splitting} in place of \texttt{I.topgrp.thm:norm-one-splitting}. The inclusion $G_\gamma(\A)^1\to G(\A)$ is a measurable embedding (two closed subtypes), so the defining formula of \cref{II.orb.def:centralizer-haar-norm-one} evaluates to $\nu(\{a(r)g:1\le r<e,\ g\in E\})$ (\texttt{centralizerHaarNormOne\_apply}; $r=\sqrt{\abs{\det h}_\A}$ recovers the decomposition). Product form (\texttt{centralizerHaarNormOne\_product}): with the splitting $e\colon A_G^+\times G_\gamma(\A)^1\cong G_\gamma(\A)$, $e^{-1}_*\nu$ is a Haar measure on the product, hence $c\cdot(\rho\otimes\nu_1)$ for $\rho$ the transport of $\dd r/r$ (a Haar measure on $A_G^+$ with $\rho(\{a(r):1\le r<e\})=1$, \texttt{realUnitsHaar\_Ico}) and any Haar $\nu_1$ (\texttt{isMulLeftInvariant\_eq\_smul}); evaluating on $\{a(r):1\le r<e\}\times E$ gives $\nu^1=c\,\nu_1$, which is Haar, and $\nu=e_*(\rho\otimes\nu^1)$. The integral formula then follows by \texttt{lintegral\_map}, Tonelli (\texttt{lintegral\_prod}) and the change of variables from $\R_{>0}$ to $(0,\infty)$ with the density $r^{-1}$ (\texttt{setLIntegral\_withDensity\_eq\_setLIntegral\_mul\_non\_measurable}).
+\end{proof}
+
+\begin{theorem}[convergence of elliptic orbital integrals]
+\tfstmt{II.orb.thm:elliptic-orbital-converges}
+\lean{GL2TF.elliptic_orbital_converges}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:gl2, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:norm-one-unimodular, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:gl2-rat-norm-one, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.cpt.def:conj-centralizer, II.cpt.def:kernel, II.kernel.def:rat-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:elliptic, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-unimodular, II.orb.lem:orbital-integrand-descends, II.orb.thm:centralizer-closed, II.orb.thm:elliptic-iff-no-eigenvector, II.orb.thm:elliptic-support-relatively-compact, II.orb.thm:elliptic-volume-finite, X.haar.def:is-unimodular, X.quot.def:quotient-measure, X.quot.def:weil-measure, X.quot.thm:quotient-tower, X.quot.thm:unfolding-subgroup, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-orbital-converges}
+\tfsem{II.orb.thm:elliptic-orbital-converges}{8a97bfb1872fb72fb210a375d7fa38890662d6b0a4ea0fb25ee6671b2e0acc58}
+\tfhyps{II.orb.thm:elliptic-orbital-converges}{}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (A: ``elliptic'', \cref{II.orb.def:elliptic})}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{3}{3e157d78}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{4}{9fa2c18f}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{5}{d5123e10}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{6}{415bf87d}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{7}{07774951}{the measure $\nu_\gamma$ on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{8}{72d38fe0}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{9}{60210803}{the measure $\nu$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-orbital-converges}{10}{e0f952d8}{the assumption that $\nu$ is a Weil measure for $(\mu^1,\nu_\gamma)$ (A: ``$\nu$ a Weil measure for $(\mu^1,\nu_\gamma)$'', \texttt{X.quot.def:weil-measure})}
+\begin{tffidelity}
+\emph{Exit of milestone M7a.} \texttt{Integrable (fun q ↦ f ((out q)⁻¹ * ratNormOne γ * out q)) ν}: the integrand of \cref{II.orb.def:orbital-integral} is $\nu$-integrable, for \emph{every} Weil measure $\nu$ for $(\mu^1,\nu_\gamma)$ and every Haar measure $\mu$, $\nu_\gamma$. A's ``that is, $O_\gamma(f;\nu)$ converges absolutely'' is the gloss of integrability.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (organization)} (see \texttt{docs/notes/M7a-L1-divergences.md}, item 52): A obtains the statement as part of \cref{II.orb.thm:elliptic-kernel-unfolding}; Lean proves it directly by Steps 1--3 of that proof for $\abs f$ only (proof plumbing \texttt{elliptic\_lintegral\_rat\_finite} and \texttt{elliptic\_tower}, see the sketch there), so the exit does not depend on the class-kernel items. Steps 1--2 give $\int_{G_\gamma(\Q)\backslash G(\A)^1}\abs F<\infty$, Step 3 (\texttt{X.quot.thm:quotient-tower}) gives $\int_{G_\gamma(\Q)\backslash G(\A)^1}\abs F=v_\gamma\int\abs F\,\dd\nu$ with $0<v_\gamma$ (\cref{II.orb.thm:elliptic-volume-finite}), hence $\int\abs F\,\dd\nu<\infty$.
+\end{proof}
+
+\section{Hyperbolic orbital integrals and weighted orbital integrals}\label{sec:orb-hyperbolic}
+
+\noindent\emph{Lean counterpart:} \texttt{lean/GL2TF/VolII/OrbitalHyperbolic.lean} (unit U6, hyperbolic part). \emph{Conventions.} $\gamma=\diag(a,b)$ is
+\texttt{diagElt a b} with \texttt{a b : ℚˣ} and a binder \texttt{hab : a ≠ b} (decision D-HYP). $T^1=T(\A)\cap G(\A)^1$ is represented by
+$G_\gamma(\A)^1$ = \texttt{centralizerNormOne (diagElt a b)} (equal as subgroups by \cref{II.orb.thm:hyperbolic-centralizer}, but not definitionally), so that the
+measures of \cref{II.orb.thm:torus-quotient-integration,II.orb.thm:hyperbolic-orbital-explicit,II.orb.def:weighted-orbital-integral,II.orb.thm:weighted-orbital-converges,II.orb.thm:weighted-orbital-affine}
+live on the one type \texttt{MulAction.orbitRel.Quotient (centralizerNormOne (diagElt a b)) normOneGroup} (A states \cref{II.orb.thm:torus-quotient-integration} for this
+$T^1$, statement change SCR-U6-1). $K$ acts on $G(\A)^1$ through the B-only \cref{II.orb.def:max-compact-norm-one}; $\dd k$ is any Haar probability measure $\kappa$ on $K$
+(there is exactly one), $\lambda$ any Haar measure on $\A$.
+
+\begin{definition}
+\tfstmt{II.orb.def:max-compact-norm-one}
+\bonly
+\lean{GL2TF.maxCompactNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.orb.def:max-compact-norm-one}
+\tfsem{II.orb.def:max-compact-norm-one}{bc0cb806c1dec9e3c25e25ef917207cc7c9150e810aa0ccc47da3da8876fa610}
+\tfhyps{II.orb.def:max-compact-norm-one}{}
+\begin{tffidelity}
+B-only. \texttt{maxCompactNormOne : maxCompactAdelic →* normOneGroup}, the inclusion $K\subseteq G(\A)$ co-restricted to $G(\A)^1$ ($\abs{\det k}_\A=1$, \texttt{ideleNorm\_det\_K}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[centralizers of regular diagonal elements]
+\tfstmt{II.orb.thm:hyperbolic-centralizer}
+\lean{GL2TF.hyperbolic_centralizer}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:torus, I.topgrp.def:norm-one-group, II.orb.def:centralizer, II.orb.def:centralizer-norm-one}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:hyperbolic-centralizer}
+\tfsem{II.orb.thm:hyperbolic-centralizer}{da7db9881650a5b17723c4c53824c6f639ef37ad2aa364e62e165b942159fd77}
+\tfhyps{II.orb.thm:hyperbolic-centralizer}{}
+\tfbinder{II.orb.thm:hyperbolic-centralizer}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:hyperbolic-centralizer}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:hyperbolic-centralizer}{2}{2aa7821d}{the assumption $a\ne b$ (A: ``$a\neq b$'')}
+\begin{tffidelity}
+Four conjuncts: for every commutative $\Q$-algebra $R$ (a universally quantified type with \texttt{[CommRing R] [Algebra ℚ R]}, in one universe), \texttt{centralizerGL R (diagElt a b) = torus R}; $G_\gamma(\A)=T(\A)$; \texttt{centralizerNormOne (diagElt a b) = (torus Adele).subgroupOf normOneGroup} (A's $G_\gamma(\A)^1=T(\A)\cap G(\A)^1$, the intersection taken inside $G(\A)^1$); and the set form $\{x\in G(\A)^1:\exists t_1,t_2\in\A^\times,\ \abs{t_1t_2}_\A=1,\ x=\diag(t_1,t_2)\}$. A's ``in particular'' (the case $R=\A$) is stated as a separate conjunct. Note that $T(\A)\cap G(\A)^1$ is \emph{not} Arthur's $T(\A)^1$ (the kernel of the product of the norms of the characters of $T$, which for the split torus is the subgroup $\{\abs{t_1}_\A=\abs{t_2}_\A=1\}$ of $T(\A)\cap G(\A)^1=\{\abs{t_1t_2}_\A=1\}$); Lean and A work with $T(\A)\cap G(\A)^1=G_\gamma(\A)^1$ (decision D-TORUS, see A Ch.~4 §4).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L2-divergences.md}, item 53: same). For $g\in\GL_2(R)$, comparing the off-diagonal entries of $g\iota_R(\gamma)$ and $\iota_R(\gamma)g$ gives $(a-b)g_{01}=(a-b)g_{10}=0$ in $R$, and $a-b$ is a unit of $R$ (the image of the unit $a-b\in\Q^\times$), so $g\in T(R)$; conversely diagonal matrices commute (\texttt{HypAux.centralizer\_diag}). For $R=\A$ this is $G_\gamma(\A)=T(\A)$, and intersecting with $G(\A)^1$ gives $T(\A)\cap G(\A)^1$; its elements are the $\mathrm{diag}(t_1,t_2)$ (\texttt{exists\_diagElt\_of\_mem\_torus'}) with $\abs{\det}_\A=\abs{t_1t_2}_\A=1$ (\texttt{HypAux.det\_diagElt}).
+\end{proof}
+
+\begin{theorem}[Iwasawa form of the Weil measure on $T^1\backslash G(\A)^1$]
+\tfstmt{II.orb.thm:torus-quotient-integration}
+\lean{GL2TF.torus_quotient_integration}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-haar, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:idele-unit-box, I.adele.def:ideles, I.adele.def:norm-one-class-group, I.adele.def:norm-one-ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-haar-spec, I.adele.lem:idele-norm-spec, I.adele.lem:ideles-borel, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:ideles-second-countable, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:torus-normalizes-unipotent, I.haar.def:haar-adelic, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.def:haar-norm-one, I.haar.def:haar-real, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:haar-real-is-haar, I.haar.thm:iwasawa-integration, I.haar.thm:norm-one-unimodular, I.haar.thm:vol-max-compact-local, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, II.kernel.def:unip-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-haar-norm-one, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-norm-one-incl, II.orb.def:max-compact-norm-one, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-haar-norm-one-spec, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-norm-one-second-countable-instance, II.orb.lem:centralizer-unimodular, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-explicit, X.haar.def:is-unimodular, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.quot.def:weil-measure, X.quot.lem:right-coset-quotient-borel, X.quot.thm:weil-quotient-formula-right, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:torus-quotient-integration}
+\tfsem{II.orb.thm:torus-quotient-integration}{a00e79a2aa2892b93a9994e4cee697a3a99308debefeccab092c3fb1f3615ad4}
+\tfhyps{II.orb.thm:torus-quotient-integration}{}
+\tfbinder{II.orb.thm:torus-quotient-integration}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{2}{2aa7821d}{the assumption $a\ne b$ (A: ``$a\neq b$'')}
+\tfbinder{II.orb.thm:torus-quotient-integration}{3}{8ca78a86}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{4}{4cf6d6c9}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{5}{5676c1dd}{the measure $\nu_T$ on $T^1=G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{6}{74f30434}{$\nu_T$ is a left Haar measure on $T^1$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{7}{1f8a7b71}{the measure $\lambda$ on $\A$}
+\tfbinder{II.orb.thm:torus-quotient-integration}{8}{618beb25}{$\lambda$ is a Haar measure on $\A$ (A: ``a Haar measure on $\A$'')}
+\begin{tffidelity}
+Statement change SCR-U6-1 applied: A states the theorem for $T^1=G_\gamma(\A)^1$ with $\gamma=\diag(a,b)$, $a\ne b$, which is how Lean states it (binders $a,b,h_{ab}$). Conjuncts: $T^1$ is closed in $G(\A)^1$; $T^1$ is unimodular (A's ``a closed unimodular subgroup'', stated as conclusions); and \texttt{∃ c > 0} such that for every Weil measure $\nu$ for $(\mu^1,\nu_T)$ and every Haar probability measure $\kappa$ on $K$: (Borel $\varphi\ge0$) $\int^-\varphi\,\dd\nu=c\int^-_K\int^-_\A\varphi(T^1n(u)k)\,\dd\lambda(u)\,\dd\kappa(k)$; and ($\nu$-integrable $\varphi$) $(u,k)\mapsto\varphi(T^1n(u)k)$ is $\lambda\otimes\kappa$-integrable and the same formula holds (Bochner). ``$c$ depends on $\mu,\nu_T,\lambda$ only'' is rendered by the quantifier order: $c$ is chosen before $\nu$ and $\kappa$. Since $\nu$ is unique given $(\mu^1,\nu_T)$ (\texttt{X.quot.thm:weil-quotient-formula-right}) and $\dd k$ is unique, this is A's statement. $T^1n(u)k$ is the coset of \texttt{unipNormOne u * maxCompactNormOne k} (B-only \cref{II.kernel.def:unip-norm-one,II.orb.def:max-compact-norm-one}); ``$n(u)k\in G(\A)^1$'' is built into these maps. The Weil property occurs inside the conclusion, not as a binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A in the last step} (see \texttt{docs/notes/M7a-L2-divergences.md}, item 54, ``route''). Closedness and unimodularity of $T^1$: \cref{II.orb.thm:centralizer-closed} and \cref{II.orb.lem:centralizer-unimodular} ($\gamma=\mathrm{diag}(a,b)$ is non-central as $a\ne b$). \emph{The Iwasawa chain, as in A} (\texttt{Aux54.main\_lintegral}): for Borel $f\ge0$ on $G(\A)^1$, $\int f\,\dd\mu^1=C\int_K\int_\A\int_{T^1}f(tn(u)k)\,\dd\nu_T\,\dd\lambda(u)\,\dd k$ with $0<C<\infty$. Here $\int f\,\dd\mu^1=\int_S f(a(\abs{\det x}^{-1/2})x)\,\dd\mu(x)$ over the band $S=\{1\le\abs{\det x}_\A^{1/2}<e\}$, which is A's radial test function $\psi=\mathbf 1_{[1,e)}$ built into \texttt{I.haar.def:haar-norm-one} (\texttt{Aux54.lintegral\_haarNormOne}); \texttt{I.haar.thm:iwasawa-integration} for the standard measures is rewritten in the order $t\,n\,k$ (\texttt{Aux54.iwasawa\_tnk}, via $n(y)\,\mathrm{diag}(t_1,t_2)=\mathrm{diag}(t_1,t_2)\,n(t_1^{-1}t_2y)$ and the scaling of $\dd y$); $\dd t$ on $T(\A)$ is the image of $\dd^\times t_1\,\dd^\times t_2$ under $\A^\times\times\A^\times\cong T(\A)$ (\texttt{Aux54.torusHaar}); the radial integral over $A_G^+$ is split off by \cref{II.orb.lem:centralizer-haar-norm-one-spec} (\texttt{Aux54.lintegral\_radial}, $\int_1^er^{-1}\,\dd r=1$); and $C$ collects the Haar factors of $\mu$, $\nu_T$, $\lambda$ against the standard measures, times $\pi$ (\texttt{haarScalarFactor}, \texttt{addHaarScalarFactor}), so it depends on $\mu,\nu_T,\lambda$ only. \emph{Last step}: A shows that $\nu''=C\,q_*(\lambda\otimes\dd k)$, $q(u,k)=T^1n(u)k$, is a Weil measure (finite on compact sets) and concludes $\nu''=\nu$ by uniqueness. Lean instead applies \texttt{X.quot.thm:weil-quotient-formula-right}(c) to the given $\nu$: $\int_{T^1\backslash G(\A)^1}f^\natural\,\dd\nu=\int f\,\dd\mu^1=\int f^\natural\,\dd\nu''$ for every Borel $f\ge0$ (Tonelli, \texttt{Aux54.natural\_mk}); and proves directly that two measures on $T^1\backslash G(\A)^1$ with the same integrals of all $f^\natural$ coincide (\texttt{Aux54.natural\_unique}): cover $G(\A)^1$ by countably many sets $\{\psi_n>0\}$ with $\psi_n\ge0$ continuous of compact support (Lindel\"of), note $\psi_n^\natural$ is finite and positive on the image of $\{\psi_n>0\}$ and $(g\circ p\cdot\psi_n)^\natural=g\cdot\psi_n^\natural$, and test with $g=\mathbf 1_E(\psi_n^\natural)^{-1}$ on each piece (\texttt{Measure.ext\_iff\_of\_iUnion\_eq\_univ}). So ``finite on compact sets'' of $\nu''$ and uniqueness (a) of \texttt{X.quot.thm:weil-quotient-formula-right} are not used. With $\nu=C\,q_*(\lambda\otimes\dd k)$ both formulas follow by \texttt{lintegral\_map}/\texttt{integral\_map} and Fubini (\texttt{lintegral\_prod\_symm}, \texttt{integral\_prod\_symm}), with $c=C$ (as a real number).
+\end{proof}
+
+\begin{theorem}[hyperbolic orbital integrals]
+\tfstmt{II.orb.thm:hyperbolic-orbital-explicit}
+\lean{GL2TF.hyperbolic_orbital_explicit}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:subgroups-functorial, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:max-compact-norm-one, II.orb.def:orbital-integral, II.orb.lem:orbital-integrand-descends, II.orb.thm:centralizer-closed, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.quot.def:weil-measure, X.quot.lem:right-coset-quotient-borel, X.quot.lem:right-coset-quotient-locally-compact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:hyperbolic-orbital-explicit}
+\tfsem{II.orb.thm:hyperbolic-orbital-explicit}{2b85f35a3d5283885ec2e423e6feda559dd0d8ec82ae39ed64eb2691929ec334}
+\tfhyps{II.orb.thm:hyperbolic-orbital-explicit}{}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{2}{2aa7821d}{the assumption $a\ne b$ (A: ``$a\neq b$'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{3}{8ca78a86}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{4}{4cf6d6c9}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{5}{5676c1dd}{the measure $\nu_T$ on $T^1=G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{6}{74f30434}{$\nu_T$ is a left Haar measure on $T^1=G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{7}{62f42195}{the measure $\nu$ on $T^1\backslash G(\A)^1$ (A: ``as in \cref{II.orb.thm:torus-quotient-integration}'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{8}{31c43ccf}{the assumption that $\nu$ is a Weil measure for $(\mu^1,\nu_T)$ (A: ``as in \cref{II.orb.thm:torus-quotient-integration}'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{9}{10913449}{the measure $\lambda$ on $\A$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{10}{da0e9c18}{$\lambda$ is a Haar measure on $\A$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{11}{dedf1166}{the measure $\dd k$ on $K$}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{12}{e80d8a6c}{$\kappa$ is a left Haar measure on $K$ (A: ``$\dd k$ the Haar probability measure'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{13}{bbdb14fb}{$\kappa$ has total mass $1$ (A: ``probability'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{14}{e28c2078}{the constant $c$ (A: ``$c$ as in \cref{II.orb.thm:torus-quotient-integration}'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{15}{7e07a40f}{the assumption $c>0$ (A: ``$c$ as in \cref{II.orb.thm:torus-quotient-integration}'')}
+\tfbinder{II.orb.thm:hyperbolic-orbital-explicit}{16}{b3968cf3}{the assumption that $c$ satisfies the Borel formula of \cref{II.orb.thm:torus-quotient-integration} for $\nu$, $\lambda$, $\kappa$ (A: ``$c$ as in \cref{II.orb.thm:torus-quotient-integration}'')}
+\begin{tffidelity}
+``$\mu,\nu_T,\nu,\lambda,\dd k$ and $c$ as in \cref{II.orb.thm:torus-quotient-integration}'' is rendered by binders: $\nu$ with its Weil property, $\kappa$ a Haar probability measure, and any $c>0$ with the $[0,\infty]$ formula of that theorem for $\nu$, $\lambda$, $\kappa$ (binder \texttt{hcν}; such $c$ exists by that theorem and is unique, since the formula determines $c$ on any $\varphi$ with $0<\int\varphi\,\dd\nu<\infty$). (a) $n(-u)\,\iota(\gamma)\,n(u)=\iota(\gamma)\,n((1-b/a)u)$ in $G(\A)$ for all $u\in\A$, with $(1-b/a)u$ = \texttt{algebraMap ℚ Adele (1 - b/a) * u}; and $\abs{1-b/a}_\A=1$ as \texttt{∃ s : ℚˣ, s = 1 - b/a ∧ ideleNorm (ratIdele s) = 1} (this also records $1-b/a\ne0$). (b) for continuous compactly supported $f$: continuity and compact support of $(u,k)\mapsto f(k^{-1}\gamma n(u)k)$ on $\A\times K$ (with $\gamma$ = \texttt{ratNormOne (diagElt a b)} and $k$ through \texttt{maxCompactNormOne}), $\nu$-integrability of the orbital integrand, and $O_\gamma(f;\nu)=c\int_K\int_\A f(k^{-1}\gamma n(u)k)\,\dd\lambda\,\dd\kappa$ (Bochner integrals).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) as in A: the matrix identity entrywise (\texttt{linear\_combination}, with $a(1-b/a)=a-b$), and $s=1-b/a\in\Q^\times$ has $\abs s_\A=1$ by the product formula \texttt{I.adele.thm:product-formula}. (b), continuity and support, as in A: $(u,k)\mapsto f(k^{-1}\gamma n(u)k)$ is continuous, and a non-zero value puts $\iota(\gamma)n(u)$ into the compact set $K\operatorname{supp}fK$, whose $(0,1)$ entries form a compact set containing $au$, so $u$ lies in a compact set (\texttt{HypAux.phi\_support}). \emph{Divergence from A for integrability} (see \texttt{docs/notes/M7a-L2-divergences.md}, item 55(b), ``route''): A argues through \cref{II.orb.thm:torus-quotient-integration} for $\abs F$ and the substitution $u\mapsto s^{-1}u$; Lean shows that $F(x)=f(x^{-1}\gamma x)$ descends to a continuous function of compact support on $T^1\backslash G(\A)^1$: continuity through the quotient map (\texttt{HypAux.continuous\_out\_comp}), and support in the image of $n(U)K$ for a compact $U\subseteq\A$, since writing $x=tn(u)k$ (Iwasawa, \texttt{I.decomp.thm:iwasawa-adelic}, $t\in T^1$) the condition $x^{-1}\gamma x\in\operatorname{supp}f$ puts the entry $(a-b)u$ into a compact set (\texttt{HypAux.conj\_support}); a Weil measure is finite on compact sets (first clause of \texttt{X.quot.def:weil-measure}), so $F$ is $\nu$-integrable (\texttt{HypAux.integrable\_of\_conj\_support}). \emph{Formula} (minor bookkeeping change): from the binder \texttt{hcν} (the constant $c$ of \cref{II.orb.thm:torus-quotient-integration}) tested on indicators, $\nu=c\,q_*(\lambda\otimes\dd k)$; then change of variables (\texttt{integral\_map}), Fubini (\texttt{integral\_prod\_symm}), the identity of (a) to write $F(n(u)k)=f(k^{-1}\gamma n(su)k)$, and the substitution $u\mapsto su$, which preserves $\lambda$ by the product formula (\texttt{KerAux.integral\_scale\_shift}).
+\end{proof}
+
+\begin{definition}[weighted orbital integrals]
+\tfstmt{II.orb.def:weighted-orbital-integral}
+\lean{GL2TF.weightedOrbitalIntegral}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:space-a-b, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.orb.def:centralizer-norm-one, II.par.def:weight, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.orb.def:weighted-orbital-integral}
+\tfsem{II.orb.def:weighted-orbital-integral}{6334cac18ed98b8d1cd2840c725b59e3c0b8d4642e1ac3d69751dfde01e9f143}
+\tfhyps{II.orb.def:weighted-orbital-integral}{}
+\tfbinder{II.orb.def:weighted-orbital-integral}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.def:weighted-orbital-integral}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.def:weighted-orbital-integral}{2}{bb9fb5a8}{the point $T\in\aB$}
+\tfbinder{II.orb.def:weighted-orbital-integral}{3}{2768f443}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.def:weighted-orbital-integral}{4}{1bac8c86}{the measure $\nu$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\begin{tffidelity}
+\texttt{weightedOrbitalIntegral a b T f ν := ∫ q, f ((out q)⁻¹ * ratNormOne (diagElt a b) * out q) * weight (out q) T ∂ν}: Bochner integral ($0$ if not integrable), the integrand at the representative $\mathrm{out}(q)$ (viewed in $G(\A)$ for the weight, \cref{II.par.def:weight}). The definition takes $a,b$ without the hypothesis $a\ne b$ (A's context); A's claim that the integrand depends only on the coset (which needs $a\ne b$ and \cref{II.par.thm:weight-invariant}) is the B-only \cref{II.orb.lem:weight-descends}. The quotient is $G_\gamma(\A)^1\backslash G(\A)^1$, the same type as for $O_\gamma$ (\cref{II.orb.def:orbital-integral}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.orb.lem:weight-descends}
+\bonly
+\lean{GL2TF.weighted_integrand_descends}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:space-a-b, I.conv.def:torus, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.lem:orbital-integrand-descends, II.par.def:weight, II.par.thm:weight-invariant}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:weight-descends}
+\tfsem{II.orb.lem:weight-descends}{629830410d5051295ab911c197f92796c9f2c340e21efa14ae33d4c356e5dbdd}
+\tfhyps{II.orb.lem:weight-descends}{}
+\tfbinder{II.orb.lem:weight-descends}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.lem:weight-descends}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.lem:weight-descends}{2}{2aa7821d}{the assumption $a\ne b$ (A: ``$a\neq b$'')}
+\tfbinder{II.orb.lem:weight-descends}{3}{4e765339}{the point $T\in\aB$}
+\tfbinder{II.orb.lem:weight-descends}{4}{75d01977}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.lem:weight-descends}{5}{688ac52b}{the element $h\in G_\gamma(\A)^1$}
+\tfbinder{II.orb.lem:weight-descends}{6}{be6be050}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+B-only. For $a\ne b$ and $h\in G_\gamma(\A)^1$: $f((hx)^{-1}\gamma hx)\,v(hx,T)=f(x^{-1}\gamma x)\,v(x,T)$ (the claim of \cref{II.orb.def:weighted-orbital-integral}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $h\in G_\gamma(\A)^1=T(\A)\cap G(\A)^1$ (\texttt{HypAux.centralizer\_diag}, $a\ne b$): the factor $f(x^{-1}\gamma x)$ is invariant by \cref{II.orb.lem:orbital-integrand-descends}, and $v(hx,T)=v(x,T)$ by the left $T(\A)$-invariance in \cref{II.par.thm:weight-invariant} (with $k=1$).
+\end{proof}
+
+\begin{theorem}[convergence of weighted orbital integrals]
+\tfstmt{II.orb.thm:weighted-orbital-converges}
+\lean{GL2TF.weighted_orbital_converges}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:subgroups-functorial, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:max-compact-norm-one, II.orb.lem:weight-descends, II.orb.thm:centralizer-closed, II.par.def:weight, II.par.thm:weight-invariant, X.quot.def:weil-measure, X.quot.lem:right-coset-quotient-borel, X.quot.lem:right-coset-quotient-locally-compact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:weighted-orbital-converges}
+\tfsem{II.orb.thm:weighted-orbital-converges}{8fc5a1419ea363a94dd38269555345c66b5d352d493f3f630c4611d0d7b97723}
+\tfhyps{II.orb.thm:weighted-orbital-converges}{}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{2}{2aa7821d}{the assumption $a\ne b$ (A: ``$a\neq b$'')}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{3}{4e765339}{the point $T\in\aB$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{4}{75d01977}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{5}{52fa10c2}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{6}{1ccaa905}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{7}{bf309ed0}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{8}{a5b9a6ba}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{9}{07dadc41}{the measure $\nu_\gamma$ on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{10}{bce7412d}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{11}{c2a95192}{the measure $\nu$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-converges}{12}{19e900b7}{the assumption that $\nu$ is a Weil measure for $(\mu^1,\nu_\gamma)$ (A: ``$\nu$ a Weil measure for $(\mu^1,\nu_\gamma)$'', \texttt{X.quot.def:weil-measure})}
+\begin{tffidelity}
+\emph{Exit of milestone M7a.} \texttt{Integrable (fun q ↦ f ((out q)⁻¹ * γ * out q) * weight (out q) T) ν}: the integrand of \cref{II.orb.def:weighted-orbital-integral} is $\nu$-integrable, for every Weil measure $\nu$ for $(\mu^1,\nu_\gamma)$. A's ``that is, $J_T$ converges absolutely'' is the gloss.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A} (see \texttt{docs/notes/M7a-L2-divergences.md}, item 57, ``route''). A argues through \cref{II.orb.thm:torus-quotient-integration} and the boundedness of $v(n(u)k,T)$ on a compact set; Lean uses the compact-support argument of \cref{II.orb.thm:hyperbolic-orbital-explicit}(b): $x\mapsto f(x^{-1}\gamma x)v(x,T)$ is continuous ($v$ is continuous by \cref{II.par.thm:weight-invariant}), left $T^1$-invariant (\cref{II.orb.lem:weight-descends}), and vanishes where $f(x^{-1}\gamma x)=0$, so it descends to a continuous function of compact support on $T^1\backslash G(\A)^1$ (\texttt{HypAux.integrable\_of\_conj\_support}); a Weil measure is finite on compact sets. Only the first conjunct of \texttt{X.quot.def:weil-measure} is used.
+\end{proof}
+
+\begin{theorem}[$J_T$ is affine in $T$]
+\tfstmt{II.orb.thm:weighted-orbital-affine}
+\lean{GL2TF.weighted_orbital_affine}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:subgroups-functorial, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:max-compact-norm-one, II.orb.def:orbital-integral, II.orb.def:weighted-orbital-integral, II.orb.lem:orbital-integrand-descends, II.orb.thm:centralizer-closed, II.orb.thm:weighted-orbital-converges, II.par.def:weight, II.par.thm:weight-affine, X.quot.def:weil-measure, X.quot.lem:right-coset-quotient-borel, X.quot.lem:right-coset-quotient-locally-compact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:weighted-orbital-affine}
+\tfsem{II.orb.thm:weighted-orbital-affine}{a375fbbd2d567a8fb4af96876a89f3c91ba76680d9ab0848846acfee66068ffa}
+\tfhyps{II.orb.thm:weighted-orbital-affine}{}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{2}{2aa7821d}{the assumption $a\ne b$ (A: ``$a\neq b$'')}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{3}{4e765339}{the point $T\in\aB$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{4}{75d01977}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{5}{52fa10c2}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{6}{1ccaa905}{the assumption that $f$ has compact support (A: ``with compact support'')}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{7}{bf309ed0}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{8}{a5b9a6ba}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{9}{07dadc41}{the measure $\nu_\gamma$ on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{10}{bce7412d}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{11}{c2a95192}{the measure $\nu$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-affine}{12}{19e900b7}{the assumption that $\nu$ is a Weil measure for $(\mu^1,\nu_\gamma)$ (A: ``$\nu$ a Weil measure for $(\mu^1,\nu_\gamma)$'', \texttt{X.quot.def:weil-measure})}
+\begin{tffidelity}
+``In the situation of \cref{II.orb.thm:weighted-orbital-converges}'' is rendered by the same binders. \texttt{weightedOrbitalIntegral a b T f ν = (simpleRoot T : ℂ) * orbitalIntegral (diagElt a b) f ν + weightedOrbitalIntegral a b 0 f ν}: $J_T=\alpha(T)O_\gamma+J_0$, with $J_0$ the definition at $T=0$, as in A (no factor $\kappa$: $\vol(\aBG/\Z\alpha^\vee)=1$, \cref{II.par.def:theta}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{docs/notes/M7a-L2-divergences.md}, item 58: same). Both $x\mapsto f(x^{-1}\gamma x)$ and $x\mapsto f(x^{-1}\gamma x)v(x,0)$ are $\nu$-integrable (\texttt{HypAux.integrable\_of\_conj\_support}, as in \cref{II.orb.thm:hyperbolic-orbital-explicit}(b), and \cref{II.orb.thm:weighted-orbital-converges} for $T=0$); by \cref{II.par.thm:weight-affine}, $v(x,T)=\alpha(T)+v(x,0)$ pointwise, and linearity of the integral (\texttt{integral\_add}, \texttt{integral\_const\_mul}) gives the formula.
+\end{proof}
+
+\section{Local factorization}\label{sec:orb-local}
+
+\noindent\emph{Lean:} \texttt{lean/GL2TF/VolII/OrbitalLocal.lean} (R1-ORB). For $\gamma\in\GL_2(\Q)$ put $\Delta(\gamma)=\tr(\gamma)^2-4\det\gamma$, a rational number in Lean (\texttt{(γ : Matrix).trace \^{} 2 - 4 * (γ : Matrix).det}); $K_p$ is \texttt{maxCompact} of the integer subring of $\Qp$ and $\iota_F=\texttt{gl2Map (algebraMap ℚ F)}$. The global statements concern the restricted pure tensors $F|_{G(\A)^1}$ of \texttt{II.simple}. \emph{Correction of the G0 outline} (as in A): the orbital integral over $G_\gamma(\A)\backslash G(\A)$ of $F\in C_c(G(\A))$ sees only $F|_{G(\A)^1}$, so \cref{II.orb.thm:orbital-norm-one-comparison} uses the restriction and not $F^1(x)=\int_{\AGplus}F(ax)\,\dd a$. \emph{Status:} all Lean proofs of this section are complete; the proof blocks sketch them.
+
+\begin{definition}[local orbital integrals]
+\tfstmt{II.orb.def:local-orbital-integral}
+\lean{GL2TF.localOrbitalIntegral}
+\uses{I.conv.def:gl2, II.orb.def:centralizer, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{II.orb.def:local-orbital-integral}
+\tfsem{II.orb.def:local-orbital-integral}{7cbd8b0c15a2f0331c18865a8321cac8c3257ff08856afc6c0b535e285c49a97}
+\tfhyps{II.orb.def:local-orbital-integral}{}
+\tfbinder{II.orb.def:local-orbital-integral}{0}{fe5aea28}{the type of the field $F$ (A: ``$F$ is $\R$ or $\Qp$)}
+\tfbinder{II.orb.def:local-orbital-integral}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{II.orb.def:local-orbital-integral}{2}{e263e5c0}{the $\Q$-algebra structure of $F$ (so that $\GL_2(\Q)\to\GL_2(F)$ is defined)}
+\tfbinder{II.orb.def:local-orbital-integral}{3}{ce8d39e1}{the measurable space structure of $F$ (needed for the Bochner integral on the quotient)}
+\tfbinder{II.orb.def:local-orbital-integral}{4}{d9bf96b9}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.def:local-orbital-integral}{5}{b499525a}{the function $f\colon\GL_2(F)\to\C$}
+\tfbinder{II.orb.def:local-orbital-integral}{6}{39d86cb6}{the measure $\nu$ on $G_\gamma(F)\backslash\GL_2(F)$}
+\begin{tffidelity}
+\texttt{localOrbitalIntegral γ f ν := ∫ q, f ((out q)⁻¹ * ι\_F γ * out q) ∂ν}, $\iota_F=\texttt{gl2Map (algebraMap ℚ F)}$ the embedding $\GL_2(\Q)\to\GL_2(F)$ (\texttt{I.conv.def:gl2}); a Bochner integral ($0$ if not integrable), the integrand at the representative $\mathrm{out}(q)$, over the quotient \texttt{MulAction.orbitRel.Quotient (centralizerGL F γ) (GL (Fin 2) F)} (\texttt{II.orb.def:centralizer}), which is $G_\gamma(F)\backslash G(F)$. \emph{Generalization of A:} A takes $F=\R$ or $\Qp$; Lean takes an arbitrary field $F$ with a $\Q$-algebra structure and a measurable space structure (the instance binders), of which $\R$ and $\Qp$ are the two cases used; no hypothesis on $\nu$. That the integrand depends only on the coset is the B-only \cref{II.orb.lem:local-orbital-integrand-descends}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.orb.lem:local-orbital-integrand-descends}
+\bonly
+\lean{GL2TF.local_orbital_integrand_descends}
+\uses{I.conv.def:gl2, II.orb.def:centralizer}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:local-orbital-integrand-descends}
+\tfsem{II.orb.lem:local-orbital-integrand-descends}{54afcc37fa57c22f6ee2a449c23dad09daec7f42f6636768a700e794ae2457fb}
+\tfhyps{II.orb.lem:local-orbital-integrand-descends}{}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{0}{fe5aea28}{the type of the field $F$ (A: ``$F$ is $\R$ or $\Qp$)}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{2}{e263e5c0}{the $\Q$-algebra structure of $F$ (so that $\GL_2(\Q)\to\GL_2(F)$ is defined)}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{3}{b16172ee}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{4}{205c793f}{the function $f\colon\GL_2(F)\to\C$}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{5}{50eac7bf}{the element $h\in\GL_2(F)$}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{6}{25720e7a}{the assumption $h\in G_\gamma(F)$}
+\tfbinder{II.orb.lem:local-orbital-integrand-descends}{7}{2ceb35f8}{the point $x\in\GL_2(F)$}
+\begin{tffidelity}
+B-only. $f((hx)^{-1}\iota_F(\gamma)(hx))=f(x^{-1}\iota_F(\gamma)x)$ for $h\in G_\gamma(F)$ (\texttt{centralizerGL}); the claim of \cref{II.orb.def:local-orbital-integral} that the integrand depends only on the coset. No measurable space structure is needed here.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct: $(hx)^{-1}\gamma(hx)=x^{-1}(h^{-1}\gamma h)x=x^{-1}\gamma x$ since $h$ commutes with $\iota_F(\gamma)$ (\texttt{Subgroup.mem\_centralizer\_iff}, then \texttt{group}).
+\end{proof}
+
+
+\begin{theorem}[$G(\A)$ against $G(\A)^1$]
+\tfstmt{II.orb.thm:orbital-norm-one-comparison}
+\lean{GL2TF.orbital_norm_one_comparison}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:real-units-haar, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:gl2-adelic-unimodular, I.haar.thm:norm-one-unimodular, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.orb.def:centralizer, II.orb.def:centralizer-haar-norm-one, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-norm-one-incl, II.orb.def:orbital-integral, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-haar-norm-one-spec, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-unimodular, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-norm-one-splitting, X.haar.def:is-unimodular, X.haar.lem:unimodular-iff-modular-character, X.quot.def:bruhat-function, X.quot.def:weil-measure, X.quot.thm:bruhat-function-exists, X.quot.thm:weil-quotient-formula-right, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:orbital-norm-one-comparison}
+\tfsem{II.orb.thm:orbital-norm-one-comparison}{58eda76cd051436bab64e585b1abce2f10aa947fb1bc1264ebc2307961f67b8b}
+\tfhyps{II.orb.thm:orbital-norm-one-comparison}{}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{1}{4aa74800}{the measure $\mu$ on $G(\A)$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{2}{708bc89d}{$\mu$ is a left Haar measure on $G(\A)$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{3}{4470c68b}{the measure $\nu_\gamma$ on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{4}{8119d143}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{5}{5cc6f152}{the measure $\nu$ on $G_\gamma(\A)\backslash G(\A)$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{6}{65c27642}{the assumption that $\nu$ is a Weil measure for $(\mu,\nu_\gamma)$ (A: ``$\nu$ a Weil measure, \texttt{X.quot.def:weil-measure})}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{7}{9137e40d}{the measure $\nu^1$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:orbital-norm-one-comparison}{8}{bcb1f5e3}{the assumption that $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$, $\mu^1=\texttt{haarNormOne}\ \mu$, $\nu_\gamma^1=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$}
+\begin{tffidelity}
+Two clauses, as in A. (a) For every $\Phi$ with $\Phi(hx)=\Phi(x)$ for $h\in G_\gamma(\A)$ (\texttt{centralizerGL Adele γ}): $\Phi\circ\mathrm{out}$ is $\nu$-integrable iff $q\mapsto\Phi(\mathrm{out}\,q)$ (the representative taken in $G(\A)^1$ and viewed in $G(\A)$) is $\nu^1$-integrable, and the two Bochner integrals agree; the restriction of $\Phi$ to $G(\A)^1$ is this second function. (b) For every $F$: $\int F(\mathrm{out}(q)^{-1}\iota(\gamma)\mathrm{out}(q))\,\dd\nu=O_\gamma(F|_{G(\A)^1};\nu^1)$ with $F|_{G(\A)^1}$ as \texttt{fun x ↦ F ↑x} and $O_\gamma$ = \texttt{orbitalIntegral} (\cref{II.orb.def:orbital-integral}). The Haar measure $\mu^1$ and $\nu_\gamma^1$ are \texttt{haarNormOne μ} and \texttt{centralizerHaarNormOne γ νγ}, as in A. Statement correction against the G0 outline (restriction instead of $F^1$): see the note of \cref{sec:orb-local}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Both parts via \texttt{oc\_main}, which proves the statement for every $\gamma$ given unimodularity of $G_\gamma(\A)$ and $G_\gamma(\A)^1$. \emph{Divergence from A (route):} the proof does not show that $j_*\nu^1$ is a Weil measure, so no $\C$-valued Fubini and no uniqueness are needed. Steps: \texttt{oc\_lintegral\_unfold}, $\int_G F\,d\mu=\int_{Q^1}\int_{G_\gamma(\A)}F(hx)\,d\nu_\gamma\,d\nu^1$ for Borel $F\ge0$ (from \texttt{oc\_lintegral\_haar}, the $dr/r\otimes\mu^1$ disintegration copied from \texttt{centralizerHaarNormOne\_spec}, Tonelli twice and Weil (c) for $\nu^1$); \texttt{oc\_left\_bruhat}, $\psi(g)=\beta(g^{-1})$ for a Bruhat function $\beta$ (\texttt{bruhat\_function\_exists}) satisfies $\int_{G_\gamma(\A)}\psi(hy)\,d\nu_\gamma=1$; \texttt{oc\_measure\_eq}, $\nu=j_*\nu^1$, by testing with $F=1_E(G_\gamma g)\psi(g)$; and \texttt{ocJ\_measurableEmbedding}, so that (a), (b) transfer to arbitrary $\Phi$ through \texttt{MeasurableEmbedding.integral\_map}. The central branch ($\gamma\in Z(\Q)$) uses \texttt{oc\_central\_mem}, \texttt{oc\_topEquiv} and \texttt{oc\_isUnimodular\_of\_equiv} (unimodularity transfers along $\simeq_t^*$), with \texttt{gl2Adelic\_isUnimodular} and \texttt{normOne\_unimodular}.
+\end{proof}
+
+
+\begin{lemma}[local orbit maps are proper]
+\tfstmt{II.orb.lem:local-orbit-proper}
+\lean{GL2TF.local_orbit_proper}
+\uses{I.adele.lem:primes-fact-instance, I.conv.def:gl2, II.orb.def:centralizer, X.topgrp.thm:gl2-units-open-embedding}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:local-orbit-proper}
+\tfsem{II.orb.lem:local-orbit-proper}{8b7421aa03723d89d62b983eea18599cda9a97fd58fc278a7ba12d7262a19941}
+\tfhyps{II.orb.lem:local-orbit-proper}{}
+\tfbinder{II.orb.lem:local-orbit-proper}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:local-orbit-proper}{1}{fed60dee}{the assumption $\Delta(\gamma)=\tr(\gamma)^2-4\det\gamma\ne0$}
+\begin{tffidelity}
+Two clauses, one for $F=\R$ and one, for every prime $p$ (the binders $p$, $C$ are bound inside the conjunction, not in front), for $F=\Qp$: for every compact $C\subseteq\GL_2(F)$ the image in $G_\gamma(F)\backslash\GL_2(F)$ (\texttt{Quotient.mk}) of $\{x:x^{-1}\iota_F(\gamma)x\in C\}$ is compact. $\Delta(\gamma)$ is \texttt{(γ : Matrix).trace \^{} 2 - 4 * (γ : Matrix).det}, a rational number.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (route):} no open-mapping theorem and no Baire argument; one proof for every normed field $F\supseteq\Q$ (applied to $\R$ and $\Q_p$), via the companion-matrix trick (\texttt{orbit\_proper\_gen}). The set $C\cap O$ ($O$ = fixed trace and determinant) is covered by three compact pieces $\{|\det(v_i;v_iy)|\ge\varepsilon\}$, with $\varepsilon$ the minimum of a positive continuous function on a compact set. On each piece $y\mapsto P_\gamma^{-1}P_y(v_i)$ is a continuous section of the orbit map, so the image in $G_\gamma\backslash G$ is a finite union of continuous images of compact sets.
+\end{proof}
+
+
+\begin{lemma}[support of the unramified orbital integrand]
+\tfstmt{II.orb.lem:unramified-orbit-support}
+\lean{GL2TF.unramified_orbit_support}
+\uses{I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, II.orb.def:centralizer}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:unramified-orbit-support}
+\tfsem{II.orb.lem:unramified-orbit-support}{c3ecbc90f4aa75fb1e31b96b40f849d4c3e3f34161206fa4732f2518502dfd6d}
+\tfhyps{II.orb.lem:unramified-orbit-support}{}
+\tfbinder{II.orb.lem:unramified-orbit-support}{0}{81fa68c4}{the prime $p$ (\texttt{Nat.Primes})}
+\tfbinder{II.orb.lem:unramified-orbit-support}{1}{526bc208}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:unramified-orbit-support}{2}{fcd4280a}{the assumption $\gamma\in K_p$ (A: ``$\gamma\in K_p$, $K_p$ = \texttt{maxCompact} of the integer subring)}
+\tfbinder{II.orb.lem:unramified-orbit-support}{3}{d4ce6c4e}{the assumption $\abs{\Delta(\gamma)}_p=1$ (\texttt{‖↑Δ‖ = 1})}
+\begin{tffidelity}
+$\{x\in\GL_2(\Qp):x^{-1}\gamma x\in K_p\}=G_\gamma(\Qp)K_p$ as sets, the right side as \texttt{\{x | ∃ t ∈ centralizerGL ℚ\_[p] γ, ∃ k ∈ K, x = t * k\}}. $K_p=\GL_2(\Zp)$ is \texttt{maxCompact} of the integer subring of $\Qp$ (\texttt{I.conv.def:max-compact-local}); $\gamma\in K_p$ is stated for the image of $\gamma$ under \texttt{gl2Map (algebraMap ℚ ℚ\_[p])}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (route):} no lattices and no Nakayama. For $M\in M_2(\mathbb Z_p)$ with $|\Delta(M)|_p=1$, one of $v=e_1,e_2,e_1+e_2$ gives $P=(v;vM)$ with $|\det P|_p=1$, because the binary form $\det(v;vM)$ has discriminant $\Delta(M)$ and so cannot vanish mod $p$ at three points of $\mathbb P^1(\mathbb F_p)$. Then $PM=CP$ for the companion matrix $C$. With $y=x^{-1}\gamma x$, the element $k=P_\gamma^{-1}P_y\in K_p$ satisfies $k^{-1}\gamma k=y$, hence $xk^{-1}\in G_\gamma(\Q_p)$ (helper \texttt{opMat}, the matrix with rows $v,vy$).
+\end{proof}
+
+
+\begin{theorem}[unramified orbital integrals]
+\tfstmt{II.orb.thm:unramified-orbital-integral}
+\lean{GL2TF.unramified_orbital_integral}
+\uses{I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.haar.def:haar-local, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.thm:gl2-local-unimodular, I.haar.thm:vol-max-compact-local, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:max-compact-local-compact-open, II.orb.def:centralizer, II.orb.def:local-orbital-integral, II.orb.lem:unramified-orbit-support, II.orb.thm:centralizer-explicit, X.haar.def:is-unimodular, X.quot.def:weil-measure, X.quot.thm:weil-quotient-formula-right, X.topgrp.def:matrix-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:unramified-orbital-integral}
+\tfsem{II.orb.thm:unramified-orbital-integral}{8354e76243d7e3e24fb22064dfcc7b1706ccf5cad4f940c2e94b4dd92d32bc55}
+\tfhyps{II.orb.thm:unramified-orbital-integral}{}
+\begin{tffidelity}
+A conjunction of (a) and (b), each with its own quantifiers (so no binder precedes the conjunction; the table is empty). (a) for $p$, $\gamma$ as in \cref{II.orb.lem:unramified-orbit-support}, $\nu_\gamma$ a Haar measure with $\nu_\gamma\{t:t\in K_p\}=1$ and $\nu$ a Weil measure for $(\texttt{haarLocal}\ \Qp,\nu_\gamma)$: \texttt{localOrbitalIntegral γ (indicator K 1) ν = 1}. (b) for $\gamma=\texttt{diagElt a b}$ with $a\ne b$ in $\Q^\times$ and $\abs a_p=\abs b_p=1$ ($\nu_\gamma\{t\in K_p\}=1$ is $\nu_\gamma(T(\Zp))=1$, since $G_\gamma(\Qp)\cap K_p=T(\Zp)$): value $\abs{(a-b)^2/(ab)}_p^{-1/2}$, i.e.\ $\abs{D(\gamma)}_p^{-1/2}$, as a real number cast to $\C$ (\texttt{‖·‖ \^{} (-(1/2))}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Two parts (private \texttt{unramified\_orbital\_integral\_a}, \texttt{\_b}). (a) As A: the Weil formula (c) for $1_{K_p}$, \texttt{unramified\_orbit\_support}, and left invariance with commutativity of $G_\gamma(\Q_p)$; measurability of $S=\{Hx:x^{-1}\gamma x\in K_p\}$ on the quotient is read off from the measurability claim of Weil (c). (b) \emph{Divergence from A (route):} no Iwasawa coset count over $T\backslash G$; the Weil formula (c) is applied to $1_Y$, $Y=\{g:g^{-1}\gamma g\in K_p,\ g\in N(\Q_p)K_p\}$. \emph{Fibre} (\texttt{ub\_fibre}): for $x=\beta k$ the fibre $\{t\in T(\Q_p):tx\in Y\}$ is the translate $\{t:t\,\mathrm{diag}(\beta_{00},\beta_{11})\in K_p\}$ of $T(\mathbb Z_p)$, of measure $1$, and empty otherwise. \emph{Volume} (\texttt{ub\_Y\_measure}): $dg_p(Y)=p^M$ for $|a-b|_p=p^{-M}$, as $Y=\bigsqcup_{j<p^M}n(j/p^M)K_p$ (covering by \texttt{PadicInt.appr}, disjointness by \texttt{Padic.norm\_int\_le\_pow\_iff\_dvd}). Key equivalence \texttt{ub\_conj\_iff}: if $n(v)g\in K_p$ then $g^{-1}\gamma g\in K_p\iff|(a-b)v|_p\le1$.
+\end{proof}
+
+
+\begin{theorem}[factorization of hyperbolic orbital integrals]
+\tfstmt{II.orb.thm:orbital-factorization}
+\lean{GL2TF.orbital_factorization}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.haar.def:haar-adelic, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:max-compact-local-compact-instance, I.haar.thm:gl2-adelic-unimodular, I.haar.thm:gl2-local-unimodular, I.haar.thm:gl2-real-unimodular, I.haar.thm:vol-max-compact-local, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-local-compact-open, II.orb.def:centralizer, II.orb.def:centralizer-haar-norm-one, II.orb.def:centralizer-norm-one, II.orb.def:local-orbital-integral, II.orb.def:orbital-integral, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-unimodular, II.orb.lem:local-orbital-integrand-descends, II.orb.lem:unramified-orbit-support, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-explicit, II.orb.thm:orbital-norm-one-comparison, II.orb.thm:unramified-orbital-integral, II.simple.def:fin-restricted-equiv, X.haar.def:is-unimodular, X.haar.def:restricted-product-measure, X.haar.lem:restricted-product-measure-is-haar, X.haar.lem:unimodular-iff-modular-character, X.haar.thm:restricted-product-measure-factorization, X.quot.def:bruhat-function, X.quot.def:weil-measure, X.quot.thm:bruhat-function-exists, X.quot.thm:weil-quotient-formula-right, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space, X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:restricted-product-second-countable}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:orbital-factorization}
+\tfsem{II.orb.thm:orbital-factorization}{84c417d4bc8dd8f1a029d588b942908a3f3570dc3b9bc816e4a81dc5bc0e85f5}
+\tfhyps{II.orb.thm:orbital-factorization}{}
+\tfbinder{II.orb.thm:orbital-factorization}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:orbital-factorization}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:orbital-factorization}{2}{2aa7821d}{the assumption $a\ne b$}
+\tfbinder{II.orb.thm:orbital-factorization}{3}{fd2f6c22}{the measure $\mu_\infty$ on $\GL_2(\R)$}
+\tfbinder{II.orb.thm:orbital-factorization}{4}{943cdad3}{$\mu_\infty$ is a left Haar measure on $\GL_2(\R)$}
+\tfbinder{II.orb.thm:orbital-factorization}{5}{f4cdfd0d}{the measure $\nu_{\gamma,\infty}$ on $G_\gamma(\R)$}
+\tfbinder{II.orb.thm:orbital-factorization}{6}{1bccef37}{$\nu_{\gamma,\infty}$ is a left Haar measure on $G_\gamma(\R)$}
+\tfbinder{II.orb.thm:orbital-factorization}{7}{8705885b}{the family of measures $\nu_{\gamma,p}$ on $G_\gamma(\Qp)$, $p$ prime}
+\tfbinder{II.orb.thm:orbital-factorization}{8}{af5184b5}{each $\nu_{\gamma,p}$ is a left Haar measure}
+\tfbinder{II.orb.thm:orbital-factorization}{9}{7a348383}{the assumption $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$ for almost all $p$ (\texttt{Filter.cofinite}; A: ``for almost all $p$)}
+\tfbinder{II.orb.thm:orbital-factorization}{10}{d606e7dd}{the measure $\nu_\infty$ on $G_\gamma(\R)\backslash\GL_2(\R)$}
+\tfbinder{II.orb.thm:orbital-factorization}{11}{1ff7a81e}{the assumption that $\nu_\infty$ is a Weil measure for $(\mu_\infty,\nu_{\gamma,\infty})$}
+\tfbinder{II.orb.thm:orbital-factorization}{12}{f4dcbde0}{the family of measures $\nu_p$ on $G_\gamma(\Qp)\backslash\GL_2(\Qp)$}
+\tfbinder{II.orb.thm:orbital-factorization}{13}{b6453c5e}{the assumption that each $\nu_p$ is a Weil measure for $(\dd g_p,\nu_{\gamma,p})$, $\dd g_p=\texttt{haarLocal}\ \Qp$ (\texttt{I.haar.def:haar-local})}
+\tfbinder{II.orb.thm:orbital-factorization}{14}{792803d4}{the measure $\nu_\gamma$ on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:orbital-factorization}{15}{f84aa33b}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:orbital-factorization}{16}{6b6f2a66}{the set $U\subseteq\GL_2(\R)$ (A: ``some Borel $U$)}
+\tfbinder{II.orb.thm:orbital-factorization}{17}{6c66e407}{the assumption that $U$ is measurable (A: ``Borel)}
+\tfbinder{II.orb.thm:orbital-factorization}{18}{cc0c1e34}{the assumption $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))$}
+\tfbinder{II.orb.thm:orbital-factorization}{19}{5f9a3606}{the assumption $\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$}
+\tfbinder{II.orb.thm:orbital-factorization}{20}{c2f7e84b}{the box assumption defining $\nu_\gamma$: its value on $\{t:t_\infty\in U,\ t_p\in K_p\ \forall p\}$ is $\nu_{\gamma,\infty}(U\cap G_\gamma(\R))\prod^{\mathrm{f}}_p\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)$}
+\tfbinder{II.orb.thm:orbital-factorization}{21}{112df4fa}{the measure $\nu^1$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:orbital-factorization}{22}{a23db8ff}{the assumption that $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$, with $\mu=\texttt{haarAdelic}\ \mu_\infty\ (\dd g_p)_p$ (\texttt{I.haar.def:haar-adelic}) and $\nu_\gamma^1=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$}
+\tfbinder{II.orb.thm:orbital-factorization}{23}{c6cc3b59}{the function $F_\infty\colon\GL_2(\R)\to\C$}
+\tfbinder{II.orb.thm:orbital-factorization}{24}{7fab2df5}{the assumption that $F_\infty$ is continuous}
+\tfbinder{II.orb.thm:orbital-factorization}{25}{683c45c5}{the assumption that $F_\infty$ has compact support}
+\tfbinder{II.orb.thm:orbital-factorization}{26}{b1a646e8}{the family of functions $F_p\colon\GL_2(\Qp)\to\C$}
+\tfbinder{II.orb.thm:orbital-factorization}{27}{a8ae843a}{the assumption that every $F_p$ is continuous}
+\tfbinder{II.orb.thm:orbital-factorization}{28}{05f5cb05}{the assumption that every $F_p$ has compact support}
+\tfbinder{II.orb.thm:orbital-factorization}{29}{22bf14ff}{the assumption $F_p=\mathbf 1_{K_p}$ for almost all $p$}
+\begin{tffidelity}
+The ambient hypotheses of A are binders, in the order of A's text: the Haar measures $\mu_\infty$, $\nu_{\gamma,\infty}$, $\nu_{\gamma,p}$ (a family; the instance binder \texttt{∀ p, IsHaarMeasure} is one binder) with the cofinite normalization $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$, the local Weil measures $\nu_\infty$, $\nu_p$, then $\nu_\gamma$ on $G_\gamma(\A)$ through the \emph{box assumption}: a measurable $U\subseteq\GL_2(\R)$ with $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$ such that $\nu_\gamma\{t:t_\infty\in U,\ t_p\in K_p\ \forall p\}=\nu_{\gamma,\infty}(\cdot)\prod^{\mathrm f}_p\nu_{\gamma,p}(\cdot)$ (with \texttt{compInf}, \texttt{compPlace} the place components, and $\prod^{\mathrm f}$ = \texttt{finprod}). A's remark that this pins $\nu_\gamma=\nu_{\gamma,\infty}\otimes\bigotimes'_p\nu_{\gamma,p}$ is a consequence (\texttt{X.haar.thm:restricted-product-measure-unique}) and is not a separate clause. The measure $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$ with $\mu=\texttt{haarAdelic}\ \mu_\infty\ (\texttt{haarLocal}\ \Qp)_p$ and $\nu^1_\gamma=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$. The test functions are $F_\infty$ (continuous, compact support) and a family $F_p$ (continuous, compact support, $=\mathbf 1_{K_p}$ cofinitely); $F|_{G(\A)^1}$ is written \texttt{fun x ↦ fInf (compInf ↑x) * ∏ᶠ p, f p (compPlace p ↑x)} on $G(\A)^1$ (A: ``$F(x)=F_\infty(x_\infty)\prod_pF_p(x_p)$'', restricted to $G(\A)^1$). Conclusion, four conjuncts: $x\mapsto F_\infty(x^{-1}\gamma x)$ is $\nu_\infty$-integrable (as $q\mapsto F_\infty(\mathrm{out}(q)^{-1}\iota(\gamma)\mathrm{out}(q))$); the same for every $p$ and $\nu_p$; $O_{\gamma,p}(F_p;\nu_p)=1$ for almost all $p$; and $O_\gamma(F|_{G(\A)^1};\nu^1)=O_{\gamma,\infty}(F_\infty;\nu_\infty)\prod^{\mathrm f}_pO_{\gamma,p}(F_p;\nu_p)$. A's ``a finite product'' is the well-definedness of \texttt{∏ᶠ} (a cofinitely-$1$ family; the third conjunct). Hyperbolic case: $\gamma=\texttt{diagElt a b}$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjuncts 1--3 (local integrability; $O_{\gamma,p}(F_p)=1$ for almost all $p$): \texttt{fac\_integrable\_w} (for $\Delta(\gamma)\ne0$ the descended integrand is continuous on $G_\gamma\backslash G$ via \texttt{Continuous.quotient\_lift} and supported in the compact set of \texttt{orbit\_proper\_gen}), \texttt{fac\_unram\_eventually} ($\gamma\in K_p$ and $|\Delta|_p=1$ for almost all $p$) and \texttt{fac\_local\_one} (from \texttt{unramified\_orbital\_integral}(a)); \texttt{fac\_diag\_delta} gives $\Delta\ne0$ for $\mathrm{diag}(a,b)$, $a\ne b$. Conjunct 4 via \texttt{fac\_assemble}: \texttt{orbital\_norm\_one\_comparison}(b) reduces to $\int_{G_\gamma(\A)\backslash G(\A)}\Phi\,d\nu$ for a Weil measure given by \texttt{fac\_weil\_exists} (\texttt{weil\_quotient\_formula\_right}, \texttt{centralizer\_unimodular}), then \texttt{fac\_core}. \emph{Divergence from A / the first plan:} the global factorization does not construct a restricted-product measure on $G_\gamma(\A)\backslash G(\A)$ and needs no measurability of $\Phi$. Instead \texttt{fac\_core} chooses a finite bad set $S$, local test functions $\psi_v$ from \texttt{fac\_weil\_test} ($\psi_p=1_{K_p}$ off $S$), computes the global fibre $\int_{G_\gamma(\A)}\psi(hy)\,d\nu_\gamma=1$ by \texttt{cp\_haar\_prod} (Haar uniqueness on the product, using \texttt{cpEquiv}) and \texttt{fac\_unram\_fibre}, and applies \texttt{fc\_weil\_fibre} (Weil (d) for $\Phi\psi$) followed by \texttt{fac\_haarAdelic\_prod}.
+\end{proof}
+
+
+\begin{theorem}[factorization of elliptic orbital integrals]
+\tfstmt{II.orb.thm:elliptic-orbital-factorization}
+\lean{GL2TF.elliptic_orbital_factorization}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.haar.def:haar-adelic, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:max-compact-local-compact-instance, I.haar.thm:gl2-adelic-unimodular, I.haar.thm:gl2-local-unimodular, I.haar.thm:gl2-real-unimodular, I.haar.thm:vol-max-compact-local, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-local-compact-open, II.orb.def:centralizer, II.orb.def:centralizer-haar-norm-one, II.orb.def:centralizer-norm-one, II.orb.def:elliptic, II.orb.def:local-orbital-integral, II.orb.def:orbital-integral, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-unimodular, II.orb.lem:local-orbital-integrand-descends, II.orb.lem:unramified-orbit-support, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-explicit, II.orb.thm:orbital-norm-one-comparison, II.orb.thm:unramified-orbital-integral, II.simple.def:fin-restricted-equiv, X.haar.def:is-unimodular, X.haar.def:restricted-product-measure, X.haar.lem:restricted-product-measure-is-haar, X.haar.lem:unimodular-iff-modular-character, X.haar.thm:restricted-product-measure-factorization, X.quot.def:bruhat-function, X.quot.def:weil-measure, X.quot.thm:bruhat-function-exists, X.quot.thm:weil-quotient-formula-right, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space, X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:restricted-product-second-countable}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-orbital-factorization}
+\tfsem{II.orb.thm:elliptic-orbital-factorization}{7b8a89361db9dd2abf908f8657ba0f0560baf3ddfbb283134219b25a6e923316}
+\tfhyps{II.orb.thm:elliptic-orbital-factorization}{}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{1}{62f72bc0}{the assumption that $\gamma$ is elliptic (\texttt{II.orb.def:elliptic})}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{2}{ed22b54f}{the measure $\mu_\infty$ on $\GL_2(\R)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{3}{6839bd83}{$\mu_\infty$ is a left Haar measure on $\GL_2(\R)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{4}{920e9ad6}{the measure $\nu_{\gamma,\infty}$ on $G_\gamma(\R)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{5}{fab09a79}{$\nu_{\gamma,\infty}$ is a left Haar measure on $G_\gamma(\R)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{6}{20db9f23}{the family of measures $\nu_{\gamma,p}$ on $G_\gamma(\Qp)$, $p$ prime}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{7}{4afdbb4e}{each $\nu_{\gamma,p}$ is a left Haar measure}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{8}{d2c8532c}{the assumption $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$ for almost all $p$ (\texttt{Filter.cofinite}; A: ``for almost all $p$)}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{9}{40b62806}{the measure $\nu_\infty$ on $G_\gamma(\R)\backslash\GL_2(\R)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{10}{dff8571a}{the assumption that $\nu_\infty$ is a Weil measure for $(\mu_\infty,\nu_{\gamma,\infty})$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{11}{9555797e}{the family of measures $\nu_p$ on $G_\gamma(\Qp)\backslash\GL_2(\Qp)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{12}{1144898a}{the assumption that each $\nu_p$ is a Weil measure for $(\dd g_p,\nu_{\gamma,p})$, $\dd g_p=\texttt{haarLocal}\ \Qp$ (\texttt{I.haar.def:haar-local})}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{13}{e4f0e0a3}{the measure $\nu_\gamma$ on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{14}{08735cb4}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{15}{98979875}{the set $U\subseteq\GL_2(\R)$ (A: ``some Borel $U$)}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{16}{ab34387b}{the assumption that $U$ is measurable (A: ``Borel)}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{17}{2603c532}{the assumption $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{18}{298ab80e}{the assumption $\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{19}{24b59fbb}{the box assumption defining $\nu_\gamma$: its value on $\{t:t_\infty\in U,\ t_p\in K_p\ \forall p\}$ is $\nu_{\gamma,\infty}(U\cap G_\gamma(\R))\prod^{\mathrm{f}}_p\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{20}{75cb3794}{the measure $\nu^1$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{21}{f435b121}{the assumption that $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$, with $\mu=\texttt{haarAdelic}\ \mu_\infty\ (\dd g_p)_p$ (\texttt{I.haar.def:haar-adelic}) and $\nu_\gamma^1=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{22}{dcc9444a}{the function $F_\infty\colon\GL_2(\R)\to\C$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{23}{f598884c}{the assumption that $F_\infty$ is continuous}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{24}{8e949366}{the assumption that $F_\infty$ has compact support}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{25}{0fe7ad37}{the family of functions $F_p\colon\GL_2(\Qp)\to\C$}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{26}{38e1d780}{the assumption that every $F_p$ is continuous}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{27}{f511c6e0}{the assumption that every $F_p$ has compact support}
+\tfbinder{II.orb.thm:elliptic-orbital-factorization}{28}{c1b73440}{the assumption $F_p=\mathbf 1_{K_p}$ for almost all $p$}
+\begin{tffidelity}
+The ambient hypotheses of A are binders, in the order of A's text: the Haar measures $\mu_\infty$, $\nu_{\gamma,\infty}$, $\nu_{\gamma,p}$ (a family; the instance binder \texttt{∀ p, IsHaarMeasure} is one binder) with the cofinite normalization $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$, the local Weil measures $\nu_\infty$, $\nu_p$, then $\nu_\gamma$ on $G_\gamma(\A)$ through the \emph{box assumption}: a measurable $U\subseteq\GL_2(\R)$ with $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$ such that $\nu_\gamma\{t:t_\infty\in U,\ t_p\in K_p\ \forall p\}=\nu_{\gamma,\infty}(\cdot)\prod^{\mathrm f}_p\nu_{\gamma,p}(\cdot)$ (with \texttt{compInf}, \texttt{compPlace} the place components, and $\prod^{\mathrm f}$ = \texttt{finprod}). A's remark that this pins $\nu_\gamma=\nu_{\gamma,\infty}\otimes\bigotimes'_p\nu_{\gamma,p}$ is a consequence (\texttt{X.haar.thm:restricted-product-measure-unique}) and is not a separate clause. The measure $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$ with $\mu=\texttt{haarAdelic}\ \mu_\infty\ (\texttt{haarLocal}\ \Qp)_p$ and $\nu^1_\gamma=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$. The test functions are $F_\infty$ (continuous, compact support) and a family $F_p$ (continuous, compact support, $=\mathbf 1_{K_p}$ cofinitely); $F|_{G(\A)^1}$ is written \texttt{fun x ↦ fInf (compInf ↑x) * ∏ᶠ p, f p (compPlace p ↑x)} on $G(\A)^1$ (A: ``$F(x)=F_\infty(x_\infty)\prod_pF_p(x_p)$'', restricted to $G(\A)^1$). Conclusion as in \cref{II.orb.thm:orbital-factorization}. Elliptic case: $\gamma\in\GL_2(\Q)$ with \texttt{IsElliptic γ}; $G_\gamma(F)=F[\gamma]^\times$ is not used in the statement, only \texttt{centralizerGL F γ}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As for \cref{II.orb.thm:orbital-factorization}: the same \texttt{fac\_assemble}/\texttt{fac\_core}, valid for any $\gamma$ with $\Delta(\gamma)\ne0$; \texttt{fac\_elliptic\_delta} gives $\Delta\ne0$ for elliptic $\gamma$ (if $\Delta=0$, then $\mathrm{tr}/2$ is a root of $P_\gamma$, so $\gamma$ would have an eigenvalue in $\Q$). Non-centrality is \texttt{fc\_noncentral}.
+\end{proof}
+
+
+\begin{definition}[the local weight at $p$]
+\tfstmt{II.orb.def:local-weight}
+\lean{GL2TF.localWeight}
+\uses{I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{II.orb.def:local-weight}
+\tfsem{II.orb.def:local-weight}{9f19bb3a076923901547024bad6d455b7b8eadc6d16511498982c1387a8fb313}
+\tfhyps{II.orb.def:local-weight}{}
+\tfbinder{II.orb.def:local-weight}{0}{81fa68c4}{the prime $p$}
+\tfbinder{II.orb.def:local-weight}{1}{b5356d41}{the point $x\in\GL_2(\Qp)$}
+\begin{tffidelity}
+\texttt{localWeight p x} is $\log\max(\abs{x_{11}}_p,\abs{x_{12}}_p)+\log\max(\abs{x_{21}}_p,\abs{x_{22}}_p)-\log\abs{\det x}_p$, with \texttt{Real.log} and the norm of \texttt{ℚ\_[p]}; the rows of $x$ are $e_1x$ and $e_2x$ and the norm is the maximum norm, as in A. Continuity and the invariances of A are not part of the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the archimedean local weight]
+\tfstmt{II.orb.def:local-weight-real}
+\lean{GL2TF.localWeightReal}
+\end{definition}
+\begin{tfformal}{II.orb.def:local-weight-real}
+\tfsem{II.orb.def:local-weight-real}{780538befc77723f1938726ddb05d604641626016b6301f9e71106b06dcea670}
+\tfhyps{II.orb.def:local-weight-real}{}
+\tfbinder{II.orb.def:local-weight-real}{0}{da0bab74}{the point $x\in\GL_2(\R)$}
+\begin{tffidelity}
+\texttt{localWeightReal x} is $\log\sqrt{x_{11}^2+x_{12}^2}+\log\sqrt{x_{21}^2+x_{22}^2}-\log\abs{\det x}$ (Euclidean row norms, \texttt{Real.sqrt}, \texttt{Real.log}), as in A. The invariances of A are not part of the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.orb.lem:local-weight-descends}
+\bonly
+\lean{GL2TF.local_weight_descends}
+\uses{I.adele.lem:primes-fact-instance, I.conv.def:torus, II.orb.def:local-weight, II.orb.def:local-weight-real}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:local-weight-descends}
+\tfsem{II.orb.lem:local-weight-descends}{df3f33d37f1af5f248fc72f51d34934cbbdd5e8029fa52b133bab3f12da4311e}
+\tfhyps{II.orb.lem:local-weight-descends}{}
+\begin{tffidelity}
+B-only. A conjunction: $v_p(tx)=v_p(x)$ for all $p$, $t\in T(\Qp)$ (\texttt{torus ℚ\_[p]}, \texttt{I.conv.def:torus}), $x\in\GL_2(\Qp)$, and $v_\infty(tx)=v_\infty(x)$ for $t\in T(\R)$. Left $T$-invariance, a claim of \cref{II.orb.def:local-weight,II.orb.def:local-weight-real} (which A also states for right $K$-invariance and continuity; those are not used). The binders are bound inside the conjunction.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct computation: left multiplication by $t\in T$ scales the rows by $t_{ii}$ and $\det$ by $t_{00}t_{11}$.
+\end{proof}
+
+
+\begin{definition}[local weighted orbital integrals]
+\tfstmt{II.orb.def:local-weighted-orbital-integral}
+\lean{GL2TF.localWeightedOrbitalIntegral}
+\uses{I.conv.def:gl2, II.orb.def:centralizer, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{II.orb.def:local-weighted-orbital-integral}
+\tfsem{II.orb.def:local-weighted-orbital-integral}{e3a8c52eeb7d6d6d6eb56f6da9cd6a22f6dd7d634cf774894df3d7c453f6c584}
+\tfhyps{II.orb.def:local-weighted-orbital-integral}{}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{0}{fe5aea28}{the type of the field $F$ (A: ``$F$ is $\R$ or $\Qp$)}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{2}{e263e5c0}{the $\Q$-algebra structure of $F$ (so that $\GL_2(\Q)\to\GL_2(F)$ is defined)}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{3}{ce8d39e1}{the measurable space structure of $F$ (needed for the Bochner integral on the quotient)}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{4}{d9bf96b9}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{5}{c8b94927}{the weight $w\colon\GL_2(F)\to\R$}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{6}{dd3b404d}{the function $f\colon\GL_2(F)\to\C$}
+\tfbinder{II.orb.def:local-weighted-orbital-integral}{7}{2508e855}{the measure $\nu$ on $G_\gamma(F)\backslash\GL_2(F)$}
+\begin{tffidelity}
+\texttt{localWeightedOrbitalIntegral γ w f ν := ∫ q, f (out⁻¹ ι γ out) * (w (out q) : ℂ) ∂ν}: Bochner integral ($0$ if not integrable), integrand at the representative $\mathrm{out}(q)$, $J_{\gamma,F}(f,w;\nu)$ of A. The argument order is weight first, then $f$ (A writes $(f,w)$). General field $F$ as in \cref{II.orb.def:local-orbital-integral}. A's claim that the integrand depends only on the coset (for $\gamma=\diag(a,b)$, $a\ne b$, $w=v_p,v_\infty$) is not formalized as a separate item: it follows from \cref{II.orb.lem:local-orbital-integrand-descends} and \cref{II.orb.lem:local-weight-descends}. A's abbreviations $J_{\gamma,p}$, $J_{\gamma,\infty}$ are \texttt{localWeightedOrbitalIntegral γ (localWeight p) f ν} and \texttt{... localWeightReal ...}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the weight is a sum of local weights]
+\tfstmt{II.orb.lem:weight-local-sum}
+\lean{GL2TF.weight_local_sum}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:weyl-element, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, II.orb.def:local-weight, II.orb.def:local-weight-real, II.par.def:coroot, II.par.def:gt-family, II.par.def:lambda-form, II.par.def:levi-parabolic-index, II.par.def:weight, II.par.def:y-vector, II.par.thm:weight-explicit}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:weight-local-sum}
+\tfsem{II.orb.lem:weight-local-sum}{97a42bfc20946fb934e81bfa8f90a55fc595e9842a27c0537a9636b427819534}
+\tfhyps{II.orb.lem:weight-local-sum}{}
+\tfbinder{II.orb.lem:weight-local-sum}{0}{a2aaccd5}{the point $x\in G(\A)$}
+\begin{tffidelity}
+Two clauses: the function $p\mapsto v_p(x_p)$ has finite support (A: ``for all but finitely many primes''), and $v(x,0)=v_\infty(x_\infty)+\sum^{\mathrm f}_pv_p(x_p)$, with \texttt{weight x 0} the weight of \cref{II.par.def:weight} at $T=0$ (a complex number; the right side is the cast of a real number), \texttt{compInf}, \texttt{compPlace} the components, and $\sum^{\mathrm f}$ = \texttt{finsum}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (route):} no Iwasawa decomposition. \texttt{weight\_explicit} (\texttt{II.par.thm:weight-explicit}) with \texttt{heightMap} unfolded gives $v(x,0)=\log\|e_2x\|_{\A}+\log\|e_2wx\|_{\A}-\log|\det x|_{\A}$, where $e_2wx=-e_1x$ and $\det w=1$. Taking logarithms of the finite products over a common finite set $S$ of primes gives the sum of local weights.
+\end{proof}
+
+
+\begin{theorem}[factorization of the weighted orbital integral]
+\tfstmt{II.orb.thm:weighted-orbital-factorization}
+\lean{GL2TF.weighted_orbital_factorization}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:space-a-b, I.conv.def:torus, I.conv.lem:max-compact-local-mem, I.haar.def:haar-adelic, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:max-compact-local-compact-instance, I.haar.thm:gl2-adelic-unimodular, I.haar.thm:gl2-local-unimodular, I.haar.thm:gl2-real-unimodular, I.haar.thm:vol-max-compact-local, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-local-compact-open, II.kernel.def:rat-norm-one, II.orb.def:centralizer, II.orb.def:centralizer-haar-norm-one, II.orb.def:centralizer-norm-one, II.orb.def:local-orbital-integral, II.orb.def:local-weight, II.orb.def:local-weight-real, II.orb.def:local-weighted-orbital-integral, II.orb.def:orbital-integral, II.orb.def:weighted-orbital-integral, II.orb.lem:centralizer-borel-instance, II.orb.lem:centralizer-locally-compact-instance, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.lem:centralizer-unimodular, II.orb.lem:local-orbital-integrand-descends, II.orb.lem:local-weight-descends, II.orb.lem:unramified-orbit-support, II.orb.lem:weight-local-sum, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-explicit, II.orb.thm:orbital-norm-one-comparison, II.orb.thm:unramified-orbital-integral, II.par.def:weight, II.simple.def:fin-restricted-equiv, X.haar.def:is-unimodular, X.haar.def:restricted-product-measure, X.haar.lem:restricted-product-measure-is-haar, X.haar.lem:unimodular-iff-modular-character, X.haar.thm:restricted-product-measure-factorization, X.quot.def:bruhat-function, X.quot.def:weil-measure, X.quot.thm:bruhat-function-exists, X.quot.thm:weil-quotient-formula-right, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space, X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:restricted-product-second-countable}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:weighted-orbital-factorization}
+\tfsem{II.orb.thm:weighted-orbital-factorization}{5dc32696d3e3f2e89aaba3d50dc7d51ddd85ac9d2abb57b6e5e8385b347ad644}
+\tfhyps{II.orb.thm:weighted-orbital-factorization}{}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{0}{5949253a}{the entry $a\in\Q^\times$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{1}{df902bab}{the entry $b\in\Q^\times$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{2}{2aa7821d}{the assumption $a\ne b$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{3}{fd2f6c22}{the measure $\mu_\infty$ on $\GL_2(\R)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{4}{943cdad3}{$\mu_\infty$ is a left Haar measure on $\GL_2(\R)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{5}{f4cdfd0d}{the measure $\nu_{\gamma,\infty}$ on $G_\gamma(\R)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{6}{1bccef37}{$\nu_{\gamma,\infty}$ is a left Haar measure on $G_\gamma(\R)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{7}{8705885b}{the family of measures $\nu_{\gamma,p}$ on $G_\gamma(\Qp)$, $p$ prime}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{8}{af5184b5}{each $\nu_{\gamma,p}$ is a left Haar measure}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{9}{7a348383}{the assumption $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$ for almost all $p$ (\texttt{Filter.cofinite}; A: ``for almost all $p$)}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{10}{d606e7dd}{the measure $\nu_\infty$ on $G_\gamma(\R)\backslash\GL_2(\R)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{11}{1ff7a81e}{the assumption that $\nu_\infty$ is a Weil measure for $(\mu_\infty,\nu_{\gamma,\infty})$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{12}{f4dcbde0}{the family of measures $\nu_p$ on $G_\gamma(\Qp)\backslash\GL_2(\Qp)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{13}{b6453c5e}{the assumption that each $\nu_p$ is a Weil measure for $(\dd g_p,\nu_{\gamma,p})$, $\dd g_p=\texttt{haarLocal}\ \Qp$ (\texttt{I.haar.def:haar-local})}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{14}{792803d4}{the measure $\nu_\gamma$ on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{15}{f84aa33b}{$\nu_\gamma$ is a left Haar measure on $G_\gamma(\A)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{16}{6b6f2a66}{the set $U\subseteq\GL_2(\R)$ (A: ``some Borel $U$)}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{17}{6c66e407}{the assumption that $U$ is measurable (A: ``Borel)}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{18}{cc0c1e34}{the assumption $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{19}{5f9a3606}{the assumption $\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{20}{c2f7e84b}{the box assumption defining $\nu_\gamma$: its value on $\{t:t_\infty\in U,\ t_p\in K_p\ \forall p\}$ is $\nu_{\gamma,\infty}(U\cap G_\gamma(\R))\prod^{\mathrm{f}}_p\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{21}{112df4fa}{the measure $\nu^1$ on $G_\gamma(\A)^1\backslash G(\A)^1$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{22}{a23db8ff}{the assumption that $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$, with $\mu=\texttt{haarAdelic}\ \mu_\infty\ (\dd g_p)_p$ (\texttt{I.haar.def:haar-adelic}) and $\nu_\gamma^1=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{23}{c6cc3b59}{the function $F_\infty\colon\GL_2(\R)\to\C$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{24}{7fab2df5}{the assumption that $F_\infty$ is continuous}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{25}{683c45c5}{the assumption that $F_\infty$ has compact support}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{26}{b1a646e8}{the family of functions $F_p\colon\GL_2(\Qp)\to\C$}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{27}{a8ae843a}{the assumption that every $F_p$ is continuous}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{28}{05f5cb05}{the assumption that every $F_p$ has compact support}
+\tfbinder{II.orb.thm:weighted-orbital-factorization}{29}{22bf14ff}{the assumption $F_p=\mathbf 1_{K_p}$ for almost all $p$}
+\begin{tffidelity}
+The ambient hypotheses of A are binders, in the order of A's text: the Haar measures $\mu_\infty$, $\nu_{\gamma,\infty}$, $\nu_{\gamma,p}$ (a family; the instance binder \texttt{∀ p, IsHaarMeasure} is one binder) with the cofinite normalization $\nu_{\gamma,p}(G_\gamma(\Qp)\cap K_p)=1$, the local Weil measures $\nu_\infty$, $\nu_p$, then $\nu_\gamma$ on $G_\gamma(\A)$ through the \emph{box assumption}: a measurable $U\subseteq\GL_2(\R)$ with $0<\nu_{\gamma,\infty}(U\cap G_\gamma(\R))<\infty$ such that $\nu_\gamma\{t:t_\infty\in U,\ t_p\in K_p\ \forall p\}=\nu_{\gamma,\infty}(\cdot)\prod^{\mathrm f}_p\nu_{\gamma,p}(\cdot)$ (with \texttt{compInf}, \texttt{compPlace} the place components, and $\prod^{\mathrm f}$ = \texttt{finprod}). A's remark that this pins $\nu_\gamma=\nu_{\gamma,\infty}\otimes\bigotimes'_p\nu_{\gamma,p}$ is a consequence (\texttt{X.haar.thm:restricted-product-measure-unique}) and is not a separate clause. The measure $\nu^1$ is a Weil measure for $(\mu^1,\nu_\gamma^1)$ with $\mu=\texttt{haarAdelic}\ \mu_\infty\ (\texttt{haarLocal}\ \Qp)_p$ and $\nu^1_\gamma=\texttt{centralizerHaarNormOne}\ \gamma\ \nu_\gamma$. The test functions are $F_\infty$ (continuous, compact support) and a family $F_p$ (continuous, compact support, $=\mathbf 1_{K_p}$ cofinitely); $F|_{G(\A)^1}$ is written \texttt{fun x ↦ fInf (compInf ↑x) * ∏ᶠ p, f p (compPlace p ↑x)} on $G(\A)^1$ (A: ``$F(x)=F_\infty(x_\infty)\prod_pF_p(x_p)$'', restricted to $G(\A)^1$). Conclusion, four conjuncts: $x\mapsto F_\infty(x^{-1}\gamma x)v_\infty(x)$ is $\nu_\infty$-integrable; $x\mapsto F_p(x^{-1}\gamma x)v_p(x)$ is $\nu_p$-integrable for every $p$ (both as functions of $\mathrm{out}(q)$, the weights cast to $\C$); $J_{\gamma,p}(F_p;\nu_p)=0$ for almost all $p$ (\texttt{localWeightedOrbitalIntegral γ (localWeight p) (f p) (ν p) = 0}); and \texttt{weightedOrbitalIntegral a b 0 (fun x ↦ F|) ν₁} equals $J_{\gamma,\infty}\prod^{\mathrm f}_pO_{\gamma,p}+\sum^{\mathrm f}_pJ_{\gamma,p}\cdot\bigl(O_{\gamma,\infty}\prod^{\mathrm f}_{q\ne p}O_{\gamma,q}\bigr)$, i.e.\ $J_0(\gamma,F|_{G(\A)^1};\nu^1)$ of \cref{II.orb.def:weighted-orbital-integral} at $T=0$. A's ``finite sum of finite products'' is the cofinite vanishing of $J_{\gamma,p}$ and \texttt{∑ᶠ}, \texttt{∏ᶠ}. Hyperbolic case, $\gamma=\texttt{diagElt a b}$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjuncts 1--3 as for \cref{II.orb.thm:orbital-factorization}, plus \texttt{fac\_cent\_diag} ($G_\gamma(F)\subseteq T(F)$), continuity of $v_p$, $v_\infty$, \texttt{fac\_localWeight\_K} ($v_p=0$ on $K_p$, by the ultrametric inequality for $\det$) and \texttt{fac\_weighted\_local\_zero} ($J_p=0$ for almost all $p$, via \texttt{unramified\_orbit\_support} and left $T$-invariance). Conjunct 4 via \texttt{fac\_weighted\_assemble}: \texttt{orbital\_norm\_one\_comparison}(a) for $\Phi_w(x)=\tilde F(x^{-1}\gamma x)(v_\infty(x_\infty)+\sum^f v_p(x_p))$, left invariant by \texttt{local\_weight\_descends} and equal to the $J_0$ integrand by \texttt{weight\_local\_sum}. Pointwise $\Phi_w=\Psi_\infty+\sum_{p\in S}\Psi_p$ (off $S$, $v_p=0$ on the support); \texttt{fac\_core} is applied once with $\Phi_\infty v_\infty$ and once per $p\in S$ with $\Phi_pv_p$, and \texttt{mul\_finprod\_cond\_ne} rearranges $\prod^f_q$ into $J_p\prod^f_{q\ne p}O_q$.
+\end{proof}
+
+
+\section{Volumes of elliptic tori}\label{sec:orb-volume}
+
+\noindent\emph{Lean:} \texttt{lean/GL2TF/VolII/EllipticVolume.lean} (R1-VOL). $\Delta(\gamma)<0$ is stated for the rational number $\tr(\gamma)^2-4\det\gamma$; $E$ is a number field with a $\Q$-algebra map $e\colon E\to\Mat_2(\Q)$. \emph{Status:} the Lean proofs of the torus-unit lemmas and of \texttt{standardTorusMeasure\_spec} are complete (proof blocks below); the lemma \texttt{II.orb.lem:torus-idele-class-group}, the theorem \texttt{II.orb.thm:elliptic-volume-explicit} and the example are still \texttt{sorry} (stage-1 statement level) and have no proof block.
+
+\begin{definition}
+\tfstmt{II.orb.def:torus-unit-set}
+\bonly
+\lean{GL2TF.torusUnitSet}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:adelic-component-place, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one}
+\end{definition}
+\begin{tfformal}{II.orb.def:torus-unit-set}
+\tfsem{II.orb.def:torus-unit-set}{7f018461199ce9e0799d801acd61349f1804ab361fb904dcbc6fb03bcb3ada33}
+\tfhyps{II.orb.def:torus-unit-set}{}
+\tfbinder{II.orb.def:torus-unit-set}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. \texttt{torusUnitSet γ} is the set of $g\in G_\gamma(\A)^1$ (\texttt{centralizerNormOne γ}) such that for every $p$ the component $g_p$ (\texttt{compPlace p}, as a matrix over $\Qp$) equals $c\cdot1+d\cdot\iota_p(\gamma)$ for some $c,d\in\Qp$, $\norm{\tr g_p}\le1$ and $\norm{\det g_p}=1$. This is the underlying set of the subgroup of \cref{II.orb.def:torus-unit-subgroup}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.orb.lem:torus-unit-mul-mem}
+\bonly
+\lean{GL2TF.torusUnitSet_mul_mem}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:adelic-component-place, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:torus-unit-set}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:torus-unit-mul-mem}
+\tfsem{II.orb.lem:torus-unit-mul-mem}{15a53059b755b5fbc5b9f9040e2e926a90503e082a1722dd2c28811c5c9ab6ac}
+\tfhyps{II.orb.lem:torus-unit-mul-mem}{}
+\tfbinder{II.orb.lem:torus-unit-mul-mem}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:torus-unit-mul-mem}{1}{f1025fca}{the element $g\in G_\gamma(\A)^1$}
+\tfbinder{II.orb.lem:torus-unit-mul-mem}{2}{d2ce62a0}{the element $h\in G_\gamma(\A)^1$}
+\tfbinder{II.orb.lem:torus-unit-mul-mem}{3}{d3a3bec9}{the assumption $g\in U_\gamma^{\mathrm{set}}$}
+\tfbinder{II.orb.lem:torus-unit-mul-mem}{4}{4c510668}{the assumption $h\in U_\gamma^{\mathrm{set}}$}
+\begin{tffidelity}
+B-only. The set \texttt{torusUnitSet γ} of \cref{II.orb.def:torus-unit-set} is closed under multiplication (a step of the subgroup structure of \cref{II.orb.def:torus-unit-subgroup}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (route):} no integral closures. For $x,y\in\Q_p+\Q_p\gamma$ the element $T=\mathrm{tr}(xy)$ is a root of $T^2-(\mathrm{tr}\,x\,\mathrm{tr}\,y)T+(\mathrm{tr}x^2\det y+\mathrm{tr}y^2\det x-4\det x\det y)$ (\texttt{tu\_M\_mul}, \texttt{tu\_trace\_identity}), a monic polynomial over $\mathbb Z_p$ because the coefficients are integral (\texttt{tu\_int\_comb}, \texttt{tu\_mul\_le\_one}, \texttt{tu\_add\_le\_one}), hence $|T|_p\le1$ (\texttt{tu\_padic\_root\_le\_one}); the determinant has norm $1$ by multiplicativity, and linear membership is \texttt{tu\_mul\_lin}. This works for every $\gamma$, including $\Delta(\gamma)=0$ and $p=2$.
+\end{proof}
+
+
+\begin{lemma}
+\tfstmt{II.orb.lem:torus-unit-one-mem}
+\bonly
+\lean{GL2TF.torusUnitSet_one_mem}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:adelic-component-place, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:torus-unit-set}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:torus-unit-one-mem}
+\tfsem{II.orb.lem:torus-unit-one-mem}{c803ec820be07e808782498a4b89cd55c38ea922c5b2726de27b2087e46c68cd}
+\tfhyps{II.orb.lem:torus-unit-one-mem}{}
+\tfbinder{II.orb.lem:torus-unit-one-mem}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+B-only. The set \texttt{torusUnitSet γ} of \cref{II.orb.def:torus-unit-set} is contains $1$ (a step of the subgroup structure of \cref{II.orb.def:torus-unit-subgroup}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct: $1=1+0\cdot\gamma$, $|\mathrm{tr}\,1|_p=|2|_p\le1$ (\texttt{Padic.norm\_int\_le\_one}) and $\det1=1$.
+\end{proof}
+
+
+\begin{lemma}
+\tfstmt{II.orb.lem:torus-unit-inv-mem}
+\bonly
+\lean{GL2TF.torusUnitSet_inv_mem}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.topgrp.def:adelic-component-place, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:torus-unit-set}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:torus-unit-inv-mem}
+\tfsem{II.orb.lem:torus-unit-inv-mem}{3257c19e1aa1c617d987da62e211b9f197ceee3a3a2635daef40ab5f4b0fd61a}
+\tfhyps{II.orb.lem:torus-unit-inv-mem}{}
+\tfbinder{II.orb.lem:torus-unit-inv-mem}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:torus-unit-inv-mem}{1}{f1025fca}{the element $g\in G_\gamma(\A)^1$}
+\tfbinder{II.orb.lem:torus-unit-inv-mem}{2}{3994ce6b}{the assumption $g\in U_\gamma^{\mathrm{set}}$}
+\begin{tffidelity}
+B-only. The set \texttt{torusUnitSet γ} of \cref{II.orb.def:torus-unit-set} is closed under inversion (a step of the subgroup structure of \cref{II.orb.def:torus-unit-subgroup}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As for \cref{II.orb.lem:torus-unit-mul-mem}, with $x^{-1}=\mathrm{adj}(x)/\det x$ (\texttt{tu\_M\_inv}, \texttt{tu\_inv\_lin}).
+\end{proof}
+
+
+\begin{definition}[the unit subgroup $U_\gamma$]
+\tfstmt{II.orb.def:torus-unit-subgroup}
+\lean{GL2TF.torusUnitSubgroup}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:torus-unit-set, II.orb.lem:torus-unit-inv-mem, II.orb.lem:torus-unit-mul-mem, II.orb.lem:torus-unit-one-mem}
+\end{definition}
+\begin{tfformal}{II.orb.def:torus-unit-subgroup}
+\tfsem{II.orb.def:torus-unit-subgroup}{73546dfb4bd39494709fc8b93ae0eb3fcb08a74288dbd0654a9dde6b461685c4}
+\tfhyps{II.orb.def:torus-unit-subgroup}{}
+\tfbinder{II.orb.def:torus-unit-subgroup}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+\texttt{torusUnitSubgroup γ : Subgroup (centralizerNormOne γ)} with carrier \texttt{torusUnitSet γ} (\cref{II.orb.def:torus-unit-set}) and the three closure lemmas; the conditions are exactly those of A ($g_p\in\Qp+\Qp\gamma$, $\tr g_p\in\Zp$, $\det g_p\in\Zp^\times$, with $\norm{\cdot}\le1$ and $\norm{\cdot}=1$ for integrality and unit). A's compactness, openness and the description $\prod_p\Ocal_{E,p}^\times\times(E_\infty^\times)^1$ for $\Delta(\gamma)<0$ are not part of the definition; compactness and openness are in the B-only \cref{II.orb.lem:standard-torus-measure-spec}, the product description is not formalized.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the standard measure on $G_\gamma(\A)^1$]
+\tfstmt{II.orb.def:standard-torus-measure}
+\lean{GL2TF.standardTorusMeasure}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:torus-unit-subgroup, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.orb.def:standard-torus-measure}
+\tfsem{II.orb.def:standard-torus-measure}{a122747615c4798d0b45d605951e85691842c3ac5e47c594aa158cb65ce48e68}
+\tfhyps{II.orb.def:standard-torus-measure}{}
+\tfbinder{II.orb.def:standard-torus-measure}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\begin{tffidelity}
+\texttt{standardTorusMeasure γ = (Measure.haar U\_γ)⁻¹ • Measure.haar}: Mathlib's \texttt{MeasureTheory.Measure.haar} on $G_\gamma(\A)^1$ (a fixed left Haar measure, A: ``a fixed left Haar measure $\mathrm{haar}$''), $\mathrm{haar}(U_\gamma)$ its value on the subgroup of \cref{II.orb.def:torus-unit-subgroup}, and the inverse taken in $[0,\infty]$. For $\Delta(\gamma)<0$ it is the left Haar measure with $\nu^{\mathrm{std}}_\gamma(U_\gamma)=1$ (the B-only \cref{II.orb.lem:standard-torus-measure-spec}); independence of the choice of $\mathrm{haar}$ is a consequence, not a clause. For $\Delta(\gamma)\ge0$ the definition is a junk value and no statement uses it.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}
+\tfstmt{II.orb.lem:standard-torus-measure-spec}
+\bonly
+\lean{GL2TF.standardTorusMeasure_spec}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.conv.def:center, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:norm-one-group-closed-normal, II.orb.def:centralizer, II.orb.def:centralizer-norm-one, II.orb.def:standard-torus-measure, II.orb.def:torus-unit-set, II.orb.def:torus-unit-subgroup, II.orb.lem:centralizer-norm-one-borel-instance, II.orb.lem:centralizer-norm-one-locally-compact-instance, II.orb.thm:centralizer-closed, II.orb.thm:centralizer-explicit, II.simple.def:fin-restricted-equiv, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.thm:gl2-units-open-embedding}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:standard-torus-measure-spec}
+\tfsem{II.orb.lem:standard-torus-measure-spec}{3b6cf6f251997941ca8b68d73b51f858e4629c8b05e26b53ad23cb2fb01d46a9}
+\tfhyps{II.orb.lem:standard-torus-measure-spec}{}
+\tfbinder{II.orb.lem:standard-torus-measure-spec}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:standard-torus-measure-spec}{1}{ad479da1}{the assumption $\Delta(\gamma)<0$}
+\begin{tffidelity}
+B-only. Four clauses: $U_\gamma$ is compact, $U_\gamma$ is open, \texttt{(standardTorusMeasure γ).IsHaarMeasure} (left Haar), and $\nu_\gamma^{\mathrm{std}}(U_\gamma)=1$; the claims of \cref{II.orb.def:torus-unit-subgroup,II.orb.def:standard-torus-measure}. $\Delta(\gamma)<0$ is stated for the rational number \texttt{tr² - 4 det}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Follows A. \emph{Open:} $U_\gamma$ contains the neighbourhood $\{x:x_f\in K_f\}$ of $1$ (\texttt{Subgroup.isOpen\_of\_mem\_nhds}), because $K_p\cap(\Q_p+\Q_p\gamma)\subseteq\mathcal O_p^\times$ for every $p$ (simpler than A's preimage of $\prod\mathcal O_p^\times$). \emph{Compact:} $U_\gamma$ is closed (open subgroup) and its image lies in the compact set $\{g:g_\infty\in C_\infty,g_p\in C_p\ \forall p\}$, with $C_v$ = bounded entries and $|\det|=1$ and $C_p\subseteq K_p$ for almost all $p$. The bounds come from $(\mathrm{tr}\,y)^2-4\det y=d^2\Delta(\gamma)$ and $2c=\mathrm{tr}\,y-d\,\mathrm{tr}\,\gamma$ at each $p$, and at $\infty$ from $4\det y=(2c+d\,\mathrm{tr}\,\gamma)^2-\Delta d^2$. Compactness in the restricted product is the general lemma \texttt{tm\_resProd\_isCompact} (via $\prod^r_{\mathcal P S}\cong\prod$ and \texttt{continuous\_inclusion}).
+\end{proof}
+
+
+\begin{lemma}[the class group of $E$]
+\tfstmt{II.orb.lem:torus-idele-class-group}
+\lean{GL2TF.torus_idele_class_group}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:torus-unit-subgroup}
+\end{lemma}
+\begin{tfformal}{II.orb.lem:torus-idele-class-group}
+\tfsem{II.orb.lem:torus-idele-class-group}{b51c177fbc9bc29405746aba9011129fb6434497dae997860a8ad4e3c60562b6}
+\tfhyps{II.orb.lem:torus-idele-class-group}{}
+\tfbinder{II.orb.lem:torus-idele-class-group}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.lem:torus-idele-class-group}{1}{ad479da1}{the assumption $\Delta(\gamma)<0$}
+\tfbinder{II.orb.lem:torus-idele-class-group}{2}{b28bf9f1}{the type of the number field $E$}
+\tfbinder{II.orb.lem:torus-idele-class-group}{3}{9e67d848}{the field structure of $E$}
+\tfbinder{II.orb.lem:torus-idele-class-group}{4}{7cfb3269}{the assumption that $E$ is a number field (A: ``let $E$ be a number field)}
+\tfbinder{II.orb.lem:torus-idele-class-group}{5}{07e24252}{the $\Q$-algebra homomorphism $e\colon E\to\Mat_2(\Q)$}
+\tfbinder{II.orb.lem:torus-idele-class-group}{6}{23dace12}{the assumption $\gamma\in e(E)$ (\texttt{e.range})}
+\begin{tffidelity}
+\texttt{Nat.card (centralizerNormOne γ ⧸ centralizerRatNormOne γ ⊔ torusUnitSubgroup γ) = NumberField.classNumber E}: the group $G_\gamma(\A)^1/G_\gamma(\Q)U_\gamma$ is the quotient by the join of the subgroups $G_\gamma(\Q)$ (the B-only \texttt{centralizerRatNormOne}, \cref{II.orb.def:centralizer-rat-norm-one}) and $U_\gamma$ (\cref{II.orb.def:torus-unit-subgroup}); its cardinality is \texttt{Nat.card} (so $0$ if infinite, but the statement then says $h_E=0$, false, hence finiteness is asserted). Lean's \texttt{⊔} is the generated subgroup, which equals the product set $G_\gamma(\Q)U_\gamma$ since $G_\gamma(\A)^1$ is commutative (\cref{II.orb.thm:centralizer-explicit}). $h_E$ is Mathlib's \texttt{NumberField.classNumber}. The embedding $e\colon E\to\Mat_2(\Q)$ is an \texttt{AlgHom} (A: ``homomorphism of $\Q$-algebras''), $\gamma\in e(E)$ is membership of the underlying matrix in \texttt{e.range}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[explicit elliptic volumes]
+\tfstmt{II.orb.thm:elliptic-volume-explicit}
+\lean{GL2TF.elliptic_volume_explicit}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:standard-torus-measure, X.quot.def:quotient-measure, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.orb.thm:elliptic-volume-explicit}
+\tfsem{II.orb.thm:elliptic-volume-explicit}{0101c07cb8e49248162ac71e9f3df909d9bcefdc55b45a6b459cbc4f8ea8a739}
+\tfhyps{II.orb.thm:elliptic-volume-explicit}{}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{0}{3e59ddd1}{the element $\gamma\in\GL_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{1}{ad479da1}{the assumption $\Delta(\gamma)<0$}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{2}{b28bf9f1}{the type of the number field $E$}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{3}{9e67d848}{the field structure of $E$}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{4}{7cfb3269}{the assumption that $E$ is a number field (A: ``let $E$ be a number field)}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{5}{07e24252}{the $\Q$-algebra homomorphism $e\colon E\to\Mat_2(\Q)$}
+\tfbinder{II.orb.thm:elliptic-volume-explicit}{6}{23dace12}{the assumption $\gamma\in e(E)$ (\texttt{e.range})}
+\begin{tffidelity}
+\texttt{(quotientMeasure (centralizerRatNormOne γ) (standardTorusMeasure γ)) Set.univ = classNumber E / torsionOrder E}: the total mass in $[0,\infty]$ of the quotient measure (\texttt{X.quot.def:quotient-measure}) of $\nu^{\mathrm{std}}_\gamma$ on $G_\gamma(\Q)\backslash G_\gamma(\A)^1$, equal to $h_E/w_E$ cast to $[0,\infty]$, with $w_E$ = \texttt{NumberField.Units.torsionOrder E}, the number of roots of unity of $E$. The data are those of \cref{II.orb.lem:torus-idele-class-group}; the quotient is by the B-only subgroup \texttt{centralizerRatNormOne γ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{example}[$\Q(i)$ and $\Q(\sqrt{-3})$]
+\tfstmt{II.orb.ex:elliptic-volume-gaussian}
+\lean{GL2TF.elliptic_volume_gaussian}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, II.orb.def:centralizer-norm-one, II.orb.def:centralizer-rat-norm-one, II.orb.def:standard-torus-measure, X.quot.def:quotient-measure, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{example}
+\begin{tfformal}{II.orb.ex:elliptic-volume-gaussian}
+\tfsem{II.orb.ex:elliptic-volume-gaussian}{45d2a0ed0a00688e73b0f05b3d54116d82e33075fe1f111e4acf9ee95679d70f}
+\tfhyps{II.orb.ex:elliptic-volume-gaussian}{}
+\begin{tffidelity}
+A conjunction of two clauses with their own quantifiers: for every $\gamma$ whose underlying matrix is $\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$ the total mass of the quotient measure of $\nu^{\mathrm{std}}_\gamma$ is $4^{-1}$, and for $\begin{psmallmatrix}0&-1\\1&1\end{psmallmatrix}$ it is $6^{-1}$ (in $[0,\infty]$). The identifications $E=\Q(i)$, $\Q(\sqrt{-3})$ of A are comments, not clauses.
+\end{tffidelity}
+\end{tfformal}

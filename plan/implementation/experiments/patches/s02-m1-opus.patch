@@ -1,0 +1,271 @@
+diff --git a/mathematics/chapters/s02/1-tree.tex b/mathematics/chapters/s02/1-tree.tex
+new file mode 100644
+index 0000000..c25451c
+--- /dev/null
++++ b/mathematics/chapters/s02/1-tree.tex
+@@ -0,0 +1,265 @@
++%----------------------------------------------------------------------
++% Stage 02, section 1: the tree and the S-arithmetic group (work package S02-M1).
++% Statements: plan/staged/stage-02-tree-quotients.tex, same labels and numbering of parts.
++%----------------------------------------------------------------------
++\subsection{The tree and the $S$-arithmetic group}\label{ss:s02-tree-section}
++
++\paragraph{Notation.} As in stage 01, $B=\Bd$ is definite of discriminant $D$, $\cO$ is a maximal order, and
++$\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$ is fixed for $\ell\nmid D$ (Definition~\ref{def:s01-B}). We fix a
++prime $q\nmid D$ with $q\ne p$. The isomorphism $\iota_q$ extends $\Qq$-linearly to an isomorphism of $\Qq$-algebras
++$B_q\xrightarrow{\sim}M_2(\Qq)$, again written $\iota_q$; since the reduced norm is preserved by algebra isomorphisms and
++equals $\det$ on $M_2(\Qq)$, we have $\Nrd=\det\circ\iota_q$ on $B_q$, so $\iota_q(B_q^1)=\SL_2(\Qq)$. Through $\iota_q$ we
++let $B_q^\times$ act on everything on which $\GL_2(\Qq)$ acts.
++For a subgroup $H$ of $\Bhat^\times$ (or of $B^\times$, $B_\ell^\times$) we put $H^1:=H\cap\ker\Nrd$. A superscript
++${}^{(q)}$ denotes components away from $q$. We identify $B_q^\times$ with the elements of $\Bhat^\times$ that are $1$
++away from $q$, and $\Bhat^{(q)\times}$ with those that are $1$ at $q$. We put
++\[\alpha:=\iota_q^{-1}\begin{pmatrix}1&0\\0&q\end{pmatrix}\in B_q^\times,\qquad
++\Iw_q:=\Big\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\GL_2(\Zq):q\mid c\Big\}.\]
++A \emph{lattice} is a finitely generated $\Zq$-submodule $L\subset\Qq^2$ spanning $\Qq^2$; as $\Zq$ is a principal
++ideal domain and $L$ is torsion free, $L$ is free of rank $2$, so $L=g\Zq^2$ for some $g\in\GL_2(\Qq)$ (the columns of
++$g$ being a basis of $L$). We write $e_1,e_2$ for the standard basis of $\Qq^2$.
++
++\subsubsection*{The tree}
++\begin{definition}[Bruhat--Tits tree, types, base cells]\label{def:s02-tree}
++$\cT_q$ is the graph whose vertices are the homothety classes $[L]$ of $\Zq$-lattices $L\subset\Qq^2$.
++$[L]\ne[L']$ are adjacent iff there are representatives with $qL\subsetneq L'\subsetneq L$.
++$\GL_2(\Qq)$ acts by $g[L]=[gL]$. The \emph{type} is $\tau[g\Zq^2]:=\ord_q\det g\bmod 2$; it is well defined
++because changing $g$ by $\GL_2(\Zq)$ on the right or by a scalar $\lambda$ changes $\ord_q\det g$ by
++$0$ or by $2\ord_q\lambda$.
++Put $v_0=[\Zq^2]$, $v_1=\alpha v_0=[\Zq\oplus q\Zq]$ and $e_0=\{v_0,v_1\}$. Every edge has one vertex of
++each type. We orient every edge from its type-$0$ end $o(e)$ to its type-$1$ end $t(e)$.
++\end{definition}
++\noindent The claims in the definition (well-definedness of the action and of $\tau$, $e_0$ is an edge, every edge has
++one end of each type) are \stproved{} in step~(0) of the proof of Lemma~\ref{lem:s02-tree} below. \leanplanned
++
++\begin{remark}[conventions in the literature]\label{rem:s02-treeconv}
++\stcited{} Serre uses the same base edge: $L=e_1\cO\oplus e_2\cO$, $L'=e_1\cO\oplus e_2\pi\cO$, edge stabiliser the
++matrices with $c\equiv0\bmod\pi$ \lit{serre\_1980\_trees}{II.1.3, ``Stabilizers of the edges: Iwahori
++subgroups'', p.~77}. Casselman calls the two types ``even'' and ``odd'', with $\alpha=\mathrm{diag}(1,\varpi)$ and
++$K_1=\alpha K\alpha^{-1}$ \lit{casselman\_2014\_bruhat-tits-tree-of-sl2\_preprint}{\S2, p.~5 and \S3, pp.~7--8}.
++Ludwig--Merten have the same base edge, with $I_1$ ``upper triangular modulo $\varpi$'', i.e.\ $c\equiv0$.
++Their edges are \emph{unordered} pairs, and their Laplacian carries the parity sign $w_{\rm par}(v)=\pm1$
++\lit{ludwig-merten\_2026\_formalising-the-bruhat-tits-tree}{\S3.6, p.~70--71; Def.~4.1, p.~72}. So
++the oriented harmonicity condition used later in this stage (sum of $c(e)$ over the edges with $o(e)=v$, with
++$c(\bar e)=-c(e)$) agrees with their $\ker\Delta$. All three conventions agree with the seed.
++\end{remark}
++
++\begin{lemma}[seed Lemma~tree]\label{lem:s02-tree}
++\begin{enumerate}[label=(\alph*)]
++\item $\cT_q$ is a $(q+1)$-regular tree; the neighbours of $[L]$ correspond to $\mathbb P^1(L/qL)$.
++  \stcited{} \lit{serre\_1980\_trees}{II.1.1, Thm.~1, p.~70}; formalised (on Lean v4.19) as \texttt{BTtree}
++  \lit{ludwig-merten\_2026\_formalising-the-bruhat-tits-tree}{\S3.4 and \S3.5, p.~69--70}.
++\item $g\in\GL_2(\Qq)$ preserves types iff $\ord_q\det g$ is even. In particular $\SL_2(\Qq)$, and hence
++  $\iota_q(B^1_q)$, acts without inversion. \stproved{} (also \lit{serre\_1980\_trees}{II.1.3, p.~76}).
++\item $\SL_2(\Qq)$ acts transitively on type-$0$ vertices, on type-$1$ vertices and on edges, with
++  stabilisers $\SL_2(\Zq)$, $\SL_2(\Qq)\cap\alpha\GL_2(\Zq)\alpha^{-1}$ and $\SL_2(\Qq)\cap\Iw_q$.
++\item $\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\Iw_q$ and $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$.
++\end{enumerate}
++(b)--(d) \stproved{} (proof below; the part of (a) that we use, the description of the neighbours, is reproved in
++step~(0)). \leanplanned{} The stabiliser statements with scalars removed are
++\lit{serre\_1980\_trees}{II.1.3, Lemma~1, p.~76}.
++\end{lemma}
++
++\begin{proof}
++Throughout, matrices act on column vectors and $\alpha$ is identified with $\mathrm{diag}(1,q)$.
++
++\emph{(0) Preliminaries.}
++(0.1) \emph{Stabiliser of $\Zq^2$.} For $h\in\GL_2(\Qq)$ we have $h\Zq^2=\Zq^2$ iff $h\in\GL_2(\Zq)$: if $h\Zq^2=\Zq^2$,
++the columns $he_i$ of $h$ lie in $\Zq^2$, so $h\in M_2(\Zq)$, and likewise $h^{-1}\in M_2(\Zq)$; hence
++$\det h\in\Zq^\times$. The converse is clear. Consequently, for $g,g'\in\GL_2(\Qq)$,
++\begin{align*}
++[g\Zq^2]=[g'\Zq^2]&\iff g'\Zq^2=\lambda g\Zq^2\text{ for some }\lambda\in\Qq^\times\\
++&\iff g'=\lambda gk\text{ for some }\lambda\in\Qq^\times,\ k\in\GL_2(\Zq),
++\end{align*}
++applying (0.1) to $h=\lambda^{-1}g^{-1}g'$. In particular $\Stab_{\GL_2(\Qq)}(v_0)=\Qq^\times\GL_2(\Zq)$.
++
++(0.2) \emph{The action.} For $g\in\GL_2(\Qq)$ and a lattice $L$, $gL$ is a lattice and $g(\lambda L)=\lambda gL$, so
++$g[L]:=[gL]$ is well defined; it is an action. It preserves adjacency in both directions, since
++$qL\subsetneq L'\subsetneq L$ iff $q\,gL\subsetneq gL'\subsetneq gL$ ($g$ is a bijection of $\Qq^2$ and commutes with
++multiplication by $q$). So $\GL_2(\Qq)$ acts by graph automorphisms.
++
++(0.3) \emph{Type.} Every vertex is $[g\Zq^2]$ for some $g$. If $[g\Zq^2]=[g'\Zq^2]$ then $g'=\lambda gk$ by (0.1), so
++$\det g'=\lambda^2\det g\det k$ and $\ord_q\det g'=\ord_q\det g+2\ord_q\lambda$, since $\det k\in\Zq^\times$. Hence
++$\tau$ is well defined. Moreover, for $h\in\GL_2(\Qq)$,
++\[\tau(h[g\Zq^2])=\tau[hg\Zq^2]\equiv\ord_q\det h+\tau[g\Zq^2]\pmod 2.\tag{$*$}\]
++
++(0.4) \emph{Index.} If $L'=g'\Zq^2\subseteq L=g\Zq^2$, then $h:=g^{-1}g'\in M_2(\Zq)$ (its columns lie in
++$g^{-1}L'\subseteq\Zq^2$), and $[L:L']=[\Zq^2:h\Zq^2]=q^{\ord_q\det h}$. Indeed, by the elementary divisor theorem over
++the principal ideal domain $\Zq$, $h=k_1\,\mathrm{diag}(q^a,q^b)\,k_2$ with $k_i\in\GL_2(\Zq)$ and $a,b\ge0$; then
++$\Zq^2/h\Zq^2\cong\Zq/q^a\oplus\Zq/q^b$ has order $q^{a+b}$, and $\ord_q\det h=a+b$.
++
++(0.5) \emph{Neighbours.} Fix a lattice $L$. We claim that $L'\mapsto[L']$ is a bijection from the set of lattices $L'$
++with $qL\subsetneq L'\subsetneq L$ onto the set of neighbours of $[L]$, and that $L'\mapsto L'/qL$ is a bijection from
++the same set onto the set of lines in the $2$-dimensional $\F_q$-vector space $L/qL$, i.e.\ onto $\mathbb P^1(L/qL)$.
++For the first map: such an $[L']$ is a neighbour ($[L']\ne[L]$, because $[L:L']=q$ by the second claim, whereas
++homothetic lattices $L''=q^nuL$, $u\in\Zq^\times$, contained in $L$ have index $q^{2n}$). If $M\supsetneq M'\supsetneq qM$ are
++representatives of $[L]$ and a neighbour, then $M=\lambda L$ and $\lambda^{-1}M'$ lies strictly between $qL$ and $L$; so
++the map is onto. If $L'$ and $\mu L'$ ($\mu=q^nu$, $u\in\Zq^\times$) both lie strictly between $qL$ and $L$, then $n=0$: for
++$n\ge1$, $\mu L'=q^nL'\subseteq qL'\subseteq qL$, contradicting $qL\subsetneq\mu L'$, and $n\le-1$ is the same with the
++roles of $L'$ and $\mu L'$ exchanged. Thus $\mu L'=L'$, and the map is injective. For the second map: a
++$\Zq$-submodule $L'$ with $qL\subseteq L'\subseteq L$ is the same as an $\F_q$-subspace $L'/qL$ of $L/qL\cong\F_q^2$ (every
++such $L'$ contains $qL$, hence spans $\Qq^2$ and is a lattice), and the strict inclusions mean that the subspace is
++neither $0$ nor everything, i.e.\ a line.
++For $L=\Zq^2$ the lattice attached to the line $\F_q\bar w$ ($\bar w\in\F_q^2\setminus0$) is
++$L_{\bar w}:=\{x\in\Zq^2:x\bmod q\in\F_q\bar w\}$. For $\bar w=\bar e_1$ this is $\Zq e_1\oplus q\Zq e_2=\alpha\Zq^2$, so
++$v_1=\alpha v_0=[\Zq\oplus q\Zq]$ is a neighbour of $v_0$, and $e_0$ is an edge.
++
++(0.6) \emph{Edges join different types.} Let $[L],[L']$ be adjacent, with $qL\subsetneq L'\subsetneq L$,
++$L=g\Zq^2$, $L'=g'\Zq^2$. By (0.5), $[L:L']=|L/qL|/|L'/qL|=q^2/q=q$, so by (0.4) $\ord_q\det(g^{-1}g')=1$, and
++$\tau[L']\equiv\tau[L]+1$. Hence every edge has exactly one end of each type, and the orientation $o(e)\to t(e)$ of the
++definition is well defined. Finally $\tau(v_0)=\ord_q1=0$ and $\tau(v_1)=\ord_q\det\alpha=1$.
++
++\emph{(d)} For $k=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Qq)$ a direct computation gives
++\[\alpha^{-1}k\alpha=\begin{pmatrix}1&0\\0&q^{-1}\end{pmatrix}\begin{pmatrix}a&b\\c&d\end{pmatrix}\begin{pmatrix}1&0\\0&q\end{pmatrix}
++=\begin{pmatrix}a&qb\\c/q&d\end{pmatrix},\qquad \det(\alpha^{-1}k\alpha)=\det k.\]
++Let $k\in\GL_2(\Zq)$. Then $k\in\alpha\GL_2(\Zq)\alpha^{-1}$ iff $\alpha^{-1}k\alpha\in\GL_2(\Zq)$. The matrix
++$\alpha^{-1}k\alpha$ has determinant $\det k\in\Zq^\times$ and entries $a,qb,d\in\Zq$ and $c/q$; so it lies in
++$\GL_2(\Zq)$ iff $c/q\in\Zq$, i.e.\ iff $q\mid c$. This proves $\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}=\Iw_q$. The same
++computation shows $\alpha^{-1}k\alpha\in\GL_2(\Zq)$ for every $k\in\Iw_q$, i.e.\ $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Zq)$.
++
++\emph{(b)} By $(*)$, $g$ adds $\ord_q\det g\bmod2$ to the type of every vertex. If $\ord_q\det g$ is even, $g$ preserves
++types. If it is odd, $g$ exchanges the types; since vertices of type $0$ exist ($v_0$), $g$ does not preserve types.
++For $g\in\SL_2(\Qq)$, $\ord_q\det g=0$, so $g$ preserves types. An inversion would be an element $g$ and an edge
++$\{w,w'\}$ with $gw=w'$ and $gw'=w$; by (0.6) $w$ and $w'$ have different types, so a type-preserving $g$ is never an
++inversion. Since $\iota_q(B_q^1)=\SL_2(\Qq)$ (Notation), the same holds for $B_q^1$.
++
++\emph{(c) Transitivity on vertices.} Let $w=[g\Zq^2]$ be a vertex and write $\det g=q^nu$ with $n=\ord_q\det g$ and
++$u\in\Zq^\times$. Put $\delta:=\mathrm{diag}(u^{-1},1)\in\GL_2(\Zq)$.
++If $w$ has type $0$, then $n=2m$ is even; put $g':=q^{-m}g\delta$. Then $\det g'=q^{-2m}\cdot q^{2m}u\cdot u^{-1}=1$, and
++$g'v_0=[q^{-m}g\delta\Zq^2]=[g\Zq^2]=w$, because $\delta\Zq^2=\Zq^2$ and $q^{-m}$ is a scalar.
++If $w$ has type $1$, then $n=2m+1$; put $g':=q^{-m}g\delta\alpha^{-1}$. Then
++$\det g'=q^{-2m}\cdot q^{2m+1}u\cdot u^{-1}\cdot q^{-1}=1$, and $g'v_1=g'\alpha v_0=[q^{-m}g\delta\Zq^2]=w$.
++So $\SL_2(\Qq)$ is transitive on type-$0$ vertices and on type-$1$ vertices.
++
++\emph{Surjectivity of reduction.} The reduction map $\SL_2(\Zq)\to\SL_2(\F_q)$ is onto: given $\bar k\in\SL_2(\F_q)$,
++lift its entries to $k\in M_2(\Zq)$. Then $\det k\equiv1\pmod q$, so $u:=\det k\in1+q\Zq\subseteq\Zq^\times$, and
++$k\,\mathrm{diag}(u^{-1},1)\in\SL_2(\Zq)$ reduces to $\bar k\,\mathrm{diag}(1,1)=\bar k$, because $u^{-1}\equiv1\pmod q$.
++
++\emph{Transitivity on $\mathbb P^1(\F_q)$.} $\SL_2(\F_q)$ acts transitively on the lines of $\F_q^2$: for
++$\bar w=(a,b)^{T}\ne0$, the matrix
++$\left(\begin{smallmatrix}a&0\\b&a^{-1}\end{smallmatrix}\right)$ (if $a\ne0$), resp.\
++$\left(\begin{smallmatrix}0&-b^{-1}\\b&0\end{smallmatrix}\right)$ (if $a=0$, so $b\ne0$), lies in $\SL_2(\F_q)$ and maps
++$\bar e_1$ to $\bar w$, hence the line $\F_q\bar e_1$ to $\F_q\bar w$.
++
++\emph{Transitivity on neighbours of $v_0$.} $k\in\SL_2(\Zq)$ satisfies $k\Zq^2=\Zq^2$ and $k(q\Zq^2)=q\Zq^2$, so it induces
++on $\Zq^2/q\Zq^2=\F_q^2$ the reduction $\bar k$, and $kL_{\bar w}=L_{\bar k\bar w}$ with $L_{\bar w}$ as in (0.5).
++By (0.5) and the two previous paragraphs, $\SL_2(\Zq)$ acts transitively on the $q+1$ neighbours of $v_0$; in
++particular every neighbour of $v_0$ is $kv_1$ for some $k\in\SL_2(\Zq)$, as $v_1=[L_{\bar e_1}]$.
++
++\emph{Transitivity on edges.} Let $e$ be an edge with ends $w_0=o(e)$ of type $0$ and $w_1=t(e)$ of type $1$ (0.6).
++Choose $h\in\SL_2(\Qq)$ with $hv_0=w_0$. By (0.2), $h^{-1}w_1$ is a neighbour of $v_0$, so $h^{-1}w_1=kv_1$ with
++$k\in\SL_2(\Zq)$. Then $hk\in\SL_2(\Qq)$ and $hk\,e_0=\{hkv_0,hkv_1\}=\{hv_0,w_1\}=\{w_0,w_1\}=e$, as $kv_0=v_0$.
++
++\emph{Stabilisers.} By (0.1), $\Stab_{\GL_2(\Qq)}(v_0)=\Qq^\times\GL_2(\Zq)$. Let $g=\lambda k\in\SL_2(\Qq)$ with
++$\lambda\in\Qq^\times$, $k\in\GL_2(\Zq)$. Then $1=\det(\lambda k)=\lambda^2\det k$, so $2\ord_q\lambda=-\ord_q\det k=0$
++and $\lambda\in\Zq^\times$; hence $g\in\GL_2(\Zq)\cap\SL_2(\Qq)=\SL_2(\Zq)$. Conversely $\SL_2(\Zq)$ fixes $v_0$. So
++$\Stab_{\SL_2(\Qq)}(v_0)=\SL_2(\Zq)$.
++As $v_1=\alpha v_0$, $\Stab_{\GL_2(\Qq)}(v_1)=\alpha\Stab_{\GL_2(\Qq)}(v_0)\alpha^{-1}=\Qq^\times\alpha\GL_2(\Zq)\alpha^{-1}$.
++Let $g=\lambda\alpha k\alpha^{-1}\in\SL_2(\Qq)$ with $k\in\GL_2(\Zq)$. Then $1=\det g=\lambda^2\det k$, so again
++$\lambda\in\Zq^\times$; as $\lambda$ is central and $\lambda k\in\GL_2(\Zq)$, $g=\alpha(\lambda k)\alpha^{-1}\in\alpha\GL_2(\Zq)\alpha^{-1}$.
++Conversely $\alpha\GL_2(\Zq)\alpha^{-1}$ fixes $v_1$. So $\Stab_{\SL_2(\Qq)}(v_1)=\SL_2(\Qq)\cap\alpha\GL_2(\Zq)\alpha^{-1}$.
++Finally, $g\in\SL_2(\Qq)$ with $ge_0=e_0$ (as a set) maps $v_0$ to a vertex of $e_0$ of the same type by (b), so $gv_0=v_0$ and
++$gv_1=v_1$. Thus
++\begin{align*}
++\Stab_{\SL_2(\Qq)}(e_0)&=\SL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}\\
++&=\SL_2(\Qq)\cap\big(\GL_2(\Zq)\cap\alpha\GL_2(\Zq)\alpha^{-1}\big)=\SL_2(\Qq)\cap\Iw_q
++\end{align*}
++by (d). Since the actions on type-$0$ vertices, type-$1$ vertices and edges are transitive, every stabiliser is a conjugate
++of the corresponding one computed here.
++\end{proof}
++
++\subsubsection*{The $S$-arithmetic group}
++\begin{definition}[admissible levels; $\GU$]\label{def:s02-GU}
++A level $U\subseteq\hat\cO^\times$ is \emph{$q$-admissible} if it is compact open, $U=U_q\times U^{(q)}$ with
++$U_q=\iota_q^{-1}\GL_2(\Zq)$, and $\Nrd(U)=\Zhat^\times$. All levels $\Uzero{N},\Uone{N}$ with $q\nmid N$ and
++$U_s=\Uone{Mp^s}$ with $q\nmid M$ are $q$-admissible (stage 01, \texttt{if:s01-classset}).
++For such $U$ put
++\[\GU:=B^1\cap\big(B^1_q\times U^{(q)}\big)=\{\gamma\in B^\times:\Nrd\gamma=1,\ \gamma^{(q)}\in U^{(q)}\}
++=\cO_U[\tfrac1q]^1;\]
++for a product level $U=\prod_\ell U_\ell$ the condition $\gamma^{(q)}\in U^{(q)}$ reads $\gamma_\ell\in U_\ell$ for all
++$\ell\ne q$. (The last expression is the seed's notation; for $U=\Uzero{N}$ it is the norm-one group of the
++$\Z[\frac1q]$-order $\cO(N)[\frac1q]$.)
++It acts on $\cT_q$ through $\iota_q$. By Lemma~\ref{lem:s02-tree}(b) the action is type-preserving and has
++no inversions. It acts on a $\Zp[U_p]$-module $V$ through $\gamma\mapsto\gamma_p\in U_p$ ($p\ne q$, $p\nmid D$;
++$U_p$ is the image of $U$ in $B_p^\times$).
++The levels attached to the cells are $U$ (type $0$), $\alpha U\alpha^{-1}$ (type $1$; conjugation at $q$
++only) and $\Uzero{q}U:=U\cap\Uzero{q}$ (edges). All three are of the form $U'=U'_q\times U^{(q)}$ with
++$\Nrd U'=\Zhat^\times$.
++\end{definition}
++\noindent The claims in this definition are \stproved{} below, given Lemma~\ref{lem:s01-nrd}. \leanplanned
++\begin{proof}[Proof of the claims]
++\emph{Admissibility of the standard levels.} $\Uzero{N}$, $\Uone{N}$ ($(N,D)=1$) are products $\prod_\ell U_\ell$ of open
++subgroups $U_\ell\subseteq\cO_\ell^\times$ with $U_\ell=\cO_\ell^\times$ for $\ell\nmid N$ (Definition~\ref{def:s01-levels}); so
++they are compact open in $\hat\cO^\times=\prod_\ell\cO_\ell^\times$. If $q\nmid N$, the $q$-component is
++$\cO_q^\times=\iota_q^{-1}\GL_2(\Zq)$, and $U=U_q\times U^{(q)}$ with $U^{(q)}=\prod_{\ell\ne q}U_\ell$. The same applies to
++$U_s=\Uone{Mp^s}$ with $q\nmid Mp^s$, i.e.\ $q\nmid M$ (recall $q\ne p$). Finally $\Nrd U=\Zhat^\times$ in all these cases by
++Lemma~\ref{lem:s01-nrd}.
++
++\emph{The two descriptions of $\GU$.} For $\gamma\in B$ (embedded diagonally in $\Bhat$), $\gamma\in B^1_q\times U^{(q)}$
++means $\Nrd\gamma_q=1$ and $\gamma^{(q)}\in U^{(q)}$; for $\gamma\in B^1$ the first condition is automatic, since $\Nrd\gamma_q$
++is the image of $\Nrd\gamma=1$. This gives the second expression. For $U=\Uzero N$, $q\nmid N$: an element $\gamma\in B$ lies in
++$\cO(N)[\frac1q]$ iff $\gamma_\ell\in\cO(N)_\ell$ for all $\ell\ne q$ (local--global principle for lattices), and an element of
++norm $1$ of $\cO(N)[\frac1q]$ is a unit there, with inverse its conjugate $\bar\gamma=\Trd\gamma-\gamma$. Since
++$\cO(N)_\ell^\times=U_{0,\ell}$ (Proposition~\ref{prop:s01-eichler}) and an element of $\cO(N)_\ell$ of norm $1$ is a unit, the two
++groups agree.
++
++\emph{The actions.} For $\gamma\in\GU$, $\Nrd\gamma_q=1$, so $\iota_q(\gamma_q)\in\SL_2(\Qq)$ (Notation), and
++Lemma~\ref{lem:s02-tree}(b) applies. For $p\ne q$ the component $\gamma_p$ is the $p$-component of $\gamma^{(q)}\in U^{(q)}$,
++hence lies in the image $U_p$ of $U$.
++
++\emph{The cell levels.} Conjugation by $\alpha\in B_q^\times$ (which is $1$ away from $q$) only changes the
++$q$-component: $\alpha U\alpha^{-1}=\alpha U_q\alpha^{-1}\times U^{(q)}$. Since $\Uzero q=\iota_q^{-1}\Iw_q\times\hat\cO^{(q)\times}$ and
++$U^{(q)}\subseteq\hat\cO^{(q)\times}$, $\Uzero qU=U\cap\Uzero q=\iota_q^{-1}(\GL_2(\Zq)\cap\Iw_q)\times U^{(q)}=\iota_q^{-1}\Iw_q\times U^{(q)}$.
++Both are compact open (a conjugate of, resp.\ an intersection of two, compact open subgroups). For $U'=U'_q\times U^{(q)}$ the
++norm is computed componentwise: $\Nrd U'=\Nrd U'_q\times\Nrd U^{(q)}$ inside $\Qq^\times\times\hat\Q^{(q)\times}$. From
++$\Zhat^\times=\Nrd U=\Nrd U_q\times\Nrd U^{(q)}$ we get $\Nrd U^{(q)}=\Zhat^{(q)\times}$. At $q$:
++$\Nrd(\alpha u\alpha^{-1})=\Nrd u$, so $\Nrd(\alpha U_q\alpha^{-1})=\Nrd U_q=\Zq^\times$; and
++$\det\Iw_q\subseteq\Zq^\times$, with equality since $\mathrm{diag}(u,1)\in\Iw_q$ has determinant $u$ for every $u\in\Zq^\times$. Hence
++$\Nrd U'=\Zq^\times\times\Zhat^{(q)\times}=\Zhat^\times$ in all three cases.
++\end{proof}
++
++\begin{definition}[norm-one class set]\label{def:s02-Xone}
++For $U'$ as above, $\Xone(U'):=B^1\backslash\Bhat^1/U'^1$. For $x\in\Bhat^\times$, $\Gamma_x=B^\times\cap xU'x^{-1}$
++as in \texttt{if:s01-classset} (Definition~\ref{def:s01-classset}).
++\end{definition}
++\noindent Here $B^1$ acts on $\Bhat^1$ by left and $U'^1$ by right multiplication, both preserving $\Bhat^1$ since $\Nrd$ is
++multiplicative; so $\Xone(U')$ is well defined. \leanplanned
++
++\begin{lemma}[norm reduction]\label{lem:s02-normone}
++Let $U'$ be compact open with $\Nrd U'\subseteq\Zhat^\times$.
++\begin{enumerate}[label=(\alph*)]
++\item The natural map $\Xone(U')\to\XB{U'}$ is injective, and for $x\in\Bhat^1$ one has
++  $B^1\cap xU'^1x^{-1}=\Gamma_x$.\quad\stproved{} (uses only $\Nrd(B^\times)\subseteq\Q_{>0}$, which holds
++  because $B$ is definite, and the argument of Lemma~\ref{lem:s01-stab}(a)). \leanplanned
++\item If $\Nrd U'=\Zhat^\times$ and $\Nrd(B^\times)=\Q_{>0}$, the map is bijective.\quad\stproved{} given
++  the Hasse--Schilling norm theorem, which is \stcited{}
++  \lit{voight\_2021\_quaternion-algebras}{Main Thm.~14.7.4, p.~234};
++  \lit{vigneras\_1980\_arithmetique-des-algebres-de-quaternions}{Ch.~III, Thm.~4.1, p.~80}.
++\end{enumerate}
++\end{lemma}
++
++\begin{proof}
++We use two elementary facts about $\hat\Q^\times$, with $\Q^\times$ embedded diagonally.
++(F1) $\Q_{>0}\cap\Zhat^\times=\{1\}$: a positive rational $r$ with $\ord_\ell r=0$ for all primes $\ell$ is $1$.
++(F2) $\hat\Q^\times=\Q_{>0}\Zhat^\times$: for $y\in\hat\Q^\times$, $\ord_\ell y_\ell=0$ for almost all $\ell$, so
++$r:=\prod_\ell\ell^{\ord_\ell y_\ell}\in\Q_{>0}$ is a finite product, and $r^{-1}y\in\prod_\ell\Z_\ell^\times=\Zhat^\times$.
++Further, $\Nrd(B^\times)\subseteq\Q_{>0}$: $B\otimes\R$ is Hamilton's quaternions, whose reduced norm
++$a^2+b^2+c^2+d^2$ is positive on nonzero elements.
++
++\emph{(a)} The map $[x]\mapsto[x]$ is well defined because $B^1\subseteq B^\times$ and $U'^1\subseteq U'$.
++\emph{Injectivity.} Let $x,x'\in\Bhat^1$ with $x'=\gamma xu$, $\gamma\in B^\times$, $u\in U'$. Taking reduced norms,
++$1=\Nrd\gamma\cdot1\cdot\Nrd u$, so $\Nrd\gamma=\Nrd u^{-1}$. The left side lies in $\Q_{>0}$, the right side in $\Zhat^\times$
++(as $\Nrd U'\subseteq\Zhat^\times$); by (F1) both equal $1$. Thus $\gamma\in B^1$ and $u\in U'^1$, so $[x']=[x]$ in $\Xone(U')$.
++\emph{Stabilisers.} Let $x\in\Bhat^1$. Clearly $B^1\cap xU'^1x^{-1}\subseteq B^\times\cap xU'x^{-1}=\Gamma_x$. Conversely, let
++$\gamma\in\Gamma_x$, $\gamma=xux^{-1}$ with $u\in U'$. Then $\Nrd\gamma=\Nrd x\,\Nrd u\,\Nrd x^{-1}=\Nrd u$ ($\Nrd$ is multiplicative with commutative
++target), so $\Nrd\gamma\in\Q_{>0}\cap\Zhat^\times=\{1\}$ by (F1). Hence $\gamma\in B^1$ and $u\in U'^1$, i.e.\
++$\gamma\in B^1\cap xU'^1x^{-1}$. (This is the argument of Lemma~\ref{lem:s01-stab}(a); only $\Nrd U'\subseteq\Zhat^\times$ is used.)
++
++\emph{(b)} By (a) it suffices to prove surjectivity. Let $x\in\Bhat^\times$. By (F2), $\Nrd x=rz$ with $r\in\Q_{>0}$ and
++$z\in\Zhat^\times$. By the hypothesis $\Nrd(B^\times)=\Q_{>0}$ there is $\gamma\in B^\times$ with $\Nrd\gamma=r^{-1}$, and by
++$\Nrd U'=\Zhat^\times$ there is $u\in U'$ with $\Nrd u=z^{-1}$. Then $\Nrd(\gamma xu)=r^{-1}\cdot rz\cdot z^{-1}=1$, so
++$\gamma xu\in\Bhat^1$, and its class in $\Xone(U')$ maps to $[\gamma xu]=[x]\in\XB{U'}$.
++The hypothesis $\Nrd(B^\times)=\Q_{>0}$ always holds for our definite $B$: by the Hasse--Schilling norm theorem, $\Nrd(B^\times)$ is
++the set of elements of $\Q^\times$ that are positive at the real places ramified in $B$, and $\infty$ is ramified
++(\stcited{} \lit{voight\_2021\_quaternion-algebras}{Main Thm.~14.7.4, p.~234}).
++\end{proof}

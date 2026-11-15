@@ -1,0 +1,196 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-06-truncation (parent commit 84818d0); kept items only.
+\chapter{Truncation}\label{ch:ch-06-truncation}
+
+\noindent\emph{Scope:} area \texttt{trunc}. \emph{Sources:} \cite[§§6, 8, 9, 13]{AIntro}; \cite[§1]{A-II}; \cite[§6, Lemma~6.4]{A-I};
+\cite[Lecture II §§2--4, Lecture III §§2--3]{Gel}; \cite[§4]{A-R1}; the announcement \cite{A-Tr}.
+
+\noindent\emph{Lean conventions of this chapter.} $G(\A)^1$ is \texttt{normOneGroup} and every function $\varphi$ is a function on it; points of $G(\A)^1$
+are coerced to $G(\A)=$ \texttt{GL (Fin 2) Adele} where $\HB$ (\texttt{heightMap}) and $\operatorname{ht}$ (\texttt{height}) are applied. $T$ ranges over
+$\aB=$ \texttt{SpaceAB}, and only $\alpha(T)=$ \texttt{simpleRoot T} enters; ``$\alpha(T)\ge0$'' is the binder \texttt{0 ≤ simpleRoot T}.
+$\mathcal B_{\mathrm{loc}}$ is never a predicate: its three clauses (Borel, left $G(\Q)$-invariant, bounded on compact sets) are separate binders.
+Left $G(\Q)$-invariance is $\forall\gamma\in$ \texttt{gl2RatNormOne}, $\forall x$, $\varphi(\gamma x)=\varphi(x)$. Sums over $B(\Q)\backslash G(\Q)$ run over the
+coset type \texttt{borelCosets} at the representatives \texttt{Quotient.out}. Every measure is an explicit argument.
+
+
+\section{The point \texorpdfstring{$T_0$}{T0} and the chamber functions}\label{sec:trunc-t-zero}
+
+\begin{lemma}[the Weyl element has height zero]
+\tfstmt{II.trunc.lem:weyl-height-zero}
+\lean{GL2TF.weyl_height_zero}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.conv.def:borel,I.conv.def:diag-element,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:space-a-b,I.conv.def:torus,I.conv.def:unipotent,I.conv.def:weyl-element,I.conv.lem:diag-elt-hom,I.conv.lem:max-compact-local-mem,I.decomp.def:height-map,I.decomp.thm:height-map-equivariance,I.decomp.thm:height-map-iwasawa,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-zhat,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:weyl-height-zero}
+\tfsem{II.trunc.lem:weyl-height-zero}{9f3d9bc4c517f3d6a248d3670903381e99d212cc6f01cbefaca11b13e1fa168e}
+\tfhyps{II.trunc.lem:weyl-height-zero}{}
+\begin{tffidelity}
+$w$ is \texttt{ι (weylElement ℚ)} with $\iota=$ \texttt{gl2Map (algebraMap ℚ Adele)}, the diagonal embedding $G(\Q)\to G(\A)$ (A: ``regarded as an element of $G(\Q)\subseteq G(\A)$''). The conclusion is the conjunction of the four assertions of A: $w\in K$, $w^{-1}\in K$ (\texttt{maxCompactAdelic}), $\HB(w)=0$ and $\HB(w^{-1})=0$ (\texttt{heightMap}). No difference in content. \emph{Lean proof versus A:} A checks $w,w^{-1}\in K$ by hand (integral entries, determinant $1$, orthogonal); Lean cites \texttt{ParAux.weyl\_mem\_maxCompact}, which is that check. Otherwise as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Four conjuncts, in the order of A: (1) $w\in K$, (2) $w^{-1}\in K$, (3) $\HB(w)=0$, (4) $\HB(w^{-1})=0$. First $\iota(w)$ is the Weyl element of $\GL_2(\A)$ (\texttt{weylElement Adele}; entrywise, \texttt{fin\_cases}). (1) is \texttt{ParAux.weyl\_mem\_maxCompact}, (2) is closure of the subgroup $K$ under inverses. (3), (4): \texttt{TruncAux.heightMap\_of\_mem\_K}, i.e.\ \texttt{I.decomp.thm:height-map-equivariance} with $n=t=1$, $x=1$ and $\HB(1)=0$ (\texttt{ParAux.heightMap\_one}), applied to $w$ and $w^{-1}$.
+\end{proof}
+
+\begin{theorem}[$T_0=0$]
+\tfstmt{II.trunc.thm:t-zero}
+\lean{GL2TF.t_zero}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:space-a-b,I.conv.def:space-a-b-g,I.conv.def:weyl-element,I.decomp.def:height-map,I.topgrp.def:max-compact-adelic,II.par.def:weyl-action-a,II.trunc.lem:weyl-height-zero}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:t-zero}
+\tfsem{II.trunc.thm:t-zero}{00558db25b2e2fba9496ec450666ecd51cb1b5aa92a575e14d5d22ec83637083}
+\tfhyps{II.trunc.thm:t-zero}{}
+\tfbinder{II.trunc.thm:t-zero}{0}{cc9ccfb6}{the candidate point $T_0\in\aB$ (universally quantified; the statement is an equivalence for every $T_0$)}
+\begin{tffidelity}
+A's ``there is exactly one $T_0\in\aBG$ with $\HB(w^{-1})=T_0-s^{-1}T_0$, and this point is $0$'' is stated as $\forall T_0\in\aB,\ (T_0\in\aBG\wedge\HB(w^{-1})=T_0-sT_0)\iff T_0=0$, which is equivalent (existence and uniqueness at once). $s=s^{-1}$ is \texttt{weylAct} (\texttt{II.par.def:weyl-action-a}, $s(h_1,h_2)=(h_2,h_1)$); A writes $s^{-1}$ and notes $s^{-1}=s$. $\aBG$ is the submodule \texttt{spaceABG}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Fix $T_0$. Rewrite $\HB(w^{-1})=0$ by conjunct (4) of \cref{II.trunc.lem:weyl-height-zero}. ($\Rightarrow$) $T_0\in\aBG$ gives $T_0(0)+T_0(1)=0$ (\texttt{spaceABG}); the $0$-th coordinate of $0=T_0-sT_0$ gives $T_0(0)=T_0(1)$ (\texttt{weylAct} swaps the coordinates); hence both vanish (\texttt{funext} over $\mathrm{Fin}\,2$, \texttt{linarith}). ($\Leftarrow$) $0\in\aBG$ and $0-s0=0$. As in A.
+\end{proof}
+
+\begin{lemma}[the two chamber functions agree]
+\tfstmt{II.trunc.lem:chamber-functions-rank-one}
+\lean{GL2TF.chamber_functions_rank_one}
+\uses{I.conv.def:chamber-function-hat,I.conv.def:chamber-functions,I.conv.def:simple-root,I.conv.def:space-a-b}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:chamber-functions-rank-one}
+\tfsem{II.trunc.lem:chamber-functions-rank-one}{e992cbb9c62679042825a6ac5488b58c479451a2b55c4f94805ffd9e26a216e8}
+\tfhyps{II.trunc.lem:chamber-functions-rank-one}{}
+\begin{tffidelity}
+$\tau_B=$ \texttt{tauB} (indicator of $\{\alpha>0\}$) and $\hat\tau_B=$ \texttt{tauHatB} (indicator of $\{\tfrac12\alpha>0\}$, $\varpi=\alpha/2$; \texttt{I.conv.def:chamber-function-hat}, B-only). The two conjuncts are the two sentences of A; ``$1$ if $\alpha(h)>0$ and $0$ if $\alpha(h)\le0$'' is an \texttt{if}-expression. \emph{$\tau_B$ versus $\hat\tau_B$:} the partition lemma uses $\tau_B$ (as \cite[Lemma~8.2]{AIntro}), the truncation operator $\hat\tau_B$ (as \cite[(13.1)]{AIntro}); this lemma is the bridge, used in the proofs of both.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjunct 1 (first sentence of A), for each $h$: case split on $0<\alpha(h)$ and unfold the indicators \texttt{tauB} ($\{\alpha>0\}$) and \texttt{tauHatB} ($\{\frac12\alpha>0\}$); both sides are $1$ or both $0$. Conjunct 2 (``in particular''): conjunct 1 at $h=H-T$, and $\alpha(H-T)=\alpha(H)-\alpha(T)$ (\texttt{map\_sub}, linearity of \texttt{simpleRoot}). As in A.
+\end{proof}
+
+
+\section{Sums over \texorpdfstring{$B(\Q)\backslash G(\Q)$}{B(Q)\textbackslash G(Q)}}\label{sec:trunc-cosets}
+
+\noindent\emph{The coset type in Lean}. $G(\Q)$ is the subgroup \texttt{gl2RatNormOne} of $G(\A)^1$ (\texttt{I.quot.def:gl2-rat-norm-one}) and $B(\Q)$ the subgroup \texttt{borelRatNormOne} (B-only, below). $B(\Q)\backslash G(\Q)$ is \texttt{borelCosets}, the orbit quotient of \texttt{gl2RatNormOne} under left multiplication by $B(\Q)$: its elements are the right cosets $B(\Q)\delta$. A coset $c$ is evaluated at its representative $\delta_c=$ \texttt{Quotient.out c}, an element of $G(\A)^1$; this is A's ``fix a representative $\delta_c$ of every coset''. Statements about a single $\delta\in G(\Q)$ keep the form $\delta\in\GL_2(\Q)$ acting through $\iota=$ \texttt{gl2Map (algebraMap ℚ Adele)}.
+
+\begin{definition}[$B(\Q)$ as a subgroup of $G(\A)^1$]
+\tfstmt{II.trunc.def:borel-rat-norm-one}
+\bonly
+\lean{GL2TF.borelRatNormOne}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:borel-rat,I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.trunc.def:borel-rat-norm-one}
+\tfsem{II.trunc.def:borel-rat-norm-one}{d2dc0e9a4f754c8ad58b5aa2212a7cc2bf499dae2e1c4a8cede5e96ba52b15ea}
+\tfhyps{II.trunc.def:borel-rat-norm-one}{}
+\begin{tffidelity}
+B-only. \texttt{borelRat.subgroupOf normOneGroup}, with \texttt{borelRat} $=B(\A)\cap G(\Q)$ in $G(\A)$ (\texttt{I.quot.def:borel-rat}). Lean lemma \texttt{borelRatNormOne\_le}: $B(\Q)\le G(\Q)$ inside $G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$B(\Q)$ is discrete in $G(\A)^1$]
+\tfstmt{II.trunc.lem:borel-rat-norm-one-discrete}
+\bonly
+\lean{GL2TF.borelRatNormOne_discrete}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.adele.lem:rat-embedding-diagonal,I.conv.def:borel,I.conv.def:gl2,I.quot.def:borel-rat,I.quot.def:gl2-rat-norm-one,I.quot.lem:gl2-rat-norm-one-discrete,I.topgrp.def:gl2-adelic,I.topgrp.def:norm-one-group,II.trunc.def:borel-rat-norm-one}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:borel-rat-norm-one-discrete}
+\tfsem{II.trunc.lem:borel-rat-norm-one-discrete}{bc0022c17004d7623f754752c6ad7f2ae3e17c153465668ff4d8b217365f204b}
+\tfhyps{II.trunc.lem:borel-rat-norm-one-discrete}{}
+\begin{tffidelity}
+B-only, proved. \texttt{DiscreteTopology borelRatNormOne} (subspace topology from $G(\A)^1$). It is the hypothesis under which \texttt{X.quot.def:quotient-measure} and \texttt{X.quot.thm:unfolding-subgroup} apply to $B(\Q)\backslash G(\A)^1$ (A §5: ``$B(\Q)$ is a discrete subgroup of $G(\A)^1$'').
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$B(\Q)\le G(\Q)$ (\texttt{borelRatNormOne\_le}) and $G(\Q)$ is discrete in $G(\A)^1$ (\texttt{gl2RatNormOne\_discrete}); a subgroup of a discrete subgroup is discrete (\texttt{discreteTopology\_of\_le}).
+\end{proof}
+
+\begin{definition}[the coset space $B(\Q)\backslash G(\Q)$]
+\tfstmt{II.trunc.def:borel-cosets}
+\bonly
+\lean{GL2TF.borelCosets}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.quot.def:gl2-rat-norm-one,I.topgrp.def:norm-one-group,II.trunc.def:borel-rat-norm-one}
+\end{definition}
+\begin{tfformal}{II.trunc.def:borel-cosets}
+\tfsem{II.trunc.def:borel-cosets}{a42c386e6479aaa408f176d9b5e74e5a7caef0cd0ca1d5e7bab835f83be1438d}
+\tfhyps{II.trunc.def:borel-cosets}{}
+\begin{tffidelity}
+B-only. \texttt{MulAction.orbitRel.Quotient (borelRatNormOne.subgroupOf gl2RatNormOne) gl2RatNormOne}: the orbits of $B(\Q)$ acting on $G(\Q)$ by left multiplication, i.e.\ the right cosets $B(\Q)\delta$. This is the type that \texttt{X.quot.thm:unfolding-subgroup} produces for $\Gamma=G(\Q)$, $\Gamma'=B(\Q)$. An \texttt{abbrev}, so the quotient API applies directly.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\HB(\delta x)$ depends only on $B(\Q)\delta$]
+\tfstmt{II.trunc.lem:coset-height}
+\bonly
+\lean{GL2TF.coset_height}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:borel,I.conv.def:gl2,I.conv.def:space-a-b,I.conv.def:torus,I.conv.def:unipotent,I.decomp.def:height-map,I.decomp.thm:height-map-equivariance,I.quot.def:gl2-rat-norm-one,I.topgrp.def:max-compact-adelic,I.topgrp.def:norm-one-group,II.trunc.def:borel-cosets,II.trunc.def:borel-rat-norm-one}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:coset-height}
+\tfsem{II.trunc.lem:coset-height}{f54d365663bf07b2e717df73dc567893950a566191808a280b7ea5bbbdafa3b4}
+\tfhyps{II.trunc.lem:coset-height}{}
+\tfbinder{II.trunc.lem:coset-height}{0}{a2aaccd5}{the point $x\in G(\A)$}
+\tfbinder{II.trunc.lem:coset-height}{1}{faca77b2}{the element $\delta\in G(\Q)$ (in \texttt{gl2RatNormOne})}
+\tfbinder{II.trunc.lem:coset-height}{2}{b06351dc}{the element $\delta'\in G(\Q)$}
+\tfbinder{II.trunc.lem:coset-height}{3}{2894a672}{$B(\Q)\delta=B(\Q)\delta'$ (equal classes in \texttt{borelCosets})}
+\begin{tffidelity}
+B-only, proved. The coset form of (H1) of A (\texttt{I.decomp.thm:height-map-equivariance}): equal classes give equal $\HB(\delta x)$ for every $x\in G(\A)$, not only $x\in G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Equal classes give $\beta\in B(\Q)$ with $\beta\delta'=\delta$ (\texttt{Quotient.exact}); then $\HB(\beta\delta'x)=\HB(\delta'x)$ by \texttt{heightMap\_equivariance} for $\beta\in B(\A)\cap G(\Q)$.
+\end{proof}
+
+\begin{theorem}[finiteness of the coset sums]
+\tfstmt{II.trunc.thm:coset-sum-finite}
+\lean{GL2TF.coset_sum_finite}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:idele-norm-spec,I.adele.lem:primes-fact-instance,I.adele.thm:product-formula,I.conv.def:borel,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:simple-root,I.conv.def:space-a-b,I.conv.lem:max-compact-local-mem,I.decomp.def:bottom-row-norm,I.decomp.def:height-map,I.decomp.lem:bottom-row-norm-spec,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.quot.def:borel-rat,I.quot.def:gl2-rat-norm-one,I.red.lem:primitive-vector-finiteness,I.red.lem:simple-root-height-map,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-adelic,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact,I.topgrp.thm:max-compact-adelic-compact,II.trunc.def:borel-cosets,II.trunc.def:borel-rat-norm-one,II.trunc.lem:coset-height}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:coset-sum-finite}
+\tfsem{II.trunc.thm:coset-sum-finite}{172e68f54fc87bfbe73f35d392095a6fb57bb4857e16969638890475861c9169}
+\tfhyps{II.trunc.thm:coset-sum-finite}{}
+\tfbinder{II.trunc.thm:coset-sum-finite}{0}{dc6ede6d}{the threshold $c\in\R$}
+\begin{tffidelity}
+Three conjuncts: the preliminary sentence of A (for $x\in G(\A)$ and $\delta,\delta'\in G(\Q)$ in the same coset, $\alpha(\HB(\delta x))=\alpha(\HB(\delta'x))$), (a) and (b). In (a) and (b) the set of cosets is $\{c\in$ \texttt{borelCosets} $:\alpha(\HB(\delta_cx))>c\}$ with $\delta_c=$ \texttt{Quotient.out}; by the first conjunct this is A's set of cosets $B(\Q)\delta$ with $\alpha(\HB(\delta x))>c$. $x$ and $\Omega$ range over $G(\A)$ and its compact subsets, as in A. Finiteness is \texttt{Set.Finite}. \emph{Lean proof versus A:} A's local bound (L) for $\Omega^{-1}$ is replaced by the bound through the entry norm \texttt{adelicEntryNorm}, which is continuous on $G(\A)$, and the finiteness is first proved on the auxiliary type \texttt{QCosets} and transported by an injection. Same bound, same finiteness lemma.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{First conjunct} (independence of the representative): \cref{II.trunc.lem:coset-height}.
+
+\emph{(b)} (\texttt{TruncAux.qcosets\_finite\_compact}, on the auxiliary coset type $B(\Q)\backslash\GL_2(\Q)$, \texttt{QCosets}). Write $\alpha(\HB(\delta x))=\log\abs{\det x}_\A-2\log\norm{e_2\delta x}_\A$ (\texttt{rootAt\_eq}, A's (H2)). On the compact $\Omega$ the continuous functions $x\mapsto e^{(\log\abs{\det x}_\A-c)/2}$ and $x\mapsto$ \texttt{adelicEntryNorm}$(x^{-1})$ are bounded by $A$ and $B$. If $\alpha(\HB(\delta x))>c$ with $x\in\Omega$, then $\norm{e_2\delta x}_\A\le e^{(\log\abs{\det x}_\A-c)/2}$ (\texttt{norm\_le\_of\_lt\_rootAt}) and $\norm{e_2\delta}_\A\le$ \texttt{adelicEntryNorm}$(x^{-1})\,\norm{e_2\delta x}_\A$ (\texttt{bottomRowNorm\_mul\_le}), so $\norm{e_2\delta}_\A\le\max(B,1)\max(A,1)$. By \texttt{I.red.lem:primitive-vector-finiteness} at the point $1$ (\texttt{finite\_cosets\_norm\_le}) these $\delta$ lie in finitely many cosets of \texttt{QCosets}. Transport to \texttt{borelCosets}: \texttt{TruncAux.toQ} sends $c$ to the coset of a rational matrix of $\delta_c$ (\texttt{ratRep}); it is injective (\texttt{toQ\_injective}) and preserves $\alpha(\HB(\delta_cx))$ (\texttt{root\_out}), so the set of (b) is the preimage of a finite set under an injective map.
+
+\emph{(a)} is (b) for $\Omega=\{x\}$. As in A.
+\end{proof}
+
+\begin{theorem}[at most one coset in the cusp]
+\tfstmt{II.trunc.thm:coset-sum-at-most-one}
+\lean{GL2TF.coset_sum_at_most_one}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.lem:idele-norm-spec,I.adele.lem:primes-fact-instance,I.adele.thm:product-formula,I.conv.def:borel,I.conv.def:gl2,I.conv.def:simple-root,I.conv.def:space-a-b,I.decomp.def:bottom-row-norm,I.decomp.def:height-map,I.decomp.lem:bottom-row-norm-spec,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.quot.def:borel-rat,I.quot.def:gl2-rat-norm-one,I.red.def:height-primitive,I.red.def:primitive-norm,I.red.lem:simple-root-height-map,I.red.thm:height-attained,I.red.thm:height-lemma,I.topgrp.def:gl2-adelic,I.topgrp.def:max-compact-adelic,I.topgrp.def:norm-one-group,II.trunc.def:borel-cosets,II.trunc.def:borel-rat-norm-one,II.trunc.lem:coset-height}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:coset-sum-at-most-one}
+\tfsem{II.trunc.thm:coset-sum-at-most-one}{b7d77242b4edd7c3dc0d6c690fb8698d36713fe9a38c490f5f3f53c41eb81342}
+\tfhyps{II.trunc.thm:coset-sum-at-most-one}{}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{0}{e8e15124}{the point $x\in G(\A)^1$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{1}{4635c287}{the threshold $c\in\R$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{2}{74ae6380}{$c\ge0$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{3}{b16172ee}{the element $\delta_0\in\GL_2(\Q)$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{4}{dcf16f15}{$\alpha(\HB(\delta_0x))=\operatorname{ht}(x)$ ($\delta_0x$ is \texttt{ι δ₀ * x})}
+\begin{tffidelity}
+(a) and (b) are A's, with $\delta$ ranging over $\GL_2(\Q)$ and ``$\delta\delta_0^{-1}\in B(\Q)$'' as \texttt{δ * δ₀⁻¹ ∈ borel ℚ}. The ``in particular'' sentence is the two further conjuncts, stated on \texttt{borelCosets} at the representatives: the set of cosets with $\alpha(\HB(\delta_cx))>c$ is a \texttt{Subsingleton}, and it is non-empty if and only if $\operatorname{ht}(x)>c$. A's parenthetical existence claim for $\delta_0$ (\texttt{I.red.thm:height-attained}) is not part of the Lean statement; $\delta_0$ is a binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Two facts: (H3) $\alpha(\HB(\delta x))\le\operatorname{ht}(x)$ for every $\delta$ (\texttt{I.red.thm:height-attained}); and, for $\delta,\delta'$ with $\alpha(\HB(\delta x)),\alpha(\HB(\delta'x))>c$, $\delta'\delta^{-1}\in B(\Q)$: \texttt{I.red.thm:height-lemma} with $t_0=e^c\ge1$ ($c\ge0$).
+
+\emph{(a)} ($\Rightarrow$) the height lemma for $\delta_0$ (where $\alpha=\operatorname{ht}(x)>c$) and $\delta$. ($\Leftarrow$) $\delta=(\delta\delta_0^{-1})\delta_0$ and (H1) (\texttt{TruncAux.rootAt\_borel\_mul}) give $\alpha(\HB(\delta x))=\alpha(\HB(\delta_0x))=\operatorname{ht}(x)>c$. \emph{(b)} (H3). \emph{Third conjunct} (at most one coset): for two cosets in the set, the height lemma for rational matrices of their representatives (\texttt{ratRep}) puts their ratio in $B(\Q)$, so the cosets agree (\texttt{mk\_eq\_of\_rat}). \emph{Fourth conjunct}: ($\Rightarrow$) by (H3); ($\Leftarrow$) the coset of $\delta_0$ regarded in $G(\Q)\subseteq G(\A)^1$ (\texttt{ratElt}, product formula), evaluated at its representative by \cref{II.trunc.lem:coset-height}. As in A.
+\end{proof}
+
+\begin{theorem}[the height is continuous]
+\tfstmt{II.trunc.thm:height-continuous}
+\lean{GL2TF.height_continuous}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:idele-norm-spec,I.adele.lem:primes-fact-instance,I.adele.thm:product-formula,I.conv.def:borel,I.conv.def:diag-element,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:simple-root,I.conv.def:space-a-b,I.conv.def:torus,I.conv.def:unipotent,I.conv.lem:max-compact-local-mem,I.decomp.def:bottom-row-norm,I.decomp.def:height-map,I.decomp.lem:bottom-row-norm-spec,I.decomp.thm:height-map-equivariance,I.decomp.thm:iwasawa-adelic,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.def:height-primitive,I.red.def:primitive-norm,I.red.lem:primitive-vector-finiteness,I.red.lem:simple-root-height-map,I.red.thm:height-attained,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-product-equiv,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,I.topgrp.def:norm-one-group,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact,I.topgrp.thm:max-compact-adelic-compact}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:height-continuous}
+\tfsem{II.trunc.thm:height-continuous}{1c4fed2562c55db4c8b5c030e8114cd7e9f593a7899ab3aacaec0fa38c4b709d}
+\tfhyps{II.trunc.thm:height-continuous}{}
+\begin{tffidelity}
+\texttt{Continuous height} on $G(\A)$, and continuity of $x\mapsto\operatorname{ht}(x)$ on $G(\A)^1$ (subspace topology): the two sentences of A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{TruncAux.continuous\_height}, with the auxiliary coset type $B(\Q)\backslash\GL_2(\Q)$ (\texttt{QCosets}, the \texttt{rightRel} quotient) and $\alpha(\HB(\delta x))$ on it (\texttt{cosetRoot}), continuous in $x$ by \texttt{ParAux.continuous\_heightMap} (this replaces A's fact (C)). Fix $x_0$ and a compact neighbourhood $\Omega$. Item 4 (b) in the form \texttt{qcosets\_finite\_compact} (from \texttt{primitive\_vector\_finiteness} and the bound $\norm{e_2\delta}_\A\le\norm{x^{-1}}\,\norm{e_2\delta x}_\A$ with \texttt{adelicEntryNorm}, A's (L)) gives a finite set $S$ of cosets with $\alpha(\HB(\delta x))>\operatorname{ht}(x_0)-1$ for some $x\in\Omega$. On $\Omega$, $\alpha(\HB(\delta_0x))\le\operatorname{ht}(x)\le\max(\operatorname{ht}(x_0)-1,\max_{d\in S}\alpha(\HB(\delta_dx)))$ with $\delta_0$ attaining $\operatorname{ht}(x_0)$; both bounds are continuous and equal $\operatorname{ht}(x_0)$ at $x_0$, and the squeeze theorem gives continuity at $x_0$. This is A's proof with a squeeze instead of the exact local maximum formula.
+\end{proof}
+

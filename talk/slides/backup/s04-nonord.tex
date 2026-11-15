@@ -1,0 +1,21 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S04-T1: integral subtleties are non-ordinary.
+% math: mathematics/chapters/s04/ordinary.tex lem:s04-ekills; lambdaribet.tex thm:s04-lambdaribet; control.tex thm:s04-control; def:s04-Pk
+% data: code/results/s04/{H7,T3,C2}.json
+\begin{frame}{Integral subtleties are non-ordinary}
+  \footnotesize
+  \begin{itemize}
+    \item \textbf{Eisenstein cokernels are killed.} $p=5$. For $q=11$ the cokernel $\Phi^{\mathrm{comb}}$ is cyclic of order
+      $10$ ($s=1$), $250$ ($s=2$), and $U_p^*=5=p$ on it (H7, \emph{computed}); hence $e=0$ on $\Phi^{\mathrm{comb}}\otimes\mathbb Z_5$
+      (lem.\ s04-ekills, \emph{proved}; $\deg\circ U_p=p\deg$). Same for $q=23$: orders $22,550$.
+    \item \textbf{The free $\Lambda$-module survives.} $e\,\mathbb Z_p[S_s]$ has rank $1$ over $\Delta_s$ for $s=1,2,3$
+      ($|S_s|=2,50,1250$; $\mathbb Z_p$-ranks $1,5,25$; T3, \emph{computed}); free, by thm.\ s04-control (\emph{proved}).
+      The $e$-part of $H_1$ and $\mathbb Z[E_s]$ obeys $\operatorname{rk} eH_1=\operatorname{rk}e\mathbb Z[E]-2\operatorname{rk}e\mathbb Z[S]$ ($2,10$ at $s=1,2$; T3), the \(\Lambda\)-adic Ribet sequence (thm.\ s04-lambdaribet, given connectivity of BG, i.e.\ SA/HS).
+    \item \textbf{Check against forms (C2).} $B_3$, $p=5$, $s=1$: $e\mathbb Z_p[X_1]$ has rank $1$ and matches the unique
+      ordinary $3$-new form (level $15$, 15a; $U_5$ char.\ poly.\ $x-1$); the Eisenstein line (constants, $U_p=p$) is killed by $e$.
+      Diamonds at $s=2$ match only via $P^{\mathrm{ad}}_k$ with $\chi^{-1}$, not the seed $P_k$ (def.\ s04-Pk; C2).
+  \end{itemize}
+  \vfill
+  {\tiny Sources: \texttt{code/results/s04/\{H7,T3,C2\}.json}; lem.\ s04-ekills, thm.\ s04-lambdaribet, thm.\ s04-control.}
+\end{frame}

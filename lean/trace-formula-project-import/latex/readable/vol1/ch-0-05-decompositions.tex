@@ -1,0 +1,331 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P0/Decompositions.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% Local Iwasawa and Cartan written (M1, unit U3); real Iwasawa written (M2, unit U1); Bruhat, adelic Iwasawa, H_B (M3, unit U7).
+
+\chapter{Bruhat, Iwasawa and Cartan decompositions}\label{ch:ch-0-05-decompositions}
+
+\noindent\emph{Sources:} \cite[§1]{Cas-p}; \cite[§2]{JL}; \cite{BumpH}.
+
+\section{Bruhat decomposition}\label{sec:decomp-bruhat}
+
+\noindent\emph{Sources for this section:} \cite[§2]{JL}; \cite[§1]{Cas-p}. For $\GL_2$ it is a direct computation.
+
+\begin{theorem}[Bruhat decomposition]
+\tfstmt{I.decomp.thm:bruhat-decomposition}
+\uses{I.conv.def:borel, I.conv.def:unipotent, I.conv.def:weyl-element}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.def:borel, I.conv.def:unipotent, I.conv.def:weyl-element}
+$B(k)=\{g_{21}=0\}$ by definition. For $\beta=\begin{psmallmatrix}\alpha&\beta_{12}\\0&\delta\end{psmallmatrix}\in B(k)$ and $x\in k$,
+multiplying out gives
+\[
+  w\,n(x)=\begin{pmatrix}0&1\\-1&-x\end{pmatrix},\qquad
+  \beta\,w\,n(x)=\begin{pmatrix}-\beta_{12}&\alpha-\beta_{12}x\\-\delta&-\delta x\end{pmatrix}.\tag{$*$}
+\]
+Its $(2,1)$-entry is $-\delta\neq0$, so $B(k)\cap B(k)wN(k)=\emptyset$. Let $g=\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}$
+with $c\neq0$. Put $\delta=-c$, $x=d/c$, $\beta_{12}=-a$ and $\alpha=b-ad/c=-\det g/c\neq0$. Then $\beta\in B(k)$, and by
+$(*)$ $\beta wn(x)=g$.
+\end{proof}
+
+\begin{theorem}[uniqueness on the big cell]
+\tfstmt{I.decomp.thm:bruhat-big-cell-unique}
+\uses{I.conv.def:borel, I.conv.def:unipotent, I.conv.def:weyl-element}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:bruhat-decomposition}
+Existence is \cref{I.decomp.thm:bruhat-decomposition}. If $g=\beta wn(x)$, then by $(*)$ in its proof
+$g_{21}=-\delta$ and $g_{22}=-\delta x$, so $x=g_{22}/g_{21}$ is determined by $g$, and then $\beta=g\,n(x)^{-1}w^{-1}$.
+\end{proof}
+
+\section{Iwasawa decomposition and the height map}\label{sec:decomp-iwasawa}
+
+\noindent\emph{Sources for this section:} \cite[§9.1]{Cas-p} (the decompositions of $\GL_2$ over a
+non-archimedean field); \cite[§2]{JL}.
+
+\begin{theorem}[local Iwasawa decomposition]
+\tfstmt{I.decomp.thm:iwasawa-local}
+\uses{I.conv.def:max-compact-local, I.lf.def:nalf}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.lem:max-compact-local-mem, I.lf.thm:unit-uniformizer-decomposition}
+Write $g=\begin{psmallmatrix}\alpha&\beta\\\gamma&\delta\end{psmallmatrix}$ and $\Ocal=\Ocal_F$. It suffices to find
+$k\in K_F$ with $(gk)_{21}=\gamma k_{11}+\delta k_{21}=0$, because then $g=(gk)k^{-1}$ with $gk$ upper
+triangular and $k^{-1}\in K_F$.
+\begin{itemize}
+\item If $\delta\neq0$ and $\gamma/\delta\in\Ocal$, take $k=\begin{psmallmatrix}1&0\\-\gamma/\delta&1\end{psmallmatrix}$:
+  then $\gamma\cdot1+\delta\cdot(-\gamma/\delta)=0$.
+\item Otherwise $\gamma\neq0$ (as $\gamma=\delta=0$ would give $\det g=0$) and $\delta/\gamma\in\Ocal$: if $\delta=0$
+  this is clear, and if $\delta\neq0$ then $\operatorname{ord}(\gamma/\delta)<0$ (\cref{rem:lf-ord}), so
+  $\operatorname{ord}(\delta/\gamma)>0$ and $\delta/\gamma\in\Ocal$. Take
+  $k=\begin{psmallmatrix}-\delta/\gamma&1\\1&0\end{psmallmatrix}$: then $\gamma\cdot(-\delta/\gamma)+\delta\cdot1=0$.
+\end{itemize}
+In both cases $k$ has entries in $\Ocal$ and $\det k\in\{1,-1\}\subseteq\Ocal^\times$, so $k\in K_F$ by
+\cref{I.conv.lem:max-compact-local-mem}.
+\end{proof}
+
+\subsection*{The real Iwasawa decomposition}
+
+\noindent\emph{Sources:} \cite[§5]{JL} ($G_\R=N_\R A_\R\mathrm{SO}(2,\R)$); \cite[Prop.~4.1.1]{GH}. We normalize the
+decomposition by $t_2>0$ and $k\in\mathrm{SO}(2)$, which makes it unique and gives explicit formulas through the bottom row.
+
+\begin{theorem}[real Iwasawa decomposition]
+\tfstmt{I.decomp.thm:iwasawa-real}
+\uses{I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:max-compact-real}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.def:max-compact-real}
+\emph{Existence.} Since $\det g\neq0$, the bottom row $(c,d)$ of $g$ is non-zero, so $t_2=(c^2+d^2)^{1/2}>0$ and $t_1=\det g/t_2\neq0$.
+The matrix $k=t_2^{-1}\begin{psmallmatrix}d&-c\\c&d\end{psmallmatrix}$ has the shape of \cref{rem:rotation}\ref{rot-shape} with
+$(d/t_2)^2+(c/t_2)^2=1$, so $k\in\mathrm{SO}(2)$ and $k^{-1}=k^{\mathsf T}=t_2^{-1}\begin{psmallmatrix}d&c\\-c&d\end{psmallmatrix}$. Then
+\[
+  gk^{-1}=\frac1{t_2}\begin{pmatrix}a&b\\c&d\end{pmatrix}\begin{pmatrix}d&c\\-c&d\end{pmatrix}
+  =\frac1{t_2}\begin{pmatrix}ad-bc&ac+bd\\0&c^2+d^2\end{pmatrix}=\begin{pmatrix}t_1&xt_2\\0&t_2\end{pmatrix}
+  =n(x)\diag(t_1,t_2)
+\]
+with $x=(ac+bd)/(c^2+d^2)$, since $n(x)\diag(t_1,t_2)=\begin{psmallmatrix}t_1&xt_2\\0&t_2\end{psmallmatrix}$.
+
+\emph{Uniqueness.} Let $g=n(x)\diag(t_1,t_2)k=n(x')\diag(t_1',t_2')k'$ as in the statement. The bottom row of
+$n(x)\diag(t_1,t_2)$ is $(0,t_2)$, so the bottom row of $g$ is $t_2$ times the bottom row $e_2k$ of $k$, and likewise
+$t_2'e_2k'$. By \cref{rem:rotation}\ref{rot-shape} the bottom rows of $k$ and $k'$ are unit vectors, so taking lengths
+$t_2=t_2'$ (both are positive), hence $e_2k=e_2k'$ and $k=k'$ by \cref{rem:rotation}\ref{rot-shape}. Cancelling $k$ gives
+$\begin{psmallmatrix}t_1&xt_2\\0&t_2\end{psmallmatrix}=\begin{psmallmatrix}t_1'&x't_2\\0&t_2\end{psmallmatrix}$, so $t_1=t_1'$ and $x=x'$. In particular
+the components are those given by the formulas.
+\end{proof}
+
+\subsection*{The adelic Iwasawa decomposition and the height map}
+
+\noindent\emph{Sources:} \cite[§§2, 6]{AIntro}; \cite[§4.3]{GH}. The height map is defined intrinsically, through the
+adelic norm of the bottom row, so that no choice of Iwasawa decomposition enters its definition. It is the
+quantity $\HB(x)$ of Arthur, with $\HB(ntk)=(\log\abs{t_1}_\A,\log\abs{t_2}_\A)$ \cite[§2]{AIntro}.
+
+\begin{theorem}[adelic Iwasawa decomposition]
+\tfstmt{I.decomp.thm:iwasawa-adelic}
+\uses{I.topgrp.def:adelic-subgroups, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.conv.def:borel}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:iwasawa-local, I.decomp.thm:iwasawa-real, I.topgrp.thm:gl2-adelic-restricted-product, I.topgrp.def:max-compact-adelic}
+Let $g\in G(\Af)$. For the almost all $p$ with $g_p\in K_p$ put $b_p=1$, $k_p=g_p$. For the finitely many others write
+$g_p=b_pk_p$ with $b_p\in B(\Qp)$ and $k_p\in K_p$ (\cref{I.decomp.thm:iwasawa-local}). Then $(b_p)_p$ and $(k_p)_p$
+lie in the restricted product $\prod'_p(\GL_2(\Qp),K_p)$. By \cref{I.topgrp.thm:gl2-adelic-restricted-product}(a) they
+define $b\in G(\Af)$ with $b_{21}=0$, i.e.\ $b\in B(\Af)$, and $k\in\Kf$, with $g=bk$. For $g\in G(\A)$ apply this to
+$g_f$, write $g_\infty=n(x)\diag(t_1,t_2)k_\infty$ with $k_\infty\in\mathrm{SO}(2)\subseteq\Kinf$
+(\cref{I.decomp.thm:iwasawa-real}), and use \cref{I.topgrp.thm:gl2-adelic-restricted-product}(b).
+\end{proof}
+\noindent By \cref{I.conv.thm:borel-semidirect}, $b=nt$ with $n\in N(\A)$ and $t\in T(\A)$, so $G(\A)=N(\A)T(\A)K$. The
+decomposition is not unique: $B(\A)\cap K$ is non-trivial.
+
+\begin{definition}[the height map]
+\tfstmt{I.decomp.def:height-map}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:space-a-b, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles}
+\end{definition}
+\noindent\emph{Well defined.} Since $g$ is invertible, the bottom row of $g_v$ is non-zero at every place $v$, so every
+factor is positive. For the almost all $p$ with $g_p\in K_p$, the bottom row $(c_p,d_p)$ of $g_p$ has entries in $\Zp$,
+and not both lie in $p\Zp$: otherwise $\det g_p=a_pd_p-b_pc_p$ (with $a_p,b_p\in\Zp$ the top row) would lie in
+$p\Zp$, while $\det g_p\in\Zp^\times$. So
+$\max(\abs{c_p},\abs{d_p})=1$ (\cref{I.lf.thm:abs-uniformizer}).
+
+\begin{theorem}[the height map in Iwasawa coordinates]
+\tfstmt{I.decomp.thm:height-map-iwasawa}
+\uses{I.decomp.def:height-map, I.topgrp.def:adelic-subgroups, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.conv.def:space-a-b}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.def:height-map, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.lf.thm:abs-padic-eq}
+The bottom row of $nt$ is $(0,t_2)$, so the bottom row of $ntk$ is $t_2\cdot e_2k$, where $e_2k$ is the bottom row of $k$.
+At $\infty$, $k_\infty\in\Ort(2)$ has rows of length $1$, so $(c_\infty^2+d_\infty^2)^{1/2}=\abs{t_{2,\infty}}$. At $p$,
+$\max(\abs{t_{2,p}k_{21}},\abs{t_{2,p}k_{22}})=\abs{t_{2,p}}\max(\abs{k_{21}},\abs{k_{22}})=\abs{t_{2,p}}$, by
+multiplicativity and the remark after \cref{I.decomp.def:height-map} applied to $k_p\in K_p$. Hence
+$\norm{e_2(ntk)}_\A=\abs{t_2}_\A$. Moreover $\det(ntk)=t_1t_2\det k$, with $\abs{\det k}_\A=1$ (as $\det k_\infty=\pm1$ and
+$\det k_p\in\Zp^\times$). So $\abs{\det(ntk)}_\A=\abs{t_1}_\A\abs{t_2}_\A$, and the two components of $\HB(ntk)$ are
+$\log\abs{t_1}_\A$ and $\log\abs{t_2}_\A$.
+\end{proof}
+
+\begin{theorem}[equivariance of the height map]
+\tfstmt{I.decomp.thm:height-map-equivariance}
+\uses{I.decomp.def:height-map, I.topgrp.def:adelic-subgroups, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.conv.def:borel, I.conv.def:gl2, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:height-map-iwasawa, I.decomp.thm:iwasawa-adelic, I.conv.thm:borel-semidirect, I.conv.lem:torus-normalizes-unipotent, I.adele.thm:product-formula, I.conv.lem:subgroups-functorial}
+Write $x=n't'k'$ (\cref{I.decomp.thm:iwasawa-adelic} and the remark after it). Then
+$ntxk=n\,(tn't^{-1})\,(tt')\,(k'k)$ with $n(tn't^{-1})\in N(\A)$ (\cref{I.conv.lem:torus-normalizes-unipotent}),
+$tt'\in T(\A)$ and $k'k\in K$. By \cref{I.decomp.thm:height-map-iwasawa},
+$\HB(ntxk)=(\log\abs{t_1t'_1}_\A,\log\abs{t_2t'_2}_\A)=\HB(t)+\HB(x)$, because $\HB(t)=(\log\abs{t_1}_\A,\log\abs{t_2}_\A)$
+(take $n=k=1$) and $\HB(x)=\HB(n't'k')$. For $\gamma\in B(\Q)$ write $\gamma=n_\gamma t_\gamma$ with
+$t_\gamma\in T(\Q)$ (\cref{I.conv.thm:borel-semidirect}). Then $\HB(t_\gamma)=0$ by the product formula
+(\cref{I.adele.thm:product-formula}), so $\HB(\gamma x)=\HB(x)$, and $\HB(\gamma)=\HB(\gamma\cdot1)=\HB(1)=0$.
+\end{proof}
+
+\section{Cartan decomposition}\label{sec:cartan}
+
+\noindent\emph{Sources for this section:} \cite[§9, Prop.~35, pp.~49--50]{BumpH} (elementary divisors, for
+$\GL_n$); \cite[§9.1]{Cas-p}. The invariants in the proof of uniqueness (the ideal generated by the entries, and the
+determinant) are those of \cite[Prop.~35]{BumpH}; the module of entries also appears as \texttt{entryIdeal} in
+\cite{AFLT} (\texttt{Def\_LocalLanglands\_\allowbreak CartanDecomposition}), which served as a design reference only.
+
+Throughout this section $F$ is a non-archimedean local field, $\Ocal=\Ocal_F$, $\mathfrak p=\mathfrak p_F$,
+$\unif$ its uniformizer, $q=q_F$ and $K=K_F$. For $g\in\GL_2(F)$ let $I(g)=\sum_{i,j}\Ocal\,g_{ij}\subseteq F$ be the
+$\Ocal$-submodule generated by the entries of $g$. We use the elements
+$s=\begin{psmallmatrix}0&1\\1&0\end{psmallmatrix}$, $\begin{psmallmatrix}1&x\\0&1\end{psmallmatrix}$,
+$\begin{psmallmatrix}1&0\\x&1\end{psmallmatrix}$ ($x\in\Ocal$) and $\diag(u_1,u_2)$ ($u_i\in\Ocal^\times$) of $K$
+(\cref{I.conv.lem:max-compact-local-mem}), and the notation $\operatorname{ord}$ of \cref{rem:lf-ord}.
+
+\begin{definition}[Cartan elements]
+\tfstmt{I.cartan.def:cartan-element}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{definition}
+\noindent Two identities are used repeatedly: $s\,t_{a,b}\,s^{-1}=t_{b,a}$ (with $s=s^{-1}\in K$), and
+$t_{a,b}=(\unif^b\cdot1)\,t_{a-b,0}$, where $\unif^b\cdot1$ is central.
+
+\begin{lemma}[existence of the Cartan decomposition]
+\tfstmt{I.cartan.lem:cartan-exists}
+\uses{I.lf.def:nalf, I.conv.def:max-compact-local, I.cartan.def:cartan-element}
+\end{lemma}
+\begin{proof}
+\uses{I.lf.def:uniformizer, I.conv.lem:max-compact-local-mem, I.lf.thm:unit-uniformizer-decomposition}
+Among the non-zero entries of $g$ (there is one, since $\det g\neq0$) choose one, $e$, with $m=\operatorname{ord}(e)$
+minimal. Every entry of $g$ lies in $\unif^m\Ocal$ (\cref{rem:lf-ord}), and $\unif^m\Ocal=e\Ocal$ since $e=u\unif^m$
+with $u\in\Ocal^\times$. Multiplying $g$ on the left by $s$ swaps its rows and on the right swaps its columns, so there
+are $s_1,s_2\in\{1,s\}\subseteq K$ with
+\[
+  h=s_1gs_2=\begin{pmatrix}e&\beta\\\gamma&\delta\end{pmatrix},\qquad \beta/e,\ \gamma/e\in\Ocal .
+\]
+Subtracting $\gamma/e$ times the first row from the second, then $\beta/e$ times the first column from the second:
+\[
+  \begin{pmatrix}1&0\\-\gamma/e&1\end{pmatrix}h\begin{pmatrix}1&-\beta/e\\0&1\end{pmatrix}
+  =\begin{pmatrix}e&0\\0&y\end{pmatrix},\qquad y=\delta-\gamma\cdot\frac{\beta}{e}.
+\]
+Both outer factors lie in $K$. Here $y\neq0$ since $ey=\det h=\pm\det g\neq0$, and $y\in\unif^m\Ocal$ since
+$\delta\in\unif^m\Ocal$, $\gamma\in\unif^m\Ocal$ and $\beta/e\in\Ocal$. So $y=u'\unif^{m'}$ with $u'\in\Ocal^\times$
+and $m'\ge m$ (\cref{I.lf.thm:unit-uniformizer-decomposition}, \cref{rem:lf-ord}). Then
+$\diag(e,y)=\diag(u,u')\,t_{m,m'}$ with $\diag(u,u')\in K$, hence $g\in K\,t_{m,m'}K=K\,s\,t_{m',m}\,s\,K=K\,t_{m',m}K$.
+Take $a=m'\ge b=m$.
+\end{proof}
+
+\begin{lemma}[invariants of the Cartan double cosets]
+\tfstmt{I.cartan.lem:cartan-invariants}
+\uses{I.lf.def:nalf, I.conv.def:max-compact-local, I.cartan.def:cartan-element}
+\end{lemma}
+\begin{proof}
+\uses{I.lf.def:uniformizer, I.conv.lem:max-compact-local-mem, I.cartan.lem:cartan-exists, I.lf.thm:unit-uniformizer-decomposition}
+\emph{Invariance.} Let $k,k'\in K$. Each entry $(kgk')_{ij}=\sum_{r,l}k_{ir}g_{rl}k'_{lj}$ is an $\Ocal$-linear
+combination of entries of $g$, since $k,k'$ have entries in $\Ocal$; so $I(kgk')\subseteq I(g)$. Applying this to
+$g=k^{-1}(kgk')k'^{-1}$ gives $I(kgk')=I(g)$. Moreover $\det(kgk')=\det k\cdot\det g\cdot\det k'$ with
+$\det k,\det k'\in\Ocal^\times$ (\cref{I.conv.lem:max-compact-local-mem}), so $\det(kgk')\in\det g\cdot\Ocal^\times$.
+
+\emph{Values at $t_{a,b}$.} For $a\ge b$, $I(t_{a,b})=\unif^a\Ocal+\unif^b\Ocal=\unif^b\Ocal$ since
+$\unif^a=\unif^b\unif^{a-b}$ with $a-b\ge0$; and $\det t_{a,b}=\unif^{a+b}$.
+
+($\Rightarrow$) If $g=kt_{a,b}k'$, the two previous paragraphs give $I(g)=\unif^b\Ocal$ and
+$\det g\in\unif^{a+b}\Ocal^\times$.
+
+($\Leftarrow$) By \cref{I.cartan.lem:cartan-exists}, $g\in K\,t_{a',b'}K$ for some $a'\ge b'$, and by ($\Rightarrow$)
+$I(g)=\unif^{b'}\Ocal$ and $\det g\in\unif^{a'+b'}\Ocal^\times$. From $\unif^{b'}\Ocal=\unif^b\Ocal$ we get
+$\unif^{b'}\in\unif^b\Ocal$ and $\unif^b\in\unif^{b'}\Ocal$, so $b'\ge b$ and $b\ge b'$ by \cref{rem:lf-ord}, i.e.\
+$b'=b$. From $\det g\in\unif^{a+b}\Ocal^\times\cap\unif^{a'+b'}\Ocal^\times$ we get
+$a+b=\operatorname{ord}(\det g)=a'+b'$, so $a'=a$. Hence $g\in K\,t_{a,b}K$.
+\end{proof}
+
+\begin{lemma}[uniqueness of the Cartan decomposition]
+\tfstmt{I.cartan.lem:cartan-unique}
+\uses{I.lf.def:nalf, I.conv.def:max-compact-local, I.cartan.def:cartan-element}
+\end{lemma}
+\begin{proof}
+\uses{I.lf.def:uniformizer, I.conv.lem:max-compact-local-mem, I.cartan.lem:cartan-invariants, I.lf.thm:unit-uniformizer-decomposition}
+Since $t_{a',b'}\in K\,t_{a',b'}K=K\,t_{a,b}K$, \cref{I.cartan.lem:cartan-invariants} applied to $g=t_{a',b'}$ and
+the pair $(a,b)$ gives $\unif^{b'}\Ocal=I(t_{a',b'})=\unif^b\Ocal$ and $\unif^{a'+b'}\in\unif^{a+b}\Ocal^\times$. As in
+the proof of that lemma, $b'=b$ and $a'+b'=a+b$, so $(a',b')=(a,b)$.
+\end{proof}
+
+\begin{theorem}[Cartan decomposition]
+\tfstmt{I.cartan.thm:cartan-decomposition}
+\uses{I.lf.def:nalf, I.conv.def:max-compact-local, I.cartan.def:cartan-element}
+\end{theorem}
+\begin{proof}
+\uses{I.cartan.lem:cartan-exists, I.cartan.lem:cartan-unique}
+Existence is \cref{I.cartan.lem:cartan-exists}. If $g\in K\,t_{a,b}K\cap K\,t_{a',b'}K$ with $a\ge b$, $a'\ge b'$,
+then the two double cosets share the element $g$, hence are equal, and $(a,b)=(a',b')$ by
+\cref{I.cartan.lem:cartan-unique}.
+\end{proof}
+
+\subsection*{The number of left cosets in a double coset}
+
+For $\alpha,\beta\in\Z$ and $x\in F$ put
+\[
+  h(\alpha,\beta,x)=\begin{pmatrix}\unif^\alpha&x\\0&\unif^\beta\end{pmatrix}\in\GL_2(F).
+\]
+These matrices give an explicit parametrization of the left cosets in $K\,t_{a,b}K$; the proof below is arranged so
+that each step is a separate, elementary statement.
+
+\begin{theorem}[index of the Cartan double cosets]
+\tfstmt{I.cartan.thm:double-coset-index}
+\uses{I.lf.def:nalf, I.conv.def:max-compact-local, I.cartan.def:cartan-element, I.lf.def:residue-cardinality}
+\end{theorem}
+\begin{proof}
+\uses{I.lf.def:uniformizer, I.decomp.thm:iwasawa-local, I.cartan.lem:cartan-invariants, I.conv.lem:max-compact-local-mem, I.lf.thm:unit-uniformizer-decomposition, I.lf.def:residue-cardinality}
+For $S\subseteq\GL_2(F)$ write $S/K=\{hK:h\in S\}$. Since $K\,t_{a,b}K$ is stable under right multiplication by $K$,
+a coset $hK$ lies in $K\,t_{a,b}K$ if and only if $h\in K\,t_{a,b}K$.
+
+\emph{Step 0: reduction to $b=0$.} Let $z=\unif^b\cdot1$; it is central and $t_{a,b}=z\,t_{n,0}$. Hence
+$K\,t_{a,b}K=z\,(K\,t_{n,0}K)$, and the bijection $hK\mapsto zhK$ of $\GL_2(F)/K$ maps $(K\,t_{n,0}K)/K$ onto
+$(K\,t_{a,b}K)/K$. We may therefore assume $(a,b)=(n,0)$, and we write $D=K\,t_{n,0}K$.
+
+\emph{Step 1: normal form.} Every left coset $gK$ equals $h(\alpha,\beta,x)K$ for some $\alpha,\beta\in\Z$, $x\in F$.
+Indeed, by \cref{I.decomp.thm:iwasawa-local}, $g=bk$ with $k\in K$ and $b$ upper triangular, so $gK=bK$. The diagonal
+entries of $b$ are non-zero ($\det b\neq0$); write $b_{11}=u_1\unif^\alpha$, $b_{22}=u_2\unif^\beta$ with
+$u_i\in\Ocal^\times$ (\cref{I.lf.thm:unit-uniformizer-decomposition}). With $d=\diag(u_1^{-1},u_2^{-1})\in K$ we get
+$bd=h(\alpha,\beta,b_{12}u_2^{-1})$, so $gK=bdK=h(\alpha,\beta,b_{12}u_2^{-1})K$.
+
+\emph{Step 2: equality of normal forms.} $h(\alpha,\beta,x)K=h(\alpha',\beta',x')K$ if and only if $\alpha=\alpha'$,
+$\beta=\beta'$ and $x'-x\in\unif^\alpha\Ocal$. Indeed, the cosets are equal if and only if
+\[
+  k=h(\alpha,\beta,x)^{-1}h(\alpha',\beta',x')
+   =\begin{pmatrix}\unif^{\alpha'-\alpha}&\unif^{-\alpha}\bigl(x'-x\,\unif^{\beta'-\beta}\bigr)\\0&\unif^{\beta'-\beta}\end{pmatrix}
+\]
+lies in $K$. If $k\in K$, then $\unif^{\alpha'-\alpha},\unif^{\beta'-\beta}\in\Ocal$ and their product $\det k$ is a
+unit (\cref{I.conv.lem:max-compact-local-mem}); so both exponents are $\ge0$ and their sum is
+$\operatorname{ord}(\det k)=0$ (\cref{rem:lf-ord}), i.e.\ $\alpha'=\alpha$ and $\beta'=\beta$, and then
+$k_{12}=\unif^{-\alpha}(x'-x)\in\Ocal$ means $x'-x\in\unif^\alpha\Ocal$. Conversely, under these three conditions
+$k=\begin{psmallmatrix}1&\unif^{-\alpha}(x'-x)\\0&1\end{psmallmatrix}\in K$.
+
+\emph{Step 3: the normal forms lying in $D$.} $h(\alpha,\beta,x)\in D$ if and only if
+\[
+  \alpha\ge0,\quad\beta\ge0,\quad\alpha+\beta=n,\quad x\in\Ocal,\quad\text{and}\quad
+  (\alpha=0\ \text{or}\ \beta=0\ \text{or}\ x\in\Ocal^\times).
+\]
+By \cref{I.cartan.lem:cartan-invariants} (with $(a,b)=(n,0)$), $h=h(\alpha,\beta,x)\in D$ if and only if
+$I(h)=\Ocal\unif^\alpha+\Ocal x+\Ocal\unif^\beta$ equals $\Ocal$ and $\det h=\unif^{\alpha+\beta}\in\unif^n\Ocal^\times$.
+The second condition means $\alpha+\beta=n$ (\cref{I.lf.thm:unit-uniformizer-decomposition}). For the first:
+$I(h)\subseteq\Ocal$ if and only if the three generators lie in $\Ocal$, i.e.\ $\alpha,\beta\ge0$ and $x\in\Ocal$. In
+that case, if one generator is a unit $u$, then $1=u^{-1}u\in I(h)$ and $I(h)=\Ocal$; if none is a unit, all three lie
+in the ideal $\mathfrak p$ (\cref{rem:lf-standard-facts}\ref{lf-fact-dvr}) and $I(h)\subseteq\mathfrak p\neq\Ocal$.
+Finally $\unif^\alpha$ is a unit if and only if $\alpha=0$, and likewise for $\beta$.
+
+\emph{Step 4: a parametrization.} For $0\le\alpha\le n$ and $x,x'\in\Ocal$ with $x'-x\in\unif^\alpha\Ocal$ and
+$\alpha\ge1$, we have $x\in\Ocal^\times\iff x'\in\Ocal^\times$ (because $x'-x\in\mathfrak p$ and
+$\Ocal^\times=\Ocal\setminus\mathfrak p$). Let $M$ be the set of pairs $(\alpha,\xi)$ with $0\le\alpha\le n$ and
+$\xi\in\Ocal/\unif^\alpha\Ocal$, such that $\alpha\in\{0,n\}$ or $\xi$ is the class of a unit. Define
+\[
+  \Phi\colon M\to D/K,\qquad \Phi(\alpha,\xi)=h(\alpha,n-\alpha,x)K\quad\text{for any }x\in\Ocal\text{ in the class }\xi.
+\]
+By Step~2 the coset does not depend on the choice of $x$, and by Step~3 (and the observation just made) it lies in
+$D/K$. $\Phi$ is injective by Step~2. It is surjective: a coset in $D/K$ equals $h(\alpha,\beta,x)K$ by Step~1, and
+then $h(\alpha,\beta,x)\in D$, so Step~3 gives $\beta=n-\alpha$, $0\le\alpha\le n$, $x\in\Ocal$, and
+$(\alpha,x+\unif^\alpha\Ocal)\in M$ (note that $\beta=0$ means $\alpha=n$). Hence $\#(D/K)=\#M$.
+
+\emph{Step 5: counting.} We claim $\#(\Ocal/\unif^k\Ocal)=q^k$ for $k\ge0$. For $k=0$ the quotient has one element.
+For the induction step, the reduction map $\Ocal/\unif^{k+1}\Ocal\to\Ocal/\unif^k\Ocal$ is surjective, and each fibre
+is a coset of $\unif^k\Ocal/\unif^{k+1}\Ocal$. Multiplication by $\unif^k$ induces a bijection
+$\Ocal/\unif\Ocal\to\unif^k\Ocal/\unif^{k+1}\Ocal$ (it is surjective, and $\unif^kx\in\unif^{k+1}\Ocal$ implies
+$x\in\unif\Ocal$ after dividing by $\unif^k\neq0$), and $\#(\Ocal/\unif\Ocal)=\#k_F=q$. Hence
+$\#(\Ocal/\unif^{k+1}\Ocal)=q\cdot q^k$. For $k\ge1$, the classes of non-units form the subset
+$\mathfrak p/\unif^k\Ocal=\unif\Ocal/\unif^k\Ocal$, which multiplication by $\unif$ identifies with
+$\Ocal/\unif^{k-1}\Ocal$ in the same way; so there are $q^{k-1}$ classes of non-units and $q^k-q^{k-1}$ classes of
+units. In particular $M$ is finite, so $D/K$ is finite.
+
+If $n=0$, then $M=\{(0,\Ocal/\Ocal)\}$ has one element. If $n\ge1$, the contributions to $\#M$ are $1$ from $\alpha=0$,
+$q^n$ from $\alpha=n$, and $q^\alpha-q^{\alpha-1}$ from each $1\le\alpha\le n-1$. The last sum telescopes to
+$q^{n-1}-1$, so $\#M=1+q^n+q^{n-1}-1=q^n+q^{n-1}$.
+\end{proof}
+
+\begin{tfoutline}
+  \tfplanned{I.cartan.thm:cartan-real}{$\GL_2(\R)=KA^+K$ (stretch; else M5, D18)}
+\end{tfoutline}

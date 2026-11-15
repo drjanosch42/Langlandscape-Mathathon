@@ -1,0 +1,129 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Dependency graph: registered hypotheses -> consuming Lean theorems -> stage-level statements.
+% Status encoded twice: Okabe--Ito colour AND border style (survives greyscale printing).
+\begin{tikzpicture}[
+    x=1cm,y=1cm,font=\sffamily\scriptsize,
+    every node/.style={align=center},
+    hyp/.style={rectangle,rounded corners=1.5pt,minimum width=3.3cm,minimum height=0.46cm,inner sep=1.5pt,line width=0.9pt},
+    lit/.style={hyp,draw=oiBlue,fill=oiBlue!14},
+    dis/.style={hyp,draw=oiGreen,fill=oiGreen!18,double,double distance=0.9pt,line width=0.6pt},
+    inf/.style={hyp,draw=oiOrange!85!black,fill=oiOrange!18,densely dashed,line width=1.1pt},
+    oos/.style={hyp,draw=oiVerm,fill=oiVerm!14,line width=1.6pt},
+    con/.style={hyp,draw=oiPurple!85!black,fill=oiPurple!16,densely dotted,line width=1.3pt},
+    pln/.style={hyp,draw=oiSky!75!black,fill=oiSky!10,dashed,line width=0.9pt},
+    thm/.style={rectangle,draw=black!70,fill=black!4,text width=4.3cm,minimum height=0.46cm,inner sep=2pt,line width=0.5pt,font=\sffamily\fontsize{6}{7}\selectfont},
+    plt/.style={thm,dashed,draw=oiSky!75!black,fill=oiSky!6},
+    fin/.style={rectangle,draw=black,fill=white,minimum width=3.4cm,inner sep=3pt,line width=1pt,text width=3.2cm},
+    pfin/.style={fin,dashed,draw=oiSky!75!black},
+    use/.style={-{Stealth[length=1.6mm]},line width=0.5pt,draw=black!65},
+    puse/.style={use,dashed,draw=oiSky!75!black},
+    intd/.style={use,dotted,draw=black!50},
+    stg/.style={font=\sffamily\bfseries\tiny,text=black!60,anchor=east},
+  ]
+  % ------------------------------------------------ column 1: hypotheses
+  \def\hx{0}
+  \node[lit] (EM)  at (\hx,0)     {GL2TF.Hyp.EichlerMass};
+  \node[oos] (JLC) at (\hx,-0.6)  {Hyp.JLClassical};
+  \node[oos] (LJL) at (\hx,-1.2)  {Hyp.LambdaJL};
+  \node[dis] (RN)  at (\hx,-2.0)  {Hyp.RamNrdSurj};
+  \node[lit] (HS)  at (\hx,-2.6)  {Hyp.HS};
+  \node[lit] (SA)  at (\hx,-3.2)  {Hyp.SA};
+  \node[lit] (BT)  at (\hx,-3.8)  {Hyp.BTtree};
+  \node[lit] (SC)  at (\hx,-4.4)  {Hyp.SerreCoh};
+  \node[lit] (SF)  at (\hx,-5.0)  {Hyp.SerreFree};
+  \node[lit] (EC)  at (\hx,-5.8)  {Hyp.EllipticCount};
+  \node[inf] (BSF) at (\hx,-6.4)  {Hyp.BrandtStabFree};
+  \node[inf] (IH)  at (\hx,-7.0)  {Hyp.IharaH0};
+  \node[dis] (POD) at (\hx,-7.8)  {Hyp.PadicOrdDecomp};
+  \node[inf] (ILE) at (\hx,-8.4)  {Hyp.InvLimExact};
+  \node[inf] (MLF) at (\hx,-9.0)  {Hyp.MordLambdaFree};
+  \node[lit] (HC)  at (\hx,-9.6)  {Hyp.HidaControl};
+  \node[con] (CR)  at (\hx,-10.2) {Hyp.HsiehCR};
+  \node[pln] (XC)  at (\hx,-11.0) {Hyp.X.char / X.gal / X.iso};
+  \node[pln] (HG)  at (\hx,-11.6) {Hyp.HsiehGor};
+  \node[pln,text width=3.6cm] (S6) at (\hx,-12.75)
+     {OldDecomp, HsiehGorFull, FreeRankTwo, ResidualBurnside, TamSpec, HidaControlGL2, KimOta(RT)};
+  \foreach \n/\y in {S01/0,S02/-2.0,S03/-5.8,S04/-7.8,S05/-11.0,S06/-11.6}{\node[stg] at (-1.75,\y) {\n};}
+
+  % ------------------------------------------------ column 2: consuming theorems (Lean names, short)
+  \def\tx{5.25}
+  \node[thm] (tMass) at (\tx,0)     {Quat.card\_XB\_Utower,\\ Ribet.sum\_inv\_wx\_Ohat,\\ Ordinary.vp\_card\_XB\_Utower\_ge};
+  \node[thm] (tMaz)  at (\tx,-1.05) {Ribet.mazur\_check};
+  \node[thm] (tNrd)  at (\tx,-2.0)  {Quat.nrdSurj\_*, Tree.isQAdmissible\_*};
+  \node[thm] (tBG)   at (\tx,-3.0)  {Tree.BGConnected\_of\_SA\_HS,\\ Tree.quotVEquiv/quotEEquiv\_of\_SA\_HS};
+  \node[thm] (tRib)  at (\tx,-4.2)  {Ribet.ribet\_exact\_of\_SA\_HS,\\ ribet\_rank\_/ihara\_*\_of\_SA\_HS};
+  \node[thm] (tPhi)  at (\tx,-6.4)  {Ribet.phiComb\_eisenstein\_Ohat/\_DR,\\ Ribet.brandtZ\_dvd};
+  \node[thm] (tPOD)  at (\tx,-7.8)  {Ordinary.padicOrdDecomp\_holds\\ $\Rightarrow$ Ordinary.*\_uncond (tower)};
+  \node[thm] (tLim)  at (\tx,-8.9)  {Ordinary.lim\_exact\_ribet(\_uncond)\\ (\texttt{hA}, \texttt{hconn} explicit)};
+  \node[plt] (tXl)   at (\tx,-11.0) {S05: xlambda\_finite (planned)};
+  \node[plt] (tDef)  at (\tx,-12.1) {S06: Setting.gor\_new, Defect.galois,\\ Defect.defect\_formula, cor\_fixed};
+
+  % ------------------------------------------------ column 3: stage-level statements
+  \def\fx{10.55}
+  \node[fin] (F1) at (\fx,0.0)  {\textbf{S01} mass formula on the tower $U_s$ (formalized mod.\ EichlerMass)};
+  \node[fin] (F3) at (\fx,-3.6) {\textbf{S03} Ribet exact sequence, Ihara, $\Phi$-Eisenstein, Mazur check at finite level};
+  \node[fin] (F4) at (\fx,-8.3) {\textbf{S04} $\Lambda$-adic Ribet sequence ($\mathbb Z_p$-linear limit form)};
+  \node[pfin] (F5) at (\fx,-11.0) {\textbf{S05} $\Lambda$-adic character group (planned)};
+  \node[pfin] (F6) at (\fx,-12.4) {\textbf{S06} defect / Gorenstein formula (planned)};
+  \node[fin,draw=oiVerm,line width=1.6pt] (FT) at (\fx,-1.4) {\textbf{Targets} classical and $\Lambda$-adic JL: stated, cited, no Lean consumer};
+
+  % ------------------------------------------------ edges hyp -> theorem (Lean arguments)
+  \draw[use] (EM.east) -- (tMass.west);
+  \draw[use] (EM.east) -- (tMaz.west);
+  \draw[use] (EC.east) -- (tMaz.west);
+  \draw[use] (RN.east) -- (tNrd.west);
+  \draw[use] (HS.east) -- (tBG.west);
+  \draw[use] (SA.east) -- (tBG.west);
+  \draw[use] (BT.east) -- (tBG.west);
+  \draw[use] (HS.east) -- (tRib.west);
+  \draw[use] (SA.east) -- (tRib.west);
+  \draw[use] (BT.east) -- (tRib.west);
+  \draw[use] (tNrd.south) -- node[right,font=\sffamily\tiny,inner sep=1pt]{IsQAdmissible} (tBG.north);
+  \draw[use] (BSF.east) -- (tPhi.west);
+  \draw[use] (POD.east) -- (tPOD.west);
+  \draw[use] (POD.east) -- (tLim.west);
+  \draw[use] (ILE.east) -- (tLim.west);
+  % statement-only hypotheses (no library consumer): dotted, to the statement they belong to
+  \draw[intd] (SC.east) to[out=0,in=200] (tRib.south west);
+  \draw[intd] (SF.east) to[out=0,in=210] (tRib.south west);
+  \draw[intd] (IH.east) to[out=0,in=-90] ($(tRib.south)+(0.6,0)$);
+  \draw[intd] (MLF.east) to[out=0,in=180] (F4.west);
+  \draw[intd] (HC.east) to[out=0,in=185] (F4.south west);
+  \draw[intd] (JLC.east) to[out=0,in=180] (FT.west);
+  \draw[intd] (LJL.east) to[out=10,in=190] (FT.west);
+  % planned
+  \draw[puse] (XC.east) -- (tXl.west);
+  \draw[puse] (POD.south east) to[out=-20,in=160] (tXl.west);
+  \draw[puse] (HG.east) -- (tDef.west);
+  \draw[puse] (S6.east) -- (tDef.west);
+  \draw[puse] (LJL.east) to[out=-15,in=150] (tDef.north west);
+  \node[font=\sffamily\tiny,anchor=west,text=black!60] at ($(CR.east)+(0.1,0)$) {no consumer, none planned};
+  % theorem -> stage statement
+  \draw[use] (tMass.east) -- (F1.west);
+  \draw[use] (tMaz.east) -- (F3.west);
+  \draw[use] (tBG.east) -- (F3.west);
+  \draw[use] (tRib.east) -- (F3.west);
+  \draw[use] (tPhi.east) -- (F3.west);
+  \draw[use] (tPOD.east) -- (F4.west);
+  \draw[use] (tLim.east) -- (F4.west);
+  \draw[puse] (tXl.east) -- (F5.west);
+  \draw[puse] (tDef.east) -- (F6.west);
+  \draw[puse] (F4.south) -- (F5.north);
+  \draw[puse] (F5.south) -- (F6.north);
+
+  % ------------------------------------------------ legend
+  \begin{scope}[shift={(0,-14.75)},every node/.append style={minimum width=3.4cm}]
+    \node[lit] at (0.0,0) {literature result (LIT)};
+    \node[inf] at (4.4,0) {proved on paper (INF)};
+    \node[oos] at (8.8,0) {target, out of scope (OOS)};
+    \node[dis] at (0.0,-0.65) {discharged (DIS)};
+    \node[con] at (4.4,-0.65) {condition (CON)};
+    \node[pln] at (8.8,-0.65) {planned (PLN)};
+  \end{scope}
+  \begin{scope}[shift={(0,-16.1)}]
+    \draw[use] (-1.6,0) -- ++(1,0) node[right,black]{explicit Lean argument};
+    \draw[intd] (2.9,0) -- ++(1,0) node[right,black]{statement only (intended use)};
+    \draw[puse] (8.0,0) -- ++(1,0) node[right,black]{planned (S05/S06)};
+  \end{scope}
+\end{tikzpicture}

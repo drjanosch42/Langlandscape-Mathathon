@@ -1,0 +1,17 @@
+GL2TF: vendored third-party Lean files (lean/Vendor/)
+
+The files under lean/Vendor/AnthropicFLT/ and lean/Vendor/ImperialFLT/ are copied, file by file, from the projects
+below and are licensed under the Apache License, Version 2.0 (the file LICENSE in this directory). Each copied
+file is listed in MANIFEST.tsv with its upstream repository, commit, path and sha256. ATTRIBUTION.md reproduces,
+file by file, the upstream copyright and author notices. Files we modified carry a change notice at the top
+(Apache-2.0 §4(b)) and are marked `modified = yes` in MANIFEST.tsv.
+
+1. Fermat's Last Theorem in Lean 4 (Anthropic, PBC), https://github.com/anthropics/fermats-last-theorem
+   Copyright 2026 Anthropic, PBC. Apache License 2.0. Its NOTICE file is reproduced verbatim in
+   AnthropicFLT/NOTICE (copied by tools/vendor.py together with the first vendored file); it covers material that
+   project took from the Imperial College London FLT project, flt-regular and Mathlib.
+
+2. The FLT project (Imperial College London, led by Kevin Buzzard), https://github.com/ImperialCollegeLondon/FLT
+   Copyright (c) 2024-2026 the FLT project contributors, as recorded in the per-file headers. Apache License 2.0.
+
+As of M0 no file has been vendored.

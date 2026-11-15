@@ -1,0 +1,35 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit and the Langlandscape team
+% S03-T3: Ihara = connectivity; the cokernel H_0 is Eisenstein.
+% math: mathematics/chapters/s03/3-ribet.tex  cor:s03-ihara(i),(ii), thm:s03-ribet(a), lem:s03-bip;
+%       mathematics/chapters/s03/4-ihara.tex  thm:s03-iharaH0(a)-(c), rem:s03-pm, rem:s03-T6, ss:s03-conv
+% data: code/results/s03/T6.json (data.cases: p, k, level, H0, conventions.{cohomological,homological}.hecke[ell].exponent_observed; acceptance_change)
+\begin{frame}{Ihara $=$ connectivity; the cokernel is Eisenstein}
+  \footnotesize
+  \begin{itemize}
+    \item \textbf{Ihara $=$ connectivity} (cor.\ s03-ihara, \emph{proved}): $\alpha:(\mathbb Z^{X(U')})\to(\mathbb Z^{X(U)})^2$ is
+      surjective (i), and for every abelian group $A$ (e.g.\ $\mathbb F_\ell$) $\ker\alpha^\vee=A\cdot(\mathbf 1,\mathbf 1)$, the constants (ii)
+      --- exactly because the quotient graph $\mathrm{BG}(U,q)$ is connected (lem.\ s03-bip).
+    \item \textbf{The cokernel is Eisenstein} (thm.\ s03-iharaH0, (iii) \emph{proved modulo cited results}, incl.\ density of $\Gamma_U$ in $U^1_p$):
+      $H_0=\operatorname{coker}\alpha\cong V_{U^1_p}$, and for $\ell\nmid Dpq$
+      \[T_\ell\ \longmapsto\ (1+\ell)\,[\ell]\quad\text{(cohomological, exponent }+1),\qquad
+        \text{homological: }(1+\ell)[\ell]^{-1}\ \text{(rem.\ s03-pm)}.\]
+  \end{itemize}
+  \vspace{-3mm}
+  \textbf{Computed check} ($B_3$, tree at $2$, $p\in\{5,7\}$, $V=V_k$; \emph{computed}):
+  \begin{center}\scriptsize
+  \begin{tabular}{lp{5.6cm}l}\toprule
+    level at $p$ & observed $H_0$ & Hecke exponent\\\midrule
+    maximal & $0$ except $k=2$, $k=2p$ ($k\le10$ for $p=5$, $k\le14$ for $p=7$) & not visible\\
+    $U_1(p)$ & $\neq0$ for all $k$ tested ($k\le9$, resp.\ $\le10$) & $+1$ cohom., $-1$ hom.\\\bottomrule
+  \end{tabular}
+  \end{center}
+  \vspace{-3mm}
+  \begin{itemize}
+    \item $U_1(p)$ cases where the exponent is decided: $p=5$, $k=7,9$ ($\ell=7,13$); $p=7$, $k=9,10$ ($\ell=5,11$): $T_\ell=(1+\ell)[\ell]^{+1}$ cohomologically,
+      $(1+\ell)[\ell]^{-1}$ homologically; other cases undetermined.
+    \item \textbf{Honest note} (audit M7.1): at maximal level $H_0\neq0$ only if $(p-1)\mid(k-2)$, where $[\ell]$ is trivial mod $p$; so the exponent is \emph{only visible at $U_1(p)$}.
+  \end{itemize}
+  \vfill
+  {\tiny Status. Maths: (i),(ii) \emph{proved}; (iii) \emph{proved modulo cited results}. Code: computed (\texttt{T6.json}; audit PASS with remarks, fixed). Lean: (i),(ii) formalized given connectivity \texttt{BGConnected}; (iii) is the registered hypothesis \texttt{Hyp.IharaH0} (stated, not proved).}
+\end{frame}

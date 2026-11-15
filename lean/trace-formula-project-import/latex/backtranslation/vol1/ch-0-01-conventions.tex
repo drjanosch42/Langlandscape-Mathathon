@@ -1,0 +1,578 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-01-conventions (parent commit 84818d0); kept items only.
+\chapter{Conventions and the algebraic groups}\label{ch:ch-0-01-conventions}
+
+\noindent\emph{Sources:} \cite[§§2, 5]{AIntro}; \cite[Lecture IV §1]{Gel}.
+
+\section{\texorpdfstring{The group $\GL_2$ and its standard subgroups}{The group GL₂ and its standard subgroups}}
+\begin{definition}[the Borel subgroup]
+\tfstmt{I.conv.def:borel}
+\lean{GL2TF.borel}
+\end{definition}
+\begin{tfformal}{I.conv.def:borel}
+\tfsem{I.conv.def:borel}{8c81d90c5262dd7de768d862ed1cabc8b47ae41c66aaa9f4bec088c83b00f4c2}
+\tfhyps{I.conv.def:borel}{}
+\tfbinder{I.conv.def:borel}{0}{6b8b0c0f}{the underlying type of $R$}
+\tfbinder{I.conv.def:borel}{1}{63738b18}{the commutative ring structure of $R$}
+\end{tfformal}
+
+\begin{definition}[the diagonal torus]
+\tfstmt{I.conv.def:torus}
+\lean{GL2TF.torus}
+\end{definition}
+\begin{tfformal}{I.conv.def:torus}
+\tfsem{I.conv.def:torus}{c1d44bd63ecb55d6e711b450cc2a7858186e677c9a977ab899ce80fb6cc620ff}
+\tfhyps{I.conv.def:torus}{}
+\tfbinder{I.conv.def:torus}{0}{6b8b0c0f}{the underlying type of $R$}
+\tfbinder{I.conv.def:torus}{1}{63738b18}{the commutative ring structure of $R$}
+\end{tfformal}
+
+
+\begin{definition}[diagonal matrices]
+\tfstmt{I.conv.def:diag-element}
+\bonly
+\lean{GL2TF.diagElt}
+\end{definition}
+\begin{tfformal}{I.conv.def:diag-element}
+\tfsem{I.conv.def:diag-element}{158b21d714705f6ed3072a824f49ce0d750da2f9e84ba42085c4114de2e92a34}
+\tfhyps{I.conv.def:diag-element}{}
+\tfbinder{I.conv.def:diag-element}{0}{0393adc7}{the underlying type of $R$}
+\tfbinder{I.conv.def:diag-element}{1}{9722bdda}{the commutative ring structure of $R$}
+\tfbinder{I.conv.def:diag-element}{2}{bd18c5d4}{a unit of $R$}
+\tfbinder{I.conv.def:diag-element}{3}{a9e86338}{a unit of $R$}
+\end{tfformal}
+
+\begin{definition}[the unipotent subgroup]
+\tfstmt{I.conv.def:unipotent}
+\lean{GL2TF.unipotent}
+\end{definition}
+\begin{tfformal}{I.conv.def:unipotent}
+\tfsem{I.conv.def:unipotent}{799e5d17da5471f892915cc0c60460c9843ff380e0e41e5d0f46e4d06f06a7c3}
+\tfhyps{I.conv.def:unipotent}{}
+\tfbinder{I.conv.def:unipotent}{0}{6b8b0c0f}{the underlying type of $R$}
+\tfbinder{I.conv.def:unipotent}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+The Lean subgroup is the range of Mathlib's additive character \texttt{upperRightHom}$\colon R\to\GL_2(R)$, $x\mapsto\left(\begin{smallmatrix}1&x\\0&1\end{smallmatrix}\right)$, so that $n$ is a homomorphism by construction. The injectivity of $n$ stated in A (the entry $x$ is recovered from $n(x)$) is not formalized as a separate statement.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Weyl element]
+\tfstmt{I.conv.def:weyl-element}
+\lean{GL2TF.weylElement}
+\end{definition}
+\begin{tfformal}{I.conv.def:weyl-element}
+\tfsem{I.conv.def:weyl-element}{17ecbc06c9858e4f4652d940f1336be8ba452edda65d4ede6a2e30d0e9dd50e6}
+\tfhyps{I.conv.def:weyl-element}{}
+\tfbinder{I.conv.def:weyl-element}{0}{6b8b0c0f}{the underlying type of $R$}
+\tfbinder{I.conv.def:weyl-element}{1}{63738b18}{the commutative ring structure of $R$}
+\end{tfformal}
+
+\begin{definition}[the group $\GL_2$]
+\tfstmt{I.conv.def:gl2}
+\lean{GL2TF.gl2Map}
+\end{definition}
+\begin{tfformal}{I.conv.def:gl2}
+\tfsem{I.conv.def:gl2}{c5e07c955dc76205c4364b96caa03dc63192b423960ba687db1b08350f428e80}
+\tfhyps{I.conv.def:gl2}{}
+\tfbinder{I.conv.def:gl2}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:gl2}{1}{51c895c7}{the underlying type of the ring $R'$}
+\tfbinder{I.conv.def:gl2}{2}{f30292cb}{the commutative ring structure of $R$}
+\tfbinder{I.conv.def:gl2}{3}{d4a11b21}{the commutative ring structure of $R'$}
+\tfbinder{I.conv.def:gl2}{4}{c739cac6}{the ring homomorphism $f\colon R\to R'$}
+\begin{tffidelity}
+The group $\GL_2(R)$ is Mathlib's \texttt{GL (Fin 2) R}; the tagged declaration is the induced map $f_*$ (\texttt{gl2Map}), defined as Mathlib's \texttt{Matrix.GeneralLinearGroup.map f}. Its type \texttt{GL (Fin 2) R →* GL (Fin 2) R'} is the statement that $f_*$ is a group homomorphism. $R$ and $R'$ are implicit and $f$ is explicit. Same content as A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the centre]
+\tfstmt{I.conv.def:center}
+\lean{GL2TF.center}
+\uses{I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.conv.def:center}
+\tfsem{I.conv.def:center}{d2710c94863a7f26c8e446c61c309cf821298bc3ce8ebc9eb499a8f2cf62afc0}
+\tfhyps{I.conv.def:center}{}
+\tfbinder{I.conv.def:center}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:center}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+$Z(R)$ is the range of the group homomorphism $R^\times\to\GL_2(R)$, $z\mapsto z\cdot1$ (Mathlib's \texttt{Matrix.scalar} on units), hence a subgroup by construction. Same content as A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the opposite Borel subgroup]
+\tfstmt{I.conv.def:opposite-borel}
+\lean{GL2TF.oppositeBorel}
+\uses{I.conv.def:gl2}
+\end{definition}
+\begin{tfformal}{I.conv.def:opposite-borel}
+\tfsem{I.conv.def:opposite-borel}{4ca5f32e28cee184b1c7aa736549c3302a50f57931021e5cd2c485c62569dbdb}
+\tfhyps{I.conv.def:opposite-borel}{}
+\tfbinder{I.conv.def:opposite-borel}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:opposite-borel}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+Lean defines $\Bbar(R)$ as a \texttt{Subgroup} with carrier $\{g:g_{12}=0\}$ (Lean indices start at $0$, so the condition reads \texttt{g 0 1 = 0}); the subgroup axioms are the B-only \cref{I.conv.lem:opposite-borel-subgroup}. The rest of the snippet is distributed over B-only declarations: $\bar n(x)$ (\cref{I.conv.def:opposite-unipotent-elt}), $\bar n$ as an additive character (\cref{I.conv.def:opposite-unipotent-hom}), $\Nbar(R)$ (\cref{I.conv.def:opposite-unipotent}), and ``injective, with $\Nbar(R)\subseteq\Bbar(R)$'' (\cref{I.conv.lem:opposite-unipotent-hom-injective}). The declaration tagged for this item states none of these.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[functoriality of the subgroups]
+\tfstmt{I.conv.lem:subgroups-functorial}
+\lean{GL2TF.subgroups_functorial}
+\uses{I.conv.def:gl2,I.conv.def:borel,I.conv.def:torus,I.conv.def:unipotent,I.conv.def:center,I.conv.def:opposite-borel,I.conv.def:diag-element,I.conv.def:opposite-unipotent,I.conv.def:opposite-unipotent-hom,I.conv.def:opposite-unipotent-elt,I.conv.lem:opposite-unipotent-elt-hom,I.conv.lem:opposite-unipotent-elt-inv}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:subgroups-functorial}
+\tfsem{I.conv.lem:subgroups-functorial}{5013704e9377dfe4c11c2ec571bd9b46ed511ade6209e004998650f1b691ff5c}
+\tfhyps{I.conv.lem:subgroups-functorial}{}
+\tfbinder{I.conv.lem:subgroups-functorial}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:subgroups-functorial}{1}{51c895c7}{the underlying type of the ring $R'$}
+\tfbinder{I.conv.lem:subgroups-functorial}{2}{f30292cb}{the commutative ring structure of $R$}
+\tfbinder{I.conv.lem:subgroups-functorial}{3}{d4a11b21}{the commutative ring structure of $R'$}
+\tfbinder{I.conv.lem:subgroups-functorial}{4}{c739cac6}{the ring homomorphism $f\colon R\to R'$}
+\begin{tffidelity}
+A conjunction of nine clauses. The six inclusions are \texttt{Subgroup.map (gl2Map f) X ≤ X'}. The three formulas use Mathlib's \texttt{upperRightHom} for $n$, \texttt{oppositeUnipotentHom} for $\bar n$ and \texttt{Units.map} for the image $f(t_i)\in R'^\times$ of a unit. $R,R'$ are implicit and $f$ explicit.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Nine clauses, proved in three groups. The three formulas are matrix equalities in $\GL_2(R')$, shown by \texttt{gl\_ext\_two} (comparing the four entries) and \texttt{simp} with the definitions of \texttt{gl2Map}, \texttt{oppositeUnipotentElt} and \texttt{diagElt}; they are proved first (\texttt{hN}, \texttt{hN'}, \texttt{hT}). The inclusions for $B$, $\bar B$ are entrywise: $(f_*g)_{21}=f(g_{21})=f(0)=0$ resp.\ $(f_*g)_{12}=f(0)=0$ (\texttt{map\_zero}). For $T$ the two off-diagonal entries are treated the same way. For $N$ and $\bar N$ the image of $n(x)$ is $n(f(x))$ by the formulas. For $Z$ the image of $z\cdot1$ is $f(z)\cdot1$, with the unit $\texttt{Units.map}\,f\,z$ as witness.
+\end{proof}
+
+\begin{lemma}[the lower triangular matrices form a subgroup]
+\tfstmt{I.conv.lem:opposite-borel-subgroup}
+\bonly
+\lean{GL2TF.oppositeBorel_isSubgroup}
+\uses{I.conv.def:opposite-borel}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:opposite-borel-subgroup}
+\tfsem{I.conv.lem:opposite-borel-subgroup}{9dabf8330c58d1440b50ebb660289ce97385e8dacecbb7c2d5a7a4e28a84d21f}
+\tfhyps{I.conv.lem:opposite-borel-subgroup}{}
+\tfbinder{I.conv.lem:opposite-borel-subgroup}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:opposite-borel-subgroup}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. The set $\{g_{12}=0\}$ contains $1$ and is closed under products and inverses; this supplies the three fields of the \texttt{Subgroup} structure in \cref{I.conv.def:opposite-borel}. Stated as a conjunction in this order.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$1$ has entry $0$ at the position $(0,1)$ (\texttt{simp}). For products, \texttt{Matrix.mul\_apply} and \texttt{Fin.sum\_univ\_two} give $(gh)_{12}=g_{11}h_{12}+g_{12}h_{22}$, which is $0$ after rewriting with the two hypotheses (\texttt{ring}). For inverses, the inverse of a unit is the adjugate over the determinant (\texttt{Matrix.inv\_def}, \texttt{adjugate\_fin\_two}), whose $(1,2)$ entry is $-g_{12}\cdot(\ldots)=0$.
+\end{proof}
+
+\begin{definition}[the element $\bar n(x)$]
+\tfstmt{I.conv.def:opposite-unipotent-elt}
+\bonly
+\lean{GL2TF.oppositeUnipotentElt}
+\uses{I.conv.def:opposite-borel}
+\end{definition}
+\begin{tfformal}{I.conv.def:opposite-unipotent-elt}
+\tfsem{I.conv.def:opposite-unipotent-elt}{63c69c9b70e3422b62d7ccd834056f82139a7ea58415333b234143994f164787}
+\tfhyps{I.conv.def:opposite-unipotent-elt}{}
+\tfbinder{I.conv.def:opposite-unipotent-elt}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:opposite-unipotent-elt}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.conv.def:opposite-unipotent-elt}{2}{3bf910e8}{the element $x\in R$}
+\begin{tffidelity}
+B-only. The matrix $\bar n(x)$ as an element of \texttt{GL (Fin 2) R}, with $R$ implicit.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[inverse of $\bar n(x)$]
+\tfstmt{I.conv.lem:opposite-unipotent-elt-inv}
+\bonly
+\lean{GL2TF.oppositeUnipotentElt_inv}
+\uses{I.conv.def:opposite-unipotent-elt}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:opposite-unipotent-elt-inv}
+\tfsem{I.conv.lem:opposite-unipotent-elt-inv}{6698ec3a4cb5513ba04194e1fa61e4127575b856bf60e6dd4afd213ff7a574d3}
+\tfhyps{I.conv.lem:opposite-unipotent-elt-inv}{}
+\tfbinder{I.conv.lem:opposite-unipotent-elt-inv}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:opposite-unipotent-elt-inv}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.conv.lem:opposite-unipotent-elt-inv}{2}{3bf910e8}{the element $x\in R$}
+\begin{tffidelity}
+B-only. Stated as the two matrix identities $\bar n(x)\bar n(-x)=1$ and $\bar n(-x)\bar n(x)=1$ for the matrices \texttt{!![1,0;x,1]} and \texttt{!![1,0;-x,1]}; they supply the inverse in the definition of \texttt{oppositeUnipotentElt}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Both products are computed entrywise: \texttt{simp} with \texttt{one\_fin\_two}.
+\end{proof}
+
+\begin{lemma}[$\bar n$ is additive]
+\tfstmt{I.conv.lem:opposite-unipotent-elt-hom}
+\bonly
+\lean{GL2TF.oppositeUnipotentElt_hom}
+\uses{I.conv.def:opposite-unipotent-elt,I.conv.lem:opposite-unipotent-elt-inv}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:opposite-unipotent-elt-hom}
+\tfsem{I.conv.lem:opposite-unipotent-elt-hom}{e3705b97358a48adcb12135f15a35ee019b6bef68978663b5ad087b07f108c62}
+\tfhyps{I.conv.lem:opposite-unipotent-elt-hom}{}
+\tfbinder{I.conv.lem:opposite-unipotent-elt-hom}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:opposite-unipotent-elt-hom}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. $\bar n(0)=1$ and $\bar n(x+y)=\bar n(x)\bar n(y)$; these are the two homomorphism axioms for \cref{I.conv.def:opposite-unipotent-hom}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Both identities are matrix equalities in $\GL_2(R)$, proved by \texttt{ext} and case analysis on the four entries (\texttt{fin\_cases}), then \texttt{simp} with \texttt{Matrix.mul\_apply}.
+\end{proof}
+
+\begin{definition}[$\bar n$ as an additive character]
+\tfstmt{I.conv.def:opposite-unipotent-hom}
+\bonly
+\lean{GL2TF.oppositeUnipotentHom}
+\uses{I.conv.def:opposite-unipotent-elt,I.conv.lem:opposite-unipotent-elt-hom}
+\end{definition}
+\begin{tfformal}{I.conv.def:opposite-unipotent-hom}
+\tfsem{I.conv.def:opposite-unipotent-hom}{bbecb18692dfd9864ebb91625826e52b68eb69faad521cca02cae65cfab53f6d}
+\tfhyps{I.conv.def:opposite-unipotent-hom}{}
+\tfbinder{I.conv.def:opposite-unipotent-hom}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:opposite-unipotent-hom}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. Lean packages $\bar n$ as an \texttt{AddChar R (GL (Fin 2) R)}, Mathlib's type of homomorphisms from the additive group of $R$ into a monoid.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the opposite unipotent subgroup]
+\tfstmt{I.conv.def:opposite-unipotent}
+\bonly
+\lean{GL2TF.oppositeUnipotent}
+\uses{I.conv.def:opposite-unipotent-hom}
+\end{definition}
+\begin{tfformal}{I.conv.def:opposite-unipotent}
+\tfsem{I.conv.def:opposite-unipotent}{ba6ea1acd8899c9aea701156cce38aed34f0403cddb548f6e6dcf55144b25af4}
+\tfhyps{I.conv.def:opposite-unipotent}{}
+\tfbinder{I.conv.def:opposite-unipotent}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:opposite-unipotent}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. The subgroup $\Nbar(R)$ of \texttt{GL (Fin 2) R}, defined as the range of $\bar n$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\bar n$ is injective and $\Nbar(R)\subseteq\Bbar(R)$]
+\tfstmt{I.conv.lem:opposite-unipotent-hom-injective}
+\bonly
+\lean{GL2TF.oppositeUnipotentHom_injective}
+\uses{I.conv.def:opposite-unipotent,I.conv.def:opposite-borel,I.conv.def:opposite-unipotent-hom,I.conv.def:opposite-unipotent-elt,I.conv.lem:opposite-unipotent-elt-hom,I.conv.lem:opposite-unipotent-elt-inv}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:opposite-unipotent-hom-injective}
+\tfsem{I.conv.lem:opposite-unipotent-hom-injective}{1fb330c0b4b01842868675b45e6bbfec017bc6d789f843680a0de90bda7838b8}
+\tfhyps{I.conv.lem:opposite-unipotent-hom-injective}{}
+\tfbinder{I.conv.lem:opposite-unipotent-hom-injective}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:opposite-unipotent-hom-injective}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. Two claims of \cref{I.conv.def:opposite-borel}: $\bar n$ is injective (\texttt{Function.Injective}) and $\Nbar(R)\le\Bbar(R)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Injectivity: apply $g\mapsto g_{21}$ (position \texttt{1 0}) to $\bar n(x)=\bar n(y)$ and simplify. $\bar N(R)\le\bar B(R)$: an element of the range is $\bar n(x)$, whose $(1,2)$ entry is $0$ by \texttt{simp}.
+\end{proof}
+
+\begin{definition}[$\diag$ as a homomorphism]
+\tfstmt{I.conv.def:diag-hom}
+\bonly
+\lean{GL2TF.diagHom}
+\uses{I.conv.def:diag-element}
+\end{definition}
+\begin{tfformal}{I.conv.def:diag-hom}
+\tfsem{I.conv.def:diag-hom}{d86793bfd794cbe82f49b7ba7d6904f7485450c1aae0d9e9168b4a6c1b82ed30}
+\tfhyps{I.conv.def:diag-hom}{}
+\tfbinder{I.conv.def:diag-hom}{0}{081e958c}{the underlying type of the ring $R$}
+\tfbinder{I.conv.def:diag-hom}{1}{9722bdda}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. The map $(t_1,t_2)\mapsto\diag(t_1,t_2)$ as a monoid homomorphism \texttt{Rˣ × Rˣ →* GL (Fin 2) R}; its two axioms are \cref{I.conv.lem:diag-elt-hom}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\diag$ is multiplicative]
+\tfstmt{I.conv.lem:diag-elt-hom}
+\bonly
+\lean{GL2TF.diagElt_hom}
+\uses{I.conv.def:diag-element}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:diag-elt-hom}
+\tfsem{I.conv.lem:diag-elt-hom}{bff07f980322588b85fcf40df06e71dec3e0f7f689b8cea8fda4f85832817578}
+\tfhyps{I.conv.lem:diag-elt-hom}{}
+\tfbinder{I.conv.lem:diag-elt-hom}{0}{0393adc7}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:diag-elt-hom}{1}{9722bdda}{the commutative ring structure of $R$}
+\begin{tffidelity}
+B-only. The two axioms $\diag(1,1)=1$ and $\diag(t_1s_1,t_2s_2)=\diag(t_1,t_2)\diag(s_1,s_2)$ for a monoid homomorphism.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Both claims are matrix equalities in $\GL_2(R)$: \texttt{ext}, \texttt{fin\_cases} on the entries, \texttt{simp} with \texttt{Matrix.mul\_apply}.
+\end{proof}
+
+\section{\texorpdfstring{Structure of $B$ and of $N_G(T)$}{Structure of B and of NG(T)}}
+
+\begin{lemma}[$T$ normalizes $N$]
+\tfstmt{I.conv.lem:torus-normalizes-unipotent}
+\lean{GL2TF.torus_normalizes_unipotent}
+\uses{I.conv.def:torus,I.conv.def:unipotent,I.conv.def:diag-element}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:torus-normalizes-unipotent}
+\tfsem{I.conv.lem:torus-normalizes-unipotent}{4c4057d779e59fa39e7822bb4abb96ad45b37e031909e6c1beb4950c8f4c5b3c}
+\tfhyps{I.conv.lem:torus-normalizes-unipotent}{}
+\tfbinder{I.conv.lem:torus-normalizes-unipotent}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:torus-normalizes-unipotent}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+The conjugation formula is stated for all $t_1,t_2,x$ with the scalar $t_1t_2^{-1}$ coerced from $R^\times$ to $R$. The consequence $tN(R)t^{-1}=N(R)$ is \texttt{Subgroup.map (MulAut.conj t) (unipotent R) = unipotent R} for $t\in T(R)$, an equality of subgroups. $n$ is Mathlib's \texttt{upperRightHom}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Formula: rewrite the goal as $\mathrm{diag}(t_1,t_2)\,n(x)=n(t_1t_2^{-1}x)\,\mathrm{diag}(t_1,t_2)$ (\texttt{mul\_inv\_eq\_iff\_eq\_mul}), compare entries (\texttt{gl\_ext\_two}); the one entry that does not close by \texttt{simp} is closed by \texttt{linear\_combination} with $t_2t_2^{-1}=1$. Normalization: by \cref{I.conv.def:torus} every $t\in T(R)$ is some $\mathrm{diag}(t_1,t_2)$ (\texttt{exists\_diagElt\_of\_mem\_torus}). The inclusion $tN t^{-1}\subseteq N$ is the formula. For the reverse inclusion, $n(x)$ is the conjugate of $n(t_1^{-1}t_2x)$, by the formula and one more \texttt{linear\_combination} with $t_1t_1^{-1}=t_2^{-1}t_2=1$.
+\end{proof}
+
+\begin{theorem}[$B=T\ltimes N$]
+\tfstmt{I.conv.thm:borel-semidirect}
+\lean{GL2TF.borel_semidirect}
+\uses{I.conv.def:borel,I.conv.def:torus,I.conv.def:unipotent,I.conv.def:diag-element,I.conv.lem:torus-normalizes-unipotent}
+\end{theorem}
+\begin{tfformal}{I.conv.thm:borel-semidirect}
+\tfsem{I.conv.thm:borel-semidirect}{63856f87301af26f4e3ce9d4f8e2cd17176134d724d58b849f01dbe4aee8f3c8}
+\tfhyps{I.conv.thm:borel-semidirect}{}
+\tfbinder{I.conv.thm:borel-semidirect}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.thm:borel-semidirect}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+(i) is stated as the unique existence (\texttt{∃!}) of a pair $(t,n)$ with $t\in T(R)$, $n\in N(R)$ and $b=tn$, for every $b\in B(R)$; the explicit formula is a separate clause for all $a,d\in R^\times$, $y\in R$ and every $b\in\GL_2(R)$ whose matrix is \texttt{!![a,y;0,d]}. (ii) is \texttt{torus R ⊓ unipotent R = ⊥}. (iii) is normality of \texttt{(unipotent R).subgroupOf (borel R)}, the subgroup $N(R)$ viewed in $B(R)$. The group isomorphism $B(R)\cong N(R)\rtimes T(R)$ is not stated.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+First an untagged helper: every $b\in B(R)$ has the form $\begin{psmallmatrix}a&y\\0&d\end{psmallmatrix}$ with $a,d\in R^\times$ (the determinant $ad$ is a unit, so each factor is, \texttt{isUnit\_of\_mul\_isUnit\_left/right}). The explicit factorization (second clause) is an entry comparison (\texttt{gl\_ext\_two}). Existence in (i) is then this factorization, with $t=\mathrm{diag}(a,d)\in T(R)$ (\texttt{diagElt\_mem\_torus'}). Uniqueness: if $b=tn$ is another decomposition, then $\mathrm{diag}(a,d)^{-1}t\in T(R)\cap N(R)$, which is trivial by (ii), so $t=\mathrm{diag}(a,d)$ and then $n$ is forced. (ii): an element of $T(R)\cap N(R)$ is some $n(x)$ with vanishing $(0,1)$ entry (it lies in $T(R)$), so $x=0$ (\texttt{torus\_inf\_unipotent}). (iii): for $n=n(x)\in N(R)$ and $b\in B(R)$ written as $\mathrm{diag}(a,d)\,n(y')$, one gets $bnb^{-1}=\mathrm{diag}(a,d)\,n(x)\,\mathrm{diag}(a,d)^{-1}=n(ad^{-1}x)$ by \cref{I.conv.lem:torus-normalizes-unipotent}, using that $N(R)$ is commutative (\texttt{AddChar.map\_add\_eq\_mul}) to cancel the $n(y')$ factors.
+\end{proof}
+
+\begin{lemma}[$B\cap\Nbar=1$]
+\tfstmt{I.conv.lem:borel-inter-opposite-unipotent}
+\lean{GL2TF.borel_inf_oppositeUnipotent}
+\uses{I.conv.def:borel,I.conv.def:opposite-borel,I.conv.def:opposite-unipotent,I.conv.def:opposite-unipotent-elt,I.conv.def:opposite-unipotent-hom,I.conv.lem:opposite-unipotent-elt-hom,I.conv.lem:opposite-unipotent-elt-inv}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:borel-inter-opposite-unipotent}
+\tfsem{I.conv.lem:borel-inter-opposite-unipotent}{cd4d9c2a6a19eae203a3c2b000ceda386be8d74c1a6e4ae0a15a8584f24a23ab}
+\tfhyps{I.conv.lem:borel-inter-opposite-unipotent}{}
+\tfbinder{I.conv.lem:borel-inter-opposite-unipotent}{0}{6b8b0c0f}{the underlying type of the ring $R$}
+\tfbinder{I.conv.lem:borel-inter-opposite-unipotent}{1}{63738b18}{the commutative ring structure of $R$}
+\begin{tffidelity}
+Stated as \texttt{borel R ⊓ oppositeUnipotent R = ⊥}; same content as A. The group $\Nbar(R)$ is the B-only \cref{I.conv.def:opposite-unipotent}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+An element of the intersection is $\bar n(x)$ whose $(1,0)$ entry is $x$ and must vanish since it lies in $B(R)$; hence $x=0$ and $\bar n(0)=1$ (\texttt{AddChar.map\_zero\_eq\_one}).
+\end{proof}
+
+\begin{theorem}[the normalizer of the torus]
+\tfstmt{I.conv.thm:normalizer-torus}
+\lean{GL2TF.normalizer_torus}
+\uses{I.conv.def:torus,I.conv.def:weyl-element,I.conv.def:diag-element}
+\end{theorem}
+\begin{tfformal}{I.conv.thm:normalizer-torus}
+\tfsem{I.conv.thm:normalizer-torus}{cc6cbdc9e1cd8575389eb3633137a66fe4b9f91339fd2f76b79d946a333d3f8d}
+\tfhyps{I.conv.thm:normalizer-torus}{}
+\tfbinder{I.conv.thm:normalizer-torus}{0}{6b8b0c0f}{the underlying type of the field $k$}
+\tfbinder{I.conv.thm:normalizer-torus}{1}{de6d288d}{the field structure of $k$}
+\tfbinder{I.conv.thm:normalizer-torus}{2}{dda6675a}{the assumption $\#k\ge3$ (A: ``at least three elements'')}
+\begin{tffidelity}
+``At least three elements'' is \texttt{3 ≤ ENat.card k}. The normalizer statement is the set equality $N_{\GL_2(k)}(T(k))=T(k)\cup wT(k)$ (with $wT(k)$ the image of $T(k)$ under $x\mapsto w\,x$, $w$ the Weyl element) together with \texttt{Disjoint}, which is the disjointness $T(k)\cap wT(k)=\emptyset$ of A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs from A (see the parent repository's notes, item \texttt{normalizer-torus}): there is no trace/determinant comparison. Auxiliary facts: a field with $\#k\ge3$ has $a\ne0,1$ (\texttt{exists\_ne\_zero\_one}); $w$ lies in the normalizer, because conjugation by $w$ swaps the diagonal entries and negates the off-diagonal ones (\texttt{weyl\_mem\_normalizer}, four entries by \texttt{fin\_cases}). ``$\supseteq$'' is then \texttt{Subgroup.le\_normalizer} for $T$ and closure of the normalizer under products for $wT$. ``$\subseteq$'': for $g$ in the normalizer put $t_0=\mathrm{diag}(a,1)$; then $gt_0g^{-1}=\mathrm{diag}(b_1,b_2)\in T(k)$, i.e.\ $gt_0=\mathrm{diag}(b_1,b_2)g$. Comparing the four entries of this equality gives linear relations in $b_1,b_2$ and the entries of $g$. If $g_{11}\ne0$ then $b_1=a$, $(a-1)g_{12}=0$ so $g_{12}=0$, $\det g\ne0$ gives $g_{22}\ne0$, hence $b_2=1$ and $g_{21}=0$: $g\in T(k)$. If $g_{11}=0$ then $\det g\ne0$ gives $g_{12},g_{21}\ne0$, $b_1=1$, $b_2=a$, $g_{22}=0$, and $g=w\,\mathrm{diag}(-g_{21},g_{12})$. Disjointness: elements $wt$ have $(0,0)$ entry $0$ whereas those of $T(k)$ have a nonzero one (\texttt{simp} on the entry).
+\end{proof}
+
+\section{Local maximal compact subgroups}
+\begin{definition}[the subgroup $K(R)$]
+\tfstmt{I.conv.def:max-compact-local}
+\lean{GL2TF.maxCompact}
+\end{definition}
+\begin{tfformal}{I.conv.def:max-compact-local}
+\tfsem{I.conv.def:max-compact-local}{c2ef1c21f10ca13540c31dbe26d92db5c85bae98c5b48ebd098697b02c17802e}
+\tfhyps{I.conv.def:max-compact-local}{}
+\tfbinder{I.conv.def:max-compact-local}{0}{fe5aea28}{the type of the commutative ring $R$}
+\tfbinder{I.conv.def:max-compact-local}{1}{51c895c7}{the type of the field $F$}
+\tfbinder{I.conv.def:max-compact-local}{2}{f30292cb}{the commutative ring structure of $R$}
+\tfbinder{I.conv.def:max-compact-local}{3}{18289890}{the field structure of $F$}
+\tfbinder{I.conv.def:max-compact-local}{4}{8c9208e0}{the ring homomorphism $\iota\colon R\to F$}
+\begin{tffidelity}
+The snippet's ring homomorphism $\iota\colon R\to F$ is the binder \texttt{ι : R →+* F}, with $R$ and $F$ implicit. $K(R)$ is \texttt{(Matrix.GeneralLinearGroup.map ι).range}, the range of the group homomorphism $\GL_2(R)\to\GL_2(F)$ applying $\iota$ to the entries, which is the image of the snippet. The generic definition does not mention local fields; $K_F=K(\Ocal_F)$ is a notation (\texttt{𝐊[F]}), not a separate definition, in Lean as in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[membership in $K(R)$]
+\tfstmt{I.conv.lem:max-compact-local-mem}
+\lean{GL2TF.mem_maxCompact_tfae}
+\uses{I.conv.def:max-compact-local}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:max-compact-local-mem}
+\tfsem{I.conv.lem:max-compact-local-mem}{3e444ad4a33f262feedb9a7dfff57fc97c595771006b55905c1d1ee9982edeaf}
+\tfhyps{I.conv.lem:max-compact-local-mem}{}
+\tfbinder{I.conv.lem:max-compact-local-mem}{0}{fe5aea28}{the type of the commutative ring $R$}
+\tfbinder{I.conv.lem:max-compact-local-mem}{1}{51c895c7}{the type of the field $F$}
+\tfbinder{I.conv.lem:max-compact-local-mem}{2}{f30292cb}{the commutative ring structure of $R$}
+\tfbinder{I.conv.lem:max-compact-local-mem}{3}{18289890}{the field structure of $F$}
+\tfbinder{I.conv.lem:max-compact-local-mem}{4}{8c9208e0}{the ring homomorphism $\iota\colon R\to F$}
+\tfbinder{I.conv.lem:max-compact-local-mem}{5}{9b5c1d0e}{the assumption that $\iota$ is injective}
+\tfbinder{I.conv.lem:max-compact-local-mem}{6}{7adab6af}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+The three equivalent conditions of the snippet are the three entries of a \texttt{List.TFAE}: \texttt{g ∈ maxCompact ι}; all entries of \texttt{g} in \texttt{Set.range ι} and $\det g=\iota(u)$ for a unit $u$ of $R$; all entries of \texttt{g} and of \texttt{g⁻¹} in \texttt{Set.range ι}. ``$\det g\in\iota(R^\times)$'' is rendered as the existence of a unit $u$ with $\det g=\iota(u)$ (the unit coerced to $R$). The injectivity of $\iota$ is the binder \texttt{Function.Injective ι}. The explicit and instance binders are exactly the ones listed in the binder table; no further assumption is hidden in the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{List.TFAE} proved by the cycle (i)$\Rightarrow$(iii)$\Rightarrow$(ii)$\Rightarrow$(i), as in A. (i)$\Rightarrow$(iii): $g=\iota(A)$, $g^{-1}=\iota(A^{-1})$ (\texttt{map\_inv}). (iii)$\Rightarrow$(ii): choose preimages $A,B$ of $g,g^{-1}$; $\iota(AB)=1$ and injectivity give $AB=1$, so $\det A$ is a unit. (ii)$\Rightarrow$(i): a preimage $A$ with $\det A=u$ is invertible (\texttt{Matrix.nonsingInvUnit}).
+\end{proof}
+
+\begin{definition}[$\Kinf=\Ort(2)$]
+\tfstmt{I.conv.def:max-compact-real}
+\lean{GL2TF.maxCompactReal}
+\end{definition}
+\begin{tfformal}{I.conv.def:max-compact-real}
+\tfsem{I.conv.def:max-compact-real}{437b88859a9734396759eece339c48df19af0c3de138e7e3e3df6ee7bd11d878}
+\tfhyps{I.conv.def:max-compact-real}{}
+\end{tfformal}
+
+
+\begin{definition}[the group $\mathrm{SO}(2)$]
+\tfstmt{I.conv.def:special-orthogonal-real}
+\bonly
+\lean{GL2TF.specialOrthogonalReal}
+\uses{I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.conv.def:special-orthogonal-real}
+\tfsem{I.conv.def:special-orthogonal-real}{b7d98991349d6b6f52dfd09ad1b31e3f1018214cf2d2ec33b37ae7cda67ab209}
+\tfhyps{I.conv.def:special-orthogonal-real}{}
+\end{tfformal}
+
+
+\begin{definition}[rotations]
+\tfstmt{I.conv.def:rotation}
+\lean{GL2TF.rotation}
+\uses{I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.conv.def:rotation}
+\tfsem{I.conv.def:rotation}{89e44d278ab7818825de9a6383bc7d2012f287b4033052beadfd32f224f4a43f}
+\tfhyps{I.conv.def:rotation}{}
+\tfbinder{I.conv.def:rotation}{0}{dc6ede6d}{the real number $\theta$}
+\end{tfformal}
+
+
+\begin{lemma}[rotations parametrize $\mathrm{SO}(2)$]
+\tfstmt{I.conv.lem:rotation-surjective}
+\bonly
+\lean{GL2TF.rotation_surjective}
+\uses{I.conv.def:rotation,I.conv.def:special-orthogonal-real,I.conv.def:max-compact-real}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:rotation-surjective}
+\tfsem{I.conv.lem:rotation-surjective}{b306734ea845e77f8eb0a2a02760cb83e7df601aef450dedea596cf1595b1ce8}
+\tfhyps{I.conv.lem:rotation-surjective}{}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Four claims in one conjunction. Additivity: entrywise \texttt{cos\_add}, \texttt{sin\_add} (\texttt{rotation\_val}). Membership in $\mathrm{SO}(2)$: $k_\theta^{\mathsf T}k_\theta=1$ from $\sin^2+\cos^2=1$, and $\det k_\theta=1$. Surjectivity: for $k\in\mathrm{SO}(2)$ the auxiliary \texttt{so2\_normal\_form} (untagged) shows $k=\begin{psmallmatrix}\alpha&\beta\\-\beta&\alpha\end{psmallmatrix}$ with $\alpha^2+\beta^2=1$; put $z=\alpha+i\beta\in\C$, $\abs z=1$, and $\theta=\arg z$, so $\cos\theta=\alpha$, $\sin\theta=\beta$ (\texttt{Complex.cos\_arg}, \texttt{Complex.sin\_arg}). Kernel: $k_\theta=1$ forces $\cos\theta=1$, so $\theta\in2\pi\Z$ (\texttt{Real.cos\_eq\_one\_iff}); conversely \texttt{Real.cos\_int\_mul\_two\_pi}, \texttt{Real.sin\_int\_mul\_pi}.
+\end{proof}
+
+
+\section{\texorpdfstring{The space $\aB$, roots and chambers}{The space 𝔞B, roots and chambers}}
+
+\begin{definition}[the space $\aB$]
+\tfstmt{I.conv.def:space-a-b}
+\lean{GL2TF.SpaceAB}
+\end{definition}
+\begin{tfformal}{I.conv.def:space-a-b}
+\tfsem{I.conv.def:space-a-b}{1a6cdd5f48042a9fd08fd8188b1a6927ccad4f6e01ce1baabdbbeda15f00209f}
+\tfhyps{I.conv.def:space-a-b}{}
+\begin{tffidelity}
+\texttt{SpaceAB} is the type \texttt{Fin 2 → ℝ}; the components $h_1,h_2$ are the values at $0$ and $1$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the space $\aBG$ and the projection]
+\tfstmt{I.conv.def:space-a-b-g}
+\lean{GL2TF.spaceABG}
+\uses{I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{I.conv.def:space-a-b-g}
+\tfsem{I.conv.def:space-a-b-g}{29a1938a74ee61a72fac4e1446f6bba46995769b136eaa68f17b26d03bf9cdc6}
+\tfhyps{I.conv.def:space-a-b-g}{}
+\begin{tffidelity}
+Lean defines only the subspace $\aBG$ (a \texttt{Submodule ℝ SpaceAB}, the kernel of $h\mapsto h_1+h_2$). The projection $h\mapsto h_B^G$ of the snippet is the B-only \cref{I.conv.def:projection-a-b-g}, with its properties in \cref{I.conv.lem:projection-a-b-g}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the simple root and $\rho$]
+\tfstmt{I.conv.def:simple-root}
+\lean{GL2TF.simpleRoot}
+\uses{I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{I.conv.def:simple-root}
+\tfsem{I.conv.def:simple-root}{9204167d6ade88f72df425992b808536c2ab3545c0742a82ba591ed1d00ed819}
+\tfhyps{I.conv.def:simple-root}{}
+\begin{tffidelity}
+$\alpha$ is the \texttt{ℝ}-linear form difference of the two coordinate projections. $\rho=\frac12\alpha$ is the separate B-only \cref{I.conv.def:rho}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the chamber functions]
+\tfstmt{I.conv.def:chamber-functions}
+\lean{GL2TF.tauB}
+\uses{I.conv.def:simple-root,I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{I.conv.def:chamber-functions}
+\tfsem{I.conv.def:chamber-functions}{ebce9d68c4eafdd305fbeba923a362474c57c10fb0d0ba7f5b0c2ccd02b4bec2}
+\tfhyps{I.conv.def:chamber-functions}{}
+\tfbinder{I.conv.def:chamber-functions}{0}{cc9ccfb6}{the element $h\in\aB$}
+\begin{tffidelity}
+Lean defines $\tau_B$ only, as the indicator function of $\{h:0<\alpha(h)\}$ with values in $\R$. The function $\hat\tau_B$ of the snippet is the B-only \cref{I.conv.def:chamber-function-hat}; it is defined with $\frac12\alpha$ directly, not through the item \cref{I.conv.def:rho}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[projection onto $\aBG$]
+\tfstmt{I.conv.def:projection-a-b-g}
+\bonly
+\lean{GL2TF.projABG}
+\uses{I.conv.def:space-a-b,I.conv.def:space-a-b-g,I.conv.def:simple-root}
+\end{definition}
+\begin{tfformal}{I.conv.def:projection-a-b-g}
+\tfsem{I.conv.def:projection-a-b-g}{3c8c63883ab0f6a9dc1a701be468e1846343ab21a05939523c2940dd058d018a}
+\tfhyps{I.conv.def:projection-a-b-g}{}
+\begin{tffidelity}
+B-only. The $\R$-linear map $\aB\to\aB$, $h\mapsto\frac12(\alpha(h),-\alpha(h))$, with $\alpha$ the simple root.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[properties of the projection onto $\aBG$]
+\tfstmt{I.conv.lem:projection-a-b-g}
+\bonly
+\lean{GL2TF.projABG_spec}
+\uses{I.conv.def:projection-a-b-g,I.conv.def:space-a-b,I.conv.def:space-a-b-g,I.conv.def:simple-root}
+\end{lemma}
+\begin{tfformal}{I.conv.lem:projection-a-b-g}
+\tfsem{I.conv.lem:projection-a-b-g}{85d52d02c72f1a1707229775581238061d8382f0105b6d28db8c91de543e68ab}
+\tfhyps{I.conv.lem:projection-a-b-g}{}
+\begin{tffidelity}
+B-only. Three clauses: $h_B^G\in\aBG$ for all $h$; $h_B^G=h$ for $h\in\aBG$; and $(x,x)_B^G=0$, the constant function \texttt{fun \_ ↦ x} having the value $x$ at both indices.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \texttt{funext} on the two coordinates (\texttt{fin\_cases}) and \texttt{simp} with the definitions of \texttt{projABG}, \texttt{simpleRoot}; the identity part uses $h_1+h_2=0$ (\texttt{linarith}).
+\end{proof}
+
+\begin{definition}[the linear form $\rho$]
+\tfstmt{I.conv.def:rho}
+\bonly
+\lean{GL2TF.rho}
+\uses{I.conv.def:space-a-b,I.conv.def:simple-root}
+\end{definition}
+\begin{tfformal}{I.conv.def:rho}
+\tfsem{I.conv.def:rho}{9c38e7ea384df76206501e04dd3f61cda665d6b528d6dbc877f5e58519ac589d}
+\tfhyps{I.conv.def:rho}{}
+\begin{tffidelity}
+B-only. The $\R$-linear form $\rho=\frac12(\mathrm{proj}_0-\mathrm{proj}_1)$ on $\aB$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the function $\hat\tau_B$]
+\tfstmt{I.conv.def:chamber-function-hat}
+\bonly
+\lean{GL2TF.tauHatB}
+\uses{I.conv.def:rho,I.conv.def:simple-root,I.conv.def:space-a-b}
+\end{definition}
+\begin{tfformal}{I.conv.def:chamber-function-hat}
+\tfsem{I.conv.def:chamber-function-hat}{5da55020bc138dfb728102a88fccc20a0ba38da61fd109971f4fc79914972be6}
+\tfhyps{I.conv.def:chamber-function-hat}{}
+\tfbinder{I.conv.def:chamber-function-hat}{0}{cc9ccfb6}{the element $h\in\aB$}
+\begin{tffidelity}
+B-only. The indicator function of $\{h:0<\frac12\alpha(h)\}$ with values in $\R$.
+\end{tffidelity}
+\end{tfformal}
+
+\section{Notation table}
+

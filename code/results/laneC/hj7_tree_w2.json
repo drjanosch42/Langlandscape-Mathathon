@@ -1,0 +1,3027 @@
+{
+ "provenance": {
+  "script": "code/python/langlandscape/hacs_bridge/laneC_hj7_compare.py",
+  "tool": "code/hacs/src/hacs/Registry/JL/quat/tools/jl_tree_dump.cpp (standalone g++ -O2 build)",
+  "binary": "/home/janosch/data/hacs-build/laneC/hj7/jl_tree_dump",
+  "binary_sha256": "0a0a44fdd9aadb0e3104c138fc330501ce715de23fcee21b00e1bb12b20502c9",
+  "commit": "60d577a84fdaf9c3226b6315817dfce39007d188",
+  "date": "2026-11-15T06:33:09+00:00",
+  "runtime_s": 0.882,
+  "native_suite_seconds": {
+   "s02_T2": 0.002262,
+   "s03_T2": 0.002324,
+   "s03_T1": 0.032305,
+   "s02_HVk2": 0.005609,
+   "s03_T6k2": 0.000841,
+   "s02_T3": 0.552559,
+   "s02_validation": 0.249552
+  },
+  "params": {
+   "suites": [
+    "s02_T2",
+    "s03_T2",
+    "s03_T1",
+    "s02_HVk2",
+    "s03_T6k2",
+    "s02_T3",
+    "s02_validation"
+   ]
+  },
+  "references": [
+   "s02/validation.json",
+   "s02/T2.json",
+   "s02/T3.json",
+   "s02/H_Vk.json",
+   "s03/T1.json",
+   "s03/T2.json",
+   "s03/T6.json"
+  ],
+  "build_cmd": "(from the worktree root) g++ -std=c++17 -O2 code/hacs/src/hacs/Registry/JL/quat/tools/jl_tree_dump.cpp code/hacs/src/hacs/Registry/JL/quat/Quat.cpp code/hacs/src/hacs/Registry/JL/quat/Lattice.cpp code/hacs/src/hacs/Registry/JL/quat/Order.cpp code/hacs/src/hacs/Registry/JL/quat/ClassSet.cpp code/hacs/src/hacs/Registry/JL/quat/Brandt2.cpp code/hacs/src/hacs/Registry/JL/quat/Tree.cpp code/hacs/src/hacs/NumberField/BigInt.cpp -o <builddir>/jl_tree_dump",
+  "notes": {
+   "s03/T1.json": "the T1 suite tests the class sets (weights, mass, Phi of the two-vertex DR graph, Eisenstein check with Brandt T_l), not the tree quotient (review m7)",
+   "fields_substantive": "excludes echoed inputs (D, q, p, m, level), the hard-coded ker_alpha_saturated, p_le_k_minus_2 at k = 2 and duplicated fields (review m1-m3)"
+  },
+  "status": "computed (native); compared against the stage-02/03 Python results (checked where match = true)"
+ },
+ "headline": {
+  "cell": "B_11 (D = 11), q = 2, U = O^x",
+  "graph": {
+   "X": 2,
+   "E": 3,
+   "stab_v": [
+    4,
+    6
+   ],
+   "stab_e": [
+    4,
+    2,
+    2
+   ],
+   "s0": [
+    0,
+    0,
+    1
+   ],
+   "s1": [
+    0,
+    1,
+    0
+   ],
+   "T_q": [
+    [
+     1,
+     2
+    ],
+    [
+     3,
+     0
+    ]
+   ]
+  },
+  "coker_alpha_alphadag_weighted_on_cuspidal_part": {
+   "stable": true,
+   "rank": 2,
+   "full_rank": true,
+   "divisors_gt1": [
+    5
+   ],
+   "order": 5,
+   "cyclic": true
+  },
+  "coker_alpha_alphadag_weighted_literal": {
+   "free_rank": 1,
+   "torsion": [
+    3
+   ]
+  },
+  "phi_comb_collapsed": {
+   "rank": 2,
+   "divisors": [
+    5
+   ],
+   "order": 5,
+   "cyclic": true
+  },
+  "ihara": {
+   "map": "iota(f0,f1) = s0^* f0 - s1^* f1 : Z[X]^2 -> Z[E]",
+   "rank": 3,
+   "kernel_rank": 1,
+   "coker_free_rank": 0,
+   "coker_torsion": []
+  },
+  "status": "computed (HACS-native C++, hacs_jl::build_tree + tree2)"
+ },
+ "summary": {
+  "s02/validation.json": {
+   "cells_compared": 240,
+   "cells_matched": 240,
+   "fields_compared": 2880,
+   "fields_matched": 2880,
+   "fields_substantive_compared": 2880,
+   "fields_substantive_matched": 2880,
+   "mismatched_cells": []
+  },
+  "s02/T2.json": {
+   "cells_compared": 3,
+   "cells_matched": 3,
+   "fields_compared": 48,
+   "fields_matched": 48,
+   "fields_substantive_compared": 36,
+   "fields_substantive_matched": 36,
+   "mismatched_cells": []
+  },
+  "s02/T3.json": {
+   "cells_compared": 3,
+   "cells_matched": 3,
+   "fields_compared": 50,
+   "fields_matched": 50,
+   "fields_substantive_compared": 35,
+   "fields_substantive_matched": 35,
+   "mismatched_cells": []
+  },
+  "s02/H_Vk.json": {
+   "cells_compared": 30,
+   "cells_matched": 30,
+   "fields_compared": 450,
+   "fields_matched": 450,
+   "fields_substantive_compared": 345,
+   "fields_substantive_matched": 345,
+   "mismatched_cells": [],
+   "not_in_reach": {
+    "cells": 120,
+    "acceptance_rows": 120,
+    "reason": "weight k = 3..10 (Sym^{k-2} coefficients over Z/p^m): HJ-7b"
+   }
+  },
+  "s03/T1.json": {
+   "cells_compared": 5,
+   "cells_matched": 5,
+   "fields_compared": 80,
+   "fields_matched": 80,
+   "fields_substantive_compared": 75,
+   "fields_substantive_matched": 75,
+   "mismatched_cells": []
+  },
+  "s03/T2.json": {
+   "cells_compared": 3,
+   "cells_matched": 3,
+   "fields_compared": 216,
+   "fields_matched": 216,
+   "fields_substantive_compared": 204,
+   "fields_substantive_matched": 204,
+   "mismatched_cells": []
+  },
+  "s03/T6.json": {
+   "cells_compared": 4,
+   "cells_matched": 4,
+   "fields_compared": 20,
+   "fields_matched": 20,
+   "fields_substantive_compared": 16,
+   "fields_substantive_matched": 16,
+   "mismatched_cells": [],
+   "not_in_reach": {
+    "cells": 36,
+    "reason": "weight k = 3..14 (V_k over Z/p^m, Hecke exponents): HJ-7b"
+   }
+  }
+ },
+ "cells": {
+  "s02/validation.json": [
+   {
+    "label": "D=2 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=3 N1=1 N0=5",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=3 N1=5 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=5 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=7 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=11 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=13 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=2 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=2 N1=1 N0=5",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=2 N1=5 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=5 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=7 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=11 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=3 q=13 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=5 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=7 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=11 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=13 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=17 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=19 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=2 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=3 N1=4 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=5 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=7 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=11 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=23 q=13 N1=3 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=29 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=30 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=30 q=7 N1=1 N0=11",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=30 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=30 q=11 N1=1 N0=7",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=30 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=30 q=13 N1=1 N0=7",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=31 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=37 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=41 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=42 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=42 q=5 N1=1 N0=11",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=42 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=42 q=11 N1=1 N0=5",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=42 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=42 q=13 N1=1 N0=5",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=43 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=47 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=2 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=2 N1=1 N0=3",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=3 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=3 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=5 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=5 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=7 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=7 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=11 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=11 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=13 N1=1 N0=1",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   },
+   {
+    "label": "D=53 q=13 N1=1 N0=2",
+    "source": "s02/validation.json",
+    "match": true,
+    "n_fields": 12,
+    "n_fields_matched": 12,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12
+   }
+  ],
+  "s02/T2.json": [
+   {
+    "label": "B2_q7",
+    "source": "s02/T2.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12,
+    "vertex_perm_ours_to_ref": [
+     0
+    ]
+   },
+   {
+    "label": "B2_q13",
+    "source": "s02/T2.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12,
+    "vertex_perm_ours_to_ref": [
+     0
+    ]
+   },
+   {
+    "label": "B11_q2",
+    "source": "s02/T2.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12,
+    "vertex_perm_ours_to_ref": [
+     0,
+     1
+    ]
+   }
+  ],
+  "s02/T3.json": [
+   {
+    "label": "D=3 q=2 U1(5^1)",
+    "source": "s02/T3.json",
+    "match": true,
+    "n_fields": 17,
+    "n_fields_matched": 17,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12,
+    "vertex_perm_found": true
+   },
+   {
+    "label": "D=3 q=2 U1(5^2)",
+    "source": "s02/T3.json",
+    "match": true,
+    "n_fields": 17,
+    "n_fields_matched": 17,
+    "n_fields_substantive": 12,
+    "n_fields_substantive_matched": 12,
+    "vertex_perm_found": true
+   },
+   {
+    "label": "D=3 q=2 U1(5^3)",
+    "source": "s02/T3.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 11,
+    "n_fields_substantive_matched": 11,
+    "not_reproduced": {
+     "vertices/edges": "the reference stores the s = 3 graph as a summary only (no edge list)"
+    }
+   }
+  ],
+  "s02/H_Vk.json": [
+   {
+    "label": "D=3 q=2 N1=5 N0=1 p=7 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=3 q=2 N1=7 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=2 q=3 N1=7 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=3 q=2 N1=13 N0=1 p=5 m=3 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=2 q=3 N1=1 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=2 q=5 N1=1 N0=1 p=7 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=2 q=7 N1=1 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=3 q=2 N1=1 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=3 q=5 N1=1 N0=1 p=7 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=3 q=7 N1=1 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=5 q=2 N1=1 N0=1 p=7 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=7 q=2 N1=1 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=13 q=2 N1=1 N0=1 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=2 q=3 N1=1 N0=5 p=7 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "D=3 q=2 N1=1 N0=7 p=5 m=4 k=2",
+    "source": "s02/H_Vk.json",
+    "match": true,
+    "n_fields": 29,
+    "n_fields_matched": 29,
+    "n_fields_substantive": 23,
+    "n_fields_substantive_matched": 23,
+    "not_reproduced": {
+     "pred_rank_H1_JL / pred_rank_M_U / pred_rank_M_Uprime": "PARI mfdim dimension predictions (modular-forms side), not a graph quantity; outside the native tree module",
+     "rank_d_Fell / global_model / ell": "Gross's global model mod a prime of K (Python second model); the native code computes rank_Q(d) exactly instead (rank_d_Q, compared with rank_d_certified)",
+     "norm_trace": "twoterm.LocalModel.norm_trace_check (Sym^n norm/trace idempotents, n = 0, 2, 4): weight k, HJ-7b",
+     "k = 3..10": "weight k > 2 (Sym^{k-2} coefficients): HJ-7b"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=2 U1(5) k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=2 U1(7) k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=2 q=3 U1(7) k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=2 U1(13) k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=2 q=3 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=2 q=5 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=2 q=7 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=2 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=5 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=7 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=5 q=2 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=7 q=2 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=13 q=2 O^x k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=2 q=3 U0(5) k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   },
+   {
+    "label": "acceptance D=3 q=2 U0(7) k=2",
+    "source": "s02/H_Vk.json#acceptance",
+    "match": true,
+    "n_fields": 1,
+    "n_fields_matched": 1,
+    "n_fields_substantive": 0,
+    "n_fields_substantive_matched": 0,
+    "not_reproduced": {
+     "pred / pred_JL / ok": "pred_JL is a PARI mfdim prediction (not native); rank_H1 is compared"
+    }
+   }
+  ],
+  "s03/T1.json": [
+   {
+    "label": "B_11 (D = q = 11, M = 1)",
+    "source": "s03/T1.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 15,
+    "n_fields_substantive_matched": 15
+   },
+   {
+    "label": "B_23 (D = q = 23, M = 1)",
+    "source": "s03/T1.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 15,
+    "n_fields_substantive_matched": 15
+   },
+   {
+    "label": "B_37 (D = q = 37, M = 1)",
+    "source": "s03/T1.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 15,
+    "n_fields_substantive_matched": 15
+   },
+   {
+    "label": "B_101 (D = q = 101, M = 1)",
+    "source": "s03/T1.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 15,
+    "n_fields_substantive_matched": 15
+   },
+   {
+    "label": "B_131 (D = q = 131, M = 1)",
+    "source": "s03/T1.json",
+    "match": true,
+    "n_fields": 16,
+    "n_fields_matched": 16,
+    "n_fields_substantive": 15,
+    "n_fields_substantive_matched": 15
+   }
+  ],
+  "s03/T2.json": [
+   {
+    "label": "B2_q7",
+    "source": "s03/T2.json",
+    "match": true,
+    "n_fields": 72,
+    "n_fields_matched": 72,
+    "n_fields_substantive": 68,
+    "n_fields_substantive_matched": 68,
+    "not_reproduced": {
+     "s0 / s1 / w_vertices / w_edges (as ordered lists)": "class order differs from PARI's; compared up to the vertex permutation found (graph_isomorphic) and as multisets",
+     "acceptance_note": "prose"
+    },
+    "vertex_perm_ours_to_ref": [
+     0
+    ],
+    "NEW_cuspidal_coker_weighted": {
+     "stable": true,
+     "rank": 0
+    },
+    "NEW_ihara": {
+     "map": "iota(f0,f1) = s0^* f0 - s1^* f1 : Z[X]^2 -> Z[E]",
+     "rank": 1,
+     "kernel_rank": 1,
+     "coker_free_rank": 1,
+     "coker_torsion": []
+    }
+   },
+   {
+    "label": "B2_q13",
+    "source": "s03/T2.json",
+    "match": true,
+    "n_fields": 72,
+    "n_fields_matched": 72,
+    "n_fields_substantive": 68,
+    "n_fields_substantive_matched": 68,
+    "not_reproduced": {
+     "s0 / s1 / w_vertices / w_edges (as ordered lists)": "class order differs from PARI's; compared up to the vertex permutation found (graph_isomorphic) and as multisets",
+     "acceptance_note": "prose"
+    },
+    "vertex_perm_ours_to_ref": [
+     0
+    ],
+    "NEW_cuspidal_coker_weighted": {
+     "stable": true,
+     "rank": 0
+    },
+    "NEW_ihara": {
+     "map": "iota(f0,f1) = s0^* f0 - s1^* f1 : Z[X]^2 -> Z[E]",
+     "rank": 1,
+     "kernel_rank": 1,
+     "coker_free_rank": 2,
+     "coker_torsion": []
+    }
+   },
+   {
+    "label": "B11_q2",
+    "source": "s03/T2.json",
+    "match": true,
+    "n_fields": 72,
+    "n_fields_matched": 72,
+    "n_fields_substantive": 68,
+    "n_fields_substantive_matched": 68,
+    "not_reproduced": {
+     "s0 / s1 / w_vertices / w_edges (as ordered lists)": "class order differs from PARI's; compared up to the vertex permutation found (graph_isomorphic) and as multisets",
+     "acceptance_note": "prose"
+    },
+    "vertex_perm_ours_to_ref": [
+     0,
+     1
+    ],
+    "NEW_cuspidal_coker_weighted": {
+     "stable": true,
+     "rank": 2,
+     "full_rank": true,
+     "divisors_gt1": [
+      5
+     ],
+     "order": 5,
+     "cyclic": true
+    },
+    "NEW_ihara": {
+     "map": "iota(f0,f1) = s0^* f0 - s1^* f1 : Z[X]^2 -> Z[E]",
+     "rank": 3,
+     "kernel_rank": 1,
+     "coker_free_rank": 0,
+     "coker_torsion": []
+    }
+   }
+  ],
+  "s03/T6.json": [
+   {
+    "label": "B_3 q=2 max p=5 m=2 k=2",
+    "source": "s03/T6.json",
+    "match": true,
+    "n_fields": 5,
+    "n_fields_matched": 5,
+    "n_fields_substantive": 4,
+    "n_fields_substantive_matched": 4,
+    "not_reproduced": {
+     "hecke (T_l, S_l, exponents, diamond)": "Hecke operators T_l (l != q) and S_l acting on H_0 = coker alpha: outside the HJ-7a weight-2 tree module (the exponents are only observable at k > 2)",
+     "hecke_vs_mf": "comparison with PARI mf charpolys (modular-forms side)",
+     "V_U1_coinvariants / eps_* / shapiro_equivariance / tau_transport": "the map epsilon to V_{U^1_p} and the Shapiro model of ihara.py; the native U_1(p) level is built directly (no Shapiro); H_0 and the ranks are compared"
+    }
+   },
+   {
+    "label": "B_3 q=2 U1p p=5 m=1 k=2",
+    "source": "s03/T6.json",
+    "match": true,
+    "n_fields": 5,
+    "n_fields_matched": 5,
+    "n_fields_substantive": 4,
+    "n_fields_substantive_matched": 4,
+    "not_reproduced": {
+     "hecke (T_l, S_l, exponents, diamond)": "Hecke operators T_l (l != q) and S_l acting on H_0 = coker alpha: outside the HJ-7a weight-2 tree module (the exponents are only observable at k > 2)",
+     "hecke_vs_mf": "comparison with PARI mf charpolys (modular-forms side)",
+     "V_U1_coinvariants / eps_* / shapiro_equivariance / tau_transport": "the map epsilon to V_{U^1_p} and the Shapiro model of ihara.py; the native U_1(p) level is built directly (no Shapiro); H_0 and the ranks are compared"
+    }
+   },
+   {
+    "label": "B_3 q=2 max p=7 m=2 k=2",
+    "source": "s03/T6.json",
+    "match": true,
+    "n_fields": 5,
+    "n_fields_matched": 5,
+    "n_fields_substantive": 4,
+    "n_fields_substantive_matched": 4,
+    "not_reproduced": {
+     "hecke (T_l, S_l, exponents, diamond)": "Hecke operators T_l (l != q) and S_l acting on H_0 = coker alpha: outside the HJ-7a weight-2 tree module (the exponents are only observable at k > 2)",
+     "hecke_vs_mf": "comparison with PARI mf charpolys (modular-forms side)",
+     "V_U1_coinvariants / eps_* / shapiro_equivariance / tau_transport": "the map epsilon to V_{U^1_p} and the Shapiro model of ihara.py; the native U_1(p) level is built directly (no Shapiro); H_0 and the ranks are compared"
+    }
+   },
+   {
+    "label": "B_3 q=2 U1p p=7 m=1 k=2",
+    "source": "s03/T6.json",
+    "match": true,
+    "n_fields": 5,
+    "n_fields_matched": 5,
+    "n_fields_substantive": 4,
+    "n_fields_substantive_matched": 4,
+    "not_reproduced": {
+     "hecke (T_l, S_l, exponents, diamond)": "Hecke operators T_l (l != q) and S_l acting on H_0 = coker alpha: outside the HJ-7a weight-2 tree module (the exponents are only observable at k > 2)",
+     "hecke_vs_mf": "comparison with PARI mf charpolys (modular-forms side)",
+     "V_U1_coinvariants / eps_* / shapiro_equivariance / tau_transport": "the map epsilon to V_{U^1_p} and the Shapiro model of ihara.py; the native U_1(p) level is built directly (no Shapiro); H_0 and the ranks are compared"
+    }
+   }
+  ]
+ }
+}

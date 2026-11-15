@@ -1,0 +1,352 @@
+% Document A (readable edition). Lean counterparts: lean/GL2TF/VolI/P1/{PrincipalSeries,Jacquet,Intertwining}.lean (M5a);
+% M5b adds its own modules.
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §§1–4 (M5a, units U2–U4): drafts by A1 (W0/W1), not frozen; item 33 (core-late) written in W1 (r-7).
+
+\chapter{\texorpdfstring{Smooth representations of $\GL_2$ over a non-archimedean local field}{Smooth representations of GL₂ over a non-archimedean local field}}\label{ch:ch-1-02-smooth}
+
+\noindent\emph{Scope:} area \texttt{smooth}; the unramified principal series, its spherical vectors and the Jacquet module, as far
+as they are algebraic (no Haar measure, no intertwining integrals; decision D-b of the fork). \emph{Sources:} \cite[§§2--4]{JL};
+\cite[§§3--7, §9]{Cas-p}; \cite{Bern}; \cite{BZ}; \cite{A-SC}.
+
+Throughout the chapter, $F$ is a non-archimedean local field with uniformizer $\unif$, residue cardinality $q$ and
+normalized absolute value $\abs{\cdot}=\abs{\cdot}_F$; $G=\GL_2(F)$, $K=K_F$, and $B=TN$, $T$, $N$, $w$ are the Borel
+subgroup, the diagonal torus, the unipotent subgroup and the Weyl element of \cref{I.conv.def:borel},
+\cref{I.conv.def:torus}, \cref{I.conv.def:unipotent} and \cref{I.conv.def:weyl-element}. For $x\in F^\times$ we write
+$\operatorname{ord}(x)$ for the integer with $x\in\unif^{\operatorname{ord}(x)}\Ocal_F^\times$
+(\cref{I.lf.thm:unit-uniformizer-decomposition}), so that $\abs{x}=q^{-\operatorname{ord}(x)}$
+(\cref{I.lf.thm:abs-uniformizer}). A pair $\chi=(\chi_1,\chi_2)$ of quasi-characters of $F^\times$ is regarded as the
+character $\chi(\diag(t_1,t_2))=\chi_1(t_1)\chi_2(t_2)$ of $T(F)$, and $w\chi=(\chi_2,\chi_1)$. The square root of the
+modular character is $\deltaB^{1/2}(n(x)\diag(t_1,t_2))=\abs{t_1/t_2}^{1/2}$, the positive real square root
+(in this volume $\deltaB^{1/2}$ is used only through this formula; the parent derives it from Haar measures on $B(F)$).
+
+\section{Quasi-characters and the principal series}\label{sec:smooth-principal-series}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[§3, (3.1), p.~46]{JL} (the space $\mathcal B(\mu_1,\mu_2)$
+and its admissibility); \cite[§3.1, normalized induction and Proposition~3.1.1, p.~32]{Cas-p}; \cite[§1.6, unramified
+characters, p.~17]{Cas-p}.\par}
+
+\begin{definition}[quasi-characters]
+\tfstmt{I.smooth.def:quasi-character}
+\uses{I.lf.def:nalf}
+\end{definition}
+
+\begin{remark}[quasi-characters are unitary on the units]\label{rem:smooth-unit-values}
+$\Ocal_F^\times$ is compact (it is closed in the compact ring $\Ocal_F$, being the complement of the open ideal
+$\unif\Ocal_F$), so for a quasi-character $\chi$ the image $\abs{\chi(\Ocal_F^\times)}$ is a compact subgroup of the
+multiplicative group $\R_{>0}$, hence $\{1\}$: $\abs{\chi(u)}=1$ for $u\in\Ocal_F^\times$. In particular
+$\abs{\chi(\unif)}$ does not depend on the choice of the uniformizer.
+\end{remark}
+
+\begin{lemma}[unramified quasi-characters]
+\tfstmt{I.smooth.lem:unramified-character-param}
+\uses{I.smooth.def:quasi-character, I.lf.def:uniformizer, I.lf.thm:abs-multiplicative}
+\end{lemma}
+\begin{proof}
+\uses{I.lf.thm:unit-uniformizer-decomposition, I.lf.def:nalf}
+Write $x\in F^\times$ as $x=u\unif^{\operatorname{ord}(x)}$ with $u\in\Ocal_F^\times$
+(\cref{I.lf.thm:unit-uniformizer-decomposition}). If $\chi$ is unramified, then
+$\chi(x)=\chi(u)\chi(\unif)^{\operatorname{ord}(x)}=\chi(\unif)^{\operatorname{ord}(x)}$. So $\chi$ is determined by
+$\chi(\unif)$, and $\chi\mapsto\chi(\unif)$ is injective. For surjectivity let $\alpha\in\C^\times$ and
+$\chi_\alpha(x)=\alpha^{\operatorname{ord}(x)}$. The uniqueness in \cref{I.lf.thm:unit-uniformizer-decomposition}
+gives $\operatorname{ord}(xy)=\operatorname{ord}(x)+\operatorname{ord}(y)$ (multiply the decompositions of $x$ and $y$)
+and $\operatorname{ord}(u)=0$ for units; so $\chi_\alpha$ is a homomorphism, trivial on $\Ocal_F^\times$, with
+$\chi_\alpha(\unif)=\alpha$. It is continuous, because it is constant on each set $\unif^n\Ocal_F^\times$, and these sets
+are open: if $v(x_0)=v(\unif^n)$ and $v(x-x_0)<v(x_0)$, then $v(x)=v(x_0)$ by the ultrametric inequality, and the sets
+$\{x:v(x-x_0)<v(x_0)\}$ are open by \cref{I.lf.def:nalf}(i). The statement on pairs follows componentwise.
+\end{proof}
+
+\noindent For a pair $\chi=(\chi_1,\chi_2)$ of unramified quasi-characters, $(\alpha,\beta)=(\chi_1(\unif),\chi_2(\unif))$
+is the \emph{Satake parameter} of $\chi$; by the lemma it determines $\chi$, and every
+$(\alpha,\beta)\in(\C^\times)^2$ occurs.
+
+\begin{definition}[the principal series]
+\tfstmt{I.smooth.def:principal-series}
+\uses{I.smooth.def:quasi-character, I.conv.def:unipotent, I.conv.def:torus, I.lf.def:normalized-abs}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} The zero function lies in $I(\chi_1,\chi_2)$. If $f,f'$ satisfy (i) with $K'$ and
+$K''$, then $f+f'$ and $cf$ satisfy (i) with the compact open subgroup $K'\cap K''$, and (ii) is linear in $f$.
+
+\noindent Condition~(ii) says $f(bg)=\chi\deltaB^{1/2}(b)f(g)$ for $b=n(x)\diag(t_1,t_2)\in B(F)$; this is \emph{normalized}
+induction, as in \cite[(3.1)]{JL} and \cite[§3.1]{Cas-p}. The subgroup $K'$ in~(i) is one subgroup for all arguments $g$.
+The map $b\mapsto\chi\deltaB^{1/2}(b)=\chi_1(t_1)\chi_2(t_2)\abs{t_1/t_2}^{1/2}$ is a character of $B(F)$: by
+\cref{I.conv.lem:torus-normalizes-unipotent}, $n(x)t\,n(x')t'=n(x+t_1t_2^{-1}x')\,tt'$.
+
+\begin{theorem}[the principal series is a smooth representation]
+\tfstmt{I.smooth.thm:principal-series-smooth}
+\uses{I.smooth.def:principal-series, I.rep.def:smooth-rep, I.lf.thm:abs-multiplicative}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:iwasawa-local, I.conv.def:max-compact-local, I.conv.def:borel}
+\emph{Right translates.} Let $f\in I(\chi_1,\chi_2)$ be right invariant under the compact open subgroup $K'$, and
+$h\in G$. The left $B$-equivariance of $g\mapsto f(gh)$ is that of $f$, evaluated at $gh$. If $k\in hK'h^{-1}$, then
+$gkh=gh\,(h^{-1}kh)$ with $h^{-1}kh\in K'$, so $(\pi_\chi(h)f)(gk)=(\pi_\chi(h)f)(g)$; and $hK'h^{-1}$ is a compact
+open subgroup, conjugation being a homeomorphism of $G$. So $\pi_\chi(h)f\in I(\chi_1,\chi_2)$. Clearly $\pi_\chi(h)$ is
+linear, $\pi_\chi(1)=\mathrm{id}$ and $(\pi_\chi(h_1)\pi_\chi(h_2)f)(g)=(\pi_\chi(h_2)f)(gh_1)=f(gh_1h_2)$, so $\pi_\chi$ is
+a representation.
+
+\emph{Smoothness.} The stabilizer $\{h:\pi_\chi(h)f=f\}$ of $f$ is a subgroup of $G$ containing the open subgroup $K'$;
+it is the union of its cosets $hK'$, hence open (\cref{I.rep.def:smooth-rep}).
+
+\emph{Restriction to $K$.} By \cref{I.decomp.thm:iwasawa-local} every $g\in G$ is $g=\beta k$ with $k\in K$ and
+$\beta$ upper triangular, and $\beta=n(x)\diag(t_1,t_2)$ with $t_1=\beta_{11}$, $t_2=\beta_{22}$,
+$x=\beta_{12}/\beta_{22}$. Then $f(g)=\chi_1(t_1)\chi_2(t_2)\abs{t_1/t_2}^{1/2}f(k)$, so $f|_K=0$ implies $f=0$.
+\end{proof}
+
+\begin{theorem}[fixed vectors of the principal series]
+\tfstmt{I.smooth.thm:principal-series-fixed-dimension}
+\uses{I.smooth.def:principal-series, I.smooth.thm:principal-series-smooth, I.conv.def:borel, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:iwasawa-local, I.conv.def:max-compact-local, I.conv.lem:torus-normalizes-unipotent}
+The sources give only finiteness and the bound $\dim\le[K:K\cap K']$ (\cite[Theorem~2.4.1\,(d)]{Cas-p},
+\cite[§9, p.~54]{BumpH}); the equality is the following Mackey-type count. Write $\chi\deltaB^{1/2}=\psi$; by the remark
+after \cref{I.smooth.def:principal-series} it is a character of $B$, and $f(bg)=\psi(b)f(g)$ for $f\in I(\chi_1,\chi_2)$.
+A vector $f$ is $K'$-fixed if and only if $f(gk)=f(g)$ for all $g\in G$, $k\in K'$.
+
+\emph{Independence of the representative.} If $g'=b_0gk_0$ ($b_0\in B$, $k_0\in K'$), then
+$B\cap g'K'g'^{-1}=b_0(B\cap gK'g^{-1})b_0^{-1}$, and $\psi(b_0bb_0^{-1})=\psi(b)$ since $\psi$ takes values in the abelian
+group $\C^\times$.
+
+\emph{Finiteness.} $K\cap K'$ is an open subgroup of the compact group $K$, so $K/(K\cap K')$ is finite. Every $g\in G$ is
+$bk$ with $b\in B$, $k\in K$ (\cref{I.decomp.thm:iwasawa-local}), so $BgK'=BkK'$, and $k(K\cap K')\mapsto BkK'$ is a
+surjection from $K/(K\cap K')$ onto $B\backslash G/K'$.
+
+\emph{The count.} Let $g_1,\dots,g_r$ represent the double cosets, and let $S$ be the set of $i$ with $\psi=1$ on
+$B\cap g_iK'g_i^{-1}$. Consider $\Phi\colon I(\chi_1,\chi_2)^{K'}\to\C^r$, $f\mapsto(f(g_i))_i$.
+\begin{itemize}
+\item $\Phi$ is injective: every $g$ is $bg_ik'$, and $f(g)=\psi(b)f(g_i)$.
+\item $f(g_i)=0$ for $i\notin S$: choose $b\in B\cap g_iK'g_i^{-1}$ with $\psi(b)\neq1$; then $bg_i=g_ik'$ with
+  $k'=g_i^{-1}bg_i\in K'$, and $f(g_i)=f(g_ik')=f(bg_i)=\psi(b)f(g_i)$.
+\item For $i\in S$ define $f_i(bg_ik')=\psi(b)$ ($b\in B$, $k'\in K'$) and $f_i=0$ outside $Bg_iK'$. This is well defined:
+  if $bg_ik'=b'g_ik''$, then $b'^{-1}b=g_ik''k'^{-1}g_i^{-1}\in B\cap g_iK'g_i^{-1}$, so $\psi(b)=\psi(b')$. It satisfies
+  (ii) of \cref{I.smooth.def:principal-series} (left multiplication by $B$ preserves $Bg_iK'$ and its complement), and (i)
+  and $K'$-invariance with the compact open subgroup $K'$. So $f_i\in I(\chi_1,\chi_2)^{K'}$, with $f_i(g_j)=\delta_{ij}$.
+\end{itemize}
+Hence $\Phi$ is an isomorphism onto $\C^S$, and $\dim I(\chi_1,\chi_2)^{K'}=\#S$.
+\end{proof}
+
+\begin{corollary}[admissibility]
+\tfstmt{I.smooth.cor:principal-series-admissible}
+\uses{I.smooth.def:principal-series, I.rep.def:admissible-rep}
+\end{corollary}
+\begin{proof}
+\uses{I.smooth.thm:principal-series-smooth, I.smooth.thm:principal-series-fixed-dimension}
+The representation is smooth by \cref{I.smooth.thm:principal-series-smooth}, and $I(\chi_1,\chi_2)^{K'}$ is
+finite-dimensional for every compact open subgroup $K'$ by \cref{I.smooth.thm:principal-series-fixed-dimension}.
+These are the two conditions of \cref{I.rep.def:admissible-rep}.
+\end{proof}
+
+\section{Spherical vectors and the spherical Hecke algebra}\label{sec:smooth-spherical}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[Lemma~3.9 and the paragraph after it, p.~59]{JL} (the
+$\GL(2,\Ocal_F)$-invariant vector of $\mathcal B(\mu_1,\mu_2)$ and the homomorphism $\lambda$ of $\mathcal H^0$);
+\cite[§9.1, $\varphi_K$]{Cas-p}; \cite[§2.2, Hecke algebras, p.~23]{Cas-p}.\par}
+
+\begin{definition}[the spherical vector]
+\tfstmt{I.smooth.def:spherical-vector}
+\uses{I.smooth.def:quasi-character, I.conv.def:unipotent, I.conv.def:torus, I.conv.def:max-compact-local, I.lf.def:normalized-abs, I.conv.def:borel, I.decomp.thm:iwasawa-local}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} Every $g$ has the form $n(x)\diag(t_1,t_2)k$ by the Iwasawa decomposition, as in
+the proof of \cref{I.smooth.thm:principal-series-smooth}. Suppose $n(x)tk=n(x')t'k'$ with $t=\diag(t_1,t_2)$,
+$t'=\diag(t_1',t_2')$. Then $b=(n(x')t')^{-1}n(x)t=k'k^{-1}$ lies in $B(F)\cap K$. Its diagonal entries are $t_1/t_1'$
+and $t_2/t_2'$; they are integral with a unit product (\cref{I.conv.lem:max-compact-local-mem}), hence units. As
+$\chi_1,\chi_2$ are unramified and $\abs{u}=1$ for units (\cref{I.lf.thm:abs-uniformizer}), $\chi_i(t_i)=\chi_i(t_i')$
+and $\abs{t_1/t_2}=\abs{t_1'/t_2'}$.
+
+\begin{theorem}[spherical vectors of the principal series]
+\tfstmt{I.smooth.thm:principal-series-spherical}
+\uses{I.smooth.def:spherical-vector, I.smooth.def:principal-series, I.rep.def:smooth-rep, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{proof}
+\uses{I.smooth.thm:principal-series-smooth, I.conv.lem:torus-normalizes-unipotent, I.lf.thm:abs-uniformizer, I.lf.thm:abs-multiplicative}
+This is the case $K'=K$ of \cref{I.smooth.thm:principal-series-fixed-dimension} ($B\backslash G/K$ is a single point);
+we give the direct argument. A vector $f\in I(\chi_1,\chi_2)$ is $K$-fixed if and only if $f(gk)=f(g)$ for $g\in G$,
+$k\in K$. For such $f$ and $g=n(x)\diag(t_1,t_2)k$,
+\[
+  f(g)=\chi_1(t_1)\chi_2(t_2)\abs{t_1/t_2}^{1/2}f(k)=\chi_1(t_1)\chi_2(t_2)\abs{t_1/t_2}^{1/2}f(1).\tag{$\ast$}
+\]
+
+(a) \emph{$f^\circ_\chi\in I(\chi_1,\chi_2)^K$.} $f^\circ_\chi$ is right $K$-invariant, and $K$ is compact open. Let
+$s=\diag(s_1,s_2)$, $y\in F$ and $g=n(x)\diag(t_1,t_2)k$. By \cref{I.conv.lem:torus-normalizes-unipotent},
+\[
+  n(y)\,s\,n(x)\,t\,k=n(y+s_1s_2^{-1}x)\,\diag(s_1t_1,s_2t_2)\,k,
+\]
+so
+$f^\circ_\chi(n(y)sg)=\chi_1(s_1)\chi_2(s_2)\abs{s_1/s_2}^{1/2}f^\circ_\chi(g)$ by multiplicativity of $\chi_i$ and
+$\abs{\cdot}$. Taking $x=0$, $t=1$, $k=1$ gives $f^\circ_\chi(1)=1$. By~($\ast$) every $f\in I(\chi_1,\chi_2)^K$ equals
+$f(1)f^\circ_\chi$, and $f^\circ_\chi\neq0$; so $I(\chi_1,\chi_2)^K=\C f^\circ_\chi$ is one-dimensional.
+
+(b) Suppose $\chi_1(u)\neq1$ for some $u\in\Ocal_F^\times$, and let $f\in I(\chi_1,\chi_2)^K$. The matrix
+$d=\diag(u,1)$ lies in $K$, and $\abs{u}=1$; so $f(1)=f(1\cdot d)=f(d\cdot1)=\chi_1(u)f(1)$, hence $f(1)=0$, and $f=0$
+by~($\ast$). If $\chi_2(u)\neq1$, use $d=\diag(1,u)$.
+\end{proof}
+
+\noindent Next, the spherical Hecke algebra of \cref{ch:ch-1-01-spherical} acts on $K$-fixed vectors by finite sums
+over $G/K$, in the coset model (for smooth representations this agrees, up to the factor $\mu(K)$ for a Haar measure $\mu$,
+with the usual action of $C_c^\infty(G)$ by integration \cite[§1]{JL}, which is not used here).
+
+\begin{definition}[the action of the spherical Hecke algebra]
+\tfstmt{I.smooth.def:spherical-hecke-action}
+\uses{I.satake.def:spherical-hecke-algebra, I.rep.def:smooth-rep, I.conv.def:max-compact-local}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} For $v\in V^K$ and $k\in K$, $f(gk)\pi(gk)v=f(g)\pi(g)\pi(k)v=f(g)\pi(g)v$, so the
+summand depends only on $gK$; it vanishes unless $f(g)\neq0$, which happens for finitely many cosets
+(\cref{I.satake.def:spherical-hecke-algebra}). For $k\in K$, since $gK\mapsto kgK$ is a bijection of $G/K$ and
+$f(k^{-1}g)=f(g)$,
+$\pi(k)\pi(f)v=\sum_{gK}f(g)\pi(kg)v=\sum_{gK}f(k^{-1}g)\pi(g)v=\pi(f)v$. Linearity in $f$ and in $v$ is clear.
+
+\begin{theorem}[Hecke eigenvalues of the spherical vector]
+\tfstmt{I.smooth.thm:spherical-hecke-eigenvalue}
+\uses{I.smooth.def:spherical-hecke-action, I.smooth.def:spherical-vector, I.satake.thm:hecke-characters, I.satake.def:satake-transform}
+\end{theorem}
+\begin{proof}
+\uses{I.smooth.thm:principal-series-spherical, I.satake.thm:satake-generators, I.lf.thm:abs-uniformizer}
+$\pi_\chi(f)f^\circ_\chi$ lies in $I(\chi_1,\chi_2)^K=\C f^\circ_\chi$ (\cref{I.smooth.def:spherical-hecke-action},
+\cref{I.smooth.thm:principal-series-spherical}), so it equals $c\,f^\circ_\chi$ with $c=(\pi_\chi(f)f^\circ_\chi)(1)$, as
+$f^\circ_\chi(1)=1$. Now
+\[
+  c=\sum_{gK\in G/K}f(g)\,(\pi_\chi(g)f^\circ_\chi)(1)=\sum_{gK\in G/K}f(g)\,f^\circ_\chi(g).
+\]
+Let $b$ be an upper triangular representative of $gK$ with diagonal entries $u\unif^i$, $u'\unif^j$ (units $u,u'$).
+Then $b=n(x)\diag(u\unif^i,u'\unif^j)$ for some $x$, and since $\chi_1,\chi_2$ are unramified,
+$f^\circ_\chi(g)=f^\circ_\chi(b)=\alpha^i\beta^j\,q^{-(i-j)/2}$, which is the evaluation at $(\alpha,\beta)$ of the weight
+$\mu(gK)=q^{-(i-j)/2}X^iY^j$ of \cref{I.satake.def:satake-transform}. Evaluation is linear, so
+$c=\bigl(\sum_{gK}f(g)\mu(gK)\bigr)(\alpha,\beta)=(\Sat f)(\alpha,\beta)=\omega_{\alpha,\beta}(f)$. The particular values
+are those of \cref{I.satake.thm:hecke-characters}\,(a).
+\end{proof}
+
+\noindent This agrees with \cite[Proposition~40, p.~55]{BumpH}: $\theta_1f^\circ=(\alpha+\beta)f^\circ$ with
+$\theta_1=q^{-1/2}T_\unif$, and $\theta_2f^\circ=\alpha\beta f^\circ$.
+
+\section{The Jacquet module and Frobenius reciprocity}\label{sec:smooth-jacquet}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[§3.2, Proposition~3.2.1, Corollary~3.2.2, Proposition~3.2.3
+and Theorem~3.2.4, pp.~33--34]{Cas-p}; \cite[§2.4, Frobenius reciprocity, p.~26]{Cas-p}; \cite[§2]{BZ}. Casselman defines
+$V(N)$ by integrals over compact open subgroups and proves the equality with the span; we take the span as the
+definition, and his characterization becomes Jacquet's lemma.\par}
+
+The Jacquet module is taken \emph{unnormalized}: $T(F)$ acts on $V_N$ through $\pi$ itself. The twist by
+$\deltaB^{-1/2}$ appears explicitly in Frobenius reciprocity.
+
+\begin{definition}[the Jacquet module]
+\tfstmt{I.smooth.def:jacquet-module}
+\uses{I.conv.def:unipotent, I.conv.def:torus}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} For $t\in T(F)$, $n\in N(F)$ and $v\in V$,
+$\pi(t)(\pi(n)v-v)=\pi(tnt^{-1})\pi(t)v-\pi(t)v$ with $tnt^{-1}\in N(F)$ by
+\cref{I.conv.lem:torus-normalizes-unipotent}; so $\pi(t)V(N)\subseteq V(N)$ and $\pi_N(t)$ is well defined. The
+identities $\pi_N(1)=\mathrm{id}$ and $\pi_N(tt')=\pi_N(t)\pi_N(t')$ follow from those of $\pi$.
+
+\noindent We use two facts on $N(F)$. The map $n\colon F\to N(F)$ is a group isomorphism and a homeomorphism (its
+inverse is the upper right matrix entry), so $N(F)$ is abelian, and the subgroups $N_m=n(\unif^m\Ocal_F)$, $m\in\Z$,
+are compact and open in $N(F)$. (E) \emph{Every open subgroup of $N(F)$ contains $N_m$ for all large $m$, and every
+compact subset of $N(F)$ lies in $N_{-m}$ for all large $m$}: the sets $\unif^m\Ocal_F$ form a basis of
+neighbourhoods of $0$ in $F$, and they form an increasing open cover of $F$ as $m\to-\infty$. In particular, if $N_1\subseteq N_0$
+are compact open subgroups, $N_0/N_1$ is finite.
+
+\begin{lemma}[Jacquet's lemma]
+\tfstmt{I.smooth.lem:jacquet-kernel}
+\uses{I.smooth.def:jacquet-module, I.rep.def:smooth-rep, I.lf.thm:abs-multiplicative}
+\end{lemma}
+\begin{proof}
+\uses{I.conv.def:unipotent, I.lf.def:nalf}
+In (ii) the summand $\pi(n)v$ depends only on $nN_1$, as $v$ is $N_1$-fixed.
+
+(ii)$\Rightarrow$(i): Let $n_1,\dots,n_d$ represent $N_0/N_1$. Then
+$v=-\frac1d\sum_{i=1}^d\bigl(\pi(n_i)v-v\bigr)\in V(N)$, since $\sum_i\pi(n_i)v=0$.
+
+(i)$\Rightarrow$(ii): We prove a stronger \emph{chain form}. Say that $v\in V$ has property~(P) if there are
+$a_0,b_0\in\Z$ such that for all $a\ge a_0$ and $b\le\min(a,b_0)$, $N_a$ fixes $v$ and
+$\sum_{nN_a\in N_b/N_a}\pi(n)v=0$. Property~(P) gives~(ii) with $N_0=N_{b_0}$ and $N_1=N_{\max(a_0,b_0)}$. The vectors
+with~(P) form a subspace: $0$ has~(P), and for $v$, $v'$ with~(P) (constants $a_0,b_0$ and $a_0',b_0'$) and $c\in\C$,
+the vectors $v+v'$ and $cv$ have~(P) with the constants $\max(a_0,a_0')$, $\min(b_0,b_0')$ and $a_0,b_0$, since both
+conditions are linear in $v$. As $V(N)$ is spanned by the vectors $\pi(n)w-w$, it suffices to prove~(P) for these. Since
+$\pi$ is smooth, the stabilizer of $w$ is open in $G$; its intersection with $N(F)$ is an open subgroup of $N(F)$, which
+contains $N_{a_0}$ for some $a_0$ by~(E). By~(E) again, $n\in N_{b_0}$ for some $b_0$. Let $a\ge a_0$ and
+$b\le\min(a,b_0)$, so $N_a\subseteq N_{a_0}$ and $n\in N_{b_0}\subseteq N_b$. Then $N_a$ fixes $w$, and also $\pi(n)w$,
+since $N(F)$ is abelian: $\pi(m)\pi(n)w=\pi(n)\pi(m)w=\pi(n)w$ for $m\in N_a$. Since $N(F)$ is abelian and $n\in N_b$,
+$mN_a\mapsto mnN_a$ is a bijection of $N_b/N_a$, so $\sum_{N_b/N_a}\pi(m)\pi(n)w=\sum_{N_b/N_a}\pi(m)w$, and the sum for
+$\pi(n)w-w$ vanishes.
+\end{proof}
+
+\begin{theorem}[functoriality of the Jacquet module]
+\tfstmt{I.smooth.thm:jacquet-functorial}
+\uses{I.smooth.def:jacquet-module, I.lf.def:nalf}
+\end{theorem}
+\begin{proof}
+$\varphi(\pi(n)v-v)=\sigma(n)\varphi(v)-\varphi(v)\in W(N)$, so $\varphi(V(N))\subseteq W(N)$ by linearity, and
+$\varphi_N$ is well defined and linear. For $t\in T(F)$,
+$\varphi_N(\pi_N(t)(v+V(N)))=\varphi(\pi(t)v)+W(N)=\sigma(t)\varphi(v)+W(N)=\sigma_N(t)\varphi_N(v+V(N))$. The last two
+identities hold on representatives.
+\end{proof}
+
+\begin{theorem}[exactness of the Jacquet functor]
+\tfstmt{I.smooth.thm:jacquet-exact}
+\uses{I.smooth.def:jacquet-module, I.smooth.thm:jacquet-functorial, I.rep.def:smooth-rep}
+\end{theorem}
+\begin{proof}
+\uses{I.smooth.lem:jacquet-kernel}
+Write $\pi_U,\pi_V,\pi_W$ for the three representations. We use the identity
+\[
+  x-\tfrac1d\sum_{i=1}^d\pi(n_i)x=-\tfrac1d\sum_{i=1}^d\bigl(\pi(n_i)x-x\bigr)\in X(N)\tag{$\ast$}
+\]
+for any representation $(\pi,X)$ of $G$, any $x\in X$ and any $n_1,\dots,n_d\in N(F)$, $d\ge1$. If $N_1\subseteq N_0$ are
+compact open subgroups of $N(F)$, we fix representatives $n_1,\dots,n_d$ of $N_0/N_1$ ($d=[N_0:N_1]$) and write
+$A_X(x)=\sum_i\pi(n_i)x$; if $x$ is $N_1$-fixed, $A_X(x)$ is the sum of~(ii) in
+\cref{I.smooth.lem:jacquet-kernel}. A $G$-map commutes with these sums: $\beta(A_V(v))=A_W(\beta(v))$.
+
+\emph{$\operatorname{im}\alpha_N=\ker\beta_N$.} $\beta_N\alpha_N=(\beta\alpha)_N=0$, so
+$\operatorname{im}\alpha_N\subseteq\ker\beta_N$. Conversely let $\beta_N(v+V(N))=0$, i.e.\ $\beta(v)\in W(N)$. By
+\cref{I.smooth.lem:jacquet-kernel} for $W$ there are compact open $N_1\subseteq N_0$ with $N_1$ fixing $\beta(v)$ and
+$A_W(\beta(v))=0$. Then $\beta(A_V(v))=A_W(\beta(v))=0$, so $A_V(v)=\alpha(u)$ for some $u\in U$, and by~($\ast$)
+$v-\frac1d\alpha(u)\in V(N)$, i.e.\ $v+V(N)=\alpha_N\bigl(\tfrac1du+U(N)\bigr)$. (We need not choose $N_1$ fixing $v$.)
+
+\emph{$\alpha$ injective.} Let $\alpha_N(u+U(N))=0$, i.e.\ $\alpha(u)\in V(N)$. By \cref{I.smooth.lem:jacquet-kernel}
+for $V$ there are compact open $N_1\subseteq N_0$ with $N_1$ fixing $\alpha(u)$ and $A_V(\alpha(u))=0$. Then
+$\alpha(A_U(u))=A_V(\alpha(u))=0$, so $A_U(u)=0$, and $u\in U(N)$ by~($\ast$).
+
+\emph{$\beta$ surjective.} Then so is $\beta_N(v+V(N))=\beta(v)+W(N)$.
+
+\noindent The smoothness of $U$ is not used.
+\end{proof}
+
+\begin{theorem}[Frobenius reciprocity]
+\tfstmt{I.smooth.thm:frobenius-reciprocity}
+\uses{I.smooth.def:jacquet-module, I.smooth.def:principal-series, I.smooth.thm:principal-series-smooth, I.smooth.thm:jacquet-functorial, I.rep.def:smooth-rep, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.def:unipotent, I.conv.def:torus, I.decomp.thm:iwasawa-local}
+(a) For $v\in V$ and $n\in N(F)$, $\Phi(\pi(n)v-v)(1)=\Phi(v)(n)-\Phi(v)(1)=0$ by~(ii) of
+\cref{I.smooth.def:principal-series} with $t=1$; so $\Phi^\flat$ vanishes on $V(N)$ and is well defined and linear. For
+$t\in T(F)$, $\Phi^\flat(\pi_N(t)(v+V(N)))=\Phi(\pi(t)v)(1)=\Phi(v)(t)=\psi(t)\Phi(v)(1)$.
+
+(b) Linearity in $\Phi$ is clear. \emph{Injectivity:} if $\Phi^\flat=0$, then
+$\Phi(v)(g)=(\pi_\chi(g)\Phi(v))(1)=\Phi(\pi(g)v)(1)=0$ for all $v$, $g$. \emph{Surjectivity:} let
+$\lambda\in\Hom_{T(F)}(V_N,\psi)$ and put $\Phi_\lambda(v)(g)=\lambda(\pi(g)v+V(N))$. The stabilizer of $v$ is open, so it
+contains a compact open subgroup $K'$ of $G$ (the compact open subgroups form a basis of neighbourhoods of $1$,
+\cref{rem:van-dantzig}), and $\Phi_\lambda(v)(gk)=\Phi_\lambda(v)(g)$ for $k\in K'$. Since
+$\pi(n)u-u\in V(N)$,
+\[
+  \Phi_\lambda(v)(n\,t\,g)=\lambda\bigl(\pi(n)\pi(t)\pi(g)v+V(N)\bigr)=\lambda\bigl(\pi_N(t)(\pi(g)v+V(N))\bigr)=\psi(t)\,\Phi_\lambda(v)(g)
+\]
+for $n\in N(F)$, $t\in T(F)$. So $\Phi_\lambda(v)\in I(\chi_1,\chi_2)$; $\Phi_\lambda$ is linear, and
+$\Phi_\lambda(\pi(h)v)(g)=\Phi_\lambda(v)(gh)$, i.e.\ $\Phi_\lambda$ is $G$-equivariant. Finally
+$\Phi_\lambda^\flat(v+V(N))=\lambda(v+V(N))$.
+
+(c) $(\Phi\circ u)^\flat(v'+V'(N))=\Phi(u(v'))(1)=\Phi^\flat(u(v')+V(N))=\Phi^\flat(u_N(v'+V'(N)))$
+(\cref{I.smooth.thm:jacquet-functorial}).
+\end{proof}
+
+\noindent Smoothness of $V$ is used only for surjectivity. The Jacquet module is unnormalized, and the factor
+$\deltaB^{1/2}$ sits in the target character $\psi=\chi\deltaB^{1/2}$; in the normalized Jacquet module
+$\deltaB^{-1/2}V_N$ of \cite{BZ} the target would be $\chi$ \cite[Theorem~3.2.4, p.~34]{Cas-p}.
+
+\noindent The Jacquet module of the principal series is computed from the Bruhat filtration, using the integral
+$f\mapsto\int_Ff(w\,n(x))\,\dd x$ on the functions supported on the open cell $BwN(F)$ \cite[§§3, 6]{Cas-p}; in the parent project this
+is done in its Vol.~I, Ch.~1.2. It needs a Haar measure on $N(F)$ and is not part of this volume.
+

@@ -1,0 +1,285 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P0/Conventions.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% § "Local maximal compact subgroups" written (M1, unit U1); M2 (unit U1): B, T, N, w, K_inf, k_theta; M3 (unit U1): the rest.
+
+\chapter{Conventions and the algebraic groups}\label{ch:ch-0-01-conventions}
+
+\noindent\emph{Sources:} \cite[§§2, 5]{AIntro}; \cite[Lecture IV §1]{Gel}.
+
+\section{\texorpdfstring{The group $\GL_2$ and its standard subgroups}{The group GL₂ and its standard subgroups}}\label{sec:conv-subgroups}
+
+\noindent\emph{Sources for this section:} \cite[§2]{AIntro}; \cite[Lecture IV §1]{Gel}; \cite[§5]{JL} (the
+archimedean notation $n(x)$, $\diag(a_1,a_2)$, $w$).
+
+Throughout, $R$ is a commutative ring and $\GL_2(R)=\Mat_2(R)^\times$; a matrix $g\in\Mat_2(R)$ lies in $\GL_2(R)$ if
+and only if $\det g\in R^\times$ (the inverse is $(\det g)^{-1}\operatorname{adj}(g)$). The definitions below are
+used for $R=\R$ in milestone M2 and for local and adelic rings later.
+
+\begin{definition}[the group $\GL_2$]
+\tfstmt{I.conv.def:gl2}
+\end{definition}
+\noindent\emph{Homomorphism.} Applying $f$ entrywise to a matrix commutes with sums and products of matrices and
+with determinants, because $f$ is a ring homomorphism; it maps $1$ to $1$. So $f$ maps an invertible matrix $g$ with inverse
+$h$ to a matrix $f_*g$ with $f_*g\cdot f_*h=f_*(gh)=1=f_*h\cdot f_*g$, and $f_*(gg')=f_*g\,f_*g'$. Moreover
+$(\mathrm{id}_R)_*=\mathrm{id}$ and $(f'\circ f)_*=f'_*\circ f_*$ (entrywise), so $R\mapsto\GL_2(R)$ is a functor. In
+the library this is \texttt{Matrix.GeneralLinearGroup.map}; the group $\GL_2(R)$ itself is \texttt{GL (Fin 2) R}, with no
+project alias.
+
+\begin{definition}[the Borel subgroup]
+\tfstmt{I.conv.def:borel}
+\end{definition}
+\noindent\emph{Subgroup.} $1\in B(R)$. For $g,h$ with $g_{21}=h_{21}=0$, $(gh)_{21}=g_{21}h_{11}+g_{22}h_{21}=0$, and
+$(g^{-1})_{21}=-(\det g)^{-1}g_{21}=0$.
+
+\begin{definition}[the diagonal torus]
+\tfstmt{I.conv.def:torus}
+\end{definition}
+\noindent\emph{Subgroup.} Products and inverses of invertible diagonal matrices are diagonal; a diagonal matrix
+$\diag(t_1,t_2)$ is invertible if and only if $t_1t_2\in R^\times$, i.e.\ $t_1,t_2\in R^\times$.
+
+\begin{definition}[the unipotent subgroup]
+\tfstmt{I.conv.def:unipotent}
+\end{definition}
+\noindent\emph{Proof of the claims.} $n(x)n(y)=n(x+y)$ by multiplying out, and $n(0)=1$; hence $n(x)$ is invertible
+with inverse $n(-x)$, $n$ is a homomorphism, and its image $N(R)$ is a subgroup. $n$ is injective because $x$ is the
+$(1,2)$-entry of $n(x)$.
+
+\begin{definition}[the Weyl element]
+\tfstmt{I.conv.def:weyl-element}
+\end{definition}
+\noindent $\det w=0\cdot0-1\cdot(-1)=1$, so $w\in\GL_2(R)$; also $w^2=-1$ and $w^{-1}=-w$.
+
+\begin{definition}[the centre]
+\tfstmt{I.conv.def:center}
+\uses{I.conv.def:gl2}
+\end{definition}
+\noindent\emph{Subgroup.} $(z\cdot1)(z'\cdot1)=zz'\cdot1$ and $(z\cdot1)^{-1}=z^{-1}\cdot1$. \emph{It is the centre:}
+scalar matrices commute with every matrix. Conversely, if $g=\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}$ commutes
+with $n(1)$, comparing $gn(1)=\begin{psmallmatrix}a&a+b\\c&c+d\end{psmallmatrix}$ with
+$n(1)g=\begin{psmallmatrix}a+c&b+d\\c&d\end{psmallmatrix}$ gives $c=0$ and $a=d$; commuting with $\begin{psmallmatrix}1&0\\1&1\end{psmallmatrix}$ gives
+$b=0$ in the same way. So $g=a\cdot1$ with $a^2=\det g\in R^\times$, hence $a\in R^\times$. (This remark is not used
+formally.)
+
+\begin{definition}[the opposite Borel subgroup]
+\tfstmt{I.conv.def:opposite-borel}
+\uses{I.conv.def:gl2}
+\end{definition}
+\noindent\emph{Proof of the claims.} $\Bbar(R)$ is the image of $B(R)$ under the transpose anti-automorphism $g\mapsto g^{\mathsf T}$ of
+$\GL_2(R)$ (it reverses products and preserves inverses), so it is a subgroup by \cref{I.conv.def:borel}. As for
+$n$, $\bar n(x)\bar n(y)=\bar n(x+y)$ and $\bar n(0)=1$, and $\bar n$ is injective since $x$ is the $(2,1)$-entry
+of $\bar n(x)$.
+
+\begin{lemma}[functoriality of the subgroups]
+\tfstmt{I.conv.lem:subgroups-functorial}
+\uses{I.conv.def:gl2, I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:center, I.conv.def:opposite-borel}
+\end{lemma}
+\begin{proof}
+\uses{I.conv.def:gl2, I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:center, I.conv.def:opposite-borel}
+Since $f(0)=0$ and $f_*$ acts entrywise, a vanishing entry of $g$ gives a vanishing entry of $f_*g$: the conditions
+$g_{21}=0$ (for $B$), $g_{12}=g_{21}=0$ (for $T$) and $g_{12}=0$ (for $\Bbar$) are preserved. The formulas follow
+from $f(0)=0$, $f(1)=1$ by computing entrywise; they show that $N$, $\Nbar$ and $T$ are preserved
+($T(R)$ consists of the $\diag(t_1,t_2)$ by \cref{I.conv.def:torus}). Finally
+$f_*(z\cdot1)=f(z)\cdot1$, and $f(z)$ is a unit with inverse $f(z^{-1})$.
+\end{proof}
+
+\section{\texorpdfstring{Structure of $B$ and of $N_G(T)$}{Structure of B and of NG(T)}}\label{sec:conv-structure}
+
+\noindent\emph{Sources for this section:} \cite[§2]{AIntro}; \cite[Lecture IV §1]{Gel}. The arguments are explicit
+$2\times2$ computations, valid over every commutative ring unless a field is required.
+
+\begin{lemma}[$T$ normalizes $N$]
+\tfstmt{I.conv.lem:torus-normalizes-unipotent}
+\uses{I.conv.def:torus, I.conv.def:unipotent}
+\end{lemma}
+\begin{proof}
+\uses{I.conv.def:torus, I.conv.def:unipotent}
+Write $t=\diag(t_1,t_2)$, so $t^{-1}=\diag(t_1^{-1},t_2^{-1})$. Multiplying out,
+$t\,n(x)=\begin{psmallmatrix}t_1&t_1x\\0&t_2\end{psmallmatrix}$ and
+$t\,n(x)\,t^{-1}=\begin{psmallmatrix}1&t_1xt_2^{-1}\\0&1\end{psmallmatrix}=n(t_1t_2^{-1}x)$. Hence
+$tN(R)t^{-1}\subseteq N(R)$ for every $t\in T(R)$; applying this to $t^{-1}$ gives $t^{-1}N(R)t\subseteq N(R)$, i.e.
+$N(R)\subseteq tN(R)t^{-1}$.
+\end{proof}
+
+\begin{theorem}[$B=T\ltimes N$]
+\tfstmt{I.conv.thm:borel-semidirect}
+\uses{I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.lem:torus-normalizes-unipotent, I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent}
+(ii) An element of $T(R)\cap N(R)$ is diagonal and of the form $n(x)$; its $(1,2)$-entry is $x=0$, so it is $n(0)=1$.
+
+(i) Let $b=\begin{psmallmatrix}a&y\\0&d\end{psmallmatrix}\in B(R)$. Then $\det b=ad\in R^\times$, so $a$ and $d$ are
+units (with inverses $d(ad)^{-1}$ and $a(ad)^{-1}$). Multiplying out,
+$\diag(a,d)\,n(a^{-1}y)=\begin{psmallmatrix}a&y\\0&d\end{psmallmatrix}=b$. Uniqueness: if $tn=t'n'$ then
+$t'^{-1}t=n'n^{-1}\in T(R)\cap N(R)=\{1\}$ by (ii), so $t=t'$ and $n=n'$.
+
+(iii) $N(R)\subseteq B(R)$ since $n(x)_{21}=0$. For $b=tn_0\in B(R)$ as in (i) and $n\in N(R)$,
+$bnb^{-1}=t(n_0nn_0^{-1})t^{-1}\in tN(R)t^{-1}=N(R)$ by \cref{I.conv.lem:torus-normalizes-unipotent}, since
+$N(R)$ is a subgroup.
+\end{proof}
+\noindent By (i)--(iii), $B(R)=T(R)\ltimes N(R)$; also $b=n(yd^{-1})\diag(a,d)$, so every $b$ is uniquely $nt$ as
+well (apply (i) to $b^{-1}$ and invert). The identification with the semidirect product $N\rtimes T$ as a group isomorphism
+is plumbing (B only).
+
+\begin{lemma}[$B\cap\Nbar=1$]
+\tfstmt{I.conv.lem:borel-inter-opposite-unipotent}
+\uses{I.conv.def:borel, I.conv.def:opposite-borel}
+\end{lemma}
+\begin{proof}
+\uses{I.conv.def:borel, I.conv.def:opposite-borel}
+If $\bar n(x)\in B(R)$, its $(2,1)$-entry $x$ vanishes, so $\bar n(x)=\bar n(0)=1$.
+\end{proof}
+
+\begin{theorem}[the normalizer of the torus]
+\tfstmt{I.conv.thm:normalizer-torus}
+\uses{I.conv.def:torus, I.conv.def:weyl-element}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.def:torus, I.conv.def:weyl-element}
+\emph{$T$ and $w$ normalize $T$.} $T(k)$ is a subgroup. For $t=\diag(t_1,t_2)$, with
+$w^{-1}=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$ one computes $wtw^{-1}=\diag(t_2,t_1)\in T(k)$, so
+$wT(k)w^{-1}\subseteq T(k)$, and equality holds because $w^{-1}tw=\diag(t_2,t_1)$ as well. Hence every element of
+$T(k)\cup wT(k)$ normalizes $T(k)$.
+
+\emph{Conversely,} let $g$ normalize $T(k)$. Since $k$ has at least three elements there is $a\in k$ with
+$a\neq0,1$. Put $t_0=\diag(a,1)$ and $s=gt_0g^{-1}\in T(k)$, say $s=\diag(b_1,b_2)$. Conjugate matrices have the same
+trace and determinant: $b_1+b_2=a+1$ and $b_1b_2=a$. Hence $(X-b_1)(X-b_2)=X^2-(a+1)X+a=(X-a)(X-1)$, and since $k$ is
+a field, $(b_1,b_2)=(a,1)$ or $(b_1,b_2)=(1,a)$.
+\begin{itemize}
+\item If $s=t_0$, then $g$ commutes with $t_0$. For $g=\begin{psmallmatrix}\alpha&\beta\\\gamma&\delta\end{psmallmatrix}$,
+  $gt_0=\begin{psmallmatrix}a\alpha&\beta\\a\gamma&\delta\end{psmallmatrix}$ and
+  $t_0g=\begin{psmallmatrix}a\alpha&a\beta\\\gamma&\delta\end{psmallmatrix}$, so $(a-1)\beta=(a-1)\gamma=0$ and
+  $\beta=\gamma=0$ as $a\neq1$: $g\in T(k)$.
+\item If $s=\diag(1,a)=wt_0w^{-1}$, then $h=w^{-1}g$ satisfies $ht_0h^{-1}=w^{-1}sw=t_0$, so $h\in T(k)$ by the first
+  case, and $g=wh\in wT(k)$.
+\end{itemize}
+\emph{Disjointness.} Elements of $wT(k)$ are $w\diag(t_1,t_2)=\begin{psmallmatrix}0&t_2\\-t_1&0\end{psmallmatrix}$,
+whose $(1,2)$-entry $t_2$ is non-zero, while elements of $T(k)$ have $(1,2)$-entry $0$.
+\end{proof}
+\noindent Over $\mathbb F_2$ the torus is trivial and its normalizer is all of $\GL_2(\mathbb F_2)$, so the hypothesis
+on $k$ cannot be dropped.
+
+\section{Local maximal compact subgroups}\label{sec:conv-max-compact}
+
+\noindent\emph{Sources for this section:} \cite[§9.1]{Cas-p}; \cite[§9]{BumpH}.
+
+The non-archimedean maximal compact subgroup is defined for an arbitrary ring homomorphism $R\to F$, so that this
+chapter does not depend on the theory of local fields (\cref{ch:ch-0-02-local-field}); the case of interest is
+$\Ocal_F\subseteq F$ for a non-archimedean local field $F$.
+
+\begin{definition}[the subgroup $K(R)$]
+\tfstmt{I.conv.def:max-compact-local}
+\end{definition}
+\noindent\emph{Notation.} For a non-archimedean local field $F$ (\cref{I.lf.def:nalf}) we write
+$K_F=K(\Ocal_F)$, for the inclusion $\Ocal_F\subseteq F$; this is a notation for an instance of the definition, not
+a separate definition. For $F=\Qp$ the ring of integers is $\Zp$, and $K_p=K_{\Qp}=\GL_2(\Zp)$ is the group of the notation table.
+
+\begin{lemma}[membership in $K(R)$]
+\tfstmt{I.conv.lem:max-compact-local-mem}
+\uses{I.conv.def:max-compact-local}
+\end{lemma}
+\begin{proof}
+\uses{I.conv.def:max-compact-local}
+For a matrix $A$ over $R$ write $\iota(A)$ for the matrix over $F$ obtained by applying $\iota$ entrywise; then
+$\iota(AB)=\iota(A)\iota(B)$, $\iota(1)=1$ and $\det\iota(A)=\iota(\det A)$, and $A\mapsto\iota(A)$ is injective.
+
+(i)$\Rightarrow$(iii): if $g=\iota(A)$ with $A\in\GL_2(R)$, then $g^{-1}=\iota(A^{-1})$, and both have entries
+in $\iota(R)$.
+
+(iii)$\Rightarrow$(ii): write $g=\iota(A)$ and $g^{-1}=\iota(B)$ with $A,B\in\Mat_2(R)$. Then
+$\iota(AB)=gg^{-1}=1=\iota(1)$, hence $AB=1$ by injectivity, so $\det A\cdot\det B=1$ and $\det A\in R^\times$. Thus
+$\det g=\iota(\det A)\in\iota(R^\times)$.
+
+(ii)$\Rightarrow$(i): write $g=\iota(A)$ with $A\in\Mat_2(R)$ and $\det g=\iota(r)$ with $r\in R^\times$. Then
+$\iota(\det A)=\det g=\iota(r)$, so $\det A=r$ is a unit, and $A$ is invertible in $\Mat_2(R)$ with inverse
+$r^{-1}\operatorname{adj}(A)$. Hence $A\in\GL_2(R)$ and $g=\iota(A)\in K(R)$.
+\end{proof}
+\noindent In particular, for a non-archimedean local field $F$: $g\in K_F$ if and only if $g\in\Mat_2(\Ocal_F)$ and
+$\det g\in\Ocal_F^\times$. Consequently $K_F$ contains the permutation matrix
+$s=\begin{psmallmatrix}0&1\\1&0\end{psmallmatrix}$, the elementary matrices
+$\begin{psmallmatrix}1&x\\0&1\end{psmallmatrix}$, $\begin{psmallmatrix}1&0\\x&1\end{psmallmatrix}$ ($x\in\Ocal_F$),
+and the diagonal matrices $\diag(u_1,u_2)$ ($u_i\in\Ocal_F^\times$). It also contains the scalar matrices $u\cdot1$
+with $u\in\Ocal_F^\times$.
+
+\subsection*{The archimedean maximal compact subgroup}
+
+\noindent\emph{Sources:} \cite[§5]{JL} (the orthogonal group $\Ort(2,\R)$ and the characters
+$\begin{psmallmatrix}\cos\theta&\sin\theta\\-\sin\theta&\cos\theta\end{psmallmatrix}\mapsto e^{in\theta}$); \cite[§5.2]{GH}
+(the same rotation $\kappa_\theta$). The sign convention of $k_\theta$ is that of both sources; with it, $k_\theta=\exp(\theta U)$
+for $U=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$, and the weight characters (of the parent's Vol.~I, Ch.~1.4; not used here) are
+$k_\theta\mapsto e^{in\theta}$.
+
+\begin{definition}[$\Kinf=\Ort(2)$]
+\tfstmt{I.conv.def:max-compact-real}
+\end{definition}
+\noindent\emph{Subgroups.} For square matrices $k^{\mathsf T}k=1$ implies $kk^{\mathsf T}=1$, so $k^{-1}=k^{\mathsf T}$ and
+$(k^{-1})^{\mathsf T}k^{-1}=kk^{\mathsf T}=1$; and $(k_1k_2)^{\mathsf T}k_1k_2=k_2^{\mathsf T}(k_1^{\mathsf T}k_1)k_2=1$. $\mathrm{SO}(2)$ is the
+kernel of the homomorphism $\det|_{\Kinf}$.
+
+\begin{definition}[rotations]
+\tfstmt{I.conv.def:rotation}
+\uses{I.conv.def:max-compact-real}
+\end{definition}
+
+\begin{remark}[structure of $\Ort(2)$]\label{rem:rotation}
+Put $\varepsilon=\diag(1,-1)$ and $U=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$.
+\begin{enumerate}[label=(\alph*)]
+\item\label{rot-hom} $k_\theta\in\mathrm{SO}(2)$, $k_0=1$ and $k_\theta k_\varphi=k_{\theta+\varphi}$; so $\theta\mapsto k_\theta$ is a
+  homomorphism $\R\to\mathrm{SO}(2)$, continuous (its entries are).
+\item\label{rot-shape} $\mathrm{SO}(2)=\bigl\{\begin{psmallmatrix}a&b\\-b&a\end{psmallmatrix}:a^2+b^2=1\bigr\}$; in particular $k\in\mathrm{SO}(2)$ is
+  determined by its bottom row.
+\item\label{rot-surj} Every $k\in\mathrm{SO}(2)$ is $k_\theta$ for some $\theta\in\R$, and $k_\theta=1$ if and only if $\theta\in2\pi\Z$.
+\item\label{rot-o2} $\det k=\pm1$ for $k\in\Kinf$; every $k\in\Kinf$ is $k_\theta$ or $k_\theta\varepsilon$ for some $\theta$;
+  and $\varepsilon k_\theta\varepsilon=k_{-\theta}$.
+\item\label{rot-exp} $k_\theta=\exp(\theta U)$.
+\end{enumerate}
+\emph{Proof.} (a) $\det k_\theta=\cos^2\theta+\sin^2\theta=1$ and $k_\theta^{\mathsf T}k_\theta=1$ by the same identity;
+the product formula is the addition theorem for $\cos$ and $\sin$. (b) For $k=\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}\in\mathrm{SO}(2)$,
+$k^{-1}=\begin{psmallmatrix}d&-b\\-c&a\end{psmallmatrix}$ (as $\det k=1$) equals $k^{\mathsf T}=\begin{psmallmatrix}a&c\\b&d\end{psmallmatrix}$, so $d=a$,
+$c=-b$, and $\det k=a^2+b^2=1$; conversely such matrices lie in $\mathrm{SO}(2)$. (c) Given $a^2+b^2=1$ choose $\theta$ with
+$\cos\theta=a$, $\sin\theta=b$ (polar coordinates of the point $(a,b)$ of the unit circle); then $k=k_\theta$ by (b).
+$k_\theta=1$ means $\cos\theta=1$, $\sin\theta=0$, i.e.\ $\theta\in2\pi\Z$. (d) $\det(k)^2=\det(k^{\mathsf T}k)=1$. If
+$\det k=-1$ then $k\varepsilon\in\mathrm{SO}(2)$, so $k\varepsilon=k_\theta$ by (c) and $k=k_\theta\varepsilon$ ($\varepsilon^2=1$). The last
+identity is a direct multiplication. (e) $U^2=-1$, so the exponential series gives
+$\exp(\theta U)=\sum_m\frac{(-1)^m\theta^{2m}}{(2m)!}1+\sum_m\frac{(-1)^m\theta^{2m+1}}{(2m+1)!}U=\cos\theta\cdot1+\sin\theta\cdot U=k_\theta$.
+\end{remark}
+
+\section{\texorpdfstring{The space $\aB$, roots and chambers}{The space 𝔞B, roots and chambers}}\label{sec:conv-aB}
+
+\noindent\emph{Sources for this section:} \cite[§§2, 5]{AIntro}; \cite[§1]{A-Tr}. For $\GL_2$ we write everything in
+coordinates; the coordinate $h=(h_1,h_2)$ corresponds to the homomorphism $X^*(T)\to\R$,
+$(t\mapsto t_1^{m_1}t_2^{m_2})\mapsto m_1h_1+m_2h_2$, which identifies $\Hom(X^*(T)_\Q,\R)$ with $\R^2$.
+
+\begin{definition}[the space $\aB$]
+\tfstmt{I.conv.def:space-a-b}
+\end{definition}
+
+\begin{definition}[the space $\aBG$ and the projection]
+\tfstmt{I.conv.def:space-a-b-g}
+\uses{I.conv.def:space-a-b}
+\end{definition}
+\noindent\emph{Properties.} $\aBG$ is the kernel of the linear form $h\mapsto h_1+h_2$, hence a subspace. The value
+$h_B^G$ lies in $\aBG$, it equals $h$ for $h\in\aBG$ (then $h_2=-h_1$ and $\frac{h_1-h_2}2=h_1$), and
+$h-h_B^G=\frac{h_1+h_2}2(1,1)$ lies in $\mathfrak a_G=\{(x,x)\}$. So $\aB=\mathfrak a_G\oplus\aBG$ and $h\mapsto h_B^G$
+is the projection along $\mathfrak a_G$.
+
+\begin{definition}[the simple root and $\rho$]
+\tfstmt{I.conv.def:simple-root}
+\uses{I.conv.def:space-a-b}
+\end{definition}
+\noindent\emph{Consistency.} $\alpha$ is the differential of the root $t\mapsto t_1/t_2$ of $T$ in $\mathrm{Lie}(N)$ (\cref{I.conv.lem:torus-normalizes-unipotent}),
+and $\alpha$ vanishes on $\mathfrak a_G$, so $\alpha(h_B^G)=\alpha(h)$. This agrees with the coordinate of decision D15 in
+the notation table: $\lambda\in\C$ corresponds to $\lambda\alpha$, and $\rho=\frac12\alpha$ corresponds to $\lambda=\frac12$.
+With the height map of \cref{ch:ch-0-05-decompositions}, $e^{2\rho(\HB(t))}=\abs{t_1/t_2}_\A=\deltaB(t)$.
+
+\begin{definition}[the chamber functions]
+\tfstmt{I.conv.def:chamber-functions}
+\uses{I.conv.def:simple-root, I.conv.def:space-a-b}
+\end{definition}
+\noindent\emph{Remarks.} Since $\varpi=\frac12\alpha$ is a positive multiple of $\alpha$, $\hat\tau_B=\tau_B$ for $\GL_2$; the two
+names are kept because Arthur's identities \cite[§§5--8]{AIntro} distinguish them. Both depend only on $h_B^G$. The
+coroot is $\alpha^\vee=(1,-1)\in\aBG$, with $\alpha(\alpha^\vee)=2$ and $\varpi(\alpha^\vee)=1$, which characterizes
+$\varpi$ as the fundamental weight on $\aBG$.
+
+\section{Notation table}
+\input{notation}

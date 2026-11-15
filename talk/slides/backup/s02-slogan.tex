@@ -1,0 +1,25 @@
+% S02-T2: slogan slide.  math: plan/staged/stage-02-tree-quotients.tex  prop:s02-BG, prop:s02-quot, thm:s02-SA
+% Lean names: plan/implementation/stage-02.md sec. 0.2 / S02-L5b, L6
+\begin{frame}{Orbifolds glue to a graph: the quotient $\Gamma_U\backslash\mathcal T_q$}
+  \begin{block}{Slogan}
+    \centering
+    $0$-dimensional orbifolds (the definite class sets $X_B(U)$, weighted by $1/|\Gamma_x|$)\\
+    \emph{glue} to a $1$-dimensional one: the Brandt graph $\Gamma_U\backslash\mathcal T_q$.
+  \end{block}
+  \begin{itemize}\small
+    \item Vertices: two copies of $X_B(U)$ (types $0,1$); edges: $X_B(U_0(q)U)$, with
+      $s_0[y]=[y]$, $s_1[y]=[y\alpha]$. This is the finite graph $\mathrm{BG}(U,q)$.
+      \hfill{\scriptsize\texttt{prop:s02-quot}}
+    \item \textbf{Honest SA line.} Strong approximation for $B^1$ at $\{\infty,q\}$ is
+      \emph{cited}, not formalized (\texttt{thm:s02-SA}); in Lean it is the registered hypothesis
+      \texttt{Langlandscape.Hyp.SA} (with \texttt{Hyp.HS}; SA alone does not suffice).
+    \item Per level, SA is replaced by a \emph{finite check}: $\mathrm{BG}(U,q)$ is connected
+      (\texttt{prop:s02-BG}(iii)).
+    \item From connectivity alone, SA-free, we derive the bijections
+      $\Gamma_U\backslash\{\text{vertices}\}\simeq X_B(U)\sqcup X_B(U)$ and likewise for edges.
+  \end{itemize}
+  \vfill
+  {\tiny Sources: \texttt{mathematics/chapters/s02/2-quotient.tex} (\texttt{thm:s02-SA}, \texttt{prop:s02-BG}, \texttt{prop:s02-quot});
+  Lean: \texttt{Langlandscape.Tree.bijective\_of\_BGConnected}, \texttt{Tree.quotVEquiv}, \texttt{Tree.BGConnected\_of\_SA\_HS}
+  (from \texttt{Hyp.SA}, \texttt{Hyp.HS}, \texttt{Hyp.BTtree}); status: SA cited; BG$\Leftrightarrow$quotient proved (SA-free); Lean: formalized given connectivity (\texttt{BGConnected\_of\_SA\_HS} modulo \texttt{Hyp.SA}, \texttt{Hyp.HS}, \texttt{Hyp.BTtree}).}
+\end{frame}

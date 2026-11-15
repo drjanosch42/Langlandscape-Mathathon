@@ -1,0 +1,50 @@
+REQUEST TO THE HACS / ORBIFOLD SESSION  (from the homotopical Jacquet-Langlands feasibility project; 2026-11-12)
+You cannot reply to us directly; the PI forwards this. Please read it as an OPTIONAL, low-priority side request.
+
+1. CONTEXT
+We study whether a homotopical/integral Jacquet-Langlands correspondence exists (definite quaternion algebra B/Q, disc. D,
+versus GL_2/Q), via S-arithmetic / amalgam / Borel-Serre arguments. The current study (v4) looks at two NEW groups:
+ (a) G = GL_2(B), G(R) = GL_2(H), Gamma = GL_2(R), R a maximal order of B; symmetric space GL_2(H)/(Sp(2)R_{>0}) of dim 5.
+     Coefficients V_b = harmonic degree-b part of Sym^b Herm_2(B)_R (Herm_2(H) is 6-dim; V_9 has rank 1210).
+ (b) Spin(B^0 + U) = SU(1,1)(B) = Sp(1,1) = Spin(4,1)  (U hyperbolic plane): hyperbolic 4-orbifolds, one cusp per class.
+HACS currently does SL_2(Z) / Gamma_0(N) only [C = docs/latex/gl2_contract.tex]; no S-arithmetic, no quaternionic groups.
+So these groups are new for you. Please FIRST judge feasibility (a few lines: which cell/presentation model, what it costs),
+and only "squeeze in" what fits without disturbing your roadmap. Partial answers (cheapest items only) are very welcome.
+Our predictions below are NOT results; each carries a status: [proved] / [sketched] / [conjectural] / [computed-by-hand].
+(On the JL side an independent Python prototype handles the new-group computations; nothing is needed from HACS there.)
+
+2. TASK (only Task 0 is requested now; it is within current HACS scope).
+The PI decided (2026-11-12) that new-group work (Spin(B^0+U), GL_2(R_D), precursors) is NOT feasible in the near term while
+classical quaternionic forms are being implemented; those items are handled by an independent Python prototype on the JL side.
+Do not reprioritise other implementation items for this request.
+Task 0 (IN CURRENT SCOPE: SL_2(Z)/Gamma_0(N), integral, Hecke -- no new group needed).
+  (i) Integral Hecke algebras T_O and congruence modules C_T between the newforms of level d and the newforms of level D,
+      d | D, for D = 3,5,7,11,13, weights k = 4..14 (cuspidal H^1 with Z_(l) coefficients, Sym^{k-2}; l > k, l not | D).
+      Anchor case: D = 3, k = 12, l = 17: Delta (level 1, old at 3) versus g in S_12^new(3). Known [proved]: g = Delta mod 17
+      (level-raising condition tau(3)^2 = 3^10 (3+1)^2 mod 17; tau(3) + 4*3^5 = 1224 = 2^3*3^2*17); our prediction for the
+      congruence module between the 3-old and 3-new parts is C_T = F_17 [sketched]. Please report C_T integrally, the Hecke
+      eigenvalues of Delta and g mod 17, and the Jordan structure of U_3 / T_3 on the 3-old space mod 17.
+  (ii) Ordinary parts across several weights (cheap Lambda-adic tests). For small primes p not dividing 3 (p = 5, 7, 11, 13, ...):
+      is Delta, resp. g, p-ordinary (a_p a p-adic unit); the rank of the p-ordinary part of H^1(Gamma_0(3p^r), Sym^{k-2}) as k
+      varies with k mod (p-1) fixed (Hida constancy expected [cited]). Separately, does the mod-17 congruence between the
+      3-old and 3-new forms persist in the 3-old / 3-new members of the same p-adic families, i.e. is the congruence module
+      constant along k = 12 + (p-1)j? [conjectural]. (Note: the congruence prime l = 17 and the family prime p are different.)
+
+
+(Former Tasks A-D, new groups, are withdrawn from this request; see git history of this file for their specification.)
+
+3. INTEGRALITY AND HECKE
+Where possible give answers over Z or Z_(l) with torsion (elementary divisors), not only over Q or F_l. Hecke: T_q for q not dividing N,
+and U_p / Atkin-Lehner W_p at p | N (levels Gamma_0(d), Gamma_0(D)). State the normalisation of each operator
+and the coset representatives you used (so we can compare). If a Hecke operator is too costly, give the cohomology first.
+
+4. OUTPUT LOCATION (neutral directory; nothing goes into the JL repo)
+$JL_EXCHANGE/   (already exists). Subfolder: task0_inscope/. In it: results as plain text / markdown / JSON, the exact scripts or the commit hash of the HACS repo used,
+and the run log (wall time, memory). A top-level README.md with one status line per task (not started / feasibility only /
+partial / done), and a "feasibility" paragraph even if you decide not to implement a task. State clearly anything you did
+not verify. Please also record the exact input data (presentation/relators) used.
+
+5. BOX ETIQUETTE
+Shared machine with Lean and GPU sessions: follow your own $HACS_RUN_LOG conventions and flock/LEAN_NUM_THREADS rules, keep
+memory modest (the F_17 linear system is small: a 77k x 2.4k matrix; use sparse/mod-p elimination, no need for the GPU).
+Do not touch Lean trees of other projects. No action is required on our side, and no deadline.

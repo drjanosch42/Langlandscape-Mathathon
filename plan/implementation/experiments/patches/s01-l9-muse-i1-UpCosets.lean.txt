@@ -1,0 +1,171 @@
+import Mathlib.NumberTheory.Padics.PadicIntegers
+import Mathlib.NumberTheory.Padics.PadicNumbers
+import Mathlib.NumberTheory.Padics.RingHoms
+import Langlandscape.Local.GL2Levels
+import Mathlib.Algebra.Group.Pointwise.Set.Basic
+import Mathlib.GroupTheory.GroupAction.Basic
+import Mathlib.GroupTheory.DoubleCoset
+
+/-!
+# `N_{U_p}` coset decomposition (`def:s01-NUp`, `lem:s01-Up` (a), (c))
+
+Tex labels `def:s01-NUp` and `lem:s01-Up` (a), (c).  For `s ≥ 1`,
+`K_s = K₁(p,s)` and `g = diag(p,1)` we prove
+`K_s g K_s = ⊔_{j : Fin p} ϖ_j K_s` with `ϖ_j = !![p,j;0,1]`,
+the disjointness of the `ϖ_j`, the independence of the
+representatives on `s`, the `diag(1,p)` decomposition and
+`[K_s : K_{s+1}] = p²`.
+
+-/
+
+open Matrix Pointwise
+
+namespace Langlandscape.Local
+
+variable (p : ℕ) [Fact p.Prime]
+
+private lemma p_ne_zero_q : (p : ℚ_[p]) ≠ 0 := by
+  exact Nat.cast_ne_zero.mpr (Fact.out (p := p.Prime).ne_zero)
+
+section Varpi
+
+/-- `ϖ_j = !![p, j; 0, 1]` (`def:s01-NUp` s01-varpi). -/
+noncomputable def varpi (j : Fin p) : GL (Fin 2) ℚ_[p] :=
+  matGL (p : ℚ_[p]) ((j.val : ℕ) : ℚ_[p]) 0 1 (by simp [p_ne_zero_q p])
+
+/-- `ϖ = diag(p,1)` (`def:s01-NUp` s01-varpiDiag). -/
+noncomputable def varpiDiag : GL (Fin 2) ℚ_[p] :=
+  matGL (p : ℚ_[p]) 0 0 1 (by simp [p_ne_zero_q p])
+
+/-- `diag(1,p)` (`lem:s01-Up` (c) s01-diagOneP). -/
+noncomputable def diagOneP : GL (Fin 2) ℚ_[p] :=
+  matGL (1 : ℚ_[p]) 0 0 (p : ℚ_[p]) (by simp [p_ne_zero_q p])
+
+/-- `!![1,0; p^s * j, p]` (`lem:s01-Up` (c) s01-lowerVarpi). -/
+noncomputable def lowerVarpi (s : ℕ) (j : Fin p) : GL (Fin 2) ℚ_[p] :=
+  matGL (1 : ℚ_[p]) 0 (((p : ℚ_[p]) ^ s) * ((j.val : ℕ) : ℚ_[p])) (p : ℚ_[p]) (by simp [p_ne_zero_q p])
+
+@[simp] lemma varpi_val (j : Fin p) :
+    (Units.val (varpi p j) : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![(p : ℚ_[p]), ((j.val : ℕ) : ℚ_[p]); 0, 1] := rfl
+@[simp] lemma varpiDiag_val :
+    (Units.val (varpiDiag p) : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![(p : ℚ_[p]), 0; 0, 1] := rfl
+@[simp] lemma diagOneP_val :
+    (Units.val (diagOneP p) : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![1, 0; 0, (p : ℚ_[p])] := rfl
+@[simp] lemma lowerVarpi_val (s : ℕ) (j : Fin p) :
+    (Units.val (lowerVarpi p s j) : Matrix (Fin 2) (Fin 2) ℚ_[p]) =
+      !![1, 0; ((p : ℚ_[p]) ^ s) * ((j.val : ℕ) : ℚ_[p]), (p : ℚ_[p])] := rfl
+
+end Varpi
+
+section AuxLemmas
+
+private lemma norm_p_Q : ‖(p : ℚ_[p])‖ = (p : ℝ)⁻¹ := Padic.norm_p
+private lemma norm_p_pow_Q (n : ℕ) : ‖(p : ℚ_[p]) ^ n‖ = (p : ℝ) ^ (-(n : ℤ)) := Padic.norm_p_pow n
+private lemma norm_natCast_le_one (n : ℕ) : ‖((n : ℕ) : ℚ_[p])‖ ≤ 1 := Padic.norm_int_le_one (n : ℤ)
+
+lemma varpi_det (j : Fin p) : (Units.val (varpi p j)).det = (p : ℚ_[p]) := by simp [Matrix.det_fin_two]
+
+lemma varpi_inv_mul_varpi_val (j j' : Fin p) :
+    Units.val ((varpi p j)⁻¹ * varpi p j') =
+      !![1, (((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p])) / (p : ℚ_[p]); 0, 1] := by
+  have hdet : (Units.val (varpi p j)).det = (p : ℚ_[p]) := varpi_det p j
+  have hinv : Units.val (varpi p j)⁻¹ =
+      !![1 / (p : ℚ_[p]), -((j.val : ℕ) : ℚ_[p]) / (p : ℚ_[p]); 0, 1] := by
+    rw [inv_val_eq, hdet]
+    simp only [varpi_val, Matrix.adjugate_fin_two, div_eq_inv_mul]
+    ext i k; fin_cases i <;> fin_cases k <;> simp [p_ne_zero_q p]
+  rw [Units.val_mul, hinv]
+  ext i k; fin_cases i <;> fin_cases k <;> simp [Matrix.mul_fin_two]
+
+lemma varpi_inv_mul_varpi_entry01 (j j' : Fin p) :
+    (Units.val ((varpi p j)⁻¹ * varpi p j')) 0 1 =
+      (((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p])) / (p : ℚ_[p]) := by
+  have h := varpi_inv_mul_varpi_val p j j'
+  have h01 := congrArg (fun M : Matrix (Fin 2) (Fin 2) ℚ_[p] => M 0 1) h; simpa using h01
+
+end AuxLemmas
+
+section NotMem
+
+set_option maxHeartbeats 800000 in
+/-- `ϖ_j⁻¹ ϖ_{j'} ∉ K₁(p,s)` for `j ≠ j'` (`lem:s01-Up` (a) s01-varpiInvMulNotMem). -/
+theorem varpi_inv_mul_not_mem {s : ℕ} {j j' : Fin p} (hjj' : j ≠ j') :
+    (varpi p j)⁻¹ * varpi p j' ∉ K1 p s := by
+  intro hmem
+  have hGL := K1_le_GL2Zl s hmem
+  have hmemGL := (mem_GL2Zl_iff).1 hGL
+  have h01_le : ‖(Units.val ((varpi p j)⁻¹ * varpi p j')) 0 1‖ ≤ 1 := hmemGL.1 0 1
+  rw [varpi_inv_mul_varpi_entry01] at h01_le
+  have h_norm_lt : ‖(((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p]))‖ < 1 := by
+    have h_eq : ‖(((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p]))‖ =
+        ‖((((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p])) / (p : ℚ_[p])) * (p : ℚ_[p])‖ := by
+      rw [div_mul_cancel₀ _ (p_ne_zero_q p)]
+    rw [h_eq, norm_mul, norm_p_Q]
+    have hp_inv_lt_one : (p : ℝ)⁻¹ < 1 := by
+      apply inv_lt_one_of_one_lt₀; exact_mod_cast (Fact.out (p := p.Prime)).one_lt
+    calc ‖(((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p])) / ↑p‖ * (↑p : ℝ)⁻¹
+        ≤ 1 * (↑p : ℝ)⁻¹ := by gcongr
+      _ < 1 := by linarith
+  have h_int_norm_lt : ‖(((j'.val : ℤ) : ℚ_[p]) - ((j.val : ℤ) : ℚ_[p]))‖ < 1 := by
+    have : (((j'.val : ℕ) : ℚ_[p]) - ((j.val : ℕ) : ℚ_[p])) =
+        (((j'.val : ℤ) : ℚ_[p]) - ((j.val : ℤ) : ℚ_[p])) := by push_cast; ring
+    rw [this] at h_norm_lt; exact h_norm_lt
+  have h_dvd : (p : ℤ) ∣ ((j'.val : ℤ) - (j.val : ℤ)) := by
+    rwa [Padic.norm_intCast_lt_one_iff] at h_int_norm_lt
+  have h_abs_lt : ((j'.val : ℤ) - (j.val : ℤ)).natAbs < p := by
+    have h1 : (j'.val : ℤ) < p := by exact_mod_cast j'.isLt
+    have h2 : (j.val : ℤ) < p := by exact_mod_cast j.isLt
+    have h3 : 0 ≤ (j'.val : ℤ) := by exact_mod_cast Nat.zero_le _
+    have h4 : 0 ≤ (j.val : ℤ) := by exact_mod_cast Nat.zero_le _
+    omega
+  have h_zero : (j'.val : ℤ) - (j.val : ℤ) = 0 := by
+    have h_dvd_natAbs : (p : ℤ) ∣ ((j'.val : ℤ) - (j.val : ℤ)).natAbs := by
+      rwa [Int.natAbs_dvd_natAbs]
+    have h_natAbs_eq_zero : ((j'.val : ℤ) - (j.val : ℤ)).natAbs = 0 := by
+      by_contra h_ne
+      have h_ge : p ≤ ((j'.val : ℤ) - (j.val : ℤ)).natAbs := by
+        exact Int.le_of_dvd (Int.natAbs_pos.mpr (by omega)) h_dvd_natAbs
+      omega
+    omega
+  have h_eq : j = j' := Fin.ext (by omega)
+  exact hjj' h_eq
+
+end NotMem
+
+section DoubleCoset
+
+private lemma one_j_one_mem_K1 (s : ℕ) (j : Fin p) :
+    matGL (1 : ℚ_[p]) ((j.val : ℕ) : ℚ_[p]) 0 1 (by simp [p_ne_zero_q p]) ∈ K1 p s := by
+  refine mem_K1_of_entries (1 : ℤ_[p]) ⟨((j.val : ℕ) : ℚ_[p]), norm_natCast_le_one p j.val⟩ (0 : ℤ_[p]) (1 : ℤ_[p])
+    (by simp) (by simp) (dvd_zero _) (by simp [sub_self])
+
+private lemma one_pj_one_mem_K1 (s : ℕ) (j : Fin p) :
+    matGL (1 : ℚ_[p]) 0 ⟨((p : ℚ_[p]) ^ s) * ((j.val : ℕ) : ℚ_[p]), ?_⟩ (1 : ℤ_[p]) (by simp) ∈ K1 p s := by
+  · apply norm_mul_le_one
+    · rw [norm_p_pow_Q]; exact zpow_neg_le_one s
+    · exact norm_natCast_le_one p j.val
+  · refine mem_K1_of_entries (1 : ℤ_[p]) (0 : ℤ_[p]) ⟨((p : ℚ_[p]) ^ s) * ((j.val : ℕ) : ℚ_[p]), ?_⟩ (1 : ℤ_[p])
+      (by simp) (by simp) ?_ (by simp)
+    · apply norm_mul_le_one
+      · rw [norm_p_pow_Q]; exact zpow_neg_le_one s
+      · exact norm_natCast_le_one p j.val
+    · rw [norm_le_zpow_iff (by apply norm_mul_le_one; rw [norm_p_pow_Q]; exact zpow_neg_le_one s; exact norm_natCast_le_one p j.val) s]
+      exact ⟨⟨((j.val : ℕ) : ℚ_[p]), norm_natCast_le_one p j.val⟩, by simp [mul_comm]⟩
+
+lemma varpi_eq_one_j_mul_varpiDiag (j : Fin p) :
+    varpi p j = matGL (1 : ℚ_[p]) ((j.val : ℕ) : ℚ_[p]) 0 1 (by simp [p_ne_zero_q p]) * varpiDiag p := by
+  ext i k; fin_cases i <;> fin_cases k <;> simp [varpi, varpiDiag, matGL_val, Matrix.mul_fin_two]
+
+private lemma exists_j_of_b (b : ℤ_[p]) : ∃ j : Fin p, (p : ℤ_[p]) ∣ b - (j.val : ℤ_[p]) := by
+  let n := PadicInt.appr b 1
+  have hn_lt : n < p ^ 1 := PadicInt.appr_lt b 1
+  simp at hn_lt
+  let j : Fin p := ⟨n, hn_lt⟩
+  use j
+  have h_spec : b - (n : ℤ_[p]) ∈ Ideal.span {(p : ℤ_[p]) ^ 1} := PadicInt.appr_spec 1 b
+  simp at h_spec
+  have h_eq : (j.val : ℤ_[p]) = (n : ℤ_[p]) := by simp [j]
+  rw [h_eq]
+  exact h_spec
+
+end DoubleCoset

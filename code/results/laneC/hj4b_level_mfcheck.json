@@ -1,0 +1,793 @@
+{
+ "data": {
+  "cells": [
+   {
+    "D": 2,
+    "M": 3,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 2,
+    "M": 5,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U5": true
+    }
+   },
+   {
+    "D": 2,
+    "M": 3,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 2,
+    "M": 5,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U5": true
+    }
+   },
+   {
+    "D": 2,
+    "M": 3,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 2,
+    "M": 5,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U5": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 2,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 5,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T7": true,
+     "U5": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 4,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 3,
+    "M": 2,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 5,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T7": true,
+     "U5": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 4,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 3,
+    "M": 2,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 5,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T7": true,
+     "U5": true
+    }
+   },
+   {
+    "D": 3,
+    "M": 4,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 5,
+    "M": 2,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 3,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 4,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 5,
+    "M": 6,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 2,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 3,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 4,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 5,
+    "M": 6,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 2,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 3,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 5,
+    "M": 4,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 5,
+    "M": 6,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 2,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 3,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T5": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 4,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 7,
+    "M": 6,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 2,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 3,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T5": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 4,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 7,
+    "M": 6,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 2,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 3,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T5": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 7,
+    "M": 4,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 7,
+    "M": 6,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 2,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 3,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T2": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 4,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 11,
+    "M": 6,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T5": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 2,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 3,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T2": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 4,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 11,
+    "M": 6,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T5": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 2,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 3,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T2": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 11,
+    "M": 4,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 11,
+    "M": 6,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T5": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 2,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 3,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 4,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 13,
+    "M": 6,
+    "all_equal": true,
+    "k": 2,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 2,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 3,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 4,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 13,
+    "M": 6,
+    "all_equal": true,
+    "k": 4,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 2,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 3,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T2": true,
+     "T5": true,
+     "T7": true,
+     "U3": true
+    }
+   },
+   {
+    "D": 13,
+    "M": 4,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T3": true,
+     "T5": true,
+     "T7": true,
+     "U2": "skipped (ell^2 | M)"
+    }
+   },
+   {
+    "D": 13,
+    "M": 6,
+    "all_equal": true,
+    "k": 6,
+    "ops": {
+     "T11": true,
+     "T5": true,
+     "T7": true,
+     "U2": true,
+     "U3": true
+    }
+   }
+  ],
+  "cells_equal": 63,
+  "cells_total": 63,
+  "ops_equal": 249,
+  "ops_total": 249,
+  "rule": "HJ-4b cross-check: native Sym^n Brandt char-polys at level U_0(M) (code/results/laneC/hj4b_level.json) against PARI.\n\nJL at Eichler level M (gcd(M, D) = 1, D squarefree with omega(D) odd): M(U_0(M); V_k) = S_k(Gamma_0(DM))^{D-new}\n(+ the constant function at k = 2). Hence, for ell not dividing DM,\n    charpoly(T_ell) = (x - ell - 1)^{[k=2]} * prod_{d | M} charpoly(T_ell | S_k^new(Gamma_0(D d)))^{sigma_0(M / d)},\nand for ell || M (the classical U_ell; a newform of level D d with ell | d has U_ell = a_ell, a form of level D d with\nell not | d contributes x^2 - a_ell x + ell^{k-1}, twice-old multiplicity sigma_0(M/(d ell))):\n    charpoly(U_ell) = (x - ell)^{[k=2]} * prod_{d | M, ell | d} cp(U_ell | new(Dd))^{sigma_0(M/d)}\n                      * prod_{d | M/ell} det(x^2 - x T_ell + ell^{k-1} | new(Dd))^{sigma_0(M/(d ell))}.",
+  "source": "code/results/laneC/hj4b_level.json",
+  "source_commit": "675183d2a5dcdeeadfe7cbb52645960d5d6d8ffd"
+ },
+ "provenance": {
+  "commit": "178713f28e72e5c1550fd95ee99fda04636c328d",
+  "date": "2026-11-15T07:08:46+00:00",
+  "notes": "HJ-4b: native Sym^n Brandt char-polys at U_0(M) vs PARI (JL with oldforms); tag computed",
+  "params": {
+   "source_commit": "675183d2a5dcdeeadfe7cbb52645960d5d6d8ffd"
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.249692783007049,
+  "script": "code/python/langlandscape/hacs_bridge/laneC/check_hj4b_mf.py"
+ }
+}

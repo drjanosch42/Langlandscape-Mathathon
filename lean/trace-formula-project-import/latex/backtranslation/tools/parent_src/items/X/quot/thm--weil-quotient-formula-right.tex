@@ -1,0 +1,12 @@
+Let $G$ be a locally compact, Hausdorff, second countable group with its Borel $\sigma$-algebra, $H\le G$ a closed subgroup,
+and assume that $G$ and $H$ are unimodular (\cref{X.haar.def:is-unimodular}). Let $\mu_G$, $\mu_H$ be left Haar measures on $G$
+and $H$, and for $f\colon G\to\C$ (or $f\colon G\to[0,\infty]$) put $f^\natural(Hx)=\int_Hf(hx)\,\dd\mu_H(h)$ where this exists. Then:
+\begin{enumerate}
+  \item[(a)] there is a unique Weil measure $\nu$ for $(\mu_G,\mu_H)$ on $H\backslash G$ (\cref{X.quot.def:weil-measure});
+  \item[(b)] $\nu$ is invariant under right translations: $\nu(Eg)=\nu(E)$ for every Borel $E\subseteq H\backslash G$ and $g\in G$, where
+  $Eg=\{Hxg:Hx\in E\}$;
+  \item[(c)] for every Borel $f\colon G\to[0,\infty]$, the function $f^\natural\colon H\backslash G\to[0,\infty]$ is Borel and
+  $\int_Gf\,\dd\mu_G=\int_{H\backslash G}f^\natural\,\dd\nu$;
+  \item[(d)] for every $\mu_G$-integrable $f\colon G\to\C$, the integral defining $f^\natural(Hx)$ converges absolutely for $\nu$-almost every $Hx$,
+  $f^\natural$ is $\nu$-integrable, and $\int_Gf\,\dd\mu_G=\int_{H\backslash G}f^\natural\,\dd\nu$.
+\end{enumerate}

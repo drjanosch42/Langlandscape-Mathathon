@@ -1,0 +1,134 @@
+\section{Brandt modules and the Brandt pairing}
+
+Coefficients. $V_k=\Sym^{k-2}(\Zp^2)$, $n=k-2$, realised as homogeneous polynomials $P(X,Y)$ of degree $n$, with the
+\emph{left} action of the monoid $M_2(\Zp)\cap\GL_2(\Qp)$
+\begin{equation}\label{eq:s01-Vk}
+(g\cdot P)(X,Y)=P\big((X,Y)g\big)=P(aX+cY,\,bX+dY),\qquad g=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right).
+\end{equation}
+This is exactly the import's \texttt{symPowerAction} (\Tpath{Brandt/SymPower.lean}: $(\rho_m(A)P)(x,y)=P(A_{11}x+A_{21}y,A_{12}x+A_{22}y)$),
+and it is integral on the whole monoid (needed for $U_p$): it is a left action, since
+$(g\cdot(h\cdot P))(X,Y)=(h\cdot P)((X,Y)g)=P((X,Y)gh)=((gh)\cdot P)(X,Y)$, it preserves $\Zp$-coefficients for $a,b,c,d\in\Zp$, and it is
+continuous for the $p$-adic topology \stproved{}. The map $\mathrm{ev}:V_k\to\Zp$, $P\mapsto P(0,1)$, satisfies
+$\mathrm{ev}(g\cdot P)\equiv d^n\,\mathrm{ev}(P)\pmod{c}$ (indeed $\mathrm{ev}(g\cdot P)=P(c,d)\equiv P(0,d)=d^n\,\mathrm{ev}(P)\bmod c$); this is the line through which Hida theory (stage 04) sees weight $k$.
+
+\begin{definition}[Brandt module; \pathtt{if:s01-brandt}; seed \S2.4]\label{def:s01-brandt}
+For a finitely generated $\Z$- or $\Zp$-module $V$ with continuous left action of $U_p$ (through $\iota_p$),
+\[\Brandt{U}{V}:=\{f:\Bhat^\times\to V:\ f(\gamma xu)=u_p^{-1}f(x)\ (\gamma\in B^\times,\ u\in U)\}\ \cong\ \bigoplus_{[x]\in\XB{U}}V^{\,x_p^{-1}\Gamma_xx_p},\]
+via $f\mapsto(f(x))_x$ over a set of representatives. For trivial $V=\Z$: $\Z^X:=\Brandt{U}{\Z}$ (functions, pullback),
+$\Z[X]$ the free module on $X=\XB{U}$ (pushforward), $\Z[X]^0=\ker(\deg)$. Naive evaluation $\Z[X]\times\Z^X\to\Z$,
+$([x],f)\mapsto f(x)$, is a perfect duality; every map below on $\Z[X]$ is the transpose of the same-named map on $\Z^X$.
+\end{definition}
+\noindent\stknown{} \lit{gross\_1999\_algebraic-modular-forms}{(4.1)--(4.2) and Prop.~4.5, pp.~68--69} (there in the
+convention $f(\gamma g)=\gamma f(g)$).
+\begin{proof}[Proof of the isomorphism]
+Let $f\in\Brandt{U}{V}$, $\gamma\in\Gamma_x$ and $u:=x^{-1}\gamma^{-1}x\in U$. Then $\gamma xu=x$, so $f(x)=u_p^{-1}f(x)=x_p^{-1}\gamma x_pf(x)$
+($\gamma$ acting through $\iota_p$): $f(x)\in V^{x_p^{-1}\Gamma_xx_p}$. Conversely, for $v_x\in V^{x_p^{-1}\Gamma_xx_p}$ put $f(\gamma xu):=u_p^{-1}v_x$.
+This is well defined: if $\gamma xu=\gamma'xu'$, then $\delta:=\gamma'^{-1}\gamma\in\Gamma_x$ and $u'=x^{-1}\delta xu$, so
+$u_p'^{-1}v_x=u_p^{-1}(x_p^{-1}\delta x_p)^{-1}v_x=u_p^{-1}v_x$. The two constructions are mutually inverse, and $f$ is determined by its
+values on representatives because $\Bhat^\times=\coprod_{[x]}B^\times xU$. For $V=\Z$ (trivial action) one gets $\Z^X=\Z^{\XB U}$, and $\Z[X]\times\Z^X\to\Z$ is
+perfect since $X$ is finite (Prop.~\ref{prop:s01-finite}). \stproved{}
+\end{proof}
+
+\begin{definition}[Brandt pairing and norm map]\label{def:s01-pairing}
+On $\Z[X]$: $\langle[x],[y]\rangle:=w_x\delta_{xy}$ (weights $w$; the import's \texttt{weightedPairing} for $k=2$ is
+$\sum_x|\Gamma_x|^{-1}f(x)g(x)$ on functions, i.e.\ uses $|\Gamma_x|$). The norm map is
+$\nu:\Z[X]\to\Z^X$, $[x]\mapsto w_x\mathbf 1_x$; it is the map $a\mapsto\langle a,\cdot\rangle$ and is an isomorphism over
+$\Zp$ whenever $p\nmid w_x$ for all $x$, in particular for $p\ge5$ (Lemma~\ref{lem:s01-stab}(c)).
+For $V$ with $-1$ acting trivially, $\nu_V:\bigoplus_xV_{\Gamma_x}\to\bigoplus_xV^{\Gamma_x}$, $v\mapsto\sum_{\gamma\in\Gamma_x/(\Gamma_x\cap\{\pm1\})}(x_p^{-1}\gamma x_p)\,v$
+(for $V=\Z$ this is multiplication by $w_x$ on the summand $x$).
+\end{definition}
+\noindent \stproved{} \lean{Langlandscape.Brandt.brandtPairing}, \lean{Langlandscape.Brandt.normMap}, \lean{Langlandscape.Brandt.normMap\_bijective}
+\stformal{} (S01-L7; $p$-adic version \lean{Langlandscape.Brandt.normMap\_bijective\_padic}, S01-L17).
+\emph{Proof of the stated properties.} $\nu[x](y)=w_x\delta_{xy}=\langle[x],[y]\rangle$, so $\nu(a)=\langle a,\cdot\rangle$ with $\cdot$ evaluated
+through $f\mapsto f(y)$ (i.e.\ $\nu(a)(y)=\langle a,[y]\rangle$). On the bases $\{[x]\}$ and $\{\mathbf 1_x\}$, $\nu$ is diagonal with entries
+$w_x$; hence it is an isomorphism over $\Zp$ iff every $w_x\in\Zp^\times$, in particular for $p\ge5$ since $w_x\mid|\Gamma_x|\mid24$
+(Prop.~\ref{prop:s01-finite}, Lemma~\ref{lem:s01-stab}(c)). Note $\Gamma_x\cap\{\pm1\}=\{\pm1\}\cap U$ is independent of $x$, since $\pm1$ is central
+and lies in $B^\times$; write $\varepsilon:=|\{\pm1\}\cap U|\in\{1,2\}$, so that $w_x=|\Gamma_x|/\varepsilon$ for all $x$.
+
+\begin{proposition}[adjoints; equivariance of $\nu$]\label{prop:s01-adjoint}
+Let $T_g=[UgU]$ act on $\Z^X$ by $f\mapsto\sum_if(xg_i)$ and on $\Z[X]$ by its transpose $[x]\mapsto\sum_i[xg_i]$
+($UgU=\coprod_ig_iU$, $g$ supported away from $p$ or trivial coefficients). Then
+\begin{enumerate}[label=(\alph*)]
+\item the $\langle,\rangle$-adjoint of $T_g$ on $\Z[X]$ is $T_{g^{-1}}$;
+\item $\nu\circ T_g=T_{g^{-1}}\circ\nu$. In particular $\nu$ intertwines $T_\ell$ with $S_\ell^{-1}T_\ell$, $\langle d\rangle$ with
+  $\langle d\rangle^{-1}$, $\Pi_\ell$ with $\Pi_\ell^{-1}$, and $U_p$ with $U_p^{*}$ (Lemma~\ref{lem:s01-Up}(d)). At level
+  $\Uzero{M}$ with trivial coefficients, $S_\ell=1$ and $T_\ell$ ($\ell\nmid DM$) is self-adjoint and $\nu$-equivariant.
+\item for finite $\pi:X'=X_B(U')\to X=X_B(U)$ ($U'\le U$), \emph{assuming $-1\in U'$ or $-1\notin U$}: $\nu\circ\pi_*=\mathrm{tr}\circ\nu'$, where
+  $\mathrm{tr}f(x)=\sum_{u\in U/U'}f(xu)$. Dually, $\nu'\circ\pi^!=\pi^*\circ\nu$ for the transfer
+  $\pi^![x]:=\sum_{u\in U/U'}[xu]'$ (the transpose of $\mathrm{tr}$) under the same assumption, whereas the multiplicity-free fibre sum
+  $\pi^\sharp[x]=\sum_{x'\in\pi^{-1}[x]}[x']$ does \emph{not} satisfy $\nu'\circ\pi^\sharp=\pi^*\circ\nu$ in general.
+  Without the assumption, $\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$ and $\nu'\circ\pi^!=2\,\pi^*\circ\nu$.
+\end{enumerate}
+Status: (a) \stcited{} \lit{gross\_1999\_algebraic-modular-forms}{Prop.~6.9, p.~73 (adjoint of $T(g)$ is $\mu_A(g)T(g^{-1})$;
+$\mu=1$ for trivial $V$)}, and \stproved{} below for trivial coefficients (any $g\in\Bhat^\times$); \stformal{} for $T_n$, $(n,DM)=1$, level $\hat\cO(M)^\times$, all $k$:
+\Tpath{Brandt/Pairing.lean} \pathtt{hecke\_self\_adjoint}, \Tpath{Brandt/Brandt.lean} \pathtt{brandt\_weighted\_symmetry}
+($|\Gamma_{x_{c'}}|B(n)_{cc'}=|\Gamma_{x_c}|B(n)_{c'c}$); general $g$: \lean{Langlandscape.Brandt.brandtPairing\_heckeTHom} \stformal{}.
+(b) \stproved{} below; \lean{Langlandscape.Brandt.normMap\_heckeT} \stformal{}; the ``in particular'' clauses:
+\lean{Langlandscape.Brandt.Tl\_adjoint}, \lean{Langlandscape.Brandt.diamond\_adjoint}, \lean{Langlandscape.Brandt.PiEll\_adjoint},
+\lean{Langlandscape.Brandt.Tl\_selfAdjoint\_U0} \stformal{} (the $U_p$ clause is Lemma~\ref{lem:s01-Up}(d)).
+(c) \stproved{} below, with the factor-2 case (F3); \lean{Langlandscape.Brandt.normMap\_pushforward},
+\lean{Langlandscape.Brandt.normMap\_pushforward\_two} \stformal{}.
+\end{proposition}
+
+\begin{proof}
+Write $\varepsilon=|\{\pm1\}\cap U|$, so $w_x=|\Gamma_x|/\varepsilon$ for all $x$ (see after Def.~\ref{def:s01-pairing}). Evaluation identifies $\Z^X$ with the dual
+of $\Z[X]$, and $T_hf=f\circ T_h$ on $\Z^X$, since $(T_hf)(y)=\sum_jf(yh_j)=f\big(\sum_j[yh_j]\big)=f(T_h[y])$. $UgU$ is a finite union of cosets $g_iU$
+because $U$ is compact open, and nothing depends on the choice of the $g_i$ (Def.~\ref{def:s01-hecke}).
+
+\emph{(a).} For $x,y\in\Bhat^\times$ let $P:=\{\gamma\in B^\times:\gamma y\in xUgU\}$ and $N_g(x,y):=\#\{i:[xg_i]=[y]\}$, so that
+$\langle T_g[x],[y]\rangle=w_y\,N_g(x,y)$. The map $P\to\{i:[xg_i]=[y]\}$, $\gamma\mapsto$ the unique $i$ with $\gamma y\in xg_iU$, is surjective
+(if $xg_iU=\gamma yU$ then $\gamma\in P$) and $\gamma,\gamma'$ have the same image iff $\gamma yU=\gamma'yU$ iff $\gamma^{-1}\gamma'\in B^\times\cap yUy^{-1}=\Gamma_y$.
+So the fibres are the cosets $\gamma\Gamma_y$ and $|P|=N_g(x,y)\,|\Gamma_y|$ (in particular $P$ is finite). Inversion maps $P$ bijectively onto
+$P':=\{\delta\in B^\times:\delta x\in yUg^{-1}U\}$: if $\gamma y=xugu'$ then $\gamma^{-1}x=yu'^{-1}g^{-1}u^{-1}$, and conversely. Since $Ug^{-1}U=(UgU)^{-1}$,
+the same count for $(y,x,g^{-1})$ gives $|P'|=N_{g^{-1}}(y,x)\,|\Gamma_x|$. Hence $N_g(x,y)|\Gamma_y|=N_{g^{-1}}(y,x)|\Gamma_x|$; dividing by $\varepsilon$,
+\[\langle T_g[x],[y]\rangle=w_yN_g(x,y)=w_xN_{g^{-1}}(y,x)=\langle[x],T_{g^{-1}}[y]\rangle,\]
+and by bilinearity $T_{g^{-1}}$ is the adjoint of $T_g$ (the form is nondegenerate over $\Q$). This is Gross's Prop.~6.9 for trivial $V$ ($\mu_A=1$);
+the weights $|\Gamma|$ in the inner product are exactly what makes the count symmetric.
+
+\emph{(b).} By definition $\nu(a)(y)=\langle a,[y]\rangle$. By (a) and $T_hf=f\circ T_h$,
+\[(T_{g^{-1}}\nu(a))(y)=\nu(a)\big(T_{g^{-1}}[y]\big)=\langle a,T_{g^{-1}}[y]\rangle=\langle T_ga,[y]\rangle=\nu(T_ga)(y).\]
+For the named operators: $z_\ell$ is central, so $Uz_\ell U=z_\ell U$ and $S_\ell^*=T_{z_\ell^{-1}}=S_\ell^{-1}$; the diamond and $\Pi_\ell$ are single cosets ($\delta_d$ and $\Pi_\ell$
+normalise $U$), so $\langle d\rangle^*=T_{\delta_d^{-1}}=\langle d\rangle^{-1}$ and $\Pi_\ell^*=T_{\Pi_\ell^{-1}}=\Pi_\ell^{-1}$. For $T_\ell$: $\varpi_\ell^{-1}=z_\ell^{-1}\mathrm{diag}(1,\ell)_\ell$
+and $U\varpi_\ell^{-1}U=z_\ell^{-1}\,U\mathrm{diag}(1,\ell)U$ with $[U\mathrm{diag}(1,\ell)U]=[U\varpi_\ell U]$ (Def.~\ref{def:s01-hecke}, $\ell\nmid$ level), whence
+$T_\ell^*=S_\ell^{-1}T_\ell$. At level $\Uzero M$ with trivial coefficients $S_\ell=1$ (Prop.~\ref{prop:s01-relations}(a), $k=2$), so $T_\ell^*=T_\ell$ and $\nu T_\ell=T_\ell\nu$.
+The $U_p$ clause is Lemma~\ref{lem:s01-Up}(d).
+
+\emph{(c).} Let $\pi[x]'=[x]$, $\varepsilon'=|\{\pm1\}\cap U'|$, $w'_x=|\Gamma'_x|/\varepsilon'$ with $\Gamma'_x=B^\times\cap xU'x^{-1}\le\Gamma_x$ (for the representative $x$ of $[x]'$).
+The function $\mathrm{tr}\,\mathbf 1_{[x]'}$ is left $B^\times$-invariant and right $U$-invariant (right translation by $u_0\in U$ permutes $U/U'$), and vanishes outside $[x]$: if $yu\in B^\times xU'$ then $y\in B^\times xU$.
+At $y=x$: $\mathrm{tr}\,\mathbf 1_{[x]'}(x)=\#\{uU'\in U/U':xu\in B^\times xU'\}$. If $xu=\gamma xu'$ ($\gamma\in B^\times$, $u'\in U'$) then $\gamma=xuu'^{-1}x^{-1}\in\Gamma_x$,
+so the set in question is the image of $\Gamma_x\to U/U'$, $\gamma\mapsto x^{-1}\gamma x\,U'$, whose fibres are the cosets of $\Gamma'_x=\{\gamma:x^{-1}\gamma x\in U'\}$. Hence
+\[\mathrm{tr}\,\mathbf 1_{[x]'}=[\Gamma_x:\Gamma'_x]\,\mathbf 1_{[x]},\qquad
+\mathrm{tr}\,\nu'[x]'=w'_x[\Gamma_x:\Gamma'_x]\mathbf 1_{[x]}=\frac{|\Gamma_x|}{\varepsilon'}\mathbf 1_{[x]}=\frac{\varepsilon}{\varepsilon'}\,w_x\mathbf 1_{[x]}=\frac{\varepsilon}{\varepsilon'}\,\nu\pi_*[x]'.\]
+Now $\varepsilon/\varepsilon'=1$ iff $-1\in U'$ (then also $-1\in U$, $\varepsilon=\varepsilon'=2$) or $-1\notin U$ (then $-1\notin U'$, $\varepsilon=\varepsilon'=1$); in the remaining case $-1\in U\setminus U'$
+one has $\varepsilon/\varepsilon'=2$ and $\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$. (Example: $U=\hat\cO^\times$, $U'=\Uone N$ with $N\ge3$.)
+
+For the transfer: let $z=xu_0$ with $u_0\in U$. Then $zUz^{-1}=xUx^{-1}$, so $\Gamma_z=\Gamma_x$, and the $u\in U/U'$ with $[xu]'=[z]'$ form one orbit of $x^{-1}\Gamma_xx$ acting on the left, with stabiliser
+$x^{-1}\Gamma'_zx$, hence there are $[\Gamma_x:\Gamma'_z]$ of them. Thus $\nu'\pi^![x]=\sum_{[z]'\in\pi^{-1}[x]}[\Gamma_x:\Gamma'_z]\,w'_z\mathbf 1_{[z]'}=\frac{\varepsilon}{\varepsilon'}\,w_x\mathbf 1_{\pi^{-1}[x]}=\frac{\varepsilon}{\varepsilon'}\pi^*\nu[x]$,
+by the same computation as above. For $\pi^\sharp$ the coefficient of $\mathbf 1_{[z]'}$ in $\nu'\pi^\sharp[x]$ is $w'_z=\frac{\varepsilon}{\varepsilon'}w_x/[\Gamma_x:\Gamma'_z]$, which differs from $w_x$ as soon as $[\Gamma_x:\Gamma'_z]\ne\varepsilon/\varepsilon'$:
+e.g.\ $U'=U^{(p)}U_1(p)_p\subset U=\hat\cO^\times$, $p\ge5$, where $\Gamma'_z=1$ (Lemma~\ref{lem:s01-stab}(b)), $\varepsilon/\varepsilon'=2$, and $D\in\{2,3\}$ ($|\Gamma_x|\in\{24,12\}>2$).
+An example with $\varepsilon/\varepsilon'=1$: $D=2$, $U=\hat\cO^\times$, $U'=\Uzero3$; $\cO^\times\cong\SL_2(\F_3)$ acts transitively on $\mathbb P^1(\F_3)=U/U'$, so $\XB{U'}$ is one class with $|\Gamma'_z|=6$, $[\Gamma_x:\Gamma'_z]=4$, and $w'_z=3\ne12=w_x$.
+\end{proof}
+\noindent\emph{Correction (stage tex).} The stage tex states ``$\pi^*\circ\nu\ne\nu'\circ\pi^!$ in general'' without defining $\pi^!$. With the natural definition (the transpose of $\mathrm{tr}$, i.e.\ with multiplicities)
+the dual identity does hold under the same hypothesis as (c); it fails only for the multiplicity-free fibre sum $\pi^\sharp$. Prop.~\ref{prop:s01-adjoint}(c) is stated accordingly.
+
+\begin{remark}[Consequence for SPLIT]\label{rem:s01-nu-hecke}
+\pathtt{if:s01-brandt} lists ``the norm-map identification $\Zp[X]\cong\Zp^X$''.
+It is an identification of modules, and of Hecke modules \emph{only after} replacing each operator by its adjoint (Prop.~\ref{prop:s01-adjoint}(b)); the
+pushforward $\pi_*$ on $\Zp[X]$ corresponds to the trace on $\Zp^X$, not to pullback (Prop.~\ref{prop:s01-adjoint}(c), up to the factor $2$ if $-1\in U\setminus U'$). In particular
+$U_p$, which commutes with $\pi_*$, corresponds under $\nu$ to $U_p^*=\langle p\rangle_MU_p'$, which commutes with $\mathrm{tr}$ (Lemma~\ref{lem:s01-Up}(c),(d)). Stages 03 and 04 must apply it in this form.
+\end{remark}
+
+\begin{interface}[\pathtt{if:s01-classset}]\label{if:s01-classset}
+$\XB{U}=B^\times\backslash\Bhat^\times/U$, $\Gamma_x=B^\times\cap xUx^{-1}$ and $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$ as in
+Def.~\ref{def:s01-classset}. Facts: $\XB{U}$ is finite and $\Gamma_x$ is finite (Prop.~\ref{prop:s01-finite});
+$\Nrd(U)=\Zhat^\times$ for all the standard levels (Lemma~\ref{lem:s01-nrd}); Lemma stab (a)--(c) holds (Lemma~\ref{lem:s01-stab}),
+with (b) for $U\subseteq\Uone{p}$ and freeness of $\Delta_s$ (not of the full diamond group).
+\end{interface}
+
+\begin{interface}[\pathtt{if:s01-brandt}]\label{if:s01-brandt}
+$\Brandt{U}{V}$ (Def.~\ref{def:s01-brandt}), together with the Brandt pairing $\langle[x],[y]\rangle=w_x\delta_{xy}$ on $\Z[X]$,
+the norm-map identification $\nu:\Zp[X]\xrightarrow{\sim}\Zp^X$ when $p\nmid|\Gamma_x|$ (Def.~\ref{def:s01-pairing}) --- which
+intertwines each Hecke operator with its adjoint and $\pi_*$ with the trace (Prop.~\ref{prop:s01-adjoint}; the latter only if
+$-1\in U'$ or $-1\notin U$, else a factor $2$) --- and the
+right-translation maps $x\mapsto xg$ for $g\in B_q^\times$ (Prop.~\ref{prop:s01-relations}(c)).
+\end{interface}

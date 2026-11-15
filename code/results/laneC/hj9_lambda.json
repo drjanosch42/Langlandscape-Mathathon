@@ -1,0 +1,280 @@
+{
+ "provenance": {
+  "script": "code/python/langlandscape/hacs_bridge/laneC_hj9_compare.py",
+  "tool": "code/hacs/src/hacs/Registry/JL/quat/tools/jl_hj9.cpp (standalone g++ -O2 build)",
+  "build_cmd": "(from the worktree root) g++ -std=c++17 -O2 code/hacs/src/hacs/Registry/JL/quat/tools/jl_hj9.cpp code/hacs/src/hacs/Registry/JL/quat/Quat.cpp code/hacs/src/hacs/Registry/JL/quat/Lattice.cpp code/hacs/src/hacs/Registry/JL/quat/Order.cpp code/hacs/src/hacs/Registry/JL/quat/ClassSet.cpp code/hacs/src/hacs/Registry/JL/quat/Brandt2.cpp code/hacs/src/hacs/Registry/JL/quat/Tree.cpp code/hacs/src/hacs/Registry/JL/quat/Level.cpp code/hacs/src/hacs/Registry/JL/quat/Ordinary.cpp code/hacs/src/hacs/NumberField/BigInt.cpp -o <builddir>/jl_hj9",
+  "native_cmd": "jl_hj9 --smax-coinv 5 --full-max 3 --out <file> (wall 2:44.52, via heavy.sh)",
+  "binary": "/home/janosch/data/hacs-build/laneC/hj9/jl_hj9",
+  "binary_sha256": "962f87dc4dc7df6d0bb585c36c68831d1654205e8f9c90b0cae3ce5996fdbada",
+  "commit": "540a26dfda0ff7ecc64941ecbcdd01877e813ccd",
+  "date": "2026-11-15T07:07:35+00:00",
+  "runtime_s": 164.4,
+  "params": {
+   "D": 3,
+   "q": 2,
+   "p": 5,
+   "m": 3,
+   "s_direct": [
+    1,
+    2,
+    3
+   ],
+   "s_coinvariant": [
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5"
+   ]
+  },
+  "status": "computed (native C++), agreeing with the stage-04 Python values where compared",
+  "conventions": "Ordinary.h (O1)-(O4): homological U_p, lines != <v mod p>, datum moved by LevelModel::move (Level.h (L4)); U'_p with [[1,0],[p^s j, p]]; <d> v -> d^{-1} v; <p>_M v -> p^{-1} v mod M"
+ },
+ "summary": {
+  "cells": 7,
+  "cells_matched": 7,
+  "fields": 215,
+  "fields_matched": 215,
+  "fields_substantive": 168,
+  "fields_substantive_matched": 168,
+  "mismatched": []
+ },
+ "NEW_rank_Delta": {
+  "rk_Delta_e_ZS_by_s": {
+   "s1": 1,
+   "s2": 1,
+   "s3": 1,
+   "s4": 1,
+   "s5": 1
+  },
+  "rk_Delta_e_ZE_by_s": {
+   "s1": 4,
+   "s2": 4,
+   "s3": 4,
+   "s4": 4,
+   "s5": 4
+  },
+  "rk_Delta_e_H1_by_s (exact sequence; e alpha surjectivity checked mod p on the coinvariants)": {
+   "s1": 2,
+   "s2": 2,
+   "s3": 2,
+   "s4": 2,
+   "s5": 2
+  },
+  "hypotheses_by_s": {
+   "s1": {
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "e_alpha_surjective": true
+   },
+   "s2": {
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "e_alpha_surjective": true
+   },
+   "s3": {
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "e_alpha_surjective": true
+   },
+   "s4": {
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "e_alpha_surjective": true
+   },
+   "s5": {
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "e_alpha_surjective": true
+   }
+  },
+  "constant": true,
+  "s_ge_4_caveat": "at s >= 4 the full e on Z/p^m[S_s] is not formed; the ranks come from the coinvariant route, whose hypotheses (free Delta action with orbit length |Delta_s|, [U_p, Delta] = 0) are checked per s; rk_Delta e H_1 additionally uses the surjectivity of e alpha onto e Z[S]^2, checked mod p on the coinvariants (Nakayama), not by a direct restriction to H_1",
+  "sizes": {
+   "s1": {
+    "S_s": 2,
+    "E_s": 6,
+    "delta_order": 1,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "alpha_equivariant_U_p_Delta": true,
+    "deg_U_p_eq_p": true,
+    "seconds": 0.000483
+   },
+   "s2": {
+    "S_s": 50,
+    "E_s": 150,
+    "delta_order": 5,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "alpha_equivariant_U_p_Delta": true,
+    "deg_U_p_eq_p": true,
+    "seconds": 0.014372
+   },
+   "s3": {
+    "S_s": 1250,
+    "E_s": 3750,
+    "delta_order": 25,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "alpha_equivariant_U_p_Delta": true,
+    "deg_U_p_eq_p": true,
+    "seconds": 111.065925
+   },
+   "s4": {
+    "S_s": 31250,
+    "E_s": 93750,
+    "delta_order": 125,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "alpha_equivariant_U_p_Delta": true,
+    "deg_U_p_eq_p": true,
+    "seconds": 0.785057
+   },
+   "s5": {
+    "S_s": 781250,
+    "E_s": 2343750,
+    "delta_order": 625,
+    "delta_free_S": true,
+    "delta_free_E": true,
+    "alpha_equivariant_U_p_Delta": true,
+    "deg_U_p_eq_p": true,
+    "seconds": 32.969664
+   }
+  },
+  "method": "coinvariant route (Ordinary.h (O4)): Delta_s acts freely, so Z/p^m[S_s] is free over the local ring Z/p^m[Delta_s]; eM is a direct summand, hence free, and its rank g = dim_{F_p} e(F_p[S_s/Delta_s]) is the ordinary rank of U_p on the coinvariants. Exact; at s <= 3 it equals the direct computation (coinvariant_route_eq_direct).",
+  "status": "computed (NEW for s = 4, 5)"
+ },
+ "cells": [
+  {
+   "label": "T3 B_3 q=2 p=5 s=1",
+   "source": "s04/T3.json",
+   "match": true,
+   "n_fields": 31,
+   "n_fields_matched": 31,
+   "n_fields_substantive": 20,
+   "n_fields_substantive_matched": 20,
+   "not_reproduced": {
+    "stage02_*": "stage-02 values (HJ-7a reproduced them natively: hj7_tree_w2.json, s02/T3 cells)"
+   },
+   "coinvariant_route": {
+    "rank_Delta_ZS": 1,
+    "orbits_S": 2,
+    "delta_free_S": true,
+    "rank_Delta_ZE": 4,
+    "orbits_E": 6,
+    "delta_free_E": true,
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "e_alpha_bar_rank_mod_p": 2,
+    "expected_2_rank_Delta_ZS": 2,
+    "e_alpha_surjective": true,
+    "rank_Delta_H1": 2,
+    "rank_Delta_H1_route": "exact sequence 0 -> eH1 -> eZ[E] -> eZ[S]^2 -> 0 over Z/p^m[Delta] (e alpha surjective: checked mod p on the coinvariants)"
+   },
+   "coinvariant_route_eq_direct": true
+  },
+  {
+   "label": "T3 B_3 q=2 p=5 s=2",
+   "source": "s04/T3.json",
+   "match": true,
+   "n_fields": 31,
+   "n_fields_matched": 31,
+   "n_fields_substantive": 20,
+   "n_fields_substantive_matched": 20,
+   "not_reproduced": {
+    "stage02_*": "stage-02 values (HJ-7a reproduced them natively: hj7_tree_w2.json, s02/T3 cells)"
+   },
+   "coinvariant_route": {
+    "rank_Delta_ZS": 1,
+    "orbits_S": 10,
+    "delta_free_S": true,
+    "rank_Delta_ZE": 4,
+    "orbits_E": 30,
+    "delta_free_E": true,
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "e_alpha_bar_rank_mod_p": 2,
+    "expected_2_rank_Delta_ZS": 2,
+    "e_alpha_surjective": true,
+    "rank_Delta_H1": 2,
+    "rank_Delta_H1_route": "exact sequence 0 -> eH1 -> eZ[E] -> eZ[S]^2 -> 0 over Z/p^m[Delta] (e alpha surjective: checked mod p on the coinvariants)"
+   },
+   "coinvariant_route_eq_direct": true
+  },
+  {
+   "label": "T3 B_3 q=2 p=5 s=3",
+   "source": "s04/T3.json",
+   "match": true,
+   "n_fields": 31,
+   "n_fields_matched": 31,
+   "n_fields_substantive": 20,
+   "n_fields_substantive_matched": 20,
+   "not_reproduced": {
+    "stage02_*": "stage-02 values (HJ-7a reproduced them natively: hj7_tree_w2.json, s02/T3 cells)"
+   },
+   "coinvariant_route": {
+    "rank_Delta_ZS": 1,
+    "orbits_S": 50,
+    "delta_free_S": true,
+    "rank_Delta_ZE": 4,
+    "orbits_E": 150,
+    "delta_free_E": true,
+    "U_p_commutes_Delta_S": true,
+    "U_p_commutes_Delta_E": true,
+    "e_alpha_bar_rank_mod_p": 2,
+    "expected_2_rank_Delta_ZS": 2,
+    "e_alpha_surjective": true,
+    "rank_Delta_H1": 2,
+    "rank_Delta_H1_route": "exact sequence 0 -> eH1 -> eZ[E] -> eZ[S]^2 -> 0 over Z/p^m[Delta] (e alpha surjective: checked mod p on the coinvariants)"
+   },
+   "coinvariant_route_eq_direct": true
+  },
+  {
+   "label": "H6 D=2 M=7",
+   "source": "s04/H6.json",
+   "match": true,
+   "n_fields": 33,
+   "n_fields_matched": 33,
+   "n_fields_substantive": 29,
+   "n_fields_substantive_matched": 29
+  },
+  {
+   "label": "H6 D=3 M=1",
+   "source": "s04/H6.json",
+   "match": true,
+   "n_fields": 33,
+   "n_fields_matched": 33,
+   "n_fields_substantive": 29,
+   "n_fields_substantive_matched": 29
+  },
+  {
+   "label": "H7 B_11 p=5 s=1,2",
+   "source": "s04/H7.json",
+   "match": true,
+   "n_fields": 28,
+   "n_fields_matched": 28,
+   "n_fields_substantive": 25,
+   "n_fields_substantive_matched": 25
+  },
+  {
+   "label": "H7 B_23 p=5 s=1,2",
+   "source": "s04/H7.json",
+   "match": true,
+   "n_fields": 28,
+   "n_fields_matched": 28,
+   "n_fields_substantive": 25,
+   "n_fields_substantive_matched": 25
+  }
+ ]
+}

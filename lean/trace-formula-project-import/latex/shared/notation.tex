@@ -1,0 +1,175 @@
+% notation.tex -- the single notation table of the project (PLAN §3.0, §3.F).
+% Fork copy (algebraic_jl, from tex/shared/notation.tex @ 84818d0): analytic blocks and rows removed (see ../EDITS.md).
+% Input exactly once per document (A: Vol I Ch 0.1 and Vol II front matter; B: the same places).
+% Macros are defined in gl2tf.sty. Changing a normalization here is a change of mathematics:
+% it must be mirrored in the Lean definitions and re-audited (PLAN §1.3, sem_hash).
+
+\subsection*{Groups and subgroups}
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$G=\GL_2$ & the general linear group of rank $2$, $G(R)=\Mat_2(R)^\times$ for a commutative ring $R$ \\
+$B=TN$ & the upper-triangular Borel subgroup \\
+$T$ & the diagonal torus, $t=\diag(t_1,t_2)$ \\
+$N$ & the unipotent radical of $B$, $n(x)=\begin{psmallmatrix}1&x\\0&1\end{psmallmatrix}$ \\
+$Z$ & the centre (scalar matrices) \\
+$\Bbar$, $\Nbar$ & the opposite (lower-triangular) Borel subgroup and its unipotent radical \\
+$w$ & the Weyl element $\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$ \\
+$K_p$ & $\GL_2(\Zp)$ \\
+$\Kinf$ & $\Ort(2)$ \\
+$\Kf$, $K$ & $\Kf=\prod_p K_p$, $K=\Kinf\times\Kf$ \\
+$\A$, $\Af$, $\Zhat$ & the adeles $\A=\R\times\Af$ of $\Q$ (working model, decision D17; isomorphic to Mathlib's
+  \texttt{AdeleRing (𝓞 ℚ) ℚ} by a theorem); the finite adeles $\Af=\prod'_p(\Qp,\Zp)$; $\Zhat=\prod_p\Zp\subseteq\Af$ \\
+$\abs{\cdot}_v$, $\abs{\cdot}_\A$ & normalized absolute values ($\abs{a}_F$ is the Haar modulus of $x\mapsto ax$);
+  $\abs{x}_\A=\prod_v\abs{x_v}_v$ \\
+$G(\A)^1$ & $\{g\in G(\A):\abs{\det g}_\A=1\}$ \\
+$T(\A)^1$ & $\{t\in T(\A):\abs{t_1}_\A=\abs{t_2}_\A=1\}\cong\A^1\times\A^1$ (Arthur's; \emph{not} $T(\A)\cap G(\A)^1$);
+  $T(\Q)\backslash T(\A)^1\cong\Zhat^\times\times\Zhat^\times$ is compact \\
+$\AGplus$ & $\{\diag(r,r):r\in\R_{>0}\}\subset G(\R)$; $G(\A)=\AGplus\times G(\A)^1$ \\
+$G(\R)^1$ & $\{g\in\GL_2(\R):\abs{\det g}=1\}=\SL_2^\pm(\R)$ \\
+$T^1$ & $T(\A)\cap G(\A)^1=\{\abs{t_1t_2}_\A=1\}$ (\emph{not} $T(\A)^1$) \\
+$P_\gamma$ & the characteristic polynomial $\det(X\cdot1-\gamma)=X^2-\tr(\gamma)X+\det\gamma$ of $\gamma\in\GL_2(K)$, $K$ a field; $\gamma$ is elliptic if $P_\gamma$ is irreducible \\
+$\iota_R$ & $\GL_2(\Q)\to\GL_2(R)$, induced by the structure map of a commutative $\Q$-algebra $R$; $\iota_\A$ is the inclusion $G(\Q)\subseteq G(\A)$ \\
+$G_\gamma(R)$ & the centralizer of $\iota_R(\gamma)$ in $\GL_2(R)$, for $\gamma\in\GL_2(\Q)$ \\
+$G_\gamma(\A)^1$ & $G_\gamma(\A)\cap G(\A)^1$ (agrees with Arthur's intrinsic definition for elliptic $\gamma$) \\
+$E=K[\gamma]$ & $\{a\cdot1+b\gamma:a,b\in K\}\subseteq\Mat_2(K)$; a quadratic field if $\gamma$ is elliptic \\
+$\mathcal N(y)$ & $\norm{y_\infty}_{\mathrm{op}}\prod_p\norm{y_p}_p$ for $y\in G(\A)$, $\norm{y_p}_p=\max_{ij}\abs{y_{ij,p}}_p$; $\norm{uy}_\A\le\mathcal N(y)\norm u_\A$ \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Height map, roots, chambers}
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$\aB$ & $\Hom(X^*(T)_\Q,\R)\cong\R^2$ \\
+$\HB$ & the height map $G(\A)\to\aB$, $\HB(ntk)=(\log\abs{t_1}_\A,\log\abs{t_2}_\A)$
+  ($n\in N(\A)$, $t\in T(\A)$, $k\in K$) \\
+$\aBG$ & $\{(h,-h)\}\subset\aB$ \\
+$\alpha$, $\rho$ & the simple root $\alpha(h_1,h_2)=h_1-h_2$; $\rho=\alpha/2$ \\
+$\tau_B$, $\hat\tau_B$ & characteristic functions of the positive chamber and of the positive cone
+  (equal for $\GL_2$ up to the identification $\aBG\cong\R$) \\
+$\deltaB$ & the modular character $\deltaB(nt)=\deltaB(tn)=\abs{t_1/t_2}$; $\deltaB(t)=e^{\langle2\rho,\HB(t)\rangle}$ \\
+$\mathfrak S(\omega,t_0)$ & Siegel set $\omega A(t_0)K$ ($\omega\subseteq N(\A)$, $t_0>0$), $A(t_0)=\{a:a_\infty=\diag(a_1,a_2),\ a_1,a_2>0,\
+  a_1a_2=1,\ a_1/a_2\ge t_0;\ a_p=1\}$; $\omega_0=\{n(u):u_\infty\in[-\frac12,\frac12],\ u_p=0\}$;
+  $G(\A)^1=G(\Q)\mathfrak S(\omega,t_0)$ for $\omega\supseteq\omega_0$, $t_0\le\sqrt3/2$ \\
+$\lambda(x)$, $\operatorname{ht}(x)$ & $\lambda(x)=\min_{\delta\in G(\Q)}\norm{e_2\delta x}_\A$,
+  $\operatorname{ht}(x)=\log\abs{\det x}_\A-2\log\lambda(x)=\max_\delta\alpha(\HB(\delta x))$; height lemma for $t_0\ge t_1=1$ (sharp) \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Parabolics and conjugacy classes (milestone M7a)}
+Symbols marked \emph{clash} share a letter with an entry above; the context (Vol.~II, Ch.~1--4) decides.
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$\mathcal P$, $\mathcal P(T)$ & $\{B,G\}$; $\{B,\Bbar\}$ \\
+$w$ on $\aB$, $H_{\Bbar}$ & $w(h_1,h_2)=(h_2,h_1)$; $H_{\Bbar}(x)=w\,\HB(w^{-1}x)=w\,\HB(wx)$, so $H_{\Bbar}(\bar ntk)=(\log\abs{t_1}_\A,\log\abs{t_2}_\A)$ \\
+$\alpha^\vee$, $\Lambda_\lambda$ & the coroot $(1,-1)\in\aBG$; the form on $\aBG$ with $\Lambda_\lambda(\alpha^\vee)=\lambda$, i.e.\ $\Lambda_\lambda=\frac\lambda2\alpha$ (\emph{clash}: the D15 coordinate below
+  is $\lambda\leftrightarrow\lambda\alpha$, so $\lambda_{\text{Ch.~2}}=2\lambda_{\text{D15}}$); Haar measure on $\aBG$ with $\vol(\aBG/\Z\alpha^\vee)=1$ \\
+$T_P$, $Y_P(x,T)$ & $T_B=T$, $T_{\Bbar}=wT$; $Y_P(x,T)=(T_P-H_P(x))_B^G=y_P\,\alpha^\vee$ (\emph{clash}: $T\in\aB$ is the truncation parameter, not the torus) \\
+$\theta_P$ & $\theta_B(\lambda)=\lambda$, $\theta_{\Bbar}(\lambda)=-\lambda$ \\
+$\mathcal O$, $\mathcal O_z$, $\mathcal O_{a,b}$ & a geometric class $(t,d)\in\Q\times\Q^\times$ (characteristic polynomial $X^2-tX+d$) and its fibre in $\GL_2(\Q)$; central-unipotent, hyperbolic
+  (\emph{clash}: $\Ocal$ is the ring of integers of a local field $F$ in the measure table) \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Cosets and the point $T_0$ (milestone M9a)}\label{notation:m9a}
+Vol.~II, Ch.~6 (request R1 of \texttt{docs/notes/M9a-requests.md}).
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$B(\Q)\backslash G(\Q)$ & the set of right cosets $B(\Q)\delta$, $\delta\in G(\Q)$; a sum over it is a sum over cosets, each term evaluated at a fixed representative
+  (decision D-REP) \\
+$T_0$ & the canonical point of \cite[(9.4)]{AIntro}; $T_0=0$ for $\GL_2$ and the standard $K$; the truncation parameter $T\in\aB$ ranges over $\alpha(T)\ge\alpha(T_0)=0$
+  (\emph{clash}: $T$ is not the torus) \\
+\bottomrule
+\end{longtable}
+
+\subsection*{The spherical Hecke algebra and the unramified principal series (milestone M5a)}\label{notation:m5a}
+Vol.~I, Ch.~1.1--1.2 (request r-3 of \texttt{docs/notes/M5a-requests.md}); $F$ a non-archimedean local field, $K=K_F$.
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$c_{a,b}$, $T_\unif$, $R_\unif$ & the characteristic function of $K\,t_{a,b}\,K$, $t_{a,b}=\diag(\unif^a,\unif^b)$; $T_\unif=c_{1,0}$, $R_\unif=c_{1,1}$,
+  $R_\unif^{-1}=c_{-1,-1}$ \\
+$\operatorname{ord}(x)$, $h_{i,j}(x)$ & the integer with $x\in\unif^{\operatorname{ord}(x)}\Ocal_F^\times$ ($\operatorname{ord}(0)=+\infty$);
+  $h_{i,j}(x)=\begin{psmallmatrix}\unif^i&x\\0&\unif^j\end{psmallmatrix}$, the left coset representatives \\
+$\C[X^{\pm1},Y^{\pm1}]^{S_2}$, $s$ & Laurent polynomials ($X$ for the first diagonal entry, $Y$ for the second) and the invariants of the swap $s$ \\
+$\Sat$ & the Satake transform $\Sat f=\sum_{gK}f(g)\,\deltaB(\beta)^{1/2}X^iY^j$ ($\beta\in gK$ upper triangular with diagonal exponents $(i,j)$);
+  equivalently $\deltaB(t)^{1/2}\int_{N(F)}f(tn)\,\dd n$ with $\vol(N(\Ocal_F))=1$ (\emph{not} $\Schw$, the Schwartz space) \\
+$\chi=(\chi_1,\chi_2)$, $w\chi$ & a pair of quasi-characters of $F^\times$ as the character $\chi_1(t_1)\chi_2(t_2)$ of $T(F)$; $w\chi=(\chi_2,\chi_1)$ \\
+$(\alpha,\beta)$ & the Satake parameter $(\chi_1(\unif),\chi_2(\unif))$ of an unramified $\chi$; $\omega_{\alpha,\beta}(f)=(\Sat f)(\alpha,\beta)$
+  (normalization of \cite[Prop.~40]{BumpH}; Satake's parameter is the inverse) \\
+$I(\chi_1,\chi_2)$, $\pi_\chi$ & the normalized principal series, $f(n\,t\,g)=\chi(t)\deltaB^{1/2}(t)f(g)$, $\deltaB^{1/2}(t)=\abs{t_1/t_2}^{1/2}$;
+  $\pi_\chi$ is right translation \\
+$f^\circ_\chi$ & the spherical vector, $f^\circ_\chi(ntk)=\chi(t)\deltaB^{1/2}(t)$, $f^\circ_\chi(1)=1$ \\
+$V(N)$, $V_N$, $\pi_N$ & $\operatorname{span}\{\pi(n)v-v\}$, the Jacquet module $V/V(N)$, with the \emph{unnormalized} action of $T(F)$ \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Vol.~III: explicit formulas and local factors (milestone Q1)}\label{notation:q1}
+Vol.~III, Ch.~1 (decision D6 for the printed symbols; conventions table \texttt{docs/specs/quaternion-conventions.md}). Every object of this table is an
+\emph{expression} (a number defined by a formula), not a trace; $N,M,D,k,n\in\N$, $t,\Delta,m\in\Z$, values in $\Q$. A \emph{discriminant} is a
+$\Delta\in\Z$ with $\Delta\equiv0,1\pmod4$.
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$\Bq$ & a definite quaternion algebra over $\Q$ (Vol.~III; \emph{clash}: $B$ is the Borel subgroup in Vol.~I/II and keeps that meaning) \\
+$\dedpsi(N)$ & Dedekind's function $N\prod_{p\mid N}(1+1/p)$, the index $[\SL_2(\Z):\Gamma_0(N)]$ (\emph{clash}: $\psi$ alone is the additive
+  character of $\A$; $\dedpsi$ always has an integer argument) \\
+$\omega(m)$, $\sigma_1(n)$, $\varphi(m)$ & number of distinct prime divisors; sum of divisors; Euler's function (\emph{clash}: $\varphi$ is an
+  automorphic form or a section in Vol.~I/II; with an integer argument it is Euler's function) \\
+$\Ford(t,n)$, $\Delta_f$ & the $f\ge1$ with $f^2\mid t^2-4n$ and $\Delta_f=(t^2-4n)/f^2$ a discriminant \\
+$h(\Delta)$, $\wnum(\Delta)$, $\hw(\Delta)$ & number of reduced primitive forms of discriminant $\Delta<0$; $6,4,2$ for $\Delta=-3,-4$, otherwise;
+  $2h/\wnum$ (row N5) (\emph{clash}: $w$ is the Weyl element; $\wnum$ always has an argument) \\
+$P_k(t,n)$ & $P_1=0$, $P_2=1$, $P_{k+1}=tP_k-nP_{k-1}$; $=(\rho^{k-1}-\bar\rho^{k-1})/(\rho-\bar\rho)$ (\emph{clash}: $P$ a parabolic subgroup) \\
+$\chi_\Delta(p)$ & the Kronecker symbol $(\Delta/p)$ at a prime $p$ \\
+$p\mid\operatorname{cond}\Delta$ & $p^2\mid\Delta$ and $\Delta/p^2$ is a discriminant \\
+$\esym_p(\Delta)$ & the Eichler symbol: $1$ if $p\mid\operatorname{cond}\Delta$, else $\chi_\Delta(p)$ (row N13; Shimizu's $\{o/p\}$) \\
+$\mD_p$, $\mone_p$ & the local factors $1-\esym_p$ at $p\mid D$ and $1+\esym_p$ at $p\parallel M$ (rows N7, N8) \\
+$\embmu_N(t,f,n)$ & Cohen's root count (row N11) (\emph{clash}: $\mu$ is a Haar measure or a Dirichlet pair in Vol.~I/II) \\
+$\cbd_N(m)$ & $\sum_{\tau\mid N,\ \gcd(\tau,N/\tau)\mid m}\varphi(\gcd(\tau,N/\tau))$; $\cbd_N(0)=\ncusps(N)$, the number of cusps of $\Gamma_0(N)$ (row N12) \\
+$\Eist$, $\Eis$ & the Eisenstein expressions $\sum_{aa'=n}a'^{k-1}\cbd_N(a-a')$ and $\Eist-\delta_{k,2}\sigma_1(n)$ (row N10) (\emph{clash}: $E$ is an
+  Eisenstein series) \\
+$A_1,\dots,A_4$, $\TC$ & Cohen's terms and their sum (\emph{clash}: $A$ is a torus factor; Cohen's terms always carry a digit subscript) \\
+$A_2^{\mathrm E}(k,n;F)$ & Eichler's elliptic expression with an $M$-part $F\colon\Z\to\Q$ \\
+$\LamES(N,k,n;F)$ & $\delta_{k,2}\sigma_1(n)-2(A_1+A_2^{\mathrm E}+A_3+A_4)-\Eis$ (rows N10, N14) \\
+$\EichB(D,M,k,n;F)$ & Eichler's expression for the quaternion side (rows N3--N5, N7) (\emph{clash}: $E_B$ is a constant term) \\
+\bottomrule
+\end{longtable}
+
+% BEGIN D25 r2/q2
+\subsection*{Vol.~III: quaternion algebras, orders, class sets (milestone Q2)}\label{notation:q2}
+Vol.~III, Ch.~III.6 and Ch.~III.7 (decision D6; conventions rows N4, N6, N9, N20 of \texttt{docs/specs/quaternion-conventions.md}). Throughout
+$a,b\in\Z$; ``definite'' ($a,b<0$) is always written out. A \emph{lattice} is a finitely generated $\Z$-submodule $L\subseteq\Bq$ with $\Q L=\Bq$.
+\begin{longtable}{@{}p{0.27\linewidth}p{0.68\linewidth}@{}}
+\toprule
+Symbol & Meaning \\ \midrule
+\endhead
+$\Bq_R=\Bq_R(a,b)$, $\Bq$ & the quaternion algebra over a commutative ring $R$ with basis $1,i,j,k$, $i^2=a$, $j^2=b$, $ij=-ji=k$ (Mathlib $\mathbb H[R,a,0,b]$);
+  $\Bq=\Bq_\Q$; $x=x_0+x_1i+x_2j+x_3k$, $\bar x$ the conjugate \\
+$\nrd$, $\trd$ & reduced norm $x_0^2-ax_1^2-bx_2^2+abx_3^2$ and reduced trace $2x_0$ \\
+$\hilb abF$, $\hilb abp$ & the Hilbert symbol of a field $F$ (by isotropy, Serre), and of $\Qp$ \\
+$\operatorname{RamEx}(a,b,D)$ & $a,b<0$, $D$ squarefree, and $\hilb abp=-1$ exactly for $p\mid D$ (Lean \texttt{RamifiedExactly}) \\
+$L_p$ & the $\Zp$-span of a lattice $L$ in $\Bq_{\Qp}$ (\emph{clash}: $L_x$ below has an adelic index) \\
+$\Oord$, $\Oord^\times$, $d(\Oord)$ & an order (a lattice that is a subring), its unit group, its discriminant $\det(\trd(e_\mu\bar e_\nu))$ \\
+$\phi$, $\Oord(M;\phi)$ & a level structure $\Oord\to\Mat_2(\Z/M\Z)$ (surjective ring homomorphism) and its Eichler order $\{x:\phi(x)_{21}=0\}$
+  (\emph{clash}: $\phi$ is not Euler's function $\varphi$) \\
+$\Binf$, $\Bhat$, $\BA$ & $\Bq_\R$, $\Bq_{\Af}$, $\Bq_\A$, topologies from $R^4$ along the coordinates; $\iota\colon\Bq\to\Bhat$, $\iota_\A\colon\Bq\to\BA$ \\
+$\Lhat$, $\Ohat$, $\Ohat^\times$ & the $\Zhat$-span of $\iota(L)$ in $\Bhat$; $\Ohat^\times=\{u\in\Bhat^\times:u,u^{-1}\in\Ohat\}$ \\
+$X(\Oord)$, $[x]$ & the class set $\Bq^\times\backslash\Bhat^\times/\Ohat^\times$ ($\Bq^\times$ left, $\Ohat^\times$ right; row N20) and the class of $x$ \\
+$L_x$, $\Oord_x$ & $\iota^{-1}(x\Ohat)$, a right $\Oord$-ideal, and its left order $\iota^{-1}(x\Ohat x^{-1})$ \\
+$\Gamma_x(U)$, $\Gamma_x$ & $\{\gamma\in\Bq^\times:\iota(\gamma)\in xUx^{-1}\}$; $\Gamma_x=\Gamma_x(\Ohat^\times)=\Oord_x^\times$, full unit group incl.\ $\pm1$ (row N4)
+  (\emph{clash}: $\Gamma$ alone is a congruence subgroup in Vol.~I/II) \\
+$\Mass(\Oord)$ & $\sum_{c\in X(\Oord)}1/\abs{\Gamma_{x_c}}$ (row N4); H-EM: $\Mass(\Oord)=\frac1{24}\prod_{p\mid D}(p-1)$ for maximal $\Oord$ \\
+$B_0(\Z/M\Z)$ & the upper triangular subgroup of $\GL_2(\Z/M\Z)$ (\emph{clash}: $B$ is the Borel subgroup of $G$; $\Bq$ is the algebra) \\
+$\BA^1$, $\Gamma_{\Bq}$ & $\{x\in\BA^\times:\abs{\nrd x}_\A=1\}$ and the image of $\Bq^\times$ in it \\
+\bottomrule
+\end{longtable}
+% END D25 r2/q2

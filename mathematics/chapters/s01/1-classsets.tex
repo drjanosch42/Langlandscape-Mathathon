@@ -1,0 +1,208 @@
+\section{Classical objects: the algebra, levels and class sets}
+
+\begin{definition}[definite algebra; seed \S2.2]\label{def:s01-B}
+$D>1$ is squarefree with $\omega(D)$ odd, and $B=\Bd$ is the quaternion algebra over $\Q$ ramified exactly at $\infty$
+and the primes $\ell\mid D$. $\Nrd$ is the reduced norm, $B^1=\ker\Nrd$; since $B$ is definite, $\Nrd(B^\times)=\Q_{>0}$.
+$\cO\subset B$ is a maximal order. For $\ell\nmid D$ we fix $\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$; for $\ell\mid D$,
+$\cO_\ell=\{x\in B_\ell:\Nrd x\in\Z_\ell\}$ is the unique maximal order of the division algebra $B_\ell$, with a
+uniformiser $\Pi_\ell$, $\Pi_\ell^2\in\ell\,\cO_\ell^\times$.
+Throughout, $\Zhat=\prod_\ell\Z_\ell$, $\hat\Q=\Zhat\otimes\Q$ (finite adeles), $B_\ell=B\otimes\Q_\ell$, $\cO_\ell=\cO\otimes\Z_\ell$, $\hat B=B\otimes\hat\Q$, $\hat\cO=\cO\otimes\Zhat=\prod_\ell\cO_\ell$.
+\end{definition}
+\noindent\stknown{} Existence/uniqueness of $B$ up to isomorphism, local maximal orders:
+\lit{voight\_2021\_quaternion-algebras}{Thm.~13.3.11, p.~206; Prop.~13.3.4, p.~205}.
+\emph{Existing material:} \Tpath{P2/Ramification.lean} \texttt{RamifiedExactly a b D} (Hilbert-symbol algebra
+$(a,b)_\Q$ with $a,b<0$, $D$ squarefree, $(a,b)_\ell=-1\iff\ell\mid D$); \Tpath{P2/QuatAlg.lean} \pathtt{definite\_division};
+\Tpath{P2/Orders.lean} \texttt{QOrder}, \texttt{IsMaximalOrder}, \texttt{MaxOrder}, \texttt{discriminant};
+\Tpath{P2/LocalStructure.lean} \pathtt{maximalOrder\_local\_split} (gives $\iota_\ell$, $\ell\nmid D$) and
+\pathtt{division\_maximalOrder} ($\ell\mid D$); \pathtt{pizer\_algebras} gives explicit $(a,b)$ for $D$ prime.
+\emph{Dictionary:} seed $B_D$ $=$ import \texttt{QuatAlg $\Q$ a b} together with a proof of \texttt{RamifiedExactly a b D};
+the import never fixes $\Pi_\ell$.
+
+\begin{definition}[levels; seed \S2.3]\label{def:s01-levels}
+For integers $N\ge1$ with $(N,D)=1$ and matrices read through $\iota_\ell$ (so $\ell\nmid D$ whenever $\ell\mid N$):
+$\Uzero{N}=\prod_\ell U_{0,\ell}$, $\Uone{N}=\prod_\ell U_{1,\ell}$ with $U_{\bullet,\ell}=\cO_\ell^\times$ for $\ell\nmid N$ and
+\[U_{0,\ell}=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_\ell):c\equiv0\},\qquad
+U_{1,\ell}=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_\ell):c\equiv0,\ d\equiv1\}\pmod{\ell^{v_\ell(N)}}.\]
+Here $N=1$ gives $\Uzero1=\Uone1=\hat\cO^\times$. Further $U_s:=\Uone{Mp^s}$ ($M\ge1$, $s\ge0$, $p$ prime, $(Mp,D)=1$), $S_s:=\XB{U_s}$, $\Delta_s:=(1+p\Zp)/(1+p^s\Zp)$ for $s\ge1$, and for $q\nmid D$ and $U$ with
+$U_q=\cO_q^\times$: $U_0(q)U:=U\cap\Uzero{q}$ (i.e.\ $U_q$ replaced by $\Iw_q$).
+\end{definition}
+\noindent\emph{Levels start at $N\ge1$} (Lean feedback L3c). With $N=0$ and the Lean convention $v_\ell(0)=0$ one would have modulus $\ell^{v_\ell(0)}=\ell^0=1$, i.e.\ \emph{no}
+congruence condition at any $\ell$ (a literal modulus $0$ would instead force $c=0$, $d=1$, a non-open group), so $U_1(0)=\hat\cO^\times$ and not a ``level $0$''
+group; moreover the tower inclusion $\Uone{N'}\subseteq\Uone{N}$ for $N\mid N'$ needs $N'\ne0$ (for $N'=0$ every $N$ divides $N'$
+but $U_1(0)\not\subseteq U_1(N)$). All statements below are for $N\ge1$. We use freely: $\Uone N\subseteq\Uzero N\subseteq\hat\cO^\times$,
+$\Uone{N'}\subseteq\Uone N$ for $N\mid N'$ ($N,N'\ge1$), $-1\in\Uzero N$ always, and $-1\in\Uone N\iff N\in\{1,2\}$.
+
+\noindent Note the convention: the \emph{lower} row is $\equiv(0,1)$. This is the convention of
+\lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~10} and of the import
+(\Tpath{P2/Orders.lean} \texttt{eichlerSubalgebra}: $\varphi(x)_{21}=0$). It matters for $U_p$
+(Lemma~\ref{lem:s01-Up}).
+
+\begin{lemma}[norms of levels]\label{lem:s01-nrd}
+$\Nrd(U)=\Zhat^\times$ for $U\in\{\Uzero{N},\Uone{N},U_s,U_0(q)U\}$ ($U$ in the first three families with $U_q=\cO_q^\times$ in the
+last), and every class in $\XB{U}$ has a representative $x$ with
+$\Nrd x\in\Zhat^\times$; two such representatives of the same class differ by $B^1$ on the left and $U$ on the right, i.e.\ $x'\in B^1xU$. \stproved{} on paper (the $\ell\mid D$ case uses the cited local structure of $B_\ell$,
+\lit{voight\_2021\_quaternion-algebras}{Thm.~13.3.11, p.~206}; the Hasse--Schilling step is \stcited{}).
+\emph{Lean (stage~02):} the split-prime parts and the assembly are \stformal{} (\lean{Langlandscape.Quat.nrdSurj\_Utower} and relatives, see
+\S\ref{ss:s02-quotient}); they take the $\ell\mid D$ part as the explicit argument \lean{Langlandscape.Hyp.RamNrdSurj}, which is
+\stformal{} (discharged) by \lean{Langlandscape.Hyp.ramNrdSurj\_holds} (via \lean{Langlandscape.Hyp.ramNrdSurj\_of\_local}), so the norm statements
+hold unconditionally in Lean; the representative statement uses \lean{Langlandscape.Hyp.HS}.
+\emph{Remark (stronger local statement).} The Lean proof of the $\ell\mid D$ part does not use the local structure above: it shows that for
+\emph{every} prime $\ell$ and all nonzero $a,b\in\Z$ every $w\in\Z_\ell^\times$ is the reduced norm of some element of $(a,b\mid\Q_\ell)$,
+\stformal{} as \lean{Langlandscape.Local.exists\_nrd\_eq\_unit\_of\_ne\_two} ($\ell$ odd) and \lean{Langlandscape.Local.exists\_nrd\_eq\_unit\_two}
+($\ell=2$); the hypothesis $\ell\mid D$ enters only through $\cO_\ell=\{x:\Nrd x\in\Z_\ell\}$, which makes such an $x$ a unit of $\cO_\ell$.
+\end{lemma}
+\begin{proof}
+\emph{Local surjectivity.} Let $U$ be one of the groups; then $U=\prod_\ell U_\ell$ with $U_\ell\subseteq\cO_\ell^\times$, so
+$\Nrd U\subseteq\prod_\ell\Nrd(\cO_\ell^\times)\subseteq\Zhat^\times$ ($\Nrd\cO_\ell\subseteq\Z_\ell$ as $\cO_\ell$ is an order, and a unit has
+unit norm), and $\Nrd U=\prod_\ell\Nrd U_\ell$ because $\Nrd$ is computed componentwise. It therefore suffices to show
+$\Nrd(U_\ell)=\Z_\ell^\times$ for each $\ell$.
+\begin{itemize}
+\item $\ell\mid D$. Here $U_\ell=\cO_\ell^\times$ (as $\ell\nmid N$ and $\ell\ne q$). By
+\lit{voight\_2021\_quaternion-algebras}{Thm.~13.3.11, p.~206}, $B_\ell\cong(K,\pi\mid\Q_\ell)$ with $K/\Q_\ell$ the unramified
+quadratic extension, and $\cO_\ell\supseteq\cO_K=\Z_{\ell^2}$ (the integral closure of $\Z_\ell$ in $K$ lies in the unique maximal order, which
+consists of all integral elements). On $K\subseteq B_\ell$ the reduced norm is the field norm; $N_{K/\Q_\ell}:\cO_K^\times\to\Z_\ell^\times$ is
+surjective: on residue fields it is $\F_{\ell^2}^\times\to\F_\ell^\times$, $z\mapsto z^{\ell+1}$, which is onto, and for
+$n\ge1$ we have $N(1+\ell^nz)\equiv1+\ell^n\mathrm{Tr}(z)\pmod{\ell^{n+1}}$, where $\mathrm{Tr}:\F_{\ell^2}\to\F_\ell$ is onto;
+by successive approximation and completeness, $N(1+\ell\cO_K)=1+\ell\Z_\ell$.
+Hence $\Nrd(\cO_\ell^\times)=\Z_\ell^\times$.
+\item $\ell\nmid D$. Then $\Nrd=\det\circ\iota_\ell$ on $\cO_\ell^\times\cong\GL_2(\Z_\ell)$. For every $u\in\Z_\ell^\times$ the matrix
+$\mathrm{diag}(u,1)$ has $c=0$, $d=1$, so it lies in $U_\ell$ in each of the cases $U_\ell=\cO_\ell^\times$, $U_{0,\ell}$, $U_{1,\ell}$ and
+$\Iw_\ell$ (note $U_{1,\ell}\subseteq U_{0,\ell}$ and $\Iw_\ell=U_{0,\ell}$ at level $\ell$). Its determinant is $u$, so $\det U_\ell=\Z_\ell^\times$.
+\end{itemize}
+Taking the product over $\ell$ gives $\Nrd U=\prod_\ell\Z_\ell^\times=\Zhat^\times$.
+
+\emph{Representatives.} Every $y\in\hat\Q^\times$ is $y=r\,v$ with $r=\prod_\ell\ell^{v_\ell(y_\ell)}\in\Q_{>0}$ and $v\in\Zhat^\times$
+(strong form: $\Z$ is a PID, i.e.\ $\hat\Q^\times=\Q_{>0}\Zhat^\times$ with $\Q_{>0}\cap\Zhat^\times=\{1\}$). Let $x\in\hat B^\times$.
+Write $\Nrd x=rv$ as above. By the Hasse--Schilling norm theorem
+\lit{voight\_2021\_quaternion-algebras}{Main Thm.~14.7.4, p.~234} and definiteness, $\Nrd(B^\times)=\Q_{>0}$; choose $\beta\in B^\times$ with
+$\Nrd\beta=r^{-1}$. Then $\beta x$ is in the class of $x$ and $\Nrd(\beta x)=v\in\Zhat^\times$.
+
+\emph{Uniqueness.} Let $x,x'$ be representatives of the same class with $\Nrd x,\Nrd x'\in\Zhat^\times$, so $x'=\gamma xu$ with $\gamma\in B^\times$,
+$u\in U$. Then $\Nrd\gamma=\Nrd x'\,\Nrd x^{-1}\Nrd u^{-1}\in\Zhat^\times\cap\Q_{>0}=\{1\}$ (using $\Nrd u\in\Zhat^\times$, as $U\subseteq\hat\cO^\times$),
+i.e.\ $\gamma\in B^1$.
+\end{proof}
+\noindent\emph{Remark.} Only the inclusion $\Nrd U\subseteq\Zhat^\times$ enters in the uniqueness statement and in Lemma~\ref{lem:s01-stab}(a); the
+equality $\Nrd U=\Zhat^\times$ is what makes $\Nrd:\XB U\to\Q_{>0}\backslash\hat\Q^\times/\Nrd U$ a map to a one-point set, i.e.\ what
+makes the ``norm-one'' description of $\XB U$ (a quotient of $\hat B^1$ together with $B^1$) lossless.
+
+
+\begin{proposition}[Eichler orders]\label{prop:s01-eichler}
+For $(N,D)=1$, $\Uzero{N}=\hat\cO(N)^\times$ for the Eichler order $\cO(N)=B\cap\hat\cO(N)$ of level $N$, locally
+$\left(\begin{smallmatrix}\Z_\ell&\Z_\ell\\N\Z_\ell&\Z_\ell\end{smallmatrix}\right)$. \stknown{}
+\lit{voight\_2021\_quaternion-algebras}{Def.~23.4.1 and Prop.~23.4.3, p.~382}.
+\emph{Existing material:} \Tpath{P2/Orders.lean} \texttt{LevelStructure}, \texttt{eichlerOrder},
+\pathtt{eichlerOrder\_index}; \Tpath{P2/LocalStructure.lean} \pathtt{levelStructure\_exists}.
+The import has \emph{no} $\Uone{N}$, no $p$-tower and no Iwahori level at a prime outside the Eichler level: these are new.
+\end{proposition}
+\begin{proof}[Sketch of the identification]
+Locally at $\ell\nmid N$ both sides are $\cO_\ell^\times$; at $\ell\mid N$ (so $\ell\nmid D$) the order $\hat\cO(N)_\ell=\iota_\ell^{-1}
+\left(\begin{smallmatrix}\Z_\ell&\Z_\ell\\N\Z_\ell&\Z_\ell\end{smallmatrix}\right)$ is the intersection of $\cO_\ell$ with its conjugate
+by $\mathrm{diag}(1,\ell^{v_\ell(N)})$, hence Eichler by Voight's Def.~23.4.1 and Prop.~23.4.3 (the latter shows every local Eichler order
+is of this shape). An element of this order is a unit iff its determinant is in $\Z_\ell^\times$; since $\det\equiv ad\pmod{\ell^{v_\ell(N)}}$,
+this means $a,d\in\Z_\ell^\times$, i.e.\ the element lies in $\GL_2(\Z_\ell)$ with $c\equiv0$, which is $U_{0,\ell}$.
+\end{proof}
+
+\begin{definition}[class set; \pathtt{if:s01-classset}]\label{def:s01-classset}
+For compact open $U\subseteq\hat\cO^\times$: $\XB{U}:=B^\times\backslash\Bhat^\times/U$,
+$\Gamma_x:=B^\times\cap xUx^{-1}$ ($x\in\Bhat^\times$), and $w_x:=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$.
+Thus $w_x=|\Gamma_x|/2$ if $-1\in U$ (e.g.\ $\Uzero{N}$, and $U_0(q)U$ whenever $-1\in U$) and $w_x=|\Gamma_x|$ if $-1\notin U$
+(e.g.\ $\Uone{N}$, $N\ge3$).
+\end{definition}
+
+\begin{proposition}[finiteness]\label{prop:s01-finite}
+$\XB{U}$ is finite and every $\Gamma_x$ is finite; $\Gamma_x\le\Gamma_x(\hat\cO^\times)=\cO_x^\times$ with $\cO_x=B\cap x\hat\cO x^{-1}$,
+and $|\cO_x^\times|\in\{2,4,6,12,24\}$ ($\cO_x$ is \emph{maximal}; the value $8$ of Voight's list is the Lipschitz order,
+which is non-maximal and occurs only for $D=2$). Consequently $|\Gamma_x|$ divides $24$ for every $U\subseteq\hat\cO^\times$.
+\stknown{} \stformal{} (\lean{Langlandscape.Quat.XB\_finite}, \lean{Langlandscape.Quat.card\_Gam\_dvd\_24}) \lit{voight\_2021\_quaternion-algebras}{Thm.~17.1.1, p.~278 (finiteness); Thm.~11.5.14, p.~176
+(unit groups of definite orders over $\Q$)}; \lit{gross\_1999\_algebraic-modular-forms}{Prop.~4.3, p.~69}.
+\emph{Existing material} (\stformal): \Tpath{P2/ClassSet.lean} \texttt{classSet}, \pathtt{classSet\_finite},
+\pathtt{classSet\_finite\_of\_open} (any open $U\le\hat\cO^\times$), \texttt{classStabilizer}, \pathtt{stabilizer\_units}
+(c): $|\Gamma_x|\in\{2,4,6,8,12,24\}$ at level $\hat\cO^\times$ (a superset: $8$ does not occur there); \Tpath{P2/Compact.lean} \pathtt{quotient\_compact}.
+\end{proposition}
+\noindent(``Divides 24'': $\Gamma_x\le\cO_x^\times$ and each listed order divides $24$.)
+\begin{proof}
+\emph{Finiteness of $\XB U$.} $\hat\cO^\times$ is compact and $U\subseteq\hat\cO^\times$ is open, so $[\hat\cO^\times:U]<\infty$ and the fibres of
+$\XB U\to\XB{\hat\cO^\times}$ are finite (each fibre over $[x]$ is the image of $x\hat\cO^\times/U$). The base $\XB{\hat\cO^\times}$ is finite: it is
+in bijection with the right class set of $\cO$ (the type-set/ideal-class dictionary), finite by
+\lit{voight\_2021\_quaternion-algebras}{Thm.~17.1.1, p.~278}; equivalently by the finiteness of $B^\times\backslash\hat B^\times/K$ for compact open $K$ (discreteness and cocompactness of $B^\times$ in the
+relevant quotient), \lit{gross\_1999\_algebraic-modular-forms}{Prop.~4.3, p.~69}.
+
+\emph{Stabilisers.} For $x\in\hat B^\times$ the set $\cO_x:=B\cap x\hat\cO x^{-1}$ is an order of $B$ (a lattice, being the intersection of
+$B$ with a compact open $\Zhat$-lattice in $\hat B$, closed under multiplication and containing $1$), and $\cO_x^\times=B^\times\cap x\hat\cO^\times x^{-1}$, because
+$b\in\cO_x$ is a unit of $\cO_x$ iff $b$ and $b^{-1}$ both lie in $x\hat\cO x^{-1}$, i.e.\ $b\in x\hat\cO^\times x^{-1}$. Since
+$U\subseteq\hat\cO^\times$, $\Gamma_x\le\cO_x^\times$. At each $\ell$, $x_\ell\cO_\ell x_\ell^{-1}$ is a maximal order of $B_\ell$, and $\cO_x$ is
+maximal by the local--global dictionary (an order is maximal iff all its completions are; here $(\cO_x)_\ell=x_\ell\cO_\ell x_\ell^{-1}$
+\lit{voight\_2021\_quaternion-algebras}{Thm.~9.4.9, p.~145}). By
+\lit{voight\_2021\_quaternion-algebras}{Thm.~11.5.14, p.~176}, $\cO_x^\times$ is cyclic of order $2,4,6$, quaternion of order $8$, binary dihedral of
+order $12$ or binary tetrahedral of order $24$, and the order $8$ happens exactly when $\cO_x$ is isomorphic to the Lipschitz order
+$\Z\langle i,j\rangle$. That order has index $2$ in the Hurwitz order, hence is not maximal. So $|\cO_x^\times|\in\{2,4,6,12,24\}$. Each of
+these divides $24$, so $|\Gamma_x|$ divides $24$ by Lagrange.
+\end{proof}
+
+\begin{lemma}[stab; seed Lemma 5.2, reproved]\label{lem:s01-stab}
+Let $p\ge5$ (used only in (b) and (c)).
+\begin{enumerate}[label=(\alph*)]
+\item $\Nrd(\Gamma_x)=1$ for every $U$ with $\Nrd U=\Zhat^\times$ and every $x$.
+\item If $p\nmid D$ and $U\subseteq\Uone{p}$ (at $p$), then every $\Gamma_x$ is trivial. If moreover $U=U^{(p)}\times U_{1}(p^s)_p$ with $s\ge1$,
+  then $\Delta_s$, acting by $[x]\mapsto[x\,\iota_p^{-1}\mathrm{diag}(1,d)]$, acts freely on $\XB{U}$.
+\item For every $U\subseteq\hat\cO^\times$, $p\nmid|\Gamma_x|$; in particular $p\nmid w_x$.
+\end{enumerate}
+\stproved. \stformal{} (\lean{Langlandscape.Quat.nrd\_eq\_one\_of\_mem\_Gam}, \lean{Langlandscape.Quat.card\_Gam\_dvd\_24},
+\lean{Langlandscape.Quat.not\_dvd\_card\_Gam} for (a), (c); \lean{Langlandscape.Quat.Gam\_eq\_bot\_of\_le\_U1} for (b); (b$'$) for the tower only,
+\lean{Langlandscape.Quat.diamondAct\_free}.)
+\end{lemma}
+\begin{proof}
+Throughout $x\in\hat B^\times$ and $U\subseteq\hat\cO^\times$ is compact open (so $\Gamma_x\le\cO_x^\times$ is finite by Prop.~\ref{prop:s01-finite}).
+
+(a) Let $\gamma\in\Gamma_x$, $\gamma=xux^{-1}$ with $u\in U$. Then $\Nrd\gamma=\Nrd u\in\Nrd U=\Zhat^\times$ (the reduced norm is
+multiplicative, hence constant on conjugation classes in $\hat B^\times$, the target being commutative), and $\Nrd\gamma\in\Nrd(B^\times)=\Q_{>0}$. Thus
+$\Nrd\gamma\in\Q_{>0}\cap\Zhat^\times=\{1\}$ (a positive rational that is a unit at every prime is $1$).
+
+(b) \emph{Triviality.} Let $p\ge5$, $p\nmid D$, and $U\subseteq\hat\cO^\times$ with $U_p\subseteq U_{1,p}:=\iota_p^{-1}\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_p):c\equiv0,\ d\equiv1\bmod p\}$. Let $\gamma\in\Gamma_x$.
+By (a) (note $\Nrd U\subseteq\Zhat^\times$ suffices) $\Nrd\gamma=1$. As $\Gamma_x$ is finite, $\gamma$ has finite order, so the eigenvalues of
+$\gamma$ in $\overline\Q$ are roots of unity; let $X^2-tX+1$ be its reduced characteristic polynomial, with $t=\Trd\gamma\in\Z$ ($\gamma\in\cO_x$ is
+integral). Then $|t|\le2$. If $t=2$, then $(\gamma-1)^2=0$ by Cayley--Hamilton, so $\gamma=1$ because $B$ is a division algebra; if
+$t=-2$, similarly $(\gamma+1)^2=0$, so $\gamma=-1$. Suppose $\gamma\ne1$; then $t\in\{-2,-1,0,1\}$.
+Put $u:=x^{-1}\gamma x\in U$ and let $\bar u\in\GL_2(\F_p)$ be the reduction of $\iota_p(u_p)$ (extended to $B_p\cong M_2(\Q_p)$). Reduced characteristic
+polynomials are invariant under conjugation by $x_p$ and under $\iota_p$, so $\bar u$ has characteristic polynomial $X^2-\bar tX+1$. But
+$u_p\in U_{1,p}$ forces $\bar u=\left(\begin{smallmatrix}\bar a&\bar b\\0&1\end{smallmatrix}\right)$, with characteristic polynomial
+$(X-\bar a)(X-1)$. So $1$ is a root of $X^2-\bar tX+1$, i.e.\ $p\mid2-t\in\{4,3,2,1\}$. This is impossible for $p\ge5$. Hence $\gamma=1$ and $\Gamma_x=1$.
+
+\emph{Freeness of $\Delta_s$.} Let $U=U^{(p)}\times U_1(p^s)_p$ with $s\ge1$, where $U^{(p)}\subseteq\prod_{\ell\ne p}\cO_\ell^\times$ is
+compact open and $U_1(p^s)_p=\iota_p^{-1}\{c\equiv0,\ d\equiv1\bmod p^s\}$. For $d\in\Z_p^\times$ put
+$\delta_d:=\iota_p^{-1}\mathrm{diag}(1,d)\in\hat B^\times$ (identity away from $p$). Since
+$\mathrm{diag}(1,d)\left(\begin{smallmatrix}a&b\\c&e\end{smallmatrix}\right)\mathrm{diag}(1,d)^{-1}=\left(\begin{smallmatrix}a&bd^{-1}\\dc&e\end{smallmatrix}\right)$,
+$\delta_d$ normalises $U$ (the conditions $c\equiv0$, $e\equiv1$ modulo $p^s$ are preserved). Hence $[x]\mapsto[x\delta_d]$ is well defined on
+$\XB U$: $\gamma xu\mapsto\gamma x\delta_d(\delta_d^{-1}u\delta_d)$. It is multiplicative in $d$, and for $d\in1+p^s\Z_p$ we have $\delta_d\in U$, so the action
+is trivial; thus the action of $1+p\Z_p$ factors through $\Delta_s=(1+p\Z_p)/(1+p^s\Z_p)$.
+Suppose $d\in1+p\Z_p$ and $[x\delta_d]=[x]$: $\gamma xu=x\delta_d$ with $\gamma\in B^\times$, $u\in U$. Let $U'=U\cdot\langle\delta_d\rangle$ (a group,
+as $\delta_d$ normalises $U$; it lies in $\hat\cO^\times$ and contains $U$, so it is an open subgroup of the compact group $\hat\cO^\times$, hence closed and compact). Then $U'_p\subseteq U_{1,p}$: $U_1(p^s)_p\subseteq U_{1,p}$ because $s\ge1$,
+and $\delta_d$ has $c=0$, $e=d\equiv1\bmod p$. Moreover $\gamma=x\delta_du^{-1}x^{-1}\in B^\times\cap xU'x^{-1}$, which is trivial by the first part
+applied to $U'$. So $\gamma=1$ and $\delta_d=u\in U$; the $p$-component gives $\mathrm{diag}(1,d)\in\iota_p(U_1(p^s)_p)$, i.e.\ $d\equiv1\bmod p^s$, i.e.\ $d$ is trivial in $\Delta_s$.
+(This is the second statement of (b), referred to as (b$'$) in the Lean plan.)
+
+(c) For $U\subseteq\hat\cO^\times$, $\Gamma_x\le\cO_x^\times$ and $|\cO_x^\times|$ divides $24=2^3\cdot3$ (Prop.~\ref{prop:s01-finite}), so
+$|\Gamma_x|$ divides $24$ and $p\nmid|\Gamma_x|$ for $p\ge5$. Since $w_x\in\{|\Gamma_x|,|\Gamma_x|/2\}$ divides $|\Gamma_x|$, also $p\nmid w_x$.
+\end{proof}
+\noindent\emph{Seed correction (minor).} Seed Lemma~5.2(b) writes ``$\gamma xk=x\,\mathrm{diag}(1,d)$ then $\gamma=1$''
+without saying why $\gamma$ lies in a stabiliser at level $\Uone{p}$; the argument above supplies it, and it uses $d\equiv1\bmod p$,
+i.e.\ it is about $\Delta_s$, not about all of $(\Z/p^s)^\times$ (the full diamond group does \emph{not} act freely in
+general). The same argument is \lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~11}
+(``$X^2-aX+1$, $a\in\{-2,-1,0,1\}$''), there for $U\subseteq\Uone{M}$, $M\ge4$.
+
+\begin{remark}[Lean route for (b); \pathtt{rem:s01-stab-lean}]\label{rem:s01-stab-lean}
+The formalization (L5b) avoids reduced characteristic polynomials and reduction modulo $p$ of a matrix, and instead uses
+the case list \texttt{unit\_cases} for $\gamma\in\cO_x^\times$ with $\Nrd\gamma=1$: either $\gamma=\pm1$, or $\gamma^2+1=0$, or $\gamma^2+\gamma+1=0$, or
+$\gamma^2-\gamma+1=0$. Put $u:=\iota_p(x_p^{-1}\gamma x_p)=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\iota_p(U_p)\subseteq\iota_p(U_{1,p})$, so $c\equiv0$, $d\equiv1\pmod p$ and
+$(u^2)_{22}=cb+d^2\equiv1\pmod p$. Comparing with the $(2,2)$ entry of $u^2$ in each case gives:
+\begin{center}\begin{tabular}{lll}
+case & $(u^2)_{22}$ & conclusion from $d\equiv1$, $(u^2)_{22}\equiv1$\\\hline
+$\gamma=-1$ & $u=-1$, so $d=-1$ (and $(u^2)_{22}=1$) & $d\equiv1$ gives $p\mid2$\\
+$\gamma^2=-1$ & $-1$ & $p\mid2$\\
+$\gamma^2=-\gamma-1$ & $-d-1\equiv-2$ & $p\mid3$\\
+$\gamma^2=\gamma-1$ & $d-1\equiv0$ & $p\mid1$
+\end{tabular}\end{center}
+all impossible for $p\ge5$, which leaves $\gamma=1$.
+This is an alternative to the trace argument above: both use $c\equiv0$, $d\equiv1$; the Lean route needs only the $(2,2)$ entry and no Cayley--Hamilton in $M_2(\F_p)$.
+\emph{Status:} proved; the Lean proof of this route is \stformal{} (\lean{Langlandscape.Quat.Gam\_eq\_bot\_of\_le\_U1}).
+\end{remark}

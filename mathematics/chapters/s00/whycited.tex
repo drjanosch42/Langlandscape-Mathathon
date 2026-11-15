@@ -1,0 +1,80 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 00 (introduction): where classical JL is reproved (first case, modulo cited geometry) and where it is cited. No \input; shared by main.tex and the submission report.
+\subsection{Classical JL: first case modulo cited geometry; cited in general}\label{ss:s00-whycited}
+Item (a) of the question (\S\ref{ss:s00-hope}; item (iii) of the seed) asks that the integral map recover classical JL over $\C$, and
+the desired outcome of the problem was ``a new approach to the construction of the Jacquet--Langlands functorial transfer and the
+characterization of its image''. Classical JL enters our chapters as a cited input (Thm.~\ref{thm:s01-JLclassical}, \stcited); in
+the first case our route also reproves it, modulo cited geometry. In detail:
+
+\emph{Which alternative we took.} The problem offered a new approach or, failing that, a Lean formalization of the trace-formula
+proof. We took the new approach and aimed it at the integral and arithmetic content that the trace formula does not see: maps
+between lattices, their cokernels as congruence modules, and the defect, which is our integral form of ``the characterization of
+its image'' (\S\ref{ss:s00-why}, \S\ref{ss:s00-map}).
+
+\emph{What the route recovers.} In the first case, $D=q$, weight~$2$ and level $\Gamma_0(qM)$, Ribet's sequence is an explicit,
+integral, Hecke-equivariant comparison $\Xq(J_0(qM'))\cong\Z[\XBq{\Uzero{M'}}]^0$ (Thm.~\ref{thm:s05-G}, \stcited), with the sign
+$U_q\mapsto+\Pi_q$ (Prop.~\ref{prop:s05-sign}(a), \stpmc); its definite side is proved on the tree (Thm.~\ref{thm:s03-ribet}(a),
+Cor.~\ref{cor:s03-ihara}(i),(ii), \stproved{} given (iii)). The geometry it rests on is Ribet's argument: the semistable model of
+Deligne--Rapoport, Deuring's correspondence and Grothendieck's character group (\S\ref{ss:s00-route}), which does not pass through
+JL. After base change to $\C$ this identifies the $q$-new Hecke eigensystems of weight~$2$ and level $\Gamma_0(qM)$ with those of
+the Brandt module. In the first case our route is therefore a proof of classical JL modulo the cited geometry
+(\status{proved modulo cited geometry}). The argument itself is known (Ribet, with Deligne--Rapoport and Deuring \cite{Ri90});
+what is ours is its combinatorial incarnation on the Bruhat--Tits tree and the Brandt graph and its integral extension, the
+defect formula (\S\ref{ss:s00-outline}). For $D=q$ at $\Gamma_1(Mp^s)$-level the comparison is the hypothesis
+$\HypX$ (Hyp.~\ref{hyp:s05-X}, \sthyp); its content is expected by the same Deligne--Rapoport and Deuring geometry, without JL
+(Remark~\ref{rem:s05-Xstatus}, \stexp; not carried out). \emph{Beyond $D=q$} our route \emph{invokes} JL: for discriminants with more
+than one prime, JL enters Ribet's programme at the Shimura-curve comparison \cite[\S3.10.1]{RS}.
+
+\emph{What it does not reach without further geometry.} For discriminants with more than one prime the comparison needs Shimura
+curves and the \v{C}erednik--Drinfeld uniformisation (Remark~\ref{rem:s02-CD}, \stcited, never used), the defect formula is
+conjectural (Conj.~\ref{conj:s06-several}, \stconj), and the tree machinery alone gives no map between Brandt modules of different
+definite algebras (Prop.~\ref{prop:s05-nochain}(b), \stproved). Beyond weight~$2$ at $\Gamma_0$-type level the comparison is
+$\HypX$ (at $\Gamma_1(Mp^s)$-level, and for ordinary parts of higher weight $\Lambda$-adically, Prop.~\ref{prop:s05-Xlambda}(a),
+\stproved{} given $\HypXchar$). Beyond $D=q$, and for the $p$-adic and $\Lambda$-adic statements, JL is an input: classical, $p$-adic and $\Lambda$-adic JL are cited (Thm.~\ref{thm:s01-JLclassical},
+Thm.~\ref{thm:s01-chenevier}, Thm.~\ref{thm:s01-lambdaJL}, all \stcited).
+
+\paragraph{Why the tree route does not avoid Deligne--Rapoport.} The seed (\pathtt{plan/seed/towards\_simplicial\_jl.tex}) contrasted
+the tree route with the geometric one, which needs Deligne--Rapoport models, N\'eron models and Grothendieck's monodromy at every
+level, and expected only a comparison of Jacobians to remain at the end. The hope that the final comparison avoids Deligne--Rapoport was not
+met, for a structural reason; what was met is that this comparison is the only geometric input of the tree route. The reason is that the tree cannot change
+algebras: every object built from tree quotients of one definite $B'$ is a subquotient of Brandt modules of $B'$, and
+for a prime dividing $\mathrm{disc}\,B'$ there is no tree (Prop.~\ref{prop:s05-nochain}(a),(b), \stproved); the tree at $q\nmid D$
+only stands in for the character group of the Shimura curve of discriminant $Dq$ (Remark~\ref{rem:s02-CD}, \stcited, never used).
+So the last arrow is a statement about the modular curve: for $D=q$, $\HypX$ says that the Deligne--Rapoport graph (DR graph) $\GDR_q(U_s)$ \emph{is} the
+dual graph of the special fibre of $X_s$ at $q$, with thicknesses and Hecke and Galois compatibilities (\S\ref{ss:s05-simplicial}).
+That is the content of Deligne--Rapoport (two components crossing at the supersingular points), Deuring's correspondence and
+Grothendieck's character group; a ``Jacobian comparison at the end'' presupposes Deligne--Rapoport. The seed's single zig-zag
+concatenated two parts at different primes, one at $q\nmid D$ and one for $D=q$ (\S\ref{ss:s05-simplicial}), and the seed itself
+named an explicit simplicial last arrow as the main open structural question of the route. That arrow is Conj.~\ref{conj:s05-O2}
+(\stconj); by Remark~\ref{rem:s05-degree} (\stsketch) it amounts to a degree-shifting map between the definite and the $\GL_2$
+$S$-arithmetic complexes, itself a JL-type statement and new mathematics, and a simplicial form of route~2 below would be O2.
+What is achieved is that the geometry is concentrated in the single hypothesis $\HypX$, and the main theorem of stage~06
+(Thm.~\ref{thm:s06-defect}) does not use it.
+
+\paragraph{Why $p$-adic and $\Lambda$-adic JL are cited.} Item (b) of the question asks to recover Chenevier's $p$-adic JL.
+Our method is Hida-theoretic: on the $p$-power tower the ordinary projector $e$ kills the degree, vertex and component terms
+(Lemma~\ref{lem:s04-ekills}, \stproved{}, the $H_0$ clause under connectivity), which is what makes the $\Lambda$-adic definite Ribet
+sequence exact and the pairing perfect. There is no finite-slope analogue of $e$ killing $\Phicomb$, so beyond the ordinary locus
+nothing is claimed (O7, \stopen). Chenevier's $\JL_p$ is a closed immersion of eigencurves covering all finite slopes
+(Thm.~\ref{thm:s01-chenevier}, \stcited), a rigid-analytic statement outside our integral, combinatorial framework. On the ordinary
+locus the maps of Prop.~\ref{prop:s05-Xlambda}(d) induce the surjection $\T^{\ord}(qM)\twoheadrightarrow\T^{\ord}_{B_q}(M)$ of the
+cited $\Lambda$-adic JL, so their support is the ordinary part of the image of $\JL_p$ (Remark~\ref{rem:s05-O7}, \stsketch). Given
+$\HypXchar$, Prop.~\ref{prop:s05-Xlambda}(a) gives a Hecke-equivariant isomorphism $\varprojlim_se(\Xq(J_s)\otimes\Zp)\cong\Mord(M)$
+(\stproved{} given $\HypXchar$), but the chapters do not derive the $\Lambda$-adic Hecke JL from it; and stage~06 is designed not to
+use $\HypX$, so the defect theorem takes $\Lambda$-adic JL as a cited input (Thm.~\ref{thm:s01-lambdaJL}, \stcited; in Lean
+\pathtt{Hyp.LambdaJL}, entering through (Gor$_{R'}$) of Thm.~\ref{thm:s06-defect}). The classical input of $\Lambda$-adic JL could come from route~1
+(\ifdefined\sOOnoplan the Stage-2 plan of the submission report\else\S\ref{ss:stage2-hyp}\fi: ``possibly the classical input of
+\texttt{LambdaJL}'').
+
+\emph{Two routes to remove the JL input.} \emph{Route~1 (trace formula).} Classical JL is the registered hypothesis
+\pathtt{Hyp.JLClassical}, a target statement with no Lean consumer; it is \stformal{} only as a schematic interface. Completing our
+ongoing GL(2) trace-formula formalization (prior work, \pathtt{lean/trace-formula-project-import/}), together with the comparison
+with the quaternionic side and a non-schematic statement (\ifdefined\sOOnoplan the Stage-2 plan of the submission report\else\S\ref{ss:stage2-hyp}\fi), would discharge \pathtt{Hyp.JLClassical} and with
+it the JL input to the comparison beyond $D=q$ (the Shimura-curve version of $\HypX$, Remark~\ref{rem:s05-O46}), provided the trace-formula comparison is carried out for the quaternion algebra occurring there. Status: planned; timing uncertain. \emph{Route~2 (geometric).} Resolve the comparison
+geometrically, without invoking JL: for $D=q$ this is $\HypX$ at $\Gamma_1(Mp^s)$-level, expected by the same geometry (\stexp);
+beyond $D=q$ it would be new mathematics, and whether it is possible is unclear (\stopen).
+
+So item (a) is answered in the first case ($D=q$, weight~$2$, $\Gamma_0$-type level) by a proof of classical JL modulo the cited
+geometry (Ribet's argument, in our tree form); for $D=q$ at $\Gamma_1(Mp^s)$-level it rests on $\HypX$, expected to hold
+without JL by the same geometry (\stexp); beyond $D=q$ our route invokes JL, and removing that input is route~1 or route~2.

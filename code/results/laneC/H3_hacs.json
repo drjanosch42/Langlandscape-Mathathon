@@ -1,0 +1,627 @@
+{
+ "provenance": {
+  "script": "code/python/langlandscape/hacs_bridge/jl_defect.py",
+  "commit": "582f89aec76a4d01835dfa9dfd58faedcd6d98ce",
+  "dirty": false,
+  "params": {
+   "what": "h3",
+   "cells": [
+    [
+     13,
+     4,
+     7
+    ],
+    [
+     13,
+     6,
+     7
+    ],
+    [
+     19,
+     4,
+     5
+    ],
+    [
+     29,
+     4,
+     5
+    ]
+   ],
+   "threads": 8,
+   "local_precision_E": 40,
+   "budget_s": null,
+   "definite_side": {
+    "file": "code/results/laneC/hj8_def_native.json",
+    "commit": "ffceac5437daee4fffbdeb9ea04b806b06a506f3"
+   }
+  },
+  "date": "2026-11-15T13:44:25+00:00",
+  "runtime_s": 5.14,
+  "python": "3.10.12",
+  "pari_version": "2.15.4",
+  "notes": "HJ-8b h3: GL_2 side through HACS on the native definite cells",
+  "hacs_version": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+  "hacs_sha256": "a6acb500287841893fe82962f8cc1d49a33bc49714aa3244fec5f7c61b4c9158",
+  "hacs_binary": "laneB/final/hacs",
+  "hz_settings": {
+   "default_fp": "0x8ffc29730c4f9672",
+   "hz_theta_order": "lex",
+   "source": "reported: hecke_structure(11,0,'anemic').settings_fingerprint; theta order inferred from the fingerprint"
+  }
+ },
+ "data": {
+  "cells": {
+   "13,4,7": {
+    "q": 13,
+    "k": 4,
+    "p": 7,
+    "blocks": [
+     {
+      "m_id": {
+       "2": "x + 5",
+       "3": "x",
+       "5": "x",
+       "7": "x + 6",
+       "11": "x + 5"
+      },
+      "residual_eigenvalues": {
+       "2": 2,
+       "3": 0,
+       "5": 0,
+       "7": 1,
+       "11": 2
+      },
+      "definite": {
+       "rank": 1,
+       "n_orbits": 1,
+       "old_congruent": null,
+       "vp_etaB": [
+        0
+       ],
+       "resolved_degree_one": true
+      },
+      "gl2": {
+       "n_maximal_ideals": 1,
+       "maximal_ideals": [
+        {
+         "U_q_residue": 6,
+         "T_p_residue": 1,
+         "ranks": {
+          "S_m": 1,
+          "S_new_m": 1,
+          "S_old_m": 0
+         },
+         "gorenstein_S_m": [
+          true
+         ],
+         "forms": [
+          {
+           "orbit_degree": 1,
+           "a_q_sign": 1,
+           "ord": {
+            "eta": 0,
+            "c": 0,
+            "eta_new": 0,
+            "eta_no_base_change": 0
+           },
+           "thm_E_identity": true,
+           "status": "computed"
+          }
+         ]
+        }
+       ],
+       "sign_robust": true,
+       "t_f_q": 0,
+       "U_q_signs": {
+        "n_plus": 1,
+        "n_minus": 2,
+        "ells": [
+         5,
+         11
+        ],
+        "assignments_total": 1,
+        "assignments_on_kept_orbits": [
+         [
+          1
+         ]
+        ],
+        "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits",
+        "oracle_crosscheck": true
+       }
+      },
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_multiset_eq_eta_new": true,
+       "thm_E_identity_all": true,
+       "identity_eta_eq_c_etaB_multiset": true,
+       "identity_with_etaB": true,
+       "ord_c_eq_t_f_q": true
+      },
+      "ord_c_minus_t_f_q": 0,
+      "status": "computed",
+      "agree": true
+     },
+     {
+      "m_id": {
+       "2": "x^2 + 6*x + 3",
+       "3": "x^2 + 2*x + 3",
+       "5": "x^2 + 3*x + 5",
+       "7": "x^2 + 2*x + 3",
+       "11": "x^2 + 4*x + 1"
+      },
+      "definite": {
+       "rank": 2,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 2,
+         "place_degree": 2,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 2,
+        "S_new_m": 2,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     }
+    ],
+    "wall_s": 0.96
+   },
+   "13,6,7": {
+    "q": 13,
+    "k": 6,
+    "p": 7,
+    "blocks": [
+     {
+      "m_id": {
+       "2": "x^2 + 5*x + 2",
+       "3": "x^2 + 1",
+       "5": "x^2 + 4",
+       "7": "x + 4",
+       "11": "x + 6"
+      },
+      "definite": {
+       "rank": 2,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 2,
+         "place_degree": 2,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 2,
+        "S_new_m": 2,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     },
+     {
+      "m_id": {
+       "2": "x^3 + 3",
+       "3": "x^3 + 6*x^2 + x + 5",
+       "5": "x^3 + 6*x + 5",
+       "7": "x^3 + 4*x^2 + 2*x + 2",
+       "11": "x^3 + 4*x^2 + x + 3"
+      },
+      "definite": {
+       "rank": 3,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 3,
+         "place_degree": 3,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 3,
+        "S_new_m": 3,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     }
+    ],
+    "wall_s": 1.13
+   },
+   "19,4,5": {
+    "q": 19,
+    "k": 4,
+    "p": 5,
+    "blocks": [
+     {
+      "m_id": {
+       "2": "x + 3",
+       "3": "x",
+       "5": "x + 2",
+       "7": "x + 4",
+       "11": "x + 4"
+      },
+      "residual_eigenvalues": {
+       "2": 2,
+       "3": 0,
+       "5": 3,
+       "7": 1,
+       "11": 1
+      },
+      "definite": {
+       "rank": 1,
+       "n_orbits": 1,
+       "old_congruent": null,
+       "vp_etaB": [
+        0
+       ],
+       "resolved_degree_one": true
+      },
+      "gl2": {
+       "n_maximal_ideals": 1,
+       "maximal_ideals": [
+        {
+         "U_q_residue": 4,
+         "T_p_residue": 3,
+         "ranks": {
+          "S_m": 1,
+          "S_new_m": 1,
+          "S_old_m": 0
+         },
+         "gorenstein_S_m": [
+          true
+         ],
+         "forms": [
+          {
+           "orbit_degree": 1,
+           "a_q_sign": 1,
+           "ord": {
+            "eta": 0,
+            "c": 0,
+            "eta_new": 0,
+            "eta_no_base_change": 0
+           },
+           "thm_E_identity": true,
+           "status": "computed"
+          }
+         ]
+        }
+       ],
+       "sign_robust": true,
+       "t_f_q": 0,
+       "U_q_signs": {
+        "n_plus": 1,
+        "n_minus": 3,
+        "ells": [
+         7,
+         11
+        ],
+        "assignments_total": 1,
+        "assignments_on_kept_orbits": [
+         [
+          1
+         ]
+        ],
+        "source": "HACS level_n(q, n, ell, [q]) charpoly of U_q mod ell; subset sum over new orbits",
+        "oracle_crosscheck": true
+       }
+      },
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_multiset_eq_eta_new": true,
+       "thm_E_identity_all": true,
+       "identity_eta_eq_c_etaB_multiset": true,
+       "identity_with_etaB": true,
+       "ord_c_eq_t_f_q": true
+      },
+      "ord_c_minus_t_f_q": 0,
+      "status": "computed",
+      "agree": true
+     },
+     {
+      "m_id": {
+       "2": "x^3 + 2*x^2 + 2*x + 3",
+       "3": "x^3 + 4*x^2 + x + 2",
+       "5": "x^3 + x^2 + 4*x + 3",
+       "7": "x^3 + 2*x + 1",
+       "11": "x^3 + 4*x^2 + 4*x + 2"
+      },
+      "definite": {
+       "rank": 3,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 3,
+         "place_degree": 3,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 3,
+        "S_new_m": 3,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     }
+    ],
+    "wall_s": 1.07
+   },
+   "29,4,5": {
+    "q": 29,
+    "k": 4,
+    "p": 5,
+    "blocks": [
+     {
+      "m_id": {
+       "2": "x^2 + 2*x + 4",
+       "3": "x^2 + 2",
+       "5": "x^2 + 3",
+       "7": "x + 3",
+       "11": "x^2 + x + 1"
+      },
+      "definite": {
+       "rank": 2,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 2,
+         "place_degree": 2,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 2,
+        "S_new_m": 2,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     },
+     {
+      "m_id": {
+       "2": "x^2 + 3",
+       "3": "x^2 + 3*x + 3",
+       "5": "x^2 + 3*x + 4",
+       "7": "x^2 + 4*x + 2",
+       "11": "x^2 + 3*x + 4"
+      },
+      "definite": {
+       "rank": 2,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 5,
+         "place_degree": 2,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 2,
+        "S_new_m": 2,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     },
+     {
+      "m_id": {
+       "2": "x^3 + 4*x + 3",
+       "3": "x^3 + 4*x^2 + 3*x + 1",
+       "5": "x^3 + 2*x^2 + 4*x + 4",
+       "7": "x^3 + x^2 + 3*x + 4",
+       "11": "x^3 + 4*x + 2"
+      },
+      "definite": {
+       "rank": 3,
+       "vp_etaB": [
+        0
+       ],
+       "n_orbits": 1
+      },
+      "gl2": {
+       "places_matching_m": [
+        {
+         "kind": "new",
+         "orbit_degree": 5,
+         "place_degree": 3,
+         "e": 1
+        }
+       ],
+       "status": "computed",
+       "ranks": {
+        "S_m": 3,
+        "S_new_m": 3,
+        "S_old_m": 0
+       },
+       "ord": {
+        "eta": 0,
+        "c": 0,
+        "eta_new": 0
+       },
+       "argument": "exactly one place v meets m, unramified of degree f = d, new, and no old system meets m: S_m is a Z_p-order in O_v (rank d) with S_m / m = F_{p^d}, so S_m = O_v (Nakayama), S'_m = S_m, S''_m = 0; eta = c = eta_new = (1)"
+      },
+      "status": "computed",
+      "checks": {
+       "rank_definite_eq_rank_new_gl2": true,
+       "etaB_eq_eta_new": true,
+       "identity_with_etaB": true,
+       "thm_E_identity": true
+      },
+      "agree": true
+     }
+    ],
+    "wall_s": 1.98
+   }
+  },
+  "summary": {
+   "cells": 4,
+   "blocks": 9,
+   "blocks_computed": 9,
+   "blocks_open": 0,
+   "blocks_agree": 9,
+   "blocks_disagree": [],
+   "cells_not_run": []
+  },
+  "conventions": {
+   "S": "full Hecke algebra Z[T_l (l <= Sturm + 1, l != q, l <= 97), U_q] of S_kk(Gamma_0(q)) (S06-C4's generator set minus primes > 97, the HACS descent cap); realised on (+)_s Z[gens]*1 in K_s over the orbits s that can meet m",
+   "T_l": "HACS descent(N, kk-2, P).module_Z() free block F (T_l b_j = sum_i F_ij b_i), exact over Z, in HACS's basis (record words: basis rule iso_dixon/v3, saturation det_pm1)",
+   "U_q": "q-new orbit: a_q = eps q^{(kk-2)/2}, eps from HACS level_n U_q charpolys (subset sum); level-one orbit g: U_q = y with y^2 - a_q(g) y + q^{kk-1} = 0, a_q(g) from HACS module_Z at level 1",
+   "eta": "eta_f(q) = eta(S_m, lam_f) (S06-C4, defect.congruence.defect, base change to O)",
+   "eta_new": "eta_f(1, q) = eta(S'_m, lam_f), S' = q-new quotient",
+   "c": "c_q(f) = lam_f(ker(S -> S''))",
+   "eta_B": "weight k: v_p det of the Gram matrix G_w (w_x weights) on the q-new orbit lattice at m (S06-C5 Python and the native BrandtSym file, cross-checked; Hsieh Rem 7.3); weight k+(p-1): the ring-theoretic congruence ideal of the definite Hecke algebra at the weight-k m (native file, m_from_weight_k.etaB_ring; the Gram is not eta^B there since p <= n)",
+   "t_f_q": "v_p(a_q(g)^2 - q^{k-2}(q+1)^2), a_q(g) from HACS (level-one T_q)",
+   "status": "computed / bound / open; record words quoted verbatim"
+  },
+  "status_words": "computed / open (with reason); 'not determined' = the native definite block is not resolved into Q_p-orbits",
+  "H3": {
+   "triples_(q,p,k)": [
+    [
+     13,
+     7,
+     4
+    ],
+    [
+     13,
+     7,
+     6
+    ],
+    [
+     19,
+     5,
+     4
+    ],
+    [
+     29,
+     5,
+     4
+    ]
+   ],
+   "prediction": "ord c_q(f) - t_f(q) = 0 (prop:s06-levM, M = 1); here S_k(1) = 0, so c_q(f) = (1) and t_f(q) = 0: the test is vacuous (S06-xcheck doubt 1, code/cas/s06-xcheck)",
+   "S06_C7_xcheck": "code/results/s06-xcheck/H3.json: ord c = t^an = 0 for every (f, P)"
+  }
+ }
+}

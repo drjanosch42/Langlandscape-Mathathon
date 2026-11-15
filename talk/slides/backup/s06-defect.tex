@@ -1,0 +1,26 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S06-T2 (K2): the defect equals a Tamagawa ideal. Included by main.tex via \IfFileExists.
+% math: mathematics/chapters/s06/s06-m3.tex thm:s06-defect; s06-m5.tex (C4(i) regression)
+% lean: Defect.defect_formula (formalized modulo registered hypotheses, incl. Hyp.FreeRankTwo)
+% numbers: code/results/s06/{T4_hecke,T5,C4i}.json; code/results/s06-xcheck/T4_hecke.json
+\begin{frame}[shrink=6]{K2: the defect equals a Tamagawa ideal}
+  \scriptsize
+  \begin{block}{Defect formula (thm.\ s06-defect)}
+    $\eta_F=\mathfrak c_q(F)\cdot\eta^B_F$ and $\mathfrak c_q=\mathfrak t_q$ (Tamagawa ideal), i.e.\ $(h_F)=\mathfrak c_q(F)=\mathfrak t_q(F)$:
+    the squeeze $\mathfrak t_q\subseteq\mathfrak c_q\subseteq(h_F)$ closes via the local specialisation $P:I_F\to\widetilde{\mathcal O}_P$ (normalisation, a DVR) of (P), with Thm~E for $\eta=\mathfrak c_q\eta^B$.
+  \end{block}
+  \emph{Status:} proved modulo cited results; formalized modulo registered hypotheses, including the Galois half (\texttt{Hyp.FreeRankTwo}).\\
+  \emph{Scope:} under (H0)--(H2), (P) and (H0$^-$) or (Lev); for $q\equiv-1 \bmod p$ only $M=1$ and (F1), (F1$'$) ($N(\bar\rho)=1$) are covered; $N(\bar\rho)>1$ is \emph{open} (see K3).\\[2pt]
+  \textbf{Numbers} (all \emph{computed}; PARI/Python; \texttt{code/results/s06/}):
+  \begin{enumerate}\setlength{\itemsep}{1pt}
+    \item[(T4)] $p=17$, $q=3$: length of $\mathbb T(1)_{\mathfrak m}/(\delta)$ equals $t_{G_k}(3)$ for the weights below (Hecke side only; cross-checked independently, \texttt{s06-xcheck/T4\_hecke.json}):
+    \begin{center}\begin{tabular}{c|ccccc}
+      $k$ & 12 & 28 & 44 & 60 & 124\\\hline
+      length $=t_{G_k}(3)$ & 1 & 1 & 1 & 1 & 2
+    \end{tabular}\end{center}
+    \item[(T5)] 7 triples $(q,k,p)=(13,12,31),(13,16,101),(13,18,19),(3,18,53),(3,18,61),(5,16,31),(5,18,23)$ at weight $k$: $\mathrm{ord}\,\eta=\mathrm{ord}\,\mathfrak c=t_f(q)=1$, $\eta^{\rm new}=0$, and $\eta^B$ (definite side) agrees. At weight $k+(p-1)$: $\mathrm{ord}\,\eta=\mathrm{ord}\,\mathfrak c=1$ on the $\mathrm{GL}_2$ side for 4 of 7 (the 3 of level 13 not computed, runtime); $\eta^B$ not computed there.
+    \item[(C4(i))] Regression: in scope (O$_v$ a DVR, $S_{\mathfrak m}$ Gorenstein) $225/225$ non-Eisenstein rows have $v(h)=v(\mathfrak c_q)$; Eisenstein $(h)\supseteq\mathfrak c_q$ on all $396$ DVR rows (fails in $5/46$ non-DVR rows, $p=2,3$); coverage \emph{partial}: $131$ of $319$ cases run (time/memory).
+  \end{enumerate}
+  {\tiny Sources: \texttt{mathematics/chapters/s06/s06-m3.tex}; \texttt{code/results/s06/\{T4\_hecke,T5,C4i\}.json}; Lean \texttt{Defect.defect\_formula} (final gate $\GateAudited/\GateAudited$ standard axioms).}
+\end{frame}

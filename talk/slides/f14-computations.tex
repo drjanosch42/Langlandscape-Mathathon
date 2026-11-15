@@ -1,0 +1,22 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 14: computations and HACS. Sources: code/results/INDEX.md; mathematics/final-report/sections/computations.tex;
+% plan/hacs/outbox/20261115T0137Z_laneA-closure.md, 20261115T0150Z_laneB-closure.md (sec. 2, 6);
+% 20261115T0830Z_laneC-summary.md, 20261115T1347Z_laneC-closure.md (sec. 1-3); code/results/laneB/{congruence_k,py_reference}.json;
+% release DOIs: talk/slides/backup/s07-releases.tex (agents/status/STATE.md, Releases).
+% Slide source line (moved to comment): \src{Sources: code/results/INDEX.md; final report, \S\ ``Computations''; HACS Lane A, Lane B closures (plan/hacs/outbox/).}
+\begin{frame}{Computations and HACS}
+  \small
+  \begin{itemize}\setlength{\itemsep}{0pt}
+    \item \textbf{Python/PARI} \stattag{computed}: Brandt matrices, graphs, $\Phicomb$, Ihara's $H_0$, ordinary ranks, the sign $144/144$; defect data T4, T5, C4(i) \stattag{partial: $131/319$}.
+    \item \textbf{HACS} (integral cohomology of arithmetic groups, C++/CUDA): a bridge (Lane~A), and a native
+      core with exact Brandt congruence modules (Lane~B); the tree map natively (Lane~C: exact Ihara cokernels, $210$ cells; census: $0$ disagreements on computed blocks, $120$ undetermined).
+    \item Results \stattag{computed}: Mazur's $\ZZ/\operatorname{num}\frac{q-1}{12}$ for all primes $q\le600$ at $\ell\ge5$, exactly for the first $80$ primes ($q\le409$; capped run);
+      beyond Mazur, one non-trivial lattice congruence module at $k>2$: $|C|=37$ at $D=13$, $k=8$ (the factor $37$ also on Lane~C's intrinsic lattice; consistent with the
+      $T_2$-resultant $2^3\cdot37$, not a confirmation); two exact implementations agree on all $69$ orbit modules.
+    \item Build side: $B_{997,\infty}$ ($h=83$), Python $64.7$\,s vs native $0.02$\,s (``$\sim10^3\times$''); nothing ``certified''; deviations D1--D8 disclosed.
+  \end{itemize}
+  \smallskip
+  {\footnotesize\textbf{Releases.} HACS v0.2.1: DOI \texttt{10.5281/zenodo.24231446}; all versions: DOI \texttt{10.5281/zenodo.24118841}
+  (the JL module is in our repository, not in this release). hacs-data v0.2.0: DOI \texttt{10.5281/zenodo.24147012}.}
+\end{frame}

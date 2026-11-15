@@ -1,0 +1,58 @@
+# Resolution of the stage-05 replan audit (reviser, Sonnet, 2026-11-14)
+
+Subject: `stage-05.md` (revised) against `audits/stage-05-replan-audit.md` (A1–A25). Each finding was checked against the plan text,
+`plan/staged/stage-05-comparison-hypothesis.tex`, `lean/Langlandscape/` (read only), `agents/rules/lean.md`, `stage-06.md`, `stage-03.md`,
+`stage-04.md`, `OVERVIEW.md` (§4.3, §5.3, §6.1) and `tools/{titan_batch,check_wp}.sh`.
+Result: **24 ACCEPT, 1 MODIFY (A8), 0 REJECT.**
+
+| id | verdict | what was done | evidence |
+|---|---|---|---|
+| A1 | ACCEPT | §0 state 3: stub acceptance defined as "compiles" (BUILD ok; FAIL lines = the stub's sorry lines; axioms standard + `sorryAx`); L6 row gets the two acceptances; L6 removed from G1's precondition unless the real Lemma D is merged; L6 enters int3/G2 after rebinding. | `agents/rules/lean.md` l. 17 (sorry allowed on `impl/*` for stubs); OVERVIEW §4.3 (gate variant on `wip-implementation`, (e) sorry count); `titan_batch.sh` builds everything first, `check_wp` replays logs. |
+| A2 | ACCEPT | §0 lists four states: (1) early lane merged (expected; X1 step 4 looks for the outbox announcement), (2) stage-06 scenario B, (3) stub, (4) L6F. DAG edge `s06-egate-1 or S06-L3(a) merged -> L6`. Wall range gets the stage-06 dependency note. Q4 cross-refers to stage-06 Q1. | `stage-06.md` §3.1 (`eint1`, priority 3, `s06-egate-1`, handover merge, announcement) and Q1 l. 337; scenario A/B l. 220–224. |
+| A3 | ACCEPT | Stage-06 §0 quoted verbatim (both files, fields, namespace, instance arguments); stub and L6F cover both files, on `impl/s05-int<k>` only; L6F needs stage 06's written agreement for `Gorenstein.lean`; "local" dropped for `S` (finite free, no locality). | `stage-06.md` §0 "FIXED" block and "Sole owner of `CommAlg/Gorenstein.lean` is S06-L1"; fields `free`, `finite`, no locality of `S`. |
+| A4 | ACCEPT | X2 generates one axiom file per WP (`.titan/s05_<wp>_axioms.lean`) plus a combined file for G1/G2; int1 spec shows one AXIOMS line after each WP line; TCHK now names the WP's own AXIOMS line; per-WP axiom assignment of the headline list given. | OVERVIEW §4.3 ("per-WP files `.titan/<wp>_axioms.lean`", example `s01_l16a_axioms.lean`); `titan_batch.sh` l. 11–22 runs `lfile` per AXIOMS file, so one bad import makes only that line rc ≠ 0. |
+| A5 | ACCEPT | Relations field dropped from `CharGroupData` (L2, §1 "Signatures"); (a) stays a docstring remark / later theorem. L4 is unchanged in difficulty. | tex l. 258–259: (a) holds "on the image of `ℋ_s` in `End X_q(J_s) ⊗ ℚ`", i.e. a consequence; `HeckeSym` has no `T_{ℓ²}`; no stage-1 lemma gives `Π_q² = ⟨q⟩` on `degZero` (grep of `Brandt/`). |
+| A6 | ACCEPT | L3 signature written: `Hyp.X.gal (G) (φ) (T)`; pieces typed; FD1 clause is `q • (theta Uq).dualMap` on the Hom-piece; docstring "provisional (FD1)"; L4's `toyTate_gal` is for all s via a direct-sum model (middle := 0), with a documented one-level exception; L10 checklist adds the transpose. | tex l. 52 ("q times the transpose of the inverse of σ_q"), l. 207, l. 220 ("presupposing the φ_s"). |
+| A7 | ACCEPT | Both fixes: X1 step 6 replaced (no kickoff stubs; owners of L1, L2, L3 commit skeletons first, ≈ 5 min each); §1 "Signatures" writes names, arities and meaning of every argument of `deg`, `HeckeSym`, `theta`, `CharGroupData`, `TateModuleData`, `Hyp.X.*`; the exact Lean types stay with the conceptual owners. The "stubs elaborate in int1" acceptance dropped. Critical path +3 min (L2/L3 drafts ready 5 → 8). | `PiEllHom` signature in `Brandt/Corollaries.lean` l. 775 (arg `P : (QuatAlg ℚ_[ℓ] d.a d.b)ˣ`); no `theta`/`degZero`/`HeckeSym` exists in `lean/`. |
+| A8 | MODIFY | New §4 item 3 "WP-level audits": one blind opus audit each for L2+L3 (joint), L1, L7, C2, and M1+M3 (joint; fable if E8′ runs); L6F and L8 if run. 5–8 min, off the critical path except L1–L3 (folded into the int2 fix rounds). **Modified:** M2, M4–M7 and R1 get no separate audit (M2 is a literature lookup with an explicit "not found" outcome, covered by M8; M4–M7 are routine, §5.3 requires only the acceptance check; R1 is itself the reader) rather than the finding's list of 11 WPs. M-track sum +8 min. | OVERVIEW §5.3 (opus audit for every `hard`/`conceptual` WP; routine: acceptance only); `stage-03.md` l. 247. The finding's list includes routine-class M4/M5/M7 context; M2's class is `conceptual` but its output is a lookup verified by M8 and the Fable chapter audit. |
+| A9 | ACCEPT | E8′ uses stage 03's protocol: one blind opus auditor for both strands, confound in `LOG.md`, optional blind fable cross-check recorded only; merge rule cites EXPERIMENT_PROTOCOL §4.4. | `stage-03.md` l. 276–279; `EXPERIMENT_PROTOCOL.md` §4.4 "Merge timing" (OVERVIEW has no §4.4 merge rule: its §4.4 is wall calibration). |
+| A10 | ACCEPT | TEXCHK: `standalone-s05.tex` `\input`s the merged chapters s01–s04 (guarded); stage-06 labels written as text with the quoted statement until stage 06 merges, M9 converts; M4's inputs add the stage-06 tex § Lemma D (request copies it); the deviation is stated in §0 and §6. | M1/M3/M7 cite `prop:s01-relations`, `if:s04-*`, `if:s03-amalgam`; `lem:s06-D` is in `plan/staged/stage-06-integral-defect.tex`, not in merged mathematics. |
+| A11 | ACCEPT | §6 table gets `branch` and `local fallback model`; start condition added (drivers merged and pushed to `origin/wip-implementation`; X1 creates the standalone; X1 step 2 pushes). | OVERVIEW §6.1 (columns, "branch off `origin/wip-implementation`", "sha in the request"). |
+| A12 | ACCEPT | Per-WP bib files kept; guard is `\IfFileExists{…}{\addbibresource{…}}{}` (biblatex); M9 de-duplicates keys and writes `bib/s05.bib` and the `references.bib` lines. The OVERVIEW note is a cross-stage item. | `preamble.tex` uses `\addbibresource{references.bib}` (finding); OVERVIEW §6.1 lists only `mathematics/bib/sNN.bib`. |
+| A13 | ACCEPT | G1/G2 now list §4.3 (a)–(f), use `s05-gate-1`/`s05-final-1`, run on `wip-implementation` after a merge step (+3 min on the critical path). | OVERVIEW §4.3 "Early full gate … final gate" variant (a)–(f). |
+| A14 | ACCEPT | One file name: `.titan/spec-s05-int<k>.txt` (X1 step 7, §3); axiom files `.titan/s05_<wp>_axioms.lean`. | Same prefix convention as stage 06 (`spec-s06-eint1.txt`); OVERVIEW example `s01_l16a_axioms.lean`. |
+| A15 | ACCEPT | C2 stop rule re-worded (it stops the L3 merge into `wip-implementation`, G1, M1/M9); DAG edges `C2 -> L3 (merge to wip-impl)` and `C2 -> G1` added (also in the Mermaid). | C2 wall 35 min from t = 12 ends at t ≈ 47; L3 enters int1 at t ≈ 35–40. |
+| A16 | ACCEPT | `wx` in `Quat/Basic.lean`, `negOne` in `Quat/Weights.lean` (namespace `Langlandscape.Quat`); L1 defines `Comparison.deg` or reuses stage 04's, L7 gets a bridge; `ordPart_ker_deg` quoted; `Graph.WGraph` / `WGraph.X`. | grep: `def wx` Quat/Basic.lean:114, `def negOne` Quat/Weights.lean:60, `namespace Langlandscape.Quat`; no `def deg` anywhere in `lean/Langlandscape/Langlandscape`; `stage-04.md` l. 132; `stage-03.md` l. 119. |
+| A17 | ACCEPT | Names added: `Comparison.degZero_equiv_graphX` (L2b), `toyXIso_holds` (L4), both in the headline list; L6 uses `NewOldData.split_iff`, no own `splitting_to_c`. The exact statement of `split_iff` is a cross-stage item. | `stage-06.md` S06-L1 row (`NewOldData.split_iff`). |
+| A18 | ACCEPT | L3: toy model decided, Weil clause removed. | `stage-04.md` l. 165 ("Dropped vs. coarse: Weil vendoring"), Q5 l. 313. |
+| A19 | ACCEPT | L1, L2, L3: "opus, fixes by the author in rounds, escalation to the stage master after 2 failed rounds". M2/R1 are LaTeX conceptual without TITAN rounds and keep "opus" with no fix round. | OVERVIEW §5.1 escalation rule (as cited by the finding); L1–L3 must turn green via TITAN rounds. |
+| A20 | ACCEPT | §7 risk 5 rewritten: worst-case load, global master's ordering (priority 1 before priority 3, ties by critical path), merge order = order of green gates, later stage rebases, shared-file lines are aggregator lines. The rule itself is a cross-stage item. | `stage-06.md` §3.1 (early lane priority 3) and E1′ strand; both stages touch `Audit/PrintAxioms.lean` etc. |
+| A21 | ACCEPT | §0: `SubQuot.lean` imports Mathlib and `CommAlg.*` only, GL2TF-free gate; GL2TF grep added to G1/G2. Moving L6 to the early lane is **not** adopted (optional in the finding): L6's acceptance needs the merged Lemma D, so it sits in the stage's int1 or after. | `stage-06.md` §0 "NEW: GL2TF-free CommAlg layer" and its grep. |
+| A22 | ACCEPT | One-family φ recorded as a deliberate deviation in the registry row, L2 docstring requirement, M3 row and L10 checklist; FD1 clause marked "provisional (FD1)". | tex l. 639 (`∀ s, ∃ φ`) vs the plan's `∃ φ : ∀ s`; (X3) links φ_s and φ_{s'} (tex l. 200–204). |
+| A23 | ACCEPT | X1 step 5 and §0: the SORRIES row only on `impl/s05-int<k>`, none on `wip-implementation`; also in G2/"Stage done". | `agents/rules/lean.md` l. 17–18. |
+| A24 | ACCEPT | DAG: M3 → L10, X2 → int1, L1 → L4, "stage 04 merged" → X1, `{M1,M3} → audit → merge → R1` added. | Finding; Mermaid had X2 → I1 only. |
+| A25 | ACCEPT | X1 step 4 greps `tools/check_wp.sh` for the generalised regex and applies the one-line fix if missing; TCHK notes the theorem/lemma-only coverage; L10 checklist adds `def`/`structure` docstrings with labels. | `check_wp.sh` l. 87: `ok = 's01-' in doc`, `(?:theorem|lemma)` regex at l. 91; OVERVIEW §4.3 "Tooling items". |
+
+## Cross-stage items (not made here)
+
+1. **`plan/implementation/OVERVIEW.md` §6.1:** record `mathematics/bib/sNN-<wp>.bib` (per-WP bib files, loaded by
+   `\IfFileExists{…}{\addbibresource{…}}{}`, de-duplicated by the M-closure WP) as allowed new files for remote WPs (stages 03 and 05 use it; stage 06 does not).
+2. **`plan/implementation/OVERVIEW.md` §4.3 (or §2):** a global-master ordering rule for parallel stages: priority 1 (integration rounds, gates)
+   before priority 3 (early lane, strands); merge order into `wip-implementation` = order of green gates; the later stage rebases onto
+   the other's merge before its next round; shared files (`Audit/PrintAxioms.lean`, `HYPOTHESES.md`, `SORRIES.md`, root import files,
+   `main.tex`, `references.bib`) are edited by the stage master only, as aggregator lines.
+3. **`plan/implementation/stage-06.md` §0 (the `if:s06-lemD` block):** add the exact statement of `NewOldData.split_iff` (direction and
+   hypotheses: field-free `∃ c ≠ 0, algebraMap A S c ∈ 𝔞 ⊔ 𝔟` ⇔ `S_K` splits as `(S/𝔞)_K × (S/𝔟)_K`, under `tf_a`, `tf_b`) to the FIXED interface,
+   because stage 05's L6 imports it.
+4. **`plan/implementation/stage-06.md` §3.1 / Q1:** answer Q1 as "the global master merges the early lane into `wip-implementation`", and state
+   that the `s06-egate-1` announcement goes by outbox to the stage-05 master (stage 05 assumes this in §0 state 1). Also: if S05-L6F ever runs,
+   stage 06 must give written agreement for `CommAlg/Gorenstein.lean` (sole owner S06-L1).
+5. **`plan/implementation/stage-04.md` (S04-L4, `Ordinary/EKills.lean`):** confirm the final names `deg`, `ordPart_ker_deg` and the type of
+   `deg` (abstract finite `X`), which stage 05's L1/L7 reuse or bridge to.
+6. **`plan/implementation/stage-03.md` (optional):** none required; stage 05 quotes `Graph.WGraph` and `Graph.WGraph.X`.
+
+## Updated critical path and wall
+
+Critical path: X1 12 + L1 20 + L2/L3 drafts on skeletons 8 (was 5) + int1 7 + fix 8 + int2a 7 + fix 8 + int2b 7 + merge to
+`wip-implementation` 3 (new) + G1 6 + L10 10 + L11 10 + int3 7 + G2 8 + closure 5 = **126 min** (was 120). M track ≈ 87 min (was 79), slack ≈ 39.
+Stage wall **≈ 2.1 h, range 1.5–3.2 h** (was 2.0 h, 1.5–3.0 h); stage-06 scenario B adds at most 10–15 min on L6 only.

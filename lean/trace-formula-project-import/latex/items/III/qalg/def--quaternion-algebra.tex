@@ -1,0 +1,8 @@
+Let $a,b\in\Z$ and let $R$ be a commutative ring. The \emph{quaternion algebra} $\Bq_R=\Bq_R(a,b)$ is the free $R$-module with basis
+$1,i,j,k$ and the $R$-bilinear associative multiplication with unit $1$ determined by
+\[
+  i^2=a,\qquad j^2=b,\qquad ij=-ji=k
+\]
+(Mathlib's $\mathbb H[R,a,0,b]$; here $a,b$ stand for their images in $R$). We write $x=x_0+x_1i+x_2j+x_3k$ with $x_0,\dots,x_3\in R$, and
+$\bar x=x_0-x_1i-x_2j-x_3k$ for the conjugate of $x$. Put $\Bq=\Bq_\Q$. A ring homomorphism $f\colon R\to S$ induces the ring homomorphism
+$\Bq_R\to\Bq_S$, $x\mapsto f(x_0)+f(x_1)i+f(x_2)j+f(x_3)k$ (\emph{base change}, coordinatewise).

@@ -1,0 +1,527 @@
+\section{Quaternionic foundations: class sets, Brandt modules, classical JL}\label{sec:stage-01}
+% Stage 01 (quaternion-foundations). Drafter: Opus stage drafter, 2026-11-14.
+% Local macros (not in preamble.tex; requested in missing/stage-01.md):
+\providecommand{\Tpath}[1]{\texttt{#1}}
+
+Seed sources: seed \S2 (notation), \S3 (targets), Lemma~5.2 (\texttt{lem:stab}).
+Existing material: Vol~III of the trace-formula import,
+\Tpath{lean/trace-formula-project-import/lean/AlgJL/VolIII/\{P1,P2,Brandt\}/*.lean} and
+\Tpath{AlgJL/Hyp/EichlerMass.lean}; we cite it as \emph{[imp: file, declaration]}. All import
+declarations live in namespace \texttt{GL2TF.Quat} (resp.\ \texttt{GL2TF.Hyp}).
+
+%----------------------------------------------------------------------
+\subsection{Goals}
+%----------------------------------------------------------------------
+\begin{enumerate}[label=(G\arabic*)]
+\item Fix, once for the whole plan, the objects of the definite side over $\Q$: $B=\Bd$, maximal and Eichler orders and
+  their local structure, the levels $\Uzero{N}$, $\Uone{N}$, $U_s=\Uone{Mp^s}$, $U_0(q)U$, the class sets $\XB{U}$,
+  stabilisers $\Gamma_x$ and weights $w_x$, with the facts in Lemma stab.
+\item State the Eichler mass formula in the full-unit convention of the import and its level change, including the
+  closed formula for $|\XB{U_s}|$ used by stages~02--04 and by HACS.
+\item Define Brandt modules $\Brandt{U}{V}$ (cohomological) and $\Z[X]$ (homological), the Brandt pairing and the norm
+  map, \emph{with the exact direction in which the norm map is Hecke-equivariant} (it intertwines an operator with its
+  adjoint, not with itself).
+\item Define all Hecke operators ($T_\ell,S_\ell,U_\ell,\langle d\rangle,U_p,\Pi_\ell$) and \textbf{fix the normalisation
+  $N_{U_p}$} that commutes with pushforward along $S_{s+1}\to S_s$ (SPLIT: stage 01 owns this). Show that the seed's
+  literal choice $[U\,\mathrm{diag}(1,p)\,U]$ is the \emph{other} one.
+\item State classical JL, Chenevier's $p$-adic JL and the $\Lambda$-adic Hecke JL as cited targets, with their precise
+  normalisations, and record the dictionary between the seed's conventions and the import's (Gross's) conventions.
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\subsection{Definitions and statements}
+%----------------------------------------------------------------------
+
+\subsubsection{The algebra, orders and local structure}
+
+\begin{definition}[definite algebra; seed \S2.2]\label{def:s01-B}
+$D>1$ is squarefree with $\omega(D)$ odd, and $B=\Bd$ is the quaternion algebra over $\Q$ ramified exactly at $\infty$
+and the primes $\ell\mid D$. $\Nrd$ is the reduced norm, $B^1=\ker\Nrd$; since $B$ is definite, $\Nrd(B^\times)=\Q_{>0}$.
+$\cO\subset B$ is a maximal order. For $\ell\nmid D$ we fix $\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$; for $\ell\mid D$,
+$\cO_\ell=\{x\in B_\ell:\Nrd x\in\Z_\ell\}$ is the unique maximal order of the division algebra $B_\ell$, with a
+uniformiser $\Pi_\ell$, $\Pi_\ell^2\in\ell\,\cO_\ell^\times$.
+\end{definition}
+\noindent\stknown{} Existence/uniqueness of $B$ up to isomorphism, local maximal orders:
+\lit{voight\_2021\_quaternion-algebras}{Thm.~13.3.11, p.~206; Prop.~13.3.4, p.~205}.
+\emph{Existing material:} \Tpath{P2/Ramification.lean} \texttt{RamifiedExactly a b D} (Hilbert-symbol algebra
+$(a,b)_\Q$ with $a,b<0$, $D$ squarefree, $(a,b)_\ell=-1\iff\ell\mid D$); \Tpath{P2/QuatAlg.lean} \texttt{definite\_division};
+\Tpath{P2/Orders.lean} \texttt{QOrder}, \texttt{IsMaximalOrder}, \texttt{MaxOrder}, \texttt{discriminant};
+\Tpath{P2/LocalStructure.lean} \texttt{maximalOrder\_local\_split} (gives $\iota_\ell$, $\ell\nmid D$) and
+\texttt{division\_maximalOrder} ($\ell\mid D$); \texttt{pizer\_algebras} gives explicit $(a,b)$ for $D$ prime.
+\emph{Dictionary:} seed $B_D$ $=$ import \texttt{QuatAlg $\Q$ a b} together with a proof of \texttt{RamifiedExactly a b D};
+the import never fixes $\Pi_\ell$.
+
+\begin{definition}[levels; seed \S2.3]\label{def:s01-levels}
+For $(N,D)=1$ and matrices read through $\iota_\ell$:
+$\Uzero{N}=\prod_\ell U_{0,\ell}$, $\Uone{N}=\prod_\ell U_{1,\ell}$ with $U_{\bullet,\ell}=\cO_\ell^\times$ for $\ell\nmid N$ and
+\[U_{0,\ell}=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_\ell):c\equiv0\},\qquad
+U_{1,\ell}=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_\ell):c\equiv0,\ d\equiv1\}\pmod{\ell^{v_\ell(N)}}.\]
+Further $U_s:=\Uone{Mp^s}$ ($s\ge0$), $S_s:=\XB{U_s}$, $\Delta_s:=(1+p\Zp)/(1+p^s\Zp)$, and for $q\nmid D$ and $U$ with
+$U_q=\cO_q^\times$: $U_0(q)U:=U\cap\Uzero{q}$ (i.e.\ $U_q$ replaced by $\Iw_q$).
+\end{definition}
+\noindent Note the convention: the \emph{lower} row is $\equiv(0,1)$. This is the convention of
+\lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~10} and of the import
+(\Tpath{P2/Orders.lean} \texttt{eichlerSubalgebra}: $\varphi(x)_{21}=0$). It matters for $U_p$
+(Lemma~\ref{lem:s01-Up}).
+
+\begin{lemma}[norms of levels]\label{lem:s01-nrd}
+$\Nrd(U)=\Zhat^\times$ for $U\in\{\Uzero{N},\Uone{N},U_s,U_0(q)U\}$, and every class in $\XB{U}$ has a representative $x$ with
+$\Nrd x\in\Zhat^\times$; two such differ (on the left) by an element of $B^1$. \stproved{} (seed \S2.3; $\det$ is surjective
+on each local factor, $\Nrd(\cO_\ell^\times)=\Z_\ell^\times$ for $\ell\mid D$, and $\hat\Q^\times=\Q_{>0}\Zhat^\times$.)
+\end{lemma}
+
+\begin{proposition}[Eichler orders]\label{prop:s01-eichler}
+For $(N,D)=1$, $\Uzero{N}=\hat\cO(N)^\times$ for the Eichler order $\cO(N)=B\cap\hat\cO(N)$ of level $N$, locally
+$\left(\begin{smallmatrix}\Z_\ell&\Z_\ell\\N\Z_\ell&\Z_\ell\end{smallmatrix}\right)$. \stknown{}
+\lit{voight\_2021\_quaternion-algebras}{Def.~23.4.1 and Prop.~23.4.3, p.~382}.
+\emph{Existing material:} \Tpath{P2/Orders.lean} \texttt{LevelStructure}, \texttt{eichlerOrder},
+\texttt{eichlerOrder\_index}; \Tpath{P2/LocalStructure.lean} \texttt{levelStructure\_exists}.
+The import has \emph{no} $\Uone{N}$, no $p$-tower and no Iwahori level at a prime outside the Eichler level: these are new.
+\end{proposition}
+
+\subsubsection{Class sets, stabilisers, weights}
+
+\begin{definition}[class set; \texttt{if:s01-classset}]\label{def:s01-classset}
+For compact open $U\subseteq\hat\cO^\times$: $\XB{U}:=B^\times\backslash\Bhat^\times/U$,
+$\Gamma_x:=B^\times\cap xUx^{-1}$ ($x\in\Bhat^\times$), and $w_x:=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$.
+Thus $w_x=|\Gamma_x|/2$ if $-1\in U$ (e.g.\ $\Uzero{N}$, $U_0(q)U$) and $w_x=|\Gamma_x|$ if $-1\notin U$
+(e.g.\ $\Uone{N}$, $N\ge3$).
+\end{definition}
+
+\begin{proposition}[finiteness]\label{prop:s01-finite}
+$\XB{U}$ is finite and every $\Gamma_x$ is finite; $\Gamma_x\le\Gamma_x(\hat\cO^\times)=\cO_x^\times$ with $\cO_x=B\cap x\hat\cO x^{-1}$,
+and $|\cO_x^\times|\in\{2,4,6,12,24\}$ ($\cO_x$ is \emph{maximal}; the value $8$ of Voight's list is the Lipschitz order,
+which is non-maximal and occurs only for $D=2$). Consequently $|\Gamma_x|$ divides $24$ for every $U\subseteq\hat\cO^\times$.
+\stknown{} \lit{voight\_2021\_quaternion-algebras}{Thm.~17.1.1, p.~278 (finiteness); Thm.~11.5.14, p.~176
+(unit groups of definite orders over $\Q$)}; \lit{gross\_1999\_algebraic-modular-forms}{Prop.~4.3, p.~68}.
+\emph{Existing material} (\stformal): \Tpath{P2/ClassSet.lean} \texttt{classSet}, \texttt{classSet\_finite},
+\texttt{classSet\_finite\_of\_open} (any open $U\le\hat\cO^\times$), \texttt{classStabilizer}, \texttt{stabilizer\_units}
+(c): $|\Gamma_x|\in\{2,4,6,8,12,24\}$ at level $\hat\cO^\times$ (a superset: $8$ does not occur there); \Tpath{P2/Compact.lean} \texttt{quotient\_compact}.
+\end{proposition}
+\noindent(``Divides 24'': $\Gamma_x\le\cO_x^\times$ and each listed order divides $24$.)
+
+\begin{lemma}[stab; seed Lemma 5.2, reproved]\label{lem:s01-stab}
+Let $p\ge5$.
+\begin{enumerate}[label=(\alph*)]
+\item $\Nrd(\Gamma_x)=1$ for every $U$ with $\Nrd U=\Zhat^\times$ and every $x$.
+\item If $U\subseteq\Uone{p}$ (at $p$), then every $\Gamma_x$ is trivial. If moreover $U=U^{(p)}\times U_{1}(p^s)_p$ with $s\ge1$,
+  then $\Delta_s$, acting by $[x]\mapsto[x\,\iota_p^{-1}\mathrm{diag}(1,d)]$, acts freely on $\XB{U}$.
+\item For every $U\subseteq\hat\cO^\times$, $p\nmid|\Gamma_x|$; in particular $p\nmid w_x$.
+\end{enumerate}
+\stproved.
+\end{lemma}
+\begin{proof}
+(a) $\Nrd\gamma\in\Q_{>0}\cap\Nrd(xUx^{-1})=\Q_{>0}\cap\Zhat^\times=\{1\}$.
+(b) Let $1\ne\gamma\in\Gamma_x$. It has finite order (Prop.~\ref{prop:s01-finite}), $\Nrd\gamma=1$, so its reduced
+characteristic polynomial is $X^2-tX+1$ with $t\in\{-2,-1,0,1\}$ ($t=2$ forces $\gamma=1$ in a division algebra).
+At $p$, $x_p^{-1}\gamma x_p\in\Uone{p}_p$, so its reduction mod $p$ is upper triangular with diagonal $(\bar a,1)$, hence has eigenvalue $1$, a root of $X^2-tX+1$
+(this uses $\Nrd\gamma=1$), whence $p\mid 2-t\in\{4,3,2,1\}$:
+impossible for $p\ge5$. For freeness: $d\in1+p\Zp$ implies $\delta_d:=\iota_p^{-1}\mathrm{diag}(1,d)\in\Uone{p}_p$, so the group
+$U'$ generated by $U$ and $\delta_d$ satisfies $U'\subseteq\Uone{p}$ at $p$. If $[x\delta_d]=[x]$ then $\gamma x u=x\delta_d$ with
+$\gamma\in B^\times\cap xU'x^{-1}=1$, so $\delta_d=u\in U$, i.e.\ $d\in1+p^s\Zp$.
+(c) By Prop.~\ref{prop:s01-finite} $|\Gamma_x|$ divides $24$.
+\end{proof}
+\noindent\emph{Seed correction (minor).} Seed Lemma~5.2(b) writes ``$\gamma xk=x\,\mathrm{diag}(1,d)$ then $\gamma=1$''
+without saying why $\gamma$ lies in a stabiliser at level $\Uone{p}$; the argument above supplies it, and it uses $d\equiv1\bmod p$,
+i.e.\ it is about $\Delta_s$, not about all of $(\Z/p^s)^\times$ (the full diamond group does \emph{not} act freely in
+general). The same argument is \lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~11}
+(``$X^2-aX+1$, $a\in\{-2,-1,0,1\}$''), there for $U\subseteq\Uone{M}$, $M\ge4$.
+
+\subsubsection{Mass formula}
+
+\begin{theorem}[Eichler mass formula; \texttt{if:s01-mass}]\label{thm:s01-mass}
+\begin{enumerate}[label=(\alph*)]
+\item $\displaystyle\sum_{[x]\in\XB{\hat\cO^\times}}\frac1{|\Gamma_x|}=\frac{1}{24}\prod_{\ell\mid D}(\ell-1)$
+  (full-unit convention), equivalently $\sum 1/w_x=\varphi(D)/12$.
+\item (level change) For open $U'\le U\le\hat\cO^\times$: $\sum_{X_B(U')}1/|\Gamma_{x'}(U')|=[U:U']\sum_{X_B(U)}1/|\Gamma_x(U)|$.
+  With $w$ in place of $|\Gamma|$ the same holds iff $-1\in U'$ or $-1\notin U$; if $-1\in U\setminus U'$ there is an extra
+  factor $2$.
+\item $[\hat\cO^\times:\Uzero{N}]=\psi(N)=N\prod_{\ell\mid N}(1+\ell^{-1})$ and $[\hat\cO^\times:\Uone{N}]=\psi(N)\varphi(N)=N^2\prod_{\ell\mid N}(1-\ell^{-2})$.
+\item Hence $\sum_{\XB{\Uzero{N}}}1/w_x=\varphi(D)\psi(N)/12$, and for $p\ge5$, $s\ge1$, $(M,pD)=1$:
+\[|S_s|=|\XB{\Uone{Mp^s}}|=\frac{\varphi(D)}{24}\,\psi(Mp^s)\,\varphi(Mp^s).\]
+\end{enumerate}
+Status: (a) \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.1.1, p.~415 (with $w_J=\#\cO_L(J)^\times/\{\pm1\}$,
+hence $1/12$)}; \lit{eichler\_1955\_zur-zahlentheorie-der-quaternionen-algebren}{\S4 ``Klassenzahl und Maß'', p.~136ff.};
+in Lean it is the registered hypothesis \texttt{Hyp.EichlerMass} (\Tpath{Hyp/EichlerMass.lean}, $1/24$, full units), proved
+for $D=2,11$ in tests. (b) \stformal{} \Tpath{P2/Mass.lean} \texttt{mass\_orbit\_count}; the $w$-variant \stproved{}
+(orbit counting). (c) first half \stformal{} \texttt{gl2\_borel\_index}, \texttt{mass\_level\_change}; second half
+\sttoprove{} (count $|\GL_2(\Z/N)|/(N\varphi(N))$). (d) first half \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.3.18,
+p.~423}, \stpmc{} in Lean as \texttt{eichlerOrder\_mass} (under \texttt{Hyp.EichlerMass}); second half \stpmc{} from (a)--(c)
+and Lemma~\ref{lem:s01-stab}(b) (all $\Gamma_x=1$).
+\end{theorem}
+\begin{example}[checks]\label{ex:s01-masschecks}
+$D=2$: $\cO$ Hurwitz, $|\cO^\times|=24$, mass $1/24$; $|\XB{\Uone{5}}|=24/24=1$ (the $24$ nonzero vectors of $\F_5^2$
+form one free orbit of $\cO^\times$). $D=3$: mass $1/12$, $|S_s|=\frac{2}{24}\cdot24\cdot25^{s-1}=2\cdot25^{s-1}$ for
+$p=5$, $M=1$ --- this is the count used in seed test T3. $D=11$: $h=2$, $|\Gamma_x|\in\{4,6\}$, $\frac14+\frac16=\frac{10}{24}$.
+\stproved.
+\end{example}
+
+\subsubsection{Brandt modules and the Brandt pairing}
+
+Coefficients. $V_k=\Sym^{k-2}(\Zp^2)$, $n=k-2$, realised as homogeneous polynomials $P(X,Y)$ of degree $n$, with the
+\emph{left} action of the monoid $M_2(\Zp)\cap\GL_2(\Qp)$
+\begin{equation}\label{eq:s01-Vk}
+(g\cdot P)(X,Y)=P\big((X,Y)g\big)=P(aX+cY,\,bX+dY),\qquad g=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right).
+\end{equation}
+This is exactly the import's \texttt{symPowerAction} (\Tpath{Brandt/SymPower.lean}: $(\rho_m(A)P)(x,y)=P(A_{11}x+A_{21}y,A_{12}x+A_{22}y)$),
+and it is integral on the whole monoid (needed for $U_p$). The map $\mathrm{ev}:V_k\to\Zp$, $P\mapsto P(0,1)$, satisfies
+$\mathrm{ev}(g\cdot P)\equiv d^n\,\mathrm{ev}(P)\pmod{c}$; this is the line through which Hida theory (stage 04) sees weight $k$.
+
+\begin{definition}[Brandt module; \texttt{if:s01-brandt}; seed \S2.4]\label{def:s01-brandt}
+For a finitely generated $\Zp$-module $V$ with continuous left action of $U_p$ (through $\iota_p$),
+\[\Brandt{U}{V}:=\{f:\Bhat^\times\to V:\ f(\gamma xu)=u_p^{-1}f(x)\ (\gamma\in B^\times,\ u\in U)\}\ \cong\ \bigoplus_{[x]\in\XB{U}}V^{\,x_p^{-1}\Gamma_xx_p},\]
+via $f\mapsto(f(x))_x$ over a set of representatives. For trivial $V=\Z$: $\Z^X:=\Brandt{U}{\Z}$ (functions, pullback),
+$\Z[X]$ the free module on $X=\XB{U}$ (pushforward), $\Z[X]^0=\ker(\deg)$. Naive evaluation $\Z[X]\times\Z^X\to\Z$,
+$([x],f)\mapsto f(x)$, is a perfect duality; every map below on $\Z[X]$ is the transpose of the same-named map on $\Z^X$.
+\end{definition}
+\noindent\stknown{} \lit{gross\_1999\_algebraic-modular-forms}{(4.1)--(4.2) and Prop.~4.5, pp.~68--69} (there in the
+convention $f(\gamma g)=\gamma f(g)$).
+
+\begin{remark}[dictionary seed $\leftrightarrow$ import $\leftrightarrow$ Gross]\label{rem:s01-dictionary}
+The import's \texttt{quatForms O s k} (\Tpath{Brandt/Forms.lean}) is Gross's convention
+$\{f:f(\iota(\gamma)xu)=\rho^s_k(\gamma)f(x)\}$ with a global splitting $s:B\to M_2(K)$, $\mathrm{char}\,K=0$, and $U=\hat\cO^\times$
+acting trivially. For $K\supseteq\Qp$ and $s=\iota_p$ (import: \texttt{ellAdicSplitting}, \Tpath{Brandt/Coefficients.lean}) the
+map $F\mapsto f$, $f(x):=x_p\cdot F(x)$, is an isomorphism $\Brandt{U}{V_k}\otimes\Qp\xrightarrow{\sim}$ \texttt{quatForms}, and it
+carries the seed's $T_g$ (Def.~\ref{def:s01-hecke}) to the import's $f\mapsto\sum_i f(xg_i)$. \sttoprove{} (one line:
+$x_pu_pF(xu)=x_pF(x)$.) It is \emph{not} integral ($x_p\notin\GL_2(\Zp)$); integral statements must be made on the seed side.
+\end{remark}
+
+\begin{definition}[Brandt pairing and norm map]\label{def:s01-pairing}
+On $\Z[X]$: $\langle[x],[y]\rangle:=w_x\delta_{xy}$ (weights $w$; the import's \texttt{weightedPairing} for $k=2$ is
+$\sum_x|\Gamma_x|^{-1}f(x)g(x)$ on functions, i.e.\ uses $|\Gamma_x|$). The norm map is
+$\nu:\Z[X]\to\Z^X$, $[x]\mapsto w_x\mathbf 1_x$; it is the map $a\mapsto\langle a,\cdot\rangle$ and is an isomorphism over
+$\Zp$ whenever $p\nmid w_x$ for all $x$, in particular for $p\ge5$ (Lemma~\ref{lem:s01-stab}(c)).
+For $V$ with $-1$ acting trivially, $\nu_V:\bigoplus_xV_{\Gamma_x}\to\bigoplus_xV^{\Gamma_x}$, $v\mapsto\sum_{\gamma\in\Gamma_x/\pm1}\gamma v$.
+\end{definition}
+
+\begin{proposition}[adjoints; equivariance of $\nu$]\label{prop:s01-adjoint}
+Let $T_g=[UgU]$ act on $\Z^X$ by $f\mapsto\sum_if(xg_i)$ and on $\Z[X]$ by its transpose $[x]\mapsto\sum_i[xg_i]$
+($UgU=\coprod_ig_iU$, $g$ supported away from $p$ or trivial coefficients). Then
+\begin{enumerate}[label=(\alph*)]
+\item the $\langle,\rangle$-adjoint of $T_g$ on $\Z[X]$ is $T_{g^{-1}}$;
+\item $\nu\circ T_g=T_{g^{-1}}\circ\nu$. In particular $\nu$ intertwines $T_\ell$ with $S_\ell^{-1}T_\ell$, $\langle d\rangle$ with
+  $\langle d\rangle^{-1}$, $\Pi_\ell$ with $\Pi_\ell^{-1}$, and $U_p$ with $U_p^{*}$ (Lemma~\ref{lem:s01-Up}(d)). At level
+  $\Uzero{M}$ with trivial coefficients, $S_\ell=1$ and $T_\ell$ ($\ell\nmid DM$) is self-adjoint and $\nu$-equivariant.
+\item for finite $\pi:X'=X_B(U')\to X=X_B(U)$ ($U'\le U$), \emph{assuming $-1\in U'$ or $-1\notin U$}: $\nu\circ\pi_*=\mathrm{tr}\circ\nu'$, where
+  $\mathrm{tr}f(x)=\sum_{u\in U/U'}f(xu)$, and $\pi^*\circ\nu\ne\nu'\circ\pi^!$ in general.
+\end{enumerate}
+Status: (a) \stcited{} \lit{gross\_1999\_algebraic-modular-forms}{Prop.~6.9, p.~73 (adjoint of $T(g)$ is $\mu_A(g)T(g^{-1})$;
+$\mu=1$ for trivial $V$)}; \stformal{} for $T_n$, $(n,DM)=1$, level $\hat\cO(M)^\times$, all $k$:
+\Tpath{Brandt/Pairing.lean} \texttt{hecke\_self\_adjoint}, \Tpath{Brandt/Brandt.lean} \texttt{brandt\_weighted\_symmetry}
+($|\Gamma_{x_{c'}}|B(n)_{cc'}=|\Gamma_{x_c}|B(n)_{c'c}$). (b), (c) \sttoprove{} (formal from (a) and orbit counting; (c) is the
+computation $\mathrm{tr}(w_{x'}\mathbf 1_{x'})=w_{x'}[\Gamma_x:\Gamma_{x'}]\mathbf 1_x=w_x\mathbf1_x$, valid when $-1\in U'$ or
+$-1\notin U$; if $-1\in U\setminus U'$, e.g.\ $U=\hat\cO^\times$, $U'=\Uone{N}$, $N\ge3$, the same computation gives
+$\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$).
+\end{proposition}
+\noindent\emph{Consequence for SPLIT.} \texttt{if:s01-brandt} lists ``the norm-map identification $\Zp[X]\cong\Zp^X$''.
+It is an identification of modules, and of Hecke modules \emph{only after} replacing each operator by its adjoint; the
+pushforward $\pi_*$ on $\Zp[X]$ corresponds to the trace on $\Zp^X$, not to pullback. Stages 03 and 04 must apply it in
+this form.
+
+\begin{definition}[pairing with $V_k$ coefficients]\label{def:s01-pairingV}
+Fix the $\GL_2(\Zp)$-quasi-invariant pairing $\beta_n$ on $V_k\otimes\Qp$ with $\beta_n(gP,gQ)=\det(g)^n\beta_n(P,Q)$
+(import: \texttt{symPowerPairing}). For $x\in\Bhat^\times$ write $\Nrd x=r_x\,u_x$ with $r_x\in\Q_{>0}$, $u_x\in\Zhat^\times$. Put
+$\langle f,h\rangle_k:=\sum_{[x]}w_x^{-1}\,u_{x,p}^{\,n}\,\beta_n(f(x),h(x))$ on $\Brandt{U}{V_k}$.
+\end{definition}
+\noindent\sttoprove: well defined (the factor $u_{x,p}^n$ compensates $\det(u_p)^{-n}$; it is the seed-side analogue of the import's
+$\nu(x)^{k-2}$ in \texttt{weightedPairing}, \Tpath{Brandt/Pairing.lean}). It is perfect on $\Brandt{U}{V_k}$ over $\Zp$ only if
+$p>k-2$ (denominators $\binom{n}{i}$ in $\beta_n$); otherwise pair $V_k$ with its dual $\Hom(V_k,\Zp)$. Hecke adjoints acquire
+the factor $\mu_A(g)$ of Gross, Prop.~6.9 (powers of $\ell$). Stage 04 owns the $\Lambda$-adic (Ohta-type) twist; this
+stage only fixes the finite-level definition.
+
+\subsubsection{Hecke operators}
+
+\begin{definition}[Hecke operators; \texttt{if:s01-hecke}; seed \S2.5]\label{def:s01-hecke}
+For $g\in\Bhat^\times$ with $g_p\in M_2(\Zp)$ (via $\iota_p$) and $UgU=\coprod_ig_iU$:
+\[(T_gf)(x)=\sum_ig_{i,p}\cdot f(xg_i)\qquad(f\in\Brandt{U}{V}),\]
+well defined and independent of the $g_i$ \stproved{} (if $ug_i=g_{\sigma(i)}u_i$ then $g_iu_i^{-1}=u^{-1}g_{\sigma(i)}$). Then,
+with $\varpi_\ell:=\iota_\ell^{-1}\mathrm{diag}(\ell,1)$ and $z_\ell$ the central idele $\ell$ at $\ell$:
+\begin{itemize}
+\item $T_\ell:=[U\varpi_\ell U]$, $S_\ell:=[Uz_\ell U]$ for $\ell\nmid DMpq$ (and $\ell\ne p$); $U_\ell:=[U\varpi_\ell U]$ for $\ell\mid M$;
+\item $\langle d\rangle$, $d\in(\Z/Mp^s)^\times$: $(\langle d\rangle f)(x)=\delta_{d,p}\cdot f(x\delta_d)$, $\delta_d\in\Uzero{Mp^s}$ with lower
+  right entries $\equiv d$ (seed: ``right translation by $\mathrm{diag}(1,d)$'');
+\item $\Pi_\ell$ for $\ell\mid D$: $(\Pi_\ell f)(x)=f(x\Pi_\ell)$ (no $V$-action since $\ell\ne p$);
+\item $U_p:=[U\varpi_pU]$ with $\varpi_p=\iota_p^{-1}\mathrm{diag}(p,1)$ --- the normalisation $N_{U_p}$, see
+  Def.~\ref{def:s01-NUp}.
+\end{itemize}
+For $\ell\nmid$ level, $[U\varpi_\ell U]=[U\,\mathrm{diag}(1,\ell)\,U]$ (Weyl conjugation in $\GL_2(\Z_\ell)$), so for $T_\ell$ the
+seed's $\mathrm{diag}(\ell,1)$ and any other choice agree; for $U_\ell$, $U_p$ they do not.
+\end{definition}
+
+\begin{definition}[$N_{U_p}$: the normalisation of $U_p$ fixed for the whole plan]\label{def:s01-NUp}
+Let $s\ge1$ and $U=U^{(p)}U_p$ with $U_p\in\{U_1(p^s)_p,\ U_0(p^s)_p\}$. Put $\varpi_j:=\iota_p^{-1}\left(\begin{smallmatrix}p&j\\0&1\end{smallmatrix}\right)$,
+$0\le j\le p-1$. Then $U\varpi_pU=\coprod_{j=0}^{p-1}\varpi_jU$ and
+\[(U_pf)(x):=\sum_{j=0}^{p-1}\varpi_j\cdot f(x\varpi_j)\ \ \text{on }\Brandt{U}{V},\qquad U_p[x]:=\sum_{j=0}^{p-1}[x\varpi_j]\ \ \text{on }\Z[\XB{U}],\]
+with $\varpi_j$ acting on $V_k$ by \eqref{eq:s01-Vk}. On the quotient line $\mathrm{ev}:V_k\to\Zp$ each $\varpi_j$ acts by $1$
+(its $(2,2)$ entry), so $U_p$ is integral and its ordinary projector $e=\lim U_p^{n!}$ is non-trivial in every weight.
+\end{definition}
+
+\begin{lemma}[properties of $N_{U_p}$]\label{lem:s01-Up}
+Let $s\ge1$, $U_{(s)}:=U^{(p)}U_1(p^s)_p$, $\pi=\pi_{s+1,s}:\XB{U_{(s+1)}}\to\XB{U_{(s)}}$.
+\begin{enumerate}[label=(\alph*)]
+\item The coset representatives $\varpi_j$ of $U_{(s)}\varpi_pU_{(s)}$ do not depend on $s\ge1$ (nor on $U_1$ versus $U_0$).
+\item $U_p\circ\pi^*=\pi^*\circ U_p$ on $\Brandt{U_{(s)}}{V}\subseteq\Brandt{U_{(s+1)}}{V}$, and dually $\pi_*\circ U_p=U_p\circ\pi_*$
+  on $\Zp[S_{s+1}]\to\Zp[S_s]$. \textbf{This is the property demanded by the seed; $N_{U_p}$ is the normalisation with it.}
+\item The other operator $U_p':=[U\,\iota_p^{-1}\mathrm{diag}(1,p)\,U]$ (the seed's literal formula) has representatives
+  $\iota_p^{-1}\left(\begin{smallmatrix}1&0\\p^sj&p\end{smallmatrix}\right)$, which depend on $s$; all $p$ of the level-$(s+1)$
+  representatives lie in the single coset $\iota_p^{-1}\mathrm{diag}(1,p)U_{(s)}$, so (trivial $V$) $U'_p\pi^*f=p\cdot\pi^*R(\mathrm{diag}(1,p))f\ne\pi^*U'_pf$
+  in general. Instead $U'_p$ commutes with the trace $\mathrm{tr}_{s+1,s}$ (because $U_{(s)}\mathrm{diag}(1,p)U_{(s)}=U_{(s)}\mathrm{diag}(1,p)U_{(s+1)}$).
+\item (trivial coefficients, $U^{(p)}=U_1(M)$) The $\langle,\rangle$-adjoint of $U_p$ is $U_p^*=\langle p\rangle_M\,U_p'$, where
+  $\langle p\rangle_M$ is the diamond at the primes dividing $M$; so under $\nu$ the homological $U_p$ on $\Zp[S_s]$ becomes
+  $\langle p\rangle_MU'_p$ on $\Zp^{S_s}$ (consistent with (b), (c) and Prop.~\ref{prop:s01-adjoint}(c)).
+\item For $s\ge1$ and $\ell\nmid Mp$, $U_p$ commutes with $T_\ell,S_\ell,\langle d\rangle,\Pi_\ell$, and with right translation by
+  $B_q^\times$ ($q\ne p$).
+\end{enumerate}
+Status: (a)--(c) \stproved{} below; (d) \sttoprove{} (from Prop.~\ref{prop:s01-adjoint}(a) and
+$\mathrm{diag}(p,1)^{-1}=z_p^{-1}\mathrm{diag}(1,p)$, $R(z_p^{-1})=\langle p\rangle_M$ because $p\in\Q^\times$ is central);
+(e) \stproved{} (disjoint supports; $\varpi_j$ normalise nothing outside $p$).
+\end{lemma}
+\begin{proof}[Proof of (a)--(c)]
+Write $K_s=U_1(p^s)_p$, $g=\mathrm{diag}(p,1)$. Conjugation: $g\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)g^{-1}=
+\left(\begin{smallmatrix}a&pb\\c/p&d\end{smallmatrix}\right)$, so $K_s\cap gK_sg^{-1}=\{b\in p\Zp\}$ has index $p$ in $K_s$ with
+representatives $\left(\begin{smallmatrix}1&j\\0&1\end{smallmatrix}\right)$, independent of $s$; hence $K_sgK_s=\coprod_j\varpi_jK_s$, and
+the $\varpi_j K_s$ are distinct since $\varpi_j^{-1}\varpi_{j'}=\left(\begin{smallmatrix}1&(j'-j)/p\\0&1\end{smallmatrix}\right)$. This is (a), and
+(b) follows because $T_g$ on pulled-back functions at level $s+1$ is computed with the same $\varpi_j$; the homological
+statement is its transpose. For $g'=\mathrm{diag}(1,p)$: $g'K_sg'^{-1}\cap K_s=\{c\in p^{s+1}\Zp\}$, representatives
+$\left(\begin{smallmatrix}1&0\\p^sj&1\end{smallmatrix}\right)$, and $\left(\begin{smallmatrix}1&0\\c&1\end{smallmatrix}\right)g'=g'\left(\begin{smallmatrix}1&0\\c/p&1\end{smallmatrix}\right)$ with
+$c/p\in p^{s}\Zp$ for $c\in p^{s+1}\Zp$, which gives (c); the trace statement is the equality of the multisets
+$K_sg'K_s/K_{s+1}$ and $K_sg'K_{s+1}/K_{s+1}$ (both of size $p^3$: $[K_s:K_s\cap g'K_sg'^{-1}]=p$ and $[K_s:K_{s+1}]=p^2$ ($c$ and $d$ each lose one power of $p$) for the left side;
+$[K_s:K_s\cap g'K_{s+1}g'^{-1}]=p^2\cdot p$ for the right side, which is contained in the left; here $K_s=(K_s\cap g'^{-1}K_sg')K_{s+1}$).
+\end{proof}
+
+\begin{remark}[literature conventions for $U_p$]\label{rem:s01-Upconv}
+Buzzard uses $f(gu)=f(g)u$ (right action), $[U\eta U]f=\sum_if|\eta_i$ with $U\eta U=\coprod U\eta_i$ and $\eta_p=\left(\begin{smallmatrix}p&0\\0&1\end{smallmatrix}\right)$
+\lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, pp.~12--13 and \S5, p.~16}. Translated into the seed's
+convention ($F(g)=f(g)$ with $u\cdot v:=v|u^{-1}$), his $[U\eta_pU]$ is our $[U\eta_p^{-1}U]=R(z_p)^{-1}U'_p$, i.e.\ essentially the
+seed's literal $U'_p$, not $N_{U_p}$. So the same symbol $\mathrm{diag}(p,1)$ denotes different operators in different papers;
+any import of a $U_p$-statement from the literature (Hida, Hsieh, LV, Buzzard, Chenevier) must be translated. \sttoprove{}
+(translation); the identification of $N_{U_p}$ with the \emph{classical} $U_p$ ($a_n\mapsto a_{np}$, which commutes with the
+inclusions $S_k(\Gamma_1(Mp^s))\subseteq S_k(\Gamma_1(Mp^{s+1}))$) under JL is \stexp{} and is HACS test H4 below.
+\end{remark}
+
+\begin{proposition}[relations]\label{prop:s01-relations}
+Let $U=\Uone{Mp^s}$ or $\Uzero{M}$, $V=V_k$.
+\begin{enumerate}[label=(\alph*)]
+\item $S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$ on $\Brandt{\Uone{Mp^s}}{V_k}$ ($\ell\nmid DMp$); $S_\ell=\ell^{k-2}$ at level
+  $\Uzero{M}\cdot\GL_2(\Zp)$.
+\item $\Pi_\ell^2=S_\ell$ (same formula as (a)) for $\ell\mid D$; $\Pi_\ell$ is independent of the choice of $\Pi_\ell$.
+\item All operators of Def.~\ref{def:s01-hecke} commute; those supported at $\ell\ne q$ commute with the maps
+  $R_g:\Brandt{U}{V}\to\Brandt{g^{-1}Ug}{V}$, $f\mapsto f(\cdot g)$, and with $[x]\mapsto[xg]$ on class sets, for $g\in B_q^\times$.
+\item $T_\ell$ for $\ell\nmid DMp$: $T_\ell T_{\ell^r}=T_{\ell^{r+1}}+\ell S_\ell T_{\ell^{r-1}}$ (with $T_{\ell^r}$ the sum of the
+  double cosets of norm $\ell^r$), $T_mT_n=T_{mn}$ for coprime $m,n$; on $\Z^X$ at level $\Uzero{M}$ with $k=2$,
+  $T_\ell\mathbf 1=(\ell+1)\mathbf 1$.
+\end{enumerate}
+Status: (a) \stproved{} (computation: $f(xz_\ell)=f(x\,y)$ with $y=\ell^{-1}z_\ell\in\Uzero{Mp^s}$ of lower-right entry $\ell^{-1}$;
+$y_p=\ell^{-1}I$ acts on $V_k$ by $\ell^{-n}$); at level $\hat\cO^\times$ \stformal{} \Tpath{Brandt/HeckeLocal.lean}
+\texttt{central\_translation} ($1_{\iota(p)\hat\cO^\times}f=p^{k-2}f$). (b) \stproved{} ($\Pi_\ell^2\in z_\ell\cO_\ell^\times$).
+(c) \stproved{} (seed \S2.5). (d) \stknown{} \lit{voight\_2021\_quaternion-algebras}{Prop.~41.3.1, p.~770};
+\stformal{} for $(n,DM)=1$, level $\hat\cO(M)^\times$: \Tpath{Brandt/Brandt.lean} \texttt{brandt\_relations},
+\texttt{brandt\_row\_sums}; \Tpath{Brandt/HeckeLocal.lean} \texttt{hecke\_recursion}, \texttt{hecke\_commutative},
+\texttt{hecke\_coset\_count}, \texttt{localHeckeEmbedding\_hom}; \Tpath{Brandt/Pairing.lean} \texttt{eisenstein\_line}.
+\end{proposition}
+\noindent\emph{Diamond convention (flag).} With the seed's diamond (right translation by $\mathrm{diag}(1,d)$), (a) reads
+$S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$, whereas classically $S_\ell=\ell^{k-2}\langle\ell\rangle$
+\lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~13: $S_lf=\varepsilon(l)l^{k-2}f$}. So the seed's
+adelic $\langle d\rangle$ corresponds to the classical $\langle d\rangle^{-1}$ (a standard adelic/classical inversion). We do
+not change the seed; stages 04 and 05 must use $\langle d\rangle^{-1}$ when comparing $\Lambda$-structures with $\GL_2$.
+
+\begin{definition}[Hecke algebras]\label{def:s01-T}
+$\T_B(U;V)\subseteq\End\Brandt{U}{V}$ is the $\Zp$-algebra generated by $T_\ell,S_\ell^{\pm1}$ ($\ell\nmid DMpq$), $U_\ell$ ($\ell\mid M$),
+$\langle d\rangle$, $U_p$ (if $s\ge1$) and $\Pi_\ell$ ($\ell\mid D$). It is commutative (Prop.~\ref{prop:s01-relations}(c)) and finite
+free over $\Zp$; the anemic version omits $U_\ell,U_p,\Pi_\ell$. By Prop.~\ref{prop:s01-adjoint}, $\nu$ identifies $\Zp[X]$ and
+$\Zp^X$ as modules over $\T_B$ \emph{up to the anti-involution} $T\mapsto T^*$.
+\end{definition}
+
+\begin{example}[$\Pi_{11}$ on $B_{11}$; a sign data point for stage 05]\label{ex:s01-Pi11}
+$D=11$, $U=\hat\cO^\times$, $k=2$: $\XB{U}=\{[x_1],[x_2]\}$ with $|\Gamma_{x_1}|=4$, $|\Gamma_{x_2}|=6$. Right multiplication by
+$\Pi_{11}$ replaces a right $\cO$-ideal $I$ by $I\mathfrak P$, $\mathfrak P$ the two-sided prime of $\cO$ above $11$, which
+preserves the left order $\cO_L(I)$; the two classes have non-isomorphic left orders, so $\Pi_{11}=\mathrm{id}$ on $\Z[X]$. The cuspidal line
+corresponds to $11a$, with $a_{11}=+1$. Hence, in the seed's normalisation, $U_{11}\leftrightarrow+\Pi_{11}$ here. \stproved{}
+(modulo the standard fact that $x\mapsto x\Pi_\ell$ on classes is $I\mapsto I\mathfrak P$). Compare Hsieh, who writes
+$\mathrm{JL}(U_q)=(-1)U_q$ for $q\mid N^-$ \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.5, p.~34}:
+his operator is our $\Pi_q$; the example contradicts his sign.
+\provisional{F6/D3: replaced ``his quaternionic $U_q$ is normalised differently'' by ``his operator is our $\Pi_q$; the example contradicts his sign''; before: the sign difference was attributed to a different normalisation of his quaternionic $U_q$.}
+Stage 05 owns $\varepsilon$; this example and HACS test H5 pin it.
+\end{example}
+
+\subsubsection{Targets (cited)}
+
+\begin{theorem}[classical JL, Brandt form; \texttt{if:s01-targets}; seed Thm.~3.1]\label{thm:s01-JLclassical}
+Let $k\ge2$ be even, $(M,D)=1$. Choosing $\Qp\hookrightarrow\C$ (or working with the import's global splitting over a number
+field), there is an isomorphism of modules over the algebra generated by the $T_\ell$, $\ell\nmid DM$,
+\[\Brandt{\Uzero{M}}{V_k}\otimes\C\ \cong\ S_k(\Gamma_0(DM))^{D\text{-new}}\ \oplus\ \begin{cases}\C\cdot\mathbf 1&k=2,\\0&k>2,\end{cases}\]
+where $\mathbf 1$ spans the functions factoring through $\Nrd$ (one-dimensional since $\Q_{>0}\backslash\hat\Q^\times/\Zhat^\times=1$),
+and $H^1_{\rm par}(\Gamma_0(DM),V_k\otimes\C)\cong S_k\oplus\overline{S_k}$. At $\Gamma_1$-level: for $k\ge3$,
+$\Brandt{\Uone{N}}{V_k}\otimes\C\cong S_k(\Gamma_1(N)\cap\Gamma_0(D))^{D\text{-new}}$, and for $k=2$ the same after dividing
+by the functions factoring through $\Nrd$, compatibly with $T_\ell,S_\ell$ for $\ell\nmid ND$.
+\stcited{} \lit{jacquet-langlands\_1970\_automorphic-forms-on-gl2}{Thm.~16.1, p.~494 (representation-theoretic; JL call
+their proof a sketch)}; \lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{Thm.~2, p.~13 ($\Gamma_1$ form,
+attributed to JL, Shimizu, Arthur)}; \lit{hijikata-pizer-shemanske\_1980\_basis-problem-for-modular-forms-announcement}{\S0,
+p.~280 (basis problem, all $N$)}; \lit{shimizu\_1965\_zeta-functions-of-quaternion-algebras}{(scan; not text-verified)};
+survey \lit{voight\_2021\_quaternion-algebras}{\S41.5, Remark after Main Thm.~41.5.2, pp.~777--779}.
+\end{theorem}
+\noindent\emph{Existing material (formula level).} The definite-side trace is \stformal:
+\Tpath{Brandt/Trace.lean} \texttt{hecke\_trace\_fixed\_point}, \Tpath{Brandt/Forms.lean} \texttt{forms\_dimension}; and the
+identity of the explicit Eichler and Eichler--Selberg expressions is \stformal{} as \Tpath{P1/JLFormula.lean}
+\texttt{jl\_formula\_identity} ($D$ squarefree, $\omega(D)$ odd, $(D,M)=1$) and \Tpath{P1/JLFormulaGen.lean}. What is
+\emph{not} in the import is the identification of the Eichler--Selberg expression with $\tr(T_n\mid S_k(\Gamma_0(N)))$ (the
+trace formula was stripped). So Thm.~\ref{thm:s01-JLclassical} stays \stcited{} in Lean (a registered hypothesis if needed),
+but its trace shadow is formal on the quaternionic side. Compare the Brandt trace with
+\lit{voight\_2021\_quaternion-algebras}{Thm.~41.1.13, p.~767}.
+
+\begin{theorem}[$p$-adic JL; Chenevier]\label{thm:s01-chenevier}
+There is a unique closed rigid-analytic immersion $\JL_p:\mathcal D_{D,\varepsilon}\hookrightarrow\mathcal D_{0,\varepsilon}$ of the
+eigencurve of $B^\times$ into that of $\GL_2$ (same tame level and character), over weight space, agreeing with classical JL on
+classical points other than the non-tempered one, with image the Zariski closure of the classical $D$-new points.
+\stcited{} \lit{chenevier\_2005\_une-correspondance-de-jacquet-langlands-p-adique}{Thm.~3, \S4.6, p.~188}.
+\end{theorem}
+
+\begin{theorem}[$\Lambda$-adic Hecke JL]\label{thm:s01-lambdaJL}
+Let $\T^{\ord}(DM)$ be Hida's ordinary $\Lambda$-adic Hecke algebra of tame level $\Gamma_1(M)\cap\Gamma_0(D)$ and
+$\T^{\ord}_B(M)$ the one acting on $\varprojlim_se\,\Brandt{U_s}{\cOE}$ (or on its homological dual). There is a surjection
+$\T^{\ord}(DM)\twoheadrightarrow\T^{\ord}_B(M)$ with $T_\ell\mapsto T_\ell$ ($\ell\nmid DMp$), $U_\ell\mapsto U_\ell$ ($\ell\mid Mp$),
+diamonds to diamonds, and $U_\ell\mapsto+\Pi_\ell$ ($\ell\mid D$), $\Pi_\ell$ acting by right translation; Hsieh writes $-$, which is not imported (stage 05, \texttt{rem:s05-hsieh}),
+\provisional{F6/D3: sign fixed to $+\Pi_\ell$, Hsieh's sign declared not imported; before: $U_\ell\mapsto\pm\Pi_\ell$ ($\ell\mid D$; sign convention-dependent); the Hsieh citation below read ``$\mathrm{JL}(U_q)=-U_q$ for $q\mid N^-$'' without the remark that it is not imported.}
+whose kernel cuts out the
+$D$-new quotient: $\T^{\ord,D\text{-new}}\cong\T^{\ord}_B$.
+\stcited{} \lit{longo-vigni\_2009\_quaternion-algebras-heegner-points-and-the-arithmetic-of-hida-families\_arxiv}{Prop.~6.1,
+p.~27 (iso of $\tilde\Lambda$-algebras $\T^{\ord}_\infty\simeq\mathbb B^{\ord}_\infty$, with $T(n,n)=\langle n\rangle$ normalised as in
+their [25])}; \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.5, p.~34 (surjection
+$\mathrm{JL}:\T(N,\mathbb I)\to\T^D(N,\mathbb I)$, with his sign $\mathrm{JL}(U_q)=-U_q$ for $q\mid N^-$, not imported)}.
+\end{theorem}
+\noindent\emph{Caveat.} Neither source uses $N_{U_p}$ verbatim in the seed's convention; the statement is
+convention-independent as an abstract isomorphism of Hecke algebras once the generators are matched
+(Remark~\ref{rem:s01-Upconv}, diamond flag). This translation is \sttoprove{} and belongs to this stage's math track.
+
+%----------------------------------------------------------------------
+\subsection{Proof strategy}
+%----------------------------------------------------------------------
+Nothing deep is proved here; the stage is a conventions-and-bookkeeping layer.
+\begin{enumerate}
+\item \emph{Class sets and finiteness}: import Vol~III verbatim (Voight Thm.~17.1.1, 11.5.14; Gross Prop.~4.3).
+\item \emph{Lemma stab}: elementary (above). (b) needs only Lemma~\ref{lem:s01-nrd}, Prop.~\ref{prop:s01-finite} and reduction mod $p$.
+\item \emph{Mass}: (a) is cited (Eichler; Voight Thm.~25.1.1); everything else is orbit counting, already formal as
+  \texttt{mass\_orbit\_count}, plus the index $[\GL_2(\Zhat):\Uone{N}]$.
+\item \emph{Hecke formalism}: the double-coset computations of Lemma~\ref{lem:s01-Up} and Prop.~\ref{prop:s01-relations}(a) are
+  explicit $2\times2$ matrix identities. Adjoints: Gross Prop.~6.9; the $\nu$-statements are formal from it.
+\item \emph{Targets}: cited only, with the translation of conventions (Remarks~\ref{rem:s01-dictionary},
+  \ref{rem:s01-Upconv}) written out as lemmas.
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\subsection{Dependencies and interfaces}
+%----------------------------------------------------------------------
+\emph{Scope of import results:} the import's Hecke/Brandt statements (for $\hat\cO(M)^\times$, $(n,DM)=1$) are used only after $\otimes\Qp$ through the dictionary
+of Remark~\ref{rem:s01-dictionary}; integral $\Zp$-statements (perfectness of pairings, integrality and adjoints of $U_p$, $\nu$) stay on the seed side.
+\emph{Imports:} none (stage 01 is the root). \emph{External:} Voight, Eichler, Gross (cited); trace-formula import Vol~III (reused).
+
+\begin{interface}[\texttt{if:s01-classset}]\label{if:s01-classset}
+$\XB{U}=B^\times\backslash\Bhat^\times/U$, $\Gamma_x=B^\times\cap xUx^{-1}$ and $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$ as in
+Def.~\ref{def:s01-classset}. Facts: $\XB{U}$ is finite and $\Gamma_x$ is finite (Prop.~\ref{prop:s01-finite});
+$\Nrd(U)=\Zhat^\times$ for all the standard levels (Lemma~\ref{lem:s01-nrd}); Lemma stab (a)--(c) holds (Lemma~\ref{lem:s01-stab}),
+with (b) for $U\subseteq\Uone{p}$ and freeness of $\Delta_s$ (not of the full diamond group).
+\end{interface}
+
+\begin{interface}[\texttt{if:s01-brandt}]\label{if:s01-brandt}
+$\Brandt{U}{V}$ (Def.~\ref{def:s01-brandt}), together with the Brandt pairing $\langle[x],[y]\rangle=w_x\delta_{xy}$ on $\Z[X]$,
+the norm-map identification $\nu:\Zp[X]\xrightarrow{\sim}\Zp^X$ when $p\nmid|\Gamma_x|$ (Def.~\ref{def:s01-pairing}) --- which
+intertwines each Hecke operator with its adjoint and $\pi_*$ with the trace (Prop.~\ref{prop:s01-adjoint}; the latter only if
+$-1\in U'$ or $-1\notin U$, else a factor $2$) --- and the
+right-translation maps $x\mapsto xg$ for $g\in B_q^\times$ (Prop.~\ref{prop:s01-relations}(c)).
+\end{interface}
+
+\begin{interface}[\texttt{if:s01-hecke}]\label{if:s01-hecke}
+The Hecke operators $T_\ell,S_\ell,U_\ell,\langle d\rangle,U_p$ (with fixed normalisation $N_{U_p}$, Def.~\ref{def:s01-NUp}:
+$U_p=[U\,\iota_p^{-1}\mathrm{diag}(p,1)\,U]=\sum_{j=0}^{p-1}\varpi_j$, $\varpi_j=\left(\begin{smallmatrix}p&j\\0&1\end{smallmatrix}\right)$, commuting
+with pushforward along $S_{s+1}\to S_s$, Lemma~\ref{lem:s01-Up}) and $\Pi_\ell$ ($\ell\mid D$). All operators supported away from
+$q$ commute with right translation by $B_q^\times$. Self-adjointness for the pairing: $T^*=T_{g^{-1}}$ for $T=T_g$, so
+$T_\ell^*=S_\ell^{-1}T_\ell$, $\langle d\rangle^*=\langle d\rangle^{-1}$, $\Pi_\ell^*=\Pi_\ell^{-1}$, $U_p^*=\langle p\rangle_MU'_p$
+(trivial coefficients); $T_\ell$ is self-adjoint at level $\Uzero{M}$.
+\end{interface}
+
+\begin{interface}[\texttt{if:s01-mass}]\label{if:s01-mass}
+The mass formula $\sum_x1/|\Gamma_x|=\frac1{24}\prod_{\ell\mid D}(\ell-1)$ at maximal level (full-unit convention, as in the import's
+\texttt{Hyp.EichlerMass}), and its level change (Thm.~\ref{thm:s01-mass}(b)--(d)), (with the $w$-variant of (b) only if $-1\in U'$ or $-1\notin U$), including
+$|S_s|=\frac{\varphi(D)}{24}\psi(Mp^s)\varphi(Mp^s)$ for $p\ge5$, $s\ge1$.
+\end{interface}
+
+\begin{interface}[\texttt{if:s01-targets}]\label{if:s01-targets}
+Thm JLclassical (Thm.~\ref{thm:s01-JLclassical}, cited) and the $\Lambda$-adic Hecke JL $\T^{\ord,D\text{-new}}\cong\T^{\ord}_B$
+([LV], [Hs]; cited; Thm.~\ref{thm:s01-lambdaJL}). Chenevier's immersion (Thm.~\ref{thm:s01-chenevier}) is exported as context.
+\end{interface}
+
+\paragraph{Interface deviations.}
+(i) \texttt{if:s01-brandt}: the norm-map identification is Hecke-equivariant only up to $T\mapsto T^*$, and sends pushforward to
+trace (precision, not a change of content; SPLIT is silent). (ii) \texttt{if:s01-hecke}: ``self-adjointness'' holds literally only for
+$T_\ell$ at $\Uzero{M}$-level; at $\Uone{}$-level the adjoint of $T_\ell$ is $S_\ell^{-1}T_\ell$ and that of $U_p$ is
+$\langle p\rangle_MU_p'$, not $U_p$. (iii) \texttt{if:s01-hecke}: $N_{U_p}$ uses $\mathrm{diag}(p,1)$, whereas seed \S2.5 writes
+$U_p=[U\,\mathrm{diag}(1,p)\,U]$; in the seed's own conventions (lower row $\equiv(0,1)$, right cosets $g_iU$) the latter is the
+trace-compatible operator, so the seed's requirement and the seed's formula are inconsistent; we keep the requirement.
+(iv) \texttt{if:s01-classset}: Lemma stab (b) freeness is for $\Delta_s$ only.
+
+%----------------------------------------------------------------------
+\subsection{Lean, HACS, talk}
+%----------------------------------------------------------------------
+\paragraph{Math track (independent).}
+M1: write out the proofs of Lemma~\ref{lem:s01-Up}(d), Prop.~\ref{prop:s01-adjoint}(b),(c), Thm.~\ref{thm:s01-mass}(c) second
+half, Def.~\ref{def:s01-pairingV} well-definedness. M2: translation lemma between Buzzard/Hida/Hsieh conventions and ours
+(Remark~\ref{rem:s01-Upconv}). M3: written dictionary seed $\leftrightarrow$ import (Remark~\ref{rem:s01-dictionary}),
+including $\Gamma_x$ versus \texttt{classStabilizer} and $w_x$ versus \texttt{Nat.card}.
+
+\paragraph{Lean track (independent; reuse first).}
+\begin{itemize}
+\item L0 (reuse, no new proofs): expose \texttt{classSet}, \texttt{classStabilizer}, \texttt{stabilizer\_units},
+  \texttt{classSet\_finite\_of\_open}, \texttt{mass}, \texttt{mass\_orbit\_count}, \texttt{mass\_level\_change},
+  \texttt{eichlerOrder\_mass}, \texttt{brandtMatrix}, \texttt{brandt\_weighted\_symmetry}, \texttt{brandt\_relations},
+  \texttt{hecke\_self\_adjoint}, \texttt{eisenstein\_line}, \texttt{hecke\_trace\_fixed\_point}, \texttt{jl\_formula\_identity}
+  through a thin \texttt{Langlandscape.Quat} facade with seed names (\texttt{X\_B}, \texttt{Gamma\_x}, \texttt{w\_x}).
+\item L1 (new, easy): general open $U\le\hat\cO^\times$ with $\Nrd U=\Zhat^\times$; $\Uone{N}$ (needs a level structure
+  $\varphi:\cO\to M_2(\Z/N)$, available as \texttt{LevelStructure}, and the condition $\varphi(x)_{21}=0$, $\varphi(x)_{22}=1$);
+  Lemma~\ref{lem:s01-stab} (a)--(c); $w_x$ with the $\pm1$ quotient.
+\item L2 (new, easy): $[\hat\cO^\times:\Uone{N}]=\psi(N)\varphi(N)$ and $|S_s|$ (from \texttt{mass\_orbit\_count}).
+\item L3 (new, medium): $\Brandt{U}{V}$ in the seed convention over a commutative ring, $\Z[X]$ and $\Z^X$, $\nu$; double-coset Hecke
+  operators $[UgU]$ with monoid action; $N_{U_p}$ and Lemma~\ref{lem:s01-Up}(a)--(c), for $s\ge1$ only (at $s=0$ the coset lists differ) (pure $2\times2$ matrix algebra over $\Zp$).
+\item L4 (new, medium): the dictionary of Remark~\ref{rem:s01-dictionary} as a linear equivalence over $\Qp$, so that
+  \texttt{hecke\_self\_adjoint} etc.\ transfer for $T_n$, $(n,DM)=1$ (not for $U_p$, and not integrally; Gross's factor $\mu_A(g)$ must be checked against the twist $x_p$).
+\item Hypotheses: \texttt{Hyp.EichlerMass} (exists); classical JL and Thm.~\ref{thm:s01-lambdaJL} only as named \texttt{Prop}s if a
+  later stage needs them. Note the import's \texttt{heckeOperator O n} sums over all of $\hat\cO_n$; for $n$ not prime to the
+  level it is \emph{not} $U_\ell$ (it mixes $U_\ell$, $U'_\ell$ and the Atkin--Lehner coset); use it only for $(n,DM)=1$.
+\end{itemize}
+
+\paragraph{HACS track (independent).}
+\begin{itemize}
+\item H1: class sets and $\Gamma_x$ for $B_D$, $D\in\{2,3,5,7,11,13,\dots\}$, levels $\Uzero{M}$, $\Uone{Mp^s}$, $U_0(q)U$; check
+  Thm.~\ref{thm:s01-mass} (both conventions) and seed C4(ii) ($q\in\{11,17,19,23,37,53\}$).
+\item H2: Brandt matrices $T_\ell$ with $\Sym^n$, $n\le 2p$; check $\langle,\rangle$-adjointness (Prop.~\ref{prop:s01-adjoint}) and
+  Thm.~\ref{thm:s01-JLclassical} by comparing characteristic polynomials with HACS level-$DM$ $D$-new spaces.
+\item H3: $|S_s|$ for $B_3$, $p=5$, $s=1,2,3$ (expect $2,50,1250$; seed T3).
+\item H4: $U_p$ at $S_1,S_2$: verify Lemma~\ref{lem:s01-Up}(b) ($\pi_*U_p=U_p\pi_*$) and (c) (failure for $U'_p$), and compare
+  $U_p$-eigenvalues with $a_p$ of the $D$-new forms of level $DMp^s$ (fixes Remark~\ref{rem:s01-Upconv}).
+\item H5: $\Pi_\ell$ eigenvalues versus $a_\ell$ for $D\in\{11,13,17,19\}$, $k\in\{2,4\}$ (Example~\ref{ex:s01-Pi11}); records the sign for
+  stage 05.
+\end{itemize}
+
+\paragraph{Talk track (independent).}
+Slide ``what JL says'': $\XB{U}$ as a finite set of points (with the picture of $B_{11}$: two points with automorphism groups of
+order $4$ and $6$, mass $\frac14+\frac16=\frac{11-1}{24}$) against the modular curve
+$X_0(11)$ of genus $1$; same Hecke eigenvalues ($T_2$: $-2$ on the cusp form $11a$, $3$ on constants), no map of spaces.
+
+%----------------------------------------------------------------------
+\subsection{Risks}
+%----------------------------------------------------------------------
+\begin{enumerate}[label=R\arabic*.]
+\item \emph{$U_p$ normalisation} (highest). The seed's formula and the seed's requirement disagree (Interface deviation (iii)).
+  Literature conventions differ by an inversion (Remark~\ref{rem:s01-Upconv}). Mitigation: $N_{U_p}$ is defined by an explicit
+  coset list and an invariant property (commutes with $\pi_*$); HACS H4 checks it numerically.
+\item \emph{Diamond inversion}: seed adelic $\langle d\rangle$ is classical $\langle d\rangle^{-1}$ (Prop.~\ref{prop:s01-relations}(a)).
+  Affects $\Lambda$-structures in 04/05.
+\item \emph{Norm map is not Hecke-equivariant} on the nose (Prop.~\ref{prop:s01-adjoint}); a stage using $\Zp[X]\cong\Zp^X$ naively
+  will swap $U_p$ with $\langle p\rangle U'_p$ and $T_\ell$ with $S_\ell^{-1}T_\ell$.
+\item \emph{Weight conventions}: $w_x$ versus $|\Gamma_x|$ (factor $2$ iff $-1\in U$); the import's \texttt{mass} and
+  \texttt{weightedPairing} use $|\Gamma_x|$.
+\item \emph{Integrality with $V_k$}: the $V_k$-pairing is perfect over $\Zp$ only for $p>k-2$; the seed's T4 ($k$ up to $124$,
+  $p=17$) is outside this range.
+\item \emph{Sign of $\Pi_\ell$} under JL: our computation (Example~\ref{ex:s01-Pi11}) gives $+$, Hsieh's written sign is $-$ and is not imported (Thm.~\ref{thm:s01-lambdaJL}).
+  \provisional{F6/D3: consequence of the sign decision; before: ``Hsieh's convention gives $-$; stage 05 must reconcile''.}
+\item \emph{Shimizu, Pizer} are scans: statements not text-verified.
+\end{enumerate}

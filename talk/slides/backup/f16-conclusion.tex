@@ -1,0 +1,21 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 16: conclusion and open problems. Sources: frames 4-12; mathematics/final-report/sections/open.tex.
+\begin{frame}{Conclusion}
+  \small
+  \begin{itemize}\setlength{\itemsep}{1pt}
+    \item JL transports congruences from the quaternionic side to $\GL_2$, but not back: the $B$ side sees only $D$-new forms
+      (automorphic reason) and imposes the stricter local condition at $q$ (Galois reason).
+    \item An integral, Hecke-equivariant comparison exists for $D=q$ (Ribet). We realise its quaternionic side combinatorially, on
+      the Bruhat--Tits tree, and carry it up the Hida tower (stages 02--04, \stproved{} given connectivity).
+    \item Cokernels are the obstruction: the component group (Mazur; through HACS for $q\le600$, $\ell\ge5$), and at a non-Eisenstein $\m$
+      the old/new congruence module $\T/(\mathfrak a+\mathfrak b)$ (Betti side: $\operatorname{coker}\Psi^*\Psi$).
+      \emph{Congruences are obstructions} becomes \emph{cokernel $=$ congruence module}.
+    \item \textbf{Defect formula:} $\eta_F=\cc_q(F)\,\eta^B_F$ with $\cc_q(F)=\tq_q(F)$, at weight $k$: $\cc_q(f)=(\varpi^{t_f(q)})$
+      (\stpmc{} under the stated hypotheses; Lean: modulo registered hypotheses).
+  \end{itemize}
+  \textbf{Open.} $\mathrm{Hyp.X}$ (and (c2)); a simplicial realisation of the comparison (O2); Chenevier beyond the ordinary locus (O7);
+  $q\equiv-1\bmod p$ with $N(\bar\rho)>1$; trivial primes; several primes in $D$ ($(h_F)=\prod_i\tq_{q_i}$, conjectural).
+  \vfill
+  \src{Details, proofs and every status: the report and \texttt{mathematics/main.pdf}.}
+\end{frame}

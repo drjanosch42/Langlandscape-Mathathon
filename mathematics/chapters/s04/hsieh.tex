@@ -1,0 +1,247 @@
+% S04-M4 (package abhijit/s04-math): dictionary to Hsieh / Longo--Vigni / Hida 1988.
+% Labels: def:s04-Pk, rem:s04-controlb, rem:s04-iota2, def:s04-BN, hyp:s04-CR, thm:s04-Gor, thm:s04-etaB, if:s04-Mord, if:s04-etaB.
+% All page numbers of the Hsieh arXiv file (hsieh_2017_..._arxiv) equal the printed page numbers of that file.
+\section{Dictionary to Hsieh, Longo--Vigni and Hida}
+
+Notation as in \S\ref{ss:s04-notation}. In this section ``[Hs]'' is Hsieh's paper in the file
+\pathtt{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}, whose quaternion algebra is called $D$ (our $B$),
+with $N=N^+N^-$, $N^-=D$ (our discriminant), $N^+=M$. Hsieh's level group $U_1(N)$ consists of $g\in\hat R_N^\times$ with
+$g_q\equiv\left(\begin{smallmatrix}*&*\\0&1\end{smallmatrix}\right)\bmod N$ \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.1, p.~29},
+the same normalisation (bottom row $(0,1)$) as our $\Uone N$, so his $X_\alpha=D^\times\backslash\hat D^\times/U_1(Np^\alpha)$ is our
+$X_\alpha(\Uone M)$. The conventions agree on $U_p$ (as operators on homology and on forms; but the forms-side ordinary projector is $e^*$, not $e$, under
+$\nu$, see the Translation after Def.~\ref{def:s04-BN}, (v)), on the $\Lam$-action on homology (on forms Hsieh's $\Lam$-structure is the
+$\iota_2$-twist, Remark~\ref{rem:s04-iota2}), and on $U_q=\Pi_q$ for $q\mid D$. They agree on the weights, $\#\Gamma_{N,x}=w_x$ (Translation (iv); this differs from the
+import's $|\Gamma_x|$), and differ on forms versus homology, and in the JL matching: Hsieh's $\mathrm{JL}(U_q)=-U_q$ ($q\mid D$) is not imported (Thm.~\ref{thm:s01-lambdaJL},
+Example~\ref{ex:s01-Pi11}).
+
+\subsection{Weights and arithmetic points}
+
+\begin{definition}[arithmetic points in the seed's conventions]\label{def:s04-Pk}
+For $k\ge2$ put $P^{\rm ad}_k:=\ker\big(\Lam\to\cOE,\ [u]\mapsto u^{-(k-2)}\big)$. The seed's $P_k=\ker([u]\mapsto u^{k-2})$ is the
+image of $P^{\rm ad}_k$ under the involution $\iota:[u]\mapsto[u^{-1}]$, i.e.\ it is the right ideal for the $\Lam$-structure via
+\emph{classical} diamonds $\langle u\rangle_{\rm cl}=\langle u\rangle^{-1}$.
+\end{definition}
+\noindent\emph{Justification} \stproved{} (proof below). This matches
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.4, Def.~4.1, p.~31}: there
+$\langle z\rangle_\Lam x:=x\,\mathrm{diag}(z,z)$, which equals our $\langle z\rangle$ on $X_s$ because $\mathrm{diag}(z,1)\in\Kp s$, and
+forms satisfy $f(xz)=f(x)\langle z\rangle^2\langle z\rangle_\Lam^{-1}$. The weight-$k$ point with trivial character at $p$ also requires
+$\mu_{p-1}$ to act by $\omega^{-(k-2)}$.
+\begin{proof}
+Let $n=k-2$, $\mathrm{ev}:\Vk\to\Zp$, $P\mapsto P(0,1)$, with the action $(gP)(X,Y)=P((X,Y)g)$ of stage~01 (\eqref{eq:s01-Vk}), so that for
+$g=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)$, $\mathrm{ev}(gP)=P(c,d)$. As $P$ is homogeneous of degree $n$ with
+$\Zp$-coefficients, $P(c,d)-P(0,d)\in c\Zp$, i.e.
+\[\mathrm{ev}(gP)\equiv d^{\,n}\,\mathrm{ev}(P)\pmod{c}.\]
+Let $F\in\Brandt{U\Kp1}{\Vk}$, so $F(xu)=u_p^{-1}F(x)$ for $u\in U\Kp1$ (the convention of Def.~\ref{def:s01-hecke}), and
+put $f:=\mathrm{ev}\circ F$.
+(i) \emph{$f\bmod p^s$ is a function on $X_s$.} For $u\in\Kp s$, $u^{-1}$ has $c\in p^s\Zp$ and $d\in1+p^s\Zp$, so
+$f(xu)=\mathrm{ev}(u^{-1}F(x))\equiv f(x)\pmod{p^s}$.
+(ii) \emph{Diamonds.} For $d\in\Zp^\times$, $\delta_d=\mathrm{diag}(1,d)\in\Kp1$ iff $d\equiv1\bmod p$; for such $d$,
+$f(x\delta_d)=\mathrm{ev}(\delta_d^{-1}F(x))=F(x)(0,d^{-1})=d^{-n}f(x)$ exactly. So the adelic diamond $\langle d\rangle$, acting on
+functions by $f\mapsto f(\cdot\,\delta_d)$, acts by $d^{-(k-2)}$ on the functions $f$ coming from weight $k$. On $\Zp[X_s]$ the
+homological $\langle d\rangle[x]=[x\delta_d]$ is the transpose of $f\mapsto f(\cdot\,\delta_d)$ for the evaluation pairing, so it acts
+by the same scalar on the dual. Hence the weight-$k$ piece is the one on which $[u]\in\Lam$ acts by $u^{-(k-2)}$, i.e.\ the one killed by
+$P^{\rm ad}_k$; with classical diamonds $\langle u\rangle_{\rm cl}=\langle u\rangle^{-1}$ the same piece is killed by $\iota(P^{\rm ad}_k)=P_k$.
+For $d\in\mu_{p-1}$ the element $\delta_d\notin\Kp1$, but $\delta_d$ normalises $\Kp s$ and the same computation shows that the
+diamond acts on such $f$ by $d^{-n}=\omega(d)^{-(k-2)}$ when $F$ is invariant under $\iota_p^{-1}\Uzero p_p$ (trivial character at $p$).
+(iii) \emph{$U_p$.} $\mathrm{ev}(\varpi_jP)=P((0,1)\varpi_j)=P(0,1)$ exactly, so
+$\mathrm{ev}\big((U_pF)(x)\big)=\sum_j\mathrm{ev}\big(\varpi_jF(x\varpi_j)\big)=\sum_jf(x\varpi_j)$: $\mathrm{ev}$ intertwines $U_p$ on
+$\Vk$-valued forms with the cohomological $U_p$ on $\Zp$-valued functions.
+(iv) \emph{Hsieh.} His $\langle z\rangle_\Lam$ on $\cO[X_\alpha]$ is $x\mapsto x\,\mathrm{diag}(z,z)$; as
+$\mathrm{diag}(z,z)=\delta_z\cdot\mathrm{diag}(z,1)$ with $\mathrm{diag}(z,1)\in\Kp s$, $[x\,\mathrm{diag}(z,z)]=[x\delta_z]=\langle z\rangle[x]$.
+\end{proof}
+
+\begin{remark}[dictionary for Thm.~\ref{thm:s04-control}(b)]\label{rem:s04-controlb}
+Let $U=\Uone M$ (Hsieh treats only these levels; for other $U$ prime to $p$ the source is Hida 1988, Thm.~9.4, whose hypotheses are only
+partly legible, and Thm.~\ref{thm:s04-control}(b) is only \stexp{} there). Then (b) follows from Hsieh's control theorem by the following
+translation. \stpmc{} (cited: [Hs, Thm.~4.2(2)]; the translation is proved here), integrally if $p\nmid\varphi(M)$; for $p\mid\varphi(M)$
+the integral form is \stsketch, see (iv).
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Homology.} Hsieh's $U_p$ on $\cO[X_\alpha]$ is $x\mapsto\sum_bx\left(\begin{smallmatrix}p&b\\0&1\end{smallmatrix}\right)$
+  \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.4, p.~31}, i.e.\ $\NUp$; his $\langle z\rangle_\Lam$ is our
+  $\langle z\rangle$ (Def.~\ref{def:s04-Pk}, (iv)); his diamond $\sigma_d$ is right translation by a central idele $\tilde d$ with components at $p$ and at the $q\mid M$; by the same
+  computation (at $q\mid M$, $\mathrm{diag}(d_2,d_2)=\mathrm{diag}(1,d_2)\,\mathrm{diag}(d_2,1)$ with $\mathrm{diag}(d_2,1)\in\Uone M_q$) it is our
+  adelic $\langle\tilde d\rangle$, $\tilde d=(\omega(d_1),d_2)\in(\Z/p)^\times\times(\Z/M)^\times$, on $\cO[X_\alpha]$; on weight-$k$ forms it is
+  $\omega(d)^{-(k-2)}\langle\tilde d\rangle$ (Lemma~\ref{lem:s01-Upconv}(c)). So his module
+  $\mathbf V^{\rm ord}(N):=\varprojlim_\alpha e\cdot\cO[X_\alpha]$
+  \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{proof of Thm.~4.2, p.~32} is our $\Mord(\Uone M)$, with the
+  same $\Lam[\Delta]$-action and the same $U_p$.
+\item \emph{Forms.} By [Hs, (4.6), p.~31 and p.~32], $eS^D(N,\Lam)=\Hom_\Lam(\mathbf V^{\rm ord}(N),\Lam)\otimes_{\Lam,\iota_2}\Lam$, where the
+  twist $\iota_2$ is the $\cO$-algebra automorphism of $\Lam$ that makes $f(x\,z)=f(x)\langle z\rangle^2\langle z\rangle_\Lam^{-1}$ hold
+  ([Hs, Def.~4.1, p.~31]), i.e.\ $\iota_2([z])=z^2[z]^{-1}$ for $z\in1+p\Zp$ (Remark~\ref{rem:s04-iota2}).
+\item \emph{Points.} An arithmetic point $Q$ of weight $k$ and trivial finite part is $[z]\mapsto z^k$ on $1+p\Zp$
+  \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S1.1, p.~2}. On the untwisted dual
+  $\Hom_\Lam(\Mord,\Lam)$ it becomes $Q\circ\iota_2:[z]\mapsto z^2z^{-k}=z^{-(k-2)}$, whose kernel is $P^{\rm ad}_k$. Since $\Mord$ is
+  $\Lam$-free (Thm.~\ref{thm:s04-control}(a)),
+  $eS^D(N,\Lam)\otimes_{\Lam,Q}\cO\cong\Hom_\Lam(\Mord,\Lam)\otimes_\Lam\Lam/P^{\rm ad}_k=\Hom_\cO(\Mord\otimes_\Lam\Lam/P^{\rm ad}_k,\cO)$.
+  \emph{Warning:} $\Mord\otimes_\Lam\Lam/P^{\rm ad}_k$ is thus $\Hom_\cO(e\,\Brandt{U\Kp1}{\Vk\otimes\cO},\cO)$; it is not the stage-03
+  homological module $\Zp[X]\otimes\Vk$ ($S_\ell=\ell^{2-k}$ there, $\ell^{k-2}$ on the trivial-nebentypus piece here); the two differ by
+  $\Vk$ versus $\Vk^\vee$.
+\item \emph{Specialisation.} [Hs, Thm.~4.2(2), p.~32] identifies $eS^D(N,\chi,\Lam)\otimes\Lam/\wp_Q$ with
+  $eS^D_k(Np,\chi\omega^{2-k},\cO)$ ($\alpha=1$ for trivial finite part), via $f\mapsto f_Q$ with $Q(f(x))=\langle f_Q(x),X^{k-2}\rangle_{k-2}$.
+  By the pairing on $L_\kappa$ of [Hs, \S4.1, p.~29], $\langle P,X^\kappa\rangle_\kappa$ is the coefficient of $Y^\kappa$ in $P$, i.e.\
+  $P(0,1)=\mathrm{ev}(P)$; so Hsieh's specialisation map is our $\mathrm{ev}$ of Def.~\ref{def:s04-Pk}. His $\rho_\kappa(g)P=P((X,Y)g)$ and
+  $f(xu)=\rho_\kappa(u_p^{-1})f(x)$ [Hs, \S4.2, p.~29] are our $\Vk$ and $\Brandt{U}{\Vk}$. Summing over the characters $\chi$ of
+  $\Delta=(\Z/pM)^\times$ (after enlarging $\cO$) gives the whole space of $\Vk$-valued forms of level $\Uone{Mp}=U\Kp1$, which is the
+  first sentence of (b). This step is integral only if $p\nmid|\Delta|$, i.e.\ $p\nmid\varphi(M)$; if $p\mid\varphi(M)$ the $\chi$-pieces
+  are compared through Hsieh's norm maps $N_\chi:eS^D(N,\mathbb I)/P_\chi\cong eS^D(N,\chi,\mathbb I)$ (Thm.~4.2(1), p.~32), and the
+  decomposition holds only after inverting $p$; in that case the integral form of the first sentence of (b) is only \stsketch{} here.
+\item \emph{Character at $p$.} On Hsieh's $\chi$-piece, $\sigma_d$ acts by $\chi^{-1}(d)$; the $\mu_{p-1}$-part of $\sigma_d$ is our
+  $\langle\omega(d)\rangle$. Since the forms are the ($\iota_2$-twisted) $\Lam$-duals of $\Mord$ and $\sigma_d$ acts on them by the
+  transpose of its action on $\Mord$, the forms-side eigenvalue $\chi^{-1}(d)$ corresponds to the piece of $\Mord$ on which
+  $\langle\omega(d)\rangle$ acts by $\chi_p^{-1}(d)$. The specialisation has character $\chi\omega^{2-k}$; its $p$-part is trivial iff $\chi_p=\omega^{k-2}$, i.e.\ iff
+  $\mu_{p-1}$ acts on the $\Mord$-piece by $\omega^{-(k-2)}$, and then the forms are those of level $U\cdot\iota_p^{-1}\Uzero p_p$. This is
+  the second sentence of (b).
+\item \emph{$p$-stabilisation} ($k\ge3$): not checked in our normalisation (\stexp, as in the statement).
+\end{enumerate}
+\lit{longo-vigni\_2011\_control-theorems-for-quaternionic-hida-families\_arxiv}{Thm.~3.7, p.~28} is the same statement on
+eigen-components over the field $F_\kappa$; it is not needed for the translation.
+\end{remark}
+
+\begin{remark}[the twist $\iota_2$]\label{rem:s04-iota2}
+The formula printed in [Hs, p.~31] after (4.6) reads $\iota_2(T)=(1+T)^{-2}(1+p)^2-1$, i.e.\ $\iota_2([1+p])=(1+p)^2[1+p]^{-2}$. This is
+not compatible with the defining property of Def.~4.1 on the same page ($f(xz)=f(x)\langle z\rangle^2\langle z\rangle_\Lam^{-1}$), which
+requires $\iota_2([z])=z^2[z]^{-1}$, i.e.\ $\iota_2(T)=(1+T)^{-1}(1+p)^2-1$: for $\varphi\in\Hom_\Lam(\Mord,\Lam)$ and
+$f:=\iota_2\circ\varphi$ one gets $f(xz)=\iota_2([z])f(x)$. We follow Def.~4.1, which is also what makes (iii) above produce a weight-$k$
+point at all (with the printed exponent, $Q\circ\iota_2$ would be $[z]\mapsto z^{2-2k}$, not of the form $u^{\pm(k-2)}$). \stproved{}
+(as a consistency check of the source); the discrepancy is recorded for the literature notes (S04-M5).
+\end{remark}
+
+\subsection{Hsieh's pairing}
+
+\begin{definition}[Hsieh's twisted $\Lambda$-adic pairing]\label{def:s04-BN}
+Let $N=N^+N^-$ with $N^-=D$, $N^+=M$, and $\chi$ a finite-order character mod $Mp$. For $\Lam$-adic forms $f,f'$ (functions on
+$X_\infty=B^\times\backslash\Bhat^\times/U_1(Mp^\infty)$, Hsieh Def.~4.1) in $eS^D(N,\chi,\mathbb I)$,
+\[B_{N,\alpha}(f,f'):=\sum_{[x]\in X_0(Np^\alpha)}U_p^{-\alpha}f(x\tau^D_{Np^\alpha})\,f'(x)\,\chi_{\mathbb I}(\Nrd x)\,(\#\Gamma_{Np^\alpha,x})^{-1}\pmod{P_\alpha},\qquad
+B_N:=\varprojlim_\alpha B_{N,\alpha},\]
+with $\tau^D$ the Atkin--Lehner element at $N^+p^\alpha$ and $\chi_{\mathbb I}(z)=\chi(z)\langle\varepsilon_{\rm cyc}(z)\rangle^{-2}\langle\varepsilon_{\rm cyc}(z)\rangle_{\mathbb I}$.
+\end{definition}
+\noindent\stcited{} \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.4, ``A perfect pairing'', and
+Def.~4.3, pp.~32--33; finite-level version $\langle f_1,f_2\rangle_N=(f_1,[\tau^D_N]f_2)_N$, \S4.2, p.~30}. Here $P_\alpha$ is the ideal
+generated by $(1+T)^{p^\alpha}-1$ and $\mathbb I$ is a normal domain finite flat over $\Lam$ (p.~31). $B_N$ is Hecke-equivariant
+and perfect; at $k_Q=2$, $B_N(f,f')(Q)=\langle U_p^{-\alpha}f_Q,f'_Q\rangle_{Np^\alpha}$, and in weight $k_Q$ with the extra sign
+$(-1)^{k_Q}$ (Hsieh, Lemma~4.4, p.~33). (The stage tex places the finite-level pairing in ``\S4.3, p.~30''; in the file it is the
+paragraph ``Inner products'' at the end of \S4.2, p.~30.)
+
+\noindent\emph{Translation} \stproved{} (as a reading of the cited definitions; the numerical normalisation of $B_N$ itself is not
+re-derived). (o) Hsieh's homological $U_p$ on $\cO[X_\alpha]$ is $x\mapsto\sum_bx\left(\begin{smallmatrix}p&b\\0&1\end{smallmatrix}\right)$
+(p.~31), i.e.\ $\NUp$, and his $\langle z\rangle_\Lam$ is our $\langle z\rangle$ (Def.~\ref{def:s04-Pk}); his forms are $\Lam$-duals
+twisted by $\iota_2$ ((4.6), p.~31; Remark~\ref{rem:s04-iota2}). So the seed's ``twist by $U_p^{-s}w_{p^s}$'' is right in substance,
+but (i) it lives on a fixed character piece over $\mathbb I$, not on all of $\Mord$, (ii) it needs the Atkin--Lehner element at $M$ as
+well as at $p^\alpha$ ($\tau^D_{N}$ has components at all $q\mid N^+$, p.~30), (iii) it carries the norm twist $\chi_{\mathbb I}(\Nrd x)$,
+and (iv) it uses $\#\Gamma_{Np^\alpha,x}=\#\big((B^\times\cap x\hat R^\times x^{-1})\Q^\times/\Q^\times\big)$ (Hsieh, (4.1), p.~29),
+which is our $w_x$ (stage~01: $w_x=|\Gamma_x/\Gamma_x\cap\{\pm1\}|$), i.e.\ $|\Gamma_x|/2$ at $X_0(Np^\alpha)$ where $-1\in\Gamma_x$ (here $\hat R=\hat R_{Np^\alpha}$); the
+factor $2$ is against $|\Gamma_x|$ (the import's \texttt{Nat.card}), not against $w_x$. Indeed $\Gamma_x\cap\Q^\times=\{\pm1\}$ (an
+element of $\Q^\times\cap x\hat R^\times x^{-1}$ is a unit at every prime), so $\Gamma_x\Q^\times/\Q^\times\cong\Gamma_x/\{\pm1\}$.
+The $\Vk$-pairing of stage~01 (perfect only for $p>k-2$) is \emph{not} used: perfectness comes from the trivial-coefficient tower.
+Note also that the sum defining $B_{N,\alpha}$ runs over $X_0(Np^\alpha)$ (our level $\Uzero{Mp^\alpha}$, maximal at $D$, i.e.\ Hsieh's
+Eichler order $R_{Np^\alpha}$ of level $N^+p^\alpha$; it contains $-1$), not over $X_\alpha$; this is where the weights $(\#\Gamma)^{-1}$
+matter. They are $p$-integral: $p\nmid w_x$ for $p\ge5$ (Lemma~\ref{lem:s01-stab}(c)).
+(v) \emph{$e$ versus $e^*$.} Hsieh's $eS^D$ is the $e$-part for the cohomological $U_p$ ([Hs, p.~30]; $tf(x)=f(xt)$, p.~31). Under the
+Brandt identification $\nu$ it is $e^*\cO[X_\alpha]$, not $e\,\cO[X_\alpha]$ (Lemma~\ref{lem:s04-ekills}(d); $U_p^*=\langle p\rangle_MU'_p$,
+Lemma~\ref{lem:s01-Up}(d)), and $e\ne e^*$ in general (Remark~\ref{rem:s04-eestar}). The twist by $U_p^{-\alpha}$ and the Atkin--Lehner
+element $[\tau^D_{Np^\alpha}]$ intertwines $U_p$ with $U_p^*$; this is what turns the $(e,e^*)$ duality of Lemma~\ref{lem:s04-ekills}(d)
+into a pairing on $eS^D\times eS^D$. Transporting $B_N$ to $\Zp[X_s]$ with the naive pairing $\delta_{xy}$ would pair $e$ with $e$.
+
+\subsection{Residual condition, Gorenstein property and \texorpdfstring{$\eta^B_F$}{eta B F}}
+
+\begin{hypothesis}[Hsieh's residual condition (CR, $\mathrm{supp}\,D$)]\label{hyp:s04-CR}
+Let $\m\subset\TordB(U)$, $U=\Uone M$, be a maximal ideal with residual representation $\bar\rho_\m:G_\Q\to\GL_2(\bar\F_p)$
+(attached via \pathtt{if:s01-targets}). (CR$_D$): $\bar\rho_\m$ is absolutely irreducible (in particular $\m$ is non-Eisenstein),
+\emph{$p$-distinguished} ($\bar\rho_\m|_{G_{\Qp}}^{\rm ss}=\chi^+\oplus\chi^-$ with $\chi^+\ne\chi^-$), and ramified at every prime
+$\ell\mid D$ with $\ell\equiv1\pmod p$.
+\end{hypothesis}
+\noindent\lean{Langlandscape.Hyp.HsiehCR} (schematic, on abstract residual data: $\chi^\pm$, absolute irreducibility and ramification are data; a condition, never discharged; test
+\lean{LanglandscapeTests.S04.Hyp.hsiehCR\_toy}); no Lean theorem uses it. \stcited{} \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S1.4, Hypothesis (CR,$\Sigma$),
+p.~4, with $\Sigma=\mathrm{supp}(N^-)$ as in Thm.~4.5}. Note: $\ell\equiv1$, not $\ell\equiv\pm1$; ``non-Eisenstein'' is implied by
+absolute irreducibility and need not be listed separately. On the same page Hsieh recalls that under (CR) the relevant local
+component of the $\GL_2$ ordinary Hecke algebra is Gorenstein, citing [MW86, \S9, Prop.~2] and
+\lit{wiles\_1995\_modular-elliptic-curves-and-fermats-last-theorem}{Cor.~2, p.~482}.
+
+\begin{theorem}[Gorenstein and freeness; \texttt{if:s04-Mord}, second half]\label{thm:s04-Gor}
+Let $p>3$, $p\nmid MD$, $N=MD$, and let $F\in eS(N,\chi,\mathbb I)$ be an ordinary $\Lam$-adic newform of tame conductor $N$ with
+$\mathrm{supp}\,N^-\subseteq\Sigma^0_F$ (discrete series at every $\ell\mid D$; Hsieh's hypothesis for the factorisation of
+$\lambda_F$ through JL, [Hs, \S4.5, p.~34]), satisfying (CR, $\mathrm{supp}\,N^-$) (Hyp.~\ref{hyp:s04-CR}). Let $\m_F\subset\T^D(N,\mathbb I)$
+be the maximal ideal containing $\ker\lambda^D_F$ (above the maximal ideal $\m$ of Hyp.~\ref{hyp:s04-CR}; all localisations below are
+at $\m_F$, of $\T^D(N,\mathbb I)$-modules). Then:
+\begin{enumerate}[label=(\roman*)]
+\item Hsieh's $eS^D(N,\mathbb I)_{\m_F}$ is free of rank one over $\T^D(N,\mathbb I)_{\m_F}$ (proof of [Hs, Thm.~4.5]);
+\item $eS^D(N,\chi,\mathbb I)_{\m_F}$ is free of rank one over $\T^D(N,\chi,\mathbb I)_{\m_F}$, and $\T^D(N,\chi,\mathbb I)_{\m_F}$ is
+  Gorenstein (ibid.);
+\item the eigenline $eS^D(N,\mathbb I)[\lambda^D_F]$ is free of rank one over $\mathbb I$ (its generator $F^D$: the primitive JL lift)
+  ([Hs, Thm.~4.5]);
+\item if moreover $p\nmid\varphi(M)$, then $\T^D(N,\mathbb I)_{\m_F}=\T^D(N,\chi,\mathbb I)_{\m_F}$ is Gorenstein, and
+  $(\Mord(\Uone M)\otimes_\Lam\mathbb I)_{\m_F}$, which is the $\iota_2$-twisted $\mathbb I$-dual of $eS^D(N,\mathbb I)_{\m_F}$
+  (Remark~\ref{rem:s04-iota2}), is free of rank one over $\T^D(N,\mathbb I)_{\m_F}$.
+\end{enumerate}
+If $p\mid\varphi(M)$, Gorenstein-ness of the full $\T^D(N,\mathbb I)_{\m_F}$ and the homological freeness in (iv) are not cited and
+not proved here (\stexp). For other $\m$ satisfying (CR$_D$) (old at $M$, or of smaller conductor) the conclusions are \stexp{}
+(cf.\ [Wil95, Thm.~2.1], [Hel07, Cor.~8.11]; not checked here).
+\end{theorem}
+\noindent Registered in Lean as the hypothesis \lean{Langlandscape.Hyp.HsiehGor} (cited, not discharged; used by \lean{Langlandscape.Defect.Setting.gor\_new}, stage~6, which instantiates it over $\Lambda$).
+\noindent\stcited{} (i)--(iii) \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Thm.~4.5 and its proof, p.~34};
+(iv) \stproved{} from (ii): if $p\nmid\varphi(M)$, the torsion of the diamond group, of order $(p-1)\varphi(M)$, is prime to $p$, so
+(after enlarging $\cO$) its idempotents lie in $\T^D(N,\mathbb I)$ and $eS^D(N,\mathbb I)=\bigoplus_{\chi'}eS^D(N,\chi',\mathbb I)$; the
+characters $\chi'$ have distinct reductions (orders prime to $p$), so exactly one idempotent, that of $\chi$, survives in the local ring
+$\T^D(N,\mathbb I)_{\m_F}$, giving $\T^D(N,\mathbb I)_{\m_F}=\T^D(N,\chi,\mathbb I)_{\m_F}$; dualising a free rank-one module over a
+Gorenstein ring gives a free rank-one module. The proof of Thm.~4.5 cites [Wil95, Thm.~2.1], [Hel07, Cor.~8.11, Rem.~8.12]
+(\lit{helm\_2004\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves\_arxiv}{Cor.~8.11 and Rem.~8.12, p.~31; journal
+version p.~110, not checked on this node}) and [PW11, Prop.~6.4, 6.5]
+(\lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{Prop.~6.4, p.~19; Prop.~6.5, p.~20}); the
+freeness statement itself there is PW Thm.~6.2, p.~19, transported to the definite side by Prop.~6.5 (Prop.~6.4 is the self-pairing
+statement, conditional on freeness). The inputs carry their own hypotheses (PW's CR; Helm's ``controllable'' $\m$; Wiles' Thm.~2.1);
+that (CR, $\mathrm{supp}\,N^-$) suffices for this chain is Hsieh's claim and is not re-verified here. Gorenstein
+follows from freeness plus the perfect pairing $B_N$. The freeness in (i), (ii) is in the \emph{proof}, not the statement, of
+Thm.~4.5 (seed cites only ``Thm.~4.5''), and Hsieh states Gorenstein only for the $\chi$-piece $\T^D(N,\chi,\mathbb I)_{\m_F}$. Passing between $\Mord$ (homological) and $eS^D$ (forms) uses Hsieh (4.6) and
+Thm.~4.2(1); dualising a free rank-one module over a Gorenstein ring is again free of rank one.
+
+\noindent\emph{How the Gorenstein half follows from freeness} \stproved{} (given the cited freeness and the cited properties of $B_N$).
+Let $T:=\T^D(N,\chi,\mathbb I)_{\m_F}$ and $H:=eS^D(N,\chi,\mathbb I)_{\m_F}$, free of rank one over $T$ ([Hs, proof of Thm.~4.5] together with
+Thm.~4.2(1)). $B_N$ is $\mathbb I$-bilinear, perfect and Hecke-equivariant on $eS^D(N,\chi,\mathbb I)$ (Def.~\ref{def:s04-BN}); the
+decomposition $eS^D(N,\chi,\mathbb I)=\bigoplus_{\m'}eS^D(N,\chi,\mathbb I)_{\m'}$ is given by idempotents of the Hecke algebra, which are
+self-adjoint, so it is $B_N$-orthogonal and $B_N$ restricts to a perfect equivariant pairing on $H$. Then Prop.~\ref{prop:s04-etaprinciple}(a)
+(with $A=\mathbb I$, $S=T$, $M=H$; $T$ is $\mathbb I$-free since it is isomorphic to $H$, a direct summand of the $\mathbb I$-free module
+$eS^D(N,\chi,\mathbb I)$ over the local ring $\mathbb I$) shows that $T$ is Gorenstein over $\mathbb I$ in the sense
+$T\cong\Hom_{\mathbb I}(T,\mathbb I)$ as $T$-modules. ($\mathbb I$ is local, being a domain finite over the complete local ring $\Lam$.)
+
+\begin{theorem}[$\eta^B_F$ as a self-pairing; \texttt{if:s04-etaB}]\label{thm:s04-etaB}
+Under Hyp.~\ref{hyp:s04-CR}, let $F$ be a primitive $\mathbb I$-adic family of tame conductor $N=MD$ with residual ideal $\m$ and $\m_F$ as in Thm.~\ref{thm:s04-Gor}, $F^D$ a
+generator of its eigenline (Thm.~\ref{thm:s04-Gor}), $\lambda^D_F:\T^D(N,\chi,\mathbb I)\to\mathbb I$ its eigensystem, and
+$\eta^B_F:=\eta(\T^D(N,\chi,\mathbb I)_{\m_F},\lambda^D_F)=\lambda^D_F(\Ann\ker\lambda^D_F)$ (seed \S2.6). Then
+\[\eta^B_F=\big(B_N(F^D,F^D)\big)\subseteq\mathbb I .\]
+Moreover $(\eta^B_F)\supseteq(\eta_F)$ (the $\GL_2$ congruence ideal), with equality if $\bar\rho_\m$ is ramified at all $\ell\mid D$.
+\end{theorem}
+\noindent\stcited{} \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Def.~4.12, p.~43 ($\eta_{F^D}:=B_{N_F}(F^D,F^D)$);
+Remark~7.8, p.~71 (it generates the congruence ideal of $\lambda_f:\T^D(N,\psi,\mathbb I)\to\mathbb I$ under (CR,$\Sigma^-$), and
+$(\eta_{f^D})\supseteq(\eta_f)$, equality if ramified at all $\ell\in\Sigma^-$)}. The general principle (free rank one over Gorenstein
++ perfect equivariant pairing $\Rightarrow$ congruence ideal $=$ self-pairing of a generator) is proved below as pure commutative
+algebra, Prop.~\ref{prop:s04-etaprinciple} (cf.\ \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Remark~7.3,
+p.~67: $T$ Gorenstein, $H$ free of rank $d$ with perfect equivariant pairing $\Rightarrow C(\lambda)^d=(\det\langle e_i,e_j\rangle)$}). This is
+a statement about $B$ alone; the comparison with $\eta_F$ is the input to stage 06.
+
+\noindent\emph{Proof of the first claim from Thm.~\ref{thm:s04-Gor}} \stpmc. Apply Prop.~\ref{prop:s04-etaprinciple} with $A=\mathbb I$,
+$S=T=\T^D(N,\chi,\mathbb I)_{\m_F}$ ($\mathbb I$-free, see above), $M=H=eS^D(N,\chi,\mathbb I)_{\m_F}$ with an isomorphism $H\cong T$
+(Thm.~\ref{thm:s04-Gor}), $B=B_N|_{H\times H}$ (perfect and $T$-equivariant, see above), $\mu=\lambda^D_F$ (an $\mathbb I$-algebra map, as
+$\ker\lambda^D_F\subseteq\m_F$), and $m_0=F^D$: the eigenline $H[\lambda^D_F]=\{m:tm=\lambda^D_F(t)m\ \forall t\}$ is
+$eS^D(N,\chi,\mathbb I)_{\m_F}[\lambda^D_F]=\mathbb I F^D$ by Thm.~\ref{thm:s04-Gor} (Hsieh's eigenline is defined with all of
+$\T^D(N,\mathbb I)$, and $T$ is generated by the images of the same operators). The conclusion
+$\mathrm{congruenceIdeal}(\lambda^D_F)=\lambda^D_F(\Ann_T\ker\lambda^D_F)=\big(B_N(F^D,F^D)\big)$ is the first claim. The second claim
+(comparison with $\eta_F$) is only cited.
+
+\begin{interface}[\texttt{if:s04-Mord}]\label{if:s04-Mord}
+$\Mord(U):=\varprojlim_se\,\Zp[X_B(UU_s)]$ ($UU_s=U^{(p)}\times\Uone{p^s}_p$, pushforward, $U_p=\NUp$), with $\Lam$ acting by adelic
+diamonds and arithmetic ideals $P^{\rm ad}_k=\ker([u]\mapsto u^{2-k})$ (Def.~\ref{def:s04-Pk}). $\Lam$-freeness and control
+(Thm.~\ref{thm:s04-control}: (a) \stproved{} by Lemma~\ref{lem:s04-hida}, also cited [Hs, Thm.~4.2], [LV11, Prop.~3.6]; (b) for
+$U=\Uone M$ only, cited [Hs, Thm.~4.2], [LV11, Thm.~3.7], integrally if $p\nmid\varphi(M)$ (otherwise the integral form is \stsketch);
+(b) for general $U$ \stexp, Hida 1988).
+Under Hyp.~\ref{hyp:s04-CR} (CR$_D$: $\bar\rho_\m$ absolutely irreducible, $p$-distinguished, ramified at all $\ell\mid D$ with
+$\ell\equiv1\bmod p$) and for $\m_F\subset\T^D(N,\mathbb I)$, $F$ an ordinary newform of tame conductor $MD$ with $\mathrm{supp}\,N^-\subseteq\Sigma^0_F$:
+$\T^D(N,\chi,\mathbb I)_{\m_F}$ is Gorenstein and $eS^D(N,\chi,\mathbb I)_{\m_F}$ is free of rank one over it (cited [Hs, Thm.~4.5 and
+proof]); if moreover $p\nmid\varphi(M)$, $\T^D(N,\mathbb I)_{\m_F}$ is Gorenstein and $(\Mord\otimes_\Lam\mathbb I)_{\m_F}$ is free of rank
+one over it (Thm.~\ref{thm:s04-Gor}(iv)); for $p\mid\varphi(M)$ or general $\m$ \stexp.
+\end{interface}
+\begin{interface}[\texttt{if:s04-etaB}]\label{if:s04-etaB}
+Thm.~\ref{thm:s04-etaB}: $\eta^B_F=(B_N(F^D,F^D))$ for Hsieh's twisted pairing $B_N$ (Def.~\ref{def:s04-BN}) on the $\chi$-piece over
+$\mathbb I$, under Hyp.~\ref{hyp:s04-CR}; and $(\eta^B_F)\supseteq(\eta_F)$ with equality if $\bar\rho_\m$ is ramified at all $\ell\mid D$.
+Status \stcited{} [Hs, Def.~4.12, Rem.~7.8]; the first equality is also \stpmc{} from Thm.~\ref{thm:s04-Gor} and
+Prop.~\ref{prop:s04-etaprinciple}.
+\end{interface}

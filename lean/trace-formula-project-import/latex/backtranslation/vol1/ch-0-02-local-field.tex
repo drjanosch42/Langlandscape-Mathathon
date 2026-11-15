@@ -1,0 +1,281 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-02-local-field (parent commit 84818d0); kept items only.
+\chapter{Non-archimedean local fields}\label{ch:ch-0-02-local-field}
+
+\noindent\emph{Sources:} \cite{Corv-ptIII-1}; Cassels--Fr\"ohlich Ch.~XV; \cite[§1]{Cas-p}.
+
+\section{\texorpdfstring{The interface \texttt{NALF}}{The interface NALF}}
+\begin{definition}[non-archimedean local field]
+\tfstmt{I.lf.def:nalf}
+\lean{GL2TF.Local.IsNALF}
+\end{definition}
+\begin{tfformal}{I.lf.def:nalf}
+\tfsem{I.lf.def:nalf}{40077095115d1c90c586fb97c004f5fff78b25a9459d59b4ff332fafec3f3701}
+\tfhyps{I.lf.def:nalf}{}
+\tfbinder{I.lf.def:nalf}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:nalf}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:nalf}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:nalf}{3}{ccb181dd}{the topology of $F$}
+\begin{tffidelity}
+The snippet describes a non-archimedean local field by a topology and a valuation $v$ up to equivalence with the conditions (i)--(iii). Lean takes Mathlib's class \texttt{IsNonarchimedeanLocalField}, which extends \texttt{IsValuativeTopology} (the topology is the one defined by the valuation, condition (i)), \texttt{ValuativeRel.IsNontrivial} (condition (ii)) and \texttt{LocallyCompactSpace} (condition (iii)). The valuation up to equivalence is the instance \texttt{ValuativeRel F}, which is a binder. \texttt{IsNALF} is a reducible alias of this class, a \texttt{Prop}; it appears in all later statements as the instance binder \texttt{[IsNALF F]}. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning. That $\mathfrak p_F=\{x:v(x)<1\}$ is the maximal ideal of $\Ocal_F$ (\texttt{IsLocalRing.maximalIdeal 𝒪[F]}) is a library fact rather than a definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\Qp$ as a non-archimedean local field]
+\tfstmt{I.lf.def:padic-nalf-instance}
+\lean{GL2TF.Local.padic_isNALF}
+\uses{I.lf.def:nalf,I.lf.lem:padic-valuative-topology}
+\end{definition}
+\begin{tfformal}{I.lf.def:padic-nalf-instance}
+\tfsem{I.lf.def:padic-nalf-instance}{acdce7b1a39a58585b82e72722b48bb3e8ee1ffd93e927e24833c56305696e7a}
+\tfhyps{I.lf.def:padic-nalf-instance}{}
+\tfbinder{I.lf.def:padic-nalf-instance}{0}{cf3d1075}{the prime $p$ (a natural number)}
+\tfbinder{I.lf.def:padic-nalf-instance}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+The snippet's prime $p$ is the implicit binder \texttt{p : ℕ} with the instance \texttt{Fact (Nat.Prime p)}. $\Qp$ is \texttt{ℚ\_[p]} with the valuative relation \texttt{Padic.mulValuation} (the multiplicative form of the $p$-adic valuation, equivalent to $\abs{\cdot}_p$) and the metric topology provided by Mathlib. The condition that the metric topology is the valuative topology is the B-only \cref{I.lf.lem:padic-valuative-topology}; local compactness and non-triviality are taken from the library. The statement is Prop-valued (an \texttt{instance}), with proof content only.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The instance is the structure \texttt{IsNonarchimedeanLocalField ℚ\_[p]} with empty body: its three fields are found by instance search, namely \texttt{IsValuativeTopology} from \cref{I.lf.lem:padic-valuative-topology}, and \texttt{LocallyCompactSpace} and \texttt{ValuativeRel.IsNontrivial} from Mathlib. A's proof of local compactness (the ball $x_0+\Zp$) is therefore replaced by the library fact.
+\end{proof}
+
+\begin{lemma}[the $p$-adic topology is the valuative topology]
+\tfstmt{I.lf.lem:padic-valuative-topology}
+\bonly
+\lean{GL2TF.Local.padic_isValuativeTopology}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:padic-valuative-topology}
+\tfsem{I.lf.lem:padic-valuative-topology}{549c08eb6735ae6759233f1dc07e20067b975b61a6b4a88d38f091337f877272}
+\tfhyps{I.lf.lem:padic-valuative-topology}{}
+\tfbinder{I.lf.lem:padic-valuative-topology}{0}{cf3d1075}{the prime $p$ (a natural number)}
+\tfbinder{I.lf.lem:padic-valuative-topology}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only plumbing. Lean states \texttt{IsValuativeTopology ℚ\_[p]}: the open neighbourhoods of $0$ are exactly the sets containing a ball $\{x:v(x)<\gamma\}$, which is how Mathlib phrases ``the topology is defined by the valuation''. The snippet paraphrases this as the equality of the metric and the valuation neighbourhood bases; the translation is not literal but equivalent. The prime is the implicit binder \texttt{p} with \texttt{Fact (Nat.Prime p)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Mathlib's criterion \texttt{IsValuativeTopology.of\_mem\_nhds\_zero\_iff\_vle} is applied to \texttt{Padic.mulValuation}. Auxiliary step (\texttt{padic\_mulValuation\_lt\_iff}): $\texttt{mulValuation}\,x<\texttt{mulValuation}\,y\iff\norm{x}<\norm{y}$, via $\norm{x}=p^{-\operatorname{val}x}$. ($\Rightarrow$) a ball of radius $\varepsilon$ contains the set $\{v<v(p^n)\}$ for $n$ with $\norm{p}^n<\varepsilon$. ($\Leftarrow$) a bound $\gamma$ is a quotient $v(r)/v(t)$ of values of non-zero elements, and the ball of radius $\norm{r/t}$ lies in $\{v<\gamma\}$. This is the argument of the proof of \cref{I.lf.def:padic-nalf-instance} in A, with the base of balls replaced by the library's neighbourhood criterion.
+\end{proof}
+
+\begin{lemma}[$F$ is Hausdorff]
+\tfstmt{I.lf.lem:nalf-t2}
+\bonly
+\lean{GL2TF.Local.t2Space}
+\uses{I.lf.def:nalf}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:nalf-t2}
+\tfsem{I.lf.lem:nalf-t2}{e46ebef7c51046a57a4b382b022724f5dba4a87ca494ddcaf1471aaf108ff5b0}
+\tfhyps{I.lf.lem:nalf-t2}{}
+\tfbinder{I.lf.lem:nalf-t2}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.lem:nalf-t2}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.lem:nalf-t2}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.lem:nalf-t2}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.lem:nalf-t2}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The Lean statement is the instance \texttt{T2Space F}, Hausdorff for the topology of $F$; no difference.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The valuation has rank one (\texttt{IsRankLeOne}, embedded into $\R$), so the uniform structure of the additive group makes $F$ a nontrivially normed field (\texttt{Valued.toNontriviallyNormedField}); a metric space is Hausdorff, found by \texttt{inferInstance}.
+\end{proof}
+
+\begin{definition}[uniformizer]
+\tfstmt{I.lf.def:uniformizer}
+\lean{GL2TF.Local.unif}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:uniformizer}
+\tfsem{I.lf.def:uniformizer}{4abba01790554349fa0b7ead23afa8773ff3faf7ce52f13dec2fca278765f3f5}
+\tfhyps{I.lf.def:uniformizer}{}
+\tfbinder{I.lf.def:uniformizer}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:uniformizer}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:uniformizer}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:uniformizer}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:uniformizer}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The snippet fixes ``once and for all'' a uniformizer $\unif\in\Ocal_F$ with $\mathfrak p_F=\unif\Ocal_F$. Lean defines \texttt{unif F : 𝒪[F]} as \texttt{Classical.choose} of the existence statement $\exists\varpi\in\Ocal_F,\ \mathfrak p_F=\varpi\Ocal_F$, which holds since $\Ocal_F$ is a discrete valuation ring. The defining property is recorded in \cref{I.cartan.lem:maximal-ideal-eq-span-unif}. The choice is not canonical, as in A; all statements are about this fixed choice. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{Classical.choose} of $\exists\varpi\in\Ocal_F,\ \mathfrak p_F=\varpi\Ocal_F$; the witness is an irreducible element of the discrete valuation ring $\Ocal_F$ (\texttt{IsDiscreteValuationRing.exists\_irreducible}), and an irreducible generates the maximal ideal (\texttt{hϖ.maximalIdeal\_eq}). A proof helper \texttt{irreducible\_unif} records that the choice is irreducible.
+\end{proof}
+
+\begin{definition}[residue cardinality]
+\tfstmt{I.lf.def:residue-cardinality}
+\lean{GL2TF.Local.q}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:residue-cardinality}
+\tfsem{I.lf.def:residue-cardinality}{4db8e2b2767a2f017c4e696ebe2496801b151f6cb039567d07b6367d8621fad3}
+\tfhyps{I.lf.def:residue-cardinality}{}
+\tfbinder{I.lf.def:residue-cardinality}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:residue-cardinality}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:residue-cardinality}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:residue-cardinality}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:residue-cardinality}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+Lean defines $q_F$ as \texttt{Nat.card 𝓀[F]}, the cardinality of the residue field as a natural number. The value of \texttt{Nat.card} on an infinite type is $0$; this does not matter here, because the residue field of a non-archimedean local field is finite (a library fact, as in the remark of the readable edition). The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[unit--uniformizer decomposition]
+\tfstmt{I.lf.thm:unit-uniformizer-decomposition}
+\lean{GL2TF.Local.unit_uniformizer_decomposition}
+\uses{I.lf.def:nalf,I.lf.def:uniformizer}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:unit-uniformizer-decomposition}
+\tfsem{I.lf.thm:unit-uniformizer-decomposition}{552852e22e232bb0648aca9613b501c89b21bb831d07f1489233280fa7cd5dc0}
+\tfhyps{I.lf.thm:unit-uniformizer-decomposition}{}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{5}{a6a506ac}{the element $x\in F$}
+\tfbinder{I.lf.thm:unit-uniformizer-decomposition}{6}{fe68a984}{the hypothesis $x\neq0$}
+\begin{tffidelity}
+The pair $(u,n)\in\Ocal_F^\times\times\Z$ is \texttt{un : 𝒪[F]ˣ × ℤ}; $u$ is coerced to $F$ via $\Ocal_F^\times\to\Ocal_F\to F$, and $\unif^n$ is the integer power in $F$ of the image of \texttt{unif F}. ``For every $x\in F^\times$'' is the pair of binders $x\in F$ and $x\neq0$. Uniqueness is \texttt{∃!}. No difference otherwise. The snippet's $\Ocal_F$, $\mathfrak p_F$ and $k_F$ are written in Lean with Mathlib's notation \texttt{𝒪[F]}, \texttt{𝓂[F]}, \texttt{𝓀[F]} for the valuation ring \texttt{(ValuativeRel.valuation F).integer}, its maximal ideal and its residue field; the snippet defines these objects from the valuation, Lean uses the library's names for the same objects, so there is no difference of meaning.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Existence: either $v(x)\le1$ or $v(x^{-1})\le1$ (\texttt{Valuation.val\_le\_one\_or\_val\_inv\_le\_one}). In the first case the discrete valuation ring lemma \texttt{eq\_unit\_mul\_pow\_irreducible} gives $x=u\unif^n$ with $n\ge0$; in the second it is applied to $x^{-1}$ and inverted, giving $(u^{-1},-n)$. Uniqueness: applying $v$ gives $v(\unif)^n=v(\unif)^m$ with $0<v(\unif)<1$, hence $n=m$, and then $u=u'$ by cancelling $\unif^n\neq0$. As in A.
+\end{proof}
+
+\begin{theorem}[second countability]
+\tfstmt{I.lf.thm:nalf-second-countable}
+\lean{GL2TF.Local.secondCountableTopology}
+\uses{I.lf.def:nalf}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:nalf-second-countable}
+\tfsem{I.lf.thm:nalf-second-countable}{cce64c28ad895e0f5802cf6d5cc7ff2bcba6a633ff358bbf77fb7d1a13a78015}
+\tfhyps{I.lf.thm:nalf-second-countable}{}
+\tfbinder{I.lf.thm:nalf-second-countable}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:nalf-second-countable}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:nalf-second-countable}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:nalf-second-countable}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:nalf-second-countable}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The Lean statement is \texttt{SecondCountableTopology F}, the library's notion for the topology of $F$. It is declared as an \texttt{instance}, the statement being the one of the snippet. The explicit and instance binders are exactly the ones listed in the binder table; no further assumption is hidden in the statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Same set-up as \cref{I.lf.lem:nalf-t2}: $F$ becomes a nontrivially normed field and, being locally compact, a proper space (\texttt{ProperSpace.of\_nontriviallyNormedField\_of\_weaklyLocallyCompactSpace}); a proper metric space is second countable (\texttt{secondCountable\_of\_proper}). \emph{Deviation from A:} A's proof is elementary, writing $F=\bigcup_m\unif^{-m}\Ocal$ with finitely many cosets of $\unif^n\Ocal$ in $\unif^{-m}\Ocal$; the Lean proof uses the library route.
+\end{proof}
+
+
+\section{Normalized absolute value and Haar measure}
+
+\begin{definition}[normalized absolute value]
+\tfstmt{I.lf.def:normalized-abs}
+\lean{GL2TF.Local.normAbs}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.lf.def:normalized-abs}
+\tfsem{I.lf.def:normalized-abs}{b381fe349103fd956724b0fafbac79e70077b84dd447697edab62a871f71e855}
+\tfhyps{I.lf.def:normalized-abs}{}
+\tfbinder{I.lf.def:normalized-abs}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.def:normalized-abs}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.def:normalized-abs}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.def:normalized-abs}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.def:normalized-abs}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.def:normalized-abs}{5}{a6a506ac}{the element $a\in F$}
+\begin{tffidelity}
+Lean defines $\abs{a}_F$ as Mathlib's \texttt{distribHaarChar F (Units.mk0 a h)} (the modulus character, which does not involve a Haar measure), with value $0$ at $a=0$, as a function \texttt{F → ℝ}. The measure $\mu$ of the snippet therefore does not occur in the definition; its independence from $\mu$ is built in. That $\mu(aE)=\abs{a}_F\mu(E)$ is \texttt{I.lf.thm:haar-scaling}. The value is a real number, and positivity on $F^\times$ is not part of the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[absolute value of the uniformizer]
+\tfstmt{I.lf.thm:abs-uniformizer}
+\lean{GL2TF.Local.normAbs_uniformizer}
+\uses{I.lf.def:normalized-abs,I.lf.def:uniformizer,I.lf.def:residue-cardinality,I.lf.def:nalf,I.lf.lem:nalf-t2,I.lf.thm:nalf-second-countable,I.lf.thm:unit-uniformizer-decomposition}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:abs-uniformizer}
+\tfsem{I.lf.thm:abs-uniformizer}{d947f09fe5a4a76e2d491d65df766144afa85d7d19ae89476a4f65495ae69404}
+\tfhyps{I.lf.thm:abs-uniformizer}{}
+\tfbinder{I.lf.thm:abs-uniformizer}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:abs-uniformizer}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:abs-uniformizer}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:abs-uniformizer}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:abs-uniformizer}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\begin{tffidelity}
+$q$ is \texttt{q F}, the residue cardinality coerced to $\R$, and $\unif$ is \texttt{unif F}. ``$x\in\Ocal_F^\times$'' is rendered as \texttt{∃ u : 𝒪[F]ˣ, ↑u = x}. The clauses $\abs{x}_F\le1\iff x\in\Ocal_F$ and $\abs{x}_F=1\iff x\in\Ocal_F^\times$ are stated for all $x\in F$, including $x=0$ (they hold there as well); the snippet states them for $x\in F^\times$. The power $q^{-n}$ is a \texttt{zpow} in $\R$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Helper facts (all about \texttt{distribHaarChar}, the modulus character of the additive group, on which $|\cdot|_F$ is defined): $|u|_F=1$ for $u\in\mathcal O_F^\times$ and $|\varpi|_F=q^{-1}$ (\texttt{normAbs\_unit\_unif}). The latter uses that $\mathcal O_F$ is the disjoint union of $q$ cosets of $\varpi\mathcal O_F$ (\texttt{measure\_integer\_eq\_q\_mul}) together with $\mu(\varpi E)=|\varpi|_F\mu(E)$. Multiplicativity of the modulus then gives $|u\varpi^n|_F=q^{-n}$ (\texttt{normAbs\_unit\_mul\_unif\_zpow}). The two equivalences follow by writing $x=u\varpi^n$ by \cref{I.lf.thm:unit-uniformizer-decomposition}: $x\in\mathcal O_F\iff n\ge0\iff q^{-n}\le1$, and $q^{-n}=1\iff n=0$ because $q>1$ (\texttt{one\_lt\_q}); $x=0$ is treated separately.
+\end{proof}
+
+\begin{theorem}[multiplicativity and the ultrametric inequality]
+\tfstmt{I.lf.thm:abs-multiplicative}
+\lean{GL2TF.Local.normAbs_multiplicative}
+\uses{I.lf.def:normalized-abs,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.lf.lem:nalf-t2,I.lf.thm:abs-uniformizer,I.lf.thm:nalf-second-countable,I.lf.thm:unit-uniformizer-decomposition}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:abs-multiplicative}
+\tfsem{I.lf.thm:abs-multiplicative}{fda7767d8734e6b5e0bad4650e15223e821930edc0f312522beb6807ddac1e9b}
+\tfhyps{I.lf.thm:abs-multiplicative}{}
+\tfbinder{I.lf.thm:abs-multiplicative}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.lf.thm:abs-multiplicative}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.lf.thm:abs-multiplicative}{5}{a6a506ac}{the element $a\in F$}
+\tfbinder{I.lf.thm:abs-multiplicative}{6}{b99c2c68}{the element $b\in F$}
+\begin{tffidelity}
+Three clauses as in A, for all $a,b\in F$; the maximum is taken in $\R$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Multiplicativity for $a,b\ne0$ is multiplicativity of \texttt{distribHaarChar}; if one factor is $0$ both sides vanish. $|a|_F=0\iff a=0$: positivity of \texttt{distribHaarChar}. Ultrametric inequality: for $a=u\varpi^m$, $b=u'\varpi^k$ with $m\le k$ one has $a+b=\varpi^m(u+u'\varpi^{k-m})$ with the second factor in $\mathcal O_F$, so $|a+b|_F\le q^{-m}=\max$ (\texttt{normAbs\_add\_le\_of\_le}); the cases $a=0$, $b=0$ and $k\le m$ (by commutativity) are handled separately.
+\end{proof}
+
+\begin{theorem}[the absolute value on $\Qp$]
+\tfstmt{I.lf.thm:abs-padic-eq}
+\lean{GL2TF.Local.normAbs_padic}
+\uses{I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.def:nalf,I.lf.def:padic-measurable-space,I.lf.lem:padic-borel-space}
+\end{theorem}
+\begin{tfformal}{I.lf.thm:abs-padic-eq}
+\tfsem{I.lf.thm:abs-padic-eq}{0d422e38f87e343ce1844722b45d5b402468496488b4b6d2d0a4a3af49be89dd}
+\tfhyps{I.lf.thm:abs-padic-eq}{}
+\tfbinder{I.lf.thm:abs-padic-eq}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.thm:abs-padic-eq}{1}{31f64cb4}{the assumption that $p$ is prime (A: $F=\Qp$ for a prime $p$)}
+\tfbinder{I.lf.thm:abs-padic-eq}{2}{9cb71556}{the element $x\in\Qp$}
+\begin{tffidelity}
+$p$ is an implicit natural number with the instance \texttt{Fact (Nat.Prime p)}; $F=\Qp$ is \texttt{ℚ\_[p]} with the non-archimedean local field structure of \cref{I.lf.def:padic-nalf-instance}. The right side is Mathlib's norm \texttt{‖x‖} on \texttt{ℚ\_[p]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs from A (see the parent repository's notes, item \texttt{abs-padic-eq}): not through \cref{I.lf.thm:abs-uniformizer}. Units of $\Z_p$ have $|u|_{\Q_p}=1$ (\texttt{normAbs\_padicInt\_unit}, the closed unit ball is preserved by $u$). Counting cosets, $\Z_p=\bigsqcup_{a=0}^{p-1}(a+p\Z_p)$ so $dx(\Z_p)=p\,dx(p\Z_p)$ (\texttt{padic\_measure\_closedBall\_one}), hence $|p|_{\Q_p}=p^{-1}$ (\texttt{normAbs\_padic\_p}). For $x\ne0$ write $x=p^{v}u$ with $u=xp^{-v}$ of norm $1$; multiplicativity of \texttt{distribHaarChar} gives $|x|_{\Q_p}=p^{-v}=\|x\|$.
+\end{proof}
+
+\begin{definition}[the Borel $\sigma$-algebra of $\Qp$]
+\tfstmt{I.lf.def:padic-measurable-space}
+\bonly
+\lean{GL2TF.Local.padic_measurableSpace}
+\end{definition}
+\begin{tfformal}{I.lf.def:padic-measurable-space}
+\tfsem{I.lf.def:padic-measurable-space}{b562eae6eb9520e4f88e827292cb27142ef4db6a240d706aaa418738879ca51b}
+\tfhyps{I.lf.def:padic-measurable-space}{}
+\tfbinder{I.lf.def:padic-measurable-space}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.def:padic-measurable-space}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only. The Borel $\sigma$-algebra of \texttt{ℚ\_[p]} (\texttt{borel ℚ\_[p]}); Mathlib carries no measurable structure on \texttt{ℚ\_[p]}. $p$ is an implicit natural number with \texttt{Fact (Nat.Prime p)}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the $\sigma$-algebra of $\Qp$ is Borel]
+\tfstmt{I.lf.lem:padic-borel-space}
+\bonly
+\lean{GL2TF.Local.padic_borelSpace}
+\uses{I.lf.def:padic-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.lf.lem:padic-borel-space}
+\tfsem{I.lf.lem:padic-borel-space}{51d3aac556bc36bc3531521f4bd2259d87009fd2c82f2a08c35c4f4a9069c6e0}
+\tfhyps{I.lf.lem:padic-borel-space}{}
+\tfbinder{I.lf.lem:padic-borel-space}{0}{cf3d1075}{the natural number $p$}
+\tfbinder{I.lf.lem:padic-borel-space}{1}{31f64cb4}{the assumption that $p$ is prime}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace ℚ\_[p]}, which holds by \texttt{rfl} for the $\sigma$-algebra of \cref{I.lf.def:padic-measurable-space}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By definition: the $\sigma$-algebra on $\Q_p$ is \texttt{borel}, so the equality is \texttt{rfl}.
+\end{proof}

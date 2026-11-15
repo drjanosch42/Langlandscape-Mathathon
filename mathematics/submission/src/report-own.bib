@@ -1,0 +1,109 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Hand-written entries of the submission report; they take precedence over the merged chapter bibliographies.
+% Anonymity: no person names of the team and no repository user names appear here (the HACS and team entries use
+% collective author names; the title block of the report is the only place naming the authors).
+% Verified: JL (doi from the problem statement; Crossref title/series/year), CH15 (Crossref 2026-11-15); the HACS DOIs are
+% those of the Zenodo records; the team items are internal documents.
+
+@book{JL,
+  author = {Herv{\'e} Jacquet and Robert P. Langlands},
+  title = {Automorphic Forms on {GL}(2)},
+  series = {Lecture Notes in Math.},
+  volume = {114},
+  publisher = {Springer},
+  address = {Berlin},
+  year = {1970},
+  doi = {10.1007/BFb0058988}
+}
+
+@misc{HACS021,
+  author = {{The HACS authors}},
+  title = {{HACS}: {H}arder {A}rithmetic {C}ohomology {S}ystem, version 0.2.1},
+  year = {2026},
+  note = {Software, DOI 10.5281/zenodo.24231446 (all versions: DOI 10.5281/zenodo.24118841); the snapshot in \texttt{code/hacs/} is v0.2.1 plus the marked Jacquet--Langlands module (\texttt{code/hacs/CHANGES.md})}
+}
+
+@misc{HACSdata020,
+  author = {{The HACS authors}},
+  title = {hacs-data: census data for {HACS}, version 0.2.0},
+  year = {2026},
+  note = {Dataset, DOI 10.5281/zenodo.24147012}
+}
+
+@misc{LLmain,
+  author = {{The authors of this report}},
+  title = {Jacquet--{L}anglands: mathematics. {Chapters} of stages 01--06},
+  year = {2026},
+  note = {\texttt{mathematics/main.pdf} of the submission repository, 190 pp.\ (the six stage chapters and the introductory chapter); all theorem and page numbers quoted in this report refer to it}
+}
+
+@misc{LLhsieh,
+  author = {{The authors of this report}},
+  title = {On the sign of {$\mathrm{JL}(U_q)$} for {$q\mid N^-$} in {H}sieh's \emph{Hida families and $p$-adic triple product {$L$}-functions}},
+  year = {2026},
+  note = {Technical note, \texttt{mathematics/notes/hsieh-sign.pdf}, 4 pp., 15 November 2026}
+}
+
+@misc{LLhyp,
+  author = {{The authors of this report}},
+  title = {What the {L}ean formalization assumes: hypotheses, their sources, and their status},
+  year = {2026},
+  note = {\texttt{mathematics/report/standalone-hypotheses.pdf}; reproduced as text in Appendix~A}
+}
+
+@article{CH15,
+  author = {Chida, Masataka and Hsieh, Ming-Lun},
+  title = {On the anticyclotomic {I}wasawa main conjecture for modular forms},
+  journal = {Compos. Math.},
+  volume = {151},
+  number = {5},
+  year = {2015},
+  pages = {863--897},
+  doi = {10.1112/S0010437X14007787}
+}
+
+% Third-party Lean projects: cited by name and pinned commit (no repository URLs in the report body).
+@misc{FLTImperial,
+  author = {Buzzard, Kevin and others},
+  title = {The {F}ermat's {L}ast {T}heorem formalisation project ({L}ean~4)},
+  howpublished = {Imperial College London, commit \texttt{1ab58c167e4f}},
+  note = {Apache-2.0}
+}
+
+@misc{FLTAnthropic,
+  author = {{Anthropic, PBC}},
+  title = {fermats-last-theorem: {L}ean~4 definitions},
+  howpublished = {commit \texttt{6e837e753555}},
+  note = {Apache-2.0}
+}
+
+@misc{AxiomStacks,
+  author = {{AxiomMath}},
+  title = {Stacks: {L}ean~4 formalisation of parts of the {S}tacks project},
+  howpublished = {commit \texttt{c496df0d9bee}},
+  note = {Apache-2.0}
+}
+
+% Overrides of literature entries of mathematics/references.bib (own entries win in tools/build_bib.py), audit m12.
+@article{Ri90,
+  author = {Ribet, Kenneth A.},
+  title = {On modular representations of {$\mathrm{Gal}(\bar{\mathbb Q}/\mathbb Q)$} arising from modular forms},
+  journal = {Invent. Math.},
+  volume = {100},
+  year = {1990},
+  pages = {431--476},
+  doi = {10.1007/BF01231195}
+}
+
+@article{Bad08,
+  author = {Badulescu, Alexandru Ioan},
+  title = {Global {J}acquet--{L}anglands correspondence, multiplicity one and classification of automorphic representations},
+  journal = {Invent. Math.},
+  volume = {172},
+  number = {2},
+  year = {2008},
+  pages = {383--438},
+  note = {With an appendix by Neven Grbac},
+  doi = {10.1007/s00222-007-0104-8}
+}

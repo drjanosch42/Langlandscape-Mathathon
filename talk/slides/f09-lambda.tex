@@ -1,0 +1,24 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 9: ordinary / Lambda-adic passage (stage 04) and the comparison hypothesis Hyp.X (stage 05).
+% Sources: chapters/s04/ordinary.tex lem:s04-ekills(a) (proved); s04/control.tex thm:s04-control(a) (proved);
+% s04/lambdaribet.tex thm:s04-lambdaribet (proved given connectivity); code/results/s04/H7.json (q = 11, p = 5);
+% chapters/s05/hypX.tex hyp:s05-X, prop:s05-Xlambda (a) proved given..., (c2) open; rem:s05-Xstatus.
+% Slide source line (moved to comment): \src{Sources: lem.\ s04-ekills, thm.\ s04-control, thm.\ s04-lambdaribet; code/results/s04/H7.json; hyp.\ s05-X, prop.\ s05-Xlambda, rem.\ s05-Xstatus. Lean: Hyp.X split into \texttt{Hyp.X.char}, \texttt{Hyp.X.iso}, \texttt{Hyp.X.gal}.}
+\begin{frame}{Stage 04--05: up the $p$-power tower, and the one geometric hypothesis}
+  \small
+  \textbf{Ordinary passage} (stage 04), along $U_1(Mp^s)$, $s\ge1$:
+  \begin{itemize}\setlength{\itemsep}{2pt}
+    \item $e$ kills the Eisenstein cokernels: $\deg\circ U_p=p\deg$ \stattag{proved}. E.g.\ $q=11$, $p=5$:
+      $\Phicomb$ cyclic of order $10$, $250$ ($s=1,2$) with $U_p^*=5$, so $e=0$ on $\Phicomb\otimes\ZZ_5$ \stattag{computed}.
+    \item $\mathbf M^{\mathrm{ord}}(U)$ is $\Lambda$-free, with control at every finite level \stattag{proved}.
+      $\Lambda$-adic Ribet sequence \stattag{proved given connectivity of all $\mathrm{BG}(UU_s,q)$, from cited SA, HS}.
+  \end{itemize}
+  \textbf{The comparison hypothesis} $\mathrm{Hyp.X}(M;q)$ \stattag{stage 05; a registered hypothesis; open}:
+  isomorphisms $\varphi_s:\mathcal X_q(J_s)\xrightarrow{\sim}\ZZ[S_s]^0$, $J_s=\mathrm{Jac}\,X(\Gamma_1(Mp^s)\cap\Gamma_0(q))$, $S_s=X_{B_q}(U_1(Mp^s))$,
+  that are (X1) Hecke-equivariant ($U_q\mapsto+\Pi_q$), (X2) isometric for the monodromy pairing, (X3) natural in $s$, (X4) Galois-compatible.
+  \begin{itemize}\setlength{\itemsep}{1pt}
+    \item It isolates \emph{all} geometry of the route; at $\Gamma_0$-level, weight $2$, its shadow is Ribet's theorem.
+    \item Given its character-group part: $\varprojlim e(\mathcal X_q(J_s)\otimes\ZZ_p)\cong\mathbf M^{\mathrm{ord}}(M)$; pairings (c2) \stattag{open}.
+  \end{itemize}
+\end{frame}

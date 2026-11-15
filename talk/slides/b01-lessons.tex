@@ -1,0 +1,27 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Backup frame (after \appendix): five lessons of the agentic process.
+% Source: docs/agentic-process/lessons.md (incident table rows #1, #5, #7, #11, #19, #20, #29, #31-#35; "Recurring patterns").
+\begin{frame}{Agentic process: five lessons}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.7cm} >{\raggedright\arraybackslash}p{4.7cm} >{\raggedright\arraybackslash}p{4.9cm}@{}}\toprule
+    lesson & incidents (\#) & rule adopted\\\midrule
+    1. Most failures were in coordination, not in the mathematics &
+      \#1 folder-trust dialog ($\approx70$ min lost); \#5 delayed in-session messages &
+      git-backed channels (file outbox): every channel that writes to git was reliable, the in-session one was not\\
+    2. Stale bases waste remote rounds &
+      \#7, \#19 stale bases; \#29 uncompiled skeleton &
+      every job contains all upstream fixes; compile-check skeletons before stacking\\
+    3. Cheap errors cascade on the critical path &
+      \#20 cascade; \#31 notation traps &
+      escalate to Opus after 2 failed Sonnet rounds; rescue writers at round 2--3; early gates\\
+    4. Honesty needs audits &
+      \#11 vacuous $D=1$ instance; \#32 a hypothesis equal to its use's conclusion; \#33 false non-vacuity reasons &
+      Fable audits in parts; disclosure rules; nothing computed is called ``certified''\\
+    5. Plans and claims can be false &
+      \#34 the $q\equiv-1$ ($M>1$) gap, found by the cross-account second reader; \#35 a plan item refuted by computation &
+      second readers on the other account; the computation decides\\\bottomrule
+  \end{tabular}
+
+\end{frame}

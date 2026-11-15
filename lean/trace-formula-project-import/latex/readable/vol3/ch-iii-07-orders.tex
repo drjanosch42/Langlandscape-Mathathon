@@ -1,0 +1,756 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolIII/P2/{Orders,Adelic,ClassSet,MassDefs,Mass,Compact,Instances}.lean, lean/GL2TF/Hyp/EichlerMass.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note (Q2: TITAN, branch r2/q2).
+% Q2 W1 (A1T, TITAN): statement outline from docs/sprints/Q2-plan.md v1.0 §1.2 (items 21-33, 35-64), \uses per §1.4. B-only candidates 24
+% (III.qord.lem:order-free-rank-four), 38 (III.qcls.lem:finite-adelic-algebra-topology), 58 (III.qcls.lem:adelic-units-product) are not items of A;
+% their content is used in the proofs (W3) and \uses edges to them are replaced by edges to III.qord.def:order, III.qcls.def:finite-adelic-algebra,
+% III.qcls.def:adelic-quaternion-group. Q2 W3 (A1T): complete proofs (plan §2.4 routes, traps 7-10; certificates
+% docs/notes/Q2-titan/q2_instances.json); divergences in docs/notes/Q2-titan/A-revisions.md.
+
+\chapter{Orders, class sets and the mass}\label{ch:ch-iii-07-orders}
+
+\noindent\emph{Scope:} areas \texttt{qord}, \texttt{qcls}; milestone Q2. \emph{Sources:} \cite[Prop.~1.1, Def.~1.2, Def.~1.7, Thm.~1.10, pp.~344--348;
+Def.~2.13, p.~353]{Piz}; \cite[(20)--(21), p.~180]{Shz}; \cite{Voi}.
+
+\noindent\emph{Overview.} Let $a,b\in\Z$ and $\Bq=\Bq(a,b)$ as in Ch.~III.6. §§1--2 treat orders: their discriminant, maximal orders (with a
+criterion that makes maximality checkable on instances), level structures $\phi\colon\Oord\to\Mat_2(\Z/M\Z)$ and the Eichler orders
+$\Oord(M;\phi)=\{x\in\Oord:\phi(x)_{21}=0\}$, and the unit group, which is finite of order dividing $24$ when $a,b<0$. §3 introduces
+$\Bhat=\Bq_{\Af}$, the completions $\Lhat$ of lattices, and the local--global principle for lattices. §4 defines the class set
+$X(\Oord)=\Bq^\times\backslash\Bhat^\times/\Ohat^\times$ and the stabilizers $\Gamma_x$, identifies classes with right $\Oord$-ideals up to left
+multiplication, and proves finiteness through a Minkowski bound (\cref{III.qcls.thm:class-set-finite}). §5 defines the mass
+$\sum_c1/\abs{\Gamma_c}$, computes its change under passage to an Eichler order, and states Eichler's mass formula as the hypothesis H-EM.
+§6 proves that $\Bq^\times\backslash\BA^1$ is compact (\cref{III.qcls.thm:quotient-compact}), the input of the compact trace formula in a
+later milestone. §7 verifies everything on instances: the Hurwitz order, Pizer's order for $D=11$ (two classes, mass $5/12$), its Eichler orders of
+levels $2$ and $3$, and (stretch) $D=3,5,7,13$.
+
+\noindent\emph{Hypotheses.} \cref{III.qcls.cor:eichler-order-mass} is conditional on H-EM (\cref{III.qcls.hyp:eichler-mass}). The examples of §7
+prove closed instances of H-EM. No other item uses a hypothesis.
+
+\noindent\emph{Conventions.} A \emph{lattice} is a finitely generated $\Z$-submodule $L\subseteq\Bq$ with $\Q L=\Bq$; for lattices $L'\subseteq L$,
+$[L:L']$ is the group index. ``$a,b<0$'' is always written out. The class set is \emph{right-ideal flavoured} (conventions row N20): $\Bq^\times$
+acts on $\Bhat^\times$ on the left and $\Ohat^\times$ on the right; the lattice of $x\in\Bhat^\times$ is $L_x=\iota^{-1}(x\Ohat)=x\Ohat\cap\Bq$, a
+right $\Oord$-ideal, with left order $\Oord_x=\iota^{-1}(x\Ohat x^{-1})$ and $\Gamma_x=\Oord_x^\times$. \cite{Piz} works with left ideals; the
+dictionary is $I\mapsto\bar I$. Masses use the \emph{full} unit groups, including $\pm1$ (row N4); with Shimizu's $e_\mu=\abs{\Oord_\mu^\times}/2$
+the constant $\frac1{24}$ becomes $\frac1{12}$. The printed symbols are those of the notation table (\hyperref[notation:q2]{Vol.~III, Q2 block}).
+In the proofs, (L1)--(L3) are the lattice facts of the proof of \cref{III.qalg.lem:local-order-basic}: lattices are free of rank $4$,
+$[L:L']=\abs{\det P}$ for $L'\subseteq L$, and any two lattices are commensurable; $C(e)$ is the matrix of coordinates of a family $e_1,\dots,e_4$
+in $1,i,j,k$, and $L_p$ the completion at $p$ (\cref{III.qalg.def:local-order}).
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Orders and discriminants}\label{sec:qord-orders}
+
+\begin{definition}[orders]
+\tfstmt{III.qord.def:order}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\noindent Every order is a free $\Z$-module of rank $4$, and a $\Z$-basis of it is a $\Q$-basis of $\Bq$ (used throughout; stated in B; proved as
+(L1) in the proof of \cref{III.qalg.lem:local-order-basic}).
+
+\begin{definition}[the standard order]
+\tfstmt{III.qord.def:standard-order}
+\uses{III.qord.def:order}
+\end{definition}
+\begin{proof}[Proof of the claims]
+\uses{III.qord.def:order, III.qalg.def:quaternion-algebra}
+Let $\Oord_0=\{x\in\Bq:x_0,\dots,x_3\in\Z\}$. It contains $1$ and is an additive group. By the multiplication table,
+\begin{align*}
+  xy&=(x_0y_0+ax_1y_1+bx_2y_2-abx_3y_3)+(x_0y_1+x_1y_0-bx_2y_3+bx_3y_2)\,i\\
+  &\quad+(x_0y_2+ax_1y_3+x_2y_0-ax_3y_1)\,j+(x_0y_3+x_1y_2-x_2y_1+x_3y_0)\,k,
+\end{align*}
+whose coordinates are integral polynomials in those of $x,y$ (as $a,b\in\Z$). So $\Oord_0$ is a subring; it is generated by $1,i,j,k$ as a $\Z$-module,
+and these span $\Bq$ over $\Q$.
+\end{proof}
+
+\begin{lemma}[elements of orders are integral]
+\tfstmt{III.qord.lem:order-integral}
+\uses{III.qord.def:order, III.qalg.def:reduced-norm, III.qalg.def:reduced-trace}
+\end{lemma}
+\begin{proof}
+\uses{III.qord.def:order, III.qalg.lem:reduced-norm-basic}
+The subring $\Z[x]\subseteq\Oord$ is a submodule of the finitely generated $\Z$-module $\Oord$, hence finitely generated; if it is generated by
+polynomials in $x$ of degree $\le N$, then $x^{N+1}$ is a $\Z$-combination of $1,\dots,x^N$, so $x$ is a root of a monic $P\in\Z[X]$. If $x\in\Q$ (i.e.\
+$x=x_0$), then $x\in\Z$ by the rational root theorem, and $\trd(x)=2x$, $\nrd(x)=x^2$ are integers. Otherwise $1,x$ are $\Q$-linearly independent, so by
+\cref{III.qalg.lem:reduced-norm-basic}(b) the minimal polynomial of $x$ over $\Q$ is $m=X^2-\trd(x)X+\nrd(x)$. It divides $P$ in $\Q[X]$, and by Gauss's lemma
+a monic factor in $\Q[X]$ of a monic polynomial in $\Z[X]$ lies in $\Z[X]$. \emph{Source:} \cite[§10.3]{Voi}.
+\end{proof}
+
+\begin{definition}[discriminant]
+\tfstmt{III.qord.def:discriminant}
+\uses{III.qord.def:order, III.qalg.def:reduced-trace, III.qord.lem:order-integral}
+\end{definition}
+\noindent For $a,b<0$ the form $(x,y)\mapsto\trd(x\bar y)$ is positive definite, so $d(\Oord)>0$. \emph{Source:} \cite[Prop.~1.1, p.~344]{Piz}
+(``$\operatorname{disc}(L)=\det(\operatorname{Tr}(e_i\bar e_j))$''); a maximal order of an algebra ramified exactly at $D$ has $d(\Oord)=D^2$. For the
+standard order $d=16a^2b^2$.
+\begin{proof}[Proof of the claims]
+\uses{III.qord.def:order, III.qord.lem:order-integral, III.qalg.lem:reduced-norm-basic, III.qalg.lem:local-order-basic}
+A $\Z$-basis of four elements exists by (L1). (D1) \emph{Integrality.} For $y\in\Oord$, $\bar y=\trd(y)-y\in\Oord$, since $\trd(y)\in\Z$
+(\cref{III.qord.lem:order-integral}) and $1\in\Oord$; so $e_\mu\bar e_\nu\in\Oord$ and $\trd(e_\mu\bar e_\nu)\in\Z$. (D2) \emph{Independence of the basis.}
+$(y,z)\mapsto\trd(y\bar z)$ is $\Z$-bilinear; if $e'_\mu=\sum_\nu P_{\mu\nu}e_\nu$ with $P\in\GL_4(\Z)$, the Gram matrix becomes
+$P(\trd(e_\mu\bar e_\nu))P^{\mathsf T}$, and $(\det P)^2=1$. (D3) \emph{A formula.} The coefficient of $1$ in $y\bar z$ is
+$y_0z_0-ay_1z_1-by_2z_2+aby_3z_3$, so the Gram matrix is $C(e)\,G\,C(e)^{\mathsf T}$ with $G=\operatorname{diag}(2,-2a,-2b,2ab)$, and
+\[
+  d(\Oord)=16a^2b^2\,(\det C(e))^2 .
+\]
+Since $\det C(e)\ne0$ by (L1), $d(\Oord)\ge0$, with $d(\Oord)\ne0$ if and only if $a,b\ne0$; in particular $d(\Oord)>0$ for $a,b<0$. For the standard
+order, $C(e)$ is the identity and $d=16a^2b^2$.
+\end{proof}
+
+\begin{lemma}[discriminant and index]
+\tfstmt{III.qord.lem:discriminant-index}
+\uses{III.qord.def:discriminant}
+\end{lemma}
+\begin{proof}
+\uses{III.qord.def:discriminant, III.qalg.lem:local-order-basic}
+Let $e,e'$ be $\Z$-bases of $\Oord,\Oord'$. By (L2), $C(e)=PC(e')$ with $P\in\Mat_4(\Z)$ and $[\Oord':\Oord]=\abs{\det P}$, finite. By (D3) in the proof of the
+claims of \cref{III.qord.def:discriminant},
+$d(\Oord)=16a^2b^2(\det P)^2(\det C(e'))^2=[\Oord':\Oord]^2\,d(\Oord')$.
+\end{proof}
+
+\begin{definition}[maximal orders]
+\tfstmt{III.qord.def:maximal-order}
+\uses{III.qord.def:order}
+\end{definition}
+
+\begin{theorem}[existence of maximal orders]
+\tfstmt{III.qord.thm:exists-maximal-order}
+\uses{III.qord.lem:discriminant-index, III.qord.def:maximal-order}
+\end{theorem}
+\noindent The hypothesis $a,b\ne0$ cannot be dropped: for $a=0$, $\Oord+\Z\frac in+\Z\frac kn$ is an order for every $n\ge1$.
+\begin{proof}
+\uses{III.qord.lem:discriminant-index, III.qord.def:discriminant, III.qord.def:maximal-order}
+Since $a,b\ne0$, every order has a nonzero integral discriminant ((D1), (D3) in \cref{III.qord.def:discriminant}). For an order $\Oord'\supseteq\Oord$,
+\cref{III.qord.lem:discriminant-index} gives $[\Oord':\Oord]^2\abs{d(\Oord')}=\abs{d(\Oord)}$ with $\abs{d(\Oord')}\ge1$, so $[\Oord':\Oord]\le\abs{d(\Oord)}$.
+Choose an order $\Oord'\supseteq\Oord$ for which $[\Oord':\Oord]$ is largest. If $\Oord''\supseteq\Oord'$ is an order, then
+$[\Oord'':\Oord]=[\Oord'':\Oord'][\Oord':\Oord]\le[\Oord':\Oord]$, so $[\Oord'':\Oord']=1$ and $\Oord''=\Oord'$. Hence $\Oord'$ is maximal.
+\end{proof}
+
+\begin{lemma}[a maximality criterion]
+\tfstmt{III.qord.lem:maximal-criterion}
+\uses{III.qord.lem:order-integral, III.qord.lem:discriminant-index, III.qord.def:maximal-order}
+\end{lemma}
+\begin{proof}
+\uses{III.qord.lem:order-integral, III.qord.lem:discriminant-index, III.qord.def:maximal-order}
+Suppose $\Oord\subsetneq\Oord'$ for an order $\Oord'$. Then $n=[\Oord':\Oord]>1$; let $p$ be a prime divisor of $n$. By Cauchy's theorem the finite group
+$\Oord'/\Oord$ has an element of order $p$: there is $x\in\Oord'\setminus\Oord$ with $px\in\Oord$, i.e.\ $x\in p^{-1}\Oord\setminus\Oord$. By
+\cref{III.qord.lem:order-integral} applied to $\Oord'$, $\trd(x),\nrd(x)\in\Z$; and $d(\Oord)=n^2d(\Oord')$ with $d(\Oord')\in\Z$
+(\cref{III.qord.lem:discriminant-index}), so $p^2\mid d(\Oord)$. This contradicts the assumption; so every order containing $\Oord$ equals $\Oord$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Level structures, Eichler orders and units}\label{sec:qord-eichler}
+
+\begin{definition}[level structures]
+\tfstmt{III.qord.def:level-structure}
+\uses{III.qord.def:order}
+\end{definition}
+
+\begin{definition}[Eichler orders]
+\tfstmt{III.qord.def:eichler-order}
+\uses{III.qord.def:level-structure}
+\end{definition}
+\noindent This is the $\Gamma_0$-type definition, parallel to $K_0(N)=\{k:k_{21}\in N\Zhat\}$ (\texttt{I.topgrp.def:congruence-subgroups}). For a
+maximal $\Oord$ and $\gcd(M,D)=1$ it agrees with the intersection of two maximal orders of index $M$ and with \cite[Def.~1.2]{Piz}; this is not used.
+\begin{proof}[Proof of the claims]
+\uses{III.qord.def:level-structure, III.qord.def:order}
+$\Oord(M;\phi)$ is an additive subgroup of $\Oord$ (the entry $\phi(x)_{21}$ is additive in $x$), contains $1$ ($\phi(1)=1$), and is closed under
+products, since $(\phi(x)\phi(y))_{21}=\phi(x)_{21}\phi(y)_{11}+\phi(x)_{22}\phi(y)_{21}$. It is finitely generated as a submodule of $\Oord$, and it contains
+$M\Oord$ ($\phi(Mx)=M\phi(x)=0$), so $\Q\,\Oord(M;\phi)\supseteq\Q\,\Oord=\Bq$.
+\end{proof}
+
+\begin{lemma}[index and discriminant of Eichler orders]
+\tfstmt{III.qord.lem:eichler-order-index}
+\uses{III.qord.def:eichler-order, III.qord.lem:discriminant-index}
+\end{lemma}
+\begin{proof}
+\uses{III.qord.def:eichler-order, III.qord.lem:discriminant-index}
+The map $\Oord\to\Z/M\Z$, $x\mapsto\phi(x)_{21}$, is additive with kernel $\Oord(M;\phi)$, and surjective, because $\phi$ is surjective and $cE_{21}$
+lies in its image for every $c\in\Z/M\Z$. So $\Oord/\Oord(M;\phi)\cong\Z/M\Z$ and $[\Oord:\Oord(M;\phi)]=M$; the discriminant follows from
+\cref{III.qord.lem:discriminant-index}.
+\end{proof}
+
+\begin{definition}[unit groups]
+\tfstmt{III.qord.def:unit-group}
+\uses{III.qord.def:order}
+\end{definition}
+
+\begin{theorem}[units of definite orders]
+\tfstmt{III.qord.thm:units-finite}
+\uses{III.qord.def:unit-group, III.qalg.lem:unit-iff-reduced-norm-unit, III.qalg.lem:reduced-norm-definite, III.qord.lem:order-integral}
+\end{theorem}
+\begin{proof}
+\uses{III.qord.def:unit-group, III.qalg.lem:reduced-norm-basic, III.qalg.lem:unit-iff-reduced-norm-unit, III.qalg.lem:reduced-norm-definite, III.qord.lem:order-integral}
+If $x\in\Oord^\times$, then $\nrd(x),\nrd(x^{-1})\in\Z$ (\cref{III.qord.lem:order-integral}) with product $1$, so $\nrd(x)=\pm1$, and $\nrd(x)\ge0$ by
+\cref{III.qalg.lem:reduced-norm-definite}; hence $\nrd(x)=1$. Conversely, if $x\in\Oord$ and $\nrd(x)=1$, then $x$ is a unit of $\Bq$ with
+$x^{-1}=\bar x=\trd(x)-x\in\Oord$ (\cref{III.qalg.lem:unit-iff-reduced-norm-unit,III.qord.lem:order-integral}). For finiteness, choose $N\ge1$ with
+$N\Oord\subseteq\Oord_0$ (the standard order; (L3)). For $x\in\Oord$ with $\nrd(x)=1$, the coordinates satisfy $\sum x_\mu^2\le1$
+(\cref{III.qalg.lem:reduced-norm-definite}) and $Nx_\mu\in\Z$; there are finitely many such $x$.
+\end{proof}
+
+\begin{theorem}[the order of the unit group]
+\tfstmt{III.qord.thm:units-order-divides-24}
+\uses{III.qord.thm:units-finite}
+\end{theorem}
+\begin{proof}
+\uses{III.qord.thm:units-finite, III.qord.lem:order-integral, III.qalg.lem:reduced-norm-basic, III.qalg.lem:reduced-norm-definite, III.qalg.thm:definite-division}
+Let $G=\Oord^\times$, finite by \cref{III.qord.thm:units-finite}. We use: \emph{(Z) if $u\in\Bq\setminus\Q$, the centralizer of $u$ in $\Bq$ is the field
+$\Q(u)=\Q+\Q u$.} Indeed, write $u=u_0+v$, $y=y_0+w$ with $v,w$ pure ($v\ne0$). Squares of pure quaternions are rational (proof of
+\cref{III.qalg.lem:reduced-norm-basic}), so $vw+wv=(v+w)^2-v^2-w^2\in\Q$. If $y$ commutes with $u$, then $w$ commutes with $v$, so $vw\in\Q$, and
+$w=v^{-1}(vw)\in\Q v$ because $v^{-1}=\bar v/\nrd(v)=-v/\nrd(v)$ (\cref{III.qalg.thm:definite-division}). So $y\in\Q+\Q u$; this is a commutative subring
+($u^2=\trd(u)u-\nrd(u)$) in which every $y\ne0$ has inverse $\bar y/\nrd(y)=(\trd(y)-y)/\nrd(y)\in\Q+\Q u$, i.e.\ a field.
+
+\emph{Element orders.} Let $u\in G$ and $t=\trd(u)\in\Z$; $\nrd(u)=1$ by \cref{III.qord.thm:units-finite}. If $u\in\Q$, then $u^2=1$ and $u=\pm1$.
+Otherwise $u=u_0+v$ with $v\ne0$ pure, and $1=\nrd(u)=u_0^2-v^2$ with $-v^2>0$ (\cref{III.qalg.lem:reduced-norm-definite}), so $\abs t=2\abs{u_0}<2$ and
+$t\in\{-1,0,1\}$. By \cref{III.qalg.lem:reduced-norm-basic}(b), $u^2=tu-1$: for $t=0$, $u^2=-1$ (order $4$, and $u$ is pure); for $t=-1$, $u^3=1$ (order
+$3$); for $t=1$, $u^3=-1$ (order $6$). So every element of $G$ has order $1,2,3,4$ or $6$, and $-1$ is the only element of order $2$.
+
+\emph{The $2$-part.} Let $P$ be a Sylow $2$-subgroup; it contains the central subgroup $\{\pm1\}$, and for $u\in P$, $u^2\in\{\pm1\}$. So $P/\{\pm1\}$ is
+an elementary abelian $2$-group, and any $u,v\in P$ satisfy $uv=\pm vu$. If $u,v\in P\setminus\{\pm1\}$ commute, then $v\in\Q+\Q u$ by (Z), and as both are
+pure, $v=cu$ with $c^2=\nrd(v)/\nrd(u)=1$: $v=\pm u$. Suppose $\abs{P/\{\pm1\}}\ge8$, and pick $u,v,w\in P$ with linearly independent images. Then
+$u,v$ do not commute, so $uv=-vu$; likewise $w$ anticommutes with $u$ and $v$, hence commutes with $uv\in P\setminus\{\pm1\}$, so $w=\pm uv$, a
+contradiction. Hence $\abs P\le8$.
+
+\emph{The $3$-part.} Elements of a Sylow $3$-subgroup $Q$ have order $1$ or $3$. If $\abs Q\ge9$, $Q$ has a subgroup $H$ of order $9$, which is abelian.
+For $u\in H\setminus\{1\}$, $u\notin\Q$ (rational units of finite order are $\pm1$), so $H$ lies in the field $\Q(u)$ by (Z), and its $9$ elements are roots
+of $X^3-1$, a contradiction. Hence $\abs Q\le3$.
+
+No prime $q\ge5$ divides $\abs G$ (Cauchy's theorem and the list of element orders). So $\abs G=\abs P\,\abs Q$ divides $8\cdot3=24$, and $\abs G$ is even
+as $-1\in G$. The even divisors of $24$ are $2,4,6,8,12,24$. \emph{Source:} \cite[§11.5]{Voi} (by a different route).
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The finite-adelic algebra and the local--global principle}\label{sec:qcls-adelic}
+
+\begin{definition}[the finite-adelic algebra]
+\tfstmt{III.qcls.def:finite-adelic-algebra}
+\uses{III.qalg.def:quaternion-algebra, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent $\Bhat$ is a locally compact Hausdorff topological ring and $\Bhat^\times$, with the units topology, a topological group (stated in B).
+Topologies on unit groups are always the units topology (plan trap 4).
+
+\begin{definition}[completions of lattices]
+\tfstmt{III.qcls.def:order-completion}
+\uses{III.qcls.def:finite-adelic-algebra, III.qord.def:order, I.adele.def:zhat}
+\end{definition}
+\begin{proof}[Proof of the claims]
+\uses{III.qcls.def:finite-adelic-algebra, III.qord.def:order, I.adele.def:zhat}
+$\iota$ is a ring homomorphism, so $\iota(\Oord)$ is closed under multiplication and contains $1$; $\Zhat\subseteq\Af$ acts by central scalars, so
+products of $\Zhat$-combinations of elements of $\iota(\Oord)$ are again such combinations. Thus $\Ohat$ is a subring, and $\Ohat^\times$ is closed under
+products ($(uv)^{-1}=v^{-1}u^{-1}$) and inverses, and contains $1$.
+\end{proof}
+
+\begin{lemma}[compactness and openness]
+\tfstmt{III.qcls.lem:order-completion-compact-open}
+\uses{III.qcls.def:order-completion}
+\end{lemma}
+\begin{proof}
+\uses{III.qcls.def:order-completion, III.qcls.def:finite-adelic-algebra, III.qalg.lem:local-order-basic, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.adele.thm:adele-locally-compact}
+We first record four facts, used in the rest of the chapter.
+\begin{enumerate}[label=(C\arabic*)]
+\setcounter{enumi}{-1}
+\item \emph{Components.} For a prime $p$ let $\Af\to\Qp$ be the $p$-th component and $\Bhat\to\Bq_{\Qp}$, $y\mapsto y_p$, its base change, a ring
+  homomorphism. For $z\in\Bq$, $\iota(z)_p$ is the image $z_p$ of $z$ in $\Bq_{\Qp}$. An element $y\in\Bhat$ is determined by $(y_p)_p$, and a family
+  $(y_p)_p$ with $y_p\in\Bq_{\Qp}$ comes from some $y\in\Bhat$ if and only if the coordinates of $y_p$ lie in $\Zp$ for all but finitely many $p$
+  (\cref{I.adele.def:finite-adeles-model}).
+\item \emph{Bases.} Let $L$ be a lattice with $\Z$-basis $e$. The map $\kappa\colon\Af^4\to\Bhat$, $c\mapsto\sum_\mu c_\mu\iota(e_\mu)$, is an isomorphism of
+  topological $\Af$-modules, and $\Lhat=\kappa(\Zhat^4)$. Indeed, in coordinates $\kappa(c)=c\,C(e)$ with $C(e)\in\GL_4(\Q)$ (L1), an invertible
+  $\Af$-linear map whose inverse also has rational entries; both are continuous as $\Af$ is a topological ring. As $\iota$ is additive, the $\Zhat$-span of
+  $\iota(L)$ is that of the $\iota(e_\mu)$.
+\item \emph{Local description.} $\Lhat=\{y\in\Bhat:y_p\in L_p\text{ for all }p\}$, and $y\mapsto y_p$ maps $\Lhat$ onto $L_p$. Indeed, for $y=\kappa(c)$,
+  $y_p=\sum_\mu(c_\mu)_pe'_\mu$ with $e'_\mu$ the images of $e_\mu$, a $\Zp$-basis of $L_p$ and a $\Qp$-basis of $\Bq_{\Qp}$
+  (\cref{III.qalg.lem:local-order-basic}(a),(b)). So $y_p\in L_p$ if and only if $(c_\mu)_p\in\Zp$, and this holds for all $p$ if and only if
+  $c\in\Zhat^4$ (\cref{I.adele.def:zhat}). Given $w\in L_p$, the family with $p$-component $w$ and all other components $0$ defines an element of $\Lhat$.
+\item \emph{Integers.} For $m\ge1$: $\Z\cap m\Zhat=m\Z$; $\Zhat=\Z+m\Zhat$ (by the Chinese remainder theorem, choose $n\in\Z$ with $n\equiv x_p\bmod p^{v_p(m)}$
+  for $p\mid m$; then $x-n\in m\Zhat$, as $m\in\Zp^\times$ for $p\nmid m$); the sets $m\Zhat=\prod_pp^{v_p(m)}\Zp$ are open and form a neighbourhood basis
+  of $0$ in $\Af$ ($\Zhat$ is open in $\Af$ and carries the product topology, \cref{I.adele.thm:adele-locally-compact}); and $\Af=\bigcup_mm^{-1}\Zhat$. By
+  (C1), the $m\Lhat$ are open subgroups forming a neighbourhood basis of $0$ in $\Bhat$, and $\Bhat=\bigcup_mm^{-1}\Lhat$.
+\end{enumerate}
+Now $\Zhat$ is compact and open in $\Af$ (\cref{I.adele.thm:adele-locally-compact}), so $\Zhat^4$ is compact and open in $\Af^4$ and $\Lhat=\kappa(\Zhat^4)$ is
+compact and open in $\Bhat$. For an order $\Oord$: $\Bhat\cong\Af^4$ is Hausdorff, and multiplication on $\Bhat$ is continuous (the coordinates of a
+product are integral polynomials in the coordinates). The units topology on $\Bhat^\times$ is the one making $j\colon u\mapsto(u,u^{-1})$ an embedding into
+$\Bhat\times\Bhat$, with image $\{(u,w):uw=wu=1\}$. Then $\Ohat^\times=j^{-1}(\Ohat\times\Ohat)$ is open, and $j(\Ohat^\times)=(\Ohat\times\Ohat)\cap
+\{(u,w):uw=wu=1\}$ is closed in the compact set $\Ohat\times\Ohat$, hence compact; so $\Ohat^\times$ is compact.
+\end{proof}
+
+\begin{theorem}[local--global principle for lattices]
+\tfstmt{III.qcls.thm:lattice-local-global}
+\uses{III.qcls.def:order-completion, III.qalg.def:local-order}
+\end{theorem}
+\begin{proof}
+\uses{III.qcls.def:order-completion, III.qalg.def:local-order, III.qcls.lem:order-completion-compact-open, III.qalg.lem:local-order-basic}
+We use (C0)--(C3) from the proof of \cref{III.qcls.lem:order-completion-compact-open}.
+(a) Clearly $L\subseteq\iota^{-1}(\Lhat)$. Let $z\in\Bq$ with $\iota(z)\in\Lhat$, and write $z=\sum q_\mu e_\mu$ with $q\in\Q^4$ (L1). Then
+$\iota(z)=\kappa(q)$, and $\iota(z)=\kappa(c)$ with $c\in\Zhat^4$ by (C1); as $\kappa$ is injective, $q_\mu\in\Q\cap\Zhat=\Z$ (C3), so $z\in L$.
+
+(b) Left multiplication by the unit $x$ is a homeomorphism of $\Bhat$ commuting with the $\Zhat$-action, so $x\Ohat$ is a compact open $\Zhat$-submodule. By (C3)
+there is $N\ge1$ with $N\Ohat\subseteq x\Ohat$ (openness) and $x\Ohat\subseteq N^{-1}\Ohat$ (compactness, as the $m^{-1}\Ohat$ form an increasing open
+cover). Hence $N\Oord\subseteq L_x\subseteq\iota^{-1}(\widehat{N^{-1}\Oord})=N^{-1}\Oord$ by (a), so $L_x$ is finitely generated and spans $\Bq$: a lattice.
+Clearly $\widehat{L_x}\subseteq x\Ohat$, as $x\Ohat$ is a $\Zhat$-module containing $\iota(L_x)$. Conversely let $w\in x\Ohat\subseteq N^{-1}\Ohat$. By
+(C1), (C3) for the lattice $N^{-1}\Oord$, $N^{-1}\Ohat=\iota(N^{-1}\Oord)+N\Ohat$ (because $\Zhat=\Z+N^2\Zhat$). Write $w=\iota(z)+w'$ with
+$z\in N^{-1}\Oord$, $w'\in N\Ohat\subseteq x\Ohat$. Then $\iota(z)\in x\Ohat$, so $z\in L_x$, and $w'\in N\Ohat=\widehat{N\Oord}\subseteq\widehat{L_x}$; so
+$w\in\widehat{L_x}$.
+
+(c) If $L_p=L'_p$ for all $p$, then $\Lhat=\widehat{L'}$ by (C2), and $L=\iota^{-1}(\Lhat)=\iota^{-1}(\widehat{L'})=L'$ by (a). The equivalence
+$\Lhat=\widehat{L'}\iff L=L'$ follows from (a) in the same way. \emph{Source:} \cite[§§9.4--9.5, §27.6]{Voi}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Class sets}\label{sec:qcls-classes}
+
+\begin{definition}[class set]
+\tfstmt{III.qcls.def:class-set}
+\uses{III.qcls.def:order-completion}
+\end{definition}
+
+\begin{theorem}[classes and right ideals]
+\tfstmt{III.qcls.thm:class-set-right-ideals}
+\uses{III.qcls.thm:lattice-local-global, III.qcls.def:class-set, III.qalg.def:local-order}
+\end{theorem}
+\noindent Together, (a)--(c) embed $X(\Oord)$ into the set of right $\Oord$-lattices modulo left multiplication by $\Bq^\times$, and (d) describes
+the image locally.
+\begin{proof}
+\uses{III.qcls.thm:lattice-local-global, III.qcls.def:class-set, III.qalg.def:local-order, III.qcls.lem:order-completion-compact-open}
+(a) For $z\in L_x$ and $w\in\Oord$, $\iota(zw)=\iota(z)\iota(w)\in x\Ohat\,\Ohat\subseteq x\Ohat$, as $\Ohat$ is a ring containing $\iota(\Oord)$.
+(b) For $u\in\Ohat^\times$, $u\Ohat=\Ohat$ ($u\Ohat\subseteq\Ohat$ and $\Ohat=u(u^{-1}\Ohat)\subseteq u\Ohat$). So $\iota(\gamma)xu\Ohat=\iota(\gamma)x\Ohat$, and
+$z\in L_{\iota(\gamma)xu}\iff\iota(\gamma^{-1}z)\in x\Ohat\iff\gamma^{-1}z\in L_x\iff z\in\gamma L_x$.
+(c) By (b), $L_x=\gamma L_y=L_{\iota(\gamma)y}$, so by \cref{III.qcls.thm:lattice-local-global}(b), $x\Ohat=\widehat{L_x}=\widehat{L_{\iota(\gamma)y}}=\iota(\gamma)y\Ohat$.
+Hence $u=(\iota(\gamma)y)^{-1}x\in\Ohat$ and $u^{-1}=x^{-1}\iota(\gamma)y\in\Ohat$, so $u\in\Ohat^\times$ and $x=\iota(\gamma)yu$: $[x]=[y]$.
+(d) (The hypothesis $L\Oord\subseteq L$ is not needed.) By (C0) of \cref{III.qcls.lem:order-completion-compact-open}, the families $(\beta_p)_{p\in S}\cup(1)_{p\notin
+S}$ and $(\beta_p^{-1})_{p\in S}\cup(1)_{p\notin S}$ define elements $x,x'\in\Bhat$ with $xx'=x'x=1$, so $x\in\Bhat^\times$. By (C2),
+\[
+  x\Ohat=\{y:(x^{-1}y)_p\in\Oord_p\ \forall p\}=\{y:y_p\in\beta_p\Oord_p\ (p\in S),\ y_p\in\Oord_p\ (p\notin S)\}=\{y:y_p\in L_p\ \forall p\}=\Lhat,
+\]
+and therefore $L=\iota^{-1}(\Lhat)=\iota^{-1}(x\Ohat)=L_x$ by \cref{III.qcls.thm:lattice-local-global}(a). \emph{Source:} \cite[§27.6]{Voi}.
+\end{proof}
+
+\begin{lemma}[the index is a square]
+\tfstmt{III.qcls.lem:index-square}
+\uses{III.qalg.lem:left-multiplication-det, III.qcls.thm:class-set-right-ideals}
+\end{lemma}
+\begin{proof}
+\uses{III.qalg.lem:left-multiplication-det, III.qcls.thm:class-set-right-ideals, III.qcls.thm:lattice-local-global, III.qcls.lem:order-completion-compact-open, III.qalg.lem:local-order-basic}
+$L_x$ is a lattice (\cref{III.qcls.thm:lattice-local-global}(b)). Let $e,f$ be $\Z$-bases of $\Oord$ and $L_x$; by (L2), $C(e)=PC(f)$ with $P\in\Mat_4(\Z)$ and
+$n=[L_x:\Oord]=\abs{\det P}$. Fix a prime $p$. By (C2), the $p$-component maps $\widehat{L_x}$ onto $(L_x)_p$ and $x\Ohat$ onto $x_p\Oord_p$, so
+$(L_x)_p=x_p\Oord_p$ by \cref{III.qcls.thm:lattice-local-global}(b). The images $f'_\mu$ of $f_\mu$ and the elements $x_pe'_\mu$ are two $\Zp$-bases of this
+$\Zp$-module (\cref{III.qalg.lem:local-order-basic}(b)), so their coordinate matrices differ by a factor in $\GL_4(\Zp)$. The coordinates of $x_pe'_\mu$ are
+those of $e'_\mu$ transformed by the matrix of $y\mapsto x_py$, whose determinant is $\nrd(x_p)^2$ (\cref{III.qalg.lem:left-multiplication-det}, $F=\Qp$).
+Hence $\det C(e)\,\nrd(x_p)^2\in\Zp^\times\det C(f)$, i.e.\ $\det P\cdot\nrd(x_p)^2\in\Zp^\times$, and $v_p(n)=v_p(\det P)=-2v_p(\nrd(x_p))$ is even. As this holds for
+every $p$, $n$ is a perfect square.
+\end{proof}
+
+\begin{theorem}[Minkowski bound]
+\tfstmt{III.qcls.thm:minkowski-bound}
+\uses{III.qalg.lem:left-multiplication-det, III.qalg.lem:reduced-norm-definite, III.qord.def:discriminant}
+\end{theorem}
+\noindent For a maximal order of discriminant $D^2$ the bound reads $[\beta^{-1}L:\Oord]\le8D/\pi^2$, i.e.\ $1.62$, $2.43$, $4.05$, $5.67$,
+$8.92$, $10.54$ for $D=2,3,5,7,11,13$. The constant is computed in the coordinates $(x_0,\sqrt{\abs a}x_1,\sqrt{\abs b}x_2,\sqrt{\abs{ab}}x_3)$, in
+which $\nrd$ is the squared Euclidean norm (plan trap 7).
+\begin{proof}
+\uses{III.qalg.lem:left-multiplication-det, III.qalg.lem:reduced-norm-definite, III.qord.def:discriminant, III.qalg.thm:definite-division, III.qalg.lem:local-order-basic}
+Let $\varphi\colon\Bq_\R\to\R^4$, $x\mapsto(x_0,\sqrt{\abs a}x_1,\sqrt{\abs b}x_2,\sqrt{\abs{ab}}x_3)$; since $-a=\abs a$, $-b=\abs b$, $ab=\abs{ab}$,
+$\nrd(x)=\abs{\varphi(x)}^2$. For a lattice $J$ with $\Z$-basis $f$, $\varphi(J)$ is a lattice in $\R^4$ (a $\Q$-basis of $\Bq$ is an $\R$-basis of
+$\Bq_\R$) of covolume $\operatorname{covol}(\varphi(J))=\abs{\det C(f)}\sqrt{\abs a\abs b\abs{ab}}=\abs{ab}\abs{\det C(f)}$. By (D3) in
+\cref{III.qord.def:discriminant}, $\operatorname{covol}(\varphi(\Oord))=\sqrt{d(\Oord)}/4$. For lattices $J'\subseteq J$, (L2) gives
+$\operatorname{covol}(\varphi(J'))=[J:J']\operatorname{covol}(\varphi(J))$. For $y\in\Bq^\times$ the coordinate matrix of $yJ$ is that of $J$ transformed by
+the matrix of $z\mapsto yz$, so $\operatorname{covol}(\varphi(yJ))=\nrd(y)^2\operatorname{covol}(\varphi(J))$ by \cref{III.qalg.lem:left-multiplication-det}.
+
+Let $K\subseteq\R^4$ be the closed ball of radius $r$ with $\operatorname{vol}(K)=\frac{\pi^2}2r^4=2^4\operatorname{covol}(\varphi(L))$. $K$ is compact,
+convex and symmetric, so by Minkowski's convex body theorem (compact form; Mathlib
+\texttt{exists\_ne\_zero\_mem\_lattice\_of\_measure\_mul\_two\_pow\_le\_measure}) there is $\beta\in L$, $\beta\ne0$, with $\varphi(\beta)\in K$, i.e.\
+$\nrd(\beta)^2\le r^4=32\operatorname{covol}(\varphi(L))/\pi^2$. By \cref{III.qalg.thm:definite-division}, $\beta\in\Bq^\times$. Since $\beta\Oord\subseteq
+L\Oord\subseteq L$, $\Oord\subseteq\beta^{-1}L$, and
+\[
+  [\beta^{-1}L:\Oord]=\frac{\operatorname{covol}(\varphi(\Oord))}{\operatorname{covol}(\varphi(\beta^{-1}L))}
+  =\frac{\sqrt{d(\Oord)}}4\cdot\frac{\nrd(\beta)^2}{\operatorname{covol}(\varphi(L))}\le\frac{\sqrt{d(\Oord)}}4\cdot\frac{32}{\pi^2}=\frac{8\sqrt{d(\Oord)}}{\pi^2}.
+\]
+\emph{Source:} \cite[§17.5]{Voi} (with a different normalisation of the constant).
+\end{proof}
+
+\begin{lemma}[bounded superlattices]
+\tfstmt{III.qcls.lem:bounded-superlattices-finite}
+\uses{III.qord.def:order}
+\end{lemma}
+\begin{proof}
+\uses{III.qord.def:order, III.qalg.lem:local-order-basic}
+By (L2) the index of $\Oord$ in a lattice $J\supseteq\Oord$ is finite and positive, so for $K=0$ there is no such $J$. Let $K\ge1$ and $n=[J:\Oord]\le K$.
+Then $nJ\subseteq\Oord$ (L2), so $\Oord\subseteq J\subseteq(K!)^{-1}\Oord$. Such $J$ is determined by the subgroup $J/\Oord$ of the finite group
+$(K!)^{-1}\Oord/\Oord\cong(\Z/K!\Z)^4$, which has finitely many subgroups.
+\end{proof}
+
+\begin{theorem}[finiteness of the class set]
+\tfstmt{III.qcls.thm:class-set-finite}
+\uses{III.qcls.thm:class-set-right-ideals, III.qcls.thm:minkowski-bound, III.qcls.lem:bounded-superlattices-finite}
+\end{theorem}
+\noindent \emph{Source:} \cite[Thm.~1.10, p.~345]{Piz} (statement only; the proof here is by \cref{III.qcls.thm:minkowski-bound}).
+\begin{proof}
+\uses{III.qcls.thm:class-set-right-ideals, III.qcls.thm:minkowski-bound, III.qcls.lem:bounded-superlattices-finite, III.qcls.thm:lattice-local-global, III.qord.def:discriminant}
+Let $K=\lfloor8\sqrt{d(\Oord)}/\pi^2\rfloor$ ($d(\Oord)>0$). For each class $c$ fix a representative $x_c$. $L_{x_c}$ is a lattice
+(\cref{III.qcls.thm:lattice-local-global}(b)) with $L_{x_c}\Oord\subseteq L_{x_c}$ (\cref{III.qcls.thm:class-set-right-ideals}(a)); by
+\cref{III.qcls.thm:minkowski-bound} there is $\beta_c\in\Bq^\times$ with $\Oord\subseteq J_c=\beta_c^{-1}L_{x_c}$ and $[J_c:\Oord]\le K$. By
+\cref{III.qcls.thm:class-set-right-ideals}(b), $J_c=L_{y_c}$ with $y_c=\iota(\beta_c^{-1})x_c\in c$. If $J_c=J_{c'}$, then $L_{y_c}=1\cdot L_{y_{c'}}$, so
+$c=[y_c]=[y_{c'}]=c'$ by \cref{III.qcls.thm:class-set-right-ideals}(c). So $c\mapsto J_c$ is injective into the finite set of
+\cref{III.qcls.lem:bounded-superlattices-finite}.
+\end{proof}
+
+\begin{corollary}[open subgroups]
+\tfstmt{III.qcls.cor:class-set-finite-open-subgroup}
+\uses{III.qcls.thm:class-set-finite, III.qcls.lem:order-completion-compact-open}
+\end{corollary}
+\begin{proof}
+\uses{III.qcls.thm:class-set-finite, III.qcls.lem:order-completion-compact-open}
+$U$ is open in the compact group $\Ohat^\times$ (\cref{III.qcls.lem:order-completion-compact-open}), so its cosets form an open cover of $\Ohat^\times$ by disjoint
+sets, and $[\Ohat^\times:U]$ is finite; let $u_1,\dots,u_r$ represent $\Ohat^\times/U$. Every double coset $\iota(\Bq^\times)xU$ maps to the class
+$[x]\in X(\Oord)$, and $\iota(\Bq^\times)x\Ohat^\times=\bigcup_s\iota(\Bq^\times)xu_sU$. So each fibre of the surjection
+$\Bq^\times\backslash\Bhat^\times/U\to X(\Oord)$ has at most $r$ elements, and $X(\Oord)$ is finite by \cref{III.qcls.thm:class-set-finite}.
+\end{proof}
+
+\begin{definition}[stabilizers]
+\tfstmt{III.qcls.def:stabilizer}
+\uses{III.qcls.def:class-set, III.qcls.def:order-completion}
+\end{definition}
+\noindent $\Gamma_x$ is defined with $xUx^{-1}$, not $x^{-1}Ux$; the side matters for the Brandt matrices of a later milestone (rows N6, N20).
+
+\begin{lemma}[stabilizers are unit groups of left orders]
+\tfstmt{III.qcls.lem:stabilizer-units}
+\uses{III.qcls.thm:lattice-local-global, III.qcls.def:stabilizer, III.qord.def:unit-group, III.qord.thm:units-finite, III.qord.thm:units-order-divides-24}
+\end{lemma}
+\noindent $\Oord_x$ is the left order $\{y\in\Bq:yL_x\subseteq L_x\}$ of the right ideal $L_x$ (row N20).
+\begin{proof}
+\uses{III.qcls.thm:lattice-local-global, III.qcls.def:stabilizer, III.qord.def:unit-group, III.qord.thm:units-finite, III.qord.thm:units-order-divides-24, III.qcls.lem:order-completion-compact-open}
+(a) $x\Ohat x^{-1}$ is a subring of $\Bhat$, so $\Oord_x$ is a subring of $\Bq$. Moreover $x\Ohat x^{-1}$ is a compact open $\Zhat$-submodule
+(conjugation by $x$ is a homeomorphism commuting with $\Zhat$), so as in the proof of \cref{III.qcls.thm:lattice-local-global}(b) there is $N\ge1$ with
+$N\Ohat\subseteq x\Ohat x^{-1}\subseteq N^{-1}\Ohat$, whence $N\Oord\subseteq\Oord_x\subseteq N^{-1}\Oord$ by \cref{III.qcls.thm:lattice-local-global}(a): $\Oord_x$ is an order.
+For $\gamma\in\Bq^\times$: $\gamma\in\Gamma_x\iff x^{-1}\iota(\gamma)x\in\Ohat^\times\iff x^{-1}\iota(\gamma)x,\ x^{-1}\iota(\gamma^{-1})x\in\Ohat\iff\gamma,\gamma^{-1}\in\Oord_x$.
+So $\Gamma_x=\Oord_x^\times$.
+\emph{The left order.} For $y\in\Bq$: $y\in\Oord_x\iff\iota(y)x\Ohat\subseteq x\Ohat$ (as $1\in\Ohat$ and $\Ohat\Ohat=\Ohat$). Now
+$\iota(y)x\Ohat=\iota(y)\widehat{L_x}=\widehat{yL_x}$ (\cref{III.qcls.thm:lattice-local-global}(b)), and $\widehat{yL_x}\subseteq\widehat{L_x}$ if and only if
+$yL_x\subseteq L_x$ (one direction by monotonicity, the other by \cref{III.qcls.thm:lattice-local-global}(a)). So $\Oord_x=\{y:yL_x\subseteq L_x\}$.
+(b) For $u\in\Ohat^\times$, $u\Ohat^\times u^{-1}=\Ohat^\times$, so $(\iota(\gamma)xu)\Ohat^\times(\iota(\gamma)xu)^{-1}=\iota(\gamma)\,x\Ohat^\times x^{-1}\,\iota(\gamma)^{-1}$,
+and $\delta\in\Gamma_{\iota(\gamma)xu}\iff\iota(\gamma^{-1}\delta\gamma)\in x\Ohat^\times x^{-1}\iff\gamma^{-1}\delta\gamma\in\Gamma_x$.
+(c) By (a), $\Gamma_x$ is the unit group of an order; apply \cref{III.qord.thm:units-finite,III.qord.thm:units-order-divides-24}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The mass}\label{sec:qcls-mass}
+
+\begin{definition}[mass]
+\tfstmt{III.qcls.def:mass}
+\uses{III.qcls.def:class-set, III.qcls.def:stabilizer}
+\end{definition}
+\begin{proof}[Proof of the claims]
+\uses{III.qcls.lem:stabilizer-units}
+Two representatives of a class are $x$ and $\iota(\gamma)xu$ with $\gamma\in\Bq^\times$, $u\in\Ohat^\times$; by
+\cref{III.qcls.lem:stabilizer-units}(b) their stabilizers are conjugate, so have the same cardinality.
+\end{proof}
+
+\begin{lemma}[orbit count]
+\tfstmt{III.qcls.lem:mass-orbit-count}
+\uses{III.qcls.def:stabilizer, III.qcls.def:mass}
+\end{lemma}
+\begin{proof}
+\uses{III.qcls.def:stabilizer, III.qcls.def:mass}
+Write $H=\iota(\Bq^\times)$, $X=H\backslash\Bhat^\times/U$, $X'=H\backslash\Bhat^\times/U'$, and $\pi\colon X'\to X$, $Hy U'\mapsto HyU$ (well defined, as
+$U'\le U$; surjective). For any subgroup $V$ and $w\in V$, $(\iota(\gamma)yw)V(\iota(\gamma)yw)^{-1}=\iota(\gamma)\,yVy^{-1}\,\iota(\gamma)^{-1}$, so
+$\Gamma_{\iota(\gamma)yw}(V)=\gamma\Gamma_y(V)\gamma^{-1}$; hence $\abs{\Gamma_{x_{c'}}(U')}$ does not depend on the representative of $c'$.
+
+Fix $c\in X$ with representative $x$, and let $F_c=\{xuU':u\in U\}$, a set of $[U:U']$ left cosets. The group $\Gamma_x(U)$ acts on $F_c$ by
+$\gamma\cdot xuU'=\iota(\gamma)xuU'$, since $\iota(\gamma)\in xUx^{-1}$ gives $\iota(\gamma)xu\in xU$. The map $F_c\to\pi^{-1}(c)$, $xuU'\mapsto HxuU'$, is
+surjective (an element of $\pi^{-1}(c)$ is $HyU'$ with $y=\iota(\delta)xu$, and $HyU'=HxuU'$), constant on orbits, and injective on orbits: if
+$HxuU'=Hxu'U'$, then $xu'=\iota(\delta)xuw$ with $w\in U'$, so $\iota(\delta)=xu'w^{-1}u^{-1}x^{-1}\in xUx^{-1}$, $\delta\in\Gamma_x(U)$ and
+$xu'U'=\delta\cdot xuU'$. The stabilizer of $xuU'$ is $\{\gamma:\iota(\gamma)\in xuU'u^{-1}x^{-1}\}=\Gamma_{xu}(U')$. In particular $\pi^{-1}(c)$ is finite and
+so is $X'$.
+
+If $\Gamma_x(U)$ is finite, the orbit--stabilizer theorem gives
+$\sum_{c'\in\pi^{-1}(c)}1/\abs{\Gamma_{x_{c'}}(U')}=\sum_{\text{orbits }\Omega}\abs\Omega/\abs{\Gamma_x(U)}=[U:U']/\abs{\Gamma_x(U)}$. If $\Gamma_x(U)$ is
+infinite, each stabilizer has finite index in it (the orbits are finite), so is infinite, and both sides are $0$ by the conventions of
+\cref{III.qcls.def:mass}. Summing over $c\in X$ gives the claim.
+\end{proof}
+
+\begin{lemma}[the index of the Borel subgroup]
+\tfstmt{III.qcls.lem:gl2-borel-index}
+\uses{III.ef.def:dedekind-psi}
+\end{lemma}
+\begin{proof}
+\uses{III.ef.def:dedekind-psi, III.ef.lem:dedekind-psi-multiplicative}
+For $M=1$ both groups are trivial and $\dedpsi(1)=1$. By the Chinese remainder theorem, $\Z/M\Z\cong\prod_{\ell^e\parallel M}\Z/\ell^e\Z$ induces
+$\GL_2(\Z/M\Z)\cong\prod\GL_2(\Z/\ell^e\Z)$ carrying $B_0(\Z/M\Z)$ onto $\prod B_0(\Z/\ell^e\Z)$, so the index is the product of the local indices; and
+$\dedpsi$ is multiplicative (\cref{III.ef.lem:dedekind-psi-multiplicative}). So let $M=\ell^e$, $e\ge1$. A matrix over $\Z/\ell^e$ is invertible iff its
+determinant is a unit iff its reduction mod $\ell$ is invertible; so reduction $\GL_2(\Z/\ell^e)\to\GL_2(\mathbb F_\ell)$ is surjective with kernel
+$1+\ell\Mat_2(\Z/\ell^e)$ of order $\ell^{4(e-1)}$, and $\abs{\GL_2(\Z/\ell^e)}=\ell^{4(e-1)}(\ell^2-1)(\ell^2-\ell)$. An upper triangular matrix is invertible
+iff its diagonal entries are units, so $\abs{B_0(\Z/\ell^e)}=(\ell^{e-1}(\ell-1))^2\ell^e$. The quotient is $\ell^{e-1}(\ell+1)=\ell^e(1+1/\ell)=\dedpsi(\ell^e)$
+(\cref{III.ef.def:dedekind-psi}).
+\end{proof}
+
+\begin{theorem}[mass under level change]
+\tfstmt{III.qcls.thm:mass-level-change}
+\uses{III.qord.def:eichler-order, III.qord.lem:eichler-order-index, III.qcls.thm:lattice-local-global, III.qcls.lem:mass-orbit-count, III.qcls.lem:gl2-borel-index, III.qcls.def:mass}
+\end{theorem}
+\begin{proof}
+\uses{III.qord.def:eichler-order, III.qcls.thm:lattice-local-global, III.qcls.lem:order-completion-compact-open, III.qcls.lem:mass-orbit-count, III.qcls.lem:gl2-borel-index, III.qcls.def:mass, III.qcls.thm:class-set-finite}
+Write $\Oord'=\Oord(M;\phi)$; then $M\Oord\subseteq\Oord'\subseteq\Oord$ (proof of the claims of \cref{III.qord.def:eichler-order}), so
+$M\Ohat\subseteq\widehat{\Oord'}\subseteq\Ohat$ and $\widehat{\Oord'}^\times\le\Ohat^\times$.
+
+\emph{Reduction mod $M$.} By (C1), (C3) of \cref{III.qcls.lem:order-completion-compact-open}, $\Ohat=\iota(\Oord)+M\Ohat$, and $\iota^{-1}(M\Ohat)=
+\iota^{-1}(\widehat{M\Oord})=M\Oord$ by \cref{III.qcls.thm:lattice-local-global}(a). So $\iota$ induces a ring isomorphism $\Oord/M\Oord\cong\Ohat/M\Ohat$.
+Since $\phi$ is surjective and kills $M\Oord$, and $\abs{\Oord/M\Oord}=M^4=\abs{\Mat_2(\Z/M\Z)}$, $\phi$ induces a ring isomorphism
+$\Oord/M\Oord\cong\Mat_2(\Z/M\Z)$. Let $\hat\phi\colon\Ohat\to\Mat_2(\Z/M\Z)$ be the resulting surjective ring homomorphism, with kernel $M\Ohat$ and
+$\hat\phi\circ\iota=\phi$ on $\Oord$. For $c\in\Zhat\subseteq\Ohat$, $\hat\phi(c)$ is the scalar $c\bmod M$.
+
+\emph{Claim A: $\widehat{\Oord'}^\times=\{u\in\Ohat^\times:\hat\phi(u)\in B_0(\Z/M\Z)\}$.} The set $T=\{y\in\Ohat:\hat\phi(y)_{21}=0\}$ is a
+$\Zhat$-submodule (as $\hat\phi(cy)=\hat\phi(c)\hat\phi(y)$ with $\hat\phi(c)$ scalar) containing $\iota(\Oord')$, so $\widehat{\Oord'}\subseteq T$. Conversely, for
+$y\in T$ write $y=\iota(z)+w$ with $z\in\Oord$, $w\in M\Ohat$; then $\phi(z)_{21}=\hat\phi(y)_{21}=0$, so $z\in\Oord'$, and $w\in M\Ohat=\widehat{M\Oord}\subseteq
+\widehat{\Oord'}$; so $T=\widehat{\Oord'}$. For $u\in\Ohat^\times$, $\hat\phi(u^{-1})=\hat\phi(u)^{-1}$, and an invertible upper triangular matrix has an upper
+triangular inverse; so $u,u^{-1}\in T$ if and only if $\hat\phi(u)\in B_0(\Z/M\Z)$.
+
+\emph{Claim B (plan trap 10): $\hat\phi(\Ohat^\times)=\GL_2(\Z/M\Z)$.} Let $g\in\GL_2(\Z/M\Z)$ and $y,z\in\Ohat$ with $\hat\phi(y)=g$, $\hat\phi(z)=g^{-1}$. Then
+$yz-1,zy-1\in M\Ohat$. For $p\mid M$, (C2) gives $y_pz_p=1+Mw_p$ with $w_p\in\Oord_p$; as $\Oord_p$ is compact (closed in the complete space $\Bq_{\Qp}$) and
+$M\in p\Zp$, the series $\sum_{n\ge0}(-Mw_p)^n$ converges in $\Oord_p$ to an inverse of $1+Mw_p$, so $y_p$ has a right inverse in $\Oord_p$, and likewise a
+left inverse: $y_p\in\Oord_p^\times$. Let $y'\in\Bhat$ have components $y'_p=y_p$ for $p\mid M$ and $y'_p=1$ for $p\nmid M$ (C0). By (C2), $y'\in\Ohat^\times$, and
+$y-y'\in\widehat{M\Oord}=M\Ohat$, because $(M\Oord)_p=M\Oord_p$ equals $\Oord_p$ for $p\nmid M$. So $\hat\phi(y')=g$.
+
+By Claims A and B, $\hat\phi$ restricts to a surjective homomorphism $\Ohat^\times\to\GL_2(\Z/M\Z)$ under which $\widehat{\Oord'}^\times$ is the preimage of
+$B_0(\Z/M\Z)$; hence $[\Ohat^\times:\widehat{\Oord'}^\times]=[\GL_2(\Z/M\Z):B_0(\Z/M\Z)]=\dedpsi(M)$ by \cref{III.qcls.lem:gl2-borel-index}. Since $a,b<0$,
+$X(\Oord)$ is finite (\cref{III.qcls.thm:class-set-finite}), and \cref{III.qcls.lem:mass-orbit-count} with $U=\Ohat^\times$, $U'=\widehat{\Oord'}^\times$ gives
+$\Mass(\Oord')=\dedpsi(M)\Mass(\Oord)$ (\cref{III.qcls.def:mass}). \emph{Source:} \cite[Def.~2.13, p.~353]{Piz}, \cite[§25.3]{Voi}.
+\end{proof}
+
+\begin{hypothesis}[Eichler's mass formula, H-EM]
+\tfstmt{III.qcls.hyp:eichler-mass}
+\uses{III.qalg.def:ramified-exactly, III.qord.def:maximal-order, III.qcls.def:mass}
+\end{hypothesis}
+\noindent \emph{Status (decision D4, approved 2026-11-11).} Unproved input, taken as an explicit argument by its consumers; registry entry in
+\cref{ch:hypotheses}. Closed instances: \cref{III.qcls.ex:hurwitz-order-mass,III.qcls.ex:eichler-mass-instance-d11}. The ramification
+datum is an antecedent inside the statement, so H-EM is vacuous at every index where it fails. \emph{Source:} \cite[(20)--(21), p.~180]{Shz}
+(with $e_\mu=\abs{\Oord_\mu^\times}/2$, hence $\frac1{12}$ there); \cite[Def.~2.13, p.~353]{Piz}.
+
+\begin{corollary}[the mass of an Eichler order, conditional on H-EM]
+\tfstmt{III.qcls.cor:eichler-order-mass}
+\uses{III.qcls.hyp:eichler-mass, III.qcls.thm:mass-level-change, III.qord.def:eichler-order}
+\end{corollary}
+\begin{proof}
+\uses{III.qcls.hyp:eichler-mass, III.qcls.thm:mass-level-change, III.qalg.def:ramified-exactly}
+$\operatorname{RamEx}(a,b,D)$ contains $a,b<0$, so \cref{III.qcls.thm:mass-level-change} gives $\Mass(\Oord(M;\phi))=\dedpsi(M)\Mass(\Oord)$, and H-EM with
+$\operatorname{RamEx}(a,b,D)$ gives $\Mass(\Oord)=\frac1{24}\prod_{p\mid D}(p-1)$.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The adelic group and compactness}\label{sec:qcls-compact}
+
+\begin{definition}[the adelic quaternion group]
+\tfstmt{III.qcls.def:adelic-quaternion-group}
+\uses{III.qcls.def:finite-adelic-algebra, I.adele.def:adele-ring, I.adele.def:ideles, I.adele.def:idele-norm, I.adele.thm:product-formula}
+\end{definition}
+\noindent $\BA^\times\cong\Binf^\times\times\Bhat^\times$ as topological groups, with $\Binf=\Bq_\R$ (stated in B).
+\begin{proof}[Proof of the claims]
+\uses{III.qalg.lem:reduced-norm-basic, I.adele.def:ideles, I.adele.def:idele-norm, I.adele.thm:product-formula}
+$\nrd\colon\BA\to\A$ is multiplicative with $\nrd(1)=1$ (\cref{III.qalg.lem:reduced-norm-basic}(c)), so it maps units to units and restricts to a
+homomorphism $\BA^\times\to\A^\times$; $\BA^1$ is the kernel of its composite with the homomorphism $\abs\cdot_\A$, a subgroup. For $\gamma\in\Bq^\times$,
+$\nrd(\iota_\A(\gamma))$ is the image of $\nrd(\gamma)\in\Q^\times$ (\cref{III.qalg.lem:reduced-norm-basic}(d)), whose idele norm is $1$ by the product
+formula; so $\iota_\A(\Bq^\times)\le\BA^1$.
+\end{proof}
+
+\begin{theorem}[discreteness]
+\tfstmt{III.qcls.thm:diagonal-discrete}
+\uses{III.qcls.def:adelic-quaternion-group, I.adele.thm:rat-discrete}
+\end{theorem}
+\begin{proof}
+\uses{III.qcls.def:adelic-quaternion-group, I.adele.thm:rat-discrete, I.adele.thm:adele-locally-compact}
+The inclusion was shown with \cref{III.qcls.def:adelic-quaternion-group}. Let $W\subseteq\A$ be the open set $(-1,1)\times\Zhat$
+(\cref{I.adele.thm:adele-locally-compact}) and $V=\{u\in\BA^1:\text{every coordinate of }u-1\text{ lies in }W\}$. $V$ is open in $\BA^1$, because the
+coordinates are continuous on $\BA$ and $u\mapsto u$ is continuous from the units topology. If $\iota_\A(\gamma)\in V$, every coordinate of $\gamma-1$ lies in
+$\Q\cap W=\{0\}$ (\cref{I.adele.thm:rat-discrete}), so $\gamma=1$. Hence $\{1\}=\Gamma_{\Bq}\cap V$ is open in $\Gamma_{\Bq}$, and since left translations are
+homeomorphisms of the topological group $\Gamma_{\Bq}$, every point is open: $\Gamma_{\Bq}$ is discrete.
+\end{proof}
+
+\begin{theorem}[compactness of the quotient]
+\tfstmt{III.qcls.thm:quotient-compact}
+\uses{III.qalg.lem:reduced-norm-definite, III.qcls.lem:order-completion-compact-open, III.qcls.thm:class-set-finite, III.qcls.def:adelic-quaternion-group, III.qcls.thm:diagonal-discrete, I.adele.thm:product-formula}
+\end{theorem}
+\noindent The conclusion has the shape of the compactness hypothesis of the trace formula for compact quotients (in the parent project, Vol.~II, Ch.~1; not part of this volume).
+\begin{proof}
+\uses{III.qalg.lem:reduced-norm-definite, III.qalg.thm:definite-division, III.qalg.lem:reduced-norm-basic, III.qcls.lem:order-completion-compact-open, III.qcls.thm:class-set-finite, III.qcls.def:adelic-quaternion-group, III.qcls.thm:diagonal-discrete, III.qord.def:standard-order, I.adele.def:adele-ring, I.adele.def:idele-norm, I.adele.thm:product-formula}
+Discreteness is \cref{III.qcls.thm:diagonal-discrete}.
+
+\emph{(P) Product decomposition.} $\A=\R\times\Af$ as topological rings (\cref{I.adele.def:adele-ring}); base change along the two projections is a ring
+isomorphism $\BA\to\Binf\times\Bhat$, $g\mapsto(g_\infty,g_f)$, which in coordinates is $\A^4\cong\R^4\times\Af^4$, a homeomorphism. The units of a product
+ring are the pairs of units, and the units topology of a product is the product of the units topologies ($u\mapsto(u,u^{-1})$ is compatible with the
+decomposition). So $\BA^\times\cong\Binf^\times\times\Bhat^\times$ as topological groups, and $\iota_\A(\gamma)=(\gamma,\iota(\gamma))$. Moreover
+$\abs{\nrd(g)}_\A=\abs{\nrd(g_\infty)}\cdot\norm{g_f}$ with $\norm y=\prod_p\abs{\nrd(y_p)}_p$ for $y\in\Bhat^\times$ (\cref{I.adele.def:idele-norm} and
+\cref{III.qalg.lem:reduced-norm-basic}(d)); $\norm\cdot$ is multiplicative, and $\norm u=1$ for $u\in\Ohat^\times$, since $\nrd(u_p),\nrd(u_p^{-1})\in\Zp$
+(the reduced norm of $\sum c_\mu e'_\mu$ is an integral quadratic form in $c$, by $\nrd(y+z)=\nrd(y)+\nrd(z)+\trd(y\bar z)$ and (D1) of
+\cref{III.qord.def:discriminant}).
+
+\emph{The compact pieces.} Let $\Oord$ be the standard order and $x_1,\dots,x_h$ representatives of $X(\Oord)$, finite by
+\cref{III.qcls.thm:class-set-finite}. Put $r_c=\norm{x_c}^{-1}>0$, $S_r=\{y\in\Bq_\R:\nrd(y)=r\}$ and $K_c=\{g:g_\infty\in S_{r_c},\ g_f\in x_c\Ohat^\times\}$.
+$S_r$ is closed and, by \cref{III.qalg.lem:reduced-norm-definite}, bounded in $\R^4$, hence compact; it lies in $\Binf^\times$
+(\cref{III.qalg.thm:definite-division}), and on it $y\mapsto y^{-1}=\bar y/r$ is continuous, so $S_r$ is compact in the units topology. $x_c\Ohat^\times$ is
+compact by \cref{III.qcls.lem:order-completion-compact-open}. By (P), $K_c$ is compact in $\BA^\times$, and for $g\in K_c$,
+$\abs{\nrd(g)}_\A=r_c\norm{x_c}=1$; so $K_c$ is a compact subset of $\BA^1$. Let $K=K_1\cup\dots\cup K_h$.
+
+\emph{Covering.} Let $g\in\BA^1$. Then $g_f=\iota(\gamma)x_cu$ for some $c$, $\gamma\in\Bq^\times$, $u\in\Ohat^\times$. Put $g'=\iota_\A(\gamma)^{-1}g\in\BA^1$; by (P),
+$g'_f=x_cu$ and $1=\abs{\nrd(g')}_\A=\nrd(g'_\infty)\norm{x_c}$ (here $\nrd(g'_\infty)>0$ by \cref{III.qalg.lem:reduced-norm-definite}), so $g'\in K_c$. Hence
+$\BA^1=\Gamma_{\Bq}K$, and the quotient map $\BA^1\to\Gamma_{\Bq}\backslash\BA^1$, which is continuous, maps the compact set $K$ onto the quotient.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Instances}\label{sec:qcls-instances}
+
+\noindent All class and unit counts below are certified by explicit elements (numcheck label Q2-INST); no evaluation of the Hilbert symbol and
+no \texttt{native\_decide} is used.
+
+\begin{example}[the Hurwitz order]
+\tfstmt{III.qcls.ex:hurwitz-order-mass}
+\uses{III.qord.def:standard-order, III.qord.lem:maximal-criterion, III.qcls.thm:minkowski-bound, III.qcls.thm:class-set-finite, III.qcls.lem:stabilizer-units, III.qcls.def:mass, III.qcls.hyp:eichler-mass, III.qalg.thm:pizer-algebras}
+\end{example}
+\begin{proof}
+\uses{III.qord.def:standard-order, III.qord.def:discriminant, III.qord.lem:discriminant-index, III.qord.lem:maximal-criterion, III.qcls.thm:minkowski-bound, III.qcls.thm:class-set-right-ideals, III.qcls.thm:lattice-local-global, III.qcls.lem:stabilizer-units, III.qord.thm:units-finite, III.qcls.def:mass, III.qcls.hyp:eichler-mass}
+Here $a=b=-1$, $\nrd(x)=\sum x_\mu^2$, and $h=\frac{1+i+j+k}2$.
+\emph{$\Oord_H$ is an order.} The products of $h,i,j,k$ lie in $\Oord_H$: those of $i,j,k$ lie in $\{\pm1,\pm i,\pm j,\pm k\}$, and
+$h^2=h-1$, $hi=jh=h-1-k$, $ih=hk=h-1-j$, $hj=kh=h-1-i$. Also $1=2h-i-j-k\in\Oord_H$. So $\Oord_H$ is a subring, finitely generated, and contains the
+standard order $\Oord_0$; it is an order. Explicitly, $x\in\Oord_H$ iff the $2x_\mu$ are integers of the same parity.
+(a) $\Oord_0\subseteq\Oord_H$ has index $2$ ($\det C=\frac12$, (L2)), and $d(\Oord_0)=16$, so $d(\Oord_H)=4$ (\cref{III.qord.lem:discriminant-index}). The only
+prime with $p^2\mid4$ is $2$. Let $x=y/2$ with $y=c_0h+c_1i+c_2j+c_3k\in\Oord_H$ and $\nrd(x)\in\Z$, i.e.\ $4\mid\nrd(y)$; we show $y\in2\Oord_H$. Here
+$4\nrd(y)=c_0^2+(c_0+2c_1)^2+(c_0+2c_2)^2+(c_0+2c_3)^2$. If $c_0$ is odd this is $\equiv4\pmod8$, so $\nrd(y)$ is odd: impossible. So $c_0=2d_0$ and
+$\nrd(y)=d_0^2+\sum_{\mu\ge1}(d_0+c_\mu)^2\equiv0\pmod4$; four squares with sum $\equiv0\pmod 4$ have the same parity. If all are even, all $c_\mu$
+are even; if all are odd, $c_1,c_2,c_3$ are even. In both cases $y\in2\Oord_H$. By \cref{III.qord.lem:maximal-criterion}, $\Oord_H$ is maximal.
+(b) Let $[y]\in X(\Oord_H)$. By \cref{III.qcls.thm:minkowski-bound} there is $\beta\in\Bq^\times$ with $\Oord_H\subseteq\beta^{-1}L_y$ and
+$[\beta^{-1}L_y:\Oord_H]\le16/\pi^2<2$; so $\beta^{-1}L_y=\Oord_H=L_1$ (\cref{III.qcls.thm:lattice-local-global}(a)), $\beta^{-1}L_y=L_{\iota(\beta^{-1})y}$, and
+$[y]=[1]$ by \cref{III.qcls.thm:class-set-right-ideals}(b),(c). So $\abs{X(\Oord_H)}=1$. The units are the $x\in\Oord_H$ with $\sum x_\mu^2=1$
+(\cref{III.qord.thm:units-finite}): with integral coordinates $\pm1,\pm i,\pm j,\pm k$ ($8$), with half-integral ones $\frac{\pm1\pm i\pm j\pm k}2$ ($16$); so
+$\abs{\Oord_H^\times}=24$.
+(c) By \cref{III.qcls.lem:stabilizer-units}(a), $\Gamma_1=\Oord_1^\times$ with $\Oord_1=\iota^{-1}(\Ohat)=\Oord_H$ (\cref{III.qcls.thm:lattice-local-global}(a)), so
+$\Mass(\Oord_H)=1/24$.
+(d) H-EM$(-1,-1,2,\Oord_H)$ asserts $\Mass(\Oord_H)=\frac1{24}(2-1)$ under $\operatorname{RamEx}(-1,-1,2)$, which holds by (c).
+\end{proof}
+
+\begin{example}[Pizer's order for $D=11$]
+\tfstmt{III.qcls.ex:eichler-mass-instance-d11}
+\uses{III.qalg.thm:pizer-algebras, III.qord.lem:maximal-criterion, III.qcls.thm:class-set-right-ideals, III.qcls.lem:index-square, III.qcls.thm:minkowski-bound, III.qcls.lem:stabilizer-units, III.qcls.def:mass, III.qcls.hyp:eichler-mass}
+\end{example}
+\noindent $\frac5{12}=\frac{11-1}{24}$, as H-EM predicts.
+\begin{proof}
+\uses{III.qalg.thm:pizer-algebras, III.qord.def:discriminant, III.qord.lem:discriminant-index, III.qord.lem:maximal-criterion, III.qord.thm:units-finite, III.qcls.ex:hurwitz-order-mass, III.qalg.lem:left-multiplication-det, III.qcls.thm:class-set-right-ideals, III.qcls.thm:lattice-local-global, III.qcls.lem:index-square, III.qcls.thm:minkowski-bound, III.qcls.lem:stabilizer-units, III.qcls.def:mass, III.qcls.hyp:eichler-mass, III.qalg.lem:local-order-basic}
+Here $\nrd(x)=x_0^2+x_1^2+11(x_2^2+x_3^2)$. Let $e_1=\frac{1+j}2$, $e_2=\frac{i+k}2$, $e_3=j$, $e_4=k$, so $\Oord_{11}=\bigoplus\Z e_r$, and
+$y=\sum c_re_r$ has coordinates $(\frac{c_1}2,\frac{c_2}2,\frac{c_1}2+c_3,\frac{c_2}2+c_4)$.
+(a) is \cref{III.qalg.thm:pizer-algebras}(b) with $p=11$.
+
+(b) \emph{Order.} $1=2e_1-e_3$, $i=2e_2-e_4$, and the multiplication table $e_re_s$ (rows $r$, columns $s$; coordinates in $e_1,\dots,e_4$) is integral:
+\[
+\begin{array}{c|cccc}
+ &e_1&e_2&e_3&e_4\\\hline
+e_1&-5e_1+3e_3&6e_2-3e_4&-11e_1+6e_3&11e_2-5e_4\\
+e_2&-5e_2+3e_4&-6e_1+3e_3&-11e_2+6e_4&-11e_1+5e_3\\
+e_3&-11e_1+6e_3&11e_2-6e_4&-22e_1+11e_3&22e_2-11e_4\\
+e_4&-11e_2+6e_4&-11e_1+6e_3&-22e_2+11e_4&-22e_1+11e_3
+\end{array}
+\]
+So $\Oord_{11}$ is a subring containing the standard order $\Oord_0$ with index $4$ ($\det C=\frac14$); $d(\Oord_0)=16\cdot121$, so $d(\Oord_{11})=121$
+(\cref{III.qord.lem:discriminant-index}). \emph{Maximality} (plan trap 8): only $p=11$ has $p^2\mid121$. Let $x=y/11$ with $y\in\Oord_{11}$ and
+$\nrd(x)\in\Z$, so $121\mid\nrd(y)$, and $4\nrd(y)=c_1^2+c_2^2+11\bigl((c_1+2c_3)^2+(c_2+2c_4)^2\bigr)$. Then $11\mid c_1^2+c_2^2$; as $-1$ is not a square
+mod $11$, $11\mid c_1,c_2$. Then $121\mid c_1^2+c_2^2$, so $11\mid(c_1+2c_3)^2+(c_2+2c_4)^2$, and likewise $11\mid c_1+2c_3,\,c_2+2c_4$, hence $11\mid c_3,c_4$:
+$y\in11\Oord_{11}$, $x\in\Oord_{11}$. By \cref{III.qord.lem:maximal-criterion}, $\Oord_{11}$ is maximal.
+
+(c) \emph{Units of $\Oord_{11}$.} For $x\in\Oord_{11}$ with $\nrd(x)=1$: the $2x_\mu$ are integers, and $11(x_2^2+x_3^2)\le1$ forces $x_2=x_3=0$, then
+$(2x_0)^2+(2x_1)^2=4$; so $x\in\{\pm1,\pm i\}$, all in $\Oord_{11}$. Hence $\abs{\Oord_{11}^\times}=4$, and $\Gamma_1=\Oord_{11}^\times$ as in
+\cref{III.qcls.ex:hurwitz-order-mass}(c).
+
+\emph{Representatives.} Let $[y]\in X(\Oord_{11})$. By \cref{III.qcls.thm:minkowski-bound} and \cref{III.qcls.thm:class-set-right-ideals}(b) there is
+$J=L_{\iota(\beta^{-1})y}\supseteq\Oord_{11}$ in the class $[y]$ (in the sense of \cref{III.qcls.thm:class-set-right-ideals}(c)) with
+$\pi^2[J:\Oord_{11}]\le88$, so $[J:\Oord_{11}]\le8$, and $[J:\Oord_{11}]$ is a square (\cref{III.qcls.lem:index-square}): it is $1$ or $4$. Index $1$ means
+$J=\Oord_{11}=L_1$ and $[y]=[1]$. Let the index be $4$. \emph{$J/\Oord_{11}$ is not cyclic}: otherwise right multiplication on $J/\Oord_{11}\cong\Z/4\Z$
+($J\Oord_{11}\subseteq J$) gives a ring homomorphism $\chi\colon\Oord_{11}\to\operatorname{End}(\Z/4\Z)=\Z/4\Z$ (the target is commutative), and
+$\chi(i)^2=\chi(-1)=-1$ is not a square mod $4$. So $2J\subseteq\Oord_{11}$, and $J/\Oord_{11}$ is a subgroup of order $4$ of
+$\frac12\Oord_{11}/\Oord_{11}\cong(\Z/2)^4$ stable under right multiplication by $\Oord_{11}$, which acts through the table above mod $2$. A finite check of
+the $35$ subgroups (certificate Q2-INST) leaves exactly three, in coordinates mod $2$:
+\[
+  R_1=\langle(0,0,1,1),(1,1,0,0)\rangle,\quad R_2=\langle(0,1,1,0),(1,0,1,1)\rangle,\quad R_3=\langle(0,1,1,1),(1,0,0,1)\rangle,
+\]
+with $J_m=\Oord_{11}+\frac12\{\sum c_re_r:c\bmod2\in R_m\}$.
+
+\emph{Which are principal.} If $J_m=\beta\Oord_{11}$, then $\beta\in J_m$ and $4=[\beta\Oord_{11}:\Oord_{11}]=\nrd(\beta)^{-2}$ (covolumes and
+\cref{III.qalg.lem:left-multiplication-det}), so $\nrd(\beta)=\frac12$. Elements of $\frac12\Oord_{11}$ have $4x_\mu\in\Z$; $\nrd(x)=\frac12$ forces
+$(4x_2)^2+(4x_3)^2\le\frac8{11}$, so $x_2=x_3=0$ and $(4x_0)^2+(4x_1)^2=8$: $x=\frac{\pm1\pm i}2$. These four elements are $\equiv\frac12(e_3+e_4)\pmod{\Oord_{11}}$
+(e.g.\ $\frac{1+i}2=e_1+e_2-\frac12(e_3+e_4)$), so they lie in $J_m$ iff $(0,0,1,1)\in R_m$, i.e.\ iff $m=1$. Hence $J_2,J_3$ are not principal, while
+$J_1=\beta\Oord_{11}$ with $\beta=\frac{1+i}2$ ($\beta^{-1}=1-i\in\Oord_{11}$ gives $\Oord_{11}\subseteq\beta\Oord_{11}\subseteq J_1$, and both have index $4$ over
+$\Oord_{11}$). Further, $\gamma=\frac{1+2i-j}4$ has $\nrd(\gamma)=1$ and $\gamma J_3\subseteq J_2$ (check on a basis), so $\gamma J_3=J_2$ (equal covolumes).
+
+\emph{The second class.} $J_2$ is a lattice with $J_2\Oord_{11}\subseteq J_2$; for odd $q$, $(J_2)_q=(\Oord_{11})_q$ by \cref{III.qalg.lem:local-order-basic}(c),
+as $[J_2:\Oord_{11}]=4$. At $2$, let $\beta_0=\frac{-3-2i-j}4$; then $\beta_0\in J_2$ (check on a basis) and $\nrd(\beta_0)=\frac32$, so $\beta_0\Oord_{11}\subseteq J_2$
+and, comparing covolumes (\cref{III.qalg.lem:left-multiplication-det}), $[J_2:\beta_0\Oord_{11}]=\nrd(\beta_0)^2\cdot[J_2:\Oord_{11}]=\frac94\cdot4=9$, which is odd.
+By \cref{III.qalg.lem:local-order-basic}(c), $(J_2)_2=(\beta_0\Oord_{11})_2=\beta_0(\Oord_{11})_2$, and \cref{III.qcls.thm:class-set-right-ideals}(d) with
+$S=\{2\}$, $\beta_2=\beta_0$ gives $x\in\Bhat^\times$ with $L_x=J_2$. Then $[x]\ne[1]$: otherwise $L_x=\gamma L_1=\gamma\Oord_{11}$
+by \cref{III.qcls.thm:class-set-right-ideals}(b), and $J_2$ would be principal. (Alternatively, $\abs{\Gamma_x}=6\ne4=\abs{\Gamma_1}$ below, and stabilizers of
+one class have equal order by \cref{III.qcls.lem:stabilizer-units}(b); this is the Lean route.)
+
+\emph{Count.} Every class is $[1]$ or $[x]$: with $J$ as above, $J=\Oord_{11}$ or $J=J_1=\beta L_1$ gives $[1]$, $J=J_2=L_x$ gives $[x]$, and
+$J=J_3=\gamma^{-1}L_x$ gives $[x]$ (\cref{III.qcls.thm:class-set-right-ideals}(c)). So $\abs{X(\Oord_{11})}=2$.
+
+\emph{The stabilizer of $[x]$.} By \cref{III.qcls.lem:stabilizer-units}(a), $\Gamma_x=\Oord_x^\times$ with $\Oord_x=\{y:yJ_2\subseteq J_2\}$. As $1\in J_2$,
+$\Oord_x\subseteq J_2\subseteq\frac12\Oord_{11}$, so units $y$ have $4y_\mu\in\Z$ and $(4y_0)^2+(4y_1)^2+11((4y_2)^2+(4y_3)^2)=16$. This has $36$ solutions: $\pm1,\pm i$, and the $32$ vectors with one of $4y_2,4y_3$ equal to
+$\pm1$, the other $0$, and $(4y_0)^2+(4y_1)^2=5$. Checking $yJ_2\subseteq J_2$ on
+a basis of $J_2$ leaves exactly six: $\pm1$ and $\pm\frac12\pm\frac14(i+k)$ (certificate Q2-INST). So $\abs{\Gamma_x}=6$.
+(d) $\Mass(\Oord_{11})=\frac14+\frac16=\frac5{12}$. (e) $\frac1{24}(11-1)=\frac5{12}$, so H-EM$(-1,-11,11,\Oord_{11})$ holds.
+\end{proof}
+
+\begin{example}[Eichler orders of levels $2$ and $3$ for $D=11$]
+\tfstmt{III.qord.ex:eichler-order-d11-levels}
+\uses{III.qord.def:level-structure, III.qord.def:eichler-order, III.qord.lem:eichler-order-index, III.qcls.thm:mass-level-change, III.qcls.ex:eichler-mass-instance-d11}
+\end{example}
+\noindent The level structures are given explicitly in the proof; $\frac54=\dedpsi(2)\cdot\frac5{12}$ and $\frac53=\dedpsi(3)\cdot\frac5{12}$.
+\begin{proof}
+\uses{III.qord.def:level-structure, III.qord.def:eichler-order, III.qcls.thm:mass-level-change, III.qcls.ex:eichler-mass-instance-d11, III.ef.def:dedekind-psi}
+With $e_1,\dots,e_4$ and the multiplication table of the proof of \cref{III.qcls.ex:eichler-mass-instance-d11}, define $\Z$-linear maps by
+\begin{align*}
+  \phi_2&:\ e_1,e_2,e_3,e_4\mapsto\begin{psmallmatrix}0&1\\1&1\end{psmallmatrix},\begin{psmallmatrix}1&0\\1&1\end{psmallmatrix},
+  \begin{psmallmatrix}1&0\\0&1\end{psmallmatrix},\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix}\in\Mat_2(\Z/2),\\
+  \phi_3&:\ e_1,e_2,e_3,e_4\mapsto\begin{psmallmatrix}1&0\\0&0\end{psmallmatrix},\begin{psmallmatrix}0&0\\1&0\end{psmallmatrix},
+  \begin{psmallmatrix}1&0\\0&2\end{psmallmatrix},\begin{psmallmatrix}0&1\\1&0\end{psmallmatrix}\in\Mat_2(\Z/3).
+\end{align*}
+Both map $1=2e_1-e_3$ to the identity, and a direct check of the sixteen products against the table shows that they are multiplicative (certificate Q2-INST;
+for $\phi_3$ this amounts to $\phi_3(i)^2=-1$, $\phi_3(j)^2=-11$, $\phi_3(i)\phi_3(j)=-\phi_3(j)\phi_3(i)=\phi_3(k)$ with $\phi_3(i)=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$,
+$\phi_3(j)=\begin{psmallmatrix}1&0\\0&-1\end{psmallmatrix}$, since $2$ is invertible mod $3$). They are surjective: for $\phi_2$, $1+\phi_2(e_4)=E_{12}$,
+$1+\phi_2(e_2)=E_{21}$, $\phi_2(e_1)+E_{12}+E_{21}=E_{22}$ and $1+E_{22}=E_{11}$; for $\phi_3$ the images of $e_1,e_2$ are $E_{11},E_{21}$, and
+$E_{22}=2(\phi_3(e_3)-E_{11})$, $E_{12}=\phi_3(e_4)-E_{21}$. So $\phi_2,\phi_3$ are level structures. Since $(-1,-11)$ is definite,
+\cref{III.qcls.thm:mass-level-change} and \cref{III.qcls.ex:eichler-mass-instance-d11}(d) give $\Mass(\Oord_{11}(2;\phi_2))=\dedpsi(2)\cdot\frac5{12}=3\cdot\frac5{12}=\frac54$
+and $\Mass(\Oord_{11}(3;\phi_3))=4\cdot\frac5{12}=\frac53$.
+\end{proof}
+
+\begin{example}[$D=3,5,7,13$; stretch]
+\tfstmt{III.qcls.ex:eichler-mass-instances-small}
+\uses{III.qalg.thm:pizer-algebras, III.qord.def:maximal-order, III.qcls.def:class-set, III.qcls.lem:stabilizer-units, III.qcls.def:mass, III.qcls.hyp:eichler-mass}
+\end{example}
+\noindent The masses are $\frac1{12},\frac16,\frac14,\frac12=\frac{D-1}{24}$.
+\begin{proof}
+\uses{III.qalg.thm:pizer-algebras, III.qord.def:maximal-order, III.qord.lem:maximal-criterion, III.qord.lem:discriminant-index, III.qord.thm:units-finite, III.qcls.ex:hurwitz-order-mass, III.qcls.ex:eichler-mass-instance-d11, III.qcls.def:class-set, III.qcls.thm:class-set-right-ideals, III.qcls.thm:lattice-local-global, III.qcls.lem:index-square, III.qcls.thm:minkowski-bound, III.qcls.lem:stabilizer-units, III.qcls.def:mass, III.qcls.hyp:eichler-mass, III.qalg.thm:maximal-order-local-split, III.qalg.lem:local-order-basic, III.qalg.lem:left-multiplication-det}
+Let $p=D$. For $(-1,-p)$ use $e_1,\dots,e_4$ as in the proof of \cref{III.qcls.ex:eichler-mass-instance-d11} (with $11$ replaced by $p$); for $(-2,-p)$ let
+$e_1=\frac{1+j+k}2$, $e_2=\frac{i+2j+k}4$, $e_3=j$, $e_4=k$, so $y=\sum c_re_r$ has coordinates $(\frac{c_1}2,\frac{c_2}4,\frac{c_1+c_2}2+c_3,\frac{2c_1+c_2}4+c_4)$.
+
+\emph{Orders and discriminants.} In both cases the multiplication table of $e_1,\dots,e_4$ is integral (a finite check, as for $\Oord_{11}$; \cite[pp.~341--342]{Piz})
+and $1\in\Oord$, and $\Oord$ contains the standard order with index $4$ resp.\ $8$ ($\det C=\frac14$ resp.\ $\frac18$). As $d(\Oord_0)=16a^2b^2=16p^2$ resp.\
+$64p^2$, $d(\Oord)=p^2$ (\cref{III.qord.lem:discriminant-index}).
+
+\emph{Maximality} (\cref{III.qord.lem:maximal-criterion}, only the prime $p$): let $y\in\Oord$ with $p^2\mid\nrd(y)$. For $(-1,-p)$,
+$4\nrd(y)=c_1^2+c_2^2+p((c_1+2c_3)^2+(c_2+2c_4)^2)$ and $(\frac{-1}p)=-1$; the argument for $\Oord_{11}$ gives $y\in p\Oord$. For $(-2,-p)$,
+$16\nrd(y)=2(2c_1^2+c_2^2)+2p(2u^2+w^2)$ with $u=c_1+c_2+2c_3$, $w=2c_1+c_2+4c_4$, and $(\frac{-2}p)=-1$ (proof of \cref{III.qalg.thm:pizer-algebras}(c)): $p\mid2c_1^2+c_2^2$
+forces $p\mid c_1,c_2$, then $p\mid2u^2+w^2$ forces $p\mid u,w$, hence $p\mid c_3,c_4$. So $\Oord$ is maximal.
+
+\emph{Units} ($\nrd(x)=1$, \cref{III.qord.thm:units-finite}). $D=3$: with $X_\mu=2x_\mu\in\Z$, $X_0\equiv X_2$, $X_1\equiv X_3\pmod2$ and $X_0^2+X_1^2+3(X_2^2+X_3^2)=4$:
+$(\pm2,0,0,0),(0,\pm2,0,0),(\pm1,0,\pm1,0),(0,\pm1,0,\pm1)$, twelve units. $D=7$: $X_0^2+X_1^2+7(X_2^2+X_3^2)=4$ forces $X_2=X_3=0$: $\pm1,\pm i$.
+$D=13$: $x_2\in\frac12\Z$ and $x_3\in\frac14\Z$ with $13x_2^2+26x_3^2\le1$ force $x_2=x_3=0$, hence $c_1$ even and $c_2\equiv0\pmod4$, so $x_0,x_1\in\Z$ with
+$x_0^2+2x_1^2=1$: $\pm1$. $D=5$: $5x_2^2+10x_3^2\le1$ forces $x_2=0$, $x_3\in\{0,\pm\frac14\}$; $x_3=0$ gives $\pm1$ as for $D=13$; $x_3=\pm\frac14$ gives
+$(4x_0)^2+2(4x_1)^2=6$, i.e.\ $c_1=\pm1$, $c_2=\pm1$, and the sign of $x_3$ is then determined by $4x_3\equiv2c_1+c_2\pmod 4$: four more. So
+$\abs{\Oord^\times}=12,6,4,2$ for $D=3,5,7,13$.
+
+\emph{One class.} Let $[y]\in X(\Oord)$; as for $\Oord_{11}$ there is $J\supseteq\Oord$ with $J=L_{y'}$, $[y']=[y]$, and $[J:\Oord]$ a square $\le8D/\pi^2$:
+$1$ for $D=3$; $1$ or $4$ for $D=5,7$; $1$, $4$ or $9$ for $D=13$. Index $1$ gives $[y]=[1]$. Let $[J:\Oord]=\ell^2$ with $\ell\in\{2,3\}$, $\ell\ne p$. Then
+$J_q=\Oord_q$ for $q\ne\ell$ (\cref{III.qalg.lem:local-order-basic}(c)), so $J$ is determined by $J_\ell$ (\cref{III.qcls.thm:lattice-local-global}(c)). With
+$\iota_\ell(\Oord_\ell)=\Mat_2(\Z_\ell)$ (\cref{III.qalg.thm:maximal-order-local-split}), $J'=\iota_\ell(J_\ell)$ satisfies $J'\Mat_2(\Z_\ell)\subseteq J'$, so
+$J'=\{X:\text{columns in }N\}$ with $N\supseteq\Z_\ell^2$ the $\Z_\ell$-span of all columns of elements of $J'$ (a vector of $N$ can be put into any column,
+since $XE_{st}$ has the $s$-th column of $X$ in column $t$ and zeros elsewhere), and $[N:\Z_\ell^2]^2=[J_\ell:\Oord_\ell]=\ell^2$ (by (L2) over $\Z_\ell$,
+the local index is the $\ell$-part of $[J:\Oord]$). So $N/\Z_\ell^2$ is a line in $\ell^{-1}\Z_\ell^2/\Z_\ell^2\cong\mathbb F_\ell^2$: there are at most $\ell+1$ such
+$J$. On the other hand, $y\mapsto y^{-1}\Oord$ maps $\{y\in\Oord:\nrd(y)=\ell\}$ onto the principal ones among them ($[y^{-1}\Oord:\Oord]=\nrd(y)^2$ by
+\cref{III.qalg.lem:left-multiplication-det}), with fibres the orbits $\Oord^\times y$ of size $\abs{\Oord^\times}$. An enumeration as for the units gives
+$\#\{\nrd(y)=2\}=18,12,6$ for $D=5,7,13$ and $\#\{\nrd(y)=3\}=8$ for $D=13$ (certificate Q2-INST), i.e.\ $(\ell+1)\abs{\Oord^\times}$ in each case. So all
+these $J$ are principal, $J=\beta\Oord=\beta L_1$, and $[y]=[1]$ by \cref{III.qcls.thm:class-set-right-ideals}(c). Hence $\abs{X(\Oord)}=1$.
+
+\emph{Mass.} $\Gamma_1=\Oord^\times$ as in \cref{III.qcls.ex:hurwitz-order-mass}(c), so $\Mass(\Oord)=1/\abs{\Oord^\times}=\frac1{12},\frac16,\frac14,\frac12$, which
+equals $\frac1{24}(D-1)$; H-EM$(a,b,D,\Oord)$ holds.
+\end{proof}

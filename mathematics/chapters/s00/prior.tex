@@ -1,0 +1,115 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 00 (introduction): prior work and acknowledgements (related work). No \input; reusable in the report.
+% Every reference was checked against Crossref, arXiv metadata or a local copy; the bib entries say how (field `note').
+% Descriptions of a cited paper are limited to what was checked there; where a statement is our reading, the text says so.
+\section{Prior work and acknowledgements}\label{ss:s00-prior}
+
+This section places the project in the literature, in three strands: approaches to the Jacquet--Langlands correspondence (JL),
+congruence modules, and Bruhat--Tits trees. It closes with the software we built on. Statements about other work are
+\stcited{} and are kept to what we checked; the file \pathtt{mathematics/references.bib} records for each entry how it was verified (Crossref, a local copy with the page, or a secondary source). Three entries, \cite{Ih75}, \cite{Ri84} and \cite{Piz80}, were checked only bibliographically, not against the papers themselves, and are cited for their standard content only; \cite{KM86}, \cite{DKV84}, \cite{Len95}, \cite{Mes86} and \cite{DiaInv97} are described through the sources named next to them. Every other reference was verified against Crossref, arXiv or a local copy.
+What we claim as ours is listed, with its status, in \S\ref{ss:s00-newknown}.
+
+\subsection{Approaches to the Jacquet--Langlands correspondence}
+
+\paragraph{The trace formula.} Jacquet and Langlands proved the correspondence between automorphic representations of the
+multiplicative group of a quaternion algebra and those of $\GL_2$ by comparing the Selberg trace formulas of the two groups
+\cite[Thm.~16.1]{JL}. Gelbart's monograph gives an exposition of the adelic theory of $\GL_2$, with a chapter on automorphic forms
+on a quaternion algebra \cite[\S10]{Gel75}. Bergeron's book proves the correspondence for arithmetic hyperbolic surfaces in
+classical language, following Bolte and Johansson as its preface says \cite[Ch.~8]{Bergeron16}. The problem statement of the
+event cites \cite{JL} and \cite[Ch.~8]{Bergeron16}. For $\GL_n$ and its inner forms the local correspondence in characteristic
+zero is due to Deligne, Kazhdan and Vign\'eras \cite{DKV84}, and the global correspondence, with multiplicity one and a
+classification of the discrete spectrum of inner forms, to Badulescu \cite[Thm.~5.1]{Bad08} and Badulescu--Renard
+\cite[Thm.~18.1]{BR10}, again by comparing trace formulas \cite[\S18]{BR10}. Our work does not reprove any of this in general: over
+$\Q$ and for definite $B$ we use classical JL as a cited input (Thm.~\ref{thm:s01-JLclassical}, \stcited); only in the first case
+($D=q$, weight~$2$) does our route reprove it, modulo cited geometry (\S\ref{ss:s00-whycited}).
+
+\paragraph{Theta correspondences.} Shimizu realised the correspondence by theta series attached to the norm form of the
+quaternion algebra \cite{Shz72}; Ichino and Prasanna describe their Theorem~1 in \cite{IP16} as an explicit realisation of JL
+``extending the work of Shimizu'', and Harris and Kudla use that the correspondence ``can be realized, as in the work of Shimizu,
+as a theta correspondence'' for the orthogonal group of the norm form \cite[pp.~607--608]{HK91}. In cohomological form there is the work of Kudla and Millson \cite{KM86}. As
+we understand it (from the paper's scope and from the use made of it in \cite[\S1.2.3]{IP23}, not from a statement we located in it: \cite{KM86} is not among our local copies), they construct theta lifts with values in cohomology for orthogonal groups of signature $(p,q)$; for signature $(2,1)$ this gives the Shintani lift, with geodesic cycles as the relevant special cycles, while for the norm
+form of a \emph{definite} quaternion algebra (signature $(4,0)$, or $(3,0)$ on the trace-zero part) the symmetric space is a
+point, the lift is $0$-dimensional, and its natural target is coherent rather than Betti cohomology. In this reading the theta
+route produces analytic or rational maps, not the \emph{integral} Hecke-equivariant map in Betti cohomology that we look for
+(\S\ref{ss:s00-hope}); this is one reason for the route of \S\ref{ss:s00-route}. Ichino and Prasanna \cite[\S1, Thm.~1, pp.~4--5]{IP23} treat two quaternion algebras $B_1,B_2$ over a totally real field $F$
+that are split at the same set $\Sigma$ of archimedean places, and assume that there is at least one infinite place at which
+both are ramified. Under these hypotheses they prove that the Jacquet--Langlands correspondence between $B_1$ and $B_2$ is
+realised by a Hodge class on the product $X_1\times X_2$ of the associated Shimura varieties, and that this class is
+Galois-invariant if Kottwitz's conjecture (for Shimura varieties attached to unitary similitude groups) holds. This is a
+cohomological realisation of JL in the proper sense: the class acts as a correspondence, $x\mapsto p_{2,*}(\xi\cup p_1^*x)$,
+and induces an isomorphism between the corresponding isotypic parts of the middle-degree cohomology of $X_1$ and $X_2$,
+whereas the trace-formula proofs only identify the two spectra. Our pair, a definite $B$ versus $\mathrm{GL}_2$ over $F=\Q$,
+lies outside this theorem: the archimedean splitting sets differ ($B$ is ramified at $\infty$, $\mathrm{GL}_2$ is split), so
+the two cohomologies sit in different degrees ($0$ for the finite class set, $1$ for the modular curve), and, as we read it,
+no algebraic cycle on a product of two varieties of the same dimension is available to induce the map. That is why we look for
+a map in the style of Ribet's sequence and the Bruhat--Tits tree instead (\S\ref{ss:s00-route}).
+
+\paragraph{$p$-adic, $\Lambda$-adic and torsion versions.} Chenevier extended JL to overconvergent $p$-adic forms of finite slope
+and to $p$-adic families, induced by an isomorphism between eigencurves \cite[Abstract; Thm.~3, \S4.6]{Ch}; we only remark on it (our item (b), Remark~\ref{rem:s05-O7}). Hida's construction of
+$p$-adic Hecke algebras for $\GL_2$ over totally real fields studies cohomology of arithmetic subgroups of quaternion algebras
+as modules over the Iwasawa algebra, and identifies Hecke algebras across quaternion algebras by ``a result of Jacquet,
+Langlands and Shimizu'' \cite[Thm.~2.1]{Hi88b}. In the form we use, a $\Lambda$-adic JL map from the ordinary Hecke algebra of
+$\GL_2$ onto that of a definite quaternion algebra is stated by Longo--Vigni \cite[Prop.~6.1]{LV} and by Hsieh
+\cite[\S4.5, Thm.~4.5]{Hs}. Calegari and Venkatesh study torsion in the homology of arithmetic groups and prove, among other results, a
+numerical form of JL in the torsion setting \cite[Abstract]{CV12}; their setting (hyperbolic $3$-manifolds) is different from ours.
+
+\subsection{Congruence modules}
+
+\paragraph{Hida and Ribet.} Hida proved congruences between a primitive cusp form and other cusp forms modulo the special value
+of a zeta function attached to the form \cite[\S0]{Hi81}, studied modules of congruence of Hecke algebras and their relation to
+$L$-values \cite{Hi88a}, and developed the ordinary $\Lambda$-adic theory with freeness and control \cite[Thm.~3.1,
+Cor.~3.2]{Hi86b}. Ribet compared congruence primes with a cohomological index, including its old/new decomposition
+\cite[Prop.~1.2, Thm.~1.4]{Ri83}, proved level raising \cite{Ri84}, and, in the paper that is the backbone of our stages 02--03,
+compared the character group of the toric part of $J_0(qM)$ at $q$ with degree-zero divisors on supersingular points
+\cite[Prop.~3.1, Thm.~3.15, Thm.~4.1]{Ri90}. The component group in the prime-level case is Mazur's
+\cite[Appendix, Thm.~A.1]{Mz}. Diamond computed $\Lambda$-adic congruence modules between old and new forms \cite[Thms.~6A--6C]{Dia89},
+and discussed how generalisations of the results of Hida, Ribet and Wiles relate a formula at non-minimal level to one at
+minimal level by ``dropping Euler factors'' \cite[Abstract]{DiaPNAS97}.
+
+\paragraph{Wiles' numerical criterion and its descendants.} Wiles' numerical criterion compares the congruence ideal $\eta$ of a
+Hecke algebra with the cotangent space of a deformation ring \cite[Appendix, Props.~1, 2]{Wi95}; Lenstra gave it a slightly
+stronger form \cite{Len95}, as stated with Wiles' in \cite[Thm.~1.1]{BKM}. Taylor and Wiles proved that the relevant minimal Hecke
+algebras are complete intersections \cite[Introduction]{TW95}, and Diamond's refinement of their construction yields freeness of
+the Hecke modules involved \cite{DiaInv97} (as described in \cite[\S2]{KO}). For the comparison between $\GL_2$ and quaternion
+algebras the closest results to our Theorem~\ref{thm:s06-defect} are these: Ribet and Takahashi compare the degrees of
+parametrisations of an elliptic curve by Shimura curves and by modular curves, with an error term given by local factors
+\cite[Thm.~1]{RT97}; Pollack and Weston compare $\eta_f(N)$ with a quaternionic congruence number, the difference given by
+Tamagawa exponents \cite[Thm.~6.8]{PW}; Kim and Ota prove $\ord\eta_f(N)=\ord\eta_f(N^+,N^-)+\sum_{q\mid N^-}t_f(q)$ at fixed weight
+under their hypotheses, including their condition (6) \cite[Thm.~1.1]{KO}; and B\"ockle, Khare and Manning compute the Wiles
+defect at trivial primes, where the Hecke algebras are neither complete intersections nor Gorenstein
+\cite[\S1, Thm.~1.2]{BKM}. On the definite side, Hsieh proves Gorenstein and freeness properties of the $\Lambda$-adic Hecke
+algebra under his hypotheses \cite[Thm.~4.2, Thm.~4.5]{Hs}. Our defect formula is a $\Lambda$-adic, definite-side variant of
+this circle of ideas, proved from the definite Ribet sequence; its relation to \cite{KO,PW} is spelled out in stage~06.
+
+\subsection{Bruhat--Tits trees and supersingular graphs}
+
+\paragraph{Trees.} Ihara proved that every torsion-free discrete subgroup of $\mathrm{PGL}_2$ over a $\mathfrak p$-adic field is
+free, with an explicit count of generators in the cocompact case, by a combinatorial argument on amalgams, and applied it to unit
+groups of totally definite quaternion algebras \cite[\S2, Thm.~1 and Corollary; \S5]{Ih66}. Serre's \emph{Trees} recast this in
+terms of group actions on the Bruhat--Tits tree and amalgams \cite[Ch.~II, \S1.4--1.5]{Se}; this is the framework of our
+stage~02 (Prop.~\ref{prop:s02-BG}). Ihara's lemma on modular curves over finite fields \cite{Ih75} and its definite form
+\cite[Thm.~3.15, Rem.~3.18]{Ri90} are the other input; Ribet attributes a graph-connectivity proof to Livn\'e and Edixhoven there.
+A formalization of the Bruhat--Tits tree in Lean is due to Ludwig and Merten \cite{LM}.
+
+\paragraph{Brandt matrices and the supersingular module.} Pizer gave an algorithm for computing modular forms on $\Gamma_0(N)$
+from Brandt matrices of definite quaternion algebras \cite{Piz80}. Mestre's \emph{m\'ethode des graphes} computes Hecke modules
+from supersingular elliptic curves and their isogeny graphs \cite{Mes86} (as described in \cite[\S3]{Koh01}). Gross developed the
+arithmetic of definite quaternion algebras of prime discriminant through Brandt matrices and supersingular elliptic curves and
+compared it with weight-two forms of prime level \cite[\S\S1--2, 5]{Gro87}, and later recast the theory as algebraic modular forms
+\cite{Gr99}. Serre's letter to Tate sketches an approach to modular forms mod $p$ by evaluating them at supersingular elliptic
+curves, that is, through quaternions \cite[Abstract]{SL96}. Kohel describes the Hecke module of a definite quaternion algebra
+and identifies it, isometrically, with the character group in Ribet's sequence \cite[Thms.~4.2, 4.3]{Koh01}. Emerton proved that
+the $\Z$-module of weight-two forms on $\Gamma_0(p)$ with integral Fourier coefficients (up to the constant term) is spanned by
+theta series attached to the quaternion algebra ramified at $p$ and $\infty$ \cite[Abstract]{Eme02}, an integral statement of
+the kind we pursue.
+
+\subsection{Software and acknowledgements}
+
+The formalization uses Lean~4 \cite{Lean4} and Mathlib \cite{Mathlib20}, at the fixed toolchain \texttt{v4.35.0} and a fixed
+Mathlib revision. It imports a curated part (about 30k lines) of an earlier Lean project of ours on the $\GL_2$ trace formula, and
+a small amount of vendored third-party code whose provenance is recorded in the repository. The computations use PARI/GP
+(\url{https://pari.math.u-bordeaux.fr}) with Python, and the Harder Arithmetic Cohomology System HACS v0.2.1
+(doi:10.5281/zenodo.24231446) with the census data hacs-data v0.2.0 (doi:10.5281/zenodo.24147012), extended by a clearly
+marked Jacquet--Langlands module. We thank the authors and maintainers of all of these. Funding acknowledgements, in their
+fixed wording, are given in the note to the title.

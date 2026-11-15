@@ -1,0 +1,802 @@
+{
+ "data": {
+  "all_plus": true,
+  "any_ambiguous": false,
+  "any_sign_contradiction": false,
+  "conventions": {
+   "Pi": "(Pi F)(x) = F(x Pi_D); on left ideals Phi(L) -> Phi(P^{-1} L) = D^n beta^{-1}.Phi(L_{c'}), P L_c = L_{c'} beta",
+   "mf": "U_D = mfheckemat(mfinit([D,k],0), D) = a_D on the newspace",
+   "normalisation": "Pi^2 = D^{k-2} = S_D; eigenvalues +-D^{(k-2)/2}; a_D = +-D^{k/2-1}; compared directly"
+  },
+  "ex_s01_Pi11": {
+   "Pi_11_is_identity_k2": true,
+   "a_11(11a)": 1
+  },
+  "grid": {
+   "11,2": {
+    "D": 11,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 2,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         -6,
+         -1,
+         1
+        ],
+        "3": [
+         -4,
+         -3,
+         1
+        ],
+        "5": [
+         6,
+         -7,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 0
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 2,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 1,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         2,
+         1
+        ],
+        "3": [
+         1,
+         1
+        ],
+        "5": [
+         -1,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   },
+   "11,4": {
+    "D": 11,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 2,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "11"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         -2,
+         -2,
+         1
+        ],
+        "3": [
+         -47,
+         2,
+         1
+        ],
+        "5": [
+         -191,
+         -2,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "-11"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 2
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 4,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 2,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "11"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         -2,
+         -2,
+         1
+        ],
+        "3": [
+         -47,
+         2,
+         1
+        ],
+        "5": [
+         -191,
+         -2,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "-11"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   },
+   "13,2": {
+    "D": 13,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 1,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         -3,
+         1
+        ],
+        "3": [
+         -4,
+         1
+        ],
+        "5": [
+         -6,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 0
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 2,
+    "match_Pi_eq_minus_aD": true,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 0,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     }
+    },
+    "no_newforms": true,
+    "relation": "no newforms (S_k(Gamma_0(D))^new = 0); only the Eisenstein line, Pi = +1",
+    "sign_contradiction": false
+   },
+   "13,4": {
+    "D": 13,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 3,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         5,
+         1
+        ],
+        "3": [
+         7,
+         1
+        ],
+        "5": [
+         7,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "13"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         -4,
+         -1,
+         1
+        ],
+        "3": [
+         -32,
+         -5,
+         1
+        ],
+        "5": [
+         -2,
+         3,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "-13"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 2
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 4,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 3,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         5,
+         1
+        ],
+        "3": [
+         7,
+         1
+        ],
+        "5": [
+         7,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "13"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         -4,
+         -1,
+         1
+        ],
+        "3": [
+         -32,
+         -5,
+         1
+        ],
+        "5": [
+         -2,
+         3,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "-13"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   },
+   "17,2": {
+    "D": 17,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 2,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         -3,
+         -2,
+         1
+        ],
+        "3": [
+         0,
+         -4,
+         1
+        ],
+        "5": [
+         -12,
+         -4,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 0
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 2,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 1,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         1,
+         1
+        ],
+        "3": [
+         0,
+         1
+        ],
+        "5": [
+         2,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   },
+   "17,4": {
+    "D": 17,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 4,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         3,
+         1
+        ],
+        "3": [
+         8,
+         1
+        ],
+        "5": [
+         -6,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "17"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         32,
+         -24,
+         -1,
+         1
+        ],
+        "3": [
+         204,
+         -62,
+         -4,
+         1
+        ],
+        "5": [
+         32,
+         -44,
+         8,
+         1
+        ]
+       },
+       "dim": 3,
+       "lambda": "-17"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 2
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 4,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 4,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         3,
+         1
+        ],
+        "3": [
+         8,
+         1
+        ],
+        "5": [
+         -6,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "17"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         32,
+         -24,
+         -1,
+         1
+        ],
+        "3": [
+         204,
+         -62,
+         -4,
+         1
+        ],
+        "5": [
+         32,
+         -44,
+         8,
+         1
+        ]
+       },
+       "dim": 3,
+       "lambda": "-17"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   },
+   "19,2": {
+    "D": 19,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 2,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         0,
+         -3,
+         1
+        ],
+        "3": [
+         -8,
+         -2,
+         1
+        ],
+        "5": [
+         18,
+         -9,
+         1
+        ]
+       },
+       "dim": 2,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 0
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 2,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 1,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         0,
+         1
+        ],
+        "3": [
+         2,
+         1
+        ],
+        "5": [
+         -3,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "1"
+      },
+      "-": {
+       "charpoly_T": {},
+       "dim": 0,
+       "lambda": "-1"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   },
+   "19,4": {
+    "D": 19,
+    "Pi_squared_equals_D^n": true,
+    "ambiguous": false,
+    "brandt": {
+     "Pi_squared_equals_D^n": true,
+     "commutes_with_T": {
+      "2": true,
+      "3": true,
+      "5": true
+     },
+     "dim": 4,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         3,
+         1
+        ],
+        "3": [
+         5,
+         1
+        ],
+        "5": [
+         12,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "19"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         38,
+         -18,
+         -3,
+         1
+        ],
+        "3": [
+         172,
+         -64,
+         -1,
+         1
+        ],
+        "5": [
+         -72,
+         -71,
+         -14,
+         1
+        ]
+       },
+       "dim": 3,
+       "lambda": "-19"
+      }
+     },
+     "eigenvalues_exhaust": true,
+     "n": 2
+    },
+    "commutes_with_T": {
+     "2": true,
+     "3": true,
+     "5": true
+    },
+    "k": 4,
+    "match_Pi_eq_minus_aD": false,
+    "match_Pi_eq_plus_aD": true,
+    "mf": {
+     "UD_semisimple_with_eigenvalues_pm": true,
+     "dim": 4,
+     "eigenspaces": {
+      "+": {
+       "charpoly_T": {
+        "2": [
+         3,
+         1
+        ],
+        "3": [
+         5,
+         1
+        ],
+        "5": [
+         12,
+         1
+        ]
+       },
+       "dim": 1,
+       "lambda": "19"
+      },
+      "-": {
+       "charpoly_T": {
+        "2": [
+         38,
+         -18,
+         -3,
+         1
+        ],
+        "3": [
+         172,
+         -64,
+         -1,
+         1
+        ],
+        "5": [
+         -72,
+         -71,
+         -14,
+         1
+        ]
+       },
+       "dim": 3,
+       "lambda": "-19"
+      }
+     }
+    },
+    "no_newforms": false,
+    "relation": "Pi_D-eigenvalue = +a_D(f)  [U_D -> +Pi_D]; a_D = -D^{k/2-1} w_D; no extra power of D (Pi^2 = D^{k-2} built in)",
+    "sign_contradiction": false
+   }
+  }
+ },
+ "provenance": {
+  "commit": "a9c770604af9c47ee3220ccb44210388c39f5469-dirty",
+  "date": "2026-11-14T17:17:47+00:00",
+  "notes": "Pi_D eigenvalues vs a_D on S_k(Gamma_0(D))^new (U_ell -> +Pi_ell check, stage 05)",
+  "params": {
+   "Ds": [
+    11,
+    13,
+    17,
+    19
+   ],
+   "ells": [
+    2,
+    3,
+    5
+   ],
+   "ks": [
+    2,
+    4
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 1.5048939440021059,
+  "script": "code/python/langlandscape/pi_ell.py"
+ }
+}

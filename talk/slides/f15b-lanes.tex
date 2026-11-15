@@ -1,0 +1,37 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame: three lanes in parallel. Sources: mathematics/chapters/s00/computing.tex (lane numbers, "Three lanes in parallel");
+% mathematics/submission/src/hacs.tex (Lanes A, B, C); thm:s06-defect (status as on the defect frame); counts.tex (Lean numbers).
+\begin{frame}{Three lanes in parallel}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.29\textwidth}
+      \textbf{Mathematics}
+      \begin{itemize}\setlength{\itemsep}{1pt}
+        \item Six stages (01--06), each statement with its status.
+        \item Main result: the defect formula $(h_F)=\cc_q(F)=\tq_q(F)$ \stattag{proved modulo cited results} under (H0)--(H2), (P),
+          and (H0$^-$) or (Lev); \stattag{open} for $q\equiv-1\bmod p$ ($\bar\rho$ unramified at $q$) outside (Lev).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.24\textwidth}
+      \textbf{Lean}
+      \begin{itemize}\setlength{\itemsep}{1pt}
+        \item $\GateAudited$ audited declarations, standard axioms only (from-scratch gate).
+        \item Registered hypotheses are explicit arguments: $\NumHypRegistered$ registered, $\NumHypDischarged$ discharged
+          $+$ $\NumHypCondDischarged$ conditionally.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \textbf{HACS} \stattag{all computed}
+      \begin{itemize}\setlength{\itemsep}{1pt}
+        \item Frozen v0.2.1 imported (prepared work); our JL module (event work).
+        \item A: $D$-new char.\ polys through HACS match ours on $66/66$ cells, signs $8/8$.
+        \item B: Mazur's module for all primes $q\le600$ at $\ell\ge5$, exact for the first $80$ primes $q\le409$ (capped); the factor $37$ at $D=13$, $k=8$.
+        \item C: tree quotients (Ribet/Ihara maps) reproduce the stage-02/03 values on $288/288$ cells; exact Ihara cokernels on $210$ cells; census: $0$ disagreements on computed blocks ($120$ undetermined).
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \smallskip
+  \textbf{How they check each other:} each Lean declaration is named next to its tex statement, differences recorded (Lean table); HACS reproduces the Python/PARI results and the
+  chapter predictions; recorded disagreements were corrected.
+\end{frame}

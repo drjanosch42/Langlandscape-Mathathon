@@ -1,0 +1,275 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-0-08-reduction (parent commit 84818d0); kept items only.
+\chapter{Reduction theory}\label{ch:ch-0-08-reduction}
+
+\noindent\emph{Sources:} \cite{Bor-fin}; \cite[§§2, 6]{AIntro}; \cite[§1]{A-R1}; \cite[Lecture II]{Gel}.
+
+\section{Siegel sets}
+\begin{definition}[Siegel sets]
+\tfstmt{I.red.def:siegel-set}
+\lean{GL2TF.siegelSet}
+\uses{I.conv.def:torus,I.conv.def:unipotent,I.topgrp.def:max-compact-adelic,I.topgrp.def:adelic-subgroups,I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.conv.def:diag-element}
+\end{definition}
+\begin{tfformal}{I.red.def:siegel-set}
+\tfsem{I.red.def:siegel-set}{56de7be6c97ab3de7ae141d32375fbff33d63b9406777d03bc06b2bc68de720b}
+\tfhyps{I.red.def:siegel-set}{}
+\tfbinder{I.red.def:siegel-set}{0}{2d315f49}{the set $\omega\subseteq N(\A)$}
+\tfbinder{I.red.def:siegel-set}{1}{4635c287}{the parameter $t_0$}
+\begin{tffidelity}
+\texttt{siegelSet ω t₀} is the set of $g\in G(\A)$ such that $g=n\cdot a\cdot k$ with $n\in\omega$ (a subset of the subtype $N(\A)$ of unipotent elements), $k\in K$ (\texttt{maxCompactAdelic}), and $a=\texttt{infEmb}(\diag(a_1,a_2))$ for units $a_1,a_2\in\R^\times$ with $a_1,a_2>0$, $a_1a_2=1$ and $t_0\le a_1/a_2$: the element $a$ has component $\diag(a_1,a_2)$ at $\infty$ and $1$ at every prime, as in A. The claim that $\mathfrak S(\omega,t_0)\subseteq G(\A)^1$ is the B-only \cref{I.red.lem:siegel-set-norm-one}; $\omega$ and $t_0$ are arbitrary (A: $t_0>0$ is the standing range, the Lean definition is total).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the set $\omega_0$]
+\tfstmt{I.red.def:siegel-omega-zero}
+\bonly
+\lean{GL2TF.siegelOmegaZero}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.conv.def:unipotent}
+\end{definition}
+\begin{tfformal}{I.red.def:siegel-omega-zero}
+\tfsem{I.red.def:siegel-omega-zero}{56fd5c75963d9f7cacafc9631783451738c84f4e33bed68e1d7570a2a6490875}
+\tfhyps{I.red.def:siegel-omega-zero}{}
+\begin{tffidelity}
+B-only. \texttt{siegelOmegaZero} is the set of $n\in N(\A)$ with $n=n(u)$, where $u=(u_\infty,0)$ has $u_\infty\in[-\frac12,\frac12]$ (\texttt{Set.Icc}), as a subset of the subtype \texttt{unipotent Adele}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[Siegel sets lie in $G(\A)^1$]
+\tfstmt{I.red.lem:siegel-set-norm-one}
+\bonly
+\lean{GL2TF.siegelSet_subset_normOneGroup}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.conv.def:unipotent,I.red.def:siegel-set,I.topgrp.def:norm-one-group,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.conv.def:diag-element,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.lem:max-compact-local-mem,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-product-equiv,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic}
+\end{lemma}
+\begin{tfformal}{I.red.lem:siegel-set-norm-one}
+\tfsem{I.red.lem:siegel-set-norm-one}{2218c751465d462462ff619510aa8a1efd055eaf48045986c512a142db72c6b2}
+\tfhyps{I.red.lem:siegel-set-norm-one}{}
+\tfbinder{I.red.lem:siegel-set-norm-one}{0}{2d315f49}{the set $\omega\subseteq N(\A)$}
+\tfbinder{I.red.lem:siegel-set-norm-one}{1}{4635c287}{the parameter $t_0$}
+\begin{tffidelity}
+B-only. The claim of \cref{I.red.def:siegel-set}: \texttt{siegelSet ω t₀ ⊆ normOneGroup}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $g=n\,a\,k$ with $n\in\omega$, $a=\mathrm{diag}(a_1,a_2)_\infty$, $k\in K$. The idele norm of the determinant is multiplicative, $\det n=1$, $|\det k|_\A=1$ (\texttt{ideleNorm\_det\_K}) and $|\det a|_\A=|a_1a_2|=1$ (\texttt{ideleNorm\_det\_infEmb}, using $a_1a_2=1$).
+\end{proof}
+
+\begin{definition}[height]
+\tfstmt{I.red.def:height-primitive}
+\lean{GL2TF.height}
+\uses{I.decomp.def:height-map,I.topgrp.def:gl2-adelic,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.lem:primes-fact-instance,I.red.def:primitive-norm}
+\end{definition}
+\begin{tfformal}{I.red.def:height-primitive}
+\tfsem{I.red.def:height-primitive}{d67796471f7a06a328e8dcec2708790b4c96440ce8ce9c84bda7480529fc5fe1}
+\tfhyps{I.red.def:height-primitive}{}
+\tfbinder{I.red.def:height-primitive}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\begin{tffidelity}
+\texttt{height x} is $\log|\det x|_\A-2\log\lambda(x)$ with $\lambda(x)=\texttt{primitiveNorm x}$ (B-only \cref{I.red.def:primitive-norm}), the infimum (\texttt{sInf}) of the real numbers $\norm{e_2\delta x}_\A$ (\texttt{bottomRowNorm}, with the euclidean norm at $\infty$) over $\delta\in G(\Q)$ embedded by \texttt{gl2Map (algebraMap ℚ Adele)}. Lean's \texttt{Real.log} is $\log|\cdot|$ with $\log0=0$ and \texttt{sInf} of an unbounded-below set is $0$: the junk values are the convention of A (``$\log0=0$''), and \cref{I.red.thm:height-attained} shows that $\lambda(x)>0$ so that they are never used. \cref{I.red.lem:simple-root-height-map} identifies $\alpha(H_B(g))$ with $\log|\det g|_\A-2\log\norm{e_2g}_\A$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the norm $\lambda(x)$]
+\tfstmt{I.red.def:primitive-norm}
+\bonly
+\lean{GL2TF.primitiveNorm}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.decomp.def:bottom-row-norm}
+\end{definition}
+\begin{tfformal}{I.red.def:primitive-norm}
+\tfsem{I.red.def:primitive-norm}{41442294bd6d9e7e3e54308e12ddd3059ada994cc731fcf09fa57a1e4f4d6473}
+\tfhyps{I.red.def:primitive-norm}{}
+\tfbinder{I.red.def:primitive-norm}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\begin{tffidelity}
+B-only. \texttt{primitiveNorm x = sInf (range fun δ => bottomRowNorm (δ * x))} with the real infimum (junk value $0$ for a set not bounded below, which does not occur: the values are $\ge0$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\alpha(\HB(g))$ in terms of the bottom row]
+\tfstmt{I.red.lem:simple-root-height-map}
+\bonly
+\lean{GL2TF.simpleRoot_heightMap}
+\uses{I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.lem:primes-fact-instance,I.conv.def:simple-root,I.conv.def:space-a-b,I.decomp.def:bottom-row-norm,I.decomp.def:height-map}
+\end{lemma}
+\begin{tfformal}{I.red.lem:simple-root-height-map}
+\tfsem{I.red.lem:simple-root-height-map}{f49f0dfd924903c974625dc7440b90e9f2fcf1cf13952a54ecae410595f66425}
+\tfhyps{I.red.lem:simple-root-height-map}{}
+\tfbinder{I.red.lem:simple-root-height-map}{0}{a2aaccd5}{the element $g\in G(\A)$}
+\begin{tffidelity}
+B-only. \texttt{simpleRoot (heightMap g) = log (ideleNorm (det g)) - 2 * log (bottomRowNorm g)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Unfold \texttt{heightMap} ($H_B(g)=(\log|\det g|_\A-\log\norm{e_2g}_\A,\ \log\norm{e_2g}_\A)$) and \texttt{simpleRoot} ($\alpha(h)=h_1-h_2$); the identity is ring arithmetic (\texttt{simp}, \texttt{ring}).
+\end{proof}
+
+\begin{lemma}[finiteness of short primitive vectors]
+\tfstmt{I.red.lem:primitive-vector-finiteness}
+\lean{GL2TF.primitive_vector_finiteness}
+\uses{I.decomp.def:height-map,I.conv.def:borel,I.topgrp.def:gl2-adelic,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.decomp.def:bottom-row-norm,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-ideles-embedding,I.adele.lem:idele-norm-spec,I.adele.thm:product-formula,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.decomp.lem:bottom-row-norm-spec,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\end{lemma}
+\begin{tfformal}{I.red.lem:primitive-vector-finiteness}
+\tfsem{I.red.lem:primitive-vector-finiteness}{6f05541525db7c05a3fb44a3248e02905926ebec3ee22536d79c736040ad2ace}
+\tfhyps{I.red.lem:primitive-vector-finiteness}{}
+\tfbinder{I.red.lem:primitive-vector-finiteness}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\tfbinder{I.red.lem:primitive-vector-finiteness}{1}{4635c287}{the bound $C$}
+\tfbinder{I.red.lem:primitive-vector-finiteness}{2}{6e81197d}{the assumption $C>0$ (A: ``$C>0$'')}
+\begin{tffidelity}
+The union of finitely many cosets $B(\Q)\delta$ is expressed by an existential over a finite set $F\subseteq G(\Q)$: $\{\delta:\norm{e_2\delta x}_\A\le C\}=\bigcup_{\delta_0\in F}\{\delta:\delta\delta_0^{-1}\in B(\Q)\}$, where $\delta\delta_0^{-1}\in B(\Q)$ means $\delta\in B(\Q)\delta_0$ (\texttt{borel ℚ}). The finiteness of $F$ is \texttt{Set.Finite}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A.} The hypothesis $C>0$ is not needed (for $C\le0$ the set is empty and $F=\emptyset$ works). Let $\mathcal N(y)$ (\texttt{adelicEntryNorm}) be the sum of the absolute values of the entries of $y_\infty$ times $\prod_p\max_{ij}\norm{y_{ij}}_p$; the entry sum replaces the operator norm of A, since only an upper bound is used. For $\delta\in G(\Q)$ choose $\beta\in B(\Q)$ with $\beta\delta$ having coprime integral bottom row $(m,n)$ (\texttt{exists\_borel\_primitive}); \texttt{bottomRowNorm\_borel\_mul} says the bottom-row norm only changes by a factor $1$ under $B(\Q)$. Applied to $y=x^{-1}$ and the integral row $v=(m,n)$ (adelic norm $(m^2+n^2)^{1/2}$) one gets $(m^2+n^2)^{1/2}\le\mathcal N(x^{-1})\norm{e_2\beta\delta x}_\A\le\mathcal N(x^{-1})C$ (\texttt{primitive\_le}). So $|m|,|n|\le N=\lceil\mathcal N(x^{-1})C\rceil$, and there are finitely many pairs $(m,n)$. For each pair that occurs, pick one representative $\delta_0$ (\texttt{rep}); then $\delta\in B(\Q)\,\delta_0$ because two elements of $G(\Q)$ with the same bottom row differ by an element of $B(\Q)$ (\texttt{mul\_inv\_mem\_borel\_of\_bottom}). The reverse inclusion is the same invariance of the bottom-row norm.
+\end{proof}
+
+\begin{theorem}[the height is attained]
+\tfstmt{I.red.thm:height-attained}
+\lean{GL2TF.height_attained}
+\uses{I.red.def:height-primitive,I.conv.def:simple-root,I.decomp.def:height-map,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:space-a-b,I.decomp.def:bottom-row-norm,I.red.def:primitive-norm,I.topgrp.def:max-compact-adelic,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-ideles-embedding,I.adele.lem:idele-norm-spec,I.adele.thm:product-formula,I.conv.def:borel,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:torus,I.conv.def:unipotent,I.conv.lem:max-compact-local-mem,I.decomp.lem:bottom-row-norm-spec,I.decomp.thm:height-map-equivariance,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.lem:primitive-vector-finiteness,I.red.lem:simple-root-height-map,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:max-compact-fin-adelic,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\end{theorem}
+\begin{tfformal}{I.red.thm:height-attained}
+\tfsem{I.red.thm:height-attained}{f1424aa8996405cf9476eec65b935f39699927ee8ef4a818cb724984afbb5e0c}
+\tfhyps{I.red.thm:height-attained}{}
+\tfbinder{I.red.thm:height-attained}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\begin{tffidelity}
+A conjunction: $0<\lambda(x)$ (\texttt{primitiveNorm}); the infimum is attained (\texttt{∃ δ₀}); and for every $\delta_0$ attaining it, \texttt{height x} equals $\alpha(H_B(\delta_0x))$ and $\texttt{height x}$ is the greatest element of the range $\{\alpha(H_B(\delta x)):\delta\in G(\Q)\}$ (\texttt{IsGreatest}, so ``$\max$''); and $\operatorname{ht}(\gamma xk)=\operatorname{ht}(x)$ for $\gamma\in G(\Q)$ and $k\in K$. This is the content of A, with ``$\max$'' expressed as \texttt{IsGreatest}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A.} Existence of the minimum: apply \cref{I.red.lem:primitive-vector-finiteness} with $C=\norm{e_2x}_\A$; the set $\{\delta:\norm{e_2\delta x}_\A\le C\}$ is a finite union of cosets $B(\Q)\delta_0$ (nonempty, as it contains $1$), $\norm{e_2\delta x}_\A$ is constant on each coset, so the minimum over the finitely many $\delta_0$ is attained and equals the infimum (\texttt{exists\_primitiveNorm\_eq}). Positivity: it is a value of the positive function $\norm{e_2\,\cdot}_\A$ (\texttt{bottomRowNorm\_pos}). If $\norm{e_2\delta_0x}_\A=\lambda(x)$ then $\mathrm{ht}(x)=\log|\det x|_\A-2\log\lambda(x)=\alpha(H_B(\delta_0x))$ (\texttt{simpleRoot\_heightMap}, $|\det\delta_0x|_\A=|\det x|_\A$), and for every $\delta$, $\lambda(x)\le\norm{e_2\delta x}_\A$ gives $\alpha(H_B(\delta x))\le\mathrm{ht}(x)$ by monotonicity of $\log$. Invariance: $\lambda(\gamma xk)=\lambda(x)$, since $\delta\mapsto\delta\gamma$ permutes $G(\Q)$ and $\norm{e_2gk}_\A=\norm{e_2g}_\A$ for $k\in K$ (taken from \cref{I.decomp.thm:height-map-equivariance}, not rederived), and the determinant has the same idele norm.
+\end{proof}
+
+\begin{theorem}[covering by a Siegel set]
+\tfstmt{I.red.thm:siegel-covering}
+\lean{GL2TF.siegel_covering}
+\uses{I.red.def:siegel-set,I.conv.def:unipotent,I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.red.def:siegel-omega-zero,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-ideles-embedding,I.adele.thm:product-formula,I.conv.def:diag-element,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:special-orthogonal-real,I.conv.lem:max-compact-local-mem,I.decomp.thm:iwasawa-real,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.lem:det-max-compact-fin,I.red.lem:siegel-set-norm-one,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-product-equiv,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,I.topgrp.thm:max-compact-adelic-compact,I.topgrp.thm:strong-approximation}
+\end{theorem}
+\begin{tfformal}{I.red.thm:siegel-covering}
+\tfsem{I.red.thm:siegel-covering}{99a251552d51dac31460eeddbf8c30831425a5ed9781636dc66b12c92ce9a719}
+\tfhyps{I.red.thm:siegel-covering}{}
+\tfbinder{I.red.thm:siegel-covering}{0}{2d315f49}{the set $\omega\subseteq N(\A)$}
+\tfbinder{I.red.thm:siegel-covering}{1}{80e85cf2}{the assumption $\omega\supseteq\omega_0$ (A: ``$\omega\supseteq\omega_0$'')}
+\tfbinder{I.red.thm:siegel-covering}{2}{e267683b}{the parameter $t_0$}
+\tfbinder{I.red.thm:siegel-covering}{3}{e697ab10}{the assumption $0<t_0$ (A: ``$0<t_0$'')}
+\tfbinder{I.red.thm:siegel-covering}{4}{fd0c6b95}{the assumption $t_0\le\sqrt3/2$ (A: ``$t_0\le\sqrt3/2$'')}
+\begin{tffidelity}
+The conclusion is equality of sets in $G(\A)$: \texttt{↑normOneGroup = \{x | ∃ γ, ∃ s ∈ siegelSet ω t₀, x = γ s\}} with $\gamma\in G(\Q)$ embedded in $G(\A)$; this is $G(\A)^1=G(\Q)\mathfrak S(\omega,t_0)$. The set $\omega_0$ is the B-only \cref{I.red.def:siegel-omega-zero}. The hypotheses $\omega\supseteq\omega_0$, $0<t_0$, $t_0\le\sqrt3/2$ are the binders.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A.} The hypothesis $t_0>0$ is not needed. Since $\mathfrak S(\omega_0,\sqrt3/2)\subseteq\mathfrak S(\omega,t_0)$ it suffices to take $\omega=\omega_0$, $t_0=\sqrt3/2$. For $x\in G(\A)^1$, strong approximation (\cref{I.topgrp.thm:strong-approximation} with $K'=K_f$, hypothesis $\det K_f=\widehat\Z^\times$ from \cref{I.red.lem:det-max-compact-fin}) gives $x=\gamma\,h_\infty k_f$ with $\gamma\in G(\Q)$, $h$ of positive determinant and $k\in K_f$. Since $|\det x|_\A=1$, $\det h=1$. Step 1 of A (the classical fundamental domain for $\mathrm{SL}_2(\Z)$) is \emph{not} reproved; the Lean proof (\texttt{siegel\_cover\_core}, for $h\in\mathrm{GL}_2(\R)$ with $\det h=1$ and $k\in K_f$) uses Mathlib's \texttt{ModularGroup.exists\_smul\_mem\_fd}: there is $\sigma\in\mathrm{SL}_2(\Z)$ with $\sigma\cdot(h\cdot i)$ in the standard fundamental domain, so $|\mathrm{Re}|\le\tfrac12$ and $\mathrm{Im}\ge\sqrt3/2$ (\texttt{sqrt3\_le\_im\_of\_mem\_fd}, from \texttt{three\_le\_four\_mul\_im\_sq\_of\_mem\_fd}). With $g=\sigma h$ the real Iwasawa decomposition (\texttt{iwasawa\_real}) writes $g=n(q_1)\,\mathrm{diag}(t_1,t_2)\,k_\infty$ with $t_2^2=c^2+d^2$ for the bottom row $(c,d)$ of $g$, $t_1t_2=1$, $q_1=\mathrm{Re}(g\cdot i)$ and $t_1/t_2=\mathrm{Im}(g\cdot i)$ (\texttt{smul\_I\_re\_im}). The rational element is $\gamma'=\texttt{slRat}\,\sigma\in G(\Q)$, the image of $\sigma$ under $\mathrm{SL}_2(\Z)\to G(\Q)$. Then $\iota(\gamma')\,(h_\infty k_f)=n(q_1,0)\,\mathrm{diag}(t_1,t_2)_\infty\cdot k'$ with $k'=(k_\infty)\cdot(\gamma'_f k)$, which lies in $K$ because $\gamma'_f\in K_f$ (\texttt{slRat\_fin\_mem}: an integral matrix of determinant $1$ lies in every $K_p$) and $K_f$ is a group (\texttt{maxCompactFin.mul\_mem}); so $\iota(\gamma')h k\in\mathfrak S(\omega_0,\sqrt3/2)$. Back in the covering, $x=\gamma\,h_\infty k_f$ and $\gamma\gamma'^{-1}\cdot(\gamma' h k)$ gives $x\in G(\Q)\,\mathfrak S(\omega_0,\sqrt3/2)$. The inclusion $\supseteq$ is \cref{I.red.lem:siegel-set-norm-one} and $|\det\gamma|_\A=1$.
+\end{proof}
+
+\begin{lemma}[$\det K_f=\Zhat^\times$]
+\tfstmt{I.red.lem:det-max-compact-fin}
+\bonly
+\lean{GL2TF.det_maxCompactFin}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.topgrp.def:max-compact-fin-adelic,I.conv.def:diag-hom,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.topgrp.def:finite-adelic-component-place}
+\end{lemma}
+\begin{tfformal}{I.red.lem:det-max-compact-fin}
+\tfsem{I.red.lem:det-max-compact-fin}{0c71032302a538ac552c3013e8b350e652c68d9af214a0b521755a2ff50b2b0f}
+\tfhyps{I.red.lem:det-max-compact-fin}{}
+\begin{tffidelity}
+B-only. \texttt{maxCompactFin.map det = (Units.map Zhat.subtype).range}: the image of the determinant on $K_f$ is the group of units of $\Zhat$ inside the finite ideles; the hypothesis of \cref{I.topgrp.thm:strong-approximation} for $K'=K_f$ in the proof of \cref{I.red.thm:siegel-covering}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $k\in K_f$ and every $p$, $\det k_p=k_{11}k_{22}-k_{12}k_{21}\in\Z_p$, since the entries of $k_p\in K_p$ lie in $\Z_p$ (\texttt{det\_mem\_Zhat}); the same holds for $k^{-1}$, so $\det k$ is a unit of $\widehat\Z$. Conversely, $u\in\widehat\Z^\times$ is the determinant of $\mathrm{diag}(u,1)\in K_f$ (\texttt{diagZhat}, \texttt{det\_diagZhat}).
+\end{proof}
+
+\section{The height lemma and the compactness criterion}
+\begin{lemma}[adelic Hadamard inequality]
+\tfstmt{I.red.lem:adelic-hadamard}
+\lean{GL2TF.adelic_hadamard}
+\uses{I.decomp.def:height-map,I.conv.def:borel,I.topgrp.def:gl2-adelic,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.decomp.def:bottom-row-norm,I.adele.def:idele-norm-fun,I.adele.def:rat-ideles-embedding,I.adele.thm:product-formula,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\end{lemma}
+\begin{tfformal}{I.red.lem:adelic-hadamard}
+\tfsem{I.red.lem:adelic-hadamard}{c63c6e1d767af5be26d0c0f6f6ffa01644a8b569871b617f5f970f326b5e96ab}
+\tfhyps{I.red.lem:adelic-hadamard}{}
+\tfbinder{I.red.lem:adelic-hadamard}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\tfbinder{I.red.lem:adelic-hadamard}{1}{526bc208}{the element $\delta\in G(\Q)$}
+\tfbinder{I.red.lem:adelic-hadamard}{2}{db0deaa3}{the element $\delta'\in G(\Q)$}
+\tfbinder{I.red.lem:adelic-hadamard}{3}{c777c2db}{the assumption $\delta'\delta^{-1}\notin B(\Q)$ (A: ``$\delta'\delta^{-1}\notin B(\Q)$'')}
+\begin{tffidelity}
+For $\delta,\delta'\in G(\Q)$ the hypothesis $\delta'\delta^{-1}\notin B(\Q)$ is the binder \texttt{h}. The inequality is stated for the real numbers $|\det x|_\A=\texttt{ideleNorm}(\det x)$ and $\norm{e_2\delta x}_\A=\texttt{bottomRowNorm}$ of the translates.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Put $\eta=\delta'\delta^{-1}$, so $\eta_{21}\ne0$, and $g=\delta x$; then $\delta'x=\eta g$. Let $M\in G(\Q)$ be the matrix with rows $(\eta_{21},\eta_{22})$ and $(0,1)$ (invertible because $\eta_{21}\neq0$). The row-wise adelic Hadamard inequality for a rational translate (\texttt{adelic\_hadamard\_rat}, built on the local inequalities \texttt{hadamard\_real}, \texttt{hadamard\_padic} and the place-wise factorisation \texttt{local\_factors}, \texttt{adelic\_hadamard\_rows}) applied to $M$ and $g$ gives $|\det Mg|_\A\le\norm{\text{row}_0(Mg)}_\A\,\norm{\text{row}_1(Mg)}_\A$, and $|\det Mg|_\A=|\det g|_\A$ since $\det M\in\Q^\times$ has idele norm $1$ (\texttt{ideleNorm\_det\_rat\_mul}, the product formula). Row $1$ of $Mg$ is the bottom row of $g$ (\texttt{rat\_mul\_entry}), and row $0$ of $Mg$ is $\eta_{21}g_{1\cdot}+\eta_{22}g_{2\cdot}$, i.e.\ the bottom row of $\eta g=\delta'x$. Finally $|\det g|_\A=|\det x|_\A$ for the same reason. Rearranging gives the claim.
+\end{proof}
+
+\begin{theorem}[height lemma]
+\tfstmt{I.red.thm:height-lemma}
+\lean{GL2TF.height_lemma}
+\uses{I.conv.def:simple-root,I.decomp.def:height-map,I.conv.def:borel,I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:space-a-b,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-ideles-embedding,I.adele.lem:idele-norm-spec,I.adele.thm:product-formula,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.decomp.def:bottom-row-norm,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.lem:adelic-hadamard,I.red.lem:simple-root-height-map,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact}
+\end{theorem}
+\begin{tfformal}{I.red.thm:height-lemma}
+\tfsem{I.red.thm:height-lemma}{99d0df5d650348953e6aba3a6163c92bd1387df94271e51f68a897eb30bb22a7}
+\tfhyps{I.red.thm:height-lemma}{}
+\tfbinder{I.red.thm:height-lemma}{0}{a2aaccd5}{the element $x\in G(\A)$}
+\tfbinder{I.red.thm:height-lemma}{1}{9791c7d7}{the assumption $x\in G(\A)^1$ (A: ``$x\in G(\A)^1$'')}
+\tfbinder{I.red.thm:height-lemma}{2}{e267683b}{the parameter $t_0$}
+\tfbinder{I.red.thm:height-lemma}{3}{35e2adcf}{the assumption $t_0\ge1$ (A: ``$t_0\ge1$'')}
+\tfbinder{I.red.thm:height-lemma}{4}{d9bf96b9}{the element $\delta\in G(\Q)$}
+\tfbinder{I.red.thm:height-lemma}{5}{7e199584}{the element $\delta'\in G(\Q)$}
+\tfbinder{I.red.thm:height-lemma}{6}{6c9ca3ad}{the assumption $\alpha(H_B(\delta x))>\log t_0$ (A: the hypothesis on $\delta$)}
+\tfbinder{I.red.thm:height-lemma}{7}{8e61f2d9}{the assumption $\alpha(H_B(\delta'x))>\log t_0$ (A: the hypothesis on $\delta'$)}
+\begin{tffidelity}
+The conclusion $\delta'\delta^{-1}\in B(\Q)$ is \texttt{δ' * δ⁻¹ ∈ borel ℚ}. The inequalities $\alpha(H_B(\delta x))>\log t_0$ and $\alpha(H_B(\delta'x))>\log t_0$ are the binders \texttt{h}, \texttt{h'}, with $\alpha=\texttt{simpleRoot}$ and $H_B=\texttt{heightMap}$; $x\in G(\A)^1$ is a hypothesis \texttt{hx : x ∈ normOneGroup} (Lean keeps $x\in G(\A)$ and a membership hypothesis). The second sentence of A (``at most one coset'') is the same statement.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Since $x\in G(\A)^1$ one has $|\det x|_\A=1$. For $\gamma\in\{\delta,\delta'\}$ with $\alpha(H_B(\gamma x))>\log t_0\ge0$ use $\alpha(H_B(g))=\log|\det g|_\A-2\log\norm{e_2g}_\A$ (\texttt{simpleRoot\_heightMap}) and $|\det\gamma x|_\A=1$ (\texttt{ideleNorm\_det\_rat\_mul}) to get $-2\log\norm{e_2\gamma x}_\A>0$, hence $\norm{e_2\gamma x}_\A<1$ (the norm is positive, \texttt{rowNorm\_pos}). Suppose $\delta'\delta^{-1}\notin B(\Q)$. Then \cref{I.red.lem:adelic-hadamard} gives $1=|\det x|_\A\le\norm{e_2\delta x}_\A\norm{e_2\delta'x}_\A<1$ (\texttt{nlinarith}), a contradiction. Note that $t_0\ge1$ is used only to get $\log t_0\ge0$.
+\end{proof}
+
+\begin{theorem}[truncated Siegel sets are compact]
+\tfstmt{I.red.thm:siegel-truncation-compact}
+\lean{GL2TF.siegel_truncation_compact}
+\uses{I.red.def:siegel-set,I.conv.def:simple-root,I.decomp.def:height-map,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.conv.def:space-a-b,I.conv.def:unipotent,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:idele-norm-spec,I.conv.def:borel,I.conv.def:diag-element,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:torus,I.conv.lem:max-compact-local-mem,I.decomp.def:bottom-row-norm,I.decomp.thm:height-map-equivariance,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.lem:simple-root-height-map,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:gl2-product-equiv,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact,I.topgrp.thm:max-compact-adelic-compact}
+\end{theorem}
+\begin{tfformal}{I.red.thm:siegel-truncation-compact}
+\tfsem{I.red.thm:siegel-truncation-compact}{332bf170ca002dec40b15e2a1ae452b14c760fdc94e75c8f21e35b1bc554d596}
+\tfhyps{I.red.thm:siegel-truncation-compact}{}
+\tfbinder{I.red.thm:siegel-truncation-compact}{0}{2d315f49}{the set $\omega\subseteq N(\A)$}
+\tfbinder{I.red.thm:siegel-truncation-compact}{1}{c6a65ac5}{the assumption that $\omega$ is compact (A: ``compact'')}
+\tfbinder{I.red.thm:siegel-truncation-compact}{2}{e267683b}{the parameter $t_0$}
+\tfbinder{I.red.thm:siegel-truncation-compact}{3}{e697ab10}{the assumption $t_0>0$ (A: ``$t_0>0$'')}
+\tfbinder{I.red.thm:siegel-truncation-compact}{4}{a2922bf4}{the bound $c\in\R$}
+\begin{tffidelity}
+The compactness is that of a subset of the topological space $G(\A)$ (\texttt{IsCompact} of a set of elements $x$ of $G(\A)$). The compactness of $\omega\subseteq N(\A)$ is the binder \texttt{hω} (compactness in the subtype topology of the unipotent subgroup).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $F(n,r,k)=n\,\mathrm{diag}(e^r,e^{-r})\,k$ is continuous on $\omega\times[\tfrac12\log t_0,\tfrac c2]\times K$, a compact set ($K$ is compact, \texttt{maxCompactAdelic\_compact}), so its image is compact. This image is the set in question: for $g=n\,a\,k\in\mathfrak S(\omega,t_0)$ write $a_1=e^r$, $a_2=e^{-r}$ (from $a_1a_2=1$); then $a_1/a_2=e^{2r}\ge t_0$ iff $r\ge\tfrac12\log t_0$, and $\alpha(H_B(g))=\log(a_1/a_2)=2r\le c$ (\texttt{simpleRoot\_siegel}). The hypothesis $\omega$ compact and $t_0>0$ are used as in A. (A's parametrization is $s\mapsto\mathrm{diag}(s^{1/2},s^{-1/2})$, $s\in[t_0,e^c]$; here $s=e^{2r}$.)
+\end{proof}
+
+\begin{lemma}[the height is locally bounded]
+\tfstmt{I.red.lem:height-locally-bounded}
+\lean{GL2TF.height_locally_bounded}
+\uses{I.red.def:height-primitive,I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.lem:idele-norm-spec,I.adele.thm:product-formula,I.conv.def:borel,I.conv.def:gl2,I.conv.def:max-compact-local,I.conv.def:max-compact-real,I.conv.def:simple-root,I.conv.def:space-a-b,I.conv.lem:max-compact-local-mem,I.decomp.def:bottom-row-norm,I.decomp.def:height-map,I.decomp.lem:bottom-row-norm-spec,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,I.red.def:primitive-norm,I.red.thm:height-attained,I.topgrp.def:adelic-component-fin,I.topgrp.def:adelic-component-inf,I.topgrp.def:adelic-component-place,I.topgrp.def:finite-adelic-component-place,I.topgrp.def:max-compact-adelic,I.topgrp.def:max-compact-fin-adelic,I.topgrp.lem:gl2-fin-adelic-eventually-max-compact,I.topgrp.thm:max-compact-adelic-compact}
+\end{lemma}
+\begin{tfformal}{I.red.lem:height-locally-bounded}
+\tfsem{I.red.lem:height-locally-bounded}{8ec856a2ebbd701b156749164a44d6b5660fc509634f0ce01bb6b725203cae88}
+\tfhyps{I.red.lem:height-locally-bounded}{}
+\tfbinder{I.red.lem:height-locally-bounded}{0}{0d2bcb97}{the set $C\subseteq G(\A)^1$}
+\tfbinder{I.red.lem:height-locally-bounded}{1}{e0a285b5}{the assumption that $C$ is compact (A: ``compact'')}
+\begin{tffidelity}
+The compact set $C\subseteq G(\A)^1$ is a subset of the subtype \texttt{normOneGroup}; the bound is stated for \texttt{height ↑x}. Conclusion \texttt{∃ c, ∀ x ∈ C, height ↑x ≤ c}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A.} The function $x\mapsto\mathcal N(x^{-1})$ is continuous on $G(\A)$ (\texttt{continuous\_adelicEntryNorm}): its infinite part is continuous and its finite part is constant on each coset $gU$, $U=\{g:g_f\in K_f\}$, which is open; this replaces A's finite cover by cosets $g_iK_f$. So $\mathcal N(x^{-1})\le M$ on the compact set $C$. By \cref{I.red.thm:height-attained} pick $\delta_0$ with $\norm{e_2\delta_0x}_\A=\lambda(x)$. Lower bound $1\le\mathcal N(x^{-1})\lambda(x)$ (\texttt{one\_le\_entryNorm\_mul}, from the estimate in \cref{I.red.lem:primitive-vector-finiteness}). Since $|\det x|_\A=1$, $\mathrm{ht}(x)=-2\log\lambda(x)\le2\log\mathcal N(x^{-1})\le2\log M$.
+\end{proof}
+
+\begin{theorem}[compactness criterion]
+\tfstmt{I.red.thm:compactness-criterion}
+\lean{GL2TF.compactness_criterion}
+\uses{I.conv.def:simple-root,I.decomp.def:height-map,I.topgrp.def:norm-one-group,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance,I.conv.def:gl2,I.conv.def:space-a-b,I.quot.def:gl2-rat-norm-one,I.adele.def:idele-norm,I.adele.def:ideles,I.adele.def:rat-ideles-embedding,I.adele.lem:finadele-topological-ring-instance,I.adele.thm:product-formula,I.conv.def:unipotent,I.decomp.def:bottom-row-norm,I.lf.def:padic-nalf-instance,I.lf.lem:nalf-t2,I.quot.lem:gl2-rat-norm-one-discrete,I.quot.thm:automorphic-quotient-second-countable,I.red.def:height-primitive,I.red.def:primitive-norm,I.red.def:siegel-omega-zero,I.red.def:siegel-set,I.red.lem:height-locally-bounded,I.red.lem:siegel-set-norm-one,I.red.thm:height-attained,I.red.thm:siegel-covering,I.red.thm:siegel-truncation-compact,I.topgrp.def:gl2-adelic,I.topgrp.def:max-compact-adelic,I.topgrp.lem:gl2-adelic-locally-compact-instance,I.topgrp.lem:norm-one-group-closed-normal,I.topgrp.thm:gl2-adelic-locally-compact}
+\end{theorem}
+\begin{tfformal}{I.red.thm:compactness-criterion}
+\tfsem{I.red.thm:compactness-criterion}{372b3e2347df432c923a49ee11bc9878c5371d43070c73a62f45a0fbd087b39e}
+\tfhyps{I.red.thm:compactness-criterion}{}
+\tfbinder{I.red.thm:compactness-criterion}{0}{da943744}{the set $\Omega\subseteq G(\Q)\backslash G(\A)^1$}
+\begin{tffidelity}
+The set $\Omega$ is a set in the quotient \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} $=G(\Q)\backslash G(\A)^1$. ``Has compact closure'' is \texttt{IsCompact (closure Ω)}. The condition on $p^{-1}(\Omega)$ is: for every $x\in G(\A)^1$ whose class $[x]$ lies in $\Omega$ and every $\delta\in G(\Q)$, $\alpha(H_B(\delta x))\le c$ (with $c$ existentially quantified before $x$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A.} ``Only if'': since $G(\A)^1$ is locally compact and $p\colon G(\A)^1\to G(\Q)\backslash G(\A)^1$ is an open surjection, the compact set $\overline\Omega$ lifts to a compact set: $\overline\Omega\subseteq p(C)$ with $C$ compact (\texttt{exists\_compact\_image\_superset}, a general lemma replacing A's finite cover by images $p(U)$). By \cref{I.red.lem:height-locally-bounded} $\mathrm{ht}\le c$ on $C$. For $x$ with $p(x)\in\Omega$ pick $y\in C$ and $\gamma\in G(\Q)$ with $x=\gamma y$ (rational because $G(\Q)\cap G(\A)^1=G(\Q)$); then $\alpha(H_B(\delta x))=\alpha(H_B(\delta\gamma y))\le\mathrm{ht}(y)\le c$ by \cref{I.red.thm:height-attained}. ``If'': let $S=\{s\in\mathfrak S(\omega_0,\sqrt3/2):\alpha(H_B(s))\le c\}$, compact by \cref{I.red.thm:siegel-truncation-compact} (and $\omega_0$ compact, \texttt{isCompact\_siegelOmegaZero}). Its preimage in the closed subgroup $G(\A)^1$ is compact, so $p(S)$ is compact, hence closed. Given $x$ with $p(x)\in\Omega$, \cref{I.red.thm:siegel-covering} writes $x=\gamma s$ with $s\in\mathfrak S(\omega_0,\sqrt3/2)$; the hypothesis for $\delta=\gamma^{-1}$ gives $\alpha(H_B(s))\le c$, so $s\in S$ and $p(x)=p(s)\in p(S)$. Thus $\Omega\subseteq p(S)$ and $\overline\Omega\subseteq p(S)$ is a closed subset of a compact set.
+\end{proof}

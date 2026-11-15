@@ -1,0 +1,27 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 6: why classical JL is cited, and where the route reproves it.
+% Source: team decision (Fabian, 2026-11-15; scratchpad jl-decision.md), superseding "we do not claim" in
+% mathematics/chapters/s00/whycited.tex (ss:s00-whycited); thm:s05-G (cited geometry), thm:s03-ribet, cor:s03-ihara,
+% prop:s05-sign(a); hyp:s05-X; Ribet--Stein [RS, sec. 3.10.1] (JL enters for the Shimura curve at discriminant pq);
+% Lean: Hyp.JLClassical (schematic interface), lean/trace-formula-project-import/.
+\begin{frame}{Why classical JL is cited --- and where we reprove it}{first case: modulo cited geometry}
+  \small
+  \begin{enumerate}\setlength{\itemsep}{1pt}
+    \item \textbf{First case} ($D=q$, weight $2$, $\Gamma_0$-type level): our route \emph{is} a proof of classical JL,
+      \emph{proved modulo cited geometry}: Deligne--Rapoport's semistable model, Deuring's correspondence, Grothendieck's
+      character group --- Ribet's argument --- with the definite side on the tree \stattag{proved given connectivity} and the sign
+      $U_q\mapsto+\Pi_q$ \stattag{proved modulo cited results}. The proof is Ribet's; ours are its tree form and the defect extension.
+    \item \textbf{Beyond $D=q$} the route \emph{invokes} JL: it enters for discriminants with more than one prime, at the
+      Shimura-curve comparison (Ribet--Stein, \S3.10.1). For $D=q$ at $\Gamma_1(Mp^s)$-level, $\mathrm{Hyp.X}$ is expected JL-free by the
+      same geometry \stattag{expected}. JL itself \stattag{cited}.
+    \item \textbf{Discharge, two routes.}
+      \begin{itemize}\setlength{\itemsep}{1pt}
+        \item \emph{Route 1, trace formula:} completing our GL(2) trace-formula formalization discharges \texttt{Hyp.JLClassical} and the
+          JL input beyond $D=q$ (Shimura-curve version of $\mathrm{Hyp.X}$), provided the trace-formula comparison is carried out
+          for the quaternion algebra occurring there. \stattag{planned; timing uncertain}
+        \item \emph{Route 2, geometric:} the comparison without JL: for $D=q$ this is $\mathrm{Hyp.X}$ \stattag{expected}; beyond $D=q$
+          new mathematics, unclear \stattag{open}.
+      \end{itemize}
+  \end{enumerate}
+\end{frame}

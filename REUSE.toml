@@ -1,0 +1,77 @@
+version = 1
+SPDX-PackageName = "Langlandscape"
+SPDX-PackageDownloadLocation = "NOASSERTION"
+
+# Bulk licence mapping (REUSE 3.x).  Of several matching annotations the LAST one wins; an inline
+# SPDX header in a file takes precedence (precedence "closest", the default).  Policy (Fabian,
+# 2026-11-14): prose CC-BY-4.0, Lean Apache-2.0, other code GPL-3.0-or-later WITH the CUDA exception, third-party material
+# under its own licence.  Rule for agents: agents/rules/licensing.md.  Overview: LICENSE.
+#
+# code/hacs/ is NOT annotated here: it has its own REUSE.toml (code/hacs/REUSE.toml), which is closer
+# to its files and therefore governs them; it must stay unchanged.  literature/ is git-ignored.
+
+# 1. Default: prose, documents, data (mathematics/, talk/, plan/, agents/, *.md, *.tex, *.json, PDFs, ...).
+[[annotations]]
+path = "**"
+SPDX-FileCopyrightText = "2026 Fabian Januszewski, Abhijit (the Langlandscape team)"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# 2. Code: Lean projects, code/ (Python, CAS, examples, C++/CUDA), and scripts anywhere in the tree.
+[[annotations]]
+path = [
+  "lean/Langlandscape/**",
+  "lean/trace-formula-project-import/lean/**",
+  "lean/trace-formula-project-import/tools/**",
+  "lean/lean-toolchain",
+  "code/**",
+  "**/*.lean", "**/*.py", "**/*.sh", "**/*.toml",
+  "**/*.cpp", "**/*.hpp", "**/*.cc", "**/*.h", "**/*.cu", "**/*.cuh",
+  "**/latexmkrc", "**/.gitignore",
+]
+SPDX-FileCopyrightText = "2026 Fabian Januszewski, Abhijit (the Langlandscape team)"
+SPDX-License-Identifier = "GPL-3.0-or-later WITH LicenseRef-CUDA-exception-GPL"
+
+# 2b. Lean: Apache-2.0 (Fabian, 2026-11-14; consistent with HACS lean/ and Mathlib).  Overrides 2 for the Lean
+#     projects and every .lean file; prose inside them is re-stated CC-BY-4.0 in 3, vendored files in 4-5.
+[[annotations]]
+path = [
+  "lean/Langlandscape/**",
+  "lean/trace-formula-project-import/lean/**",
+  "lean/trace-formula-project-import/tools/**",
+  "lean/lean-toolchain",
+  "**/*.lean",
+]
+SPDX-FileCopyrightText = "2026 Fabian Januszewski, Abhijit (the Langlandscape team)"
+SPDX-License-Identifier = "Apache-2.0"
+
+# 3. Prose and computed result records inside the code trees stay CC-BY-4.0 (re-stated after 2).
+[[annotations]]
+path = [
+  "code/results/**",
+  "code/**/*.md",
+  "lean/**/*.md",
+  "lean/trace-formula-project-import/latex/**/*.tex",
+  "lean/trace-formula-project-import/latex/**/*.bib",
+  "lean/trace-formula-project-import/latex/**/*.sty",
+  "lean/trace-formula-project-import/latex/**/*.pdf",
+  "LICENSE", "REUSE.toml", "THIRD-PARTY-NOTICES.md",
+]
+SPDX-FileCopyrightText = "2026 Fabian Januszewski, Abhijit (the Langlandscape team)"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# 4. Vendored FLT modules (Anthropic FLT, Imperial FLT) in the trace-formula import: upstream Apache-2.0,
+#    upstream headers kept.  Per-file record: lean/trace-formula-project-import/lean/Vendor/MANIFEST.tsv,
+#    notices: .../Vendor/NOTICE, .../Vendor/AnthropicFLT/NOTICE, .../Vendor/ATTRIBUTION.md.
+[[annotations]]
+path = "lean/trace-formula-project-import/lean/Vendor/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Anthropic, PBC; 2024-2026 Kevin Buzzard, Andrew Yang, Matthew Jasper, Salvatore Mercuri, Ruben Van de Velde and the other FLT-project / flt-regular / Mathlib authors named in lean/trace-formula-project-import/lean/Vendor/NOTICE, AnthropicFLT/NOTICE and ATTRIBUTION.md"
+SPDX-License-Identifier = "Apache-2.0"
+
+# 5. Vendored AxiomMath/Stacks (StacksCore/): Apache-2.0, no per-file headers upstream.
+#    Record: lean/Langlandscape/Vendor/AxiomStacks/{MANIFEST.tsv,ATTRIBUTION.md,PROVENANCE.md}.
+[[annotations]]
+path = "lean/Langlandscape/Vendor/AxiomStacks/**"
+precedence = "override"
+SPDX-FileCopyrightText = "AxiomMath (Axiom Math, https://axiommath.ai/); authors: Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie (with AxiomProver)"
+SPDX-License-Identifier = "Apache-2.0"

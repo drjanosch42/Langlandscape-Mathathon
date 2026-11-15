@@ -1,0 +1,77 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 05, WP S05-M6 (package abhijit/s05-lit): literature status of Hyp.X at Gamma_1-level (the status paragraph of
+% Remark Xstatus). Details, page offsets and paraphrases: mathematics/litnotes/s05-gamma1.md.
+\makeatletter
+\providecommand{\sfref}[1]{\@ifundefined{r@#1}{\texttt{#1}}{\ref{#1}}}
+\makeatother
+
+\subsection{What the literature states at \texorpdfstring{$\Gamma_1$}{Gamma\_1}-level}\label{ss:s05-status}
+
+This subsection is the literature-status paragraph of Remark~\sfref{rem:s05-Xstatus}. We split $\HypX$ into the four inputs it
+would need at level $\Gamma_s=\Gamma_1(Mp^s)\cap\Gamma_0(q)$ and record, for each, what we found in \pathtt{literature/}.
+\begin{enumerate}[label=(S\arabic*)]
+\item \emph{Deligne--Rapoport at $\Gamma_1$-level}: the semistable model, two copies of $X_1(N)_{\F_q}$ crossing transversally at the
+  supersingular points, with the Frobenius-twisted gluing and the thickness of the nodes.
+\item \emph{Deuring at $\Gamma_1$-level}: $\Xq(J_s)\cong\Z[S_s]^0$, compatibly with $T_\ell$, $U_\ell$ ($\ell\mid M$), $U_p$ and the
+  diamonds (this is (X1)).
+\item \emph{The monodromy pairing at $\Gamma_1$-level}: $\langle e,e'\rangle=w_e\delta_{ee'}$ and $\Phi_q=\Xq^\vee/\Xq$ (this is (X2)).
+\item \emph{Frobenius and $U_q$ with non-trivial nebentypus}, the model (naive or $\mu_N$) and the functoriality (Picard or Albanese);
+  and naturality in $s$ (this is (X3) and the Frobenius clause of (X4)).
+\end{enumerate}
+
+\begin{remark}[literature status of $\HypX$ at $\Gamma_1$-level]\label{rem:s05-gamma1status}
+\begin{enumerate}[label=(\alph*)]
+\item \emph{(S1) is in the literature.} \stcited{}
+  \lit{deligne-rapoport\_1973\_les-schemas-de-modules-de-courbes-elliptiques}{Ch.~VI, Thm.~6.9, pp.~286--287: for every
+  $H\subset\GL(2,\Z/n)$ and $p\nmid n$ the coarse scheme of level $H$ and $\Gamma_0(p)$ is regular, its fibre at $p$ is two copies of
+  the level-$H$ curve crossing transversally at the supersingular points, $x$ glued to $x^{(p)}$, with local equation $xy=p^k$ given
+  by $|\mathrm{Aut}(E,\alpha)|$ (halved if $-1$ is an automorphism)}; explicitly for $\Gamma_1(N)\cap\Gamma_0(p)$ and $N>3$:
+  \lit{diamond-im\_1995\_modular-forms-and-modular-curves\_scan}{Thm.~8.3.1, p.~72, and \S8.4, pp.~72--74 (image scan; the
+  model classifies triples $(E,P,C)$ with $P$ a point of order $N$, i.e.\ the \emph{naive} model; the two components are the images
+  of closed immersions $i_F,i_V$, and (8.4.1), p.~73, gives the composites of the degeneracy maps with $i_F,i_V$, one of which is the
+  diamond $\langle p\rangle$)}; for Shimura curves with any congruence subgroup $\Gamma_H(N)$, Definition~2.1, p.~65:
+  \lit{helm\_2007\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves}{Appendix, Thm.~10.2 (Buzzard, level inside
+  $\Gamma_1(r)$, $r>3$), p.~113, and Thm.~10.3 (arbitrary $\Gamma$, incl.\ the local equation), p.~114}. Ribet--Stein state it for
+  $\Gamma_1(M)\cap\Gamma_0(p)$ as a citation \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S3.9, Fig.~3
+  and (3.1), p.~45}.
+\item \emph{(S2) is not stated anywhere we looked.} No source identifies $\Xq(J_s)$ with $\Z[\XBq{\Uone{N}}]^0$ together with the
+  action of $U_p$ and the diamonds. The closest statements: Ribet's exact sequence of character groups at an arbitrary congruence
+  level $\Gamma_H$ \lit{helm\_2007\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves}{Thm.~5.4, p.~84 (for $D=1$ the
+  proof refers to Ribet 1990, Thm.~4.1, which is written for Eichler orders, i.e.\ $\Gamma_0$-type level, p.~456; the extension is
+  asserted)}; the toric sequence at $\Gamma_1(M)\cap\Gamma_0(p)$
+  \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{(3.1), p.~45; (3.2), p.~48 (sketch)}. Deuring's description of
+  the character group by supersingular points is explicit only at $\Gamma_0$-level:
+  \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.1, p.~439};
+  \lit{ribet\_1988\_component-groups-and-the-shimura-subgroup-of-j0-n\_scan}{\S3, Exposé pp.~6-06--6-07 (image scan)};
+  Edixhoven's chapter in \lit{cornell-silverman-stevens-eds\_1997\_modular-forms-and-fermats-last-theorem\_vol}{\S3.2, (3.2.3),
+  p.~225}.
+\item \emph{(S3): only $\Gamma_0$ explicitly.} The weights $|\mathrm{Aut}(E,C)|/2$ of the monodromy pairing are written out at
+  $\Gamma_0$-level (Ribet 1988, \S3; Ribet 1990, p.~439; Thm.~\ref{thm:s05-G}(iv)). At $\Gamma_1$-level the general theorem of
+  Raynaud and Grothendieck applies verbatim once (S1) is known (the statement for semistable curves, with the thicknesses, is \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Raynaud, Thm.~5, p.~17}; for semistable abelian varieties the component-group theorem is \lit{grothendieck\_1972\_sga-7-1-groupes-de-monodromie-en-geometrie-algebrique-i\_scan}{SGA~7 IX, 11.5, p.~455, verified on Abhijit's node, cross-account audit F1 batch 7}; Thm.~\ref{thm:s05-G}(iv) is its specialisation to $J_0(N)$), and the
+  thicknesses are DR VI 6.9(iii) and Helm Thm.~10.3(4); at $s\ge1$ all $|\mathrm{Aut}(E,\alpha)|=1$ for $Mp^s\ge4$, so all $w_e=1$.
+  So (X2) at $\Gamma_1$-level is \stpmc{} given (S2) (our inference, no source states it).
+\item \emph{(S4): conventions only at good reduction or at $\Gamma_0$.} Frobenius on the torus is $pT_p$ for
+  $\Gamma_1(M)\cap\Gamma_0(p)$ with Ribet--Stein's conventions, no diamond factor written
+  \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Lemma~3.17, p.~46}; $-p\,w$ at $\Gamma_0(p)$
+  \lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{Appendix, Thm.~(A.1)(a), p.~173}. The Picard/Albanese and diamond
+  conventions at good reduction: \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, pp.~28--29 ($\mu_N$-model,
+  $T_p$ by Picard functoriality, comparison with Gross's $(T_p)_*$); Conrad's appendix, Thm.~5.8, p.~69, and Thm.~5.16, p.~74}; the
+  naive model: \lit{diamond-im\_1995\_modular-forms-and-modular-curves\_scan}{Rem.~10.2.1--10.2.2, p.~84 (image scan; relations
+  between $T_n$, $T_n^*$, $w$ and the diamonds on $J_1(N)$)}. No source states the Frobenius permutation of the supersingular points versus $U_q^{\pm1}$ at $\Gamma_1(N)\cap\Gamma_0(q)$ with non-trivial nebentypus.
+  The Frobenius on the torus is anchored by Ribet--Stein Lemma~3.17 only for row 1 of the four-row table of Remark~\sfref{rem:s05-Xstatus}, and only up to
+  the convention on their bad-prime $T_p$ (a consistency check); the table itself is derived there from Conrad's Thm.~5.16/5.1 and local--global
+  compatibility at $q$ (row 2, \stpmc, our inference), with rows 3, 1, 4 following by the change of functoriality and the model comparison (\stpmc). Diamond--Im (8.4.1)
+  exhibits the diamond $\langle p\rangle$ in the gluing of the naive model. Naturality in $s$ (X3) is stated nowhere.
+\item \emph{No statement found} (each checked): Ribet--Takahashi (1997; $\Gamma_0$ and Shimura curves $X_0^D(M)$ only), Jordan--Livné
+  (1985; maximal order, no level structure), Carayol (1986, both papers; totally real $F\ne\Q$, Drinfeld level at $p$, no character
+  group statement at $\Gamma_1$), Edixhoven (Astérisque 196--197, pp.~159--170; $\Gamma_0(N)$), Mazur--Ribet (same volume;
+  $\Gamma_0$), Boutot--Carayol (same volume; Čerednik--Drinfeld at $p\mid\mathrm{disc}$, not the $\Gamma_1$ DR/Deuring
+  statements), Mazur 1977 ($\Gamma_0(N)$).
+\end{enumerate}
+\textbf{Conclusion.} At $\Gamma_1(Mp^s)\cap\Gamma_0(q)$-level, (S1) is \stcited{}, (S3) follows from (S1)+(S2) by Raynaud's theorem
+(\stpmc, our inference), and (S2) and the naturality (X3) remain \stexp{}; the Frobenius clause of (S4) is \stpmc{} (the four-row table, derived from the naive/Albanese row, with Ribet--Stein Lemma~3.17 only as a consistency check; it is conditional on the model decision FD1, taken on 2026-11-15: $\mu_N$-model, Picard functoriality): $\HypX$ stays a
+hypothesis, as Remark~\sfref{rem:s05-Xstatus} and the risk R1 of the stage say. Still missing from \pathtt{literature/}: Ribet,
+\emph{On the component groups and the Shimura subgroup of $J_0(N)$} is present (Exposé 6, Bordeaux 1987--88) but treats
+$\Gamma_0$ only; Buzzard 1997 (Duke Math.\ J.\ 87) and Takahashi 2001 (J.\ Number Theory 90) are not in \pathtt{literature/}. Bibliography: \cite{DR,DI95,Hel,RS,Ri90,Mz,Ast196}.
+\end{remark}

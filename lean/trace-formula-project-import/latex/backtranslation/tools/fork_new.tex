@@ -1,0 +1,29 @@
+%% Hand-written B blocks of fork-new items (no parent B block and no parent generated signature, binders or hashes).
+%% Read by mkB.py: each chunk starts with a line `%% fork-new after <anchor ID>` and holds exactly one item block.
+%% fork-new after I.adele.thm:adele-fundamental-domain
+
+\begin{theorem}[$\Q\backslash\A$ is compact]
+\tfstmt{I.adele.thm:rat-quotient-compact-top}
+\lean{GL2TF.rat_quotient_compact_top}
+\uses{I.adele.def:adele-ring,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.lem:primes-fact-instance}
+\end{theorem}
+\begin{tfformal}{I.adele.thm:rat-quotient-compact-top}
+\tfhyps{I.adele.thm:rat-quotient-compact-top}{}
+\begin{tffidelity}
+Fork-new item (added in the algebraic\_jl fork, not in the parent at 84818d0): there is no generated signature, binder
+row or sem\_hash for it, and it carries no audit. Lean statement: \texttt{CompactSpace (Adele ⧸ (algebraMap ℚ
+Adele).range.toAddSubgroup) ∧ T2Space (Adele ⧸ (algebraMap ℚ Adele).range.toAddSubgroup)}. ``$\A/\Q$'' is the quotient
+of the additive group \texttt{Adele} by the range of \texttt{algebraMap ℚ Adele}, with Mathlib's quotient topology. No
+binders. It is the measure-free part of the parent's \texttt{I.adele.thm:rat-quotient-compact} (dropped in the fork,
+since its other clauses normalize a Haar measure), extended by the Hausdorff clause. \texttt{\#print axioms}:
+\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Compactness: the image of $[0,1]\times\hat\Z$ (compact by \texttt{isCompact\_Icc.prod isCompact\_zhat}) under the
+quotient map is everything, because by \cref{I.adele.thm:adele-fundamental-domain} every $x$ is $q+y$ with $y\in
+[0,1)\times\hat\Z$ and then $x$ and $y$ have the same class; a continuous image of a compact set is compact. Hausdorff:
+the subgroup is closed (its carrier is \texttt{Set.range (algebraMap ℚ Adele)}, closed by the first clause of
+\cref{I.adele.thm:rat-discrete}); Mathlib's instance \texttt{QuotientAddGroup.instT3Space} for the quotient by a closed
+normal subgroup then gives \texttt{T2Space}.
+\end{proof}

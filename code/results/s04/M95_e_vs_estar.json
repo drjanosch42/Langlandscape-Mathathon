@@ -1,0 +1,40 @@
+{
+ "data": {
+  "checks": {
+   "e_and_e_star_idempotent": true,
+   "e_e_star_commute_mod_p": true,
+   "e_eq_e_star_mod_p": false,
+   "e_star_eq_e_transpose": true,
+   "rank_e": 27,
+   "rank_e_star": 27
+  },
+  "conclusion": "e != e* (e is not symmetric mod 5)",
+  "example": {
+   "B": "Hurwitz quaternions (-1,-1)_Q",
+   "D": 2,
+   "M": 7,
+   "S_1_size": 48,
+   "level": "U_1(35)",
+   "p": 5,
+   "s": 1,
+   "w_x": 1
+  },
+  "precision": "mod 5^4"
+ },
+ "provenance": {
+  "commit": "b7a425c772fba7bc277617cb2423a1f932bd38f3-dirty",
+  "date": "2026-11-14T21:59:04+00:00",
+  "notes": "S04-M10a / audit M9.5: e != e* at D=2, M=7, p=5, s=1",
+  "params": {
+   "D": 2,
+   "M": 7,
+   "m": 4,
+   "p": 5,
+   "s": 1
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.076,
+  "script": "code/python/langlandscape/ordinary/e_vs_estar.py (cd code/python && python -m langlandscape.ordinary.e_vs_estar)"
+ }
+}

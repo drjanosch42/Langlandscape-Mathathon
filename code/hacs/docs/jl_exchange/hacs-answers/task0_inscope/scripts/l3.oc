@@ -1,0 +1,8 @@
+L = level_n(3, 10, 17, [2, 3, 5, 7, 11, 13]);
+print("level_n N=3 n=10 ell=17: index", L.index, " h1", L.h1, " h0", L.h0, " dim_cusp_forms", L.dim_cusp_forms, " cusps", L.cusps);
+for o in L.ops { print(o.label, " bad=", o.bad, " charpoly(low->high)=", o.charpoly); }
+M = sl2z_model();
+H = cohomology(symmetric_power(M, 10, 17));
+T3 = hecke(H, 3).A(1);
+print("level 1 T_3 mod 17 on H^1 (dim", H.dims[1], "): matrix", T3, " charpoly", charpoly(T3));
+

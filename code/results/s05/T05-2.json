@@ -1,0 +1,890 @@
+{
+ "data": {
+  "explanation": "theta (delta=+1,e=+1: <d>_cl -> <d>_ad^-1, U_q -> +Pi_q) matches at every pair, eps=-1 never does. At N=7 the even cubic characters have chi(q) = zeta_3^{+-1} != +-1 and both mixed dictionaries fail (witnessed failure of Pi_q^-1 with delta=+1), as prop:s05-sign(c) predicts. The genuine Rosati dictionary theta^Ros (T_l -> <l>_ad T_l, <d> -> <d>_ad, U_q -> Pi_q^-1) also matches at every pair: it is the eigensystem-level shadow of prop:s05-AL (theta vs theta^Ros indistinguishable at one level; separated only by naturality in p-power levels, prop:s05-sign(d)), so this is no contradiction. The naive (delta,e)=(-1,-1) with T_l -> T_l fails by the T_l-relation (lem:s05-consistency(a)). At N=5 only the trivial and the quadratic even character occur (the order-4 characters are odd), so chi(q)=+-1, delta is invisible and (c) imposes nothing; (+1,-1) still fails there, because Pi_q^-1 = -Pi_q on the chi(q)=-1 part (a sign, not the exponent relation). The plan's criterion ord(q mod N) not in {1,2} is not sufficient: informative needs q^2 != +-1 mod N (even chi only).",
+  "pairs": [
+   {
+    "N": 5,
+    "brandt_adelic_psi_g_with_mult": {
+     "(-1.0, 0.0)": 6,
+     "(1.0, 0.0)": 5
+    },
+    "checks": {
+     "<-1>_trivial": true,
+     "Pi_sq_eq_<q>^-1": true,
+     "Pi_sq_ne_<q>": false,
+     "Pi_sq_trivial": false,
+     "T_degree_ell_plus_1": true,
+     "all_commute": true,
+     "n_equals_stage1_XB": true
+    },
+    "classical_characters_chi_g_with_mult": {
+     "(-1.0, -0.0)": 6,
+     "(1.0, 0.0)": 5
+    },
+    "classical_chi_q": {
+     "(-1.0, -0.0)": [
+      -1.0,
+      -0.0
+     ],
+     "(1.0, 0.0)": [
+      1.0,
+      0.0
+     ]
+    },
+    "dim_Z0": 11,
+    "dim_classical_qnew": 11,
+    "dims_detail": {
+     "Mod(1,5)": {
+      "dim_one_chi": 5,
+      "orbit": [
+       1
+      ]
+     },
+     "Mod(2,5)": {
+      "dim_one_chi": 0,
+      "orbit": [
+       2,
+       3
+      ]
+     },
+     "Mod(4,5)": {
+      "dim_one_chi": 6,
+      "orbit": [
+       4
+      ]
+     },
+     "level_q_old_mult2": 0
+    },
+    "ells": [
+     2,
+     3,
+     7,
+     11
+    ],
+    "generator_g": 2,
+    "h_Bq": 1,
+    "informative": {
+     "even_chi_with_chi_q_sq_ne_1": false,
+     "ord_q_mod_N": 4,
+     "plan_criterion": true
+    },
+    "match": {
+     "Rosati (T->,<l>T, <d>-><d>, U_q->Pi^-1)": true,
+     "delta=+1,e=+1": true,
+     "delta=+1,e=+1,eps=-1": false,
+     "delta=+1,e=-1": false,
+     "delta=-1,e=+1": true,
+     "delta=-1,e=-1": false
+    },
+    "prime_for_chi_g": 2,
+    "q": 13,
+    "size_X_B_U1N": 12,
+    "some_occurring_chi_q_ne_pm1": false,
+    "verdict": "CONFIRMED (uninformative for e: all chi(q) = +-1)",
+    "witness_of_failure": {
+     "delta=+1,e=+1,eps=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         0.0,
+         2.67513087
+        ],
+        [
+         0.0,
+         0.4811943
+        ],
+        [
+         0.0,
+         0.80606343
+        ],
+        [
+         -3.67513087,
+         0.0
+        ]
+       ],
+       "a_q": [
+        -0.0,
+        -1.0
+       ],
+       "chi_g": [
+        -1.0,
+        -0.0
+       ],
+       "chi_q": [
+        -1.0,
+        -0.0
+       ]
+      },
+      "n_unmatched": 11
+     },
+     "delta=+1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         0.0,
+         2.67513087
+        ],
+        [
+         0.0,
+         0.4811943
+        ],
+        [
+         0.0,
+         0.80606343
+        ],
+        [
+         -3.67513087,
+         0.0
+        ]
+       ],
+       "a_q": [
+        0.0,
+        -1.0
+       ],
+       "chi_g": [
+        -1.0,
+        -0.0
+       ],
+       "chi_q": [
+        -1.0,
+        -0.0
+       ]
+      },
+      "n_unmatched": 6
+     },
+     "delta=-1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         0.0,
+         2.67513087
+        ],
+        [
+         0.0,
+         0.4811943
+        ],
+        [
+         0.0,
+         0.80606343
+        ],
+        [
+         -3.67513087,
+         0.0
+        ]
+       ],
+       "a_q": [
+        0.0,
+        -1.0
+       ],
+       "chi_g": [
+        -1.0,
+        0.0
+       ],
+       "chi_q": [
+        -1.0,
+        0.0
+       ]
+      },
+      "n_unmatched": 6
+     }
+    }
+   },
+   {
+    "N": 7,
+    "brandt_adelic_psi_g_with_mult": {
+     "(-0.5, -0.8660254)": 6,
+     "(-0.5, 0.8660254)": 6,
+     "(1.0, 0.0)": 7
+    },
+    "checks": {
+     "<-1>_trivial": true,
+     "Pi_sq_eq_<q>^-1": true,
+     "Pi_sq_ne_<q>": true,
+     "Pi_sq_trivial": false,
+     "T_degree_ell_plus_1": true,
+     "all_commute": true,
+     "n_equals_stage1_XB": true
+    },
+    "classical_characters_chi_g_with_mult": {
+     "(-0.5, -0.8660254)": 6,
+     "(-0.5, 0.8660254)": 6,
+     "(1.0, 0.0)": 7
+    },
+    "classical_chi_q": {
+     "(-0.5, -0.8660254)": [
+      -0.5,
+      -0.86602539
+     ],
+     "(-0.5, 0.8660254)": [
+      -0.5,
+      0.86602539
+     ],
+     "(1.0, 0.0)": [
+      1.0,
+      0.0
+     ]
+    },
+    "dim_Z0": 19,
+    "dim_classical_qnew": 19,
+    "dims_detail": {
+     "Mod(1,7)": {
+      "dim_one_chi": 5,
+      "orbit": [
+       1
+      ]
+     },
+     "Mod(2,7)": {
+      "dim_one_chi": 6,
+      "orbit": [
+       2,
+       4
+      ]
+     },
+     "Mod(3,7)": {
+      "dim_one_chi": 0,
+      "orbit": [
+       3,
+       5
+      ]
+     },
+     "Mod(6,7)": {
+      "dim_one_chi": 0,
+      "orbit": [
+       6
+      ]
+     },
+     "level_q_old_mult2": 1
+    },
+    "ells": [
+     2,
+     3,
+     5,
+     13
+    ],
+    "generator_g": 3,
+    "h_Bq": 2,
+    "informative": {
+     "even_chi_with_chi_q_sq_ne_1": true,
+     "ord_q_mod_N": 3,
+     "plan_criterion": true
+    },
+    "match": {
+     "Rosati (T->,<l>T, <d>-><d>, U_q->Pi^-1)": true,
+     "delta=+1,e=+1": true,
+     "delta=+1,e=+1,eps=-1": false,
+     "delta=+1,e=-1": false,
+     "delta=-1,e=+1": false,
+     "delta=-1,e=-1": false
+    },
+    "prime_for_chi_g": 3,
+    "q": 11,
+    "size_X_B_U1N": 20,
+    "some_occurring_chi_q_ne_pm1": true,
+    "verdict": "CONFIRMED",
+    "witness_of_failure": {
+     "delta=+1,e=+1,eps=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.93969262,
+         -1.62759536
+        ],
+        [
+         -0.32635182,
+         0.56525794
+        ],
+        [
+         -1.76604444,
+         -3.0588787
+        ],
+        [
+         4.41147413,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        0.5,
+        -0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        -0.8660254
+       ]
+      },
+      "n_unmatched": 19
+     },
+     "delta=+1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.93969262,
+         -1.62759536
+        ],
+        [
+         -0.32635182,
+         0.56525794
+        ],
+        [
+         -1.76604444,
+         -3.0588787
+        ],
+        [
+         4.41147413,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        -0.8660254
+       ]
+      },
+      "n_unmatched": 12
+     },
+     "delta=-1,e=+1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.93969262,
+         -1.62759536
+        ],
+        [
+         -0.32635182,
+         0.56525794
+        ],
+        [
+         -1.76604444,
+         -3.0588787
+        ],
+        [
+         4.41147413,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        0.8660254
+       ]
+      },
+      "n_unmatched": 12
+     },
+     "delta=-1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.93969262,
+         -1.62759536
+        ],
+        [
+         -0.32635182,
+         0.56525794
+        ],
+        [
+         -1.76604444,
+         -3.0588787
+        ],
+        [
+         4.41147413,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        0.8660254
+       ]
+      },
+      "n_unmatched": 12
+     }
+    }
+   },
+   {
+    "N": 5,
+    "brandt_adelic_psi_g_with_mult": {
+     "(-1.0, 0.0)": 10,
+     "(1.0, 0.0)": 11
+    },
+    "checks": {
+     "<-1>_trivial": true,
+     "Pi_sq_eq_<q>^-1": true,
+     "Pi_sq_ne_<q>": false,
+     "Pi_sq_trivial": false,
+     "T_degree_ell_plus_1": true,
+     "all_commute": true,
+     "n_equals_stage1_XB": true
+    },
+    "classical_characters_chi_g_with_mult": {
+     "(-1.0, 0.0)": 10,
+     "(1.0, 0.0)": 11
+    },
+    "classical_chi_q": {
+     "(-1.0, 0.0)": [
+      -1.0,
+      0.0
+     ],
+     "(1.0, 0.0)": [
+      1.0,
+      0.0
+     ]
+    },
+    "dim_Z0": 21,
+    "dim_classical_qnew": 21,
+    "dims_detail": {
+     "Mod(1,5)": {
+      "dim_one_chi": 7,
+      "orbit": [
+       1
+      ]
+     },
+     "Mod(2,5)": {
+      "dim_one_chi": 0,
+      "orbit": [
+       2,
+       3
+      ]
+     },
+     "Mod(4,5)": {
+      "dim_one_chi": 10,
+      "orbit": [
+       4
+      ]
+     },
+     "level_q_old_mult2": 2
+    },
+    "ells": [
+     2,
+     3,
+     7,
+     11
+    ],
+    "generator_g": 2,
+    "h_Bq": 3,
+    "informative": {
+     "even_chi_with_chi_q_sq_ne_1": false,
+     "ord_q_mod_N": 4,
+     "plan_criterion": true
+    },
+    "match": {
+     "Rosati (T->,<l>T, <d>-><d>, U_q->Pi^-1)": true,
+     "delta=+1,e=+1": true,
+     "delta=+1,e=+1,eps=-1": false,
+     "delta=+1,e=-1": false,
+     "delta=-1,e=+1": true,
+     "delta=-1,e=-1": false
+    },
+    "prime_for_chi_g": 2,
+    "q": 23,
+    "size_X_B_U1N": 22,
+    "some_occurring_chi_q_ne_pm1": false,
+    "verdict": "CONFIRMED (uninformative for e: all chi(q) = +-1)",
+    "witness_of_failure": {
+     "delta=+1,e=+1,eps=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.0,
+         -0.29136689
+        ],
+        [
+         0.0,
+         3.14073207
+        ],
+        [
+         0.0,
+         1.20647223
+        ],
+        [
+         3.65772569,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        0.0,
+        1.0
+       ],
+       "chi_g": [
+        -1.0,
+        -0.0
+       ],
+       "chi_q": [
+        -1.0,
+        -0.0
+       ]
+      },
+      "n_unmatched": 21
+     },
+     "delta=+1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.0,
+         -0.29136689
+        ],
+        [
+         0.0,
+         3.14073207
+        ],
+        [
+         0.0,
+         1.20647223
+        ],
+        [
+         3.65772569,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        -0.0,
+        1.0
+       ],
+       "chi_g": [
+        -1.0,
+        -0.0
+       ],
+       "chi_q": [
+        -1.0,
+        -0.0
+       ]
+      },
+      "n_unmatched": 10
+     },
+     "delta=-1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -0.0,
+         -0.29136689
+        ],
+        [
+         0.0,
+         3.14073207
+        ],
+        [
+         0.0,
+         1.20647223
+        ],
+        [
+         3.65772569,
+         -0.0
+        ]
+       ],
+       "a_q": [
+        -0.0,
+        1.0
+       ],
+       "chi_g": [
+        -1.0,
+        0.0
+       ],
+       "chi_q": [
+        -1.0,
+        0.0
+       ]
+      },
+      "n_unmatched": 10
+     }
+    }
+   },
+   {
+    "N": 7,
+    "brandt_adelic_psi_g_with_mult": {
+     "(-0.5, -0.8660254)": 14,
+     "(-0.5, 0.8660254)": 14,
+     "(1.0, 0.0)": 15
+    },
+    "checks": {
+     "<-1>_trivial": true,
+     "Pi_sq_eq_<q>^-1": true,
+     "Pi_sq_ne_<q>": true,
+     "Pi_sq_trivial": false,
+     "T_degree_ell_plus_1": true,
+     "all_commute": true,
+     "n_equals_stage1_XB": true
+    },
+    "classical_characters_chi_g_with_mult": {
+     "(-0.5, -0.8660254)": 14,
+     "(-0.5, 0.8660254)": 14,
+     "(1.0, 0.0)": 15
+    },
+    "classical_chi_q": {
+     "(-0.5, -0.8660254)": [
+      -0.49999999,
+      0.8660254
+     ],
+     "(-0.5, 0.8660254)": [
+      -0.49999999,
+      -0.8660254
+     ],
+     "(1.0, 0.0)": [
+      1.0,
+      0.0
+     ]
+    },
+    "dim_Z0": 43,
+    "dim_classical_qnew": 43,
+    "dims_detail": {
+     "Mod(1,7)": {
+      "dim_one_chi": 11,
+      "orbit": [
+       1
+      ]
+     },
+     "Mod(2,7)": {
+      "dim_one_chi": 14,
+      "orbit": [
+       2,
+       4
+      ]
+     },
+     "Mod(3,7)": {
+      "dim_one_chi": 0,
+      "orbit": [
+       3,
+       5
+      ]
+     },
+     "Mod(6,7)": {
+      "dim_one_chi": 0,
+      "orbit": [
+       6
+      ]
+     },
+     "level_q_old_mult2": 2
+    },
+    "ells": [
+     2,
+     3,
+     5,
+     11
+    ],
+    "generator_g": 3,
+    "h_Bq": 3,
+    "informative": {
+     "even_chi_with_chi_q_sq_ne_1": true,
+     "ord_q_mod_N": 3,
+     "plan_criterion": true
+    },
+    "match": {
+     "Rosati (T->,<l>T, <d>-><d>, U_q->Pi^-1)": true,
+     "delta=+1,e=+1": true,
+     "delta=+1,e=+1,eps=-1": false,
+     "delta=+1,e=-1": false,
+     "delta=-1,e=+1": false,
+     "delta=-1,e=-1": false
+    },
+    "prime_for_chi_g": 3,
+    "q": 23,
+    "size_X_B_U1N": 44,
+    "some_occurring_chi_q_ne_pm1": true,
+    "verdict": "CONFIRMED",
+    "witness_of_failure": {
+     "delta=+1,e=+1,eps=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -1.20569103,
+         -2.08831812
+        ],
+        [
+         -1.11001822,
+         1.92260796
+        ],
+        [
+         -0.36562864,
+         -0.63328738
+        ],
+        [
+         3.04480759,
+         -5.27376144
+        ]
+       ],
+       "a_q": [
+        0.5,
+        0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        0.8660254
+       ]
+      },
+      "n_unmatched": 43
+     },
+     "delta=+1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -1.20569103,
+         -2.08831812
+        ],
+        [
+         -1.11001822,
+         1.92260796
+        ],
+        [
+         -0.36562864,
+         -0.63328738
+        ],
+        [
+         3.04480759,
+         -5.27376144
+        ]
+       ],
+       "a_q": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        0.8660254
+       ]
+      },
+      "n_unmatched": 28
+     },
+     "delta=-1,e=+1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -1.20569103,
+         -2.08831812
+        ],
+        [
+         -1.11001822,
+         1.92260796
+        ],
+        [
+         -0.36562864,
+         -0.63328738
+        ],
+        [
+         3.04480759,
+         -5.27376144
+        ]
+       ],
+       "a_q": [
+        -0.5,
+        -0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        -0.8660254
+       ]
+      },
+      "n_unmatched": 28
+     },
+     "delta=-1,e=-1": {
+      "first_unmatched_image": {
+       "a_ell": [
+        [
+         -1.20569103,
+         -2.08831812
+        ],
+        [
+         -1.11001822,
+         1.92260796
+        ],
+        [
+         -0.36562864,
+         -0.63328738
+        ],
+        [
+         3.04480759,
+         -5.27376144
+        ]
+       ],
+       "a_q": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_g": [
+        -0.5,
+        0.8660254
+       ],
+       "chi_q": [
+        -0.5,
+        -0.8660254
+       ]
+      },
+      "n_unmatched": 28
+     }
+    }
+   }
+  ],
+  "verdict": "CONFIRMED",
+  "verdict_per_pair": {
+   "(11,7)": "CONFIRMED",
+   "(13,5)": "CONFIRMED (uninformative for e: all chi(q) = +-1)",
+   "(23,5)": "CONFIRMED (uninformative for e: all chi(q) = +-1)",
+   "(23,7)": "CONFIRMED"
+  }
+ },
+ "provenance": {
+  "commit": "89045d1f9659955f74f5a48e1eee0af71d81ac9a-dirty",
+  "date": "2026-11-14T23:53:21+00:00",
+  "notes": "T05-2 (S05-C2): Z[X_B(U_1(N))]^0 homological; <d>_ad[x]=[x diag(1,d)]; Pi_q[x]=[x Pi_q]; dictionary T->T, <d>_cl-><d>_ad^{-delta}, U_q->+Pi_q^e; chi from a_l^2-a_{l^2}=l chi(l). Characters are recorded by their value chi(g) at the primitive root g mod N, as [re, im].",
+  "params": {
+   "n_ells": 4,
+   "pairs": [
+    [
+     13,
+     5
+    ],
+    [
+     11,
+     7
+    ],
+    [
+     23,
+     5
+    ],
+    [
+     23,
+     7
+    ]
+   ],
+   "tol": 1e-06,
+   "weight": 2
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 5.75,
+  "script": "code/python/langlandscape/comparison/gamma1.py (cd code/python && python3 -m langlandscape.comparison.gamma1)"
+ }
+}

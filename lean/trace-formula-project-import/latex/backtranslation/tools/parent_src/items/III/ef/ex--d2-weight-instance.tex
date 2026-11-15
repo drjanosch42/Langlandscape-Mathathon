@@ -1,0 +1,13 @@
+Call $\Delta_0\in\Z$ a \emph{fundamental discriminant} if $\Delta_0\equiv0$ or $1\pmod4$ and no prime divides the conductor of $\Delta_0$
+(\cref{III.ef.def:conductor-prime}). Define $H_0\colon\Z\to\Q$ by
+\[
+  H_0(\Delta)=\prod_{p\mid m}p^{v_p(m)-1}\bigl(p-\chi_{\Delta_0}(p)\bigr)
+\]
+if $\Delta=\Delta_0m^2$ with a fundamental discriminant $\Delta_0<0$ and an integer $m\ge1$ (such $\Delta_0$ and $m$ are unique if they exist; the
+product runs over the primes dividing $m$, and $v_p(m)$ is the exponent of $p$ in $m$), and $H_0(\Delta)=0$ if $\Delta$ is not of this form; $\chi$ is
+as in \cref{III.ef.def:kronecker-prime}. Then $H_0$ satisfies the hypothesis of \cref{III.ef.thm:d2-sum-form}: for every $\Delta\in\Z$ with
+$\Delta<0$ and $\Delta\equiv0$ or $1\pmod4$ and every prime $p$,
+\[
+  H_0(p^2\Delta)=\bigl(p-\chi_\Delta(p)\bigr)\,H_0(\Delta).
+\]
+Moreover $H_0(\Delta_0)=1$ for every fundamental discriminant $\Delta_0<0$; in particular $H_0(-3)=1$.

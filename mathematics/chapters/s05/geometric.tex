@@ -1,0 +1,120 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 05, WP S05-M5 (package abhijit/s05-lit): the geometric route (G1)-(G5) with verified citations;
+% Remark illusie; Remark hsieh (decided FD2: confirmation against Hsieh's GL_2-side U_q).
+% Every \lit below was checked in the local PDF (page = printed page; PDF page in the WP report).
+\makeatletter
+\providecommand{\sfref}[1]{\@ifundefined{r@#1}{\texttt{#1}}{\ref{#1}}}
+\makeatother
+
+\subsection{The geometric route at \texorpdfstring{$\Gamma_0$}{Gamma\_0}-type level, verified}\label{ss:s05-geometric}
+
+\begin{theorem}[(G1)--(G4) at $\Gamma_0$-type level]\label{thm:s05-G}
+Let $N=qM'$ with $q$ prime, $q\nmid M'$, $J=J_0(N)$, and $\Sigma(M')$ the set of supersingular points of $X_0(M')_{\bar\F_q}$
+(equivalently, by Deuring, the class set $\XBq{\Uzero{M'}}$).
+\begin{enumerate}[label=(\roman*)]
+\item (G1) $X_0(N)$ has a semistable model over $\Z_{(q)}$ whose special fibre is two copies of $X_0(M')_{\F_q}$ meeting
+  transversally at $\Sigma(M')$, a point $x$ on one copy being glued to $x^{(q)}$ on the other.
+  \stcited{} \lit{deligne-rapoport\_1973\_les-schemas-de-modules-de-courbes-elliptiques}{Ch.~V, Thm.~1.16, p.~243, and
+  Variante~1.18, p.~245 (fine moduli with full level $n\ge3$: the second copy's $x$ is glued to $x^{(p)}$ on the first); \S1.20,
+  p.~245 (level $H\subset\GL(2,\Z/n)$); for the coarse spaces with arbitrary level $H$: Ch.~VI, Thm.~6.9(i)--(iii), pp.~286--287,
+  including the local equation $xy=p^{k}$ at a supersingular point, $k=|\mathrm{Aut}(E,\alpha)|/2$ if $-1\in\mathrm{Aut}(E,\alpha)$
+  and $k=|\mathrm{Aut}(E,\alpha)|$ otherwise}; \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{\S3,
+  p.~439 (quoting DR V \S1, 1.18, and VI Thm.~6.9)}; \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S3.9,
+  Fig.~3 and (3.1), p.~45, for $\Gamma_1(M')\cap\Gamma_0(q)$ (a citation of DR and Raynaud, no proof)}.
+\item (G2) $\Xq(J)\cong\Z[\Sigma(M')]^0$, the degree-zero divisors on $\Sigma(M')$, compatibly with $T_\ell$, $\ell\nmid N$.
+  \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.1, p.~439};
+  Hecke equivariance in the Brandt form, isometric for the monodromy pairing:
+  \lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.3, p.~11 (attributed to Buzzard and Takahashi; Kohel's
+  $X(Dp,m)$ is the degree-zero part, p.~8)}; \lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{Prop.~6.5,
+  p.~20 (citing Kohel Thm.~4.3; stated for the full $\mathrm{Pic}$, so correct only after localisation at a non-Eisenstein ideal,
+  which is PW's use)}.
+\item (G2, $U_q$ and Frobenius) On the torus, $w_q=-T_q$; the Frobenius endomorphism of the special fibre acts on the torus as
+  $q\,T_q$ ($=-q\,w_q$); on $\Xq(J)$, $T_q$ is the restriction of the permutation $x\mapsto x^{(q)}$ of $\Sigma(M')$, and this
+  permutation is right multiplication by a uniformiser $\Pi_q$ of $B_q$ (trivial away from $q$) on the class set.
+  \stcited{} \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.7, p.~445 ($w_q=-T_q$ on
+  the torus); Prop.~3.8(i),(ii), p.~446 ($w_q$ swaps the components and acts on $\Sigma$ as $x\mapsto x^{(q)}$; $T_q$ on $X$ is the
+  restriction of the map induced by the Frobenius permutation); Remark~3.5(b), p.~441 (the Frobenius permutation is right
+  multiplication by an idele that is $1$ away from $q$ and a uniformiser at $q$)};
+  \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Lemma~3.17, p.~46 (Frobenius acts as $pT_p$ on the torus, for
+  $\Gamma_1(M)\cap\Gamma_0(p)$)}; \lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{Appendix (Mazur--Rapoport),
+  Thm.~(A.1)(a), p.~173, and its proof in \S3, p.~183: $F=-p\,w$ on the torus, for $N=p$ prime}.
+\item (G3) The monodromy pairing on $\Xq(J)$ is $\langle e,e'\rangle=w_e\delta_{ee'}$ with $w_e$ the thickness of the node $e$
+  ($=|\mathrm{Aut}(E,C)|/2$), it is positive definite, and $\Phi_q(J)\cong\Xq(J)^\vee/\Xq(J)$.
+  \stcited{} \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Raynaud, Thm.~5, p.~17 (the scalar product
+  $e_j\delta_{jj'}$ with $e_j$ the thickness, the principal polarisation makes the monodromy form positive non-degenerate, and
+  $\Phi\cong M^*/M$), and Cor.~6, p.~18}; \lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{\S4.2 and Thm.~4.1,
+  p.~10 (symmetric positive definite pairing; Grothendieck's exact sequence)};
+  \lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{Prop.~6.3(1), p.~19};
+  \lit{grothendieck\_1972\_sga-7-1-groupes-de-monodromie-en-geometrie-algebrique-i\_scan}{Exp.~IX, Thm.~11.5, p.~455 (image
+  scan)}; the thickness is DR VI Thm.~6.9(iii) as in (i), and $e(i)=|\mathrm{Aut}(\mathbf E)|/2$ in
+  \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{p.~439}.
+\item (G4) For $A$ semistable at $q$ and $\ell\ne q$: $T_\ell A\supseteq(T_\ell A)^{I_q}\supseteq T_t$, with
+  $T_t=\Hom(\Xq(A),\Z_\ell(1))$, $(T_\ell A)^{I_q}/T_t=T_\ell(\text{abelian part})$, $T_\ell A/(T_\ell A)^{I_q}\cong\Xq(A^\vee)\otimes\Z_\ell$,
+  and the monodromy operator $N:T_\ell A/(T_\ell A)^{I_q}\to T_t$ is the monodromy pairing.
+  \stcited{} [SGA7, IX, 2.4, 9.1--10.4] (an image scan of the volume is not in every node's \pathtt{literature/}; on Abhijit's node it is present and 2.4/p.~338, (9.1.2)/p.~418, (10.3.5)/p.~443, 10.4/p.~444 and 11.5/p.~455 were verified there (cross-account audit F1, batch 7); Exp.~IX occupies
+  pp.~313--523; page pointers: (9.1.2), p.~418; (10.2.6)--(10.2.7), p.~441; (10.3.5), p.~443; Thm.~10.4, p.~444, all quoted in the proof of Prop.~\ref{prop:s05-AL}; the Exp.~IX 2.4 statement on p.~338 is read from the same scan);
+  $\ell$-adic realisation of the pairing: \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Illusie, Thm.~2.7,
+  p.~41 (``with the opposite sign'' to SGA~7 IX 9.1.2)}.
+\end{enumerate}
+\end{theorem}
+\noindent(G5) (Čerednik--Drinfeld, Ribet's sequence of character groups) is used only in the section on several ramified primes:
+\stcited{} \lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Boutot--Carayol, pp.~45--158; Thm.~(5.2),
+pp.~140--141}; \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S3.10.2, (3.2), p.~48};
+\lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.2, p.~11 (proved by Ribet for $D=1$, in general following
+Buzzard)}.
+Further references at $\Gamma_0$-level (not needed for the statements): the Néron model of the Jacobian of a regular semistable curve
+is $\mathrm{Pic}^0$ modulo the closure of the unit section \lit{raynaud\_1970\_specialisation-du-foncteur-de-picard}{Thm.~(8.1.4),
+p.~65}; the Hecke algebra acts on the component group through an Eisenstein quotient
+\lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Edixhoven, pp.~159--170 ($\Gamma_0(N)$ only)}.
+Bibliography for this subsection: \cite{DR,Ri90,RS,Mz,Koh01,PW,Ast196,Ill,BC,Ed91,Ray70,SGA7,Hs}.
+
+\begin{remark}[verification notes]\label{rem:s05-Gverify}
+Against the stage plan the following pointers changed: DR Variante~1.18 is on p.~245 and the coarse statement VI Thm.~6.9 (now
+verified, pp.~286--287) covers every level $H\subset\GL(2,\Z/n)$, $(n,q)=1$, so in particular $\Gamma_1(n)\cap\Gamma_0(q)$ (see
+\S\ref{ss:s05-status}); the seed's (G2) pointers ``RS (3.1), Lemma~3.17'' do not state $\Xq(J)\cong\Z[\Sigma]^0$ (they give the
+toric sequence and the Frobenius), Ribet Prop.~3.1 does; PW Prop.~6.5 is for the full Picard group. No pointer of
+Thm.~\ref{thm:s05-G} was found to be wrong otherwise.
+\end{remark}
+
+\begin{remark}[two sign conventions in (G4)]\label{rem:s05-illusie}
+Illusie's Thm.~2.7 identifies the $\ell$-adic pairing with Grothendieck's $u_\ell$ \emph{up to the opposite sign} relative to SGA~7
+\lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Illusie, Thm.~2.7 and the sentence after it, p.~41}. The
+monodromy pairing on the character group of a principally polarised Jacobian is positive definite
+\lit{asterisque\_1991\_courbes-modulaires-et-courbes-de-shimura\_vol}{Raynaud, p.~17}, also
+\lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{\S4.2, p.~10}. So the sign is fixed by positivity: (X2) of
+Hyp.~\sfref{hyp:s05-X} uses the positive definite normalisation, and (X4) uses the same. \stcited{} (both facts); the convention
+is ours.
+\end{remark}
+
+\begin{remark}[Hsieh's $\mathrm{JL}(U_q)=-U_q$; FD2]\label{rem:s05-hsieh}
+Hsieh defines the quaternionic $U_q$ ($q\mid N^-$) as $f\mapsto f(x\varpi^D_q)$ on functions and $x\mapsto x\varpi^D_q$ on the
+homology of the class set, with $\nu(\varpi^D_q)=q$, i.e.\ our $\Pi_q$
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.2, p.~30; \S4.4, p.~31}, and states
+$\mathrm{JL}(U_q)=(-1)U_q$ for $q\mid N^-$ \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.5,
+p.~34}. \textbf{Verdict: $+\Pi_q$ is correct; Hsieh's sign is an erratum and is not imported.} \stpmc.
+FD2 is decided (Fabian, 2026-11-15): the verdict is accepted; S05-M5 confirms it against Hsieh's $\GL_2$-side $U_q$ (below), and the sign is supported by the computation T05-1 (\stcomp) and Prop.~\sfref{prop:s05-sign}. The erratum is to be communicated to the author by Fabian. The mathematics of $U_q\mapsto+\Pi_q$ does not depend on the decision FD2 (Prop.~\sfref{prop:s05-sign}(a),(b),
+Prop.~\sfref{prop:s05-signe}); what depends on it is the reading of [Hs] in this remark, the sentence on the sign-independence of the imported statements
+of [Hs] at the end, and the framing of T05-1.
+\begin{itemize}
+\item \emph{His $\GL_2$-side $U_q$ is the classical one} (S05-M5 check). On $\Lambda$-adic forms $U_\ell$ for $\ell\mid pN$ is
+  $\sum a(n)q^n\mapsto\sum a(n\ell)q^n$ \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S3.1, p.~16},
+  the Hecke algebra $\T(N,\mathrm I)$ is generated by these $U_\ell$, and $\lambda_f(U_\ell)=a(\ell,f)$ for $\ell\mid Np$
+  (\S3.3, p.~18). So no normalisation of the $\GL_2$ side absorbs a sign: $\mathrm{JL}(U_q)=-U_q$ would say that the
+  $\Pi_q$-eigenvalue of the JL lift is $-a(q,f)$.
+\item \emph{His own local computation gives $+$.} In \S2 the adelic $U_\ell=\sum_x\rho\big(\begin{smallmatrix}\varpi_\ell&x\\0&1
+  \end{smallmatrix}\big)$ satisfies $\Phi(U_\ell f)=\ell^{k/2-1}U_\ell\Phi(f)$ (\S2.3, (2.7), p.~11), and on the new line of $\St$ the
+  local $U$ acts by $+1$ (Prop.~2.2 and its proof, pp.~12--13). With local JL ($\St\leftrightarrow$ trivial; Prop.~\ref{prop:s05-signe},
+  Step 2) this gives $a_q(f)=+\lambda(\Pi_q)$ in every even weight, i.e.\ $U_q\mapsto+\Pi_q$
+  (Prop.~\ref{prop:s05-signe}(iii)).
+\item \emph{Counterexample at level $11$.} $N^-=11$, $N^+=1$, weight $2$: the two classes of $B_{11}$ have stabilisers of order
+  $4$ and $6$, so $\Pi_{11}$ is the identity on the class set (stage 01, Example ``$\Pi_{11}$ on $B_{11}$''). The form is $11a$ with
+  $a_{11}=+1$ (split multiplicative reduction). So $U_{11}\mapsto+\Pi_{11}$ (Prop.~\sfref{prop:s05-sign}(b)).
+\item \emph{Geometric reason.} Ribet's Prop.~3.8(ii) (p.~446) identifies $T_q$ on the character group with the Frobenius permutation,
+  which is right multiplication by a uniformiser (Remark~3.5(b), p.~441), with no sign.
+\end{itemize}
+The sign in [Hs] probably comes from $w_q=-U_q$ on $q$-new forms (Ribet Prop.~3.7, p.~445). The Gorenstein and freeness statements
+of [Hs] (Thm.~4.5) and the ideals defined by the surjections $\T\to\T',\T''$ ($\fa$, $\fb$, $\cc_{\T'}$) do not depend on the sign
+of one generator, so nothing imported elsewhere changes; no statement of [Hs] that involves $U_q$ for $q\mid N^-$ explicitly is
+used with his sign (verdict FD2 decided, Fabian, 2026-11-15). Test T05-1 stays a validation; it confirms $a_q=+\lambda(\Pi_q)$ on all $144$ eigenlines computed (Remark~\ref{rem:s05-computed}(1)), which bears on the mathematics, not on the reading of [Hs].
+\end{remark}

@@ -1,0 +1,795 @@
+% Document B (back-translation). Lean counterpart: the module group of this chapter (docs/sprints/M9a-plan.md §1.1, tools/chapter_modules.py):
+% lean/GL2TF/VolII/{TruncationCosets,TruncationPartition,Truncation,TruncationL2,TruncationDecayCore,TruncationDecay}.lean.
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% M9a W1 (B1): every A item and every B-only item has its formal block (tfformal, one \tfbinder per generated binder, fidelity note).
+% M9a W3 (B1, pass 1): Lean-proof sketches of the proved items, \uses refreshed from the Lean proofs.
+% M9a W3 (B1, pass 2): sketches of 22, 24, 27, 28 (23 is a definition); their \uses from a build-free closure of the Lean source
+% (tagged constants reached through untagged helpers) united with the audited statement deps, pending the next tfaudit.
+
+\chapter{Truncation}\label{ch:ch-06-truncation}
+
+\noindent\emph{Scope:} area \texttt{trunc}; milestone M9a. \emph{Sources:} \cite[§§6, 8, 9, 13]{AIntro}; \cite[§1]{A-II}; \cite[§6, Lemma~6.4]{A-I};
+\cite[Lecture II §§2--4, Lecture III §§2--3]{Gel}; \cite[§4]{A-R1}; the announcement \cite{A-Tr}.
+
+\noindent\emph{Lean conventions of this chapter.} $G(\A)^1$ is \texttt{normOneGroup} and every function $\varphi$ is a function on it; points of $G(\A)^1$
+are coerced to $G(\A)=$ \texttt{GL (Fin 2) Adele} where $\HB$ (\texttt{heightMap}) and $\operatorname{ht}$ (\texttt{height}) are applied. $T$ ranges over
+$\aB=$ \texttt{SpaceAB}, and only $\alpha(T)=$ \texttt{simpleRoot T} enters; ``$\alpha(T)\ge0$'' is the binder \texttt{0 ≤ simpleRoot T} (D-TRANGE).
+$\mathcal B_{\mathrm{loc}}$ (D-CLASS) is never a predicate: its three clauses (Borel, left $G(\Q)$-invariant, bounded on compact sets) are separate binders.
+Left $G(\Q)$-invariance is $\forall\gamma\in$ \texttt{gl2RatNormOne}, $\forall x$, $\varphi(\gamma x)=\varphi(x)$. Sums over $B(\Q)\backslash G(\Q)$ run over the
+coset type \texttt{borelCosets} at the representatives \texttt{Quotient.out} (D-REP, §2). Every measure is an explicit argument (D13).
+
+
+\section{The point \texorpdfstring{$T_0$}{T0} and the chamber functions}\label{sec:trunc-t-zero}
+
+\begin{lemma}[the Weyl element has height zero]
+\tfstmt{II.trunc.lem:weyl-height-zero}
+\lean{GL2TF.weyl_height_zero}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:weyl-element, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.decomp.def:height-map, I.decomp.thm:height-map-equivariance, I.decomp.thm:height-map-iwasawa, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-zhat, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:weyl-height-zero}
+\tfsem{II.trunc.lem:weyl-height-zero}{9f3d9bc4c517f3d6a248d3670903381e99d212cc6f01cbefaca11b13e1fa168e}
+\tfhyps{II.trunc.lem:weyl-height-zero}{}
+\begin{tffidelity}
+$w$ is \texttt{ι (weylElement ℚ)} with $\iota=$ \texttt{gl2Map (algebraMap ℚ Adele)}, the diagonal embedding $G(\Q)\to G(\A)$ (A: ``regarded as an element of $G(\Q)\subseteq G(\A)$''). The conclusion is the conjunction of the four assertions of A: $w\in K$, $w^{-1}\in K$ (\texttt{maxCompactAdelic}), $\HB(w)=0$ and $\HB(w^{-1})=0$ (\texttt{heightMap}). No difference in content. \emph{Lean proof versus A:} A checks $w,w^{-1}\in K$ by hand (integral entries, determinant $1$, orthogonal); Lean cites M7a's \texttt{ParAux.weyl\_mem\_maxCompact}, which is that check. Otherwise as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Four conjuncts, in the order of A: (1) $w\in K$, (2) $w^{-1}\in K$, (3) $\HB(w)=0$, (4) $\HB(w^{-1})=0$. First $\iota(w)$ is the Weyl element of $\GL_2(\A)$ (\texttt{weylElement Adele}; entrywise, \texttt{fin\_cases}). (1) is M7a's \texttt{ParAux.weyl\_mem\_maxCompact}, (2) is closure of the subgroup $K$ under inverses. (3), (4): \texttt{TruncAux.heightMap\_of\_mem\_K}, i.e.\ \texttt{I.decomp.thm:height-map-equivariance} with $n=t=1$, $x=1$ and $\HB(1)=0$ (\texttt{ParAux.heightMap\_one}), applied to $w$ and $w^{-1}$.
+\end{proof}
+
+\begin{theorem}[$T_0=0$]
+\tfstmt{II.trunc.thm:t-zero}
+\lean{GL2TF.t_zero}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:space-a-b, I.conv.def:space-a-b-g, I.conv.def:weyl-element, I.decomp.def:height-map, I.topgrp.def:max-compact-adelic, II.par.def:weyl-action-a, II.trunc.lem:weyl-height-zero}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:t-zero}
+\tfsem{II.trunc.thm:t-zero}{00558db25b2e2fba9496ec450666ecd51cb1b5aa92a575e14d5d22ec83637083}
+\tfhyps{II.trunc.thm:t-zero}{}
+\tfbinder{II.trunc.thm:t-zero}{0}{cc9ccfb6}{the candidate point $T_0\in\aB$ (universally quantified; the statement is an equivalence for every $T_0$)}
+\begin{tffidelity}
+A's ``there is exactly one $T_0\in\aBG$ with $\HB(w^{-1})=T_0-s^{-1}T_0$, and this point is $0$'' is stated as $\forall T_0\in\aB,\ (T_0\in\aBG\wedge\HB(w^{-1})=T_0-sT_0)\iff T_0=0$, which is equivalent (existence and uniqueness at once). $s=s^{-1}$ is \texttt{weylAct} (\texttt{II.par.def:weyl-action-a}, $s(h_1,h_2)=(h_2,h_1)$); A writes $s^{-1}$ and notes $s^{-1}=s$. $\aBG$ is the submodule \texttt{spaceABG}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Fix $T_0$. Rewrite $\HB(w^{-1})=0$ by conjunct (4) of \cref{II.trunc.lem:weyl-height-zero}. ($\Rightarrow$) $T_0\in\aBG$ gives $T_0(0)+T_0(1)=0$ (\texttt{spaceABG}); the $0$-th coordinate of $0=T_0-sT_0$ gives $T_0(0)=T_0(1)$ (\texttt{weylAct} swaps the coordinates); hence both vanish (\texttt{funext} over $\mathrm{Fin}\,2$, \texttt{linarith}). ($\Leftarrow$) $0\in\aBG$ and $0-s0=0$. As in A.
+\end{proof}
+
+\begin{lemma}[the two chamber functions agree]
+\tfstmt{II.trunc.lem:chamber-functions-rank-one}
+\lean{GL2TF.chamber_functions_rank_one}
+\uses{I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:simple-root, I.conv.def:space-a-b}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:chamber-functions-rank-one}
+\tfsem{II.trunc.lem:chamber-functions-rank-one}{e992cbb9c62679042825a6ac5488b58c479451a2b55c4f94805ffd9e26a216e8}
+\tfhyps{II.trunc.lem:chamber-functions-rank-one}{}
+\begin{tffidelity}
+$\tau_B=$ \texttt{tauB} (indicator of $\{\alpha>0\}$) and $\hat\tau_B=$ \texttt{tauHatB} (indicator of $\{\tfrac12\alpha>0\}$, $\varpi=\alpha/2$; \texttt{I.conv.def:chamber-function-hat}, B-only). The two conjuncts are the two sentences of A; ``$1$ if $\alpha(h)>0$ and $0$ if $\alpha(h)\le0$'' is an \texttt{if}-expression. \emph{$\tau_B$ versus $\hat\tau_B$:} the partition lemma uses $\tau_B$ (as \cite[Lemma~8.2]{AIntro}), the truncation operator $\hat\tau_B$ (as \cite[(13.1)]{AIntro}); this lemma is the bridge, used in the proofs of both.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjunct 1 (first sentence of A), for each $h$: case split on $0<\alpha(h)$ and unfold the indicators \texttt{tauB} ($\{\alpha>0\}$) and \texttt{tauHatB} ($\{\frac12\alpha>0\}$); both sides are $1$ or both $0$. Conjunct 2 (``in particular''): conjunct 1 at $h=H-T$, and $\alpha(H-T)=\alpha(H)-\alpha(T)$ (\texttt{map\_sub}, linearity of \texttt{simpleRoot}). As in A.
+\end{proof}
+
+
+\section{Sums over \texorpdfstring{$B(\Q)\backslash G(\Q)$}{B(Q)\textbackslash G(Q)}}\label{sec:trunc-cosets}
+
+\noindent\emph{The coset type in Lean} (D-REP). $G(\Q)$ is the subgroup \texttt{gl2RatNormOne} of $G(\A)^1$ (\texttt{I.quot.def:gl2-rat-norm-one}) and $B(\Q)$ the subgroup \texttt{borelRatNormOne} (B-only, below). $B(\Q)\backslash G(\Q)$ is \texttt{borelCosets}, the orbit quotient of \texttt{gl2RatNormOne} under left multiplication by $B(\Q)$: its elements are the right cosets $B(\Q)\delta$. A coset $c$ is evaluated at its representative $\delta_c=$ \texttt{Quotient.out c}, an element of $G(\A)^1$; this is A's ``fix a representative $\delta_c$ of every coset''. Statements about a single $\delta\in G(\Q)$ keep the form $\delta\in\GL_2(\Q)$ acting through $\iota=$ \texttt{gl2Map (algebraMap ℚ Adele)}.
+
+\begin{definition}[$B(\Q)$ as a subgroup of $G(\A)^1$]
+\tfstmt{II.trunc.def:borel-rat-norm-one}
+\bonly
+\lean{GL2TF.borelRatNormOne}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:borel-rat, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.trunc.def:borel-rat-norm-one}
+\tfsem{II.trunc.def:borel-rat-norm-one}{d2dc0e9a4f754c8ad58b5aa2212a7cc2bf499dae2e1c4a8cede5e96ba52b15ea}
+\tfhyps{II.trunc.def:borel-rat-norm-one}{}
+\begin{tffidelity}
+B-only. \texttt{borelRat.subgroupOf normOneGroup}, with \texttt{borelRat} $=B(\A)\cap G(\Q)$ in $G(\A)$ (\texttt{I.quot.def:borel-rat}). Lean lemma \texttt{borelRatNormOne\_le}: $B(\Q)\le G(\Q)$ inside $G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$B(\Q)$ is discrete in $G(\A)^1$]
+\tfstmt{II.trunc.lem:borel-rat-norm-one-discrete}
+\bonly
+\lean{GL2TF.borelRatNormOne_discrete}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.adele.lem:rat-embedding-diagonal, I.conv.def:borel, I.conv.def:gl2, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, II.trunc.def:borel-rat-norm-one}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:borel-rat-norm-one-discrete}
+\tfsem{II.trunc.lem:borel-rat-norm-one-discrete}{bc0022c17004d7623f754752c6ad7f2ae3e17c153465668ff4d8b217365f204b}
+\tfhyps{II.trunc.lem:borel-rat-norm-one-discrete}{}
+\begin{tffidelity}
+B-only, proved. \texttt{DiscreteTopology borelRatNormOne} (subspace topology from $G(\A)^1$). It is the hypothesis under which \texttt{X.quot.def:quotient-measure} and \texttt{X.quot.thm:unfolding-subgroup} apply to $B(\Q)\backslash G(\A)^1$ (A §5: ``$B(\Q)$ is a discrete subgroup of $G(\A)^1$'').
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$B(\Q)\le G(\Q)$ (\texttt{borelRatNormOne\_le}) and $G(\Q)$ is discrete in $G(\A)^1$ (\texttt{gl2RatNormOne\_discrete}); a subgroup of a discrete subgroup is discrete (\texttt{discreteTopology\_of\_le}).
+\end{proof}
+
+\begin{definition}[the coset space $B(\Q)\backslash G(\Q)$]
+\tfstmt{II.trunc.def:borel-cosets}
+\bonly
+\lean{GL2TF.borelCosets}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.trunc.def:borel-rat-norm-one}
+\end{definition}
+\begin{tfformal}{II.trunc.def:borel-cosets}
+\tfsem{II.trunc.def:borel-cosets}{a42c386e6479aaa408f176d9b5e74e5a7caef0cd0ca1d5e7bab835f83be1438d}
+\tfhyps{II.trunc.def:borel-cosets}{}
+\begin{tffidelity}
+B-only. \texttt{MulAction.orbitRel.Quotient (borelRatNormOne.subgroupOf gl2RatNormOne) gl2RatNormOne}: the orbits of $B(\Q)$ acting on $G(\Q)$ by left multiplication, i.e.\ the right cosets $B(\Q)\delta$. This is the type that \texttt{X.quot.thm:unfolding-subgroup} produces for $\Gamma=G(\Q)$, $\Gamma'=B(\Q)$ (decision D-L2, L1's W0 spike). An \texttt{abbrev}, so the quotient API applies directly.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\HB(\delta x)$ depends only on $B(\Q)\delta$]
+\tfstmt{II.trunc.lem:coset-height}
+\bonly
+\lean{GL2TF.coset_height}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:gl2, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.decomp.def:height-map, I.decomp.thm:height-map-equivariance, I.quot.def:gl2-rat-norm-one, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:coset-height}
+\tfsem{II.trunc.lem:coset-height}{f54d365663bf07b2e717df73dc567893950a566191808a280b7ea5bbbdafa3b4}
+\tfhyps{II.trunc.lem:coset-height}{}
+\tfbinder{II.trunc.lem:coset-height}{0}{a2aaccd5}{the point $x\in G(\A)$}
+\tfbinder{II.trunc.lem:coset-height}{1}{faca77b2}{the element $\delta\in G(\Q)$ (in \texttt{gl2RatNormOne})}
+\tfbinder{II.trunc.lem:coset-height}{2}{b06351dc}{the element $\delta'\in G(\Q)$}
+\tfbinder{II.trunc.lem:coset-height}{3}{2894a672}{$B(\Q)\delta=B(\Q)\delta'$ (equal classes in \texttt{borelCosets})}
+\begin{tffidelity}
+B-only, proved. The coset form of (H1) of A (\texttt{I.decomp.thm:height-map-equivariance}): equal classes give equal $\HB(\delta x)$ for every $x\in G(\A)$, not only $x\in G(\A)^1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Equal classes give $\beta\in B(\Q)$ with $\beta\delta'=\delta$ (\texttt{Quotient.exact}); then $\HB(\beta\delta'x)=\HB(\delta'x)$ by \texttt{heightMap\_equivariance} for $\beta\in B(\A)\cap G(\Q)$.
+\end{proof}
+
+\begin{theorem}[finiteness of the coset sums]
+\tfstmt{II.trunc.thm:coset-sum-finite}
+\lean{GL2TF.coset_sum_finite}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.red.lem:primitive-vector-finiteness, I.red.lem:simple-root-height-map, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-adelic-compact, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.lem:coset-height}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:coset-sum-finite}
+\tfsem{II.trunc.thm:coset-sum-finite}{172e68f54fc87bfbe73f35d392095a6fb57bb4857e16969638890475861c9169}
+\tfhyps{II.trunc.thm:coset-sum-finite}{}
+\tfbinder{II.trunc.thm:coset-sum-finite}{0}{dc6ede6d}{the threshold $c\in\R$}
+\begin{tffidelity}
+Three conjuncts: the preliminary sentence of A (for $x\in G(\A)$ and $\delta,\delta'\in G(\Q)$ in the same coset, $\alpha(\HB(\delta x))=\alpha(\HB(\delta'x))$), (a) and (b). In (a) and (b) the set of cosets is $\{c\in$ \texttt{borelCosets} $:\alpha(\HB(\delta_cx))>c\}$ with $\delta_c=$ \texttt{Quotient.out}; by the first conjunct this is A's set of cosets $B(\Q)\delta$ with $\alpha(\HB(\delta x))>c$. $x$ and $\Omega$ range over $G(\A)$ and its compact subsets, as in A. Finiteness is \texttt{Set.Finite}. \emph{Lean proof versus A:} A's local bound (L) for $\Omega^{-1}$ is replaced by the bound through M4's entry norm \texttt{adelicEntryNorm}, which is continuous on $G(\A)$, and the finiteness is first proved on the auxiliary type \texttt{QCosets} and transported by an injection (L2's divergence note, item~3). Same bound, same finiteness lemma.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{First conjunct} (independence of the representative): \cref{II.trunc.lem:coset-height}.
+
+\emph{(b)} (\texttt{TruncAux.qcosets\_finite\_compact}, on the auxiliary coset type $B(\Q)\backslash\GL_2(\Q)$, \texttt{QCosets}). Write $\alpha(\HB(\delta x))=\log\abs{\det x}_\A-2\log\norm{e_2\delta x}_\A$ (\texttt{rootAt\_eq}, A's (H2)). On the compact $\Omega$ the continuous functions $x\mapsto e^{(\log\abs{\det x}_\A-c)/2}$ and $x\mapsto$ \texttt{adelicEntryNorm}$(x^{-1})$ are bounded by $A$ and $B$. If $\alpha(\HB(\delta x))>c$ with $x\in\Omega$, then $\norm{e_2\delta x}_\A\le e^{(\log\abs{\det x}_\A-c)/2}$ (\texttt{norm\_le\_of\_lt\_rootAt}) and $\norm{e_2\delta}_\A\le$ \texttt{adelicEntryNorm}$(x^{-1})\,\norm{e_2\delta x}_\A$ (\texttt{bottomRowNorm\_mul\_le}), so $\norm{e_2\delta}_\A\le\max(B,1)\max(A,1)$. By \texttt{I.red.lem:primitive-vector-finiteness} at the point $1$ (\texttt{finite\_cosets\_norm\_le}) these $\delta$ lie in finitely many cosets of \texttt{QCosets}. Transport to \texttt{borelCosets}: \texttt{TruncAux.toQ} sends $c$ to the coset of a rational matrix of $\delta_c$ (\texttt{ratRep}); it is injective (\texttt{toQ\_injective}) and preserves $\alpha(\HB(\delta_cx))$ (\texttt{root\_out}), so the set of (b) is the preimage of a finite set under an injective map.
+
+\emph{(a)} is (b) for $\Omega=\{x\}$. As in A.
+\end{proof}
+
+\begin{theorem}[at most one coset in the cusp]
+\tfstmt{II.trunc.thm:coset-sum-at-most-one}
+\lean{GL2TF.coset_sum_at_most_one}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.red.thm:height-lemma, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.lem:coset-height}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:coset-sum-at-most-one}
+\tfsem{II.trunc.thm:coset-sum-at-most-one}{b7d77242b4edd7c3dc0d6c690fb8698d36713fe9a38c490f5f3f53c41eb81342}
+\tfhyps{II.trunc.thm:coset-sum-at-most-one}{}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{0}{e8e15124}{the point $x\in G(\A)^1$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{1}{4635c287}{the threshold $c\in\R$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{2}{74ae6380}{$c\ge0$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{3}{b16172ee}{the element $\delta_0\in\GL_2(\Q)$}
+\tfbinder{II.trunc.thm:coset-sum-at-most-one}{4}{dcf16f15}{$\alpha(\HB(\delta_0x))=\operatorname{ht}(x)$ ($\delta_0x$ is \texttt{ι δ₀ * x})}
+\begin{tffidelity}
+(a) and (b) are A's, with $\delta$ ranging over $\GL_2(\Q)$ and ``$\delta\delta_0^{-1}\in B(\Q)$'' as \texttt{δ * δ₀⁻¹ ∈ borel ℚ}. The ``in particular'' sentence is the two further conjuncts, stated on \texttt{borelCosets} at the representatives: the set of cosets with $\alpha(\HB(\delta_cx))>c$ is a \texttt{Subsingleton}, and it is non-empty if and only if $\operatorname{ht}(x)>c$. A's parenthetical existence claim for $\delta_0$ (\texttt{I.red.thm:height-attained}) is not part of the Lean statement; $\delta_0$ is a binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Two facts: (H3) $\alpha(\HB(\delta x))\le\operatorname{ht}(x)$ for every $\delta$ (\texttt{I.red.thm:height-attained}); and, for $\delta,\delta'$ with $\alpha(\HB(\delta x)),\alpha(\HB(\delta'x))>c$, $\delta'\delta^{-1}\in B(\Q)$: \texttt{I.red.thm:height-lemma} with $t_0=e^c\ge1$ ($c\ge0$).
+
+\emph{(a)} ($\Rightarrow$) the height lemma for $\delta_0$ (where $\alpha=\operatorname{ht}(x)>c$) and $\delta$. ($\Leftarrow$) $\delta=(\delta\delta_0^{-1})\delta_0$ and (H1) (\texttt{TruncAux.rootAt\_borel\_mul}) give $\alpha(\HB(\delta x))=\alpha(\HB(\delta_0x))=\operatorname{ht}(x)>c$. \emph{(b)} (H3). \emph{Third conjunct} (at most one coset): for two cosets in the set, the height lemma for rational matrices of their representatives (\texttt{ratRep}) puts their ratio in $B(\Q)$, so the cosets agree (\texttt{mk\_eq\_of\_rat}). \emph{Fourth conjunct}: ($\Rightarrow$) by (H3); ($\Leftarrow$) the coset of $\delta_0$ regarded in $G(\Q)\subseteq G(\A)^1$ (\texttt{ratElt}, product formula), evaluated at its representative by \cref{II.trunc.lem:coset-height}. As in A.
+\end{proof}
+
+\begin{theorem}[the height is continuous]
+\tfstmt{II.trunc.thm:height-continuous}
+\lean{GL2TF.height_continuous}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:primitive-vector-finiteness, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-adelic-compact}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:height-continuous}
+\tfsem{II.trunc.thm:height-continuous}{1c4fed2562c55db4c8b5c030e8114cd7e9f593a7899ab3aacaec0fa38c4b709d}
+\tfhyps{II.trunc.thm:height-continuous}{}
+\begin{tffidelity}
+\texttt{Continuous height} on $G(\A)$, and continuity of $x\mapsto\operatorname{ht}(x)$ on $G(\A)^1$ (subspace topology): the two sentences of A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{TruncAux.continuous\_height}, with the auxiliary coset type $B(\Q)\backslash\GL_2(\Q)$ (\texttt{QCosets}, the \texttt{rightRel} quotient) and $\alpha(\HB(\delta x))$ on it (\texttt{cosetRoot}), continuous in $x$ by \texttt{ParAux.continuous\_heightMap} (this replaces A's fact (C)). Fix $x_0$ and a compact neighbourhood $\Omega$. Item 4 (b) in the form \texttt{qcosets\_finite\_compact} (from \texttt{primitive\_vector\_finiteness} and the bound $\norm{e_2\delta}_\A\le\norm{x^{-1}}\,\norm{e_2\delta x}_\A$ with \texttt{adelicEntryNorm}, A's (L)) gives a finite set $S$ of cosets with $\alpha(\HB(\delta x))>\operatorname{ht}(x_0)-1$ for some $x\in\Omega$. On $\Omega$, $\alpha(\HB(\delta_0x))\le\operatorname{ht}(x)\le\max(\operatorname{ht}(x_0)-1,\max_{d\in S}\alpha(\HB(\delta_dx)))$ with $\delta_0$ attaining $\operatorname{ht}(x_0)$; both bounds are continuous and equal $\operatorname{ht}(x_0)$ at $x_0$, and the squeeze theorem gives continuity at $x_0$. This is A's proof with a squeeze instead of the exact local maximum formula.
+\end{proof}
+
+
+\section{The compact part and the partition lemma}\label{sec:trunc-partition}
+
+\begin{definition}[the compact part]
+\tfstmt{II.trunc.def:compact-part}
+\lean{GL2TF.compactPart}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:simple-root, I.conv.def:space-a-b, I.red.def:height-primitive, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.trunc.def:compact-part}
+\tfsem{II.trunc.def:compact-part}{209b3e54db277bf52bfea13c6cc4a5a19ceb140e375ae4695bce57c2c3a98ac4}
+\tfhyps{II.trunc.def:compact-part}{}
+\tfbinder{II.trunc.def:compact-part}{0}{e8e15124}{the point $x\in G(\A)^1$}
+\tfbinder{II.trunc.def:compact-part}{1}{c9ed044d}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\begin{tffidelity}
+\texttt{compactPart x T} $=$ \texttt{if height x ≤ simpleRoot T then 1 else 0}, real-valued, as in A (decision D-FG). \emph{Arthur's definition} (\cite[§8, p.~37]{AIntro}) is the characteristic function of the image of a truncated Siegel set; it depends on a choice of Siegel set and agrees with this one for $\alpha(T)\ge\log(2/\sqrt3)$ by \cref{II.trunc.thm:compact-part-siegel}. Neither A nor Lean uses Arthur's definition as the definition; the comparison is a theorem.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[properties of the compact part]
+\tfstmt{II.trunc.thm:compact-part-properties}
+\lean{GL2TF.compact_part_properties}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.haar.lem:gl2-adelic-borel-instance, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.thm:compactness-criterion, I.red.thm:height-attained, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.trunc.def:compact-part, II.trunc.thm:height-continuous, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:compact-part-properties}
+\tfsem{II.trunc.thm:compact-part-properties}{9bcf27dd9e2017d4a7269f81b965519eb79990851683ceb12a7eaab783767f0e}
+\tfhyps{II.trunc.thm:compact-part-properties}{}
+\tfbinder{II.trunc.thm:compact-part-properties}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\begin{tffidelity}
+Four conjuncts (a)--(d). (a) \texttt{Measurable}. (b) for $\gamma\in$ \texttt{gl2RatNormOne} and $x,k\in G(\A)^1$ with $k\in K$ (\texttt{maxCompactAdelic}): A's ``$k\in K$'' with $K\subseteq G(\A)^1$ made explicit. (c) the closure of the image under the quotient map $p$ (\texttt{Quotient.mk} for \texttt{orbitRel gl2RatNormOne normOneGroup}) is compact. (d) for every $T'$ with $\alpha(T)\le\alpha(T')$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{(a)} \texttt{Measurable.ite}: $\{x:\operatorname{ht}(x)\le\alpha(T)\}$ is closed, as $\operatorname{ht}$ is continuous on $G(\A)^1$ (\cref{II.trunc.thm:height-continuous}, second conjunct). \emph{(b)} \texttt{TruncAux.height\_rat\_mul\_K}: $\gamma=\iota(q)$ and $\operatorname{ht}(\iota(q)xk)=\operatorname{ht}(x)$ (fourth clause of \texttt{I.red.thm:height-attained}). \emph{(c)} \texttt{I.red.thm:compactness-criterion} with $c=\alpha(T)$: if $p(x)=p(y)$ with $F^G(y,T)=1$, then $\operatorname{ht}(x)=\operatorname{ht}(y)\le\alpha(T)$ (\texttt{height\_eq\_of\_mk\_eq}, (b) with $k=1$) and $\alpha(\HB(\delta x))\le\operatorname{ht}(x)$ for every $\delta$ (H3). \emph{(d)} case split on $\operatorname{ht}(x)\le\alpha(T)$. As in A.
+\end{proof}
+
+\begin{theorem}[both parts have positive measure]
+\tfstmt{II.trunc.thm:compact-part-positive}
+\lean{GL2TF.compact_part_positive}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.trunc.def:compact-part, II.trunc.def:cusp-point, II.trunc.lem:height-cusp-point, II.trunc.thm:height-continuous, X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec, X.quot.thm:unfolding-discrete, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:compact-part-positive}
+\tfsem{II.trunc.thm:compact-part-positive}{b86fce4ba62c752d2f4f7688bb39ce1c2bca7736958a970684b521f4363ef1d1}
+\tfhyps{II.trunc.thm:compact-part-positive}{}
+\tfbinder{II.trunc.thm:compact-part-positive}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.thm:compact-part-positive}{1}{c626ff1c}{$\mu$ is a Haar measure (instance binder; A: ``left Haar measure'')}
+\tfbinder{II.trunc.thm:compact-part-positive}{2}{bb9fb5a8}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\begin{tffidelity}
+$X_1(T)$ and $X_0(T)$ are the images under $p$ of $\{F^G(\cdot,T)=1\}$ and $\{F^G(\cdot,T)=0\}$. The conclusion has six conjuncts: $X_1(T)$ closed, $X_0(T)$ open, $X_1(T)\cup X_0(T)=X$, $X_1(T)\cap X_0(T)=\emptyset$ (\texttt{Disjoint}), (a) and (b). The measure is \texttt{automorphicQuotientMeasure μ} ($\dd\dot x$). (b) is the implication $0\le\alpha(T)\Rightarrow\dots$, as in A (the sprint plan's ``for every $T$'' for $X_1(T)$ is false and was corrected in A, request R2). \emph{Lean proof versus A:} ``open sets have positive measure'' uses M6's \texttt{CuspDecayAux.ae\_quotLift}, which is A's unfolding argument (\texttt{X.quot.thm:unfolding-discrete} with $f=\mathbf 1_U$) for null sets (L2's divergence note, item~2); (a) uses the exact value $\operatorname{ht}(x_s)=2s$ of the B-only \cref{II.trunc.lem:height-cusp-point} where A needs only $\ge2s$. The point $x^*$ is A's.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $E_0=\{x:F^G(x,T)=0\}=\{x:\alpha(T)<\operatorname{ht}(x)\}$ (\texttt{compactPart\_eq\_zero\_iff}); it is open by \cref{II.trunc.thm:height-continuous}, and the quotient map $p$ is open (\texttt{isOpenQuotientMap\_quotientMk}). Conjunct 2 ($X_0(T)$ open): $X_0(T)=p(E_0)$. Conjunct 3 (union): every $x$ has $F^G(x,T)\in\{0,1\}$. Conjunct 4 (disjoint): points of one $G(\Q)$-orbit have the same height (\texttt{height\_eq\_of\_mk\_eq}). Conjunct 1 ($X_1(T)$ closed): by 3 and 4, $X_1(T)$ is the complement of $X_0(T)$.
+
+\emph{Open sets have positive measure} (\texttt{TruncAux.quotient\_isOpenPos}): if $U\subseteq X$ is open, non-empty and null, then almost every point of $X$ lies outside $U$, and \texttt{CuspDecayAux.ae\_quotLift} (M6) pulls this back to $\mu^1$-almost every point outside $p^{-1}(U)$, contradicting $\mu^1(p^{-1}(U))>0$ ($\mu^1$ is a Haar measure, \texttt{haarNormOne\_spec}).
+
+Conjunct 5, \emph{(a)}: the cusp point $x_s$, $s=\abs{\alpha(T)}+1$, has $\operatorname{ht}(x_s)=2s>\alpha(T)$ (\cref{II.trunc.lem:height-cusp-point}), so $X_0(T)$ is open and non-empty. Conjunct 6, \emph{(b)}: the point $x^*$ (\texttt{TruncAux.starPoint}, $\infty$-component $\begin{psmallmatrix}3/4&2/3\\0&4/3\end{psmallmatrix}$, A's point) has $\operatorname{ht}(x^*)<0$ (\texttt{height\_starPoint\_neg}): for $\delta_0$ attaining the height, $e_2\delta_0=q\,(m,n)$ with $(m,n)$ primitive (\texttt{exists\_borel\_primitive}), $\norm{e_2\delta_0x^*}_\A^2=(\tfrac34m)^2+(\tfrac23m+\tfrac43n)^2$, and $81m^2+64(m+2n)^2\ge145$ (\texttt{int\_ineq}: $m=0$; $m=\pm1$ with $m+2n$ odd; $\abs m\ge2$); so $\operatorname{ht}(x^*)=-2\log\norm{e_2\delta_0x^*}_\A<0$. For $\alpha(T)\ge0$ the open set $p(\{\operatorname{ht}<\alpha(T)\})\subseteq X_1(T)$ contains $p(x^*)$.
+\end{proof}
+
+\begin{theorem}[the partition lemma]
+\tfstmt{II.trunc.thm:partition-lemma}
+\lean{GL2TF.partition_lemma}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:borel, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.thm:height-attained, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:compact-part, II.trunc.lem:chamber-functions-rank-one, II.trunc.lem:coset-height, II.trunc.thm:coset-sum-at-most-one}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:partition-lemma}
+\tfsem{II.trunc.thm:partition-lemma}{12642b4ac249bc45c7624fe70a58d684773ce7fd9c3af61d7a0181176c6c4af3}
+\tfhyps{II.trunc.thm:partition-lemma}{}
+\tfbinder{II.trunc.thm:partition-lemma}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:partition-lemma}{1}{1221b2ed}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\tfbinder{II.trunc.thm:partition-lemma}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+Three conjuncts: the term $\tau_B(\HB(\delta x)-T)$ depends only on the coset (for $\delta,\delta'\in$ \texttt{gl2RatNormOne} with equal classes); the set of cosets $c$ with $\tau_B(\HB(\delta_cx)-T)\ne0$ is a \texttt{Subsingleton}; and $F^G(x,T)+\sum^{\mathrm{fin}}_{c}\tau_B(\HB(\delta_cx)-T)=1$. The sum is a \texttt{finsum} over \texttt{borelCosets} at $\delta_c=$ \texttt{Quotient.out c} (D-REP); by the second conjunct it has at most one non-zero term, so the \texttt{finsum} convention ($0$ for an infinite support) never applies. \emph{$\tau_B$ versus $\hat\tau_B$:} the statement uses $\tau_B$, as A and \cite[Lemma~8.2]{AIntro}; $\Lambda^T$ uses $\hat\tau_B$, and \cref{II.trunc.lem:chamber-functions-rank-one} identifies them. Arthur's $F^B(\delta x,T)\equiv1$ factor is absent (A's remark). The condition is $0\le\alpha(T)$, not ``$T$ suitably regular''.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Take $\delta_1$ with $\alpha(\HB(\delta_1x))=\operatorname{ht}(x)$ (\texttt{I.red.thm:height-attained}) and apply \cref{II.trunc.thm:coset-sum-at-most-one} with $c=\alpha(T)\ge0$. By \cref{II.trunc.lem:chamber-functions-rank-one} (second conjunct) the term of $c$ is $1$ if $\alpha(T)<\alpha(\HB(\delta_cx))$ and $0$ otherwise. Conjunct 1: \cref{II.trunc.lem:coset-height}. Conjunct 2: the set of cosets with a non-zero term lies in the set of the third conjunct of \cref{II.trunc.thm:coset-sum-at-most-one}, a \texttt{Subsingleton}. Conjunct 3: if $\operatorname{ht}(x)\le\alpha(T)$, then $F^G(x,T)=1$ and every term is $0$ (a non-zero term would make that set non-empty, hence $\operatorname{ht}(x)>\alpha(T)$ by its fourth conjunct), so the \texttt{finsum} is $0$; otherwise $F^G(x,T)=0$, the fourth conjunct gives a coset $d_0$ with term $1$, every other term vanishes (third conjunct), and \texttt{finsum\_eq\_single} gives $1$. As in A.
+\end{proof}
+
+\begin{theorem}[the compact part and the truncated Siegel set]
+\tfstmt{II.trunc.thm:compact-part-siegel}
+\lean{GL2TF.compact_part_siegel}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.def:siegel-omega-zero, I.red.def:siegel-set, I.red.lem:adelic-hadamard, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.red.thm:siegel-covering, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, II.trunc.def:compact-part}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:compact-part-siegel}
+\tfsem{II.trunc.thm:compact-part-siegel}{ce5738ee33bc32489dc1e4b4898042ebdf6fa93a22259b6bed6593fcfa138354}
+\tfhyps{II.trunc.thm:compact-part-siegel}{}
+\tfbinder{II.trunc.thm:compact-part-siegel}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:compact-part-siegel}{1}{eec08750}{$\log(2/\sqrt3)\le\alpha(T)$ (A: $\alpha(T)\ge\log\frac2{\sqrt3}$)}
+\tfbinder{II.trunc.thm:compact-part-siegel}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+$\mathfrak S(\omega_0,\sqrt3/2)$ is \texttt{siegelSet siegelOmegaZero (√3 / 2)} (\texttt{I.red.def:siegel-set}, \texttt{I.red.def:siegel-omega-zero}: $n(u)$ with $u=(u_\infty,0)$, $u_\infty\in[-\frac12,\frac12]$, as in A). $\delta$ ranges over $\GL_2(\Q)$ acting through $\iota$. The statement is A's ``if and only if''; the reformulation $\{F^G(\cdot,T)=1\}=G(\Q)\mathfrak S^T$ in A's last sentence is not a separate conjunct (it is the same assertion). \emph{Arthur's Siegel definition:} this item is the bridge between D-FG and \cite[§8]{AIntro}. The bound $\log(2/\sqrt3)$ is sharp (A's remark) and weaker than the plan's $\log(4/3)$. \emph{Lean proof versus A:} in the ``if'' direction A bounds $\alpha(\HB(\delta's))$ for every $\delta'$ and takes the maximum; Lean applies the Hadamard inequality once, to $\delta$ and the $\delta_0$ that attains $\operatorname{ht}(x)$. Same inequality.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+($\Rightarrow$) \texttt{I.red.thm:siegel-covering} for $\omega_0$ and $\sqrt3/2$ writes $x=\gamma s$ with $s\in\mathfrak S$; take $\delta=\gamma^{-1}$, so $\delta x=s$ and $\alpha(\HB(\delta x))\le\operatorname{ht}(x)\le\alpha(T)$ (H3). The bound on $\alpha(T)$ is not used, as in A. ($\Leftarrow$) Let $\delta x=n\,a\,k\in\mathfrak S$; then $\alpha(\HB(\delta x))=\log(a_1/a_2)\ge\log(\sqrt3/2)$ (\texttt{simpleRoot\_siegel}). Let $\delta_0$ attain $\operatorname{ht}(x)$. If $\delta_0\delta^{-1}\in B(\Q)$, then $\operatorname{ht}(x)=\alpha(\HB(\delta_0x))=\alpha(\HB(\delta x))\le\alpha(T)$ (H1). Otherwise \texttt{I.red.lem:adelic-hadamard} for $\delta,\delta_0$ at $x$ gives $\norm{e_2\delta x}_\A\norm{e_2\delta_0x}_\A\ge\abs{\det x}_\A=1$; with $\alpha(\HB(\cdot\,x))=-2\log\norm{e_2\cdot x}_\A$ (\texttt{rootAt\_eq}, $\abs{\det x}_\A=1$) this is $\operatorname{ht}(x)\le-\alpha(\HB(\delta x))\le\log(2/\sqrt3)\le\alpha(T)$.
+\end{proof}
+
+\begin{definition}[the cusp point $x_s$]
+\tfstmt{II.trunc.def:cusp-point}
+\bonly
+\lean{GL2TF.cuspPoint}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.topgrp.def:inf-embedding, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.trunc.def:cusp-point}
+\tfsem{II.trunc.def:cusp-point}{408f7733b686b09f8e125c0e471d7046bb4ef32c60d13d56a9ea6042cc6aee11}
+\tfhyps{II.trunc.def:cusp-point}{}
+\tfbinder{II.trunc.def:cusp-point}{0}{dc6ede6d}{the parameter $s\in\R$}
+\begin{tffidelity}
+B-only (exit witnesses and their supports). $x_s=$ \texttt{infEmb (diagElt (e\^{}s) (e\^{}(-s)))}: $\infty$-component $\diag(e^s,e^{-s})$, all $p$-components $1$, an element of $G(\A)^1$ (\texttt{cuspPoint\_mem}, via the Siegel set $\mathfrak S(N(\A),0)$). These are the points $x_s$ of A's proof of \cref{II.trunc.thm:compact-part-positive}(a).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the height of the cusp point]
+\tfstmt{II.trunc.lem:height-cusp-point}
+\bonly
+\lean{GL2TF.height_cuspPoint}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.thm:product-formula, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.red.thm:height-lemma, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, II.trunc.def:cusp-point}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:height-cusp-point}
+\tfsem{II.trunc.lem:height-cusp-point}{59fce590d1974a212373c804830d41d54bdfca94e00c3f7a8ccdef821aac785f}
+\tfhyps{II.trunc.lem:height-cusp-point}{}
+\tfbinder{II.trunc.lem:height-cusp-point}{0}{dc6ede6d}{the parameter $s\in\R$}
+\tfbinder{II.trunc.lem:height-cusp-point}{1}{c405e156}{$s\ge0$}
+\begin{tffidelity}
+B-only. $\operatorname{ht}(x_s)=2s$ for $s\ge0$ (A's proof of \cref{II.trunc.thm:compact-part-positive} only uses $\operatorname{ht}(x_s)\ge2s$). Used for the witness point $x_1$ ($\operatorname{ht}=2>1=\alpha(\texttt{truncT})$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$x_s=n(0)\,\iota_\infty(\diag(e^s,e^{-s}))\cdot1$, so $\alpha(\HB(x_s))=\log(e^s/e^{-s})=2s$ (\texttt{simpleRoot\_siegel}) and $\operatorname{ht}(x_s)\ge2s$ (H3 with $\delta=1$). Let $\delta_0$ attain $\operatorname{ht}(x_s)$. \emph{$s>0$:} $1$ and $\delta_0$ both have $\alpha(\HB(\cdot\,x_s))>0=\log1$, so \texttt{I.red.thm:height-lemma} ($t_0=1$) gives $\delta_0\in B(\Q)$ and $\operatorname{ht}(x_s)=\alpha(\HB(x_s))=2s$ (H1). \emph{$s=0$:} $x_0=1$, and $\operatorname{ht}(1)=-2\log\norm{e_2\delta_0}_\A$ with $e_2\delta_0=q\,(m,n)$, $(m,n)$ primitive and $\norm{e_2\delta_0}_\A=\sqrt{m^2+n^2}\ge1$ (\texttt{exists\_borel\_primitive}, \texttt{bottomRowNorm\_primitive}); so $\operatorname{ht}(1)\le0$.
+\end{proof}
+
+
+\section{The truncation operator}\label{sec:trunc-operator}
+
+\begin{definition}[the truncation operator]
+\tfstmt{II.trunc.def:truncation}
+\lean{GL2TF.truncation}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:chamber-function-hat, I.conv.def:space-a-b, I.cusp.def:constant-term, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one}
+\end{definition}
+\begin{tfformal}{II.trunc.def:truncation}
+\tfsem{II.trunc.def:truncation}{52f40e149a5b7c29d5e130b11009d1cb54b372d08b03a992655f7a30541ae7de}
+\tfhyps{II.trunc.def:truncation}{}
+\tfbinder{II.trunc.def:truncation}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.def:truncation}{1}{1ca60fe5}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.def:truncation}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+\texttt{truncation T φ x} $=\varphi(x)-\sum^{\mathrm{fin}}_{c\in B(\Q)\backslash G(\Q)}\varphi_B(\delta_cx)\,\hat\tau_B(\HB(\delta_cx)-T)$ with $\varphi_B=$ \texttt{cuspConstTerm φ} (\texttt{I.cusp.def:constant-term}), $\hat\tau_B=$ \texttt{tauHatB} cast to $\C$. \emph{Representatives and \texttt{finsum}} (D-REP): the sum runs over the coset type \texttt{borelCosets}, not over $G(\Q)$, and each term is evaluated at $\delta_c=$ \texttt{Quotient.out c}, a fixed (choice-dependent) element of $G(\A)^1$; A fixes an arbitrary representative $\delta_c$ of each coset, C the choice \texttt{Quotient.out}. \texttt{finsum} is the sum of the non-zero terms when there are finitely many and $0$ otherwise, A's last sentence verbatim. Both conventions are junk only for $\varphi$ that is not left $G(\Q)$-invariant: for invariant $\varphi$ the terms do not depend on $\delta_c$ and the support is finite (\cref{II.trunc.thm:truncation-well-defined}(a), (b)). The definition is total (every $\varphi$, every $T$), as in A; Arthur defines $\Lambda^T$ on $\mathcal B_{\mathrm{loc}}$ for $T$ suitably regular.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the truncation is well defined]
+\tfstmt{II.trunc.thm:truncation-well-defined}
+\lean{GL2TF.truncation_well_defined}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.autf.def:max-compact-norm-one, I.conv.def:borel, I.conv.def:center, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:subgroups-functorial, I.cusp.def:constant-term, I.cusp.thm:constant-term-invariance, I.decomp.def:height-map, I.decomp.thm:height-map-equivariance, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one, II.trunc.thm:coset-sum-finite, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-well-defined}
+\tfsem{II.trunc.thm:truncation-well-defined}{ee414e984ae0b215f53793f942f7d64ff9f5f46c79f7ede1fb674b5a5ef5ebde}
+\tfhyps{II.trunc.thm:truncation-well-defined}{}
+\tfbinder{II.trunc.thm:truncation-well-defined}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-well-defined}{1}{1ca60fe5}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-well-defined}{2}{d8169500}{$\varphi$ is left $G(\Q)$-invariant ($\gamma$ ranges over \texttt{gl2RatNormOne}, the image of $G(\Q)$ in $G(\A)^1$)}
+\begin{tffidelity}
+Six conjuncts: (a), (b), (c), (d), and (e) split into homogeneity and additivity. (a) for $\delta\in$ \texttt{gl2RatNormOne}, $b\in$ \texttt{borelRatNormOne} and $x$, all as elements of $G(\A)^1$ (A: $\delta\in G(\Q)$, $b\in B(\Q)$). (b) for each $x$: the set of cosets $c$ with $\hat\tau_B(\HB(\delta_cx)-T)\ne0$ is finite, and for every \texttt{Finset} $S$ of elements of $G(\Q)$ on which $\delta\mapsto B(\Q)\delta$ is injective (A: ``pairwise distinct cosets'') and whose cosets contain every coset with a non-zero factor, $\Lambda^T\varphi(x)=\varphi(x)-\sum_{\delta\in S}\cdots$. The non-zero condition is tested at $\delta_c$; by (a) and \texttt{II.trunc.lem:coset-height} this is A's condition on the coset. (d) $k$ ranges over $K$ (\texttt{maxCompactAdelic}), mapped into $G(\A)^1$ by \texttt{kNormOne}. (e) homogeneity for all $a\in\C$ (\texttt{a • φ}); additivity for $\psi$ left $G(\Q)$-invariant with \texttt{IntegrableOn} of $u\mapsto\varphi(n(u)x)$, $u\mapsto\psi(n(u)x)$ on $D=$ \texttt{Set.Ico 0 1 ×ˢ Zhat} for \texttt{adeleHaar}, for every $x$: A's hypotheses. \emph{Lean proof versus A:} in (c) the reindexing is exact for \texttt{finsum} (an equivalence of the index type), so the finiteness of (b) is not needed there; in (d) Lean unfolds the constant term instead of citing \texttt{I.cusp.thm:constant-term-invariance}(b); in (e) \texttt{integral\_const\_mul} holds for every $a\in\C$, integrable or not, so A's case split $a=0$, $a\ne0$ is not needed. Same content.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $t(\delta)=\varphi_B(\delta x)\,\hat\tau_B(\HB(\delta x)-T)$ (\texttt{TruncOpAux.term}); the six conjuncts are (a), (b), (c), (d), (e) homogeneity, (e) additivity.
+
+\emph{(a)} (\texttt{term\_borel\_mul}) $b=n(v)\diag(q_1,q_2)$ (\texttt{borel\_decomp}, from \texttt{borel\_eq\_n\_t}); $\varphi_B(n(v)\diag(q_1,q_2)\,\delta x)=\varphi_B(\delta x)$ by \texttt{I.cusp.thm:constant-term-invariance}(a), and $\HB(b\delta x)=\HB(\delta x)$ by (H1). Hence $t$ depends only on the coset (\texttt{term\_congr}, \texttt{term\_out}).
+
+\emph{(b)} Finiteness (\texttt{finite\_tauHat}): $\hat\tau_B(\cdots)\ne0$ forces $\alpha(\HB(\delta_cx))>\alpha(T)$ (\cref{II.trunc.lem:chamber-functions-rank-one}), and these cosets are finite by \cref{II.trunc.thm:coset-sum-finite}(a). Formula: by injectivity, $\sum_{\delta\in S}t(\delta)$ is the sum over the image of $S$ in \texttt{borelCosets} (\texttt{Finset.sum\_image}), each term evaluated at $\delta_c$ by (a); this finite set contains the support by the covering hypothesis, so it equals the \texttt{finsum} (\texttt{finsum\_eq\_sum\_of\_support\_subset}).
+
+\emph{(c)} Right multiplication by $\gamma$ is an equivalence of \texttt{borelCosets}, $c\mapsto$ the coset of $\delta_c\gamma$ (\texttt{TruncOpAux.rightMul}). Reindex the \texttt{finsum} by it (\texttt{finsum\_comp\_equiv}), then move each term to the representative by (a); finally $\varphi(\gamma x)=\varphi(x)$.
+
+\emph{(d)} Term by term: $\HB(\delta_cxk)=\HB(\delta_cx)$ (\texttt{heightMap\_mul\_K}, (H1) for $k\in K$), and the constant term of $\varphi_k$ at $\delta_cx$ is $\varphi_B(\delta_cxk)$ by unfolding \texttt{cuspConstTerm} ($n(u)\,\delta_cx\,k$, associativity).
+
+\emph{(e)} Homogeneity: $(a\varphi)_B=a\varphi_B$ (\texttt{integral\_const\_mul}) and \texttt{mul\_finsum}. Additivity: both supports are finite (\texttt{finite\_support\_term}), so \texttt{finsum\_add\_distrib} applies, and $(\varphi+\psi)_B=\varphi_B+\psi_B$ by \texttt{integral\_add} under the two integrability hypotheses.
+\end{proof}
+
+\begin{theorem}[the truncation on the two parts]
+\tfstmt{II.trunc.thm:truncation-explicit}
+\lean{GL2TF.truncation_explicit}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.autf.def:max-compact-norm-one, I.conv.def:borel, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.cusp.def:constant-term, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.thm:height-attained, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:compact-part, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one, II.trunc.lem:coset-height, II.trunc.thm:coset-sum-at-most-one, II.trunc.thm:truncation-well-defined, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-explicit}
+\tfsem{II.trunc.thm:truncation-explicit}{67be846568c1a6f0b0a390da0d00e80bd23132e5dd05b7c7a2f383841b4a29fb}
+\tfhyps{II.trunc.thm:truncation-explicit}{}
+\tfbinder{II.trunc.thm:truncation-explicit}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-explicit}{1}{1221b2ed}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\tfbinder{II.trunc.thm:truncation-explicit}{2}{f87d0e39}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-explicit}{3}{67e96ae0}{$\varphi$ is left $G(\Q)$-invariant ($\gamma$ ranges over \texttt{gl2RatNormOne}, the image of $G(\Q)$ in $G(\A)^1$)}
+\tfbinder{II.trunc.thm:truncation-explicit}{4}{1545b40b}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+(a) and (b) of A. In (b), $\delta_0$ ranges over \texttt{gl2RatNormOne} (A: $\delta_0\in G(\Q)$) and the inequality is $\alpha(T)<\alpha(\HB(\delta_0x))$; the existence of $\delta_0$ and the formula for every such $\delta_0$ are two conjuncts. No difference in content.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Take $\delta_1$ attaining $\operatorname{ht}(x)$ and apply \cref{II.trunc.thm:coset-sum-at-most-one} with $c=\alpha(T)\ge0$: its (b) and its third conjunct (at most one coset) are used. \emph{(a)} $F^G(x,T)=1$ means $\operatorname{ht}(x)\le\alpha(T)$; for every coset, $\delta_c=\iota(\gamma)$ with $\gamma\in\GL_2(\Q)$ (\texttt{exists\_rat}), so $\alpha(\HB(\delta_cx))\le\alpha(T)$ by (b) there, $\hat\tau_B=0$ (\cref{II.trunc.lem:chamber-functions-rank-one}) and the \texttt{finsum} vanishes. \emph{(b)}, first conjunct: $\delta_0=\delta_1$ in $G(\Q)\subseteq G(\A)^1$ (\texttt{ratNormOne}), with $\alpha(\HB(\delta_1x))=\operatorname{ht}(x)>\alpha(T)$. Second conjunct: for any such $\delta_0$, \cref{II.trunc.thm:truncation-well-defined}(b) with $S=\{\delta_0\}$: a coset $c$ with $\hat\tau_B\ne0$ has $\alpha(\HB(\delta_cx))>\alpha(T)$, and so has the coset of $\delta_0$ at its representative (\cref{II.trunc.lem:coset-height}), so they coincide; then $\hat\tau_B(\HB(\delta_0x)-T)=1$. As in A.
+\end{proof}
+
+\begin{theorem}[cuspidal functions are not truncated]
+\tfstmt{II.trunc.thm:truncation-cuspidal}
+\lean{GL2TF.truncation_cuspidal}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.autf.def:automorphic-form, I.conv.def:chamber-function-hat, I.conv.def:space-a-b, I.cusp.def:constant-term, I.cusp.def:cusp-form, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:truncation}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-cuspidal}
+\tfsem{II.trunc.thm:truncation-cuspidal}{7d8d91e4124749b1c62cdd4dbccfde5c498cefdf7f79c93ca5f69e892969cc33}
+\tfhyps{II.trunc.thm:truncation-cuspidal}{}
+\begin{tffidelity}
+Two conjuncts: for every $\varphi$ with $\varphi_B(x)=0$ for all $x$ (pointwise, not almost everywhere) and every $T$, \texttt{truncation T φ = φ}; and the same for every $\varphi$ with \texttt{IsCuspForm φ} (\texttt{I.cusp.def:cusp-form}). As in A, no invariance of $\varphi$ is assumed (A1's generalization, confirmed by L1: every summand vanishes whatever the representative).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjunct 1: every term $\varphi_B(\delta_cx)\,\hat\tau_B(\cdots)$ is $0$ (\texttt{simp}), whatever $\delta_c$. Conjunct 2: \texttt{IsCuspForm φ} contains $\varphi_B\equiv0$ (its second component); apply conjunct 1. As in A.
+\end{proof}
+
+\begin{theorem}[regularity of the truncation]
+\tfstmt{II.trunc.thm:truncation-regularity}
+\lean{GL2TF.truncation_regularity}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.thm:rat-quotient-compact, I.autf.def:max-compact-norm-one, I.conv.def:borel, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.cusp.def:constant-term, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one, II.trunc.thm:coset-sum-finite, II.trunc.thm:truncation-well-defined, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-regularity}
+\tfsem{II.trunc.thm:truncation-regularity}{902bf6e45c59bee0aa06c2f6d7d1b8bb34a583b9b7f3d720e3455784c5174172}
+\tfhyps{II.trunc.thm:truncation-regularity}{}
+\tfbinder{II.trunc.thm:truncation-regularity}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\begin{tffidelity}
+(a) and (b) as two conjuncts, each quantified over $\varphi$. $\mathcal B_{\mathrm{loc}}$ (D-CLASS) is spelled out: \texttt{Measurable φ}, left $G(\Q)$-invariance, and for every compact $C\subseteq G(\A)^1$ some $M$ with $\norm{\varphi(x)}\le M$ on $C$; the conclusion of (a) is the same three clauses for $\Lambda^T\varphi$. (b) has the hypotheses \texttt{Continuous φ} and invariance, and concludes \texttt{Continuous (cuspConstTerm φ)} and the three $\mathcal B_{\mathrm{loc}}$ clauses for $\Lambda^T\varphi$, as in A. \emph{Lean proof versus A:} continuity of $\varphi_B$ is Mathlib's parametric-integral lemma on $\bar D$ instead of A's $\varepsilon$/compactness argument (L1's divergence note, 16 (b)); the bound uses the finite set of cosets of \cref{II.trunc.thm:coset-sum-finite}(b) where A uses representatives $\delta_1,\dots,\delta_r$. Same content.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{(a)}, three clauses. \emph{Borel} (\texttt{measurable\_truncation}): $G(\Q)$ is discrete in the second-countable $G(\A)^1$, hence countable, so is \texttt{borelCosets}; fix an injection $e$ into $\N$. Each term is Borel (\texttt{measurable\_term}): $x\mapsto\varphi_B(\delta x)$ by measurability of parametric integrals for $(x,u)\mapsto\varphi(n(u)\delta x)$ (\texttt{StronglyMeasurable.integral\_prod\_right'}), and the $\hat\tau_B$-factor as the indicator of an open set (\texttt{ParAux.continuous\_heightMap}). The partial sums $S_m(x)=\varphi(x)-\sum_{e(c)<m}t(\delta_c)$ are Borel and, for each $x$, eventually equal to $\Lambda^T\varphi(x)$ (finite support); the limit is Borel (\texttt{measurable\_of\_tendsto\_metrizable}). \emph{Invariance}: \cref{II.trunc.thm:truncation-well-defined}(c). \emph{Bounded on compact $C$} (\texttt{bdd\_truncation}): \cref{II.trunc.thm:coset-sum-finite}(b) for the image of $C$ in $G(\A)$ gives a finite set $F$ of cosets containing every coset with a non-zero factor at some $x\in C$; for $c\in F$, $\abs\varphi\le M_c$ on the compact set $n(\bar D)\,\delta_cC$, $\bar D=[0,1]\times\Zhat$, so $\abs{\varphi_B(\delta_cx)}\le M_c\,\dd u(D)=M_c$ (\texttt{constTerm\_bdd}, $\dd u(D)=1$); with $\abs{\hat\tau_B}\le1$ the bound on $C$ is $\sup_C\abs\varphi+\sum_{c\in F}M_c$.
+
+\emph{(b)} Continuity of $\varphi_B$ (\texttt{continuous\_constTerm}): $D$ and $\bar D$ differ by a null set ($\{1\}\times\Af$ has measure $0$), so $\varphi_B(x)=\int_{\bar D}\varphi(n(u)x)\,\dd u$, which is continuous by \texttt{continuous\_parametric\_integral\_of\_continuous} on the compact $\bar D$. The three clauses for $\Lambda^T\varphi$ are (a), with \texttt{Measurable φ} from continuity and the bounds on compact sets from compactness of their images.
+\end{proof}
+
+\begin{theorem}[the constant term of a truncation vanishes in the cusp]
+\tfstmt{II.trunc.thm:truncation-constant-term-vanishes}
+\lean{GL2TF.truncation_constTerm_vanishes}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.cusp.def:constant-term, I.cusp.thm:constant-term-invariance, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.thm:height-map-equivariance, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.thm:height-attained, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:compact-part, II.trunc.def:truncation, II.trunc.thm:truncation-explicit, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-constant-term-vanishes}
+\tfsem{II.trunc.thm:truncation-constant-term-vanishes}{52ae7d1410f1c19e5433bf07313df7ab5434748112d50ca04c3a0f45a9e4e2f0}
+\tfhyps{II.trunc.thm:truncation-constant-term-vanishes}{}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{1}{1221b2ed}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{2}{f87d0e39}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{3}{432d359b}{$\varphi$ is Borel (\texttt{Measurable}; first clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{4}{9a87c721}{$\varphi$ is left $G(\Q)$-invariant (second clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{5}{c300ae2c}{$\varphi$ is bounded on every compact subset of $G(\A)^1$ (third clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{6}{be6be050}{the point $x\in G(\A)^1$}
+\tfbinder{II.trunc.thm:truncation-constant-term-vanishes}{7}{f6420704}{$\alpha(T)<\alpha(\HB(x))$ (strict, as in A and Arthur's corrected Prop.~13.1 (a))}
+\begin{tffidelity}
+\texttt{cuspConstTerm (truncation T φ) x = 0}. The strict inequality in the cusp and the non-strict one in $F^G$ match A and Arthur's correction of $<$ to $\le$ (\cite[Prop.~13.1 (a)]{AIntro}). \emph{Lean proof versus A:} Lean splits on integrability of $u\mapsto\varphi(n(u)x)$ on $D$ instead of proving it, so the binders ``Borel'' and ``bounded on compact sets'' (3 and 5) are unused by the proof (L1's divergence note, 17; G1 INFO). The statement is frozen with them.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The proof is \texttt{TruncOpAux.constTerm\_vanishes\_aux}, which assumes only left $G(\Q)$-invariance. For $u\in\A$: $\HB(n(u)x)=\HB(x)$ (\texttt{heightMap\_unip}), so $\alpha(T)<\alpha(\HB(n(u)x))\le\operatorname{ht}(n(u)x)$ (H3), $F^G(n(u)x,T)=0$, and \cref{II.trunc.thm:truncation-explicit}(b) with $\delta_0=1$ gives $\Lambda^T\varphi(n(u)x)=\varphi(n(u)x)-\varphi_B(n(u)x)=\varphi(n(u)x)-\varphi_B(x)$, the last step by \texttt{I.cusp.thm:constant-term-invariance}(a) with $t=1$. Integrate over $D$: if $u\mapsto\varphi(n(u)x)$ is integrable on $D$, the integral is $\varphi_B(x)-\varphi_B(x)\,\dd u(D)=0$ ($\dd u(D)=1$); if not, $\varphi_B(x)=0$ by the Bochner convention, the integrand is $\varphi(n(u)x)-0$, again not integrable, and the integral is $0$.
+\end{proof}
+
+\begin{theorem}[truncation is idempotent]
+\tfstmt{II.trunc.thm:truncation-idempotent}
+\lean{GL2TF.truncation_idempotent}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:simple-root, I.conv.def:space-a-b, I.cusp.def:constant-term, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one, II.trunc.thm:truncation-constant-term-vanishes, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-idempotent}
+\tfsem{II.trunc.thm:truncation-idempotent}{052062b6519cc9878434a57b8f64e61bd3149fea3d8e789caec18904b73f0b48}
+\tfhyps{II.trunc.thm:truncation-idempotent}{}
+\tfbinder{II.trunc.thm:truncation-idempotent}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-idempotent}{1}{1221b2ed}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\tfbinder{II.trunc.thm:truncation-idempotent}{2}{f87d0e39}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-idempotent}{3}{432d359b}{$\varphi$ is Borel (\texttt{Measurable}; first clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-idempotent}{4}{9a87c721}{$\varphi$ is left $G(\Q)$-invariant (second clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-idempotent}{5}{c300ae2c}{$\varphi$ is bounded on every compact subset of $G(\A)^1$ (third clause of $\mathcal B_{\mathrm{loc}}$)}
+\begin{tffidelity}
+\texttt{truncation T (truncation T φ) = truncation T φ}, an equality of functions on $G(\A)^1$ (everywhere, not almost everywhere), as in A. \emph{Lean proof versus A:} A first invokes \cref{II.trunc.thm:truncation-regularity}(a) for $\psi=\Lambda^T\varphi$; Lean does not, since \cref{II.trunc.thm:truncation-constant-term-vanishes} is a statement about $(\Lambda^T\varphi)_B$ for $\varphi$ itself in $\mathcal B_{\mathrm{loc}}$. Same argument otherwise.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Pointwise in $x$. For each coset $c$: if $\hat\tau_B(\HB(\delta_cx)-T)=0$ the term is $0$; otherwise $\alpha(T)<\alpha(\HB(\delta_cx))$ (\cref{II.trunc.lem:chamber-functions-rank-one}) and \cref{II.trunc.thm:truncation-constant-term-vanishes}, applied to $\varphi$ at the point $\delta_cx$, gives $(\Lambda^T\varphi)_B(\delta_cx)=0$. So the \texttt{finsum} in $\Lambda^T(\Lambda^T\varphi)(x)$ is $0$.
+\end{proof}
+
+\begin{theorem}[truncation is the identity on compact sets]
+\tfstmt{II.trunc.thm:truncation-equals-on-compact}
+\lean{GL2TF.truncation_eq_on_compact}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.lem:primes-fact-instance, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:gl2, I.conv.def:simple-root, I.conv.def:space-a-b, I.cusp.def:constant-term, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:height-locally-bounded, I.red.thm:height-attained, I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.topgrp.def:norm-one-group, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-equals-on-compact}
+\tfsem{II.trunc.thm:truncation-equals-on-compact}{65ad8bf89e5c5a66421136e701e52e2329c253df2877c885e4d709d31b00d489}
+\tfhyps{II.trunc.thm:truncation-equals-on-compact}{}
+\tfbinder{II.trunc.thm:truncation-equals-on-compact}{0}{0d2bcb97}{the set $C\subseteq G(\A)^1$}
+\tfbinder{II.trunc.thm:truncation-equals-on-compact}{1}{e0a285b5}{$C$ is compact}
+\begin{tffidelity}
+$\exists c\in\R,\ \forall\varphi\,\forall T,\ c\le\alpha(T)\Rightarrow\forall x\in C,\ \Lambda^T\varphi(x)=\varphi(x)$: A's quantifier order ($c$ depends only on $C$). No invariance of $\varphi$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{I.red.lem:height-locally-bounded} gives $c$ with $\operatorname{ht}\le c$ on $C$. For $\alpha(T)\ge c$, $x\in C$ and every coset, $\delta_c=\iota(\gamma)$ (\texttt{exists\_rat}) and $\alpha(\HB(\delta_cx))\le\operatorname{ht}(x)\le c\le\alpha(T)$ (H3), so $\hat\tau_B=0$ (\cref{II.trunc.lem:chamber-functions-rank-one}) and the \texttt{finsum} vanishes. As in A.
+\end{proof}
+
+\begin{example}[the truncation of the constant function]
+\tfstmt{II.trunc.ex:truncation-of-one}
+\lean{GL2TF.truncation_of_one}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.adele.thm:rat-quotient-compact, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:simple-root, I.conv.def:space-a-b, I.cusp.def:constant-term, I.decomp.def:height-map, I.quot.def:gl2-rat-norm-one, I.topgrp.def:norm-one-group, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:compact-part, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one, II.trunc.thm:coset-sum-finite, II.trunc.thm:partition-lemma, X.topgrp.def:restricted-product-measurable-space}
+\end{example}
+\begin{tfformal}{II.trunc.ex:truncation-of-one}
+\tfsem{II.trunc.ex:truncation-of-one}{92bd2f289580be188d0946113d932d04d12820779662fe72a3a2ea5f0a1aba2a}
+\tfhyps{II.trunc.ex:truncation-of-one}{}
+\tfbinder{II.trunc.ex:truncation-of-one}{0}{cc9ccfb6}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.ex:truncation-of-one}{1}{1221b2ed}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\tfbinder{II.trunc.ex:truncation-of-one}{2}{11894aa1}{the point $x\in G(\A)^1$}
+\begin{tffidelity}
+$\mathbf 1$ is \texttt{fun \_ ↦ (1 : ℂ)}; the right side is \texttt{compactPart x T} cast to $\C$. Pointwise for every $x$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\mathbf 1_B\equiv1$ (\texttt{setIntegral\_const}, $\dd u(D)=1$, \texttt{rat\_quotient\_compact}), so the term of $c$ is $\hat\tau_B(\HB(\delta_cx)-T)$. The partition lemma (\cref{II.trunc.thm:partition-lemma}, third conjunct) with $\tau_B=\hat\tau_B$ (\cref{II.trunc.lem:chamber-functions-rank-one}, first conjunct) gives $\sum^{\mathrm{fin}}_c\hat\tau_B(\cdots)=1-F^G(x,T)$ in $\R$. The support is finite (\cref{II.trunc.thm:coset-sum-finite}(a) and \cref{II.trunc.lem:chamber-functions-rank-one}), so the cast $\R\to\C$ commutes with the \texttt{finsum} (\texttt{map\_finsum}), and $\Lambda^T\mathbf 1(x)=1-(1-F^G(x,T))=F^G(x,T)$. As in A.
+\end{proof}
+
+
+\section{The \texorpdfstring{$\Ltwo$}{L²} theory}\label{sec:trunc-l2}
+
+\noindent\emph{Lean conventions of this section} (decision D-L2). A function on $X=G(\Q)\backslash G(\A)^1$ or on $B(\Q)\backslash G(\A)^1$ induced by a left-invariant $F$ on $G(\A)^1$ is written $q\mapsto F(\texttt{Quotient.out }q)$, as in \texttt{X.quot.thm:unfolding-subgroup}; for invariant $F$ this is the induced function, independently of the lift. $X$ is \texttt{MulAction.orbitRel.Quotient gl2RatNormOne normOneGroup} with \texttt{automorphicQuotientMeasure μ} ($\dd\dot x$), and $B(\Q)\backslash G(\A)^1$ is the orbit quotient for \texttt{borelRatNormOne} with \texttt{quotientMeasure borelRatNormOne (haarNormOne μ)} ($\dd y$, \texttt{X.quot.def:quotient-measure} for $\mu^1$).
+
+\begin{theorem}[unfolding the cusp region]
+\tfstmt{II.trunc.thm:cusp-region-unfolding}
+\lean{GL2TF.cusp_region_unfolding}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:rat-embedding-diagonal, I.conv.def:borel, I.conv.def:chamber-functions, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.quot.def:automorphic-quotient-measure, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, X.quot.def:quotient-measure, X.quot.thm:unfolding-subgroup, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:cusp-region-unfolding}
+\tfsem{II.trunc.thm:cusp-region-unfolding}{a93ca3f6cd8b2272087521d553fb4c029a9e05718c731e5aa7dbd19a22be61b1}
+\tfhyps{II.trunc.thm:cusp-region-unfolding}{}
+\tfbinder{II.trunc.thm:cusp-region-unfolding}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.thm:cusp-region-unfolding}{1}{c626ff1c}{$\mu$ is a Haar measure (instance binder; A: ``left Haar measure'')}
+\tfbinder{II.trunc.thm:cusp-region-unfolding}{2}{bb9fb5a8}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:cusp-region-unfolding}{3}{4607cfcc}{the function $F\colon G(\A)^1\to[0,\infty]$ (\texttt{ℝ≥0∞})}
+\tfbinder{II.trunc.thm:cusp-region-unfolding}{4}{1528e4f4}{$F$ is Borel}
+\tfbinder{II.trunc.thm:cusp-region-unfolding}{5}{cd4ec527}{$F$ is left $B(\Q)$-invariant ($\gamma\in$ \texttt{borelRatNormOne})}
+\begin{tffidelity}
+A's ``the sum depends only on $G(\Q)x$, is a Borel function on $X$, and the integrals agree'' is $\exists\Phi\colon X\to[0,\infty]$ Borel with $\Phi(p(x))=\sum'_{c}F(\delta_cx)\,\tau_B(\HB(\delta_cx)-T)$ for all $x$, and $\int^-_X\Phi\,\dd\dot x=\int^-_{B(\Q)\backslash G(\A)^1}F\,\tau_B(\HB(\cdot)-T)\,\dd y$. The sum is a \texttt{tsum} in $[0,\infty]$ over \texttt{borelCosets} at $\delta_c=$ \texttt{Quotient.out c} (unconditional; for $F\ge0$ there is no \texttt{finsum} junk), with weight \texttt{ENNReal.ofReal} of $\tau_B$; both integrals are lower Lebesgue integrals (\texttt{lintegral}). Existence of $\Phi$ with the pointwise identity is A's ``depends only on $G(\Q)x$''. A's parenthetical ``(whose terms depend only on the cosets $B(\Q)\delta$)'' has no Lean conjunct of its own: it is the left $B(\Q)$-invariance of $F$ (binder 5) together with that of $\tau_B(\HB(\cdot)-T)$ (\texttt{heightMap\_equivariance}). No condition on $T$, as in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Direct instance of \texttt{X.quot.thm:unfolding-subgroup} (first part) for $\mu^1$, $\Gamma=G(\Q)$, $\Gamma'=B(\Q)$ (\texttt{borelRatNormOne\_le}) and the function $x\mapsto F(x)\,\tau_B(\HB(x)-T)$: it is Borel ($\tau_B$ is the indicator of an open set, \texttt{ParAux.continuous\_heightMap}) and left $B(\Q)$-invariant ($F$ by hypothesis, $\HB$ by \texttt{heightMap\_equivariance}). Discreteness of $G(\Q)$ (\texttt{gl2RatNormOne\_discrete}) and the Haar property of $\mu^1$ (\texttt{haarNormOne\_spec}) are the side conditions.
+\end{proof}
+
+\begin{lemma}[the $N$-averaging identity]
+\tfstmt{II.trunc.lem:borel-quotient-unipotent-average}
+\bonly
+\lean{GL2TF.unip_average}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.def:center, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:subgroups-functorial, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.quot.def:borel-rat, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:gl2-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:borel-rat-norm-one, II.trunc.lem:borel-rat-norm-one-discrete, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.quot.def:quotient-measure, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:borel-quotient-unipotent-average}
+\tfsem{II.trunc.lem:borel-quotient-unipotent-average}{9c7365e6789071ffe35af7125de74d6abad14821c8eb9e1ba496fde1a7a486b4}
+\tfhyps{II.trunc.lem:borel-quotient-unipotent-average}{}
+\tfbinder{II.trunc.lem:borel-quotient-unipotent-average}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.lem:borel-quotient-unipotent-average}{1}{c626ff1c}{$\mu$ is a Haar measure (instance binder; A: ``left Haar measure'')}
+\tfbinder{II.trunc.lem:borel-quotient-unipotent-average}{2}{43c1481c}{the function $F\colon G(\A)^1\to[0,\infty]$}
+\tfbinder{II.trunc.lem:borel-quotient-unipotent-average}{3}{8ba1d86b}{$F$ is Borel}
+\tfbinder{II.trunc.lem:borel-quotient-unipotent-average}{4}{3fe022a7}{$F$ is left $B(\Q)$-invariant}
+\begin{tffidelity}
+B-only: A's fact (F) in §5 (the $N$-averaging identity), stated with lower integrals: $\int^-_{B(\Q)\backslash G(\A)^1}\int^-_{D}F(n(u)y)\,\dd u\,\dd y=\int^-_{B(\Q)\backslash G(\A)^1}F\,\dd y$ with $D=$ \texttt{Set.Ico 0 1 ×ˢ Zhat} and $\dd u=$ \texttt{adeleHaar}, $n(u)=$ \texttt{unipNormOne u}, $y=$ \texttt{Quotient.out q}. A's further claims ($F_N$ is Borel and left $B(\Q)$-invariant) are not part of the Lean statement; the identity is stated at the representative $\texttt{Quotient.out q}$, which for left $B(\Q)$-invariant $F_N$ is the induced function. \emph{Lean proof versus A:} A proves $c(y)=1$ by comparing two fundamental domains of an action of $B(\Q)$ on $\A\times T(\Q)$; Lean computes $\sum_\gamma c(\gamma y)$ directly, writing $B(\Q)$ once as $N(\Q)T(\Q)$ and once as $T(\Q)N(\Q)$, and uses that $D_B$ is a fundamental domain. Borel measurability and $B(\Q)$-invariance of $F_N$ (A's further claims) are proved in the Lean proof, not stated.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Reduction to $D_B$.} Both sides are integrals over the fundamental domain $D_B=$ \texttt{fdChoice borelRatNormOne} for $\mu^1$ (\texttt{lintegral\_quot}: the quotient measure is the image of $\mu^1|_{D_B}$, \texttt{X.quot.def:quotient-measure}). This needs $F_N(y)=\int_DF(n(u)y)\,\dd u$ Borel (Tonelli, \texttt{lintegral\_prod\_right'}) and left $B(\Q)$-invariant (\texttt{fibre\_lintegral\_inv}: for $b=n(v)\diag(q_1,q_2)$, $F(n(u)bx)=F(n(qu+qv)x)$ with $q=q_2/q_1$, and $\int_DF(n(qu+w_0)x)\,\dd u=\int_DF(n(u)x)\,\dd u$ by \texttt{setLIntegral\_D\_affine}: $u\mapsto qu+w_0$ is measure preserving, maps $D$ to another fundamental domain of $\Q$ in $\A$, and $u\mapsto F(n(u)x)$ is $\Q$-periodic).
+
+\emph{The identity on $D_B$} (\texttt{unip\_average\_fd}). With $I=\mathbf 1_{D_B}$: Tonelli, left invariance of $\mu^1$ ($y=n(u)x$) and Tonelli again give $\int_{D_B}F_N\,\dd\mu^1=\int F(y)\,c(y)\,\dd\mu^1(y)$ with $c(y)=\int_DI(n(u)^{-1}y)\,\dd u$; unfolding over $B(\Q)$ (\texttt{lintegral\_unfold}) and $F(\gamma y)=F(y)$ turn this into $\int_{D_B}F(y)\sum_{\gamma\in B(\Q)}c(\gamma y)\,\dd\mu^1$.
+
+\emph{The counting identity} $\sum_{\gamma\in B(\Q)}c(\gamma y)=1$ (\texttt{count\_one}). Write $\gamma=n(r)\,t(s)$, $(r,s)\in\Q\times T(\Q)$ (a bijection, \texttt{tsum\_borel\_nt}). For fixed $s$, the sum over $r$ of the integrals over $D$ is one integral over $\A$ (the translates of $D$ by $\Q$ tile $\A$, \texttt{I.adele.thm:rat-quotient-compact}), and the substitution $w=-(s_2/s_1)x$ (measure preserving, \texttt{adeleHaar\_mul\_rat\_mp}) makes it $\int_\A I(t(s)n(w)y)\,\dd w$. Refolding $\int_\A=\int_D\sum_{g\in\Q}$ gives $\int_D\sum_{g,s}I(t(s)\,n(g+u)\,y)\,\dd u$, and pointwise $\sum_{g,s}I(t(s)n(g)\,n(u)y)=\sum_{\gamma\in B(\Q)}I(\gamma\,n(u)y)$ (the order $t(s)n(r)$, \texttt{tsum\_borel\_tn}) $=1$, as $D_B$ meets every $B(\Q)$-orbit once (\texttt{sum\_indicator\_fd}). Finally $\int_D1\,\dd u=\dd u(D)=1$.
+\end{proof}
+
+\begin{lemma}[the constant term is an orthogonal projection on $B(\Q)\backslash G(\A)^1$]
+\tfstmt{II.trunc.lem:constant-term-orthogonality}
+\lean{GL2TF.constTerm_orthogonality}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.def:center, I.conv.def:chamber-function-hat, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.conv.lem:subgroups-functorial, I.cusp.def:constant-term, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.quot.def:borel-rat, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:borel-rat-norm-one, II.trunc.lem:borel-quotient-unipotent-average, II.trunc.lem:borel-rat-norm-one-discrete, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.quot.def:quotient-measure, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{lemma}
+\begin{tfformal}{II.trunc.lem:constant-term-orthogonality}
+\tfsem{II.trunc.lem:constant-term-orthogonality}{542576029241c1c3636335614a66bfdedab831cdd97258f48ac2eeb9bc3ac950}
+\tfhyps{II.trunc.lem:constant-term-orthogonality}{}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{1}{c626ff1c}{$\mu$ is a Haar measure (instance binder; A: ``left Haar measure'')}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{2}{f76f739b}{the weight $w\colon\R\to\R$}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{3}{08795f14}{$w$ is Borel}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{4}{7129b7b4}{$w\ge0$ (with the previous two binders: A's $w\colon\R\to[0,\infty)$ Borel)}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{5}{3e92bd34}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{6}{f6e7fa12}{the function $\psi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{7}{cee267e4}{$\varphi$ is Borel}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{8}{2bfb039b}{$\psi$ is Borel}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{9}{a77a2840}{$\varphi$ is left $B(\Q)$-invariant}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{10}{db9c1c40}{$\psi$ is left $B(\Q)$-invariant}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{11}{d54e3e96}{$\int^-_{B(\Q)\backslash G(\A)^1}\abs\varphi^2W\,\dd y<\infty$ (\texttt{lintegral} of \texttt{ENNReal.ofReal}, $W=w\circ\alpha\circ\HB$)}
+\tfbinder{II.trunc.lem:constant-term-orthogonality}{12}{9e4dca20}{$\int^-_{B(\Q)\backslash G(\A)^1}\abs\psi^2W\,\dd y<\infty$}
+\begin{tffidelity}
+$W(y)=w(\alpha(\HB(y)))$ is written out at $y=$ \texttt{Quotient.out q}. (a) is an inequality of lower integrals of \texttt{ENNReal.ofReal}$(\abs{\cdot}^2W)$ (the integrands are $\ge0$, so this is A's inequality of integrals in $[0,\infty]$). (b) is three conjuncts: integrability of $(\varphi-\varphi_B)\bar\psi W$, integrability of $\varphi\,\overline{(\psi-\psi_B)}W$, and equality of their Bochner integrals, with $W$ cast to $\C$. The finiteness hypotheses are on the quotient, as in A. \emph{Lean proof versus A:} in (b) integrability comes from $\abs{f\bar g}\le\abs f^2+\abs g^2$ instead of Cauchy--Schwarz, and (F$'$) is applied to $(\varphi-\varphi_B)\bar\psi W$ and $\varphi\overline{(\psi-\psi_B)}W$, whose fibre averages agree a.e., instead of twice to $f=\bar\psi$, $g=\varphi_BW$ etc.; (F$'$) itself is proved as a measure identity plus Fubini, not by positive and negative parts (L1's divergence note, U4). Same content.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Plumbing (A's (F1)): $\varphi_B$, $\psi_B$ and $W$ are left $B(\Q)$-invariant (\texttt{constTerm\_inv}, \texttt{weight\_inv}) and invariant under $n(u)$ (\texttt{constTerm\_unip}, \texttt{weight\_unip}); $\varphi_B$ is Borel (\texttt{measurable\_constTerm}).
+
+\emph{(a)} (\texttt{bessel\_quot}) Rewrite both sides by \cref{II.trunc.lem:borel-quotient-unipotent-average} for $F_1=\abs{\varphi-\varphi_B}^2W$ and $F_2=\abs\varphi^2W$. At $y$ the fibre integrals are $W(y)\int_D\abs{f-\int_Df}^2$ and $W(y)\int_D\abs f^2$ with $f(u)=\varphi(n(u)y)$, and Bessel on the probability space $D$ (\texttt{bessel}, A's (F2): trivial if the right side is $\infty$; else expand $\abs{f-c}^2=\abs f^2+\abs c^2-2\operatorname{Re}(f\bar c)$ with $\int\operatorname{Re}(f\bar c)=\abs c^2$) gives the inequality fibrewise; integrate (\texttt{lintegral\_mono}).
+
+\emph{(b)}, three conjuncts. Integrability of $(\varphi-\varphi_B)\bar\psi W$ and of $\varphi\,\overline{(\psi-\psi_B)}W$ (\texttt{integrable\_mul\_conj}): pointwise $\abs{f\bar gW}\le(\abs f^2+\abs g^2)W$, with the finite integrals of the hypotheses and of (a) for $\varphi$ and for $\psi$. Equality: by the Bochner form of the averaging identity (\texttt{integral\_avg}, A's (F$'$): the measure identity $\texttt{map}\,((x,u)\mapsto B(\Q)n(u)x)\,(\mu^1|_{D_B}\otimes\dd u|_D)=\dd y$, \texttt{map\_avgMap}, from (F) on indicators, then Fubini) each side equals the integral of its fibre average. These agree almost everywhere: by (F) for $\abs\varphi^2W$ and $\abs\psi^2W$ the fibre integrals are finite a.e.\ (\texttt{ae\_lt\_top}); on such a fibre with $W(y)>0$ both $u\mapsto\varphi(n(u)y)$, $u\mapsto\psi(n(u)y)$ lie in $\Ltwo(D)$ (\texttt{fibre\_memLp}) and \texttt{fibre\_identity} gives $\int_D(f_1-\int f_1)\bar f_2\,c=\int_Df_1\overline{(f_2-\int f_2)}\,c$; where $W(y)=0$ both are $0$.
+\end{proof}
+
+\begin{theorem}[truncation is self-adjoint]
+\tfstmt{II.trunc.thm:truncation-self-adjoint}
+\lean{GL2TF.truncation_self_adjoint}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:rat-embedding-diagonal, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.autf.def:max-compact-norm-one, I.conv.def:borel, I.conv.def:center, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.conv.lem:subgroups-functorial, I.cusp.def:constant-term, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.mcalc.def:matrix-pi, I.quot.def:automorphic-quotient-measure, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.quot.lem:gl2-rat-norm-one-discrete, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:automorphic-quotient-finite-instance, I.red.lem:height-locally-bounded, I.red.thm:height-attained, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:compact-part, II.trunc.def:truncation, II.trunc.lem:chamber-functions-rank-one, II.trunc.lem:constant-term-orthogonality, II.trunc.lem:coset-height, II.trunc.thm:compact-part-properties, II.trunc.thm:coset-sum-at-most-one, II.trunc.thm:coset-sum-finite, II.trunc.thm:cusp-region-unfolding, II.trunc.thm:height-continuous, II.trunc.thm:truncation-well-defined, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec, X.quot.thm:unfolding-subgroup, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-self-adjoint}
+\tfsem{II.trunc.thm:truncation-self-adjoint}{e3952f1a51e34b8571ac4399d070d31168aa0921c92c5e03f341bd35074bb7b4}
+\tfhyps{II.trunc.thm:truncation-self-adjoint}{}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{1}{c626ff1c}{$\mu$ is a Haar measure (instance binder; A: ``left Haar measure'')}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{2}{bb9fb5a8}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{3}{4be223b9}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{4}{75d01977}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{5}{3e92bd34}{the function $\psi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{6}{f62df80c}{$\varphi$ is Borel (\texttt{Measurable}; first clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{7}{f3b0d671}{$\varphi$ is left $G(\Q)$-invariant (second clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{8}{ba31c0c6}{$\varphi$ is bounded on every compact subset of $G(\A)^1$ (third clause of $\mathcal B_{\mathrm{loc}}$)}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{9}{84d954c2}{$\psi$ is continuous}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{10}{e88226c9}{$\psi$ is left $G(\Q)$-invariant}
+\tfbinder{II.trunc.thm:truncation-self-adjoint}{11}{78e0d802}{$\psi$ has compact support in $X$: some compact $C\subseteq X$ with $\psi(x)=0$ whenever $p(x)\notin C$}
+\begin{tffidelity}
+The conclusion has five conjuncts: left $G(\Q)$-invariance of $\Lambda^T\varphi\cdot\bar\psi$ and of $\varphi\cdot\overline{\Lambda^T\psi}$, \texttt{Integrable} of the induced functions $q\mapsto(\cdot)(\texttt{Quotient.out }q)$ on $X$ for $\dd\dot x$, and the equality of the two Bochner integrals. The support condition is A's literally (compact support in $X$, not in $G(\A)^1$; \cite[Prop.~13.1 (c)]{AIntro}: $\psi\in C_c(G(\Q)\backslash G(\A)^1)$). \emph{Lean proof versus A:} A applies (F$'$) twice, to $f=\bar\psi$, $g=\varphi_Bw$ and to $f=\varphi$, $g=w\overline{\psi_B}$; Lean applies \cref{II.trunc.lem:constant-term-orthogonality}(b), rearranged, once, with the weight $\mathbf 1_{(\alpha(T),c]}$ ($c$ bounds $\operatorname{ht}$ on the support of $\psi$), which agrees with $\tau_B$ wherever $\psi$ or $\psi_B$ is non-zero and makes that lemma's finiteness hypotheses hold for $\varphi\in\mathcal B_{\mathrm{loc}}$ (the finiteness A leaves implicit is explicit; L1's divergence note, 22). Integrability of $\Lambda^T\varphi\,\bar\psi$ is $\varphi\bar\psi-E_\varphi\bar\psi$ with $E_\varphi\bar\psi$ integrable by the Bochner unfolding, instead of A's boundedness of $\Lambda^T\varphi$ on compact sets; \cref{II.trunc.thm:truncation-regularity}, \cref{II.trunc.thm:truncation-explicit} and the partition lemma are not used. Same argument otherwise.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjuncts 1 and 2 (invariance): \cref{II.trunc.thm:truncation-well-defined}(c) for $\Lambda^T\varphi$ and $\Lambda^T\psi$ (\texttt{trunc\_inv}) and the invariance of $\psi$, $\varphi$. For the rest write $E_\chi=\chi-\Lambda^T\chi$.
+
+\emph{Supports.} \texttt{compact\_lift}: the compact $C\subseteq X$ is covered by finitely many images $p(\operatorname{int}V_g)$ of compact neighbourhoods ($p$ is open), so $C\subseteq p(C')$ with $C'$ compact. \texttt{I.red.lem:height-locally-bounded} gives $\operatorname{ht}\le c_0$ on $C'$; put $c=\max(c_0,\alpha(T))$. If $\psi(x)\ne0$ then $x\in G(\Q)C'$ and $\operatorname{ht}(x)\le c$ (\texttt{height\_inv}); if $\psi_B(y)\ne0$ then $\psi(n(u)y)\ne0$ for some $u$ and $\alpha(\HB(y))=\alpha(\HB(n(u)y))\le\operatorname{ht}(n(u)y)\le c$ (\texttt{heightMap\_unip}, H3).
+
+\emph{Bounds} (\texttt{height\_le\_finite}). With $\alpha(T')=c$, $p(\{\operatorname{ht}\le c\})$ lies in the compact closure of $p(\{F^G(\cdot,T')=1\})$ (\cref{II.trunc.thm:compact-part-properties}), so it has finite $\dd\dot x$-measure, and every left $G(\Q)$-invariant function bounded on compact sets is bounded on $\{\operatorname{ht}\le c\}$ (by a compact lift of that closure): $\abs\varphi\le M_\varphi$ by the $\mathcal B_{\mathrm{loc}}$ binder, $\abs\psi\le M_\psi$ by continuity.
+
+\emph{The weighted adjoint identity} (\texttt{adj\_core}) with the weight $w_c=\mathbf 1_{(\alpha(T),c]}$ (\texttt{wTc}). By the supports, $w_c(\alpha(\HB(y)))=\tau_B(\HB(y)-T)$ wherever $\psi(y)\ne0$ or $\psi_B(y)\ne0$. \texttt{fin\_weight}: $\int_{B(\Q)\backslash G(\A)^1}\abs\chi^2w_c\,\dd y\le\int_X\sum_\delta\abs\chi^2\mathbf 1_{\{\operatorname{ht}\le c\}}(\delta x)\,\tau_B(\cdots)\,\dd\dot x\le M_\chi^2\,\dd\dot x(p\{\operatorname{ht}\le c\})<\infty$ for $\chi=\varphi,\psi$ (unfolding by \cref{II.trunc.thm:cusp-region-unfolding}, then the collapse of the coset sum to $\delta_0$ for $\alpha(T)\ge0$, \texttt{tsum\_tau\_l}: A's (U)). These are the finiteness hypotheses of \cref{II.trunc.lem:constant-term-orthogonality}; its (b), rearranged by subtracting from $\int\varphi\bar\psi w_c$ (\texttt{core}), gives integrability of $\varphi_B\bar\psi w_c$, $\varphi\overline{\psi_B}w_c$ and $\int\varphi_B\bar\psi w_c\,\dd y=\int\varphi\overline{\psi_B}w_c\,\dd y$. Replace $w_c$ by $\tau_B$, and unfold both sides to $X$ by the Bochner form of \texttt{X.quot.thm:unfolding-subgroup} (\texttt{unfold\_b}): as $E_\varphi(x)\overline{\psi(x)}=\sum_c\varphi_B(\delta_cx)\overline{\psi(\delta_cx)}\tau_B(\HB(\delta_cx)-T)$ (\texttt{trunc\_eq\_tsum}) and likewise for $\varphi\overline{E_\psi}$, this gives $E_\varphi\bar\psi$, $\varphi\overline{E_\psi}$ integrable on $X$ and $\int_XE_\varphi\bar\psi=\int_X\varphi\overline{E_\psi}$.
+
+Conjuncts 3--5: $\varphi\bar\psi$ is integrable on $X$ (bounded by $M_\varphi M_\psi$ on the finite-measure set $p\{\operatorname{ht}\le c\}$ and $0$ off it); $\Lambda^T\varphi\,\bar\psi=\varphi\bar\psi-E_\varphi\bar\psi$ and $\varphi\,\overline{\Lambda^T\psi}=\varphi\bar\psi-\varphi\overline{E_\psi}$, so both are integrable and their integrals agree.
+\end{proof}
+
+\begin{definition}[the truncation on $\Ltwo$]
+\tfstmt{II.trunc.def:truncation-l2}
+\lean{GL2TF.truncationL2}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:space-a-b, I.cusp.def:quotient-lift, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.topgrp.def:norm-one-group, II.trunc.def:truncation, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{II.trunc.def:truncation-l2}
+\tfsem{II.trunc.def:truncation-l2}{bbdf1cde3433f74afadde12cde89aba924494f8f5ef4ec3ae258530467d346a6}
+\tfhyps{II.trunc.def:truncation-l2}{}
+\tfbinder{II.trunc.def:truncation-l2}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.def:truncation-l2}{1}{c9ed044d}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.def:truncation-l2}{2}{95cb1b6d}{the class $\varphi\in\Ltwo(X)$ (\texttt{l2Automorphic μ}, \texttt{I.quot.def:l2-automorphic})}
+\begin{tffidelity}
+\texttt{truncationL2 μ T φ} is \texttt{h.toLp \_} if \texttt{h : MemLp g 2 (automorphicQuotientMeasure μ)} and $0$ otherwise, with $g(q)=\Lambda^T(\texttt{quotLift }f)(\texttt{Quotient.out }q)$. \emph{Choices.} A's fixed lift $\tilde x$ of $\dot x$ is \texttt{Quotient.out}; A's fixed Borel function $f_\varphi$ in the class $\varphi$ is the \texttt{Lp} coercion $f=$ \texttt{⇑φ} (\texttt{AEEqFun.cast}, a strongly measurable, hence Borel, representative); $f\circ p$ is \texttt{quotLift f} (\texttt{I.cusp.def:quotient-lift}). \emph{Junk branch.} A's ``almost everywhere equal to a Borel function and square-integrable'' is \texttt{MemLp g 2} (\texttt{AEStronglyMeasurable} and finite $\Ltwo$ norm, equivalent for $\C$-valued $g$ on this space), and the value $0$ otherwise is the junk value of D-L2DEF. It is excluded for $\alpha(T)\ge0$ by \cref{II.trunc.thm:truncation-l2-projection}(a); for $\alpha(T)<0$ it is not excluded and no statement uses $P^T$ there.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[truncation is an orthogonal projection of $\Ltwo$]
+\tfstmt{II.trunc.thm:truncation-l2-projection}
+\lean{GL2TF.truncationL2_projection}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:padic-int-compact-instance, I.adele.lem:primes-fact-instance, I.adele.lem:rat-embedding-diagonal, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.autf.def:max-compact-norm-one, I.conv.def:borel, I.conv.def:center, I.conv.def:chamber-function-hat, I.conv.def:chamber-functions, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:opposite-borel, I.conv.def:opposite-unipotent, I.conv.def:opposite-unipotent-hom, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:max-compact-local-mem, I.conv.lem:subgroups-functorial, I.cusp.def:constant-term, I.cusp.def:l2-cusp, I.cusp.def:quotient-lift, I.cusp.lem:constant-term-ae-congr, I.cusp.thm:constant-term-invariance, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.mcalc.def:matrix-pi, I.quot.def:automorphic-quotient-measure, I.quot.def:borel-rat, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.quot.lem:gl2-rat-norm-one-discrete, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.thm:height-attained, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:norm-one-splitting, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:compact-part, II.trunc.def:truncation, II.trunc.def:truncation-l2, II.trunc.lem:borel-quotient-unipotent-average, II.trunc.lem:chamber-functions-rank-one, II.trunc.lem:constant-term-orthogonality, II.trunc.lem:coset-height, II.trunc.thm:compact-part-properties, II.trunc.thm:coset-sum-at-most-one, II.trunc.thm:coset-sum-finite, II.trunc.thm:cusp-region-unfolding, II.trunc.thm:truncation-explicit, II.trunc.thm:truncation-well-defined, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec, X.quot.thm:unfolding-discrete, X.quot.thm:unfolding-subgroup, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-l2-projection}
+\tfsem{II.trunc.thm:truncation-l2-projection}{6d80057a3adb1ab248f86ac1286455e9177cf176782c2cd31f4fb655a7e24708}
+\tfhyps{II.trunc.thm:truncation-l2-projection}{}
+\tfbinder{II.trunc.thm:truncation-l2-projection}{0}{86edd255}{the left Haar measure $\mu$ on $G(\A)$ (an explicit argument, D13)}
+\tfbinder{II.trunc.thm:truncation-l2-projection}{1}{c626ff1c}{$\mu$ is a Haar measure (instance binder; A: ``left Haar measure'')}
+\tfbinder{II.trunc.thm:truncation-l2-projection}{2}{bb9fb5a8}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-l2-projection}{3}{4be223b9}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\begin{tffidelity}
+(a) for every $\varphi$ and every $f\colon X\to\C$ with \texttt{Measurable f} and $f=\varphi$ $\dd\dot x$-a.e.\ (A: every Borel function in the class): $\Lambda^T(f\circ p)$ is left $G(\Q)$-invariant, $q\mapsto\Lambda^T(f\circ p)(\texttt{Quotient.out }q)$ is Borel, and \texttt{∃ h : MemLp … 2, h.toLp \_ = truncationL2 μ T φ}: square-integrability and ``its class is $P^T\varphi$'' in one clause. Independence of $f$ follows, as every admissible $f$ gives the same $P^T\varphi$. (b) $\exists P\colon\Ltwo(X)\to_{L[\C]}\Ltwo(X)$ with \texttt{⇑P = truncationL2 μ T} and \texttt{IsStarProjection P}. \emph{Star projection versus ``orthogonal projection''.} \texttt{IsStarProjection P} is \texttt{IsIdempotentElem P} ($P\circ P=P$) and \texttt{IsSelfAdjoint P} ($P^\dagger=P$, the Hilbert adjoint, which is the star of \texttt{ContinuousLinearMap} on the Hilbert space $\Ltwo(X)$): A's ``$P\circ P=P$ and $P^*=P$''. A bounded idempotent self-adjoint operator on a Hilbert space is the orthogonal projection onto its (closed) range, so this is \cite{AIntro}'s ``orthogonal projection''; idempotence alone would be weaker. Continuity and $\C$-linearity are carried by the type of $P$. (c) $P^T\varphi=\varphi$ for $\varphi\in$ \texttt{l2Cusp μ} (\texttt{I.cusp.def:l2-cusp}: the constant term of the lift of the representative vanishes $\mu^1$-a.e.). \emph{Lean proof versus A:} route D-L2, as in A. A's identification of Borel functions on $X$ with invariant Borel functions (Lusin--Souslin) is not needed: the Lean functions on $X$ are values at \texttt{Quotient.out}, Borel by \texttt{measurable\_out\_comp}. Idempotence is shown for $P$ directly ($\Lambda^T\Lambda^TF=\Lambda^TF$ everywhere, by the $\mathcal B_{\mathrm{loc}}$-free form \texttt{TruncOpAux.idempotent\_aux} of \cref{II.trunc.thm:truncation-idempotent}), not through $Q^2=Q$; self-adjointness uses \cref{II.trunc.lem:constant-term-orthogonality}(b) rearranged (\texttt{core}), as in A. The a.e.\ integrability of the cusp fibres (A: ``end of the first step'') is proved by unfolding the indicator of the bad fibres (L1's divergence note, 24).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Three conjuncts, (a), (b), (c), proved separately (\texttt{TruncL2Aux.l2\_part\_a}, \texttt{l2\_part\_b}, \texttt{l2\_part\_c}; split for the per-declaration heartbeat limit). For $f\colon X\to\C$ write $F=f\circ p$ (\texttt{quotLift f}), $\mathrm{tr}(f)(q)=\Lambda^TF(\texttt{Quotient.out }q)$ (\texttt{trL}), and $w_T=\mathbf 1_{(\alpha(T),\infty)}$ (\texttt{wT}), so that $\tau_B(H-T)=w_T(\alpha(H))$ (\cref{II.trunc.lem:chamber-functions-rank-one}). For $\alpha(T)\ge0$ a sum over cosets supported on $\{\alpha(\HB(\delta_cx))>\alpha(T)\}$ is $0$ if $\operatorname{ht}(x)\le\alpha(T)$ and its value at $\delta_0$ otherwise (\texttt{tsum\_collapse}, \texttt{tsum\_tau\_l}, from \cref{II.trunc.thm:coset-sum-at-most-one}: A's (U)).
+
+\emph{The $\Ltwo$ bound} (\texttt{norm\_bound}, A's first step of (a)). Pointwise (\texttt{sq\_decomp}, from \cref{II.trunc.thm:truncation-explicit}): $\abs{\Lambda^TF}^2=\abs F^2F^G+\sum_c\abs{F-F_B}^2(\delta_cx)\tau_B$ and $\abs F^2=\abs F^2F^G+\sum_c\abs F^2(\delta_cx)\tau_B$. Integrate over $X$; \cref{II.trunc.thm:cusp-region-unfolding} (\texttt{lint\_cusp}) turns the cusp sums into $\int_{B(\Q)\backslash G(\A)^1}\abs{F-F_B}^2w_T\,\dd y$ and $\int\abs F^2w_T\,\dd y$, and the Bessel inequality behind \cref{II.trunc.lem:constant-term-orthogonality}(a) (\texttt{bessel\_quot}) compares them. So $\int_X\abs{\mathrm{tr}(f)}^2\le\int_X\abs f^2$, and $\int\abs F^2w_T\,\dd y\le\int_X\abs f^2$.
+
+\emph{(a)}, three clauses for each $\varphi$ and Borel $f=\varphi$ a.e. Invariance: \cref{II.trunc.thm:truncation-well-defined}(c). Borel: $\Lambda^TF$ is Borel (\texttt{TruncOpAux.measurable\_truncation}) and invariant, so its value at \texttt{Quotient.out} is Borel (\texttt{measurable\_out\_comp}). $\exists h:\texttt{MemLp},\ h.\texttt{toLp}=P^T\varphi$: \texttt{MemLp} from the $\Ltwo$ bound (\texttt{memLp\_trL}); for the representative \texttt{⇑φ} itself this makes \cref{II.trunc.def:truncation-l2} take its first branch (\texttt{l2\_hP}), and \texttt{trL\_ae\_congr} gives $\mathrm{tr}(f)=\mathrm{tr}(\texttt{⇑φ})$ a.e.: $F=F'$ $\mu^1$-a.e.\ (\texttt{CuspAux.ae\_lift\_of\_quotient}), hence $F_B=F'_B$ a.e.\ (\texttt{I.cusp.lem:constant-term-ae-congr}), hence at all $\delta x$, $\delta\in G(\Q)$, a.e.\ (countably many left translates, \texttt{ae\_all\_iff}); then the coset expansion (\texttt{trunc\_eq\_tsum}) agrees and \texttt{ae\_quot\_of\_ae} transfers to $X$.
+
+\emph{(b)}, $\exists P$ with \texttt{⇑P = truncationL2 μ T} and \texttt{IsStarProjection P}. \emph{The operator} (\texttt{exists\_clm}: \texttt{LinearMap.mkContinuous} with constant $1$). Additivity and homogeneity (\texttt{l2\_add}, \texttt{l2\_smul}) from a.e.\ linearity \texttt{trL\_lin}: for a.e.\ $q$, every cusp fibre $u\mapsto F(n(u)\delta_c\tilde q)$ is integrable on $D$ (\texttt{good\_fibres}: by \cref{II.trunc.lem:borel-quotient-unipotent-average} for $\abs F^2w_T$, whose integral is finite by the $\Ltwo$ bound, almost every cusp fibre is in $\Ltwo(D)$ (\texttt{fibre\_memLp}); the set of points of the cusp with non-integrable fibre is left $B(\Q)$-invariant and $\dd y$-null, and \cref{II.trunc.thm:cusp-region-unfolding} applied to its indicator shows that a.e.\ $q$ has no coset in it), so the constant terms of the cusp cosets are linear; $\norm{P^T\varphi}\le\norm\varphi$ (\texttt{l2\_norm}). \emph{Idempotence} (\texttt{l2\_idem}): $\mathrm{tr}(\mathrm{tr}(f))=\mathrm{tr}(f)$ everywhere (\texttt{trL\_idem}, \texttt{TruncOpAux.idempotent\_aux}: the proof of \cref{II.trunc.thm:truncation-idempotent} with left $G(\Q)$-invariance only) and \texttt{trL\_ae\_congr}. \emph{Self-adjointness} (\texttt{l2\_symm}, via \texttt{isSelfAdjoint\_iff\_isSymmetric}): \texttt{adj\_fun} gives $\int_X(f-\mathrm{tr}f)\bar g=\int_Xf\,\overline{(g-\mathrm{tr}g)}$ with both integrable (\cref{II.trunc.lem:constant-term-orthogonality}(b) rearranged with $W=w_T$, \texttt{core}, its finiteness hypotheses from the $\Ltwo$ bound; then the Bochner unfolding \texttt{unfold\_b} on both sides); subtract from $\int_X\bar fg$ (integrable, $\abs{\bar fg}\le\abs f^2+\abs g^2$).
+
+\emph{(c)} (\texttt{trL\_cusp}). For $\varphi\in$ \texttt{l2Cusp μ}, $F_B=0$ $\mu^1$-a.e., hence at all $\delta x$ a.e.\ (countable translates); every term of \texttt{trunc\_eq\_tsum} vanishes, so $\mathrm{tr}(\varphi)=\varphi$ a.e.\ and $P^T\varphi=\varphi$ (\texttt{Lp.ext}).
+\end{proof}
+
+
+\section{Rapid decay}\label{sec:trunc-decay}
+
+\begin{definition}[rapidly decreasing functions]
+\tfstmt{II.trunc.def:rapidly-decreasing}
+\lean{GL2TF.IsRapidlyDecreasing}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.red.def:height-primitive, I.topgrp.def:norm-one-group}
+\end{definition}
+\begin{tfformal}{II.trunc.def:rapidly-decreasing}
+\tfsem{II.trunc.def:rapidly-decreasing}{b86420613d53c02497bacec33dc0abfbc8d895a94ad2d398e7c17102d7410eb8}
+\tfhyps{II.trunc.def:rapidly-decreasing}{}
+\tfbinder{II.trunc.def:rapidly-decreasing}{0}{b4c57f3b}{the function $\varphi\colon G(\A)^1\to\C$}
+\begin{tffidelity}
+\texttt{IsRapidlyDecreasing φ}: $\forall N\in\R\ \exists C\in\R\ \forall x,\ \norm{\varphi(x)}\le C\,e^{-N\operatorname{ht}(x)}$, with $\operatorname{ht}$ evaluated at $x\in G(\A)^1\subseteq G(\A)$. \emph{$\operatorname{ht}$ versus $\norm x$:} Arthur measures decay by $\norm x^{-N}$ on Siegel sets (\cite[§13, before Prop.~13.2]{AIntro}); A and Lean use $e^{-N\operatorname{ht}(x)}$ on all of $G(\A)^1$, the form of \texttt{I.cusp.thm:rapid-decay}(a). A's remark sketches the equivalence for left $G(\Q)$-invariant functions; it is not formalized and no statement uses Arthur's form.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[decay of the non-constant part]
+\tfstmt{II.trunc.thm:nonconstant-part-decay}
+\lean{GL2TF.nonconstant_part_decay}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:standard-character, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:rat-embedding-diagonal, I.adele.lem:standard-character-hom, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:character-trivial-on-rat, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.autf.def:lie-action-adelic, I.autf.def:lie-action-adelic-real, I.autf.def:lie-basis-index, I.autf.def:moderate-growth, I.autf.def:smooth-norm-one, I.autf.def:word-action, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.cusp.def:constant-term, I.cusp.thm:constant-term-invariance, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.gk.def:lie-basis, I.gk.def:lie-basis-lowering, I.gk.def:lie-basis-raising, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:norm-one-lift, I.hecke.def:smooth-function-real, I.lf.def:fractional-part, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.def:standard-character, I.lf.lem:fractional-part-spec, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:exp-gl, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:real-lie-derivative, I.mcalc.def:to-pi, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.lem:siegel-set-norm-one, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.red.thm:height-lemma, I.rep.def:left-translate, I.rep.def:lie-action, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-adelic-compact, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:nonconstant-part-decay}
+\tfsem{II.trunc.thm:nonconstant-part-decay}{0d7a3dd0097c788b606c427bcfa9c48b5b8b8d8315ceeec93ec19a4ca0896599}
+\tfhyps{II.trunc.thm:nonconstant-part-decay}{}
+\tfbinder{II.trunc.thm:nonconstant-part-decay}{0}{b4c57f3b}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:nonconstant-part-decay}{1}{6ed737b2}{$\varphi$ is smooth (\texttt{IsSmoothNormOne}, \texttt{I.autf.def:smooth-norm-one})}
+\tfbinder{II.trunc.thm:nonconstant-part-decay}{2}{8ccdbf81}{$\varphi$ is left $G(\Q)$-invariant (stated as $\forall\gamma\in$ \texttt{gl2RatNormOne}, a subtype binder)}
+\tfbinder{II.trunc.thm:nonconstant-part-decay}{3}{8ef2a31a}{$\varphi$ has uniform moderate growth (\texttt{HasUniformModerateGrowth}, \texttt{I.autf.def:moderate-growth})}
+\tfbinder{II.trunc.thm:nonconstant-part-decay}{4}{d38ae446}{the exponent $m\in\N$}
+\begin{tffidelity}
+$\exists C\ \forall n\in N(\A)$ (\texttt{unipotent Adele}) $\forall a_1,a_2\in\R^\times$ with $a_1,a_2>0$, $a_1a_2=1$, $a_1/a_2>1$, $\forall k\in K$, $\forall x\in G(\A)^1$ with $x=n\cdot\texttt{infEmb}(\diag(a_1,a_2))\cdot k$: $\norm{\varphi(x)-\varphi_B(x)}\le C(a_1/a_2)^{-m}$ (real power \texttt{rpow} with exponent $-m$, equal to the integer power for a positive base). $a=\texttt{infEmb}(\diag(a_1,a_2))$ is A's $a\in T(\A)$ with $a_p=1$. The point is an element $x$ of $G(\A)^1$ equal to $nak$ in $G(\A)$, rather than $nak$ itself, since $\varphi$ is defined on $G(\A)^1$. Cusp side $a_1/a_2>1$ only, as in A (statement change request of W0). \emph{Lean proof versus A:} as A (the proof of \texttt{I.cusp.thm:rapid-decay} with $c_0$ kept); the exponent is $m'=m+\lceil N_0\rceil+2$ (A: any $m'\ge\max(2,m+N_0)$), and $\sum_{n\ne0}\abs n^{-m'}$ is bounded by $Z=\sum_{n\in\Z}n^{-2}$ instead of $2\zeta(m')$ (L2's divergence note, items 5 and 7).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{The explicit bound} (\texttt{DecayAux.fourier\_decay\_core}, a copy of M6's \texttt{CuspDecayAux.fourier\_decay} with the zeroth coefficient kept). Let $x=n(u)\,a(r)\,k$ with $a(r)=\iota_\infty(\diag(e^r,e^{-r}))$, $r>0$, and $x_0=a(r)k$. $F(u)=\varphi(n(u)x_0)$ is $\Q$-periodic (\texttt{unip\_rat\_periodic}) and $M\Zhat$-periodic (\texttt{circle\_fin\_periodic}, $M$ the uniform modulus of \texttt{exists\_uniform\_modulus} for the open subgroup of smoothness). The circle function $t\mapsto F((t,0))$ is $M$-periodic and smooth, its derivatives being the tower $g_j$ of the real slice along $X=k_\infty^{-1}Ek_\infty$ ($\abs{X_{ij}}\le1$). \texttt{adele\_fourier\_tower} expands it in a Fourier series with coefficients $c_n$; $c_0=\varphi_B(x_0)$ (\emph{changed} w.r.t.\ M6: the constant coefficient is the constant term). The points of the slice have height $2r$ (\texttt{height\_siegel\_eq}, $e^{2r}>1$), so $\abs{g_m}\le\abs B\,e^{-2rm}e^{2rN_0}$ with $B$ from \texttt{word\_tower\_bound}, and $\abs{c_n}\le(M/2\pi)^m\,n^{-2}\sup\abs{g_m}$ for $n\ne0$, $m\ge2$. As $\varphi_B(x)=\varphi_B(x_0)$ (\texttt{I.cusp.thm:constant-term-invariance}(a)), summing the non-zero coefficients gives $\abs{\varphi(x)-\varphi_B(x)}\le(M/2\pi)^m\abs BZ\,e^{2r(N_0-m)}$, $Z=\sum_{n\in\Z}n^{-2}$.
+
+\emph{The item.} \texttt{nonconst\_decay\_pow} applies this with $m'=m+\lceil N_0\rceil+2$ and uses $e^{2r(N_0-m')}\le e^{-2rm}$. For the statement's $n=n(u)$, $a_1,a_2>0$, $a_1a_2=1$, $a_1/a_2>1$: put $r=\log a_1>0$, so $\diag(a_1,a_2)=\diag(e^r,e^{-r})$, and $(a_1/a_2)^{-m}=e^{-2rm}$ (\texttt{rpow\_def\_of\_pos}).
+\end{proof}
+
+\begin{theorem}[rapid decay, seminorm form]
+\tfstmt{II.trunc.thm:truncation-rapid-decay-seminorm}
+\lean{GL2TF.truncation_rapid_decay_seminorm}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adele-haar, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles-embedding, I.adele.def:standard-character, I.adele.def:zhat, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:rat-embedding-diagonal, I.adele.lem:standard-character-hom, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:character-trivial-on-rat, I.adele.thm:idele-decomposition, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.autf.def:lie-action-adelic, I.autf.def:lie-action-adelic-real, I.autf.def:lie-basis-index, I.autf.def:smooth-norm-one, I.autf.def:word-action, I.conv.def:borel, I.conv.def:diag-element, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.conv.def:simple-root, I.conv.def:space-a-b, I.conv.def:torus, I.conv.def:unipotent, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:torus-normalizes-unipotent, I.cusp.def:constant-term, I.cusp.thm:constant-term-invariance, I.decomp.def:bottom-row-norm, I.decomp.def:height-map, I.decomp.lem:bottom-row-norm-spec, I.decomp.thm:height-map-equivariance, I.decomp.thm:iwasawa-adelic, I.gk.def:lie-basis, I.gk.def:lie-basis-lowering, I.gk.def:lie-basis-raising, I.haar.def:borel-coordinates, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:borel-coordinates-mem, I.hecke.def:norm-one-lift, I.hecke.def:smooth-function-real, I.lf.def:fractional-part, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.def:standard-character, I.lf.lem:fractional-part-spec, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:exp-gl, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:real-lie-derivative, I.mcalc.def:to-pi, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.def:primitive-norm, I.red.def:siegel-omega-zero, I.red.def:siegel-set, I.red.lem:siegel-set-norm-one, I.red.lem:simple-root-height-map, I.red.thm:height-attained, I.red.thm:height-lemma, I.red.thm:siegel-covering, I.rep.def:left-translate, I.rep.def:lie-action, I.rep.def:right-translate, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:adelic-component-place, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-adelic, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, I.topgrp.lem:central-split-component, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:max-compact-adelic-compact, II.kernel.def:rat-norm-one, II.kernel.def:unip-norm-one, II.trunc.def:compact-part, II.trunc.def:truncation, II.trunc.thm:truncation-explicit, X.topgrp.def:restricted-product-measurable-space, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-rapid-decay-seminorm}
+\tfsem{II.trunc.thm:truncation-rapid-decay-seminorm}{328711fd81254835112e6189329307abf1a77500acaad55d3e92460efd39bbdc}
+\tfhyps{II.trunc.thm:truncation-rapid-decay-seminorm}{}
+\tfbinder{II.trunc.thm:truncation-rapid-decay-seminorm}{0}{1c1d1c2d}{the subgroup $K'\le G(\Af)$}
+\tfbinder{II.trunc.thm:truncation-rapid-decay-seminorm}{1}{8824c9b1}{$K'$ is open}
+\tfbinder{II.trunc.thm:truncation-rapid-decay-seminorm}{2}{040744cb}{$K'\le\Kf$ (\texttt{maxCompactFin})}
+\tfbinder{II.trunc.thm:truncation-rapid-decay-seminorm}{3}{0a3dced0}{the exponent $N\in\R$}
+\tfbinder{II.trunc.thm:truncation-rapid-decay-seminorm}{4}{a2922bf4}{the exponent $N_0\in\R$}
+\begin{tffidelity}
+$\exists r\ \exists w\colon\{0,\dots,r-1\}\to$ words (\texttt{List (Fin 4)}, letters $H,R,L,Z$ via \texttt{lieBasisElt}) $\forall T,\ 0\le\alpha(T)\Rightarrow\exists C\ \forall\varphi$ smooth, left $G(\Q)$-invariant, right $K'$-invariant, $\forall b\ge0$ with $\norm{X_{w_i}\varphi(y)}\le b_ie^{N_0\operatorname{ht}(y)}$ for all $i,y$: $\norm{\Lambda^T\varphi(x)}\le Ce^{-N\operatorname{ht}(x)}\sum_ib_i$ for all $x$. $X_w\varphi$ is \texttt{wordAction w φ} (\texttt{I.autf.def:word-action}). Right $K'$-invariance is stated as: $\varphi(y)=\varphi(x)$ whenever $y=x\,(1,k)$ in $G(\A)$ with $k\in K'$ (\texttt{finEmb k}), A's ``right invariant under $\{(1,k):k\in K'\}$''. The quantifier order is A's: the words depend on $K',N,N_0$ only, $C$ also on $T$, neither on $\varphi$. The explicit bounds $b_i$ replace Arthur's suprema (A's remark: the supremum is the least admissible $b_i$). Core-late, fallback M10a (D-LATE). \emph{Lean proof versus A:} as in A (after A revision batch~2): split on $F^G(x,T)$ (\cref{II.trunc.thm:truncation-explicit}); on the compact part only the empty-word bound for $\varphi$ and the lower height bound enter; in the cusp $\delta_0x$ is moved into Siegel coordinates by an element of $B(\Q)$ (Iwasawa and idele decomposition), which changes neither $\varphi$ nor $\varphi_B$, and the Fourier estimate of \cref{II.trunc.thm:nonconstant-part-decay} is applied with the uniform modulus $M$ of $K'$. Constants: A's $m\ge\max(2,N+N_0)$ with Lean's value $m=\lceil N+N_0\rceil_++2$ (A gives it); A's $C_2=2\zeta(2)(2\beta M/\pi)^m$ is Lean's $(M/2\pi)^m16^mZ$ with $\beta=4$ and $Z=\sum_{n\ne0}n^{-2}=2\zeta(2)$; $C_1$ uses the lower height bound $c$ of \texttt{AutAux.height\_lower} (A: $c_0=\log(2/\sqrt3)$); $C=\max(C_1,C_2)$ depends on $K',N,N_0,T$ only, as stated (L2's divergence note, item~6). The binder $K'\le\Kf$ (2) is unused by the proof (frozen statement).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Words and constants.} $m=\lceil N+N_0\rceil_++2$; the $r=4^m+1$ words are the empty word followed by all words of length $m$ (\texttt{Fin.cons []} of \texttt{List.ofFn} over an enumeration of $\{0,..,3\}^m$). $M$ is the uniform modulus of $K'$ (\texttt{exists\_uniform\_modulus}), $c$ the lower bound $\operatorname{ht}\ge-c$ on $G(\A)^1$ (\texttt{AutAux.height\_lower}), $Z=\sum_{n\in\Z}n^{-2}$, and $C=\max(C_1,C_2)$ with $C_1=e^{\abs{N_0+N}(\abs c+\abs{\alpha(T)})}$, $C_2=(M/2\pi)^m16^mZ$. With $S=\sum_ib_i$: $\abs{\varphi(y)}\le Se^{N_0\operatorname{ht}(y)}$ (empty word) and $\abs{X_w\varphi(y)}\le Se^{N_0\operatorname{ht}(y)}$ for every word $w$ of length $m$.
+
+\emph{Case $F^G(x,T)=1$.} $\Lambda^T\varphi(x)=\varphi(x)$ (\cref{II.trunc.thm:truncation-explicit}(a)), $\operatorname{ht}(x)\in[-c,\alpha(T)]$, so $\abs{\varphi(x)}\le Se^{(N_0+N)\operatorname{ht}(x)}e^{-N\operatorname{ht}(x)}\le C_1Se^{-N\operatorname{ht}(x)}$.
+
+\emph{Case $F^G(x,T)=0$.} \Cref{II.trunc.thm:truncation-explicit}(b) gives $\delta_0$ with $\alpha(\HB(\delta_0x))>\alpha(T)$ and $\Lambda^T\varphi(x)=\varphi(x)-\varphi_B(\delta_0x)$; $\alpha(\HB(\delta_0x))=\operatorname{ht}(x)$ (\texttt{root\_eq\_height}, from the height lemma, $\alpha(T)\ge0$). \texttt{DecayAux.exists\_borel\_siegel\_coords'} (Iwasawa, \texttt{I.decomp.thm:iwasawa-adelic}, and \texttt{I.adele.thm:idele-decomposition}) gives $g=\diag(q_1,q_2)\in B(\Q)$ with $g\delta_0x=n(u)\,a(r)\,k$ and $2r=\operatorname{ht}(x)>0$. By invariance and \texttt{I.cusp.thm:constant-term-invariance}(a), $\varphi(x)-\varphi_B(\delta_0x)=\varphi(g\delta_0x)-\varphi_B(g\delta_0x)$. Then \texttt{DecayAux.fourier\_decay\_core} (see \cref{II.trunc.thm:nonconstant-part-decay}), with the periodicity from right $K'$-invariance (\texttt{circle\_periodic\_K'}) and the derivative bound $16^mS$ (\texttt{word\_tower\_bound\_unif}: $X=\sum_ic_iX_i$ with $\abs{c_i}\le4$ in the basis $H,R,L,Z$, by induction on $m$), gives $\abs{\Lambda^T\varphi(x)}\le C_2S\,e^{2r(N_0-m)}\le C_2Se^{-N\operatorname{ht}(x)}$, as $N_0-m\le-N$.
+\end{proof}
+
+\begin{theorem}[truncation makes functions rapidly decreasing]
+\tfstmt{II.trunc.thm:truncation-rapid-decay}
+\lean{GL2TF.truncation_rapid_decay}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.autf.def:moderate-growth, I.autf.def:smooth-norm-one, I.autf.def:word-action, I.conv.def:simple-root, I.conv.def:space-a-b, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:norm-one-lift, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, II.trunc.def:rapidly-decreasing, II.trunc.def:truncation, II.trunc.thm:truncation-rapid-decay-seminorm}
+\end{theorem}
+\begin{tfformal}{II.trunc.thm:truncation-rapid-decay}
+\tfsem{II.trunc.thm:truncation-rapid-decay}{4f1ae5b7f30770147dd68b7aca8bef2e44f6617158794eea5645c7fcc64db9cc}
+\tfhyps{II.trunc.thm:truncation-rapid-decay}{}
+\tfbinder{II.trunc.thm:truncation-rapid-decay}{0}{b4c57f3b}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.thm:truncation-rapid-decay}{1}{6ed737b2}{$\varphi$ is smooth (\texttt{IsSmoothNormOne}, \texttt{I.autf.def:smooth-norm-one})}
+\tfbinder{II.trunc.thm:truncation-rapid-decay}{2}{0593c4f4}{$\varphi$ is left $G(\Q)$-invariant ($\gamma$ ranges over \texttt{gl2RatNormOne}, the image of $G(\Q)$ in $G(\A)^1$)}
+\tfbinder{II.trunc.thm:truncation-rapid-decay}{3}{8ef2a31a}{$\varphi$ has uniform moderate growth (\texttt{HasUniformModerateGrowth}, \texttt{I.autf.def:moderate-growth})}
+\tfbinder{II.trunc.thm:truncation-rapid-decay}{4}{c2c27627}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.thm:truncation-rapid-decay}{5}{4cfebda6}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\begin{tffidelity}
+\texttt{IsRapidlyDecreasing (truncation T φ)}. The hypotheses are exactly smoothness, left invariance and uniform moderate growth (decision D-GROWTH): no $K$-finiteness, no Casimir condition, no \texttt{IsAutomorphicForm}. Unfolding \texttt{IsRapidlyDecreasing} gives the conclusion's quantifiers $N\in\R$, $C$ and $x\in G(\A)^1$ (tfaudit lists them as conclusion binders via \texttt{IsRapidlyDecreasing}; none is a hypothesis). \emph{Lean proof versus A:} as in A (after A revision batch~2): the theorem is derived from \cref{II.trunc.thm:truncation-rapid-decay-seminorm} (item~29) with $b_i=\max(C_{w_i},0)$, the moderate-growth constants of the words of item~29. There is no cycle: item~29's proof (in A and in Lean) uses neither item~27 nor item~26 (only the shared plumbing \texttt{DecayAux.fourier\_decay\_core}). The \texttt{\textbackslash uses} of this block therefore contain \texttt{II.trunc.thm:truncation-rapid-decay-seminorm} and not \texttt{II.trunc.thm:nonconstant-part-decay}. A's former route (Siegel covering, \cref{II.trunc.thm:nonconstant-part-decay} and \cref{II.trunc.thm:truncation-regularity}(b) on the compact rest) is kept in A as the remark \emph{A direct route}; it is not formalized (L1's divergence note, 27).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A: the proof is a specialization of \cref{II.trunc.thm:truncation-rapid-decay-seminorm} (item~29). Smoothness gives an open $K'\le\Kf$ under which $\varphi$ is right invariant (\texttt{hs.1}). Let $N\in\R$. Uniform moderate growth gives $N_0$ and, for every word $w$, $C_w$ with $\norm{X_w\varphi(y)}\le C_we^{N_0\operatorname{ht}(y)}$. \Cref{II.trunc.thm:truncation-rapid-decay-seminorm} for $K',N,N_0$ gives words $w_0,\dots,w_{r-1}$ and, for $T$ with $\alpha(T)\ge0$, a constant $C$. Apply it to $\varphi$ with $b_i=\max(C_{w_i},0)\ge0$: its hypotheses are smoothness, invariance, right $K'$-invariance in the form of item~29 (transported through the lift, \texttt{CuspDecayAux.normOneLift\_coe}) and the bounds $\norm{X_{w_i}\varphi}\le b_ie^{N_0\operatorname{ht}}$. So $\norm{\Lambda^T\varphi(x)}\le C\,e^{-N\operatorname{ht}(x)}\sum_ib_i$, and the constant of \texttt{IsRapidlyDecreasing} for $N$ is $C\sum_ib_i$.
+\end{proof}
+
+\begin{corollary}[truncated functions are square-integrable]
+\tfstmt{II.trunc.cor:truncation-square-integrable}
+\lean{GL2TF.truncation_memLp}
+\uses{I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.adele.lem:zhat-units-explicit, I.autf.def:max-compact-norm-one, I.autf.def:moderate-growth, I.autf.def:smooth-norm-one, I.conv.def:chamber-function-hat, I.conv.def:simple-root, I.conv.def:space-a-b, I.cusp.def:constant-term, I.decomp.def:height-map, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-function-real, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.red.def:height-primitive, I.red.thm:finite-volume, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:max-compact-adelic, I.topgrp.def:max-compact-fin-adelic, I.topgrp.def:norm-one-group, II.kernel.def:unip-norm-one, II.trunc.def:borel-cosets, II.trunc.def:borel-rat-norm-one, II.trunc.def:truncation, II.trunc.thm:truncation-rapid-decay, II.trunc.thm:truncation-regularity, II.trunc.thm:truncation-well-defined, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{corollary}
+\begin{tfformal}{II.trunc.cor:truncation-square-integrable}
+\tfsem{II.trunc.cor:truncation-square-integrable}{205be6b7330503bfa44ed0ff143712c4d1553d1d744429566fbd4a74ca2d23f4}
+\tfhyps{II.trunc.cor:truncation-square-integrable}{}
+\tfbinder{II.trunc.cor:truncation-square-integrable}{0}{b4c57f3b}{the function $\varphi\colon G(\A)^1\to\C$}
+\tfbinder{II.trunc.cor:truncation-square-integrable}{1}{6ed737b2}{$\varphi$ is smooth (\texttt{IsSmoothNormOne}, \texttt{I.autf.def:smooth-norm-one})}
+\tfbinder{II.trunc.cor:truncation-square-integrable}{2}{0593c4f4}{$\varphi$ is left $G(\Q)$-invariant ($\gamma$ ranges over \texttt{gl2RatNormOne}, the image of $G(\Q)$ in $G(\A)^1$)}
+\tfbinder{II.trunc.cor:truncation-square-integrable}{3}{8ef2a31a}{$\varphi$ has uniform moderate growth (\texttt{HasUniformModerateGrowth}, \texttt{I.autf.def:moderate-growth})}
+\tfbinder{II.trunc.cor:truncation-square-integrable}{4}{c2c27627}{the truncation parameter $T\in\aB$ (\texttt{SpaceAB})}
+\tfbinder{II.trunc.cor:truncation-square-integrable}{5}{4cfebda6}{$\alpha(T)\ge0$ (\texttt{0 ≤ simpleRoot T}; A: $\alpha(T)\ge\alpha(T_0)=0$)}
+\begin{tffidelity}
+Two conjuncts: $\exists M\ \forall x,\ \norm{\Lambda^T\varphi(x)}\le M$ (bounded); and for every left Haar measure $\mu$ (quantified inside, with the instance \texttt{μ.IsHaarMeasure}), $q\mapsto\Lambda^T\varphi(\texttt{Quotient.out }q)$ is Borel and \texttt{MemLp} with exponent $2$ for \texttt{automorphicQuotientMeasure μ}. Since $\Lambda^T\varphi$ is left $G(\Q)$-invariant (\cref{II.trunc.thm:truncation-well-defined}(c)), this is the induced function; ``defines an element of $\Ltwo(X)$'' is \texttt{MemLp}. \emph{Lean proof versus A:} as in A; Borel measurability comes from \cref{II.trunc.thm:truncation-regularity}(b) (A cites the same item).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Conjunct 1: \cref{II.trunc.thm:truncation-rapid-decay} with $N=0$ gives $C$ with $\norm{\Lambda^T\varphi(x)}\le C$. Conjunct 2, for each $\mu$: $\varphi$ is continuous (\texttt{continuous\_of\_smoothAdelic} on the lift), so \cref{II.trunc.thm:truncation-regularity}(b) makes $\Lambda^T\varphi$ Borel, and it is left $G(\Q)$-invariant (\cref{II.trunc.thm:truncation-well-defined}(c)); hence $q\mapsto\Lambda^T\varphi(\texttt{Quotient.out }q)$ is Borel (\texttt{measurable\_out\_comp}). $\dd\dot x$ is finite (\texttt{I.red.thm:finite-volume}), so the bounded Borel function is in $\Ltwo$ (\texttt{MemLp.of\_bound}). As in A.
+\end{proof}
+

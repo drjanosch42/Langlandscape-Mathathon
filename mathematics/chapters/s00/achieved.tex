@@ -1,0 +1,77 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction): what was achieved on the items (a)-(e). No \input; reusable in the report.
+\section{What we achieved on (a)--(e)}\label{ss:s00-question}
+
+\subsection{Item by item}\label{ss:s00-achieved}
+For the items (a)--(e) of \S\ref{ss:s00-hope} the answer is partial, and the statuses below are those of the chapters; none is upgraded here. In one sentence: the
+quaternionic side, its tree quotients and their $\Lambda$-adic versions are built integrally, given the cited
+inputs and the connectivity condition (iii); the comparison \emph{map} to the $\GL_2$ side at $\Gamma_1(Mp^s)$-level is the
+single hypothesis $\HypX$, whose formal consequences are proved; and the congruence-module statement (d) is proved for
+$D=q$, modulo cited results and under the standing hypotheses, \emph{without} $\HypX$, by commutative algebra and Galois theory on the $\GL_2$ side.
+
+\begin{description}[leftmargin=0pt,itemsep=4pt]
+\item[(a) Over $\C$.] The integral comparison at $\Gamma_0$-type level is Ribet's, $\Xq(J_0(qM'))\cong\Z[\XBq{\Uzero{M'}}]^0$
+  (Thm.~\ref{thm:s05-G}, \stcited), with the sign $U_q\mapsto+\Pi_q$ (Prop.~\ref{prop:s05-sign}(a), \stpmc). At $\Gamma_1(Mp^s)$-level
+  the map is $\HypX$ (Hyp.~\ref{hyp:s05-X}, \sthyp; open as a whole, no reference found at this level). The definite-side
+  ingredients of the map are proved: the definite Ribet sequence (Thm.~\ref{thm:s03-ribet}(a), \stproved{} given (iii)) and the
+  definite Ihara lemma (Cor.~\ref{cor:s03-ihara}(i),(ii), \stproved{} given (iii)). Without canonicity, $\HypXiso$ holds at good
+  $\m$ (Prop.~\ref{prop:s05-Xiso}, \stpmc). The degree~$1$/degree~$0$ link is the monodromy filtration of $T_pJ_s$ in (X4), whose
+  outer graded pieces are $\Z[S_s]^0\otimes\Zp$ and its dual. A \emph{simplicial} realisation is Conj.~\ref{conj:s05-O2} (\stconj,
+  \stopen); a degree-preserving chain map between the $S$-arithmetic complexes cannot exist (Remark~\ref{rem:s05-degree}, \stsketch,
+  degree count). Over $\C$, in the first case ($D=q$, weight~$2$, $\Gamma_0$-type level) this reproves classical JL modulo the cited geometry
+  (\status{proved modulo cited geometry}; the argument is Ribet's, ours is its tree form; \S\ref{ss:s00-whycited}); for $D=q$ at $\Gamma_1(Mp^s)$-level it rests on $\HypX$, expected without JL by the same
+  geometry (Remark~\ref{rem:s05-Xstatus}, \stexp); beyond $D=q$ JL is invoked (Thm.~\ref{thm:s01-JLclassical}, \stcited; it enters
+  at the Shimura-curve comparison). Removing that input: route~1 (trace formula; planned, timing uncertain) or route~2
+  (geometric, \stopen).
+  \emph{Open:} $\HypX$ at $\Gamma_1(Mp^s)$-level; O2.
+\item[(b) Chenevier.] Only cited and remarked. Thm.~\ref{thm:s01-chenevier} is \stcited. On the ordinary locus, the maps of
+  Prop.~\ref{prop:s05-Xlambda}(d) induce the surjection $\T^{\ord}(qM)\twoheadrightarrow\T^{\ord}_{B_q}(M)$ of the cited $\Lambda$-adic
+  JL, so their support is the ordinary part of the image of $\JL_p$ (Remark~\ref{rem:s05-O7}, \stsketch); why $\JL_p$ is cited:
+  \S\ref{ss:s00-whycited}. \emph{Open:} beyond the
+  ordinary locus nothing is claimed (O7); there is no finite-slope analogue of $e$ killing $\Phicomb$.
+\item[(c) $\Lambda$-adic.] We work with $\Zp$- (or $\cOE$-) coefficients along the $p$-power level tower $U_s=\Uone{Mp^s}$ and pass
+  to ordinary parts and the inverse limit; coefficients $\Z/p^k$ appear only in the Lean form of finite-level freeness over
+  $(\Z/p^m)[\Delta_s]$ (\lean{Langlandscape.Ordinary.ordFree\_finite\_zmod}). $\Mord(U)$ is $\Lam$-free with control at finite level
+  (Thm.~\ref{thm:s04-control}(a), \stproved; (b) at weights \stcited, in part \stexp); the $\Lambda$-adic definite Ribet sequence is
+  exact (Thm.~\ref{thm:s04-lambdaribet}(a), \stproved{} given connectivity of $\BG(UU_s,q)$ for all $s$). Given $\HypXchar$, the
+  $\varphi_s$ induce a Hecke-equivariant isomorphism $\Phi:\varprojlim_se(\Xq(J_s)\otimes\Zp)\xrightarrow\sim\Mord(M)$
+  (Prop.~\ref{prop:s05-Xlambda}(a), \stproved{} given $\HypXchar$), with $\Lam$-freeness and control (b) \stpmc, the perfect twisted
+  pairing (c1) \stpmc, and, given also $\HypXgal$, the monodromy filtration of Hida's ordinary Tate module (d1)--(d3) \stpmc, (d4)
+  \stsketch. The $\Lambda$-adic Hecke JL itself is cited (Thm.~\ref{thm:s01-lambdaJL}, \stcited; the chapters do not derive it from
+  $\Phi$, and stage~06, which does not use $\HypX$, takes it as a cited input; \S\ref{ss:s00-whycited}).
+  \emph{Open:} (c2) (comparison with Hsieh's twisted Brandt pairing, \stopen); $\HypX$ itself.
+\item[(d) Congruence modules.] For $D=q$ and a $q$-new Hida branch $F$:
+  \[(h_F)=\cc_q(F)=\tq_q(F)\qquad\text{(Thm.~\ref{thm:s06-defect})}\]
+  \stpmc{} under (H0), (H1), (H2), (P) and (H0$^-$); under (Lev) \stpmc{} for $M=1$ and in the cases (F1), (F1$'$) (the latter in our
+  sign-fixed reading of \cite[Thm~3.14]{KO}); \stopen{} for $q\equiv-1\bmod p$ with $\bar\rho$ unramified at $q$ outside (Lev).
+  $\HypX$ is not used. Its commutative-algebra half is Thm.~\ref{thm:s06-E} (\stproved; \stformalized{} in abstract form, for (i)--(iv) under the hypotheses of Lemma~\ref{lem:s06-D}, but not the
+  normal-localisation clause of (iii), not $\mathrm{im}(\fb\to S')\cong\fb\cong S'^\vee$ as a standalone statement, and not the specialisation
+  $S=R$, $A=I_F$); the inclusion
+  $\tq_q\subseteq\cc_q$ is Prop.~\ref{prop:s06-galois} (\stpmc); at every weight $k'\ge3$ of the branch,
+  $\ord\eta_{f'}(N)-\ord\eta_{f'}(M,q)=t_{f'}(q)$ (Cor.~\ref{cor:s06-allweights}, \stpmc); the Betti incarnation is
+  Prop.~\ref{prop:s06-betti} ((a) \stproved, (b), (c) \stpmc). On lattices, the cokernel of the $q$-new sub- versus quotient
+  lattice is $(\T/(\fa+\fb))^{\oplus r}$ (Prop.~\ref{prop:s05-subquot}, \stproved, \stformal). At level $1$ the definite component
+  group is Mazur's, $\Phicomb(\GDR_q(\hat\cO^\times))\cong\Z/\mathrm{num}\frac{q-1}{12}$ (Prop.~\ref{prop:s03-mazur}, \stpmc), and it is
+  Eisenstein (Prop.~\ref{prop:s03-phieis}, \stproved). \emph{Open:} several ramified primes (Conj.~\ref{conj:s06-several}, \stconj); the
+  region outside (Lev) for $q\equiv-1\bmod p$.
+\item[(e) Computability.] All definite-side objects are finite: class sets, Brandt matrices, $\BG(U,q)$ (``the graph that HACS and
+  the Python track compute'', Def.~\ref{def:s02-BG}), DR graphs and their $\Phicomb$. Computations (\stcomp, result files under
+  \pathtt{code/results/}): JL characteristic polynomials $66/66$; $\Phicomb$ against Mazur for $q\in\{11,23,37,101,131\}$; through HACS
+  the Eisenstein congruence module is $\Z/\mathrm{num}\frac{q-1}{12}$ for every prime $q\le600$ at $\ell\ge5$ ($109/109$ levels); the
+  defect formula at weight $k$ on seven triples $(q,k,p)$, $7/7$; the sign $a_q=+\lambda(\Pi_q)$ on $144/144$ eigenlines; regression
+  C2 \emph{partial} ($131$ of $319$ cases). \emph{Open:} computing the $\GL_2$-side map itself at $\Gamma_1$-level needs $\HypX$; the
+  $\GL_2$ data were computed independently (PARI/GP, HACS) and compared; HACS lattices at $k>2$ are not canonical.
+\end{description}
+
+\begin{center}\small
+\begin{tabular}{@{}>{\raggedright}p{0.07\textwidth}>{\raggedright}p{0.1\textwidth}>{\raggedright}p{0.4\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}@{}}\toprule
+item & stage & main result (status) & open\\\midrule
+(a) & 02, 03, 05 & Thm.~\ref{thm:s05-G} (\stcited, $\Gamma_0$); classical JL for $D=q$, weight~$2$ (\status{proved modulo cited geometry}); Thm.~\ref{thm:s03-ribet}(a) (\stproved{} given (iii)); Hyp.~\ref{hyp:s05-X} (\sthyp) & $\HypX$ at $\Gamma_1(Mp^s)$; Conj.~\ref{conj:s05-O2} (\stconj)\\
+(b) & 01, 05 & Thm.~\ref{thm:s01-chenevier} (\stcited); Remark~\ref{rem:s05-O7} (\stsketch) & beyond the ordinary locus (O7)\\
+(c) & 04, 05 & Thm.~\ref{thm:s04-control}(a), Thm.~\ref{thm:s04-lambdaribet}(a) (\stproved{}; the latter given connectivity of $\BG(UU_s,q)$ for all $s$); Prop.~\ref{prop:s05-Xlambda}(a) (\stproved{} given $\HypXchar$) & (c2) \stopen; $\HypX$\\
+(d) & 05, 06 & Thm.~\ref{thm:s06-defect} (\stpmc); Thm.~\ref{thm:s06-E} (\stproved; \stformalized{} in abstract form, (i)--(iv), with exceptions); Prop.~\ref{prop:s05-subquot} (\stproved, \stformal) & $q\equiv-1$ outside (Lev); Conj.~\ref{conj:s06-several}\\
+(e) & all, HACS & finite objects; computations (\stcomp) & $\GL_2$ map at $\Gamma_1$; C2 partial\\\bottomrule
+\end{tabular}
+\end{center}
+

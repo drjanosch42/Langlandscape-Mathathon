@@ -1,0 +1,446 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Definitions and remarks of the chapters (mathematics/chapters/s0N) that Sections 1--5 refer to by label.
+% Each entry: \rptnum{main.pdf number}\label{rpt:<chapter label>} + bold run-in heading. Numbers are those of main.pdf.
+% Definitions are verbatim where short, otherwise marked "(condensed)"; statuses are copied, never upgraded.
+
+\noindent The following entries reproduce, in the numbering of \mainpdf, the definitions, propositions, remarks and chapter sections
+that the preceding sections cite. Short definitions are quoted; longer ones are condensed and marked as such. Status markers are those
+of the chapters.
+
+\subsubsection*{Chapter 1: classical objects}
+
+\noindent\rptnum{1.1}\label{rpt:def:s01-B}\textbf{Definition 1.1 (definite algebra).}
+$D>1$ is squarefree with $\omega(D)$ odd, and $B=\Bd$ is the quaternion algebra over $\Q$ ramified exactly at $\infty$
+and the primes $\ell\mid D$. $\Nrd$ is the reduced norm, $B^1=\ker\Nrd$; since $B$ is definite, $\Nrd(B^\times)=\Q_{>0}$.
+$\cO\subset B$ is a maximal order. For $\ell\nmid D$ we fix $\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$; for $\ell\mid D$,
+$\cO_\ell=\{x\in B_\ell:\Nrd x\in\Z_\ell\}$ is the unique maximal order of the division algebra $B_\ell$, with a
+uniformiser $\Pi_\ell$, $\Pi_\ell^2\in\ell\,\cO_\ell^\times$.
+Throughout, $\Zhat=\prod_\ell\Z_\ell$, $\hat\Q=\Zhat\otimes\Q$ (finite adeles), $B_\ell=B\otimes\Q_\ell$, $\cO_\ell=\cO\otimes\Z_\ell$,
+$\hat B=B\otimes\hat\Q$, $\hat\cO=\cO\otimes\Zhat=\prod_\ell\cO_\ell$.
+\stknown{} (existence and uniqueness of $B$ up to isomorphism, local maximal orders: \cite[Thm.~13.3.11, p.~206; Prop.~13.3.4, p.~205]{Vo}).
+
+\medskip
+\noindent\rptnum{1.2}\label{rpt:def:s01-levels}\textbf{Definition 1.2 (levels).}
+For integers $N\ge1$ with $(N,D)=1$ and matrices read through $\iota_\ell$ (so $\ell\nmid D$ whenever $\ell\mid N$):
+$\Uzero{N}=\prod_\ell U_{0,\ell}$, $\Uone{N}=\prod_\ell U_{1,\ell}$ with $U_{\bullet,\ell}=\cO_\ell^\times$ for $\ell\nmid N$ and
+\[U_{0,\ell}=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_\ell):c\equiv0\},\qquad
+U_{1,\ell}=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_\ell):c\equiv0,\ d\equiv1\}\pmod{\ell^{v_\ell(N)}}.\]
+Here $N=1$ gives $\Uzero1=\Uone1=\hat\cO^\times$. Further $U_s:=\Uone{Mp^s}$ ($M\ge1$, $s\ge0$, $p$ prime, $(Mp,D)=1$), $S_s:=\XB{U_s}$,
+$\Delta_s:=(1+p\Zp)/(1+p^s\Zp)$ for $s\ge1$, and for $q\nmid D$ and $U$ with $U_q=\cO_q^\times$: $U_0(q)U:=U\cap\Uzero{q}$ (i.e.\ $U_q$
+replaced by $\Iw_q$).
+(The chapter adds: levels start at $N\ge1$; $\Uone N\subseteq\Uzero N\subseteq\hat\cO^\times$, $\Uone{N'}\subseteq\Uone N$ for $N\mid N'$,
+$-1\in\Uzero N$ always and $-1\in\Uone N$ iff $N\in\{1,2\}$. The \emph{lower} row is $\equiv(0,1)$, the convention of
+\cite[\S4, p.~10]{Buz04}; it matters for $U_p$, Lemma~\ref{lem:s01-Up}.)
+
+\medskip
+\noindent\rptnum{1.4}\label{rpt:prop:s01-eichler}\textbf{Proposition 1.4 (Eichler orders).}
+\emph{For $(N,D)=1$, $\Uzero{N}=\hat\cO(N)^\times$ for the Eichler order $\cO(N)=B\cap\hat\cO(N)$ of level $N$, locally
+$\left(\begin{smallmatrix}\Z_\ell&\Z_\ell\\N\Z_\ell&\Z_\ell\end{smallmatrix}\right)$.} \stknown{}
+\cite[Def.~23.4.1 and Prop.~23.4.3, p.~382]{Vo}.
+(The pre-existing Lean material has no $\Uone{N}$, no $p$-tower and no Iwahori level at a prime outside the Eichler level: these are new.)
+\begin{outline}
+(Sketch of the identification, as in the chapter.) At $\ell\nmid N$ both sides are $\cO_\ell^\times$. At $\ell\mid N$ (so $\ell\nmid D$) the
+local order $\iota_\ell^{-1}\left(\begin{smallmatrix}\Z_\ell&\Z_\ell\\N\Z_\ell&\Z_\ell\end{smallmatrix}\right)$ is the intersection of
+$\cO_\ell$ with its conjugate by $\mathrm{diag}(1,\ell^{v_\ell(N)})$, hence Eichler by Voight's Def.~23.4.1 and Prop.~23.4.3. An element of
+this order is a unit iff its determinant is in $\Z_\ell^\times$; since $\det\equiv ad\pmod{\ell^{v_\ell(N)}}$, this means $a,d\in\Z_\ell^\times$,
+i.e.\ the element lies in $\GL_2(\Z_\ell)$ with $c\equiv0$, which is $U_{0,\ell}$.
+\end{outline}
+
+\noindent\rptnum{1.5}\label{rpt:def:s01-classset}\textbf{Definition 1.5 (class set).}
+For compact open $U\subseteq\hat\cO^\times$: $\XB{U}:=B^\times\backslash\Bhat^\times/U$,
+$\Gamma_x:=B^\times\cap xUx^{-1}$ ($x\in\Bhat^\times$), and $w_x:=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$.
+Thus $w_x=|\Gamma_x|/2$ if $-1\in U$ (e.g.\ $\Uzero{N}$, and $U_0(q)U$ whenever $-1\in U$) and $w_x=|\Gamma_x|$ if $-1\notin U$
+(e.g.\ $\Uone{N}$, $N\ge3$).
+
+\medskip
+\noindent\rptnum{(1)}\label{rpt:eq:s01-Vk}\textbf{Equation (1) (the coefficient module $V_k$).}
+$V_k=\Sym^{k-2}(\Zp^2)$, $n=k-2$, realised as homogeneous polynomials $P(X,Y)$ of degree $n$, with the \emph{left} action of the monoid
+$M_2(\Zp)\cap\GL_2(\Qp)$
+\[(g\cdot P)(X,Y)=P\big((X,Y)g\big)=P(aX+cY,\,bX+dY),\qquad g=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right).\tag{1}\]
+It is a left action, integral on the whole monoid (needed for $U_p$) and continuous \stproved{}. The map $\mathrm{ev}:V_k\to\Zp$,
+$P\mapsto P(0,1)$, satisfies $\mathrm{ev}(g\cdot P)\equiv d^n\,\mathrm{ev}(P)\pmod{c}$; this is the line through which Hida theory sees weight $k$.
+
+\medskip
+\noindent\rptnum{3.1}\label{rpt:def:s01-brandt}\textbf{Definition 3.1 (Brandt module).}
+For a finitely generated $\Z$- or $\Zp$-module $V$ with continuous left action of $U_p$ (through $\iota_p$),
+\[\Brandt{U}{V}:=\{f:\Bhat^\times\to V:\ f(\gamma xu)=u_p^{-1}f(x)\ (\gamma\in B^\times,\ u\in U)\}\ \cong\ \bigoplus_{[x]\in\XB{U}}V^{\,x_p^{-1}\Gamma_xx_p},\]
+via $f\mapsto(f(x))_x$ over a set of representatives. For trivial $V=\Z$: $\Z^X:=\Brandt{U}{\Z}$ (functions, pullback),
+$\Z[X]$ the free module on $X=\XB{U}$ (pushforward), $\Z[X]^0=\ker(\deg)$. Naive evaluation $\Z[X]\times\Z^X\to\Z$,
+$([x],f)\mapsto f(x)$, is a perfect duality; every map below on $\Z[X]$ is the transpose of the same-named map on $\Z^X$.
+\stknown{} \cite[(4.1)--(4.2) and Prop.~4.5, pp.~68--69]{Gr99} (there in the convention $f(\gamma g)=\gamma f(g)$); the isomorphism is
+\stproved{} in the chapter.
+
+\medskip
+\noindent\rptnum{3.2}\label{rpt:def:s01-pairing}\textbf{Definition 3.2 (Brandt pairing and norm map).}
+On $\Z[X]$: $\langle[x],[y]\rangle:=w_x\delta_{xy}$ (weights $w$; the imported Lean \texttt{weightedPairing} for $k=2$ uses $|\Gamma_x|$
+instead). The norm map is $\nu:\Z[X]\to\Z^X$, $[x]\mapsto w_x\mathbf 1_x$; it is the map $a\mapsto\langle a,\cdot\rangle$ and is an
+isomorphism over $\Zp$ whenever $p\nmid w_x$ for all $x$, in particular for $p\ge5$ (Lemma~\ref{lem:s01-stab}(c)).
+For $V$ with $-1$ acting trivially, $\nu_V:\bigoplus_xV_{\Gamma_x}\to\bigoplus_xV^{\Gamma_x}$,
+$v\mapsto\sum_{\gamma\in\Gamma_x/(\Gamma_x\cap\{\pm1\})}(x_p^{-1}\gamma x_p)\,v$ (for $V=\Z$ this is multiplication by $w_x$ on the summand $x$).
+\stproved{}; \stformal{} (\lean{Langlandscape.Brandt.brandtPairing}, \lean{Langlandscape.Brandt.normMap},
+\lean{Langlandscape.Brandt.normMap\_bijective}; $p$-adic version \lean{Langlandscape.Brandt.normMap\_bijective\_padic}).
+
+\medskip
+\noindent\rptnum{4.1}\label{rpt:def:s01-hecke}\textbf{Definition 4.1 (Hecke operators)} (condensed).
+All levels are factorisable, $U=\prod_vU_v$; $\Sigma_p:=M_2(\Zp)\cap\GL_2(\Qp)$. For $g\in\Bhat^\times$ with $g_p\in\Sigma_p$ (via $\iota_p$; if
+$V$ only carries a $U_p$-action, require $g_p\in U_p$) and $UgU=\coprod_ig_iU$ (a finite union):
+\[(T_gf)(x)=\sum_ig_{i,p}\cdot f(xg_i)\qquad(f\in\Brandt{U}{V}).\]
+On $\Z[X]$, $X=\XB{U}$, $T_g$ is the transpose for the naive evaluation pairing, $T_g[x]=\sum_i[xg_i]$ (trivial coefficients).
+With $\varpi_\ell:=\iota_\ell^{-1}\mathrm{diag}(\ell,1)$ and $z_\ell$ the central idele $\ell$ at $\ell$ ($1$ elsewhere):
+$T_\ell:=T_{\varpi_\ell}$ and $S_\ell:=T_{z_\ell}$ for $\ell\nmid DMpq$ ($q$ the auxiliary prime of a level $U_0(q)U$, if any);
+$U_\ell:=T_{\varpi_\ell}$ for $\ell\mid M$; $S_\ell:=T_{z_\ell}$ also for $\ell\mid D$;
+the diamonds $\langle d\rangle:=T_{\delta_d}$, $d\in(\Z/Mp^s)^\times$, at level $\Uone{Mp^s}$, $(\langle d\rangle f)(x)=\delta_{d,p}\cdot f(x\delta_d)$,
+with $\delta_d\in\Uzero{Mp^s}$ having lower right entries $\equiv d$ (usually $\delta_{d,\ell}=\mathrm{diag}(1,d)$ at $\ell\mid Mp$, $1$ elsewhere;
+the seed's ``right translation by $\mathrm{diag}(1,d)$'');
+$\Pi_\ell:=T_{\Pi_\ell}$ for $\ell\mid D$, $(\Pi_\ell f)(x)=f(x\Pi_\ell)$;
+and $U_p:=T_{\varpi_p}$, $\varpi_p=\iota_p^{-1}\mathrm{diag}(p,1)$, at levels $U^{(p)}K_s$ or $U^{(p)}K^0_s$ ($K_s=U_1(p^s)_p$, $K^0_s=U_0(p^s)_p$, $s\ge1$),
+the normalisation $N_{U_p}$ of Def.~\ref{def:s01-NUp}.
+For $\ell\nmid$ level, $[U\varpi_\ell U]=[U\,\mathrm{diag}(1,\ell)\,U]$; for $U_\ell$, $U_p$ the two choices differ (Lemma~\ref{lem:s01-Up}(c)).
+\stproved{} (well-definedness). \stformal{} for trivial coefficients only (\lean{Langlandscape.Brandt.heckeT}, \lean{Langlandscape.Brandt.Tl},
+\lean{Langlandscape.Brandt.Sl}, \lean{Langlandscape.Brandt.Ul}, \lean{Langlandscape.Brandt.diamond}, \lean{Langlandscape.Brandt.PiEll},
+\lean{Langlandscape.Brandt.Up}).
+
+\medskip
+\noindent\rptnum{4.4}\label{rpt:prop:s01-relations}\textbf{Proposition 4.4 (relations).}
+\emph{Let $U=\Uone{Mp^s}$ or $\Uzero{M}$, $V=V_k$.
+\begin{enumerate}[label=(\alph*)]
+\item $S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$ on $\Brandt{\Uone{Mp^s}}{V_k}$ ($\ell\nmid DMp$); $S_\ell=\ell^{k-2}$ at level
+  $\Uzero{M}\cdot\GL_2(\Zp)$.
+\item $\Pi_\ell^2=S_\ell$ (same formula as (a)) for $\ell\mid D$; $\Pi_\ell$ is independent of the choice of $\Pi_\ell$.
+\item All operators of Def.~\ref{def:s01-hecke} commute; those supported at $\ell\ne q$ commute with the maps
+  right translations $R_g:\Brandt{g^{-1}Ug}{V}\to\Brandt{U}{V}$, $f\mapsto f(\cdot\,g)$, and with $\rho_g:[x]\mapsto[xg]$,
+  $\XB{U}\to\XB{g^{-1}Ug}$, for $g\in B_q^\times$, $q\ne p$: $T_h\circ R_g=R_g\circ T_h$ and $\rho_g\circ T_h=T_h\circ\rho_g$, with $T_h$
+  taken at the respective levels. (So $R_gf=f\circ\rho_g=\rho_g^*f$ is pullback along $\rho_g$; this is the Lean convention.) For $g\notin N(\GL_2(\Z_q))$ the level
+  $g^{-1}Ug$ is not contained in $\hat\cO^\times$; here Def.~\ref{def:s01-classset} and $\Gamma_x$ are used verbatim for the compact open subgroup $g^{-1}Ug\subseteq\Bhat^\times$
+  (finiteness: $g^{-1}Ug\cap\hat\cO^\times$ has finite index in it), which is all that (c) needs.
+\item $T_\ell$ for $\ell\nmid DMp$: $T_\ell T_{\ell^r}=T_{\ell^{r+1}}+\ell S_\ell T_{\ell^{r-1}}$ ($r\ge1$; $T_1=1$), with $T_{\ell^r}$ the sum of
+  the double cosets $[U\gamma U]$, $\gamma$ supported at $\ell$, $\gamma_\ell\in M_2(\Z_\ell)$, $\det\gamma_\ell\in\ell^r\Z_\ell^\times$; with
+  $T_n:=\prod_{\ell^r\Vert n}T_{\ell^r}$ for $(n,DMp)=1$, $T_mT_n=T_{mn}$ for coprime $m,n$; on $\Z^X$ at level $\Uzero{M}$ with $k=2$,
+  $T_\ell\mathbf 1=(\ell+1)\mathbf 1$.
+\end{enumerate}}
+Status: (a)--(d) \stproved{}. At level $\hat\cO^\times$, (a) is \stformal{}; (d) is \stknown{}
+\cite[Prop.~41.3.1(b), p.~770; Prop.~41.3.6 and (41.3.8), p.~771]{Vo} and \stformal{} for $(n,DM)=1$ at level $\hat\cO(M)^\times$. Also
+\stformal{}: the second half of (b) (\lean{Langlandscape.Brandt.PiEll\_indep}), the first half of (c) for operators supported at two distinct
+primes (\lean{Langlandscape.Brandt.heckeT\_comm\_of\_disjoint}), and the $R_g$-statement of (c) (\lean{Langlandscape.Brandt.heckeT\_comm\_rightTranslate}),
+not the $\rho_g$-statement on $\XB{U}$.
+\begin{outline}
+(a) $z_\ell$ normalises $U$ and $z_{\ell,p}=1$, so $(S_\ell f)(x)=f(xz_\ell)=f(xy)$ with the scalar idele $y=\ell^{-1}z_\ell$ (the global
+$\ell^{-1}$ is central); $y=\delta_{\ell^{-1}}u$ with $u\in\Uone{Mp^s}$, and $y_p^{-1}=\ell I$ acts on degree-$n$ polynomials by $\ell^{n}$,
+giving $S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$; at level $\Uzero{M}\cdot\GL_2(\Zp)$ one has $y\in U$. (b) $\Pi_\ell^2=z_\ell v$ with
+$v\in\cO_\ell^\times\subseteq U$, $v_p=1$; two uniformisers differ by a unit. (c) Two principles: operators supported at disjoint sets of
+primes commute (choose disjointly supported representatives), and $T_\delta T_g=T_{\delta g}=T_{g\delta}=T_gT_\delta$ for $\delta$
+normalising $U$ and commuting with $g$; for $R_g$, the representatives $h_i$ (supported at $\ell\ne q$) commute with $g$ and represent the
+operator at both levels. (d) Locally, $\Delta_r/\GL_2(\Z_\ell)$ is the set of lattices of index $\ell^r$ in $\Z_\ell^2$; counting the
+chains $L'\subseteq L_1\subseteq\Z_\ell^2$ ($1$ or $\ell+1$ choices of $L_1$) gives the recursion, and $T_\ell\mathbf 1=\#\{\text{index-}\ell\text{ lattices}\}=\ell+1$.
+\end{outline}
+
+\noindent\rptnum{4.5}\label{rpt:rem:s01-diamond}\textbf{Remark 4.5 (diamond convention flag).}
+With the seed's adelic diamond (right translation by $\mathrm{diag}(1,d)$), Prop.~\ref{prop:s01-relations}(a) reads
+$S_\ell=\ell^{k-2}\langle\ell\rangle^{-1}$ (\stproved), whereas classically $S_\ell=\ell^{k-2}\langle\ell\rangle$ on $S_k(\Gamma_1(N))$
+(\stknown; compare \cite[\S4, p.~13]{Buz04}; the precise comparison is Lemma 5.5(a) of \mainpdf). Since the Jacquet--Langlands
+correspondence of Thm.~\ref{thm:s01-JLclassical} is compatible with $T_\ell$ and $S_\ell$, the adelic $\langle d\rangle$ corresponds to the
+classical $\langle d\rangle^{-1}$ (\stpmc{} from the two formulas and the cited compatibility). The seed is not changed; stages 04 and 05
+use $\langle d\rangle^{-1}$ when comparing $\Lambda$-structures with $\GL_2$. The same inversion reappears in Lemma~\ref{lem:s01-Up}(d):
+$U_p^*=\langle p\rangle_MU'_p$ involves the \emph{adelic} $\langle p\rangle_M$.
+
+\medskip
+\noindent\rptnum{4.6}\label{rpt:def:s01-T}\textbf{Definition 4.6 (Hecke algebras)} (condensed).
+Let $V$ be $\Zp$-torsion free (trivial or $V_k$). $\T_B(U;V)\subseteq\End\Brandt{U}{V}$ is the $\Zp$-algebra generated by
+$T_\ell,S_\ell^{\pm1}$ ($\ell\nmid DMpq$), $U_\ell$ ($\ell\mid M$), $\langle d\rangle$, $U_p$ (if $s\ge1$) and $\Pi_\ell$ ($\ell\mid D$); the anemic
+version $\T_B^{\mathrm{an}}$ omits $U_\ell,U_p,\Pi_\ell$. It is commutative (Prop.~\ref{prop:s01-relations}(c)) and finite free over $\Zp$.
+\emph{Relation with $\nu$} (trivial coefficients, $p\nmid w_x$ for all $x$): $T\mapsto\nu T\nu^{-1}$ is a ring isomorphism from $\T_B$ on
+$\Zp[X]$ onto the algebra $\T_B^\dagger$ on $\Zp^X$ generated by the $T_{g^{-1}}$: $T_\ell\mapsto S_\ell^{-1}T_\ell$, $S_\ell\mapsto S_\ell^{-1}$,
+$\langle d\rangle\mapsto\langle d\rangle^{-1}$, $\Pi_\ell\mapsto\Pi_\ell^{-1}$, $U_p\mapsto\langle p\rangle_MU'_p$ (Lemma~\ref{lem:s01-Up}(d)),
+$U_\ell\mapsto\langle\ell\rangle_{(\ell)}U'_\ell$ for $\ell\mid M$, with $U'_\ell=T_{\eta_\ell}$, $\eta_\ell=\iota_\ell^{-1}\mathrm{diag}(1,\ell)$. So the
+anemic algebra is stable, but $U_p$, $U_\ell$ go to the primed operators, which are in general \emph{not} in $\T_B$: $\nu$ identifies $\Zp[X]$
+and $\Zp^X$ as $\T_B$-modules only after twisting by $T\mapsto T^\dagger$. \stproved{}. No Lean counterpart in stage 01.
+
+\subsubsection*{Chapter 2: the tree and the $S$-arithmetic group}
+
+\noindent\rptnum{7.1}\label{rpt:def:s02-tree}\textbf{Definition 7.1 (Bruhat--Tits tree, types, base cells).}
+$\cT_q$ is the graph whose vertices are the homothety classes $[L]$ of $\Zq$-lattices $L\subset\Qq^2$ (of rank~$2$).
+$[L]\ne[L']$ are adjacent iff there are representatives with $qL\subsetneq L'\subsetneq L$.
+$\GL_2(\Qq)$ acts by $g[L]=[gL]$. Every lattice is of the form $g\Zq^2$ with $g\in\GL_2(\Qq)$, and $g\Zq^2=g'\Zq^2$ iff
+$g'\in g\GL_2(\Zq)$. The \emph{type} is $\tau[g\Zq^2]:=\ord_q\det g\bmod 2$ (well defined).
+Put $v_0=[\Zq^2]$, $v_1=\alpha v_0=[\Zq\oplus q\Zq]$ with $\alpha=\mathrm{diag}(1,q)$, and $e_0=\{v_0,v_1\}$. Every edge has one vertex of
+each type (Lemma~\ref{lem:s02-tree}). Every edge is oriented from its type-$0$ end $o(e)$ to its type-$1$ end $t(e)$.
+
+\medskip
+\noindent\rptnum{7.4}\label{rpt:def:s02-GU}\textbf{Definition 7.4 (admissible levels; $\GU$)} (condensed).
+A level $U\subseteq\hat\cO^\times$ is \emph{$q$-admissible} if it is compact open, $U=U_q\times U^{(q)}$ with
+$U_q=\iota_q^{-1}\GL_2(\Zq)$, and $\Nrd(U)=\Zhat^\times$. All levels $\Uzero{N},\Uone{N}$ with $q\nmid N$ and
+$U_s=\Uone{Mp^s}$ are $q$-admissible (Lemma 1.3 of \mainpdf; $q\nmid Mp$). For such $U$ put
+\[\GU:=B^1\cap\big(B^1_q\times U^{(q)}\big)=\{\gamma\in B^\times:\Nrd\gamma=1,\ \gamma^{(q)}\in U^{(q)}\}=\cO_U[\tfrac1q]^1\]
+(the last expression is notation; no order $\cO_U$ is asserted for general $U$). For $U=\hat\cO^\times$ it is the group of norm-one units
+of $\cO[\frac1q]$. $\GU$ acts on $\cT_q$ through $\iota_q$, type-preservingly and without inversions, and on a $\Zp[U_p]$-module $V$
+through $\gamma\mapsto\gamma_p$. The levels attached to the cells are $U$ (type $0$), $\alpha U\alpha^{-1}$ (type $1$) and
+$\Uzero{q}U:=U\cap\Uzero{q}$ (edges), all with $\Nrd=\Zhat^\times$. \stproved{}. \stformal{} (definitions and the level statements,
+\lean{Langlandscape.Tree.GammaU}, \lean{Langlandscape.Tree.IsQAdmissible} and relatives).
+
+\medskip
+\noindent\rptnum{7.8}\label{rpt:def:s02-BG}\textbf{Definition 7.8 (bipartite Brandt graph).}
+For $q$-admissible $U$, $\BG(U,q)$ is the finite bipartite multigraph with $V_0=V_1=\XB{U}$ (we write $(x,0)$ and $(x,1)$ for
+$x\in\XB U$), edge set $E=\XB{U'}$, $U'=\Uzero{q}U$, and
+\[o[y]=(s_0[y],0),\quad t[y]=(s_1[y],1),\qquad s_0[y]=[y],\qquad s_1[y]=[y\alpha]\qquad(\XB{U'}\to\XB{U}).\]
+The weights are $w_{(x,j)}=w_x$ (level $U$) and $w_{[y]}=w_y$ (level $U'$), with $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$ as in
+Def.~\ref{def:s01-classset}. This is the graph that HACS (and the Python track) computes.
+\stproved{} (well-definedness and finiteness); \stformal{} (graph, well-definedness, finiteness; \lean{Langlandscape.Tree.BG}; the weights
+are not part of the Lean structure).
+
+\medskip
+\noindent\rptnum{7.23}\label{rpt:rem:s02-torsion}\textbf{Remark 7.23 (torsion in $H_1(\GU,\Z)$; deviation D1).}
+By Prop.~\ref{prop:s02-coh}(a), $H_1(\GU,\Z)$ is an extension of the free group $H_1(\BG,\Z)$ by the cokernel of
+$\bigoplus_eH_1(\Gamma_e,\Z)\to\bigoplus_vH_1(\Gamma_v,\Z)$, which is finite and killed by $24$, and non-zero in general. \stcomp{}
+Example: $D=2$, Hurwitz order, $U=\hat\cO^\times$, $q=3$: one vertex orbit per type with $\Gamma_v\cong\SL_2(\F_3)$, one edge orbit with
+$\Gamma_e$ cyclic of order $6$, so $\GU\cong\SL_2(\F_3)*_{C_6}\SL_2(\F_3)$, $\BG(U,3)$ is a single edge ($H_1(\BG,\Z)=0$, matching genus $0$ of
+the Shimura curve of discriminant $6$), and $H_1(\GU,\Z)\cong\Z/3$ (result file \res{s02/torsion.json}).
+\emph{D1:} since $H_1(\GU,\Z)$ has torsion, it is not a character group; over $\Z$ the indefinite stage is taken to be
+$\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)=H_1(\GU,\Z)/\mathrm{torsion}$ (Def.~7.21 of \mainpdf), working with the two-term complex of
+Prop.~\ref{prop:s02-coh}. This agrees with $H_1(\GU,\Z)$ after $\otimes\Zp$ for $p\ge5$.
+
+\medskip
+\noindent\rptnum{7.24}\label{rpt:rem:s02-CD}\textbf{Remark 7.24 (\v{C}erednik--Drinfeld; cited, never used).}
+If $\Nrd(U^{(q)})$ is maximal and $U^{(q)}$ contains rational scalars of every $q$-adic valuation ($\Gamma_0$-type levels qualify,
+$\Uone{N}$-levels do not), the \v{C}erednik--Drinfeld uniformisation \cite[Ch.~III, Th\'eor\`eme~5.2, pp.~140--141]{BC} describes the
+Shimura curve of discriminant $Dq$ at $q$; it is twisted (Frobenius swaps the two vertex types). The dual graph of the special fibre is
+$\BG(U,q)$ with edge lengths $|\Gamma_x/\{\pm1\}|$ \cite[Ch.~III, 5.3.3, p.~143; 5.4.3--5.4.4, pp.~145--146]{BC}; the description of the
+character group $\cX^{(q)}_{Dq}(U)$ as $H_1$ of this graph is derived later in \cite{BC} (Ribet's chapter, p.~159, via SGA~7). \stcited{}
+The tree route never uses this remark.
+
+\subsubsection*{Chapter 3: graphs, Ribet, Ihara}
+
+\noindent\rptnum{8.1}\label{rpt:def:s03-graph}\textbf{Definition 8.1 (weighted graph).}
+A \emph{weighted graph} $\G$ is a finite graph (multiple edges and loops allowed) with vertex set $V(\G)$, edge set $E(\G)$, a
+chosen orientation, and weights $w_e\in\Z_{\ge1}$. Its chain complex is $\Z[E]\xrightarrow\partial\Z[V]$, $\partial e=t(e)-o(e)$. Put
+$X(\G):=H_1(\G)=\ker\partial$, $\langle e,e'\rangle_w=w_e\delta_{ee'}$ and
+\[\Phicomb(\G):=\coker\big(X(\G)\to\Hom(X(\G),\Z),\ x\mapsto\langle x,\cdot\rangle_w\big).\]
+\status{definition} \stformal{} (definitions; \lean{Langlandscape.Graph.WGraph}, \lean{Langlandscape.Graph.phiComb}).
+Basic facts (\stproved): $X(\G)$ is a free direct summand of $\Z[E]$; $|\Phicomb(\G)|=\det G>0$ for the Gram matrix $G$ of a basis of
+$X(\G)$; $\Phicomb(\G)$ does not depend on the orientation up to isomorphism.
+
+\medskip
+\noindent\rptnum{8.2}\label{rpt:rem:s03-grothendieck}\textbf{Remark 8.2 (graphs and semistable curves).}
+For a semistable curve with dual graph $\G$ and thicknesses $w_e$, $X(\G)$ is the character group of the toric part, $\langle,\rangle_w$ is
+the monodromy pairing and $\Phicomb$ is the component group: \cite[IX]{SGA7} \stcited{}, and \cite[Prop.~2.2, Thm.~2.3, p.~436; weighted
+form pp.~437--438]{Ri90}. The tree route does not use this dictionary; in the plan it is a remark only, and its use belongs to stage 05.
+
+\medskip
+\noindent\rptnum{8.6}\label{rpt:def:s03-DR}\textbf{Definition 8.6 (DR graph).}
+Let $B=B_q$ and $U=\Uone{Mp^s}$ or $\Uzero M$. Then $\GDR_q(U)$ is the two-vertex weighted graph with edge set $\XBq U$, every edge
+oriented $0\to1$, and $w_e=|\Gamma_e/(\Gamma_e\cap\{\pm1\})|$. Put $\Xcomb_q(U):=\Z[\XBq U]^0$ and, for $k>2$,
+$\Xcomb_q(U;\Vk):=\Brandt U{\Vk}$. \status{definition} \stformal{} at $U=\hat\cO^\times$ (\lean{Langlandscape.Ribet.DRgraph}).
+(For $s\ge1$ every $w_e=1$, so $\Phicomb(\GDR_q(U))\cong\Z/|S_s|$ by Prop.~\ref{prop:s03-phi}, and $X(\GDR_q(U))=\Xcomb_q(U)$; \stproved.)
+
+\medskip
+\noindent\rptnum{12}\label{rpt:ss:s03-amalgam}\textbf{Section 12 (the $\GL_2$ side: the amalgam, Betti only).}
+For $(M,q)=1$, $\Gamma=\Gamma_0(M)$, $G=\Gamma_0(M)[\frac1q]$, $\alpha'=\mathrm{diag}(q,1)$ and $\Gamma'=\alpha'^{-1}\Gamma\alpha'$, this chapter
+section proves the amalgam $G=\Gamma*_{\Gamma_0(Mq)}\Gamma'$ (Prop.~\ref{prop:s03-amalgam}), the Mayer--Vietoris sequence with
+$V=\Sym^{k-2}$, $k\ge4$ even, $l>k$, $l\ne q$ (Prop.~\ref{prop:s03-MV}), $H^1(G,V)=0$ (Lemma 12.8 of \mainpdf), the formula
+$\Psi^*\Psi=\left(\begin{smallmatrix}q+1&-q^{2-k}T_q\\-T_q&q+1\end{smallmatrix}\right)$ (Prop.~\ref{prop:s03-PsiPsi}) and the Hecke
+equivariance of $\Psi$, all \stpmc; it defines the Betti level-raising module $\mathrm{LR}_q(M,k)_\m=\coker(\Psi^*\Psi)_\m$ (finite, \stproved)
+and states the Betti Ihara lemma for $\GL_2$ as \stexp{} (Conj.~\ref{conj:s03-iharaGL2}). The identification of $T_{\alpha'}$ with the
+classical $T_q$ is \stpmc{} and \stcomp{} on the HACS cases.
+
+\medskip
+\noindent\rptnum{12.2}\label{rpt:prop:s03-amalgam}\textbf{Proposition 12.2 (amalgam).}
+\emph{$G=\Gamma*_{\Gamma_0(Mq)}\Gamma'$.} \stpmc: \cite[II.1.4, Thm.~3, p.~79]{Se} under hypothesis (D) of \cite[II.1.4, Thm.~2, p.~78]{Se}:
+the closure of $G$ in $\SL_2(\Qq)$ is $\SL_2(\Qq)$ (Lemma 12.1(d) of \mainpdf, proved elementarily; alternatively from strong approximation
+for $\SL_2$ over $\Q$, \cite[Thm.~28.2.3, p.~480]{Vo}). For $M=1$ it is \cite[II.1.4, Cor.~2, p.~80; p.~81]{Se} \stcited, whose second
+factor is exactly $\{(\begin{smallmatrix}a&q^{-1}b\\qc&d\end{smallmatrix})\}=\Gamma'$. The vertex stabilisers are $\Gamma$ (of $v_0$) and
+$\Gamma'$ (of $v_1$).
+\begin{outline}
+$G\subseteq\SL_2(\Qq)$ acts on $\cT_q$ without inversion (Lemma~\ref{lem:s02-tree}(b)). Serre's Thm.~3 says that under (D), $G$ is the amalgam
+of the stabilisers of $v_0$ and $v_1$ along the stabiliser of the edge. These are: $G\cap\SL_2(\Zq)=G\cap\SL_2(\Z)=\Gamma$;
+$G\cap\Stab(v_1)=\alpha'^{-1}(\alpha'G\alpha'^{-1}\cap\SL_2(\Zq))\alpha'=\alpha'^{-1}\Gamma\alpha'=\Gamma'$ (using $\alpha'G\alpha'^{-1}=G$);
+and the edge stabiliser $\Gamma\cap\Gamma'=\Gamma_0(Mq)$. Hypothesis (D) holds because $G$ contains the elementary matrices with entries in
+the dense subsets $\Z[\frac1q]$, $M\Z[\frac1q]$ of $\Qq$, which generate $\SL_2(\Qq)$ topologically.
+\end{outline}
+
+\noindent\rptnum{12.3}\label{rpt:prop:s03-MV}\textbf{Proposition 12.3 (Mayer--Vietoris).}
+(Hypotheses: $k\ge4$ even, $l$ prime, $l>k$, $l\ne q$, $(M,q)=1$, $V=\Sym^{k-2}(\Z_{(l)}^2)$ the standard column representation,
+$c:H^1(\Gamma,V)\xrightarrow\sim H^1(\Gamma',V)$ the conjugation isomorphism.)
+\emph{There is an exact sequence, with $\Psi(x,y)=\mathrm{res}\,x-\mathrm{res}\,(cy)$,
+\[0\to H^1(G,V)\to H^1(\Gamma,V)^2\xrightarrow{\ \Psi\ }H^1(\Gamma_0(Mq),V)\to H^2(G,V)\to0.\]}
+\stpmc: the Mayer--Vietoris sequence of an amalgam with coefficients \cite[III.6, Exercise, p.~74]{Br} \stcited{} (the trivial-coefficient
+version is \cite[II, Cor.~7.7, p.~51]{Br}), applied to Prop.~\ref{prop:s03-amalgam}. The end terms vanish for these reasons.
+$H^0(\Gamma_0(Mq),V)=0$ for $k>2$: the image of $\Gamma_0(Mq)$ in $\SL_2(\F_l)$ is everything if $l\nmid M$, and $\Sym^{k-2}\F_l^2$ is irreducible and
+non-trivial since $k-2<l$; if $l\mid M$ the image lies in the Borel subgroup, and the invariants vanish as well (proof). $H^2(\Gamma,V)=0$ because
+$\Gamma$ is virtually free with torsion of order prime to $l$. The same argument shows that $H^1(\Gamma,V)$ is torsion-free.
+Moreover $H^1(G,V)=0$ (Lemma 12.8 of \mainpdf), so the sequence reads
+\[0\to H^1(\Gamma,V)^2\xrightarrow{\ \Psi\ }H^1(\Gamma_0(Mq),V)\to H^2(G,V)\to0.\]
+\begin{outline}
+The Mayer--Vietoris sequence of $G=\Gamma*_{\Gamma_0(Mq)}\Gamma'$ has middle map a difference of restrictions; identifying $H^1(\Gamma',V)$
+with $H^1(\Gamma,V)$ via $c$ gives $\Psi$. $H^0(\Gamma_0(Mq),V)=0$: for $l\nmid M$ the reduction map to $\SL_2(\F_l)$ is onto and
+$\Sym^n\F_l^2$ ($n=k-2<l$) is irreducible and non-trivial; for $l\mid M$ the unipotent element fixes only the line $\F_le_1^n$, on which a
+suitable $\gamma\in\Gamma_0(Mq)$ with upper left entry a generator of $\F_l^\times$ acts by $a^n\ne1$; a non-zero integral invariant would
+reduce to a non-zero invariant mod $l$. $H^i(\Gamma,V)=0$ for $i\ge2$: $\Gamma$ acts on the tree of $\SL_2(\Z)$ with finite stabilisers of
+order prime to $l$ \cite[I.4.2(c), p.~35]{Se}. Torsion-freeness of $H^1(\Gamma,V)$ follows from $H^0(\Gamma,V/l)=0$.
+\end{outline}
+
+\subsubsection*{Chapter 4: Hida theory on the definite side}
+
+\noindent\rptnum{13.1}\label{rpt:ss:s04-notation}\textbf{Section 13.1 (standing notation of stage 04).}
+It fixes $p\ge5$, $p\nmid D$, $\cO=\cOE$ the integers of a finite $E/\Qp$ with uniformiser $\varpi$, $\Lam=\cOE[[1+p\Zp]]$, levels prime
+to $p$ $U=U^{(p)}\times\GL_2(\Zp)$ with $\Nrd U=\Zhat^\times$, the tower $UU_s=U^{(p)}\times\Kp{s}$ ($\Kp{s}=\iota_p^{-1}\Uone{p^s}_p$),
+$X_s(U)=\XB{UU_s}$, $X'_s(U)=\XB{U^{(p)}\Kpp{s}}$, and the projection $\pi:X_{s+1}\to X_s$. It records (all from stage 01, \stproved{}
+there) that for $s\ge1$ all $\Gamma_x$ are trivial ($w_x=1$, $\nu=$ identity on bases), $\Delta_s$ acts freely by adelic diamonds,
+$|X_{s+1}|=p^2|X_s|$, and $U_p=\NUp$ commutes with $\pi_*$, the diamonds, $T_\ell$, $S_\ell$, $\Pi_\ell$ and right translations away from
+$p$. Modules are homological unless marked otherwise.
+
+\medskip
+\noindent\rptnum{13.1}\label{rpt:def:s04-e}\textbf{Definition 13.1 (ordinary projector).}
+For a finitely generated $\Zp$-module $M$ with an endomorphism $T$, $e_T:=\lim_{n\to\infty}T^{n!}$. It exists, is an idempotent
+in the closed subalgebra $\Zp[[T]]\subseteq\End M$ generated by $T$, and $M=e_TM\oplus(1-e_T)M$ with $T$ invertible on $e_TM$ and
+topologically nilpotent on $(1-e_T)M$. The functor $M\mapsto e_TM$ is exact on $\Zp[T]$-modules of this kind. If $M$ is finite,
+$e_T=T^{N}$ for any $N$ that is a multiple of the period and at least the index of $T$ in the finite monoid $\End M$
+(e.g.\ $N=|\End M|!$). We write $e:=e_{U_p}$ and $e^*:=e_{U_p^*}$, where $U_p^*$ is the $\langle,\rangle$-adjoint of $U_p$; at level
+$\Uone{Mp^s}$, $U_p^*=\langle p\rangle_MU'_p$ (Lemma~\ref{lem:s01-Up}(d)), and Lemma~\ref{lem:s04-ekills}(d) gives the same formula at
+every level $UU_s$.
+\stproved{}; the existence of the limit is also \stknown{} \cite[\S7.2, Lemma~1, p.~201]{Hi93}. \stformal{} for $\cO=\Zp$ in the form of a
+decomposition $M=\mathrm{ord}\oplus\mathrm{nil}$ with projector (\lean{Langlandscape.Ordinary.ordProj}); the limit formula itself and
+general $\cO_E$ are not formalized.
+
+\medskip
+\noindent\rptnum{14.1}\label{rpt:def:s04-Mord}\textbf{Definition 14.1 ($\Lambda$-adic Brandt module).}
+For $U$ of level prime to $p$: $\Mord(U):=\varprojlim_{s\ge1}e\,\cOE[X_s(U)]$, limit along $\pi_*$ (which commutes with $U_p$ by
+Lemma~\ref{lem:s01-Up}(b), and with all $T_\ell,S_\ell,U_\ell,\Pi_\ell,\langle d\rangle$). $\Lam$ acts through the adelic diamonds:
+$[u]\cdot a:=\langle u\rangle a$, $u\in1+p\Zp$. The finite group $\mu_{p-1}$ acts as well, and $\Mord(U)$ decomposes integrally into
+$\mu_{p-1}$-eigenpieces $\Mord(U)^{(\chi)}$. For $U=\Uone M$ also $(\Z/M)^\times$ acts; if $p\nmid\varphi(M)$, $\Mord(U)$ decomposes
+integrally into eigenpieces for $\mu_{p-1}\times(\Z/M)^\times$, and if $p\mid\varphi(M)$ only after inverting $p$ (as in
+Thm.~\ref{thm:s04-control}(b)).
+Well-definedness \stproved. \stformal{} for $E=\Qp$ and $U=\Uone M$, as compatible families (\lean{Langlandscape.Ordinary.Mord},
+\lean{Langlandscape.Ordinary.Mord.lamModule}), with the commutation of the diamonds with $\pi_*$ as an explicit argument; general $\cO_E$
+and the eigenpiece remark are not formalized.
+
+\medskip
+\noindent\rptnum{16.1}\label{rpt:def:s04-Pk}\textbf{Definition 16.1 (arithmetic points in the seed's conventions).}
+For $k\ge2$ put $P^{\rm ad}_k:=\ker\big(\Lam\to\cOE,\ [u]\mapsto u^{-(k-2)}\big)$. The seed's $P_k=\ker([u]\mapsto u^{k-2})$ is the
+image of $P^{\rm ad}_k$ under the involution $\iota:[u]\mapsto[u^{-1}]$, i.e.\ it is the right ideal for the $\Lam$-structure via
+\emph{classical} diamonds $\langle u\rangle_{\rm cl}=\langle u\rangle^{-1}$.
+Justification \stproved{}: via $\mathrm{ev}$ of Equation~(1), the adelic diamond $\langle d\rangle$, $d\equiv1\bmod p$, acts by
+$d^{-(k-2)}$ on functions coming from weight $k$. This matches \cite[\S4.4, Def.~4.1, p.~31]{Hs}. The weight-$k$ point with trivial
+character at $p$ also requires $\mu_{p-1}$ to act by $\omega^{-(k-2)}$.
+
+\subsubsection*{Chapter 5: the comparison hypothesis}
+
+\noindent\rptnum{18.2}\label{rpt:ss:s05-sign}\textbf{Section 18.2 (setting, the dictionary, and the sign).}
+It fixes the setting of stage 05 ($B=B_q$, $U_s=\Uone{Mp^s}$, $S_s=\XBq{U_s}$; on the $\GL_2$ side $\Gamma_s=\Gamma_1(Mp^s)\cap\Gamma_0(q)$,
+$J_s=\Jac X_s$ in the $\mu_N$-model with Picard functoriality, the model being a team decision (FD1), and the character group
+$\Xq(J_s)$ at $q$). It proves the factor-$2$ bookkeeping between $\Gamma_0$- and $\Gamma_1$-type levels (\stproved; Hypothesis (F2)),
+defines the dictionary $\theta_s$ (Def.~\ref{def:s05-theta}) and proves it well defined (\stproved), and proves the sign
+$\varepsilon=+1$ and the exponent statements of Prop.~\ref{prop:s05-sign} (\stpmc{}, the $\Gamma_1$-level Frobenius part given (X1) and
+FD1). It also records the status of $\HypX$ with the four-row Frobenius table (Remark 18.10 of \mainpdf; $\HypX$ stays \sthyp) and an
+internal consistency lemma for $\theta_s$.
+
+\medskip
+\noindent\rptnum{18.4}\label{rpt:def:s05-theta}\textbf{Definition 18.4 (dictionary $\theta_s$).}
+Let $\cH_s:=\Z[(\Z/Mp^s)^\times]\otimes_\Z\Z[T_\ell,U_\ell,U_p\text{ or }T_p,U_q]$, the group ring of the diamonds $\langle d\rangle$
+($d\in(\Z/Mp^s)^\times$) tensored with the polynomial ring on the symbols
+$T_\ell$ ($\ell\nmid Mpq$ prime), $U_\ell$ ($\ell\mid M$), $U_p$ (if $s\ge1$), $T_p$ (if $s=0$), $U_q$.
+\revnote{S05-M1: the stage tex takes the free commutative algebra on all symbols including the $\langle d\rangle$; then
+$\langle d\rangle^{-1}$, $T_\ell^\Ros=\langle\ell\rangle^{-1}T_\ell$ and $U_q^\Ros$ would not lie in $\cH_s$. The group ring fixes this; $\theta_s$ is well defined on it
+because $d\mapsto\langle d\rangle^{-1}$ (adelic) is a homomorphism into a commutative group (self-audit F11).}
+It acts on $\Xq(J_s)$ through the classical Hecke correspondences (Picard functoriality, classical normalisation, classical
+diamonds). Define $\theta_s:\cH_s\to\End_\Z\Z[S_s]^0$ as the $\Z$-algebra homomorphism with
+\[T_\ell\mapsto T_\ell,\quad U_\ell\mapsto U_\ell,\quad U_p\mapsto U_p\ (N_{U_p}),\quad T_p\mapsto T_p,\quad
+\langle d\rangle\mapsto\langle d\rangle^{-1}\ (\text{adelic}),\quad U_q\mapsto\varepsilon\,\Pi_q,\quad \varepsilon=+1,\]
+all acting homologically on $\Z[S_s]$ and restricted to $\Z[S_s]^0$ (operators as in Def.~\ref{def:s01-hecke}; at $s=0$,
+$T_p:=T_{\varpi_p}$ at the level $U_0$, whose $p$-component is $\GL_2(\Zp)$). For $M=1$ there are no $U_\ell$; for $s=0$ and $M\le2$ the
+diamond group is trivial. \stformal{} on the \emph{generators} only (\lean{Langlandscape.Comparison.theta}; no ring-homomorphism extension
+in Lean, without $U_\ell$ for $\ell\mid M$).
+
+\medskip
+\noindent\rptnum{18.5.1}\label{rpt:sss:s05-general}\textbf{Section 18.5.1 (several ramified primes).}
+It shows (Prop.~\ref{prop:s05-nochain}) that tree quotients and Ribet sequences only ever produce subquotients of Brandt modules of the
+\emph{same} definite algebra (\stproved), that this is no obstruction at the level of isomorphism classes, since for $D=q_1q_2q_3$ classical
+JL applied twice gives a rational Hecke isomorphism (\stpmc), and hence that the true content is the absence of a \emph{canonical}
+comparison map. It then tabulates the geometric chain for $D=q_1q_2q_3$, whose links need $\HypX$, \v{C}erednik--Drinfeld and Galois
+input; the several-primes defect formula is stage 06's (\stconj{}/\stsketch{} there).
+
+\medskip
+\noindent\rptnum{18.7}\label{rpt:ss:s05-status}\textbf{Section 18.7 (what the literature states at $\Gamma_1$-level).}
+It splits $\HypX$ at level $\Gamma_1(Mp^s)\cap\Gamma_0(q)$ into four inputs and records the literature found: (S1) the
+Deligne--Rapoport semistable model is \stcited{} \cite[Ch.~VI, Thm.~6.9]{DR}; (S2) Deuring at $\Gamma_1$-level with $U_p$ and diamonds is
+stated nowhere looked at; (S3) the monodromy pairing follows from (S1)+(S2) by Raynaud's theorem (\stpmc, our inference); (S4) the Frobenius
+clause is \stpmc{} (the four-row table, derived from the naive/Albanese row, with \cite[Lemma~3.17]{RS} only as a consistency check),
+conditional on FD1. (S2) and the naturality in $s$ (X3) remain \stexp, so $\HypX$ stays a hypothesis.
+
+\medskip
+\noindent\rptnum{18.38}\label{rpt:rem:s05-degree}\textbf{Remark 18.38 (no Betti-canonical replacement).}
+After inverting $q$, the cuspidal cohomology of $\GL_2$ sits in degree $2$ (the $q$-new part of $H^*(\Gamma_0(M)[\frac1q],V)$ is in $H^2$,
+Section~12) and that of the definite $S$-arithmetic group in degree $1$ (Prop.~\ref{prop:s02-coh}); for $B_q$ itself there is no tree and
+it sits in degree $0$ (Prop.~\ref{prop:s05-nochain}(a)). So a degree-preserving Hecke-equivariant chain map inducing $\HypX$ on cuspidal
+parts cannot exist between the $S$-arithmetic complexes of $\GL_2(\Z[\frac1q])$-type and of $B_q$; any realisation must shift degree
+(e.g.\ through a boundary or Gysin-type map) or go through a third object. \stsketch{} (degree count only).
+
+\medskip
+\noindent\rptnum{18.39}\label{rpt:def:s05-stages}\textbf{Definition 18.39 (the four stages as simplicial orbifolds).}
+\begin{enumerate}[label=(\roman*)]
+\item Definite level $U$: the $0$-dimensional orbifold (groupoid) $\coprod_{[x]\in\XB{U}}B\Gamma_x$; its $H^0$ with coefficients $V$ is
+  $\Brandt{U}{V}$.
+\item Definite $S$-arithmetic stage: the graph of finite groups $\Gamma_U\quot\cT_q$ (Prop.~\ref{prop:s02-quot}) with structure maps
+  $s_0,s_1$; a $1$-dimensional orbifold model of $B\Gamma_U$ after barycentric subdivision, orbifolds being taken as étale groupoids
+  \cite[\S4, Thm.~4.1, p.~11]{MP97} (for the simplicial model and its cohomology with local coefficients: Moerdijk--Pronk 1999, Thm.~2.1.1,
+  p.~278). Over $\Z$ its $H_1$ is taken as in Remark 18.35 of \mainpdf{} (i.e.\ modulo torsion, as in Remark~\ref{rem:s02-torsion}).
+\item $\GL_2$ arithmetic stage: $\Gamma_s\backslash\Hb$ with a finite triangulation (as in HACS).
+\item $\GL_2$ $S$-arithmetic stage: the graph of spaces $[Y_0(M)\sqcup Y_0(M)\leftleftarrows Y_0(Mq)]$ (Section~12).
+\end{enumerate}
+
+\medskip
+\noindent\rptnum{18.42}\label{rpt:rem:s05-O46}\textbf{Remark 18.42 (O4, O6 made precise).}
+O4: a Shimura-curve $\HypX$ for discriminant $d$ and $r\nmid d$ is Hypothesis~\ref{hyp:s05-X} with $J_s$ replaced by the Jacobian of the
+Shimura curve of discriminant $d$ and level $\Gamma_1(Mp^s)\cap\Gamma_0(r)$, $B=B_{dr}$; at $\Gamma_0$-level it is
+\cite[Thm.~4.3, p.~11]{Koh01} (Buzzard). O6: at an Eisenstein $\m$, (X2) carries information that $\HypXiso$ does not; its weight-$2$,
+level-$1$ shadow is the Mazur check $\Phicomb(\GDR_q(1))\cong\Z/\mathrm{num}\frac{q-1}{12}$ versus $\Phi_q(J_0(q))$
+\cite[Appendix, Thm.~(A.1)(b), p.~173]{Mz}; this is a check of (X2) at $\Gamma_0$-level, not a proof.
+
+\subsubsection*{Chapter 6: congruence ideals and the defect}
+
+\noindent\rptnum{19.1}\label{rpt:def:s06-gor}\textbf{Definition 19.1 (traces, Gorenstein, congruence ideal).}
+Let $A$ be a commutative ring, $S$ a commutative $A$-algebra, $S^\vee:=\Hom_A(S,A)$.
+\begin{enumerate}[label=(\alph*)]
+\item The dual $S^\vee$ is an $S$-module by $(s\varphi)(x):=\varphi(sx)$. An element $\ell\in S^\vee$ is a \emph{trace} if $S$ is finite
+  free over $A$ and the $S$-linear map $S\to S^\vee$, $s\mapsto s\ell=\ell(s\,\cdot)$, is bijective. Then $S^\vee$ is free of rank one over
+  $S$ with generator $\ell$. $S$ is \emph{$A$-Gorenstein} if it has a trace.
+\item For an ideal $I\subseteq S$ put $\Ann_S(I):=\{s\in S:sI=0\}$.
+\item For an $A$-algebra map $\mu:S\to A$ put $S[\mu]:=\Ann_S(\ker\mu)$ and $\eta(S,\mu):=\mu(S[\mu])\subseteq A$, the
+  \emph{congruence ideal}.
+\end{enumerate}
+\status{definition} (Lean: \texttt{IsGorensteinWith}, \texttt{IsGorenstein}, \texttt{ann}, \texttt{congruenceIdeal} in
+\pathtt{Langlandscape.CommAlg}.)
+
+\medskip
+\noindent\rptnum{20.1}\label{rpt:ss:s06-setting}\textbf{Section 20.1 (setting and standing hypotheses).}
+It fixes $D=q$, $B=B_q$, $p\ge5$, $q\ne p$, $(M,pq)=1$, $N=qM$, $\Lam=\cOE[[1+p\Zp]]$ acting through the \emph{classical} diamonds on the
+$\GL_2$ side (weight-$k$ point $P_k$; the definite side's adelic $P^{\rm ad}_k$ is transported by $[u]\mapsto[u]^{-1}$), and the element
+$S_q\in\Lam^\times$ with $P_k(S_q)=q^{k-2}$. It states the standing hypotheses (H0), (H0$^-$), (Lev), (H1), (H2), (Im), (P) of
+Hypothesis~\ref{hyp:s06-H} (\sthyp), and shows that (H2)$+$(H0) imply Hsieh's (CR,$\{q\}$), so that the combinatorial half needs only (H0),
+(H1), (H2) (\stproved{} for the implication; the hypothesis itself is \stcited, \cite[\S1.4]{Hs}).
+
+\medskip
+\noindent\rptnum{20.3}\label{rpt:def:s06-rings}\textbf{Definition 20.3 (Hecke rings and congruence ideals).}
+$\T'$ and $\T''$ are the images of $\T$ in the endomorphisms of the $q$-new and of the $q$-old ordinary $\Lam$-adic cusp forms
+(localised at $\m$). Put $\fa:=\ker(\T\to\T')$ and $\fb:=\ker(\T\to\T'')$. Put $R:=\T\otimes_\Lam I_F$, $R':=\T'\otimes_\Lam I_F$,
+$R'':=\T''\otimes_\Lam I_F$, and keep the names $\fa,\fb$ for $\fa R,\fb R$. $\lambda:R\to I_F$ is the $I_F$-linear extension of
+$\lambda_F$. Since $F$ is $q$-new, $\lambda$ factors as $\lambda=\lambda'\circ(R\to R')$. For a finite $A$-algebra $S$ and an
+$A$-algebra map $\mu:S\to A$ to a domain, $\eta(S,\mu):=\mu(\Ann_S\ker\mu)$ (Definition~\ref{def:s06-gor}). Put
+\[\eta_F:=\eta(R,\lambda),\qquad \eta^B_F:=\eta(R',\lambda'),\qquad (h_F):=\eta_F\,(\eta^B_F)^{-1}\ \text{ when both are principal.}\]
+\status{definition} (The quotient $h_F$ makes sense only under (Gor$_R$), (Gor$_{R'}$) and $\eta^B_F\ne0$; then $h_F\in I_F$ is well
+defined up to $I_F^\times$, Thm.~\ref{thm:s06-E}.)
+
+\medskip
+\noindent\rptnum{20.5}\label{rpt:def:s06-ctam}\textbf{Definition 20.5 (combinatorial Tamagawa ideal).}
+$\cc:=\mathrm{im}(\fb\to R')=(\fa+\fb)/\fa$, so $R'/\cc\cong R/(\fa+\fb)$ is the $\Lam$-adic old/new congruence module at $q$
+(after $\otimes I_F$). Put $\cc_q(F):=\lambda'(\cc)=\lambda(\fb)\subseteq I_F$. At an arithmetic point $P$ with $q$-new
+specialisation $f$, the \emph{fixed-weight} version is $\cc_q(f):=\lambda_f(\fb_k)$, where $\fb_k=\ker(\T_k(N)_\m\to\T''_k)$ is taken
+in the weight-$k$ Hecke algebra. \status{definition}
+(This is Diamond's $\Lam$-adic old/new congruence module \cite{Dia89}, read here along the new branch; \cite[Thm.~6A--6C, p.~80]{Dia89}
+\stcited{} computes it along the old branch.)
+
+\medskip
+\noindent\rptnum{20.6}\label{rpt:def:s06-tam}\textbf{Definition 20.6 (Tamagawa ideal).}
+Let $H$ be Hida's ordinary $\Lam$-adic étale cohomology of tame level $N$ localised at $\m$. It is free of rank two over $\T$
+under (H2) (input (1) of Prop.~\ref{prop:s06-galois}). Put $\mathcal T_F:=H\otimes_{\T,\lambda_F}I_F$, with
+$\rho_F:G_\Q\to\GL_2(I_F)$. Define $\tq_q(F)\subseteq I_F$ as the ideal generated by the entries of $\rho_F(\sigma)-1$,
+$\sigma\in I_q$. The ideal does not depend on the basis of $\mathcal T_F$. \status{definition}

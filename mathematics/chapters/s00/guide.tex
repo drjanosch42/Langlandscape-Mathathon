@@ -1,0 +1,122 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Stage 00 (introduction): a guide to the six stages for non-specialists. Written from the chapters; no new mathematics,
+% no status upgrades (every status is the one printed in the chapter cited). No \input; shared by main.tex, the article and
+% the submission report.
+\section{A guide to the six stages for non-specialists}\label{ss:s00-guide}
+This section retells the six stages in plain language for a mathematician who is not a specialist in automorphic forms. It
+adds nothing to the chapters; where a status is mentioned it is the chapter's. One notational warning first: the letter $q$
+has two roles. In stages~02--04 it is an \emph{auxiliary} prime at which the quaternion algebra is split (the ``tree prime'');
+in the Deligne--Rapoport graphs (DR graphs) of stages~03--04 and in stages~05--06 it is the \emph{ramified} prime of $B_q$, the case $D=q$. In Ribet's paper
+\cite{Ri90} the same two roles are played by $p$ and $q$: the chapters' pair $(D,q)$ is Ribet's $(q,p)$ (\S\ref{ss:s00-ribet-tree}).
+
+\subsection*{The stages in one paragraph each}
+\emph{Stage~01 (quaternionic foundations).} A definite quaternion algebra $B=\Bd$ is a skew field of
+dimension $4$ over $\Q$, a cousin of Hamilton's quaternions, ``ramified'' (non-split) exactly at $\infty$ and at the primes
+dividing $D$. Its automorphic forms are remarkably simple: the double coset space $\XB U=B^\times\backslash\hat B^\times/U$
+(the \emph{class set} of level $U$) is a \emph{finite} set (Prop.~\ref{prop:s01-finite}), and an automorphic form of level $U$
+is just a function on it. The \emph{Brandt module} is the free module of such functions (or of formal sums of classes),
+possibly with values in a weight module $V_k$; it carries a natural pairing weighted by the orders of the finite
+stabilisers. \emph{Hecke operators} are the averaging operators ``sum over the neighbours of a class'' that every theory of
+modular forms has; their matrices on the class set are the classical Brandt matrices. Stage~01 fixes all of this with one set of
+normalisations, because every later integral statement depends on them, and records the cited targets (classical, $p$-adic
+and $\Lambda$-adic JL, Thms.~\ref{thm:s01-JLclassical}, \ref{thm:s01-chenevier}, \ref{thm:s01-lambdaJL}, all \stcited).
+
+\emph{Stage~02 (tree quotients).} Choose a prime $q\nmid D$; there $B\otimes\Q_q\cong M_2(\Q_q)$. The
+\emph{Bruhat--Tits tree} $\cT_q$ is the infinite $(q+1)$-regular tree whose vertices are the lattices in $\Q_q^2$ up to scaling,
+two being adjacent when one sits in the other with index $q$. A group $\GU$ of quaternions with denominators only at $q$ acts
+on it, and the quotient is a \emph{finite graph}: given the connectivity of the Brandt graph (condition (iii), a finite
+check), $\GU\backslash\cT_q$ is the \emph{Brandt graph} $\BG(U,q)$, whose vertices are two copies of the class set at level $U$
+and whose edges are the classes at the smaller level $U\cap\Uzero q$ (Prop.~\ref{prop:s02-BG}, \stproved; the connectedness of
+$\cT_q$, \stcited, enters in one direction). So class sets become graphs, and the homology of the graph becomes a natural
+object to study.
+
+\emph{Stage~03 (weighted graphs, the definite Ribet sequence and the Ihara lemma).} A finite graph with
+edge weights has two lattice invariants: $X(\G)=H_1(\G,\Z)$ with the weighted edge pairing, and the finite group
+$\Phicomb(\G)=\coker(X(\G)\to\Hom(X(\G),\Z))$. For the dual graph of a degenerating curve these are the character group and the
+component group of its Jacobian (Remark~\ref{rem:s03-grothendieck}, \stcited). Stage~03 proves, in graph language, two classical
+statements: the \emph{definite Ribet sequence}, which compares the levels $U$ and $U\cap\Uzero q$ and arises by collapsing each
+of the two vertex sets of $\BG(U,q)$ to a point (Thm.~\ref{thm:s03-ribet}(a), \stproved{} given (iii)), and the \emph{definite
+Ihara lemma}, which says that the comparison map is surjective and is, at bottom, the connectedness of the graph
+(Cor.~\ref{cor:s03-ihara}(i),(ii), \stproved{} given (iii)). It checks the invariants against Mazur's computation at level~$1$, the component group
+$\Z/\mathrm{num}\frac{q-1}{12}$, where $\mathrm{num}\frac{q-1}{12}$ is the numerator of $\frac{q-1}{12}$ in lowest terms (Prop.~\ref{prop:s03-mazur}, \stpmc) and records the $\GL_2$ (Betti) side.
+
+\emph{Stage~04 (the ordinary and $\Lambda$-adic passage).} Fix a prime $p\ge5$ and let the level at $p$
+grow, $U_s$ with $p^s$. A \emph{Hida family} is, informally, a $p$-adically continuous family of eigenforms of varying weight,
+organised as a module over the Iwasawa algebra $\Lam$ (power series in one variable over a $p$-adic integer ring). The
+\emph{ordinary projector} $e$ keeps the part on which $U_p$ is invertible; it kills the degree, vertex and component terms of the
+graphs (Lemma~\ref{lem:s04-ekills}, \stproved, the $H_0$ clause under connectivity), and the ordinary parts of the Brandt modules along the tower assemble into a
+$\Lam$-adic Brandt module, which is free, with a control theorem (Thm.~\ref{thm:s04-control}: (a) \stproved, (b) as qualified
+there). The Ribet sequence of stage~03 passes to this limit (Thm.~\ref{thm:s04-lambdaribet}, \stproved{} given connectivity at all
+$s$). This is what lets the finite combinatorics speak about families.
+
+\emph{Stage~05 (the comparison hypothesis and the simplicial shape).} Stages~01--04 are about a
+quaternion algebra only. To speak about modular forms for $\GL_2$ one needs a bridge, and the chapters isolate it in a single
+named hypothesis: $\HypX$ (Hyp.~\ref{hyp:s05-X}, \sthyp) says that for $D=q$ the character group at $q$ of the Jacobian of the
+modular curve of level $\Gamma_1(Mp^s)\cap\Gamma_0(q)$ is the degree-zero Brandt module of $B_q$, compatibly with Hecke
+operators, pairings, the tower and Galois action. Stage~05 fixes every sign and normalisation in this statement, proves its formal
+consequences (e.g.\ the $\Lambda$-adic version, Prop.~\ref{prop:s05-Xlambda}(a), \stproved{} given $\HypXchar$) and, independently
+of it, the commutative algebra of the lattice comparison (Prop.~\ref{prop:s05-subquot}, \stproved), records what is in the literature (at $\Gamma_0$-type level,
+Thm.~\ref{thm:s05-G}, \stcited), and shows that the tree alone cannot supply the bridge (Prop.~\ref{prop:s05-nochain}, \stproved).
+
+\emph{Stage~06 (the integral Jacquet--Langlands defect).} A \emph{congruence module} (or congruence
+ideal) of an eigenform measures, as an ideal, how much the form is congruent to the other forms in its Hecke algebra. Stage~06
+works for $D=q$ on the $\GL_2$ side, with $B_q$ entering only through the cited $\Lambda$-adic Hecke JL. For a Hida family $F$
+that is \emph{$q$-new} (it does not come from level prime to $q$) it compares the congruence ideal $\eta_F$ in the full Hecke
+algebra with the congruence ideal $\eta^B_F$ in the $q$-new quotient, which the cited $\Lambda$-adic JL identifies with the Hecke
+algebra of $B_q$: this is the quaternion side. Their quotient, the \emph{defect}, equals the old/new congruence ideal (congruences
+between $F$ and $q$-old forms) and the Tamagawa ideal at $q$ (generated by the entries of $\rho_F(\sigma)-1$ for $\sigma$ in the
+inertia group at $q$, $\rho_F$ the Galois representation of $F$):
+$(h_F)=\cc_q(F)=\tq_q(F)$ (Thm.~\ref{thm:s06-defect}, \stpmc{} under the standing hypotheses, \stopen{} for $q\equiv-1\bmod p$
+outside the level conditions (Lev)). In words: JL loses exactly the level-raising congruences at $q$, and the defect measures them. $\HypX$ is not
+used.
+
+\emph{The narrative.} Stages $01\to02\to03\to04$ form a chain: objects (01), their realisation as graphs (02), the classical
+level-comparison statements as graph statements (03), and their passage to Hida families (04). After stage~04 the route branches:
+stage~05 builds the bridge to $\GL_2$ as one hypothesis and derives its consequences, while stage~06 obtains the integral
+comparison of congruence modules without it (\stpmc, as above), using the cited $\Lambda$-adic JL instead of $\HypX$.
+
+\subsection*{Which quaternion algebra, where, and what it buys}
+\begin{center}\small
+\begin{tabular}{@{}p{0.2\textwidth}p{0.11\textwidth}p{0.62\textwidth}@{}}\toprule
+algebra & stages & role and what it buys\\\midrule
+$B=\Bd$ definite, any $D$; with a tree prime $q\nmid D$ where $B$ splits &
+01 (no tree); 02--04 &
+Class sets, Brandt modules, Hecke operators (01). With the tree prime: the Bruhat--Tits tree exists, class sets become the finite
+Brandt graph (Prop.~\ref{prop:s02-BG}), and $H_1$ of the quotient is the combinatorial stand-in for the character group of the
+Shimura curve of discriminant $Dq$ (Remark~\ref{rem:s02-CD}, \stcited{} for $\Gamma_0$-type levels, never used). The definite Ribet sequence and Ihara lemma
+live here (Thm.~\ref{thm:s03-ribet}, Cor.~\ref{cor:s03-ihara}); for $D$ prime this is Ribet's situation, with the chapters'
+$(D,q)$ in the roles of Ribet's $(q,p)$.\\
+indefinite algebra of discriminant $Dq$ &
+none &
+A shadow only, never used: its Shimura curve is what the tree quotient stands in for, via \v{C}erednik--Drinfeld
+(Remark~\ref{rem:s02-CD}, \stcited, for $\Gamma_0$-type levels). This is where arithmetic geometry is saved: stages~02--04 need
+no Shimura curve.\\
+$B_q$, i.e.\ $D=q$ prime &
+03, 04 (DR graph), 05, 06 &
+Its DR graph $\GDR_q(U)$ (two vertices, edge set the class set; Def.~\ref{def:s03-DR}) carries the Mazur check
+(Prop.~\ref{prop:s03-mazur}, \stpmc) and the Eisenstein property of $\Phicomb$ (Prop.~\ref{prop:s03-phieis}, \stproved). It is the
+bridge to $\GL_2$ through $\HypX$ (stage~05; \sthyp) and, at $\Gamma_0$-type level, through Ribet's identification
+(Thm.~\ref{thm:s05-G}, \stcited). In stage~06 it enters only through the cited $\Lambda$-adic Hecke JL; $\HypX$ is not used.\\
+$\GL_2$ (``discriminant~$1$'') &
+03 (Betti side), 05, 06 &
+The target: modular curves and modular forms. Reached only through cited inputs or a hypothesis: Ribet's identification at
+$\Gamma_0$-type level (Thm.~\ref{thm:s05-G}, \stcited), $\HypX$ at $\Gamma_1(Mp^s)$-level (\sthyp), or cited JL
+(Thms.~\ref{thm:s01-JLclassical}, \ref{thm:s01-lambdaJL}).\\\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{What changing the algebra buys}
+Working on the definite algebra with an auxiliary tree prime turns statements about modular curves into statements about
+finite graphs. Level raising becomes linear algebra on the Brandt graph: the definite level-raising operator
+$\alpha\alpha^\dagger$ has the matrix $\left(\begin{smallmatrix}q+1&-T_q\\-T_q&q+1\end{smallmatrix}\right)$
+(Prop.~\ref{prop:s03-LRdef}, \stproved; level $\Uzero M$, coefficients $\Z$), and Ribet's sequence is a vertex collapse (Thm.~\ref{thm:s03-ribet}(a), \stproved{} given
+(iii)). The Ihara lemma becomes graph connectivity (Cor.~\ref{cor:s03-ihara}(i),(ii), \stproved{} given (iii)). Mazur's component
+group comes out of the two-vertex DR graph as $\Z/\mathrm{num}\frac{q-1}{12}$ (Prop.~\ref{prop:s03-mazur}, \stpmc). In commutative algebra, for a free Hecke module of rank $r$ the comparison of the $q$-new
+sub- and quotient lattices has $r$ copies of the old/new congruence module $\T/(\fa+\fb)$ as its cokernel
+(Prop.~\ref{prop:s05-subquot}, \stproved, \stformal). Everything on the definite side is finite, hence computable, and travels up the $p$-power tower (stage~04). Level \emph{lowering}, by
+contrast, is not a graph operation in the chapters: it appears in stage~06 on the $\GL_2$ side (Cor.~\ref{cor:s06-fixed},
+\stpmc). The price is the last step: the tree cannot change algebras (Prop.~\ref{prop:s05-nochain}, \stproved), so the passage
+from $B_q$ to $\GL_2$ is not combinatorial. It is a statement about the special fibre of a modular curve (Deligne--Rapoport,
+Deuring, Grothendieck's character group), concentrated in $\HypX$ (at $\Gamma_0$-type level it is the cited Thm.~\ref{thm:s05-G}); see \S\ref{ss:s00-whycited}, the paragraph on why the tree
+route does not avoid Deligne--Rapoport.

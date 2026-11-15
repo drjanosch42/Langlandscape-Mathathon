@@ -1,0 +1,2481 @@
+{
+ "data": [
+  {
+   "D": 11,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      4,
+      4,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      3,
+      4,
+      3,
+      4,
+      3,
+      0
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 2,
+   "eisenstein_non_etale": true,
+   "ell": 5,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D11_M1_k2.json"
+   },
+   "gammas": [
+    4,
+    6
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 2,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -11,
+    "h": 2,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 1,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    0
+   ],
+   "primes": [
+    2,
+    3,
+    7,
+    13,
+    17,
+    19
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 2,
+   "runtime_s": {
+    "hacs_wall": 0.0050465109961805865,
+    "python_def_side_and_split": 10.629025664995424,
+    "total": 10.636291736998828
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 2,
+   "whole_hacs": {
+    "components": 1,
+    "dim": 2,
+    "dim_radical": 1,
+    "local": true,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 3,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      7,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      10,
+      2,
+      1,
+      13,
+      7,
+      6
+     ],
+     "strictly_etale": true
+    }
+   ],
+   "dim_M_over_Q": 2,
+   "eisenstein_non_etale": null,
+   "ell": 17,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": "inert",
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "available": false,
+    "reason": "symn.py works over Q(sqrt a) with a K-basis of V^{Gamma_c}; it provides no Z-basis of M(O_D; Sym^n)",
+    "see": null
+   },
+   "gammas": [
+    12
+   ],
+   "generation": {
+    "argument": "every block etale: T_comp (x) Z_l is a maximal order, so T_l = T_comp (x) Z_l",
+    "certified_equal": true,
+    "method": "etale_maximal_order"
+   },
+   "gorenstein_flags": [
+    true
+   ],
+   "has_non_etale": false,
+   "info": {
+    "a": -3,
+    "dim_M_over_K": 1,
+    "h": 1,
+    "model": "Sym^{k-2} Brandt module over Q(sqrt a), viewed as a Q-space of dim 2 dim M"
+   },
+   "k": 12,
+   "n_max_ideals": 1,
+   "n_primes": 6,
+   "non_etale_blocks": [],
+   "primes": [
+    2,
+    5,
+    7,
+    11,
+    13,
+    19
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 1,
+   "runtime_s": {
+    "hacs_wall": 0.004639118007617071,
+    "python_def_side_and_split": 3.9354022379993694,
+    "total": 3.9416507279966027
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 4,
+   "whole_hacs": {
+    "components": 1,
+    "dim": 1,
+    "dim_radical": 0,
+    "local": true,
+    "nilpotency_index": 1
+   }
+  },
+  {
+   "D": 5,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      0,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      0,
+      11,
+      28,
+      9,
+      27,
+      16
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      20,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      9,
+      1,
+      17,
+      8,
+      5,
+      19
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 2,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      24,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      5,
+      20,
+      18,
+      26,
+      0,
+      10
+     ],
+     "strictly_etale": true
+    }
+   ],
+   "dim_M_over_Q": 6,
+   "eisenstein_non_etale": null,
+   "ell": 29,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": "split",
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "available": false,
+    "reason": "symn.py works over Q(sqrt a) with a K-basis of V^{Gamma_c}; it provides no Z-basis of M(O_D; Sym^n)",
+    "see": null
+   },
+   "gammas": [
+    6
+   ],
+   "generation": {
+    "argument": "every block etale: T_comp (x) Z_l is a maximal order, so T_l = T_comp (x) Z_l",
+    "certified_equal": true,
+    "method": "etale_maximal_order"
+   },
+   "gorenstein_flags": [
+    true,
+    true,
+    true
+   ],
+   "has_non_etale": false,
+   "info": {
+    "a": -5,
+    "dim_M_over_K": 3,
+    "h": 1,
+    "model": "Sym^{k-2} Brandt module over Q(sqrt a), viewed as a Q-space of dim 2 dim M"
+   },
+   "k": 12,
+   "n_max_ideals": 3,
+   "n_primes": 6,
+   "non_etale_blocks": [],
+   "primes": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 3,
+   "runtime_s": {
+    "hacs_wall": 0.005837996999616735,
+    "python_def_side_and_split": 3.6435961039969698,
+    "total": 3.6510024729941506
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 6,
+   "whole_hacs": {
+    "components": 3,
+    "dim": 3,
+    "dim_radical": 0,
+    "local": false,
+    "nilpotency_index": 1
+   }
+  },
+  {
+   "D": 5,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      24,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      107,
+      121,
+      24,
+      1,
+      103,
+      124
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      97,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      34,
+      125,
+      129,
+      61,
+      94,
+      44
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 2,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      127,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      4,
+      52,
+      105,
+      12,
+      35,
+      87
+     ],
+     "strictly_etale": true
+    }
+   ],
+   "dim_M_over_Q": 6,
+   "eisenstein_non_etale": null,
+   "ell": 131,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": "inert",
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "available": false,
+    "reason": "symn.py works over Q(sqrt a) with a K-basis of V^{Gamma_c}; it provides no Z-basis of M(O_D; Sym^n)",
+    "see": null
+   },
+   "gammas": [
+    6
+   ],
+   "generation": {
+    "argument": "every block etale: T_comp (x) Z_l is a maximal order, so T_l = T_comp (x) Z_l",
+    "certified_equal": true,
+    "method": "etale_maximal_order"
+   },
+   "gorenstein_flags": [
+    true,
+    true,
+    true
+   ],
+   "has_non_etale": false,
+   "info": {
+    "a": -5,
+    "dim_M_over_K": 3,
+    "h": 1,
+    "model": "Sym^{k-2} Brandt module over Q(sqrt a), viewed as a Q-space of dim 2 dim M"
+   },
+   "k": 12,
+   "n_max_ideals": 3,
+   "n_primes": 6,
+   "non_etale_blocks": [],
+   "primes": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 3,
+   "runtime_s": {
+    "hacs_wall": 0.006650381998042576,
+    "python_def_side_and_split": 0.028155300999060273,
+    "total": 0.03631025701179169
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 6,
+   "whole_hacs": {
+    "components": 3,
+    "dim": 3,
+    "dim_radical": 0,
+    "local": false,
+    "nilpotency_index": 1
+   }
+  },
+  {
+   "D": 7,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      24,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      1027,
+      252,
+      626,
+      704,
+      312,
+      187
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      467,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      584,
+      598,
+      411,
+      241,
+      803,
+      950
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 2,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      638,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      413,
+      573,
+      803,
+      408,
+      159,
+      295
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 2,
+     "dim_radical": 0,
+     "dim_socle": 2,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 3,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      621,
+      950,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 0,
+      "dim_socle": 2,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 2
+     },
+     "residue_degree": 2,
+     "residue_label": [
+      [
+       621,
+       950,
+       1
+      ],
+      [
+       217,
+       392,
+       1
+      ],
+      [
+       542,
+       855,
+       1
+      ],
+      [
+       284,
+       317,
+       1
+      ],
+      [
+       32,
+       244,
+       1
+      ],
+      [
+       173,
+       434,
+       1
+      ]
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 10,
+   "eisenstein_non_etale": null,
+   "ell": 1051,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": "split",
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "available": false,
+    "reason": "symn.py works over Q(sqrt a) with a K-basis of V^{Gamma_c}; it provides no Z-basis of M(O_D; Sym^n)",
+    "see": null
+   },
+   "gammas": [
+    4
+   ],
+   "generation": {
+    "argument": "every block etale: T_comp (x) Z_l is a maximal order, so T_l = T_comp (x) Z_l",
+    "certified_equal": true,
+    "method": "etale_maximal_order"
+   },
+   "gorenstein_flags": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "has_non_etale": false,
+   "info": {
+    "a": -7,
+    "dim_M_over_K": 5,
+    "h": 1,
+    "model": "Sym^{k-2} Brandt module over Q(sqrt a), viewed as a Q-space of dim 2 dim M"
+   },
+   "k": 12,
+   "n_max_ideals": 4,
+   "n_primes": 6,
+   "non_etale_blocks": [],
+   "primes": [
+    2,
+    3,
+    5,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 5,
+   "runtime_s": {
+    "hacs_wall": 0.006567685006302781,
+    "python_def_side_and_split": 4.364553474006243,
+    "total": 4.375028588998248
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 8,
+   "whole_hacs": {
+    "components": 4,
+    "dim": 5,
+    "dim_radical": 0,
+    "local": false,
+    "nilpotency_index": 1
+   }
+  },
+  {
+   "D": 17,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 3,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      0,
+      0,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 2,
+   "eisenstein_non_etale": true,
+   "ell": 2,
+   "flags": {
+    "l_divides_gamma": [
+     2,
+     6
+    ],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D17_M1_k2.json"
+   },
+   "gammas": [
+    6,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 2,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -17,
+    "h": 2,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 1,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    0
+   ],
+   "primes": [
+    3,
+    5,
+    7,
+    11,
+    13,
+    19
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 2,
+   "runtime_s": {
+    "hacs_wall": 0.005083009993541054,
+    "python_def_side_and_split": 8.69148468200001,
+    "total": 8.69793566800945
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 3,
+   "whole_hacs": {
+    "components": 1,
+    "dim": 2,
+    "dim_radical": 1,
+    "local": true,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 19,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      0,
+      0,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      0,
+      0,
+      2,
+      0,
+      2,
+      0
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 2,
+   "eisenstein_non_etale": true,
+   "ell": 3,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D19_M1_k2.json"
+   },
+   "gammas": [
+    4,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 2,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -19,
+    "h": 2,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 1,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    0
+   ],
+   "primes": [
+    2,
+    5,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 2,
+   "runtime_s": {
+    "hacs_wall": 0.0063787869876250625,
+    "python_def_side_and_split": 7.749422875000164,
+    "total": 7.757691727994825
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 4,
+   "whole_hacs": {
+    "components": 1,
+    "dim": 2,
+    "dim_radical": 1,
+    "local": true,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 23,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      4,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      7,
+      7,
+      3,
+      5,
+      3,
+      10
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      9,
+      5,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      3,
+      4,
+      6,
+      8,
+      3,
+      7
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 3,
+   "eisenstein_non_etale": true,
+   "ell": 11,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D23_M1_k2.json"
+   },
+   "gammas": [
+    4,
+    2,
+    6
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 3,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true,
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -23,
+    "h": 3,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 2,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    1
+   ],
+   "primes": [
+    2,
+    3,
+    5,
+    7,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 3,
+   "runtime_s": {
+    "hacs_wall": 0.006776380003429949,
+    "python_def_side_and_split": 10.534187999001006,
+    "total": 10.543292738002492
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 4,
+   "whole_hacs": {
+    "components": 2,
+    "dim": 3,
+    "dim_radical": 1,
+    "local": false,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 29,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      5,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      2,
+      5,
+      6,
+      4,
+      5,
+      6
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      2,
+      1,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      3,
+      4,
+      6,
+      5,
+      0,
+      4
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 3,
+   "eisenstein_non_etale": true,
+   "ell": 7,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D29_M1_k2.json"
+   },
+   "gammas": [
+    2,
+    2,
+    6
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 3,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true,
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -29,
+    "h": 3,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 2,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    1
+   ],
+   "primes": [
+    2,
+    3,
+    5,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 3,
+   "runtime_s": {
+    "hacs_wall": 0.005478402992594056,
+    "python_def_side_and_split": 12.79989903299429,
+    "total": 12.80776419499307
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 5,
+   "whole_hacs": {
+    "components": 2,
+    "dim": 3,
+    "dim_radical": 1,
+    "local": false,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 31,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 3,
+     "dim_radical": 2,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1,
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1,
+      1
+     ],
+     "loewy_length": 3,
+     "minpoly_of_generator": [
+      3,
+      2,
+      1,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 3,
+      "dim_radical": 2,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 3,
+      "radical_power_dims": [
+       2,
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      3,
+      4,
+      3,
+      2,
+      4,
+      3
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 3,
+   "eisenstein_non_etale": true,
+   "ell": 5,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D31_M1_k2.json"
+   },
+   "gammas": [
+    4,
+    2,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 3,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -31,
+    "h": 3,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 1,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    0
+   ],
+   "primes": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 3,
+   "runtime_s": {
+    "hacs_wall": 0.005441604007501155,
+    "python_def_side_and_split": 11.12965672100836,
+    "total": 11.13702149099845
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 6,
+   "whole_hacs": {
+    "components": 1,
+    "dim": 3,
+    "dim_radical": 2,
+    "local": true,
+    "nilpotency_index": 3
+   }
+  },
+  {
+   "D": 37,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      2,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      1,
+      1,
+      2,
+      1,
+      1,
+      0
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      0,
+      0,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      0,
+      0,
+      2,
+      0,
+      2,
+      0
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 3,
+   "eisenstein_non_etale": true,
+   "ell": 3,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D37_M1_k2.json"
+   },
+   "gammas": [
+    2,
+    2,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 3,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true,
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -37,
+    "h": 3,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 2,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    1
+   ],
+   "primes": [
+    2,
+    5,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 3,
+   "runtime_s": {
+    "hacs_wall": 0.005490303010446951,
+    "python_def_side_and_split": 10.493850086000748,
+    "total": 10.50175784601015
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 7,
+   "whole_hacs": {
+    "components": 2,
+    "dim": 3,
+    "dim_radical": 1,
+    "local": false,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 41,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 4,
+     "dim_radical": 3,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 3,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "loewy_length": 4,
+     "minpoly_of_generator": [
+      0,
+      0,
+      0,
+      0,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 4,
+      "dim_radical": 3,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 4,
+      "radical_power_dims": [
+       3,
+       2,
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 4,
+   "eisenstein_non_etale": true,
+   "ell": 2,
+   "flags": {
+    "l_divides_gamma": [
+     2,
+     6
+    ],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D41_M1_k2.json"
+   },
+   "gammas": [
+    6,
+    2,
+    2,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 4,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -41,
+    "h": 4,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 1,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    0
+   ],
+   "primes": [
+    3,
+    5,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 4,
+   "runtime_s": {
+    "hacs_wall": 0.005278507000184618,
+    "python_def_side_and_split": 17.902053989004344,
+    "total": 17.910354042003746
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 7,
+   "whole_hacs": {
+    "components": 1,
+    "dim": 4,
+    "dim_radical": 3,
+    "local": true,
+    "nilpotency_index": 4
+   }
+  },
+  {
+   "D": 41,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      4,
+      4,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      3,
+      4,
+      3,
+      2,
+      4,
+      3
+     ],
+     "strictly_etale": false
+    },
+    {
+     "dim": 2,
+     "dim_radical": 0,
+     "dim_socle": 2,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      2,
+      4,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 0,
+      "dim_socle": 2,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 2
+     },
+     "residue_degree": 2,
+     "residue_label": [
+      [
+       2,
+       4,
+       1
+      ],
+      [
+       2,
+       4,
+       1
+      ],
+      [
+       4,
+       2,
+       1
+      ],
+      0,
+      [
+       2,
+       1,
+       1
+      ],
+      3
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 4,
+   "eisenstein_non_etale": true,
+   "ell": 5,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D41_M1_k2.json"
+   },
+   "gammas": [
+    6,
+    2,
+    2,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 4,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true,
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -41,
+    "h": 4,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 2,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    0
+   ],
+   "primes": [
+    2,
+    3,
+    7,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 4,
+   "runtime_s": {
+    "hacs_wall": 0.004736916002002545,
+    "python_def_side_and_split": 0.019309758994495496,
+    "total": 0.02594884099380579
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 7,
+   "whole_hacs": {
+    "components": 2,
+    "dim": 4,
+    "dim_radical": 1,
+    "local": false,
+    "nilpotency_index": 2
+   }
+  },
+  {
+   "D": 43,
+   "algebra": "T^(D*ell) anemic: T_p, p not dividing D*ell (no T_ell, no U_D/Atkin-Lehner)",
+   "blocks": [
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 0,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      2,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      5,
+      5,
+      3,
+      3,
+      2,
+      4
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 1,
+     "dim_radical": 0,
+     "dim_socle": 1,
+     "dim_tangent": 0,
+     "disagree": [],
+     "eisenstein": false,
+     "embdim": 0,
+     "etale": true,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1
+     ],
+     "idx": 1,
+     "local": true,
+     "loewy_layers_over_f": [
+      1
+     ],
+     "loewy_length": 1,
+     "minpoly_of_generator": [
+      3,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 1,
+      "dim_radical": 0,
+      "dim_socle": 1,
+      "dim_tangent": 0,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 1,
+      "radical_power_dims": [],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      4,
+      3,
+      5,
+      0,
+      2,
+      6
+     ],
+     "strictly_etale": true
+    },
+    {
+     "dim": 2,
+     "dim_radical": 1,
+     "dim_socle": 1,
+     "dim_tangent": 1,
+     "disagree": [],
+     "eisenstein": true,
+     "embdim": 1,
+     "etale": false,
+     "generator_index": 0,
+     "generator_prime": 2,
+     "gorenstein": true,
+     "hilbert": [
+      1,
+      1
+     ],
+     "idx": 2,
+     "local": true,
+     "loewy_layers_over_f": [
+      1,
+      1
+     ],
+     "loewy_length": 2,
+     "minpoly_of_generator": [
+      2,
+      1,
+      1
+     ],
+     "python": {
+      "components": 1,
+      "dim": 2,
+      "dim_radical": 1,
+      "dim_socle": 1,
+      "dim_tangent": 1,
+      "gorenstein": true,
+      "local": true,
+      "nilpotency_index": 2,
+      "radical_power_dims": [
+       1
+      ],
+      "residue_degree": 1
+     },
+     "residue_degree": 1,
+     "residue_label": [
+      3,
+      4,
+      6,
+      5,
+      0,
+      4
+     ],
+     "strictly_etale": false
+    }
+   ],
+   "dim_M_over_Q": 4,
+   "eisenstein_non_etale": true,
+   "ell": 7,
+   "flags": {
+    "l_divides_gamma": [],
+    "l_in_Q_sqrt_a": null,
+    "note": "T is intrinsic (Z-algebra of the T_p in End_Q(M)); neither flag affects T (see module docstring)"
+   },
+   "free_block_z": {
+    "see": "code/results/s06/brandt_free_block_z/D43_M1_k2.json"
+   },
+   "gammas": [
+    4,
+    2,
+    2,
+    2
+   ],
+   "generation": {
+    "T_ell_adds_nothing": true,
+    "argument": "Smith invariants of the HNF basis of T_comp in Z^{h^2} all 1 <=> T_comp = Q T_comp cap M_h(Z) contains T contains T_comp",
+    "certified_equal": true,
+    "method": "saturation",
+    "rank": 4,
+    "smith_invariants_all_one": true
+   },
+   "gorenstein_flags": [
+    true,
+    true,
+    true
+   ],
+   "has_non_etale": true,
+   "info": {
+    "a": -43,
+    "h": 4,
+    "model": "weight-2 Brandt module, class basis (class order of brandt.module(D).T(p))"
+   },
+   "k": 2,
+   "n_max_ideals": 3,
+   "n_primes": 6,
+   "non_etale_blocks": [
+    2
+   ],
+   "primes": [
+    2,
+    3,
+    5,
+    11,
+    13,
+    17
+   ],
+   "python_hacs_agree": true,
+   "rank_T": 4,
+   "runtime_s": {
+    "hacs_wall": 0.00594659500347916,
+    "python_def_side_and_split": 17.33239782799501,
+    "total": 17.34133717000077
+   },
+   "stable_under_extra_primes": true,
+   "sturm_bound": 8,
+   "whole_hacs": {
+    "components": 3,
+    "dim": 4,
+    "dim_radical": 1,
+    "local": false,
+    "nilpotency_index": 2
+   }
+  }
+ ],
+ "provenance": {
+  "commit": "e5911cabee8563c13be0afc00bef07622e44ca2a-dirty",
+  "date": "2026-11-15T01:16:06+00:00",
+  "dirty": true,
+  "hacs_binary": "hacs-build/laneA/hacs",
+  "hacs_sha256": "63129f5bc5b5da30287f78cc398cfe379c2c770f91e3dee6d4a4517bf98b7179",
+  "hacs_version": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+  "notes": null,
+  "params": {
+   "cells": [
+    [
+     11,
+     2,
+     5
+    ],
+    [
+     3,
+     12,
+     17
+    ],
+    [
+     5,
+     12,
+     29
+    ],
+    [
+     5,
+     12,
+     131
+    ],
+    [
+     7,
+     12,
+     1051
+    ],
+    [
+     17,
+     2,
+     2
+    ],
+    [
+     19,
+     2,
+     3
+    ],
+    [
+     23,
+     2,
+     11
+    ],
+    [
+     29,
+     2,
+     7
+    ],
+    [
+     31,
+     2,
+     5
+    ],
+    [
+     37,
+     2,
+     3
+    ],
+    [
+     41,
+     2,
+     2
+    ],
+    [
+     41,
+     2,
+     5
+    ],
+    [
+     43,
+     2,
+     7
+    ]
+   ],
+   "min_primes": 4,
+   "prime_cap": 19,
+   "primes_rule": "p prime to D*l, p <= ceil(k psi(D)/12), >= 4 primes, +2 until the Z-lattice T is stable"
+  },
+  "pari_version": "2.15.4",
+  "per_cell_runtime_s": {
+   "11:2:5": 10.636291736998828,
+   "17:2:2": 8.69793566800945,
+   "19:2:3": 7.757691727994825,
+   "23:2:11": 10.543292738002492,
+   "29:2:7": 12.80776419499307,
+   "31:2:5": 11.13702149099845,
+   "37:2:3": 10.50175784601015,
+   "3:12:17": 3.9416507279966027,
+   "41:2:2": 17.910354042003746,
+   "41:2:5": 0.02594884099380579,
+   "43:2:7": 17.34133717000077,
+   "5:12:131": 0.03631025701179169,
+   "5:12:29": 3.6510024729941506,
+   "7:12:1051": 4.375028588998248
+  },
+  "python": "3.10.12",
+  "runtime_s": 119.36438658699626,
+  "s06_c1_comparison": "OPEN: S06-C1 is not merged; Python-vs-HACS agreement here is the in-module independent route only",
+  "script": "code/python/langlandscape/hacs_bridge/definite_alg.py"
+ },
+ "status": "computed"
+}

@@ -1,0 +1,516 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 05, WP S05-M1 (package abhijit/s05-math): setting, the factor 2, the dictionary theta_s, the sign and the exponent,
+% the Frobenius table of rem:s05-Xstatus, the consistency lemma.
+% Labels (fixed by plan/staged/stage-05-comparison-hypothesis.tex): ss:s05-sign, rem:s05-factor2, def:s05-theta,
+% lem:s05-theta-welldef, prop:s05-sign, rem:s05-Xstatus, lem:s05-consistency.
+% Labels of sibling WPs (thm:s05-G [now \ref'd, S05-M9b], rem:s05-illusie, rem:s05-hsieh: S05-M5; prop:s05-sign(e): S05-M2; rem:s05-D1: S05-M7;
+% hyp:s05-X: S05-M3, same package) are referred to as text where they live in another package's file.
+% Page numbers: Ribet 1990 = journal pagination (scan, pdf page + 429); Ribet--Stein = printed pagination of the preprint
+% (printed = pdf page - 4 throughout, incl. Conrad's appendix); Mazur 1977 = journal pagination; Diamond--Im = book pagination.
+\subsection{Setting, the dictionary, and the sign}\label{ss:s05-sign}
+
+\paragraph{Setting and conventions for this stage.}
+\emph{Notation warning.} The letters $w$ (Atkin--Lehner involution, weights $w_x$, $w_e$, index of $\langle\,,\rangle_w$), $e$ (sign exponent, edges, idempotent) and $\delta$ (diamond sign, other uses) are overloaded; the meaning is fixed by context.
+Throughout: $p\ge5$, $q\ne p$ prime, $(M,pq)=1$ ($M=1$ allowed), $B=B_q$ the definite quaternion algebra over $\Q$ ramified
+exactly at $\{q,\infty\}$, $\cO\subset B$ a maximal order, $U_s:=\Uone{Mp^s}\subseteq\hat\cO^\times$ for $s\ge0$ (so $U_{s,q}=\cO_q^\times$
+and $U_0=\Uone{M}$), $S_s:=\XBq{U_s}$, $\Z[S_s]^0:=\ker(\deg:\Z[S_s]\to\Z)$. On the $\GL_2$ side
+$\Gamma_s:=\Gamma_1(Mp^s)\cap\Gamma_0(q)$, $X_s$ its compactified modular curve over $\Q$, $J_s:=\Jac X_s$, with Hecke
+correspondences acting on $J_s$ by \emph{Picard} functoriality. The model of $X_s$ over $\Q$ is the one classifying triples
+$(E,\alpha:\mu_{Mp^s}\hookrightarrow E,C)$ with $C$ cyclic of order $q$ (the \emph{$\mu_N$-model}), as in Ribet--Stein
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, pp.~28--29: the $\mu_N$-model of $X_1(N)$, $T_p$
+on $J_1(N)$ by Picard functoriality, the diamond $\langle d\rangle(E,\alpha)=(E,\alpha\circ[d])$; also the remark there that the
+$\Z/N\Z$-model is a different choice}. (Ribet--Stein assume $N>4$ there, where the moduli problem is representable; for
+$Mp^s\le4$, i.e.\ $s=0$, $M\le4$, we use the coarse space, and for $Mp^s\le2$ the two models coincide, so FD1 is vacuous there.)
+(Seam D1/F1.) FD1 is decided (Fabian, 2026-11-15): the model of $X_s$ is the $\mu_N$-model with Picard functoriality. With the naive ($\Z/N\Z$) model, the Frobenius formula of (X4) would read
+$q\langle q\rangle^{-1}U_q$ instead of $qU_q$ (Remark~\ref{rem:s05-Xstatus}).
+$\Xq(J_s):=\Hom_{\bar\F_q}(\mathcal T_s,\mathbb G_m)$ is the character group of the torus $\mathcal T_s$ of the special fibre at $q$ of the
+Néron model of $J_s$. On the definite side we use the \emph{homological} module $\Z[S_s]$ with the right-translation action of
+stage~01 (Def.~\ref{def:s01-hecke}): $T_g[x]=\sum_i[xg_i]$ for $UgU=\coprod_ig_iU$; in particular $\Pi_q[x]=[x\Pi_q]$,
+$U_p[x]=\sum_{j=0}^{p-1}[x\varpi_j]$ ($=N_{U_p}$, Def.~\ref{def:s01-NUp}), $\langle d\rangle[x]=[x\delta_d]$ (adelic diamond).
+$\Frob_q\in G_{\Q_q}$ denotes an \emph{arithmetic} Frobenius. On $\bar\F_q$-points of the special fibre it acts as the Frobenius
+endomorphism. If $\sigma_q$ denotes its action on $\Xq$ (by transport of structure, $\sigma_q\chi=\Frob_q\circ\chi\circ\Frob_q^{-1}$), then on
+$T_t=\Hom(\Xq,\Zp(1))$ it acts by $f\mapsto\Frob_q\circ f\circ\sigma_q^{-1}=q\,(f\circ\sigma_q^{-1})$, i.e.\ as $q$ times the transpose of
+$\sigma_q^{-1}$. The rule ``$h$ acts on a $\Hom$-piece by $f\mapsto f\circ h$'' is what ``transpose action'' means below.
+
+\begin{remark}[factor $2$ between $\Gamma_0$- and $\Gamma_1$-type levels; the stage-01 seam]\label{rem:s05-factor2}
+Let $U'\le U$ be levels and $\pi:\XB{U'}\to\XB{U}$. By Prop.~\ref{prop:s01-adjoint}(c), $\nu\circ\pi_*=\mathrm{tr}\circ\nu'$
+holds if $-1\in U'$ or $-1\notin U$, and $\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$ if $-1\in U\setminus U'$. In the tower of this stage,
+$-1\in U_s=\Uone{Mp^s}$ iff $-1\equiv1\bmod Mp^s$ iff $Mp^s\le2$ iff $s=0$ and $M\le2$ (as $p\ge5$). So the second case occurs exactly
+for $\pi:S_{s'}\to S_0$ with $s'\ge1$ and $M\le2$; for $s'\ge s\ge1$ it never occurs, and moreover $w_x=1$ for all $x\in S_s$, $s\ge1$
+(\pathtt{if:s01-classset}, Lemma~\ref{lem:s01-stab}(b): $\Gamma_x$ is trivial for $U\subseteq\Uone p$, $p\ge5$). The $\GL_2$ side has
+the same factor: $X_1(N)\to X_0(N)$ has degree $\varphi(N)/2$ for $N\ge3$, not $[\Gamma_0(N):\Gamma_1(N)]=\varphi(N)$, since
+$-1\in\Gamma_0(N)\setminus\Gamma_1(N)$ acts trivially on $\Hb$.
+\textbf{Hypothesis (F2), used throughout:} every comparison of pairings across a change of level $U'\le U$ with $-1\in U\setminus U'$ carries the
+explicit factor $2$; in this stage that is the passage $S_{s'}\to S_0$ for $M\le2$ (Lemma~\ref{lem:s05-consistency}(c)).
+\stproved{} (the case analysis and the definite-side factor, from Prop.~\ref{prop:s01-adjoint}(c)); the $\GL_2$-side degree is \stknown.
+\end{remark}
+
+\paragraph{The dictionary.}
+\begin{definition}[dictionary $\theta_s$]\label{def:s05-theta}
+Let $\cH_s:=\Z[(\Z/Mp^s)^\times]\otimes_\Z\Z[T_\ell,U_\ell,U_p\text{ or }T_p,U_q]$, the group ring of the diamonds $\langle d\rangle$
+($d\in(\Z/Mp^s)^\times$, so $\langle d\rangle\langle d'\rangle=\langle dd'\rangle$ and $\langle d\rangle^{-1}=\langle d^{-1}\rangle$) tensored with the polynomial ring on the symbols
+\[T_\ell\ (\ell\nmid Mpq\text{ prime}),\quad U_\ell\ (\ell\mid M),\quad U_p\ (\text{if }s\ge1),\quad T_p\ (\text{if }s=0),\quad U_q.\]
+\provisional{S05-M1: the stage tex takes the free commutative algebra on all symbols including the $\langle d\rangle$; then
+$\langle d\rangle^{-1}$, $T_\ell^\Ros=\langle\ell\rangle^{-1}T_\ell$ and $U_q^\Ros$ would not lie in $\cH_s$. The group ring fixes this; $\theta_s$ is well defined on it
+because $d\mapsto\langle d\rangle^{-1}$ (adelic) is a homomorphism into a commutative group (self-audit F11).}
+It acts on $\Xq(J_s)$ through the classical Hecke correspondences (Picard functoriality, classical normalisation, classical
+diamonds). Define $\theta_s:\cH_s\to\End_\Z\Z[S_s]^0$ as the $\Z$-algebra homomorphism with
+\[\begin{gathered}T_\ell\mapsto T_\ell,\quad U_\ell\mapsto U_\ell,\quad U_p\mapsto U_p\ (N_{U_p}),\quad T_p\mapsto T_p,\\
+\langle d\rangle\mapsto\langle d\rangle^{-1}\ (\text{adelic}),\quad U_q\mapsto\varepsilon\,\Pi_q,\qquad \varepsilon=+1,\end{gathered}\]
+all acting homologically on $\Z[S_s]$ and restricted to $\Z[S_s]^0$. Here $U_\ell=T_{\varpi_\ell}$ ($\ell\mid M$), $\langle d\rangle=T_{\delta_d}$,
+$\Pi_q=T_{\Pi_q}$ for a uniformiser $\Pi_q\in B_q^\times$ (Def.~\ref{def:s01-hecke}), and, at $s=0$, $T_p:=T_{\varpi_p}$ with
+$\varpi_p=\iota_p^{-1}\mathrm{diag}(p,1)$, which is the operator ``$T_\ell$ for $\ell=p$'' of Def.~\ref{def:s01-hecke} at the level
+$U_0$, whose $p$-component is $\GL_2(\Zp)$. For $M=1$ there are no $U_\ell$; for $s=0$ and $M\le2$ the diamond group is trivial.
+\lean{Langlandscape.Comparison.theta} \stformal{} on the \emph{generators} only (a function on the generator type \texttt{HeckeSym}; no ring-homomorphism extension to $\cH_s$ is defined in Lean; \pathtt{Comparison/Dictionary.lean}, S05-L1; without $U_\ell$ for $\ell\mid M$; $p\ge5$ is not assumed, only \texttt{Fact p.Prime}; it requires \texttt{d.D = q}). The DR-graph bridge to \pathtt{if:s03-graph} is \stformal{} in \pathtt{Comparison/DRBridge.lean}.
+\end{definition}
+
+\begin{lemma}[$\theta_s$ is well defined]\label{lem:s05-theta-welldef}
+\begin{enumerate}[label=(\alph*)]
+\item For every $g$ in the list of Def.~\ref{def:s05-theta}, $\deg(T_ga)=\#(UgU/U)\cdot\deg a$ on $\Z[S_s]$; hence $\Z[S_s]^0$ is
+  $T_g$-stable.
+\item The images of the generators commute pairwise, so $\theta_s$ is a well-defined ring homomorphism; it does not depend on the
+  choice of $\Pi_q$ and of $\delta_d$.
+\end{enumerate}
+\stproved.
+\end{lemma}
+\begin{proof}
+(a) $T_g[x]=\sum_{i}[xg_i]$ is a sum of $\#(UgU/U)$ basis vectors, so $\deg T_g[x]=\#(UgU/U)$ for every $x$; extend linearly.
+(The number of cosets is finite: $U$ is compact open.) For the normalising elements $\delta_d$, $\Pi_q$ it is $1$; for $U_p$ it is $p$
+(Lemma~\ref{lem:s01-Up}(a)).
+(b) All generators are operators $T_g$ of Def.~\ref{def:s01-hecke} on $\Z[\XB{U_s}]$, except $T_p$ at $s=0$; their homological
+versions are the transposes, for the naive evaluation pairing, of the function versions, and a family of operators commutes iff the
+family of transposes does. On functions they commute by Prop.~\ref{prop:s01-relations}(c) (and Lemma~\ref{lem:s01-Up}(e) for $U_p$).
+For $T_p$ at $s=0$: it is supported at $p$, and the other generators are supported at primes $\ne p$ except the diamonds; at $s=0$ the
+diamonds are supported at the primes dividing $M$ (with $\delta_d$ chosen diagonal and supported there), so principle (P1) of the
+proof of Prop.~\ref{prop:s01-relations}(c) applies to every pair. Independence of $\Pi_q$ and $\delta_d$:
+Prop.~\ref{prop:s01-relations}(b) and the proof of Def.~\ref{def:s01-hecke} (transposed).
+\end{proof}
+\noindent In particular, on $\Z[S_s]$ (and $\Z[S_s]^0$) one has, for $\ell\nmid Mpq$ and for $\ell=q$, the homological identities
+\begin{equation}\label{eq:s05-Sell}
+S_\ell[x]=[xz_\ell]=\langle\ell\rangle^{-1}[x],\qquad \Pi_q^2=S_q=\langle q\rangle^{-1}\qquad(\text{all diamonds trivial if }Mp^s\le2).
+\end{equation}
+Indeed $z_\ell$ normalises $U_s$, so $S_\ell[x]=[xz_\ell]$, and the proof of Prop.~\ref{prop:s01-relations}(a) (with $k=2$, trivial
+coefficients) gives $[xz_\ell]=[x\,\ell^{-1}z_\ell]=[x\delta_{\ell^{-1}}u]=[x\delta_{\ell^{-1}}]=\langle\ell\rangle^{-1}[x]$; for $\ell=q$, $\Pi_q^2=z_qv$ with
+$v\in\cO_q^\times$, so $[x\Pi_q^2]=[xz_q]$ (Prop.~\ref{prop:s01-relations}(b)). The same computation is valid at every level, including
+$s=0$, where $\delta_{\ell^{-1}}$ is trivial if $M\le2$.
+
+\paragraph{The sign and the exponent.}
+\begin{proposition}[$\varepsilon=+1$; exponent $+1$]\label{prop:s05-sign}
+\begin{enumerate}[label=(\alph*)]
+\item ($\Gamma_0$-level, weight $2$.) Let $N=qM'$ with $q\nmid M'$, and identify $\Xq(J_0(N))\cong\Z[\Sigma(M')]^0$ (Ribet's
+  Prop.~3.1; Thm.~\ref{thm:s05-G}(ii)), and $\Sigma(M')\cong\XBq{\Uzero{M'}}$ by Deuring's correspondence as in Ribet \S3. Then $U_q=T_q$ acts
+  on $\Xq(J_0(N))$ as the permutation $[x]\mapsto[x\Pi_q]$; so $\varepsilon=+1$. Since $\Pi_q^2$ acts trivially on
+  $\XBq{\Uzero{M'}}$, this permutation equals $[x]\mapsto[x\Pi_q^{-1}]$ (the Frobenius permutation). \stpmc.
+  At $\Gamma_1$-level, in the $\mu_N$-model of the Setting, the Frobenius permutation is $[x]\mapsto[x\Pi_q^{-1}]$ and differs from
+  $[x]\mapsto[x\Pi_q]$ in general: \stpmc{} given (X1) and FD1 (it follows from (X1) and the four-row table, Remark~\ref{rem:s05-Xstatus}, anchored at the naive/Albanese row, which is \stpmc{} conditional on FD1; Ribet--Stein's Lemma~3.17 agrees under a convention).
+  (The model is fixed by the decision FD1 (Fabian, 2026-11-15): the Frobenius permutation at $\Gamma_1$-level ($\mu_N$-model, Picard functoriality) is $\Pi_q^{-1}$; the status \stpmc{} above is that of the derivation (given FD1), not of the model choice.)
+\item (Consistency with stage 01.) For $D=q=11$, $M'=1$: $\Pi_{11}=\mathrm{id}$ on $\Z[\XB{\hat\cO^\times}]$, and $a_{11}(11a)=+1$
+  (Example~\ref{ex:s01-Pi11}); so $\varepsilon=+1$. \stproved{} that $\Pi_{11}=\mathrm{id}$; $\varepsilon=+1$ then follows given the \stknown{} value $a_{11}=+1$ and the compatibility of
+  $\theta$ with $U_{11}$ on the cuspidal line ((X1) at $\Gamma_0(11)$, i.e.\ (a), or JL at $11$; Example~\ref{ex:s01-Pi11} is itself \stpmc).
+\item (Exponent.) Let $N\ge1$ with $(N,q)=1$ and let $\cH^{\rm new}$ be the image of the weight-$2$ Hecke algebra of
+  $\Gamma_1(N)\cap\Gamma_0(q)$ (generated by the $T_\ell$, $\ell\nmid Nq$, the $U_\ell$, $\ell\mid N$, the classical
+  $\langle d\rangle$, $d\in(\Z/N)^\times$, and $U_q$) in the endomorphisms of the $q$-new subspace. Let
+  $\theta:\cH^{\rm new}\to\End\Z[\XBq{\Uone N}]^0$ be a ring homomorphism with $\theta(\langle d\rangle)=\langle d\rangle^{-\delta}$ (adelic)
+  and $\theta(U_q)=\varepsilon\Pi_q^{\,e}$, $\varepsilon,\delta,e\in\{\pm1\}$. If $\langle q\rangle^2\ne1$ on $\Z[\XBq{\Uone N}]^0\otimes\C$ (equivalently:
+  some character $\chi$ of $(\Z/N)^\times$ with $\chi(q)\ne\pm1$ occurs in the adelic diamond action on it), then $e=\delta$. If
+  $\langle q\rangle^2=1$ there (e.g.\ $N\le2$, or $q^2\equiv\pm1\bmod N$: only even $\chi$ occur, since $\langle-1\rangle=1$ on the class set,
+  see the proof), the relation imposes nothing. \stpmc{}; checked numerically in T05-2, Remark~\ref{rem:s05-computed}(2).
+  \provisional{S05-M1: compared with the stage tex, (c) constrains only $\theta(\langle d\rangle)$ and $\theta(U_q)$ (the other generators are
+  arbitrary), and the condition on $\chi$ is read on the definite side; both are harmless generalisations (self-audit F8).}
+\item (The diamond convention is $\delta=+1$, among the dictionaries considered here.) Let $\theta'=(\theta'_s)_{s\ge1}$ be either $(\theta_s)_s$ or $(\theta^\Ros_s)_s$
+  (Prop.~\ref{prop:s05-AL}). If (X1)--(X3) of Hypothesis~\ref{hyp:s05-X} hold for some family $(\varphi_s)$ with $\theta'$ in place of $\theta$,
+  and $\rk_{\Zp}e\,\Zp[S_s]\ge2$ for some $s\ge1$, then $\theta'=\theta$; i.e.\ $\delta=+1$ among $\theta_s$, $\theta^\Ros_s$ and the dictionaries with $T_\ell\mapsto T_\ell$ \emph{as soon as some $\langle\ell\rangle^2\ne1$ on $\Z[S_s]^0$} (at $p=5$, $s=1$, $M=1$ only even $\chi$ with $\chi^2=1$ occur, so this qualifier is needed), hence $e=+1$ whenever (c) applies:
+  $U_q\mapsto+\Pi_q$. The dictionaries with $\delta=-1$ and $T_\ell\mapsto T_\ell$ are excluded by the $T_\ell$-relation as soon as some
+  $\langle\ell\rangle^2\ne1$ on $\Z[S_s]^0$ (Lemma~\ref{lem:s05-consistency}(a)). This agrees with stage 01's diamond flag on forms (adelic
+  $\langle d\rangle$ $=$ classical $\langle d\rangle^{-1}$, Remark~\ref{rem:s01-diamond}). \stpmc{} (the input ``Picard $U_p$ commutes with the
+  pullbacks'' is Lemma~\ref{lem:s05-Up-pullback}, \stpmc; batch-5 closure, previously \sttoprove). The hybrid dictionary $\langle d\rangle\mapsto\langle d\rangle$, $T_\ell\mapsto\langle\ell\rangle T_\ell=T_\ell^*$, $U_q\mapsto\Pi_q^{-1}$, $U_p\mapsto N_{U_p}$ ($\delta=-1$) satisfies the
+  relations of Lemma~\ref{lem:s05-consistency}(a), (b) and commutes with $\pi_*$, and is \emph{not} excluded by these arguments (nor by (X3)). Nor is it excluded by T05-2: at the levels computed there ($s=0$, no $U_p$) it
+  coincides with $\theta^\Ros_0$, which matches the classical eigensystems as well as $\theta_0$ does (Remark~\ref{rem:s05-computed}(2); this is
+  Prop.~\ref{prop:s05-AL} at a single level). Excluding it \emph{modulo cited results}: under the hybrid dictionary the Brandt eigenvector attached to an eigenform $f$ carries the eigensystem of $\bar f$ away from $Mpq$, but $U_p\mapsto a_p(f)$ in place of $a_p(\bar f)=\overline{a_p(f)}$. The eigensystem matching away from $Mpq$ is Jacquet--Langlands
+  (\lit{jacquet-langlands\_1970\_automorphic-forms-on-gl2}{Ch.~III, \S14, Thm.~14.4, p.~470 (printed pagination; PDF p.~479)}, with strong multiplicity one), which says nothing about $U_p$ at $p\mid$ level. The $U_p$-step needs \emph{local newform theory at $p$}
+  (Casselman 1973, \emph{On some results of Atkin and Lehner}, Math.\ Ann.\ 201; not in \pathtt{literature/}, not checked): if $f$ is \emph{new at $p^s$}, the $U_1(p^s)$-fixed space of the local component $\pi_p$ is a line on which $U_p$ acts by $a_p(f)$, and $\bar f$ is again new at $p^s$ with $a_p(\bar f)=\overline{a_p(f)}$; the Brandt side has the same $\GL_2(\Q_p)$-module, so the $U_p$-eigenvalue on the line of $\bar f$ must be $\overline{a_p(f)}$. Hence the hybrid is excluded at every level $s\ge1$ carrying a form $f$ that is $q$-new, \emph{new at $p^s$} and has $a_p(f)\notin\R$ (this forces the $p$-part of the nebentypus to be primitive of conductor $p^s$: for trivial $p$-part $a_p$ is real). The hypothesis ``new at $p$'' cannot be dropped: for a $p$-stabilisation $f$ of a $p$-old form with $\chi(p)=1$, the $U_p$-eigenvalues on the $\bar f$-old space are $\{\bar\alpha,\bar\beta\}=\{p/\alpha,\bar\chi(p)\alpha\}\ni\alpha=a_p(f)$, so no contradiction arises, although $\alpha\notin\R$. Thm.~\ref{thm:s01-lambdaJL} for the $\Lambda$-adic form is not re-checked here. \stpmc{} (cited: JL, strong multiplicity one, local newform theory; the existence of such an $f$ at some level is an extra condition we do not verify in general). All of (d) is a statement about the shape of
+  $\HypX$, which itself stays \sthyp.
+\end{enumerate}
+Part (e) of the stage tex (higher weight, local Jacquet--Langlands for $\St\otimes\chi$) is written in the section on higher weight
+(WP S05-M2).
+\end{proposition}
+\begin{proof}
+\emph{(a).} Four cited steps and one computation.
+(1) $\Xq(J_0(N))$ is the group of degree-$0$ divisors on the set $\Sigma(M')$ of supersingular points of $X_0(M')_{\bar\F_q}$
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.1, p.~439 (scan): the character group in
+the case $C=X_0(Mq)$ is the group of degree-$0$ divisors on $\Sigma(M)$; the dual graph has the two components as vertices and the
+supersingular points as edges, by Deligne--Rapoport V.1.18}.
+(2) On the torus $w_q=-T_q$, and $w_q$ acts on $\Sigma(M')$ as the Frobenius $x\mapsto x^{(q)}$ while interchanging the two
+components \lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.7, p.~445; Prop.~3.8(i),
+p.~446}.
+(3) $T_q$ on $\Xq$ is the restriction of the map on divisors induced by the Frobenius automorphism of $\Sigma(M')$
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Prop.~3.8(ii), p.~446}. (The two minus signs, from
+$w_q=-T_q$ and from the vertex swap acting by $-1$ on $H_1$ of the two-vertex graph, cancel; this is Ribet's proof of (ii).)
+(4) Under the correspondence between enhanced supersingular curves and ideal classes of an Eichler order of level $M'$ in $B_q$,
+the Frobenius $x\mapsto x^{(q)}$ is right multiplication by an idele that is $1$ away from $q$ and a uniformiser at $q$
+\lit{ribet\_1990\_modular-representations-of-gal-qbar-q-arising-from-modular-forms}{Remark~3.5(b), p.~441}; in our notation, the
+permutation $[x]\mapsto[x\Pi_q]$ of $\XBq{\Uzero{M'}}$ (any uniformiser gives the same permutation, Prop.~\ref{prop:s01-relations}(b)).
+Combining (1)--(4), $T_q=U_q$ acts on $\Z[\Sigma(M')]^0=\Z[\XBq{\Uzero{M'}}]^0$ as $[x]\mapsto[x\Pi_q]$: no sign, $\varepsilon=+1$.
+(5) $\Pi_q^2$ is trivial on $\XBq{\Uzero{M'}}$: by \eqref{eq:s05-Sell}, $[x\Pi_q^2]=[xz_q]=[xy]$ with $y=q^{-1}z_q$ the scalar idele with
+$y_q=1$ and $y_v=q^{-1}\in\Z_v^\times$ for $v\ne q$; scalars with unit entries lie in $\Uzero{M'}$, so $[xy]=[x]$. Hence
+$[x\Pi_q]=[x\Pi_q^{-1}]$.
+The step ``Ribet's $\Xq$ carries the Picard-induced Hecke action'' is how we read Ribet's ``$T_n$ induce endomorphisms of $T$ and act by
+functoriality on $X$'' (p.~445). At $\Gamma_0(N)$-level this choice does not affect $T_q$: on the $q$-new quotient $T_q=-w_q$ is an
+involution, hence equal to its Rosati dual. The deduction is complete modulo the cited statements, whence \stpmc.
+The $\Gamma_1$-level sentence is Remark~\ref{rem:s05-Xstatus}.
+
+\emph{(b).} Example~\ref{ex:s01-Pi11}: the two classes of $B_{11}$ have $|\Gamma_x|=4,6$. Since $\Pi_{11}$ normalises
+$U=\hat\cO^\times$, $\Gamma_{x\Pi_{11}}=B^\times\cap x\Pi_{11}U\Pi_{11}^{-1}x^{-1}=\Gamma_x$, so the permutation $[x]\mapsto[x\Pi_{11}]$ preserves stabiliser
+orders; as these differ, it fixes both classes. So $\Pi_{11}=\mathrm{id}$. The newform $11a$ has $a_{11}=+1$ (split multiplicative reduction). On the one-dimensional
+$\Z[\XB{\hat\cO^\times}]^0$ the operator $\theta(U_{11})=\varepsilon\Pi_{11}=\varepsilon$ must equal $a_{11}=+1$.
+
+\emph{(c).} On the $q$-new subspace of $S_2(\Gamma_1(N)\cap\Gamma_0(q))$ one has $U_q^2=\langle q\rangle$ (classical). For newforms $f$
+of level $N_fq$, $q\nmid N_f$, this is Li's lemma $a_q(f)^2=\chi_f(q)q^{k-2}$ with $k=2$
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Lemma~3.15 (Li), p.~44}; the $q$-new subspace is spanned by the
+$f(dz)$ with $d\mid N/N_f$, and $U_q$, $\langle q\rangle$ commute with $f\mapsto f(dz)$ for $(d,q)=1$. As $\cH^{\rm new}$ acts faithfully
+on that subspace, $U_q^2=\langle q\rangle$ in $\cH^{\rm new}$. Apply $\theta$: $\theta(U_q)^2=\varepsilon^2\Pi_q^{2e}=(\Pi_q^2)^e=\langle q\rangle^{-e}$ by
+\eqref{eq:s05-Sell}, and $\theta(\langle q\rangle)=\langle q\rangle^{-\delta}$. So $\langle q\rangle^{-e}=\langle q\rangle^{-\delta}$. If $e\ne\delta$,
+this says $\langle q\rangle^2=1$ on $\Z[\XBq{\Uone N}]^0$. The adelic diamonds form a commuting family of finite-order operators, so
+$\Z[\XBq{\Uone N}]^0\otimes\C$ is a sum of character spaces, and $\langle q\rangle^2=1$ there iff $\chi(q)^2=1$ for every occurring
+$\chi$. Hence, if some occurring $\chi$ has $\chi(q)\ne\pm1$, then $e=\delta$. Conversely, if all occurring $\chi$ have $\chi(q)=\pm1$,
+both $e=\pm1$ give the same $\theta(U_q)^2$ and the relation decides nothing.
+\emph{Only even characters occur.} $(-1)_{\rm fin}\in\delta_{-1}\Uone N$ (at $v\mid N$, $-1=\mathrm{diag}(1,-1)\,\mathrm{diag}(-1,1)$ with $(2,2)$-entry
+$1$; at $v\nmid N$, $-1\in\Uone N_v$), and the global scalar $-1\in B^\times$ is central, so $\langle-1\rangle[x]=[x(-1)_{\rm fin}]=[(-1)x]=[x]$. Hence every
+occurring $\chi$ is even, and as $\chi(q)^2=\chi(q^2)$, a necessary condition for the hypothesis of (c) is $q^2\not\equiv\pm1\bmod N$ (an even
+character of $(\Z/N)^\times$ not trivial on $q^2$ exists iff $q^2\notin\{\pm1\}$; whether one \emph{occurs} is a further question). So
+$\mathrm{ord}(q\bmod N)\notin\{1,2\}$ is not sufficient: at $N=5$, $q\equiv2,3$ has order $4$ but $q^2\equiv-1$.
+
+\emph{(d).} Suppose (X1)--(X3) hold for $(\varphi_s,\theta'_s)$ and $r:=\rk_{\Zp}e\,\Zp[S_s]\ge2$ for some $s\ge1$. By
+Lemma~\ref{lem:s05-Up-pullback}(b) the Picard $U_p$ commutes with $\beta_{s+1,s}$ on character groups; hence, by (X1) and (X3) (the chain of
+equalities in the proof of Lemma~\ref{lem:s05-consistency}(d), which uses only these three facts), $\theta'_s(U_p)\circ\pi_*=\pi_*\circ\theta'_{s+1}(U_p)$
+on $\Z[S_{s+1}]^0$. For $\theta'=\theta^\Ros$ this says that $U_p^*$ commutes with $\pi_*$, which is false at $s'=s+1$ when $r\ge2$
+(Lemma~\ref{lem:s05-consistency}(d), part ``$U_p^*$''). So $\theta'=\theta$, and $\theta(\langle d\rangle)=\langle d\rangle^{-1}$, i.e.\ $\delta=+1$; then $e=+1$ by (c).
+The clause on the other $\delta=-1$ dictionaries is the computation in the proof of Lemma~\ref{lem:s05-consistency}(a).
+\emph{Why the flag on forms alone does not suffice} (independent reader S05-R1, GAP~1). Ribet--Stein's Picard $T_p$ is \emph{not} the usual
+Hecke action on forms; Gross's Albanese $(T_p)_*=T_p\circ\langle p^{-1}\rangle^*$ is, and the Picard diamond acts on divisors by
+$(E,\alpha)\mapsto(E,\alpha\circ[d^{-1}])$ \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, p.~29}. On the cotangent
+space the Picard action is the Petersson adjoint of the classical one, while on $H^1(X_1(N)^{\rm an},\Z)$ it is the classical one
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad, Thm.~5.1, p.~65 (for $p\mid N$ through
+$\Gamma_1(N)\cap\Gamma_0(p)^t$), and the warning after Def.~5.5, p.~68}. Both readings occur in the literature, so the flag cannot be
+transported to $\Xq(J_s)$ by quoting it; at a single level the two choices are the indistinguishable $\theta_s$, $\theta^\Ros_s$
+(Prop.~\ref{prop:s05-AL}). The argument above avoids forms: it needs only that the Picard $U_p$ commutes with the Picard pullbacks, which
+is a statement about correspondences (Lemma~\ref{lem:s05-Up-pullback}).
+\emph{What stays open.} (i) If $e\,\Zp[S_s]$ has rank $\le1$ for every $s\ge1$, the argument decides nothing. By Thm.~control(a) of stage~04
+(\ref{if:s04-Mord}) the rank at level $s$ is $r_\Lam\,p^{s-1}$ with $r_\Lam$ the $\Lam$-rank of $\Mord(M)$, so the hypothesis holds at $s=2$ as soon
+as $r_\Lam\ge1$ (\stpmc, via stage 04); if $r_\Lam=0$, i.e.\ $e=0$ at every level, $\theta_s$ and $\theta^\Ros_s$ are not separated by this
+argument. (ii) $\HypX$ itself is a hypothesis. T05-2 checks numerically, at $s=0$, that $\theta_0$ matches the classical eigensystems; $\theta^\Ros_0$ matches too
+(Remark~\ref{rem:s05-computed}(2)), so the computation is consistent with (d) but does not test it: the separation of $\theta$ from $\theta^\Ros$
+is the naturality argument above, across $p$-power levels.
+\end{proof}
+
+\begin{remark}[computational checks T05-1, T05-2, T05-3]\label{rem:s05-computed}
+All three are numerical validations of statements proved (modulo cited) above; none is used in a proof. Provenance, as recorded in the JSON files: T05-1 was produced at commit \texttt{89045d1f} (clean tree); T05-2 and T05-3 record
+\texttt{89045d1f}\texttt{-dirty}, i.e.\ with uncommitted changes in the working tree (the code tree is \texttt{89045d1f}); T05-3 reads
+\pathtt{code/results/s03/T1.json}, itself recorded at \texttt{518e93aa}\texttt{-dirty}. PARI 2.15.4, Python 3.10.
+\begin{enumerate}[label=(\arabic*)]
+\item \emph{T05-1: the sign $\varepsilon$} (\pathtt{code/results/s05/T05-1.json}, script
+  \pathtt{code/python/langlandscape/comparison/sign.py}). For $M=1$, $q\in\{11,23,37,43\}$, $k\in\{2,4,6,8\}$, the Brandt module of
+  $B_q$ in weight $k$ (normalisation $\Pi_q^2=q^{k-2}$; at $k=2$ the Eisenstein line removed) was split into $\Pi_q$-eigenspaces and
+  compared with the $U_q$-eigenspaces of $S_k(\Gamma_0(q))^{q\text{-new}}$: per sign, the characteristic polynomials of $T_2,T_3,T_5$ and the
+  factorisation over $\Q$ of that of $C=T_2+3T_3+7T_5$ (i.e.\ the Galois orbits) agree. Result: $a_q(f)=+\lambda(\Pi_q)$ on all $144$
+  eigenlines, none with the opposite sign and none unmatched; i.e.\ $U_q\mapsto+\Pi_q$, as in Prop.~\ref{prop:s05-sign}(a),(b) ($k=2$) and
+  Prop.~\ref{prop:s05-signe}(iii) ($k\ge2$). \stcomp. This confirms the mathematics of the sign, not the reading of Hsieh's paper in
+  Remark~\ref{rem:s05-hsieh}. FD2 is decided (Fabian, 2026-11-15; Remark~\ref{rem:s05-hsieh}): Hsieh's $\mathrm{JL}(U_q)=-U_q$ is read as an erratum; T05-1 itself does not decide this reading.
+\item \emph{T05-2: the diamond convention and the exponent at $\Gamma_1$-level} (\pathtt{code/results/s05/T05-2.json}, script
+  \pathtt{code/python/langlandscape/comparison/gamma1.py}). Weight $2$, $s=0$, $M=N$ prime, $(q,N)\in\{(13,5),(11,7),(23,5),(23,7)\}$:
+  the operators of Def.~\ref{def:s05-theta} on $\Z[\XBq{\Uone N}]^0$ (homological, adelic diamonds $\langle d\rangle[x]=[x\,\mathrm{diag}(1,d)]$) were
+  compared over $\C$ (tolerance $10^{-6}$; $T_\ell$ for the four smallest primes $\ell\nmid qN$; classical characters read off from
+  $a_\ell^2-a_{\ell^2}=\ell\chi(\ell)$) with all $q$-new eigensystems of $S_2(\Gamma_1(N)\cap\Gamma_0(q))$ (dimensions $11$, $19$, $21$, $43$, equal to $\rk\Z[\XBq{\Uone N}]^0$). Result:
+  \begin{itemize}
+  \item the dictionary $(\delta,e)=(+1,+1)$, $\varepsilon=+1$ ($\langle d\rangle\mapsto\langle d\rangle_{\rm ad}^{-1}$, $U_q\mapsto+\Pi_q$), i.e.\ $\theta_0$, matches at
+    all four pairs; with $\varepsilon=-1$ it fails at all four;
+  \item $(\delta,e)=(+1,-1)$ ($U_q\mapsto\Pi_q^{-1}$) fails at all four: at $(11,7)$, $(23,7)$ by the exponent relation of
+    Prop.~\ref{prop:s05-sign}(c) (the even cubic characters of $(\Z/7)^\times$ have $\chi(q)=\zeta_3^{\pm1}$); at $N=5$ only because
+    $\Pi_q^{-1}=-\Pi_q$ on the part with $\chi(q)=-1$, i.e.\ through the sign $\varepsilon$, not through (c);
+  \item $(\delta,e)=(-1,-1)$ with $T_\ell\mapsto T_\ell$ fails everywhere: at $N=7$ by the $T_\ell$-relation (Lemma~\ref{lem:s05-consistency}(a)), at $N=5$ (where $\langle d\rangle=\langle d\rangle^{-1}$ and that relation holds) as for $(+1,-1)$, through $\Pi_q^{-1}=-\Pi_q$ on the part with $\chi(q)=-1$;
+    $(\delta,e)=(-1,+1)$ with $T_\ell\mapsto T_\ell$ fails at $N=7$ and matches at $N=5$, where $\langle d\rangle=\langle d\rangle^{-1}$;
+  \item the Rosati dictionary $\theta^\Ros_0$ ($T_\ell\mapsto\langle\ell\rangle T_\ell$, $\langle d\rangle\mapsto\langle d\rangle$, $U_q\mapsto\Pi_q^{-1}$) also matches at all four
+    pairs, as Prop.~\ref{prop:s05-AL} predicts at a single level.
+  \end{itemize}
+  \stcomp. \emph{Scope.} By Prop.~\ref{prop:s05-sign}(c) and its proof, a pair tests $e$ only if an occurring (necessarily even) $\chi$ has
+  $\chi(q)\ne\pm1$, which needs $q^2\not\equiv\pm1\bmod N$: at $(11,7)$, $(23,7)$ the even cubic characters occur and have $\chi(q)\ne\pm1$; at $(13,5)$,
+  $(23,5)$ one has $q^2\equiv-1\bmod5$, only $\chi(q)=\pm1$ occurs, and these pairs do not test $e$. So T05-2 confirms (c)
+  (for $\delta=+1$, $e=+1$ is forced and holds) and is consistent with (d); it does not pin $\delta$ among $\theta_0$ and $\theta^\Ros_0$ (nor
+  exclude the hybrid dictionary of (d)). The first is done by the naturality argument of (d) across $p$-power levels; the hybrid is not excluded by naturality (it commutes with $\pi_*$), only, modulo cited results, by the Jacquet--Langlands $U_p$-matching sentence of (d). Limits: numerical
+  over $\C$, $s=0$ only (no $U_p$), $N$ prime, four primes $\ell$, at most two Galois orbits of characters per level.
+\item \emph{T05-3: the component group} (\pathtt{code/results/s05/T05-3.json}, script
+  \pathtt{code/python/langlandscape/comparison/pointer\_s03.py}; a pointer to stage 03, \pathtt{code/results/s03/T1.json},
+  Example~\ref{ex:s03-mazur}, no new computation beyond $\mathrm{num}((q-1)/12)$). For $q\in\{11,23,37,101,131\}$, the combinatorial
+  component group $\Phicomb$ of stage 03 (the cokernel of the weighted monodromy pairing on the degree-zero divisors on $\XBq{\hat\cO^\times}$,
+  i.e.\ on the character group of the dual graph, edge weights $w_e=|\Gamma_e|/2$) is cyclic of order $\mathrm{num}((q-1)/12)$ (orders
+  $5,11,3,25,65$), Mazur's order of $\Phi_q(J_0(q))$; this is the consequence $\Phi_q(J)\cong\Xq(J)^\vee/\Xq(J)$ of (X2) at $\Gamma_0(q)$,
+  Thm.~\ref{thm:s05-G}(iv). \stcomp.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[the Picard-versus-forms step for $\delta$]\label{rem:s05-delta}
+On forms the Picard Hecke algebra acts on the cotangent space through $h\mapsto h^\Ros$ (Ribet--Stein p.~29; Conrad, warning after
+Def.~5.5, p.~68), which at a single level is exactly the ambiguity $\theta_s$ versus $\theta^\Ros_s$ of Prop.~\ref{prop:s05-AL}. It is resolved by
+naturality (Lemma~\ref{lem:s05-consistency}(d)) together with the $T_\ell$-relation (Lemma~\ref{lem:s05-consistency}(a)), \emph{given} that the
+Picard $U_p$ on $J_s$ commutes with the pullbacks $J_s\to J_{s'}$. Until batch 5 this input was \stexp{} with no reference (S05-R1, GAP~1; the
+batch-5 literature search found no statement of it). It is now proved directly from the moduli description of the correspondence, in
+Lemma~\ref{lem:s05-Up-pullback} below; Prop.~\ref{prop:s05-sign}(d) is therefore \stpmc. (The forms computation used before, ``the same coset
+representatives $\left(\begin{smallmatrix}1&j\\0&p\end{smallmatrix}\right)$ at both levels'', is about the classical $U_p$ and the inclusion of
+forms; it is consistent with the lemma via Conrad's Thm.~5.1, p.~65, at level $\Gamma_1(N)$, but it is not used.)
+\end{remark}
+
+\begin{lemma}[the Picard $U_p$ commutes with the pullbacks]\label{lem:s05-Up-pullback}
+Let $s'\ge s\ge1$ and $N_s:=Mp^s$. Let $Y_s$ be the modular curve over $\Q$ of quadruples $(E,\iota,C,D)$ with $(E,\iota,C)$ as in the Setting
+($\iota:\mu_{N_s}\hookrightarrow E$, $C$ cyclic of order $q$) and $D\subset E$ cyclic of order $p$ with $D\cap\iota(\mu_p)=0$, and let
+$a_s,b_s:Y_s\to X_s$ be $a_s(E,\iota,C,D)=(E,\iota,C)$ and $b_s(E,\iota,C,D)=(E/D,\chi\circ\iota,\chi(C))$, with $\chi:E\to E/D$ the quotient
+($\chi\circ\iota$ is injective since $\iota^{-1}(D)\subseteq\iota^{-1}(D\cap\iota(\mu_p))=0$). Define, as Ribet--Stein define $T_p$ for $p\nmid N$
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, pp.~28--29: $T_p=(\pi_1)_*\circ\pi_2^*$ on divisors, $\pi_1$ forgetting the
+subgroup, $\pi_2$ the quotient (p.~28), extended to $J_1(N)$ by Picard functoriality (p.~29)} and Conrad defines $T_p^*$ also for $p\mid N$
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad, pp.~64--65 ($\Gamma_1(N,p)$, triples $(E,P,C)$ with $C$
+meeting $\langle P\rangle$ trivially) and Def.~5.5, p.~68: $T_p^*=\mathrm{Alb}(\pi^{(p)}_1)\circ\mathrm{Pic}^0(\pi^{(p)}_2)$}, the Picard
+$U_p:=(a_s)_*\circ b_s^*$ on divisors of $X_s$ and on $J_s$; the Albanese $U_{p,*}:=(b_s)_*\circ a_s^*$. Let $\pi:X_{s'}\to X_s$,
+$(E,\iota',C)\mapsto(E,\iota'|_{\mu_{N_s}},C)$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item $\pi^*\circ U_p=U_p\circ\pi^*$ as homomorphisms $J_s\to J_{s'}$;
+\item consequently $\beta_{s's}\circ U_p=U_p\circ\beta_{s's}$ on $\Xq(J_{s'})$, where $U_p$ acts on $\Xq(J_\bullet)$ through the contravariant functor
+  $\Xq$ and $\beta_{s's}=\Xq(\pi^*)$ (Hypothesis~\ref{hyp:s05-X}(X3));
+\item $\pi_*\circ U_{p,*}=U_{p,*}\circ\pi_*$ as homomorphisms $J_{s'}\to J_s$ (the Albanese $U_p$ commutes with the pushforwards instead).
+\end{enumerate}
+The same holds verbatim in the naive model ($P$ of order $N_s$ instead of $\iota$, $D\cap\langle P\rangle=0$, $\pi(E,P',C)=(E,p^{s'-s}P',C)$).
+\stpmc{} (from the moduli definitions; the representability is cited).
+\end{lemma}
+\begin{proof}
+Write $X^\circ_s\subset X_s$ for the complement of the cusps and $Y^\circ_s=a_s^{-1}(X^\circ_s)$. As $N_s\ge p\ge5$, the moduli problem of $X^\circ_s$ is
+representable by a smooth curve over $\Q$ (Ribet--Stein, p.~28, for $N>4$; adding $C$, resp.\ $C$ and $D$, is a finite étale condition), and
+$a_s$, $\pi$ are finite étale over $X^\circ_s$ (forgetting a finite étale level structure in characteristic $0$).
+\emph{Cartesian square.} Let $\rho:Y_{s'}\to Y_s$, $(E,\iota',C,D)\mapsto(E,\iota'|_{\mu_{N_s}},C,D)$; this is well defined since $s\ge1$ gives
+$\iota'(\mu_p)=\iota'|_{\mu_{N_s}}(\mu_p)$. Then $a_s\rho=\pi a_{s'}$ and $b_s\rho=\pi b_{s'}$. The map $(a_{s'},\rho):Y^\circ_{s'}\to X^\circ_{s'}\times_{X^\circ_s}Y^\circ_s$
+is an isomorphism: on $T$-points, a pair $((E,\iota',C),(E_1,\iota_1,C_1,D_1))$ with $(E,\iota'|,C)\cong(E_1,\iota_1,C_1)$ has a unique such
+isomorphism $f$ (rigidity of the representable problem), and $(E,\iota',C,f^{-1}(D_1))$ is the unique preimage; the condition
+$f^{-1}(D_1)\cap\iota'(\mu_p)=f^{-1}(D_1\cap\iota_1(\mu_p))=0$ holds again because $\iota'(\mu_p)=\iota'|(\mu_p)$. (Only the $a$-square is used; the analogous map for the $b$-square is not claimed to be an isomorphism.)
+\emph{(a).} On divisors supported on $X^\circ_s$: $\rho^*b_s^*=b_{s'}^*\pi^*$ by functoriality of pullback along finite flat maps of smooth
+curves ($b_s\rho=\pi b_{s'}$), and $\pi^*(a_s)_*=(a_{s'})_*\rho^*$ by the cartesian square of finite étale maps: for $y\in Y^\circ_s(\bar\Q)$,
+$\pi^*[a_s(y)]=\sum_{x'\in\pi^{-1}(a_sy)}[x']$ and $(a_{s'})_*\rho^*[y]=\sum_{y'\in\rho^{-1}(y)}[a_{s'}y']$, and $a_{s'}$ maps $\rho^{-1}(y)$ bijectively onto
+$\pi^{-1}(a_sy)$, all multiplicities being $1$. Hence $\pi^*(a_s)_*b_s^*=(a_{s'})_*\rho^*b_s^*=(a_{s'})_*b_{s'}^*\pi^*$ on such divisors. Every class in
+$J_s(\bar\Q)$ is represented by a degree-$0$ divisor supported on $X^\circ_s$ (moving a divisor off a finite set on a smooth curve), so the
+two homomorphisms $J_s\to J_{s'}$ agree on $\bar\Q$-points, hence are equal.
+\emph{(b).} By the Néron mapping property the identity of (a) extends to the Néron models over $\Z_q$; homomorphisms of the special
+fibres map maximal tori to maximal tori, and $\Xq$ is a contravariant functor; apply it to (a).
+\emph{(c).} Dually: $\pi_*(b_{s'})_*=(b_s)_*\rho_*$ and $\rho_*a_{s'}^*=a_s^*\pi_*$ (the same cartesian square, read for pushforward along $\rho$
+and pullback along $a_s$), so $\pi_*(b_{s'})_*a_{s'}^*=(b_s)_*a_s^*\pi_*$.
+\emph{Naive model.} The only input was that the order-$p$ subgroup of the level structure does not change under $\pi$; this holds for
+$\langle p^{s'-s}P'\rangle\subseteq\langle P'\rangle$ as well, since $p$ divides the order $Mp^s$ of $\langle p^{s'-s}P'\rangle$ ($s\ge1$), so both cyclic groups
+have the same unique subgroup of order $p$.
+\end{proof}
+
+\paragraph{The Frobenius at $\Gamma_1$-level.}
+\begin{remark}[status of $\HypX$; the Frobenius table]\label{rem:s05-Xstatus}
+For $\Gamma_0(qM)$ and trivial coefficients, (X1) without $U_p$ and diamonds, and (X2), are Thm.~\ref{thm:s05-G}(ii)--(iv) \stcited{}
+(the component-group consequence of (X2) at $M=1$ is checked numerically in T05-3, Remark~\ref{rem:s05-computed}(3));
+(X1) for $U_q$ is Prop.~\ref{prop:s05-sign}(a) \stpmc. At $\Gamma_1(Mp^s)\cap\Gamma_0(q)$-level with $U_p$, diamonds and naturality in $s$,
+(X1)--(X4) are expected by the same proofs \stexp{} (the Deligne--Rapoport and Deuring geometry of the $\Gamma_0$ case, which does not
+pass through JL; we have not carried this out; JL enters only beyond $D=q$, at the Shimura-curve comparison, see \S\ref{ss:s00-whycited}); the literature search for $\Gamma_1$-level statements is the section on the
+status of the hypothesis (WP S05-M6).
+
+\emph{Frobenius in (X4).} By the Setting, $\Frob_q$ acts on $T_t$ as $q\,(\sigma_q^{-1})^{\rm T}$, with $\sigma_q$ the action on $\Xq$,
+i.e.\ the map on degree-zero divisors induced by the Frobenius permutation of the supersingular points (Mazur's description
+$F=\alpha\otimes F_q$ on $H^1(\Gamma,\Z)\otimes\mathbb G_m$
+\lit{mazur\_1977\_modular-curves-and-the-eisenstein-ideal}{Appendix, \S3, p.~183}). Hence
+\[\Frob_q=q\,U_q\ \text{on }T_t\ (\text{transpose action})\iff\sigma_q^{-1}=U_q\iff\sigma_q=U_q^{-1}\ \text{on }\Xq,\]
+and under (X1) the latter says that the Frobenius permutation of $S_s$ is $[x]\mapsto[x\Pi_q^{-1}]$ (as $\theta_s(U_q)=\Pi_q$). At
+$\Gamma_0$-level $\sigma_q=U_q$ (Prop.~\ref{prop:s05-sign}(a)) and $U_q^2=1$, so both forms hold. At $\Gamma_1$-level $U_q^2=\langle q\rangle\ne1$ in
+general, and the answer depends on two conventions, the model of $X_s$ and the functoriality:
+\begin{center}\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+model & functoriality & $\sigma_q$ on $\Xq$ & $\Frob_q$ on $T_t$\\\midrule
+$\mu_N$ & Picard & $U_q^{-1}$ & $q\,U_q$\\
+naive ($\Z/N$) & Albanese & $U_q^{-1}$ & $q\,U_q$\\
+naive ($\Z/N$) & Picard & $U_q$ & $q\,U_q^{-1}=q\langle q\rangle^{-1}U_q$\\
+$\mu_N$ & Albanese & $U_q$ & $q\,U_q^{-1}=q\langle q\rangle^{-1}U_q$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Anchor: row 2 (naive model, Albanese): proved modulo cited.} Conrad's appendix identifies the eigensystems of the Albanese Hecke
+operators on $J_1(N)$ with the Galois representations of the newforms: the shape of the Frobenius relation
+$(T_p)_*=F+\langle p\rangle_*F^\vee$ and the Eichler--Shimura relation on the Tate module
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad, Thm.~5.16, p.~74; eigenvalues on $H^1$: Thm.~5.1}
+realise $\rho_f$ on the eigenspaces of the Albanese operators of the naive ($\Z/N$) model. For an eigensystem with $q$-new eigenform $f$ the
+local--global compatibility at $q$ (Langlands, Carayol; for Steinberg type at $q$:
+\lit{carayol\_1986\_sur-les-representations-l-adiques-associees-aux-formes-modulaires-de-hilbert}{main theorem, case $F=\Q$; theorem number not checked};
+for $\mathrm{GL}_2/\Q$ also \lit{deligne\_1969\_formes-modulaires-et-representations-l-adiques}{pointer not checked}) gives $\rho_f|_{G_{\Q_q}}\sim\left(\begin{smallmatrix}\eta\varepsilon_{\rm cyc}&*\\0&\eta\end{smallmatrix}\right)$ with
+$\eta$ unramified, $\eta(\Frob_q)=a_q(f)$ ($\Frob_q$ arithmetic; our inference from the cited statements, no source writes it at $\Gamma_1(N)\cap\Gamma_0(q)$), and the
+toric part $T_t$ carries the sub $\eta\varepsilon_{\rm cyc}$: $\Frob_q=q\,U_q$ on $T_t$ in row 2, $U_q$ the Albanese operator, which acts by $a_q(f)$
+on the eigenline. Hence $\sigma_q=U_q^{-1}$ \stpmc{} (the passage to $\sigma_q$ as in $\Gamma_0$-level, (a)). The rows 3, 1, 4 follow from row 2 by the two
+lemmas below. The other three rows are therefore \emph{not} resting on a reading of Ribet--Stein's bad-prime operator.
+\emph{Consistency check, row 1 (cited, under a convention).} Ribet--Stein work at level $\Gamma_1(M)\cap\Gamma_0(p)$, i.e.\ exactly our
+$\Gamma_s$ with $(Mp^s,q)$ in the role of their $(M,p)$, with the $\mu_N$-model and Picard functoriality (\S2.3.1.1), and state that
+``with our conventions'' $\Frob_p$ acts on the points of the torus $T(\bar\F_p)$ of the special fibre as $pT_p$
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{\S2.3.1.1, pp.~28--29; Lemma~3.17, p.~46 (stated without proof,
+with a reference); their $\Frob_p$ is an arithmetic Frobenius element, \S1.5.2}. This agrees with row 1 \emph{provided} their bad-prime $T_p$ is read as the
+Picard operator $a_*b^*$ of Lemma~\ref{lem:s05-models}(c) (they define the correspondence explicitly only for $p\nmid N$, pp.~28--29; the recipe is
+that of Conrad's Def.~5.5, p.~68, for $p\mid N$). That reading is a convention, so the agreement is a consistency check (not an
+independent anchor, and not the source of the table).
+\emph{Change of functoriality: proved modulo cited.} The Albanese action of a Hecke correspondence is the Rosati dual of its Picard
+action \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad, Thm.~5.8, p.~69: adjunction for the Weil
+pairing interchanges the $(\ )_*$- and $(\ )^*$-actions; stated for $X_1(N)$}, and on the $q$-new part $U_q^\Ros=U_q^{-1}$ (paragraph
+``Internal consistency'' below). So switching the functoriality replaces $U_q$ by $U_q^{-1}$ on the torus and turns row 2 into row 3 (and row 1 into row 4) \stpmc.
+\emph{Change of model: proved modulo cited} (batch 5; previously \stexp). Lemma~\ref{lem:s05-models} below gives an isomorphism
+$\phi:X^\mu_s\xrightarrow{\sim}X^{\rm nv}_s$ over $\Q$ of the $\mu_N$-model onto the naive model under which the Picard operators correspond as
+$U^\mu_q\leftrightarrow U^{\rm nv}_q\langle q\rangle_{\rm nv}^{-1}$ and $\langle d\rangle_\mu\leftrightarrow\langle d\rangle_{\rm nv}^{-1}$. As $\phi$ is defined over $\Q$, the induced
+isomorphism $\phi^*:J^{\rm nv}_s\to J^\mu_s$ extends to the Néron models over $\Z_q$ and induces a $\Frob_q$-equivariant isomorphism of the character
+groups, intertwining the Hecke actions as stated. Here $U_q$ is the Picard operator $a_*b^*$ of the recipe in Lemma~\ref{lem:s05-models}(c) in both models. Row 3 (naive, Picard:
+$\Frob_q=q\,U_q^{-1}=q\langle q\rangle^{-1}U_q$, the last column; $\sigma_q$-entry $U_q$, using $U_q^2=\langle q\rangle$ on $\Xq\otimes\Q$ as in the header of the table and
+in the consistency check below, the relation holding in one model iff in the other by the same transport) comes from the anchor row 2 by the change of functoriality, and
+transports along $\phi$ to $\sigma_q=(U^\mu_q)^{-1}$, i.e.\ $\Frob_q=q\,U_q$ in the $\mu_N$-model with Picard functoriality: row 1 \stpmc. Row 4 follows from row 1 by the change of functoriality
+(\stpmc), and the transport of row 1 to row 3 along $\phi$ gives the same statement as the one just used (the transport is an equivalence). Consistency: Diamond--Im record the naive-model bookkeeping of the degeneracies on the
+two components \lit{diamond-im\_1995\_modular-forms-and-modular-curves\_scan}{(8.4.1), p.~73: $\alpha'\circ i_F=\langle p\rangle$, $\alpha'\circ i_V=\Phi$,
+$\beta'\circ i_F=\Phi$, $\beta'\circ i_V=\mathrm{id}$}, a diamond twist of the same kind (not used in the proof).
+\emph{Withdrawn heuristic.} An earlier draft derived the table from the moduli diamond $I_d:(E,\alpha,C)\mapsto(E,\alpha\circ[d],C)$ on
+supersingular points, claiming that the Picard-induced diamond on $\Z[\Sigma]^0$ is the pushforward of $I_d$. Ribet--Stein give the
+Picard-induced diamond on divisors as $(E,\alpha)\mapsto(E,\alpha\circ[d^{-1}])$ (p.~29), and the dualisation from divisors to
+$\Xq=\Hom(\mathcal T,\mathbb G_m)$ was not tracked; that derivation is therefore not used (independent reader S05-R1, GAP~2).
+\emph{Anchor for the Albanese conventions:} Conrad proves $(T_p)_*=F+\langle p\rangle_*F^\vee$ in $\End(J_1(N)_{\F_p})$
+\lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad, Thm.~5.16, p.~74} (good reduction), which gives
+$\Frob^2-T_p\Frob+p\langle p\rangle=0$ on the Tate module.
+\emph{Status summary.} At $\Gamma_0$-level all four rows agree: \stpmc. At $\Gamma_1$-level: row 2 (anchor: Conrad Thm.~5.16/5.1 plus local--global compatibility at $q$) \stpmc; rows 3, 1, 4 from row 2 by the change of functoriality and Lemma~\ref{lem:s05-models} \stpmc; row 1 additionally agrees with Ribet--Stein Lemma~3.17 (\stcited) under the convention of Lemma~\ref{lem:s05-models}(c), as a consistency check only. The model and functoriality are fixed by the decision FD1 (Fabian, 2026-11-15); the Frobenius clauses are thus conditional only on the table. Test T05-2 stays as a validation (result: Remark~\ref{rem:s05-computed}(2); it does not involve the Frobenius). Consistency check with
+Prop.~\ref{prop:s05-sign}(c): the first row and (X1) give $\sigma_q^2\leftrightarrow\Pi_q^{-2}=\langle q\rangle_{\rm ad}=\theta_s(\langle q\rangle_{\rm cl}^{-1})$,
+matching $\sigma_q^2=U_q^{-2}=\langle q\rangle^{-1}$.
+\emph{Provenance.} Four-row table (model $\times$ functoriality); anchored at row 2 (S05-M9, following audit M8-3: Conrad Thm.~5.16/5.1 and local--global compatibility), rows 3, 1, 4 derived by the change of functoriality and the model comparison of Lemma~\ref{lem:s05-models}; Ribet--Stein Lemma~3.17 (row 1, up to the convention on their bad-prime $T_p$) is a consistency check; the moduli-diamond derivation was withdrawn after S05-R1. The model choice FD1 is decided (Fabian, 2026-11-15): $\mu_N$-model with Picard functoriality.
+\end{remark}
+
+\begin{lemma}[comparison of the two models]\label{lem:s05-models}
+Let $s\ge0$, $N=Mp^s$, and let $X^\mu_s$, $X^{\rm nv}_s$ be the $\mu_N$-model and the naive model of $X_s$ (triples $(E,\iota,C)$, resp.\ $(E,P,C)$
+with $P$ of exact order $N$). For $(E,\iota,C)$ let $\psi:E\to E':=E/\iota(\mu_N)$, choose $x\in E[N]$ with $e_N(\iota(\zeta),x)=\zeta$ for all
+$\zeta\in\mu_N$ ($e_N$ the Weil pairing; $x$ is unique modulo $\iota(\mu_N)$, which is isotropic), and put
+\[\phi(E,\iota,C):=(E',\ P':=\psi(x),\ \psi(C)).\]
+\begin{enumerate}[label=(\alph*)]
+\item $\phi$ is an isomorphism $X^\mu_s\xrightarrow{\sim}X^{\rm nv}_s$ over $\Q$.
+\item $\phi\circ\langle d\rangle^\mu=\langle d^{-1}\rangle^{\rm nv}\circ\phi$ for the moduli diamonds $\langle d\rangle^\mu(E,\iota,C)=(E,\iota\circ[d],C)$,
+  $\langle d\rangle^{\rm nv}(E,P,C)=(E,dP,C)$.
+\item Let $U_q$ be defined in each model by the recipe of Lemma~\ref{lem:s05-Up-pullback} with $q$ in place of $p$: $Y$ of quadruples with
+  $D$ cyclic of order $q$, $D\cap C=0$, $a$ forgetting $D$, $b$ the quotient by $D$ (level structure pushed forward, $C\mapsto E[q]/D$), and
+  $U_q:=a_*b^*$ on $J$ (Picard). Write $\langle d\rangle_\mu:=(\langle d\rangle^\mu)^*$, $\langle d\rangle_{\rm nv}:=(\langle d\rangle^{\rm nv})^*$ for the Picard diamonds.
+  Then $U^\mu_q\circ\phi^*=\phi^*\circ U^{\rm nv}_q\langle q\rangle_{\rm nv}^{-1}$ and $\langle d\rangle_\mu\circ\phi^*=\phi^*\circ\langle d\rangle_{\rm nv}^{-1}$ as homomorphisms
+  $J^{\rm nv}_s\to J^\mu_s$.
+\end{enumerate}
+\stpmc.
+\end{lemma}
+\begin{proof}
+\emph{(a).} $P'$ has exact order $N$: if $kx\in\iota(\mu_N)$ then $\zeta^k=e_N(\iota\zeta,kx)=1$ for all $\zeta$, so $N\mid k$. The construction is canonical,
+so $\phi$ is a morphism of the open curves over $\Q$ (on the moduli functors). Over $\C$, identify $\iota$ with the point $Q=\iota(e^{2\pi i/N})$;
+then $\phi$ becomes $(E,Q,C)\mapsto(E/\langle Q\rangle,P'\bmod Q,\ldots)$ with $\langle Q,P'\rangle_N=e^{2\pi i/N}$, which is Conrad's $w_\zeta$, $\zeta=e^{2\pi i/N}$,
+with $C$ carried along \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad, p.~64: definition of $w_\zeta$;
+p.~68: $w_\zeta^{-1}=w_\zeta$ on $X_1(N)^{\rm an}$}; if Conrad's sign convention for the Weil pairing is opposite to that of $e_N$, $\phi$ is
+$w_{\zeta^{-1}}$ instead, which changes nothing below, as both are involutions. With $C$ carried along this stays an involution: applying $w_\zeta$ twice is the quotient by
+$\langle Q\rangle+\langle x\rangle$, which has order $N^2$ by the order computation above, hence is $E[N]$, and under $E/E[N]\cong E$ the subgroup $C$
+returns to $NC=C$ as $(N,q)=1$. As $\iota\mapsto\iota(e^{2\pi i/N})$ is a bijection onto the points of exact order $N$, $\phi$ is bijective on
+$\C$-points, hence on $\bar\Q$-points. A bijective morphism of smooth curves in characteristic $0$
+is an isomorphism; it extends to the smooth compactifications.
+\emph{(b).} $\iota\circ[d]$ has the same image, and $e_N(\iota(\zeta^d),d^{-1}x)=e_N(\iota\zeta,x)=\zeta$, so $x$ is replaced by $d^{-1}x$ ($d^{-1}$ modulo $N$).
+\emph{(c).} Let $\tilde\phi$ be the same construction on the quadruples ($D\mapsto\psi(D)$); it is an isomorphism by the argument of (a), and
+$\phi a^\mu=a^{\rm nv}\tilde\phi$. For $b$: with $\chi:E\to E/D$, the target of $\phi b^\mu$ is $(E/D)/\chi\iota(\mu_N)=E/(D+\iota(\mu_N))=E'/\psi(D)$, and its point
+is the image of $y\in(E/D)[N]$ with $e_N(\chi\iota\zeta,y)=\zeta$. Since $\deg\chi=q$, $e_N(\chi u,\chi v)=e_N(u,v)^q$ \stknown, so $y=\chi(cx)$ with
+$cq\equiv1\bmod N$, and the point is $c$ times the image of $P'$. Hence $\phi b^\mu=\langle q^{-1}\rangle^{\rm nv}b^{\rm nv}\tilde\phi$. Now, as $\phi,\tilde\phi$ are
+isomorphisms ($f^*=(f^{-1})_*$), $a^\mu_*\tilde\phi^*=\phi^*a^{\rm nv}_*$, and
+$U^\mu_q\phi^*=a^\mu_*(\phi b^\mu)^*=a^\mu_*\tilde\phi^*b^{{\rm nv}*}(\langle q^{-1}\rangle^{\rm nv})^*=\phi^*U^{\rm nv}_q\langle q\rangle_{\rm nv}^{-1}$. The diamonds: $(\langle d\rangle^\mu)^*\phi^*=(\phi\langle d\rangle^\mu)^*=(\langle d^{-1}\rangle^{\rm nv}\phi)^*=\phi^*\langle d\rangle_{\rm nv}^{-1}$
+by (b). These identities hold on divisors supported away from the cusps, hence on $J$ (as in the proof of Lemma~\ref{lem:s05-Up-pullback}(a)).
+\end{proof}
+
+\paragraph{Internal consistency.}
+On the $\GL_2$ side the \emph{Rosati dual} $h^\Ros$ of a Hecke operator $h$ on $J_s$ is its adjoint for the Rosati involution of the
+canonical polarisation, equivalently for the intersection pairing on $H^1(X_s,\Z)$. By the Petersson/intersection-pairing computation
+on $X_1(N)$, $T_\ell^\Ros=\langle\ell\rangle^{-1}T_\ell$ ($\ell\nmid N$), $\langle d\rangle^\Ros=\langle d\rangle^{-1}$, and conjugation by $w_N$ takes
+every Hecke operator to its adjoint \lit{ribet-stein\_2001\_lectures-on-serres-conjectures\_preprint}{Appendix by B.~Conrad,
+Cor.~5.3 and the paragraph before it, p.~66} \stcited{} for $X_1(N)$. At level $\Gamma_s$ for $h\in\{T_\ell,\langle d\rangle\}$: $S_2(\Gamma_s)$ is a
+Hecke-stable subspace of $S_2(\Gamma_1(Mp^sq))$ and Petersson adjoints restrict to it, so Cor.~5.3 with $N=Mp^sq$ gives the formulas \stpmc. For $U_q$ on the $q$-new part: the $q$-new subspace is the orthogonal
+sum, over the $q$-new newforms $f$, of the spans of the $f(dz)$ (Atkin--Lehner--Li theory, \stknown); $U_q$ acts on each summand by
+$a_q(f)$ with $a_q(f)^2=\chi_f(q)$ (Prop.~\ref{prop:s05-sign}(c), proof), so $|a_q(f)|=1$. Hence $U_q$ is unitary there and
+$U_q^\Ros=U_q^{-1}=\langle q\rangle^{-1}U_q$ (using $U_q^2=\langle q\rangle$) \stpmc.
+
+\begin{lemma}[internal consistency of $\theta_s$]\label{lem:s05-consistency}
+\begin{enumerate}[label=(\alph*)]
+\item $\theta_s$ respects the relations $U_q^2=\langle q\rangle$ (weight $2$, $q$-new) and $T_\ell^2-T_{\ell^2}=\ell\langle\ell\rangle$, in
+  the following sense. Extend $\theta_s$ by $T_{\ell^2}\mapsto T_{\ell^2}$ (the double-coset sum of Prop.~\ref{prop:s01-relations}(d)).
+  Then $\theta_s(U_q)^2=\theta_s(\langle q\rangle)$ and $\theta_s(T_\ell)^2-\theta_s(T_{\ell^2})=\ell\,\theta_s(\langle\ell\rangle)$ on
+  $\Z[S_s]^0$. On the $\GL_2$ side both relations hold on the image of $\cH_s$ in $\End\Xq(J_s)\otimes\Q$ as soon as that image acts through
+  the $q$-new weight-$2$ Hecke algebra (proof of Prop.~\ref{prop:s05-sign}(c); classical recursion for $T_{\ell^2}$), which is part of
+  the expectation (X1). With $\langle d\rangle\mapsto\langle d\rangle$ instead (and the rest unchanged), $\theta(U_q)^2=\theta(\langle q\rangle)$ holds iff
+  $\langle q\rangle^2=1$ on $\Z[S_s]^0$; so if $\langle q\rangle^2\ne1$ there, $U_q$ would have to map to $\pm\Pi_q^{-1}$ (Prop.~\ref{prop:s05-sign}(c)).
+  Likewise the $T_\ell$-relation fails for $\langle d\rangle\mapsto\langle d\rangle$, $T_\ell\mapsto T_\ell$ as soon as $\langle\ell\rangle^2\ne1$ on $\Z[S_s]^0$:
+  $T_\ell^2-T_{\ell^2}=\ell\langle\ell\rangle^{-1}\ne\ell\langle\ell\rangle$.
+\item (X1) and (X2) are compatible: for $h\in\{T_\ell,\langle d\rangle,U_q\}$, and for $T_p$ at $s=0$ ($T_p^\Ros=\langle p\rangle^{-1}T_p\in\cH_0$; same proof as for $T_\ell$), the $\langle,\rangle_w$-adjoint of $\theta_s(h)$ on $\Z[S_s]^0$ is
+  $\theta_s(h^\Ros)$, where $T_\ell^\Ros=\langle\ell\rangle^{-1}T_\ell$, $\langle d\rangle^\Ros=\langle d\rangle^{-1}$, $U_q^\Ros=\langle q\rangle^{-1}U_q$. Concretely:
+  $T_\ell^*=S_\ell^{-1}T_\ell=\langle\ell\rangle T_\ell$, $\langle d\rangle^*=\langle d\rangle^{-1}$, $\Pi_q^*=\Pi_q^{-1}=\langle q\rangle\Pi_q$.
+\item (Projection formula; with (X2), (X3) it computes the $u$-adjoint of $\beta_{s's}$.) For $s'\ge s$ and $\pi:S_{s'}\to S_s$ put
+  $\pi^!_w[y]:=\sum_{x'\in\pi^{-1}(y)}\frac{w_y}{w'_{x'}}[x']$. Then $\pi^!_w$ has integer coefficients, maps $\Z[S_s]^0$ into
+  $\Z[S_{s'}]^0$, and $\langle\pi_*a,b\rangle_s=\langle a,\pi^!_wb\rangle_{s'}$ for all $a\in\Z[S_{s'}]$, $b\in\Z[S_s]$. Moreover $\pi^!_w=\pi^*$
+  (fibre sum) if $s\ge1$; $\pi^!_w[y]=w_y\pi^*[y]=\pi^![y]$ if $s=0$, $s'\ge1$, $M\ge3$ (then $-1\notin U_0$); and if $s=0$, $s'\ge1$, $M\le2$, then $\pi^!_w[y]=w_y\,\pi^*[y]=\frac12\pi^![y]$, with $\pi^!$ the transfer of
+  Prop.~\ref{prop:s01-adjoint}(c) (factor $2$ of (F2)). Under (X2) and (X3), the $u$-adjoint of $\beta_{s's}$ is
+  $\varphi_{s'}^{-1}\circ\pi^!_w\circ\varphi_s$.
+\item (X3) forces $\theta_s(U_p)\circ\pi_*=\pi_*\circ\theta_{s'}(U_p)$ on $\Z[S_{s'}]^0$ for $s'\ge s\ge1$. This holds for $N_{U_p}$. It fails
+  for $U_p^*=\langle p\rangle_MU'_p$ at $s'=s+1$ as soon as $\rk_{\Zp}e\,\Zp[S_s]\ge2$. This is what excludes the Atkin--Lehner variant
+  $\theta_s^\Ros$ of Prop.~\ref{prop:s05-AL}; the input that the Picard $U_p$ commutes with the pullbacks is Lemma~\ref{lem:s05-Up-pullback}
+  (Remark~\ref{rem:s05-delta}). (X3) alone does not pin $\delta$: the dictionary $\langle d\rangle\mapsto\langle d\rangle$, $U_p\mapsto N_{U_p}$, $T_\ell\mapsto T_\ell$,
+  $U_q\mapsto\Pi_q^{-1}$ commutes with $\pi_*$; it is excluded by the $T_\ell$-relation of (a) when some $\langle\ell\rangle^2\ne1$. So (X3) and (a)
+  together pin $\delta=+1$ among the dictionaries with $T_\ell\mapsto T_\ell$ or $\theta^\Ros_s$.
+\end{enumerate}
+Status: (a), (c) \stproved{}; (d) \stproved{} except its forcing clause ``(X3) forces $\theta_s(U_p)\pi_*=\pi_*\theta_{s'}(U_p)$'', which uses Lemma~\ref{lem:s05-Up-pullback}(b) and is \stpmc{} (the clauses on $\theta^\Ros_s$ and $\delta$ in (d) were \stexp{} until batch 5; they are now \stpmc{}
+via Lemma~\ref{lem:s05-Up-pullback}, as statements about dictionaries satisfying (X1)--(X3)); (b) \stpmc{} (the Rosati duals are cited).
+\end{lemma}
+\noindent\emph{Lean status} of Lemma~\ref{lem:s05-consistency}: parts (b)--(d) \stformal{} in \pathtt{Comparison/Consistency.lean} (S05-L5) with declared scope reductions: (b) adjoints of $T_\ell$, $U_q$ and each local factor of the diamond, not of the product diamond $\mathtt{diaZX}$, and $S_\ell^{-1}$ is not identified with $\theta(\langle\ell\rangle^{-1})$; (c) only the form ``the weights agree'' of the projection formula, with $\pi^*$, under a hypothesis on the weights (\lean{Langlandscape.Comparison.projection\_formula}); $\pi^!_w$, the integrality and the case split $s\ge1$ / $s=0,M\ge3$ / $s=0,M\le2$ are not formalized, and the $w_x=1$ instance at \texttt{d.Utower} is not stated; (d) $\pi_*$ commutes with $\theta(U_p)$ on $\Z[S_s]^0$ (\lean{Langlandscape.Comparison.Up\_comm\_pushforward\_degZero}), only for $s'=s+1$, while the text states $s'\ge s\ge1$; the failure for $U_p^*$ is not a Lean statement. Part (a) is not formalized.
+\begin{proof}
+\emph{(a).} $\theta_s(U_q)^2=\Pi_q^2=\langle q\rangle^{-1}=\theta_s(\langle q\rangle)$ by \eqref{eq:s05-Sell}. For $\ell\nmid Mpq$,
+Prop.~\ref{prop:s01-relations}(d) with $r=1$ gives $T_\ell^2=T_{\ell^2}+\ell S_\ell$ on functions; transposing (the operators commute) gives the same
+identity homologically, and $S_\ell=\langle\ell\rangle^{-1}=\theta_s(\langle\ell\rangle)$ by \eqref{eq:s05-Sell}. With $\langle d\rangle\mapsto\langle d\rangle$:
+$\theta(\langle q\rangle)=\langle q\rangle$, while $(\pm\Pi_q^{e})^2=\langle q\rangle^{-e}$; equality with $e=+1$ means $\langle q\rangle^2=1$, and $e=-1$ always works.
+(At $s=0$, $M\le2$ all diamonds are trivial and every variant satisfies the relation.)
+
+\emph{(b).} Prop.~\ref{prop:s01-adjoint}(a),(b) and \pathtt{if:s01-hecke}: $T_g^*=T_{g^{-1}}$, so $T_\ell^*=S_\ell^{-1}T_\ell$,
+$\langle d\rangle^*=\langle d\rangle^{-1}$, $\Pi_q^*=\Pi_q^{-1}$; with \eqref{eq:s05-Sell}, $S_\ell^{-1}=\langle\ell\rangle$ and $\Pi_q^{-1}=\Pi_q^{-2}\Pi_q=\langle q\rangle\Pi_q$.
+The adjoint on $\Z[S_s]$ restricts to the adjoint on $\Z[S_s]^0$ since all these operators preserve $\Z[S_s]^0$ (Lemma~\ref{lem:s05-theta-welldef}).
+On the other side, $\theta_s(T_\ell^\Ros)=\theta_s(\langle\ell\rangle^{-1})\theta_s(T_\ell)=\langle\ell\rangle T_\ell=T_\ell^*$;
+$\theta_s(\langle d\rangle^\Ros)=\theta_s(\langle d\rangle^{-1})=\langle d\rangle=(\langle d\rangle^{-1})^*$; $\theta_s(U_q^\Ros)=\theta_s(\langle q\rangle^{-1})\Pi_q=\langle q\rangle\Pi_q=\Pi_q^*$.
+So $\theta_s(h^\Ros)=\theta_s(h)^*$. This is what (X1), (X2) require: if $u_s(hx,y)=u_s(x,h^\Ros y)$ (Rosati-equivariance of the
+monodromy pairing, Prop.~\ref{prop:s05-AL}(R2), \stpmc{} from SGA~7~IX \S10.2 and Thm.~10.4), then transporting by $\varphi_s$ gives
+$\langle\theta_s(h)a,b\rangle_w=\langle a,\theta_s(h^\Ros)b\rangle_w$.
+
+\emph{(c).} Integrality: write $w=|\Gamma|/\varepsilon_U$, $w'=|\Gamma'|/\varepsilon_U'$ with $\varepsilon_U=|U_s\cap\{\pm1\}|$, $\varepsilon_U'=|U_{s'}\cap\{\pm1\}|$
+(proof of Prop.~\ref{prop:s01-adjoint}). For $x'\in\pi^{-1}(y)$, $\Gamma'_{x'}$ is (conjugate to) a subgroup of $\Gamma_y$, and
+$w_y/w'_{x'}=[\Gamma_y:\Gamma'_{x'}]\,\varepsilon_U'/\varepsilon_U$. If $\varepsilon_U=\varepsilon_U'$ this is an integer. If $\varepsilon_U=2$, $\varepsilon_U'=1$, then
+$-1\in\Gamma_y\setminus\Gamma'_{x'}$ (as $-1$ is central and $\Gamma'_{x'}\cap\{\pm1\}=U_{s'}\cap\{\pm1\}$), so $\Gamma'_{x'}\times\{\pm1\}\le\Gamma_y$ and
+$[\Gamma_y:\Gamma'_{x'}]$ is even. Degree: $\deg\pi^!_w[y]=\frac{\varepsilon_U'}{\varepsilon_U}\sum_{x'\in\pi^{-1}(y)}[\Gamma_y:\Gamma'_{x'}]=\frac{\varepsilon_U'}{\varepsilon_U}[U_s:U_{s'}]$
+(orbit counting as in the proof of Prop.~\ref{prop:s01-adjoint}(c): the fibre over $y$ is the set of $\Gamma_y$-orbits on $U_s/U_{s'}$, with
+stabilisers $\Gamma'_{x'}$), a constant; so $\pi^!_w$ maps $\Z[S_s]^0$ to $\Z[S_{s'}]^0$. Projection formula: for $a=[x']$, $b=[y]$,
+$\langle\pi_*[x'],[y]\rangle_s=w_y\,\delta_{\pi x',y}$ and $\langle[x'],\pi^!_w[y]\rangle_{s'}=w'_{x'}\cdot\frac{w_y}{w'_{x'}}\,\delta_{\pi x',y}$. If $s\ge1$,
+all $w=w'=1$ (Remark~\ref{rem:s05-factor2}), so $\pi^!_w=\pi^*$. If $s=0$, $M\le2$, $s'\ge1$: $w'=1$, $\varepsilon_U=2$, $\varepsilon_U'=1$, $\Gamma'=1$,
+so $\pi^!_w[y]=w_y\pi^*[y]$ (if $M\ge3$: $\varepsilon_U=\varepsilon_U'=1$, $\Gamma'=1$, $\pi^!_w[y]=|\Gamma_y|\pi^*[y]=w_y\pi^*[y]=\pi^![y]$), while for $M\le2$ the transfer is $\pi^![y]=\sum_{x'}[\Gamma_y:\Gamma'_{x'}][x']=|\Gamma_y|\pi^*[y]=2w_y\pi^*[y]$. Finally, under
+(X2) and (X3), for $x\in\Xq(J_{s'})$, $y\in\Xq(J_s)$:
+$u_s(\beta_{s's}x,y)=\langle\varphi_s\beta_{s's}x,\varphi_sy\rangle_s=\langle\pi_*\varphi_{s'}x,\varphi_sy\rangle_s=\langle\varphi_{s'}x,\pi^!_w\varphi_sy\rangle_{s'}
+=u_{s'}(x,\varphi_{s'}^{-1}\pi^!_w\varphi_sy)$.
+
+\emph{(d).} \emph{Forcing.} On the $\GL_2$ side the Picard $U_p$ commutes with $\beta_{s's}$ for $s'\ge s\ge1$
+(Lemma~\ref{lem:s05-Up-pullback}(b); the Picard $U_p$ is the one in $\cH_s$, Setting). So (X1), (X3) give
+$\theta_s(U_p)\pi_*\varphi_{s'}=\theta_s(U_p)\varphi_s\beta_{s's}=\varphi_sU_p\beta_{s's}=\varphi_s\beta_{s's}U_p=\pi_*\varphi_{s'}U_p=\pi_*\theta_{s'}(U_p)\varphi_{s'}$; as
+$\varphi_{s'}$ is onto, $\theta_s(U_p)\pi_*=\pi_*\theta_{s'}(U_p)$ on $\Z[S_{s'}]^0$. (An earlier draft justified the first step by the coset
+representatives $\left(\begin{smallmatrix}1&j\\0&p\end{smallmatrix}\right)$ at both levels; that is a statement about forms and the inclusion
+$S_2(\Gamma_s)\subseteq S_2(\Gamma_{s'})$, and is replaced by Lemma~\ref{lem:s05-Up-pullback}.)
+\emph{$N_{U_p}$.} Lemma~\ref{lem:s01-Up}(b).
+\emph{$U_p^*$.} Let $s\ge1$, $s'=s+1$. The adelic $\langle p\rangle_M$ (Lemma~\ref{lem:s01-Up}(d)) is a normalising translation by the same
+idele at both levels, so it commutes with $\pi_*$ and is invertible; hence $U_p^*$ commutes with $\pi_*$ on $\Zp[S_{s+1}]^0$ iff the
+homological $U'_p$ does. Suppose it does. Transposing for the naive pairing (under which $\pi_*$, $U'_p$ are the transposes of $\pi^*$
+and the function $U'_p$, and the annihilator of $\Zp[S]^0$ is the constants $\Zp\mathbf 1$): $U'_p\pi^*f\equiv\pi^*U'_pf$ modulo $\Zp\mathbf 1$ for all
+$f\in\Zp^{S_s}$. By Lemma~\ref{lem:s01-Up}(c), proof, $(U'_p\pi^*f)(x)=p\,f(x\eta_p)$ (trivial coefficients), so
+$\pi^*U'_pf\in p\Zp^{S_{s+1}}+\Zp\mathbf 1$. If $\pi^*g=pF+c\mathbf 1$ then $\pi^*(g-c\mathbf 1)=pF$, and as $\pi$ is surjective,
+$g-c\mathbf 1\in p\Zp^{S_s}$. So the function $U'_p$ maps $\Zp^{S_s}$ into $p\Zp^{S_s}+\Zp\mathbf 1$: modulo $p$ it has rank $\le1$. Its transpose,
+the homological $U'_p$, has rank $\le1$ modulo $p$, hence so does $U_p^*=\langle p\rangle_MU'_p$; and since $w=1$ at $s\ge1$, the Brandt
+pairing is the standard form, so $U_p^*$ is the transpose matrix of $U_p$, and $U_p\bmod p$ has rank $\le1$. On $e\,\Zp[S_s]$ (free of
+rank $r$, a $U_p$-stable direct summand) $U_p$ is invertible, so $U_p\bmod p$ has rank $\ge r$. Hence $r\le1$. Contrapositive: if
+$r\ge2$, $U_p^*$ does not commute with $\pi_*$ on $\Zp[S_{s+1}]^0$, hence not on $\Z[S_{s+1}]^0$.
+\emph{Consequence.} The variant $\theta^\Ros_s$ sends $U_p$ to $\theta_s(U_p)^*=U_p^*$; by the above it is incompatible with (X3) at such
+levels, while $\theta_s$ is compatible. The relation to $\delta$: $\theta^\Ros_s$ has $\langle d\rangle\mapsto\langle d\rangle$, i.e.\ $\delta=-1$; so (X3)
+selects $\theta_s$ over $\theta^\Ros_s$; the only geometric input, that the Picard $U_p$ commutes with the pullbacks, is
+Lemma~\ref{lem:s05-Up-pullback}. The other dictionaries with $\delta=-1$ and $T_\ell\mapsto T_\ell$ commute with $\pi_*$ but violate the $T_\ell$-relation of (a)
+when some $\langle\ell\rangle^2\ne1$ on $\Z[S_s]^0$ (computation in (a)).
+\end{proof}

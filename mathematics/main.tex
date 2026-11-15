@@ -1,0 +1,38 @@
+\documentclass[11pt]{amsart}
+% Main document for mathematics/. Build from this directory: latexmk -pdf -interaction=nonstopmode main.tex
+\input{preamble}
+% Stage-05 per-WP bibliographies (to be merged into bib/s05.bib in the milestone pass, S05-M9).
+\IfFileExists{bib/s05-m1.bib}{\addbibresource{bib/s05-m1.bib}}{}
+\IfFileExists{bib/s05-m2.bib}{\addbibresource{bib/s05-m2.bib}}{}
+\IfFileExists{bib/s05-m3.bib}{\addbibresource{bib/s05-m3.bib}}{}
+\IfFileExists{bib/s05-m4.bib}{\addbibresource{bib/s05-m4.bib}}{}
+\IfFileExists{bib/s05-m5.bib}{\addbibresource{bib/s05-m5.bib}}{}
+\IfFileExists{bib/s05-m6.bib}{\addbibresource{bib/s05-m6.bib}}{}
+\IfFileExists{bib/s05-m7.bib}{\addbibresource{bib/s05-m7.bib}}{}
+% Stage-06 per-WP bibliographies.
+\IfFileExists{bib/s06-m1.bib}{\addbibresource{bib/s06-m1.bib}}{}
+\IfFileExists{bib/s06-m2.bib}{\addbibresource{bib/s06-m2.bib}}{}
+\IfFileExists{bib/s06-m3.bib}{\addbibresource{bib/s06-m3.bib}}{}
+\IfFileExists{bib/s06-m4.bib}{\addbibresource{bib/s06-m4.bib}}{}
+\IfFileExists{bib/s06-m5.bib}{\addbibresource{bib/s06-m5.bib}}{}
+\IfFileExists{bib/s06-m7.bib}{\addbibresource{bib/s06-m7.bib}}{}
+\IfFileExists{bib/s06-m8.bib}{\addbibresource{bib/s06-m8.bib}}{}
+\IfFileExists{bib/s06-m11.bib}{\addbibresource{bib/s06-m11.bib}}{}
+\title{Jacquet--Langlands: mathematics}
+\author{Langlandscape project}
+\date{\today}
+\begin{document}
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+\input{chapters/s00}
+\input{chapters/s01}
+\input{chapters/s02}
+\input{chapters/s03}
+\input{chapters/s04}
+\input{chapters/s05}
+\input{chapters/s06}
+\input{acknowledgments}
+\nocite{*}
+\printbibliography
+\end{document}

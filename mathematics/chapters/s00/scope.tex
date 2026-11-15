@@ -1,0 +1,29 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction), part 2: scope. No \input; reusable in the report.
+\section{Scope}\label{ss:s00-scope}
+
+\paragraph{What is known.} The classical correspondence holds for every inner form of $\GL_2$ over every number field: for a
+quaternion algebra $B$ over a global field $F$, the automorphic representations of $B^\times(\A_F)$ of dimension $>1$ correspond
+to the cuspidal automorphic representations of $\GL_2(\A_F)$ that are discrete series at every place where $B$ ramifies,
+compatibly with the local correspondences \cite[Ch.~III, \S\S14--16, Thm.~16.1]{JL} \stcited{} (Jacquet and Langlands call their proof
+of Thm.~16.1 a sketch; see the citation check after Thm.~\ref{thm:s01-JLclassical}). For inner forms of $\GL_n$ over a number field
+the global correspondence is due to Badulescu \cite[\S5.1, Thm.~5.1]{Bad08} \stcited{} (under the assumption that the inner form
+splits at the archimedean places) and Badulescu--Renard \cite[\S18.1, Thm.~18.1]{BR10} \stcited{} (removing that assumption).
+Over $\Q$, the forms in Brandt-module language, with $p$-adic and $\Lambda$-adic refinements, are Thm.~\ref{thm:s01-JLclassical}
+\cite{JL,Gr99}, Thm.~\ref{thm:s01-chenevier} \cite{Ch} and Thm.~\ref{thm:s01-lambdaJL} \cite{LV,Hs}, all \stcited.
+
+\paragraph{What we treat.} We work over $\Q$ only, and only with \emph{definite} quaternion algebras $B$, i.e.\ those ramified at
+the real place $\infty$ (Def.~\ref{def:s01-B}). The word ``anisotropic'' would not do: a quaternion algebra over $\Q$ is anisotropic
+(as a reduced-norm form, equivalently a division algebra) as soon as it ramifies at one place (\stknown, \cite{Vo}), which includes the
+\emph{indefinite} division algebras (split at $\infty$, attached to Shimura curves). Indefinite algebras enter this document
+only as context, in remarks that are cited and never used: the \v{C}erednik--Drinfeld uniformisation (Remark~\ref{rem:s02-CD}) and
+the Shimura-curve variant of the comparison hypothesis (Remark~\ref{rem:s05-O46}).
+
+For definite $B$ the automorphic forms of level $U$ are functions on the \emph{finite} class set $\XB{U}=B^\times\backslash\Bhat^\times/U$
+(Prop.~\ref{prop:s01-finite}, \stknown; \stformal{}: finiteness and $|\Gamma_x|\mid24$), so the quaternionic side is degree-$0$ cohomology of a finite groupoid, and every
+object is finite and integral. This finiteness is what makes the route of \S\ref{ss:s00-route} combinatorial and computable. The
+price is the restriction to $\Q$ and to definite $B$. Within this scope, stages~01--04 allow any discriminant $D$ (squarefree with
+an odd number of prime factors), while stages~05--06 take $D=q$ prime. For several ramified primes the defect formula is only a
+conjecture (Conj.~\ref{conj:s06-several}, \stconj), and the tree machinery alone produces no map between Brandt modules of
+different definite algebras (Prop.~\ref{prop:s05-nochain}(b), \stproved; \S\ref{sss:s05-general}).

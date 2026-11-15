@@ -1,0 +1,354 @@
+{
+ "data": {
+  "checks": {
+   "charpoly": true,
+   "commute": true,
+   "fnv": true,
+   "row_sums": true,
+   "square": true,
+   "symmetry": true,
+   "symn_charpoly": null
+  },
+  "free_block_z": {
+   "D": 19,
+   "F": [
+    [
+     [
+      "2",
+      "1"
+     ],
+     [
+      "2",
+      "1"
+     ]
+    ],
+    [
+     [
+      "2",
+      "2"
+     ],
+     [
+      "4",
+      "0"
+     ]
+    ],
+    [
+     [
+      "5",
+      "1"
+     ],
+     [
+      "2",
+      "4"
+     ]
+    ],
+    [
+     [
+      "5",
+      "3"
+     ],
+     [
+      "6",
+      "2"
+     ]
+    ],
+    [
+     [
+      "9",
+      "3"
+     ],
+     [
+      "6",
+      "6"
+     ]
+    ],
+    [
+     [
+      "8",
+      "6"
+     ],
+     [
+      "12",
+      "2"
+     ]
+    ],
+    [
+     [
+      "11",
+      "7"
+     ],
+     [
+      "14",
+      "4"
+     ]
+    ],
+    [
+     [
+      "16",
+      "8"
+     ],
+     [
+      "16",
+      "8"
+     ]
+    ],
+    [
+     [
+      "22",
+      "8"
+     ],
+     [
+      "16",
+      "14"
+     ]
+    ],
+    [
+     [
+      "20",
+      "12"
+     ],
+     [
+      "24",
+      "8"
+     ]
+    ],
+    [
+     [
+      "26",
+      "12"
+     ],
+     [
+      "24",
+      "14"
+     ]
+    ],
+    [
+     [
+      "26",
+      "16"
+     ],
+     [
+      "32",
+      "10"
+     ]
+    ],
+    [
+     [
+      "29",
+      "15"
+     ],
+     [
+      "30",
+      "14"
+     ]
+    ],
+    [
+     [
+      "31",
+      "17"
+     ],
+     [
+      "34",
+      "14"
+     ]
+    ]
+   ],
+   "F_fnv": [
+    "0x492df465aa701e70",
+    "0x07717b1e9df88f70",
+    "0x89ca77bd257e6e22",
+    "0x38371dc440d70f7e",
+    "0xc9dd1ffe27f5292e",
+    "0x737df8c1bd58a5c7",
+    "0x581ed4f73d7e25a6",
+    "0x4c87528b9c4eec54",
+    "0xfce44342d72d0f7a",
+    "0xaebe92e4541009c5",
+    "0x5b255ad2d32772d4",
+    "0xdf9affc1c39e9565",
+    "0xafe037b049e5d311",
+    "0xaa0a03473adbd170"
+   ],
+   "M": 1,
+   "N": 19,
+   "basis_fnv": "0x0b85ceb2348c5c79",
+   "basis_rule": "brandt_k2_canonical/v2: b_j = 1_{c_j}, c_j the j-th left-ideal class; classes sorted ascending by (|Gamma_c|, (r_c(1),...,r_c(20))), r_c(m) = #{x in O_r(I_c) : nrd x = m} (x, -x both counted); ties listed in order_ties, order within a tie unspecified",
+   "bits_F": [
+    2,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    5,
+    5,
+    5,
+    5,
+    6,
+    5,
+    6
+   ],
+   "bound_basis": "-",
+   "charpoly_Z": [
+    [
+     "0",
+     "-3",
+     "1"
+    ],
+    [
+     "-8",
+     "-2",
+     "1"
+    ],
+    [
+     "18",
+     "-9",
+     "1"
+    ],
+    [
+     "-8",
+     "-7",
+     "1"
+    ],
+    [
+     "36",
+     "-15",
+     "1"
+    ],
+    [
+     "-56",
+     "-10",
+     "1"
+    ],
+    [
+     "-54",
+     "-15",
+     "1"
+    ],
+    [
+     "0",
+     "-24",
+     "1"
+    ],
+    [
+     "180",
+     "-36",
+     "1"
+    ],
+    [
+     "-128",
+     "-28",
+     "1"
+    ],
+    [
+     "76",
+     "-40",
+     "1"
+    ],
+    [
+     "-252",
+     "-36",
+     "1"
+    ],
+    [
+     "-44",
+     "-43",
+     "1"
+    ],
+    [
+     "-144",
+     "-45",
+     "1"
+    ]
+   ],
+   "class_keys": [
+    "((Fraction(2, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(2, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(1, 1)))",
+    "((Fraction(1, 1), Fraction(0, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(1, 1), Fraction(0, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(1, 1), Fraction(0, 1)), (Fraction(0, 1), Fraction(0, 1), Fraction(0, 1), Fraction(1, 1)))"
+   ],
+   "convention": "column: T_p b_j = sum_i F[i][j] b_i; F = B_p (B[c][c'] = #neighbours of c in c'); row sums l+1",
+   "d_algebra": 2,
+   "e_eis": 1,
+   "gammas": [
+    2,
+    4
+   ],
+   "k": 2,
+   "lattice": "functions",
+   "n": 0,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47
+   ],
+   "order_ties": [],
+   "origin": "jl:brandt.py(theta,cross-checked)",
+   "phi_fnv": "-",
+   "proof": [
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count",
+    "exact_count"
+   ],
+   "q0_key": "-",
+   "rank": 2,
+   "saturation": "exact_basis",
+   "schema": "langlandscape_brandt/v2",
+   "status": "ok",
+   "tag": "computed"
+  },
+  "schema": "langlandscape_brandt/v2",
+  "writer": "python:brandt_export@b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty"
+ },
+ "provenance": {
+  "commit": "b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty",
+  "date": "2026-11-15T01:27:32+00:00",
+  "notes": "HJ-B0; format plan/hacs/freeblockz-export-format.md (v2); computed",
+  "params": {
+   "D": 19,
+   "M": 1,
+   "k": 2,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 2.9403732200007653,
+  "script": "code/python/langlandscape/hacs_bridge/brandt_export.py"
+ }
+}

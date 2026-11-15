@@ -1,0 +1,38 @@
+# algebraic_jl fork (L-A, 2026-11-14) of lean/lakefile.toml @84818d0. Package name stays "GL2TF" so that
+# lean-toolchain and lake-manifest.json are BYTE copies of the parent's (Lake never re-resolves). Library roots AlgJL, AlgJLTests.
+# Dependencies: .lake/packages/<pkg> are git-ignored symlinks into the FROZEN farm of tools/deps.conf, created ONLY by
+# algebraic_jl/tools/link_deps.sh. NEVER `lake update`, `lake clean`, `lake exe cache get`; never edit this file,
+# lean-toolchain or lake-manifest.json (CLAUDE.md rules 1-4). Build only via algebraic_jl/tools/lbuild.sh / lfile.sh.
+name = "GL2TF"
+defaultTargets = ["AlgJL"]
+
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "56a005855ea17e0b0958f73ec801ae140b0a1679"
+
+# The library: declarations keep their parent names (namespace GL2TF.*) and tf_id/tf_aux IDs; module root AlgJL.
+[[lean_lib]]
+name = "AlgJL"
+
+# Non-vacuity examples and proved hypothesis instances (copied from GL2TFTests).
+[[lean_lib]]
+name = "AlgJLTests"
+
+# Borrowings from anthropics/fermats-last-theorem, byte copies of the parent's lean/Vendor/AnthropicFLT files (see Vendor/MANIFEST.tsv).
+[[lean_lib]]
+name = "AlgJLVendor"
+srcDir = "Vendor/AnthropicFLT"
+globs = ["Definitions.+"]
+leanOptions = { maxHeartbeats = 4000000, synthInstance.maxHeartbeats = 400000, backward.isDefEq.respectTransparency.types = false }
+
+# Borrowings from ImperialCollegeLondon/FLT, byte copies of the parent's lean/Vendor/ImperialFLT files.
+[[lean_lib]]
+name = "AlgJLVendorImperial"
+srcDir = "Vendor/ImperialFLT"
+globs = ["FLT.+"]
+leanOptions = { maxSynthPendingDepth = 3 }

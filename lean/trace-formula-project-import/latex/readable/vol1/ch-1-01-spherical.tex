@@ -1,0 +1,499 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P1/{Spherical,HeckeBasis,Satake}.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% Fork algebraic_jl: item spherical-convolution-haar dropped (Haar measure); see ../../EDITS.md.
+% §1 written (M1, unit U5); §1 item spherical-convolution-haar and §§2–4 (M5a, units U0–U1): drafts by A1 (W0/W1), not frozen.
+
+\chapter{The spherical Hecke algebra and the Satake isomorphism}\label{ch:ch-1-01-spherical}
+
+\noindent\emph{Scope:} area \texttt{satake}; commutativity is in M1, the rest in M5. \emph{Sources:} \cite{Sat}; \cite[§9, Proposition~37]{BumpH}; \cite[§9]{Cas-p}; \cite{Corv-ptI-7}.
+
+\section{The spherical Hecke algebra and Gelfand's trick}\label{sec:satake-gelfand}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[§9, Theorem~12, pp.~50--51]{BumpH} (commutativity by the transpose);
+\cite[§2, Theorem~5, p.~14]{BumpH} (Gelfand's method for finite groups); the coset model of the Hecke algebra and the
+Gelfand criterion are vendored from \cite{AFLT} (\texttt{Def\_LocalLanglands\_\allowbreak HeckePair} and
+\texttt{Def\_LocalLanglands\_\allowbreak GelfandInvolution}).\par}
+
+Throughout, $F$ is a non-archimedean local field, $G=\GL_2(F)$ and $K=K_F$. We use the \emph{coset model} of the
+spherical Hecke algebra: functions are summed over $G/K$, with no measure theory. This is the convolution for the Haar
+measure with $\vol(K)=1$; for an arbitrary left Haar measure $\mu$ on $G$ the integral
+$\int_Gf_1(y)f_2(y^{-1}x)\,\dd\mu(y)$ equals $\mu(K)\,(f_1*f_2)(x)$ (proved in the parent
+project; not needed here, since this volume uses only the coset model).
+
+\begin{definition}[spherical Hecke algebra]
+\tfstmt{I.satake.def:spherical-hecke-algebra}
+\uses{I.conv.def:max-compact-local, I.lf.def:nalf}
+\end{definition}
+
+\noindent\emph{Verification of the algebra structure.} For $f\in\mathcal H(G,K)$ write
+$\supp f=\{g:f(g)\neq0\}$; by~(i) it is a union of double cosets, and by~(ii) a finite union of left cosets.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{The summand depends only on $yK$}: for $k\in K$,
+  $f_1(yk)f_2((yk)^{-1}x)=f_1(y)f_2(k^{-1}y^{-1}x)=f_1(y)f_2(y^{-1}x)$, by right invariance of $f_1$ and left
+  invariance of $f_2$.
+\item \emph{The sum is finite}: the summand vanishes unless $yK\subseteq\supp f_1$.
+\item \emph{$f_1*f_2\in\mathcal H(G,K)$.} For $k,k'\in K$, substituting $yK\mapsto kyK$ (a bijection of $G/K$) gives
+  $(f_1*f_2)(kxk')=\sum_{yK}f_1(ky)f_2(y^{-1}k^{-1}kxk')=\sum_{yK}f_1(y)f_2(y^{-1}x)=(f_1*f_2)(x)$. If
+  $(f_1*f_2)(x)\neq0$, then $x=y\cdot y^{-1}x$ with $y\in\supp f_1$ and $y^{-1}x\in\supp f_2$. Writing
+  $\supp f_1=\bigcup_iy_iK$ and $\supp f_2=\bigcup_lz_lK$ (finite unions), and using $K\supp f_2=\supp f_2$, we get
+  $x\in y_iK\supp f_2=\bigcup_ly_iz_lK$ for some $i$. So $\supp(f_1*f_2)$ lies in finitely many left cosets.
+\item \emph{Unit}: $(1_K*f)(x)=f(x)$, as only $yK=K$ contributes; $(f*1_K)(x)=f(x)$, as only $yK=xK$ contributes.
+\item \emph{Associativity}: all sums are finite, and for fixed $zK$ the map $yK\mapsto z^{-1}yK$ is a bijection of
+  $G/K$, so
+  \begin{align*}
+    ((f_1*f_2)*f_3)(x)&=\sum_{yK}\sum_{zK}f_1(z)f_2(z^{-1}y)f_3(y^{-1}x)\\
+    &=\sum_{zK}f_1(z)\sum_{wK}f_2(w)f_3(w^{-1}z^{-1}x)=(f_1*(f_2*f_3))(x).
+  \end{align*}
+\item \emph{Bilinearity} of $*$ over $\C$ is clear from the formula.
+\end{enumerate}
+
+\begin{lemma}[the transpose is a Gelfand involution]
+\tfstmt{I.satake.lem:transpose-gelfand-involution}
+\uses{I.conv.def:max-compact-local, I.cartan.def:cartan-element}
+\end{lemma}
+\begin{proof}
+\uses{I.lf.def:uniformizer, I.conv.lem:max-compact-local-mem, I.cartan.lem:cartan-exists, I.lf.def:nalf}
+For matrices, $(gh)^{\mathsf T}=h^{\mathsf T}g^{\mathsf T}$ and $(g^{\mathsf T})^{\mathsf T}=g$; since
+$\det g^{\mathsf T}=\det g$, $\tau$ maps $\GL_2(F)$ to itself (with $\tau(g)^{-1}=\tau(g^{-1})$). If $k\in K$, then
+$k^{\mathsf T}$ has the same entries as $k$ and the same determinant, so $k^{\mathsf T}\in K$ by
+\cref{I.conv.lem:max-compact-local-mem}; thus $\tau(K)\subseteq K$, and $K=\tau(\tau(K))\subseteq\tau(K)$. The
+diagonal matrix $t_{a,b}$ is its own transpose. Finally, by \cref{I.cartan.lem:cartan-exists} write
+$g=k\,t_{a,b}\,k'$ with $k,k'\in K$. Then $KgK=K\,t_{a,b}K$, and
+$\tau(g)=\tau(k')\,t_{a,b}\,\tau(k)\in K\,t_{a,b}K=KgK$.
+\end{proof}
+
+\begin{theorem}[commutativity of the spherical Hecke algebra]
+\tfstmt{I.satake.thm:hecke-commutative}
+\uses{I.satake.def:spherical-hecke-algebra, I.cartan.def:cartan-element, I.cartan.lem:cartan-exists}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.lem:transpose-gelfand-involution, I.conv.def:max-compact-local, I.lf.def:nalf}
+This is Gelfand's trick. For $f\in\mathcal H(G,K)$ put $f^\tau(g)=f(\tau(g))$.
+
+\emph{Step 1: $f^\tau=f$.} By \cref{I.satake.lem:transpose-gelfand-involution}, $\tau(g)=kgk'$ for some $k,k'\in K$,
+and $f(kgk')=f(g)$ by bi-invariance.
+
+\emph{Step 2: $(f_1*f_2)^\tau=f_2^\tau*f_1^\tau$} as functions on $G$. Fix $x\in G$ and write $g^{-\mathsf T}$ for
+$(g^{\mathsf T})^{-1}$. The map $\sigma\colon G/K\to G/K$, $yK\mapsto x\,y^{-\mathsf T}K$, is well defined, because
+$(yk)^{-\mathsf T}=y^{-\mathsf T}k^{-\mathsf T}$ with $k^{-\mathsf T}\in K$ ($\tau(K)=K$). It is a bijection with inverse
+$zK\mapsto x^{\mathsf T}z^{-\mathsf T}K$, as the identities $(xy^{-\mathsf T})^{-\mathsf T}=x^{-\mathsf T}y$ and
+$(x^{\mathsf T}z^{-\mathsf T})^{-\mathsf T}=x^{-1}z$ show. For $z=xy^{-\mathsf T}$ we have
+$y=x^{\mathsf T}z^{-\mathsf T}=(z^{-1}x)^{\mathsf T}$ and $y^{-1}x^{\mathsf T}=z^{\mathsf T}$. Reindexing the finite sum
+by $\sigma$,
+\[
+  (f_1*f_2)^\tau(x)=\sum_{yK}f_1(y)f_2(y^{-1}x^{\mathsf T})
+  =\sum_{zK}f_1\bigl((z^{-1}x)^{\mathsf T}\bigr)f_2(z^{\mathsf T})
+  =\sum_{zK}f_2^\tau(z)f_1^\tau(z^{-1}x)=(f_2^\tau*f_1^\tau)(x).
+\]
+
+\emph{Conclusion.} Since $f_1*f_2\in\mathcal H(G,K)$, Steps 1 and 2 give
+$f_1*f_2=(f_1*f_2)^\tau=f_2^\tau*f_1^\tau=f_2*f_1$.
+\end{proof}
+
+\section{The Hecke basis and the Hecke recursion}\label{sec:satake-basis}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[§9, Proposition~35 (Cartan decomposition), Proposition~36,
+the basis $\theta_\lambda$ and Proposition~37 with its proof, pp.~49--53]{BumpH}; \cite[§8.3, Theorem~6\,(i),
+p.~45]{Sat} (the polynomial structure for $\GL(n)$, after Tamagawa). The coefficients of the Hecke recursion are not
+stated in these sources; they are derived below from explicit coset representatives, which follow the M1 proof of
+\cref{I.cartan.thm:double-coset-index}; \cite{AFLT} (\texttt{Def\_LocalLanglands\_\allowbreak HeckeCosetLocal}) was
+read as a proof map only.\par}
+
+Throughout this section and the next, $F$ is a non-archimedean local field with uniformizer $\unif$ and residue
+cardinality $q$, $G=\GL_2(F)$, $K=K_F$, and $t_{a,b}=\diag(\unif^a,\unif^b)$. By the Cartan decomposition
+(\cref{I.cartan.thm:cartan-decomposition}) the double cosets $K\,t_{a,b}\,K$ with $a\ge b$ partition $G$; the
+characteristic functions of these double cosets are the natural basis of $\mathcal H(G,K)$.
+
+\begin{definition}[the Hecke basis]
+\tfstmt{I.satake.def:hecke-basis}
+\uses{I.satake.def:spherical-hecke-algebra, I.cartan.def:cartan-element}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} $c_{a,b}$ is invariant under left and right multiplication by $K$, because
+$K\,t_{a,b}\,K$ is. Since $w=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}\in K$ and
+$w\,t_{a,b}\,w^{-1}=t_{b,a}$, we have $K\,t_{a,b}\,K=K\,t_{b,a}\,K$, so $c_{a,b}=c_{b,a}$. For $a\ge b$ the double
+coset $K\,t_{a,b}\,K$ is a finite union of left cosets of $K$ by \cref{I.cartan.thm:double-coset-index}; for $a<b$
+apply this to $(b,a)$. Hence $c_{a,b}\in\mathcal H(G,K)$ (\cref{I.satake.def:spherical-hecke-algebra}).
+
+\begin{lemma}[left coset representatives]
+\tfstmt{I.satake.lem:left-coset-representatives}
+\uses{I.cartan.def:cartan-element, I.conv.def:max-compact-local, I.lf.def:uniformizer}
+\end{lemma}
+\begin{proof}
+\uses{I.decomp.thm:iwasawa-local, I.cartan.lem:cartan-invariants, I.lf.thm:unit-uniformizer-decomposition, I.conv.lem:max-compact-local-mem, I.conv.def:unipotent}
+(a) \emph{Existence.} By \cref{I.decomp.thm:iwasawa-local} write $g=\beta k$ with $k\in K$ and
+$\beta=\begin{psmallmatrix}\beta_{11}&\beta_{12}\\0&\beta_{22}\end{psmallmatrix}$. Since $\det\beta\neq0$, the diagonal
+entries are non-zero; by \cref{I.lf.thm:unit-uniformizer-decomposition} write $\beta_{11}=u_1\unif^i$,
+$\beta_{22}=u_2\unif^j$ with $u_1,u_2\in\Ocal_F^\times$. The matrix $d=\diag(u_1^{-1},u_2^{-1})$ lies in $K$, and
+$\beta d=h_{i,j}(y)$ with $y=\beta_{12}u_2^{-1}$. Let $x\in\mathcal R_i$ be the representative of $y+\unif^i\Ocal_F$
+and $z=\unif^{-i}(y-x)\in\Ocal_F$. Then $h_{i,j}(x)\,n(z)=h_{i,j}(x+\unif^iz)=h_{i,j}(y)$ with $n(z)\in K$, so
+$gK=\beta K=h_{i,j}(y)K=h_{i,j}(x)K$.
+
+\emph{Uniqueness.} Suppose $h_{i,j}(x)K=h_{i',j'}(x')K$ with $x\in\mathcal R_i$, $x'\in\mathcal R_{i'}$. Then
+\[
+  k=h_{i,j}(x)^{-1}h_{i',j'}(x')=\begin{pmatrix}\unif^{i'-i}&\unif^{-i}(x'-x\unif^{j'-j})\\0&\unif^{j'-j}\end{pmatrix}\in K.
+\]
+By \cref{I.conv.lem:max-compact-local-mem} the entries of $k$ lie in $\Ocal_F$ and $\det k\in\Ocal_F^\times$. The
+two diagonal entries are integral with a unit product, so both are units, and $i=i'$, $j=j'$ by the uniqueness
+in \cref{I.lf.thm:unit-uniformizer-decomposition}. The upper right entry is then $\unif^{-i}(x'-x)\in\Ocal_F$, so
+$x$ and $x'$ represent the same coset of $\unif^i\Ocal_F$, and $x=x'$.
+
+(b) By \cref{I.cartan.lem:cartan-invariants}, $h_{i,j}(x)\in K\,t_{a,b}\,K$ if and only if the
+$\Ocal_F$-submodule $M$ generated by $\unif^i$, $x$, $0$, $\unif^j$ is $\unif^b\Ocal_F$ and
+$\det h_{i,j}(x)=\unif^{i+j}\in\unif^{a+b}\Ocal_F^\times$. An element $u\unif^e$ ($u$ a unit) generates
+$\unif^e\Ocal_F$, and $\unif^e\Ocal_F+\unif^{e'}\Ocal_F=\unif^{\min(e,e')}\Ocal_F$, so
+$M=\unif^m\Ocal_F$ with $m=\min(i,j,\operatorname{ord}(x))$ (the generator $x=0$ contributes nothing). Since
+$\unif^m\Ocal_F=\unif^b\Ocal_F$ holds only for $m=b$, and $\unif^{i+j}\in\unif^{a+b}\Ocal_F^\times$ only for
+$i+j=a+b$ (\cref{I.lf.thm:unit-uniformizer-decomposition}), the claim follows.
+\end{proof}
+
+\begin{remark}[the cosets of $K\,t_{a,b}\,K$]\label{rem:satake-coset-list}
+By the lemma, the left cosets in $K\,t_{a,b}\,K$ ($a\ge b$, $n=a-b$) are the $h_{i,j}(x)K$ with $i=b+l$, $j=a-l$
+($0\le l\le n$) and $x\in\mathcal R_i$ such that $\min(i,j,\operatorname{ord}(x))=b$. For $l=0$ or $l=n$ this means
+$x\in\unif^b\Ocal_F$; for $0<l<n$ it means $\operatorname{ord}(x)=b$. Counting residues modulo $\unif^{b+l}\Ocal_F$
+gives $1$ coset for $l=0$, $q^n$ for $l=n$ and $q^l-q^{l-1}$ for $0<l<n$, in all $q^n+q^{n-1}$ cosets for $n\ge1$ and one
+coset for $n=0$, in accordance with \cref{I.cartan.thm:double-coset-index}. For $T_\unif=c_{1,0}$ the $q+1$ cosets are
+$n(u)\,t_{1,0}K=\begin{psmallmatrix}\unif&u\\0&1\end{psmallmatrix}K$, $u$ running through representatives of
+$\Ocal_F/\unif\Ocal_F$, and $t_{0,1}K$ (any element of a coset may serve as its representative). Note that
+$t_{1,0}\,n(x)K=t_{1,0}K$ for all $x\in\Ocal_F$: the unipotent factor must stand on the left.
+\end{remark}
+
+\begin{theorem}[the Hecke basis is a basis]
+\tfstmt{I.satake.thm:hecke-basis-basis}
+\uses{I.satake.def:hecke-basis, I.satake.def:spherical-hecke-algebra}
+\end{theorem}
+\begin{proof}
+\uses{I.cartan.thm:cartan-decomposition, I.cartan.def:cartan-element}
+Let $f\in\mathcal H(G,K)$. By \cref{I.cartan.thm:cartan-decomposition} every $g\in G$ lies in exactly one double
+coset $K\,t_{a,b}\,K$ with $a\ge b$, and $f(g)=f(t_{a,b})$ by bi-invariance. If $f(t_{a,b})\neq0$, then $f$ is non-zero
+on every left coset contained in $K\,t_{a,b}\,K$; distinct double cosets contain disjoint sets of left cosets, and $f$
+is non-zero on only finitely many left cosets, so $f(t_{a,b})\neq0$ for only finitely many $a\ge b$. Both sides of
+$f=\sum_{a\ge b}f(t_{a,b})c_{a,b}$ are then functions on $G$ that agree at every $g$: at $g\in K\,t_{a,b}\,K$ the right
+side is $f(t_{a,b})$, as $c_{a',b'}(g)=0$ for $(a',b')\neq(a,b)$, $a'\ge b'$. So the $c_{a,b}$ ($a\ge b$) span.
+If $\sum_{a\ge b}\lambda_{a,b}c_{a,b}=0$ is a finite relation, evaluating at $t_{a,b}$ gives $\lambda_{a,b}=0$, by
+the same disjointness. So they are linearly independent.
+\end{proof}
+
+\begin{theorem}[the Hecke recursion]
+\tfstmt{I.satake.thm:hecke-recursion}
+\uses{I.satake.def:hecke-basis, I.satake.def:spherical-hecke-algebra}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.lem:left-coset-representatives, I.satake.thm:hecke-basis-basis, I.cartan.lem:cartan-invariants, I.cartan.thm:cartan-decomposition, I.lf.thm:unit-uniformizer-decomposition}
+For $x\in G$, $(T_\unif*c_{a,b})(x)$ is the number of left cosets $yK\subseteq K\,t_{1,0}\,K$ with
+$y^{-1}x\in K\,t_{a,b}\,K$. We use the representatives $y_u=n(u)\,t_{1,0}=\begin{psmallmatrix}\unif&u\\0&1\end{psmallmatrix}$
+($u$ running through a set of representatives of $\Ocal_F/\unif\Ocal_F$ containing $0$) and $y_\infty=t_{0,1}$ of
+\cref{rem:satake-coset-list}, with $y_u^{-1}=\begin{psmallmatrix}\unif^{-1}&-u\unif^{-1}\\0&1\end{psmallmatrix}$.
+
+\emph{Support.} Let $(T_\unif*c_{a,b})(x)\neq0$, so $x=y\,z$ with $y\in K\,t_{1,0}\,K$ and $z\in K\,t_{a,b}\,K$. By
+\cref{I.cartan.lem:cartan-invariants} the entries of $y$ lie in $\Ocal_F$, those of $z$ in $\unif^b\Ocal_F$, and the
+determinants lie in $\unif\Ocal_F^\times$ and $\unif^{a+b}\Ocal_F^\times$. Hence the entries of $x$ lie in
+$\unif^b\Ocal_F$ and $\det x\in\unif^{a+b+1}\Ocal_F^\times$. Moreover $\unif y^{-1}=\det(y)^{-1}\unif\cdot\operatorname{adj}(y)$
+has entries in $\Ocal_F$, so the entries of $z=y^{-1}x$ lie in $\unif^{d-1}\Ocal_F$ if those of $x$ lie in
+$\unif^d\Ocal_F$. If $x\in K\,t_{c,d}\,K$ with $c\ge d$, this gives $d\ge b$, $b\ge d-1$ and $c+d=a+b+1$; so
+$(c,d)=(a+1,b)$ or $(c,d)=(a,b+1)$, and the second case requires $a\ge b+1$. By
+\cref{I.satake.thm:hecke-basis-basis},
+\[
+  T_\unif*c_{a,b}=(T_\unif*c_{a,b})(t_{a+1,b})\,c_{a+1,b}+[a>b]\,(T_\unif*c_{a,b})(t_{a,b+1})\,c_{a,b+1}.
+\]
+
+\emph{The coefficient of $c_{a+1,b}$.} $y_u^{-1}t_{a+1,b}=h_{a,b}(-u\unif^{b-1})$ in the notation of
+\cref{I.satake.lem:left-coset-representatives}, which lies in $K\,t_{a,b}\,K$ if and only if
+$\min(a,b,b-1+\operatorname{ord}(u))=b$, i.e.\ $u\in\unif\Ocal_F$, i.e.\ $u=0$. And
+$y_\infty^{-1}t_{a+1,b}=\diag(\unif^{a+1},\unif^{b-1})$ has an entry outside $\unif^b\Ocal_F$. So the coefficient is $1$.
+
+\emph{The coefficient of $c_{a,b+1}$ ($a>b$).} $y_u^{-1}t_{a,b+1}=h_{a-1,b+1}(-u\unif^b)$ lies in $K\,t_{a,b}\,K$ if and
+only if $\min(a-1,b+1,b+\operatorname{ord}(u))=b$. If $a-b\ge2$, then $a-1>b$, and the condition is
+$\operatorname{ord}(u)=0$: the $q-1$ units among the representatives. If $a-b=1$, then $a-1=b$ and every $u$ qualifies:
+$q$ representatives. Finally $y_\infty^{-1}t_{a,b+1}=t_{a,b}\in K\,t_{a,b}\,K$. So the coefficient is $q$ if $a-b\ge2$ and
+$q+1$ if $a-b=1$ (then $c_{a,b+1}=c_{a,a}$).
+\end{proof}
+
+\begin{theorem}[the central element $R_\unif$]
+\tfstmt{I.satake.thm:hecke-central-shift}
+\uses{I.satake.def:hecke-basis, I.satake.def:spherical-hecke-algebra}
+\end{theorem}
+\begin{proof}
+\uses{I.cartan.def:cartan-element, I.conv.def:max-compact-local}
+Let $e\in\{1,-1\}$. The matrix $t_{e,e}=\unif^e\cdot1$ is central in $G$, so $K\,t_{e,e}\,K=\unif^eK$, a single left
+coset, and $c_{e,e}=\mathbf 1_{\unif^eK}$. In the sum defining $(c_{e,e}*f)(x)$ only $yK=\unif^eK$ contributes, and
+with $y=\unif^e$ we get $(c_{e,e}*f)(x)=f(\unif^{-e}x)$ for every $f\in\mathcal H(G,K)$. For $f=c_{a,b}$:
+$c_{a,b}(\unif^{-e}x)=1$ if and only if $x\in\unif^eK\,t_{a,b}\,K=K\,t_{a+e,b+e}\,K$, so $c_{e,e}*c_{a,b}=c_{a+e,b+e}$.
+For $(a,b)=(-e,-e)$ this gives $R_\unif*c_{-1,-1}=c_{-1,-1}*R_\unif=c_{0,0}=\mathbf 1_K$, the unit of
+$\mathcal H(G,K)$.
+\end{proof}
+
+\begin{theorem}[the spherical Hecke algebra is a polynomial algebra]
+\tfstmt{I.satake.thm:hecke-polynomial}
+\uses{I.satake.def:hecke-basis, I.satake.def:spherical-hecke-algebra}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.thm:hecke-commutative, I.satake.thm:hecke-central-shift, I.satake.thm:hecke-recursion, I.satake.thm:hecke-basis-basis}
+$\Theta$ is well defined because $\mathcal H(G,K)$ is commutative (\cref{I.satake.thm:hecke-commutative}) and
+$R_\unif$ is a unit (\cref{I.satake.thm:hecke-central-shift}). We do not use the independence argument of
+\cite[Proposition~37]{BumpH}, whose step ``$\theta_\lambda$ will occur'' is not a consequence of the support bound it
+cites; the recursion supplies the leading coefficients.
+
+\emph{Triangularity.} We claim: for $n\ge0$ and $m\in\Z$,
+\[
+  \Theta(T^nR^m)=T_\unif^{\,n}*R_\unif^{\,m}=c_{n+m,m}+\sum_{1\le l\le n/2}\lambda_{n,l}\,c_{n+m-l,\,m+l}\qquad(\lambda_{n,l}\in\C).
+\]
+For $n=0$, $R_\unif^{\,m}=c_{m,m}$ by \cref{I.satake.thm:hecke-central-shift} (induction on $\abs m$, starting from
+$c_{0,0}=\mathbf 1_K$). If the claim holds for $n$, multiply by $T_\unif$. Every term $c_{a,b}$ on the right has
+$a-b=n-2l\ge0$, and \cref{I.satake.thm:hecke-recursion} gives $T_\unif*c_{a,b}=c_{a+1,b}+(\text{scalar})\,c_{a,b+1}$, the
+second term only when $a>b$. The term $c_{a+1,b}$ has the form $c_{(n+1)+m-l,\,m+l}$, and $c_{a,b+1}=c_{(n+1)+m-(l+1),\,m+(l+1)}$
+occurs only if $n-2l\ge1$, i.e.\ $l+1\le(n+1)/2$. The only term with index $l=0$ is $c_{n+1+m,m}$, from $l=0$, with
+coefficient $1$. This is the claim for $n+1$.
+
+\emph{Surjectivity.} By induction on $a-b$, every $c_{a,b}$ ($a\ge b$) lies in the image: by the claim,
+$c_{a,b}=\Theta(T^{a-b}R^b)-\sum_{l\ge1}\lambda_{a-b,l}\,c_{a-l,b+l}$, and the $c_{a-l,b+l}$ have smaller difference
+$a-b-2l$. These elements span $\mathcal H(G,K)$ (\cref{I.satake.thm:hecke-basis-basis}).
+
+\emph{Injectivity.} The map $(n,m)\mapsto(n+m,m)$ is a bijection from $\N\times\Z$ onto $\{(a,b)\in\Z^2:a\ge b\}$. Let
+$P=\sum\mu_{n,m}T^nR^m\neq0$, and let $(n,m)$ be a pair with $\mu_{n,m}\neq0$ and $n$ maximal. By the claim, the
+basis element $c_{n+m,m}$ occurs in $\Theta(T^{n'}R^{m'})$ only if $(n+m,m)=(n'+m'-l,m'+l)$ for some $l\ge0$, i.e.\
+$n'=n+2l$; by maximality only $(n',m')=(n,m)$, $l=0$, contributes, with coefficient $1$. So the coefficient of
+$c_{n+m,m}$ in $\Theta(P)$ is $\mu_{n,m}\neq0$, and $\Theta(P)\neq0$ by \cref{I.satake.thm:hecke-basis-basis}.
+
+The last sentence of the theorem restates bijectivity: the image of $\Theta$ is the subalgebra generated by $T_\unif$,
+$R_\unif$, $R_\unif^{-1}$, and injectivity on $\C[T,R]\subseteq\C[T,R^{\pm1}]$ is algebraic independence.
+\end{proof}
+
+\begin{example}[the square of $T_\unif$]
+\tfstmt{I.satake.ex:hecke-t-squared}
+\uses{I.satake.def:hecke-basis}
+\end{example}
+\begin{proof}
+\uses{I.satake.thm:hecke-recursion}
+This is the case $(a,b)=(1,0)$, $a-b=1$, of \cref{I.satake.thm:hecke-recursion}, since $T_\unif=c_{1,0}$ and
+$c_{1,1}=R_\unif$. Directly: $(T_\unif*T_\unif)(t_{1,1})$ counts the cosets $yK\subseteq K\,t_{1,0}\,K$ with
+$y^{-1}\unif\in K\,t_{1,0}\,K$, i.e.\ $y\in\unif(K\,t_{1,0}\,K)^{-1}=K\,t_{0,1}\,K=K\,t_{1,0}\,K$: all $q+1$ of them.
+\end{proof}
+
+\noindent The example shows why the case $a-b=1$ of the recursion differs: the coefficient of $c_{a,a}$ is $q+1$,
+not $q$. (The numerical check \texttt{tools/numcheck/m5a\_numcheck.py} verifies the recursion by counting cosets.)
+
+\section{The Satake isomorphism}\label{sec:satake-iso}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[Ch.~II, §§5.1--6.2, pp.~23--30 (the transform (6.1)--(6.3) and
+Theorem~3, p.~29); §8.3, Theorem~6\,(i), p.~45]{Sat}; \cite[§9, Proposition~37, p.~52]{BumpH}. The transform is defined
+here as a sum over $G/K$ (decision L14 of the sprint); Satake's integral $\deltaB^{1/2}(t)\int_Nf(tn)\,\dd n$ (with $\vol(N(\Ocal_F))=1$) is the same
+sum written as an integral, since $n\mapsto f(tn)$ is constant on the cosets $nN(\Ocal_F)$ \cite[(6.2), p.~27]{Sat}; this volume uses only
+the sum. The fundamental theorem on symmetric polynomials is Mathlib's
+\texttt{MvPolynomial.esymmAlgEquiv}; the proof below is the elementary one for two variables.\par}
+
+The Satake transform takes values in the Laurent polynomials in two variables. The variable $X$ belongs to the
+first diagonal entry and $Y$ to the second; the Weyl group $S_2=\{1,s\}$ acts by exchanging them.
+
+\begin{definition}[Laurent polynomials and their Weyl group invariants]
+\tfstmt{I.satake.def:laurent-weyl-invariants}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} $s$ is the map induced by the group automorphism $(a,b)\mapsto(b,a)$ of
+$\Z\times\Z$, hence a $\C$-algebra automorphism, and it is an involution. The fixed points of a $\C$-algebra
+endomorphism form a $\C$-subalgebra.
+
+\begin{lemma}[generators of the invariants]
+\tfstmt{I.satake.lem:laurent-invariants-generators}
+\uses{I.satake.def:laurent-weyl-invariants}
+\end{lemma}
+\begin{proof}
+Write $e_1=X+Y$ and $e_2=XY$; both are $s$-invariant, and $e_2$ is a unit. So $T\mapsto e_1$, $R\mapsto e_2$ defines a
+$\C$-algebra homomorphism $\varphi$ with values in $\C[X^{\pm1},Y^{\pm1}]^{S_2}$.
+
+\emph{Two facts on polynomials.} Order the monomials $X^iY^j$ ($i,j\ge0$) lexicographically: first by $i$, then by
+$j$. (i) $e_1^me_2^k$ ($m,k\ge0$) has leading monomial $X^{m+k}Y^k$ with coefficient $1$, and distinct $(m,k)$ give
+distinct leading monomials. Hence a non-trivial linear combination of the $e_1^me_2^k$ has a non-zero leading
+coefficient, so $e_1,e_2$ are algebraically independent: $A(e_1,e_2)=0$ for $A\in\C[T,R]$ implies $A=0$. (ii) Every
+symmetric $Q\in\C[X,Y]$ is a polynomial in $e_1,e_2$: if $Q\neq0$ has leading monomial $cX^iY^j$, then $i\ge j$ (the
+monomial $X^jY^i$ also occurs in $Q$, by symmetry), and $Q-c\,e_1^{i-j}e_2^j$ is symmetric with a strictly smaller
+leading monomial or is $0$. Since there are only finitely many monomials below $X^iY^j$ of total degree at most that
+of $Q$, induction ends.
+
+\emph{Image.} Let $P$ be $s$-invariant. Choose $N\ge0$ with $Q=e_2^NP\in\C[X,Y]$ (multiply by a high power of
+$XY$). $Q$ is symmetric, so $Q=A(e_1,e_2)$ by (ii), and $P=\varphi(A(T,R)R^{-N})$.
+
+\emph{Injectivity.} An element of $\C[T,R^{\pm1}]$ has the form $R^{-N}A(T,R)$ with $A\in\C[T,R]$. If
+$\varphi(R^{-N}A)=0$, then $A(e_1,e_2)=0$, so $A=0$ by (i).
+\end{proof}
+
+\begin{definition}[the Satake transform]
+\tfstmt{I.satake.def:satake-transform}
+\uses{I.satake.def:spherical-hecke-algebra, I.satake.def:laurent-weyl-invariants, I.lf.def:residue-cardinality}
+\end{definition}
+
+\noindent\emph{Proof of the claims.} Upper triangular representatives exist by \cref{I.decomp.thm:iwasawa-local}.
+If $\beta K=\beta'K$ with $\beta,\beta'$ upper triangular, then $\beta^{-1}\beta'\in K$ is upper triangular, so its
+diagonal entries $\beta_{11}^{-1}\beta'_{11}$, $\beta_{22}^{-1}\beta'_{22}$ are units
+(\cref{I.conv.lem:max-compact-local-mem}, as in the proof of \cref{I.satake.lem:left-coset-representatives}); hence
+$(i,j)$ is the same for $\beta$ and $\beta'$ (\cref{I.lf.thm:unit-uniformizer-decomposition}). Moreover
+$\deltaB(\beta)=\abs{u\unif^i/u'\unif^j}=q^{-(i-j)}$ (\cref{I.lf.thm:abs-uniformizer}). The summand $f(g)\mu(gK)$
+depends only on $gK$, and it vanishes outside the finitely many cosets on which $f\neq0$.
+
+\noindent In terms of the representatives of \cref{I.satake.lem:left-coset-representatives}, the coset $h_{i,j}(x)K$
+has weight $q^{-(i-j)/2}X^iY^j$. The weight is the restriction to $T(F)$ of $\deltaB^{1/2}$ composed with the map
+$t_{i,j}\mapsto X^iY^j$; the factor $\deltaB^{1/2}$, not $\deltaB^{-1/2}$, makes $\Sat f$ Weyl group invariant
+(\cref{I.satake.thm:satake-image-invariant}). For example $\Sat(\mathbf 1_K)=1$.
+
+\begin{theorem}[the Satake transform is multiplicative]
+\tfstmt{I.satake.thm:satake-transform-multiplicative}
+\uses{I.satake.def:satake-transform}
+\end{theorem}
+\begin{proof}
+\uses{I.decomp.thm:iwasawa-local, I.satake.def:spherical-hecke-algebra}
+\emph{The weight is multiplicative under upper triangular matrices.} Let $y$ be upper triangular and $g\in G$, and let
+$\beta$ be an upper triangular representative of $gK$. Then $y\beta$ is an upper triangular representative of $ygK$,
+whose diagonal entries are the products of those of $y$ and $\beta$; so the exponents add, and
+$\mu(ygK)=\mu(yK)\,\mu(gK)$.
+
+\emph{The product.} All sums below are finite. By definition of the convolution,
+\[
+  \Sat(f_1*f_2)=\sum_{xK}\sum_{yK}f_1(y)f_2(y^{-1}x)\,\mu(xK)=\sum_{yK}f_1(y)\sum_{xK}f_2(y^{-1}x)\,\mu(xK).
+\]
+The inner sum does not change when $y$ is replaced by $yk$ ($k\in K$), as $f_2$ is left $K$-invariant. For each coset
+$yK$ choose an upper triangular representative $y$ (\cref{I.decomp.thm:iwasawa-local}) and substitute $xK=yzK$ (the map
+$zK\mapsto yzK$ is a bijection of $G/K$):
+\[
+  \sum_{xK}f_2(y^{-1}x)\,\mu(xK)=\sum_{zK}f_2(z)\,\mu(yzK)=\mu(yK)\sum_{zK}f_2(z)\,\mu(zK)=\mu(yK)\,\Sat f_2 .
+\]
+Hence $\Sat(f_1*f_2)=\sum_{yK}f_1(y)\mu(yK)\cdot\Sat f_2=\Sat f_1\cdot\Sat f_2$. Finally, $\mathbf 1_K$ is
+supported on the coset $K$, of weight $X^0Y^0=1$. With linearity
+(each summand $f(g)\mu(gK)$ is linear in $f$, and the sum is finite), $\Sat$ is a homomorphism of $\C$-algebras.
+\end{proof}
+
+\begin{theorem}[the Satake transform of the generators]
+\tfstmt{I.satake.thm:satake-generators}
+\uses{I.satake.def:satake-transform, I.satake.def:hecke-basis}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.lem:left-coset-representatives, I.satake.thm:hecke-central-shift}
+By \cref{rem:satake-coset-list}, $K\,t_{1,0}\,K$ is the union of the $q$ cosets $n(u)\,t_{1,0}K$, of weight
+$q^{-1/2}X$, and of $t_{0,1}K$, of weight $q^{1/2}Y$. So $\Sat(T_\unif)=q\cdot q^{-1/2}X+q^{1/2}Y=q^{1/2}(X+Y)$.
+For $e=\pm1$, $K\,t_{e,e}\,K=\unif^eK$ is one coset, of weight $X^eY^e$; and $R_\unif^{-1}=c_{-1,-1}$ by
+\cref{I.satake.thm:hecke-central-shift}.
+\end{proof}
+
+\begin{theorem}[the image is Weyl group invariant]
+\tfstmt{I.satake.thm:satake-image-invariant}
+\uses{I.satake.def:satake-transform, I.satake.def:laurent-weyl-invariants}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.thm:hecke-polynomial, I.satake.thm:satake-transform-multiplicative, I.satake.thm:satake-generators}
+By \cref{I.satake.thm:satake-transform-multiplicative}, $\Sat$ is a homomorphism of $\C$-algebras, so
+$\Sat^{-1}(\C[X^{\pm1},Y^{\pm1}]^{S_2})$ is a $\C$-subalgebra of $\mathcal H(G,K)$. It contains $T_\unif$, $R_\unif$
+and $R_\unif^{-1}$, whose images $q^{1/2}(X+Y)$, $XY$, $X^{-1}Y^{-1}$ are invariant
+(\cref{I.satake.thm:satake-generators}). These elements generate $\mathcal H(G,K)$ as a $\C$-algebra
+(\cref{I.satake.thm:hecke-polynomial}), so the subalgebra is all of $\mathcal H(G,K)$.
+\end{proof}
+
+\begin{theorem}[triangularity]
+\tfstmt{I.satake.thm:satake-triangular}
+\uses{I.satake.def:satake-transform, I.satake.def:hecke-basis}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.thm:hecke-recursion, I.satake.thm:hecke-central-shift, I.satake.thm:satake-transform-multiplicative, I.satake.thm:satake-generators}
+\emph{The case $a=b$.} $K\,t_{a,a}\,K=\unif^aK$ is a single coset ($t_{a,a}=\unif^a\cdot1$ is central), of weight
+$X^aY^a$; so $\Sat(c_{a,a})=X^aY^a$.
+
+\emph{The case $a>b$.} Write $P_{a,b}$ for the right side of the formula, i.e.\
+$P_{a,b}=q^{(a-b)/2}\sum_{i=b}^a\varepsilon^{a,b}_iX^iY^{a+b-i}$ with $\varepsilon^{a,b}_b=\varepsilon^{a,b}_a=1$,
+$\varepsilon^{a,b}_i=1-q^{-1}$ for $b<i<a$, and $\varepsilon^{a,b}_i=0$ for $i\notin[b,a]$. We prove
+$\Sat(c_{a,b})=P_{a,b}$ by strong induction on $n=a-b\ge1$. We use that $\Sat$ is multiplicative
+(\cref{I.satake.thm:satake-transform-multiplicative}) and $\Sat(T_\unif)=q^{1/2}(X+Y)$
+(\cref{I.satake.thm:satake-generators}); multiplication by $X+Y$ sends the coefficient sequence $(e_i)$ of
+$\sum_ie_iX^iY^{d-i}$ to the sequence $(e_{i-1}+e_i)$ of degree $d+1$.
+
+$n=1$: by \cref{I.satake.thm:hecke-central-shift} (applied $\abs b$ times), $c_{b+1,b}=c_{b,b}*T_\unif$, so
+$\Sat(c_{b+1,b})=X^bY^b\cdot q^{1/2}(X+Y)=q^{1/2}(X^{b+1}Y^b+X^bY^{b+1})=P_{b+1,b}$.
+
+$n=2$: the case $a-b=1$ of \cref{I.satake.thm:hecke-recursion} at $(b+1,b)$ gives
+$T_\unif*c_{b+1,b}=c_{b+2,b}+(q+1)\,c_{b+1,b+1}$, so
+\[
+  \Sat(c_{b+2,b})=q(X+Y)(X^{b+1}Y^b+X^bY^{b+1})-(q+1)X^{b+1}Y^{b+1}
+  =q\bigl(X^{b+2}Y^b+X^bY^{b+2}+(1-q^{-1})X^{b+1}Y^{b+1}\bigr)=P_{b+2,b}.
+\]
+
+$n\ge3$: the case $a-b\ge2$ of \cref{I.satake.thm:hecke-recursion} at $(a-1,b)$ gives
+$T_\unif*c_{a-1,b}=c_{a,b}+q\,c_{a-1,b+1}$, where $a-1-b=n-1$ and $(a-1)-(b+1)=n-2\ge1$. By the induction hypothesis,
+$\Sat(c_{a,b})=q^{1/2}(X+Y)P_{a-1,b}-q\,P_{a-1,b+1}$. All three terms are homogeneous of degree $a+b$, and the
+coefficient of $X^xY^{a+b-x}$ on the right is $q^{n/2}\bigl(\varepsilon^{a-1,b}_{x-1}+\varepsilon^{a-1,b}_x-\varepsilon^{a-1,b+1}_x\bigr)$.
+For $x=b$ this is $0+1-0=1$; for $x=a$ it is $1+0-0=1$; for $x=b+1$ it is $1+(1-q^{-1})-1$ (as $b+1<a-1$); for $x=a-1$ it
+is $(1-q^{-1})+1-1$ (as $a-2>b$); for $b+1<x<a-1$ it is $2(1-q^{-1})-(1-q^{-1})$; and it is $0$ for $x\notin[b,a]$. This
+is $q^{n/2}\varepsilon^{a,b}_x$, so $\Sat(c_{a,b})=P_{a,b}$.
+\end{proof}
+
+\noindent The formula can also be read off from the coset list of \cref{rem:satake-coset-list}: the cosets in
+$K\,t_{a,b}\,K$ with $(i,j)=(b+l,a-l)$ have weight $q^{n/2-l}X^{b+l}Y^{a-l}$, and there are $1$, $q^n$ and $q^l-q^{l-1}$
+of them for $l=0$, $l=n$ and $0<l<n$, which gives the coefficients $q^{n/2}$, $q^{n/2}$ and $q^{n/2}(1-q^{-1})$.
+
+\begin{remark}[Macdonald's formula]\label{rem:satake-macdonald}
+For $a\ge b$ put $s_{a,b}=\sum_{i=b}^aX^iY^{a+b-i}=(X^{a+1}Y^b-X^bY^{a+1})/(X-Y)$, the Schur polynomial, and
+$s_{a,b}=0$ if $a<b$. The theorem says $\Sat(c_{a,b})=q^{(a-b)/2}\bigl(s_{a,b}-q^{-1}s_{a-1,b+1}\bigr)$, which is
+Macdonald's formula for $\GL_2$. For example, $\Sat(c_{2,0})=q(X^2+Y^2)+(q-1)XY$, and with
+\cref{I.satake.ex:hecke-t-squared} and \cref{I.satake.thm:satake-generators},
+$\Sat(T_\unif*T_\unif)=q(X^2+Y^2)+(q-1)XY+(q+1)XY=q(X+Y)^2=\Sat(T_\unif)^2$.
+\end{remark}
+
+\begin{theorem}[the Satake isomorphism]
+\tfstmt{I.satake.thm:satake-isomorphism}
+\uses{I.satake.def:satake-transform, I.satake.def:laurent-weyl-invariants, I.satake.def:spherical-hecke-algebra}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.thm:hecke-polynomial, I.satake.lem:laurent-invariants-generators, I.satake.thm:satake-transform-multiplicative, I.satake.thm:satake-generators, I.satake.thm:satake-image-invariant}
+Let $\Theta\colon\C[T,R^{\pm1}]\to\mathcal H(G,K)$ be the isomorphism of \cref{I.satake.thm:hecke-polynomial} and
+$\varphi\colon\C[T,R^{\pm1}]\to\C[X^{\pm1},Y^{\pm1}]^{S_2}$ the isomorphism of
+\cref{I.satake.lem:laurent-invariants-generators}. Since $q^{1/2}\neq0$, there is a $\C$-algebra automorphism $\sigma$ of
+$\C[T,R^{\pm1}]$ with $\sigma(T)=q^{1/2}T$, $\sigma(R)=R$ (its inverse sends $T$ to $q^{-1/2}T$). By
+\cref{I.satake.thm:satake-transform-multiplicative}, $\Sat\circ\Theta$ and $\varphi\circ\sigma$ are $\C$-algebra
+homomorphisms $\C[T,R^{\pm1}]\to\C[X^{\pm1},Y^{\pm1}]$. They agree on $T$ (both give $q^{1/2}(X+Y)$,
+\cref{I.satake.thm:satake-generators}) and on $R$ (both give $XY$), hence everywhere, as $T$, $R$, $R^{-1}$ generate:
+\[
+  \Sat(\Theta(P))=\varphi(\sigma(P))\qquad(P\in\C[T,R^{\pm1}]).\tag{$*$}
+\]
+By \cref{I.satake.thm:satake-image-invariant}, $\Sat$ takes values in $\C[X^{\pm1},Y^{\pm1}]^{S_2}$; let
+$e\colon\mathcal H(G,K)\to\C[X^{\pm1},Y^{\pm1}]^{S_2}$ be $\Sat$ with this codomain, a $\C$-algebra homomorphism with
+$e(f)=\Sat f$. It is bijective. \emph{Injective:} write $f=\Theta(P)$, $f'=\Theta(P')$ ($\Theta$ is surjective); if
+$\Sat f=\Sat f'$, then $\varphi(\sigma(P))=\varphi(\sigma(P'))$ by~($*$), so $\sigma(P)=\sigma(P')$ ($\varphi$ is
+injective), $P=P'$ and $f=f'$. \emph{Surjective:} every invariant is $\varphi(P)$ for some $P$ (the image of $\varphi$),
+and $\varphi(P)=\Sat(\Theta(\sigma^{-1}(P)))$ by~($*$). So $e$ is a $\C$-algebra isomorphism; equivalently
+$e=\varphi\circ\sigma\circ\Theta^{-1}$.
+\end{proof}
+
+\noindent In particular $\Sat$ is injective. This is
+\cite[Theorem~3, p.~29, and Theorem~6\,(i), p.~45]{Sat} for $\GL_2$, and \cite[Proposition~37]{BumpH} up to the rescaling
+$\theta_1=q^{-1/2}T_\unif$.
+
+\section{Characters of the spherical Hecke algebra}\label{sec:satake-characters}
+
+{\sloppy\noindent\emph{Sources for this section:} \cite[§9, Proposition~40, p.~55]{BumpH} (the eigenvalues, whose
+normalization is used here); \cite[Theorem~2, p.~27, and §5.2, p.~24]{Sat} (all homomorphisms come from zonal spherical
+functions; Satake's parameter is the inverse of the one used here, $(\alpha,\beta)\mapsto(\alpha^{-1},\beta^{-1})$);
+\cite[Lemma~3.9 and the paragraph after it, p.~59]{JL} (the homomorphism $\lambda\colon\mathcal H^0\to\C$ attached to an
+unramified representation).\par}
+
+Every pair $(\alpha,\beta)\in(\C^\times)^2$ defines the evaluation $P\mapsto P(\alpha,\beta)$ of Laurent polynomials, a
+$\C$-algebra homomorphism $\C[X^{\pm1},Y^{\pm1}]\to\C$. Composed with $\Sat$ it is a character of
+$\mathcal H(G,K)$. By \cref{I.smooth.thm:spherical-hecke-eigenvalue} in the next chapter, $\omega_{\alpha,\beta}$ is the
+character by which $\mathcal H(G,K)$ acts on the spherical vector of the unramified principal series with Satake parameter
+$(\alpha,\beta)$.
+
+\begin{theorem}[characters of the spherical Hecke algebra]
+\tfstmt{I.satake.thm:hecke-characters}
+\uses{I.satake.def:satake-transform, I.satake.def:hecke-basis}
+\end{theorem}
+\begin{proof}
+\uses{I.satake.thm:satake-transform-multiplicative, I.satake.thm:satake-generators, I.satake.thm:hecke-polynomial, I.satake.thm:satake-image-invariant}
+(a) Since $\alpha,\beta\neq0$, evaluation at $(\alpha,\beta)$ is a $\C$-algebra homomorphism; compose with $\Sat$
+(\cref{I.satake.thm:satake-transform-multiplicative}). The values follow from \cref{I.satake.thm:satake-generators}.
+
+(b) Let $\omega$ be a $\C$-algebra homomorphism, $e_1=q^{-1/2}\omega(T_\unif)$ and $e_2=\omega(R_\unif)$. Then
+$e_2\,\omega(R_\unif^{-1})=\omega(\mathbf 1_K)=1$, so $e_2\neq0$. Let $\alpha,\beta\in\C$ be the roots of
+$z^2-e_1z+e_2$, so $\alpha+\beta=e_1$ and $\alpha\beta=e_2\neq0$; in particular $\alpha,\beta\in\C^\times$. By (a),
+$\omega$ and $\omega_{\alpha,\beta}$ agree on $T_\unif$ and $R_\unif$, hence on $R_\unif^{-1}$, and these elements generate
+$\mathcal H(G,K)$ (\cref{I.satake.thm:hecke-polynomial}). So $\omega=\omega_{\alpha,\beta}$.
+
+(c) If $\omega_{\alpha,\beta}=\omega_{\alpha',\beta'}$, then by (a) $\alpha+\beta=\alpha'+\beta'$ and $\alpha\beta=\alpha'\beta'$,
+so $(z-\alpha)(z-\beta)=(z-\alpha')(z-\beta')$ and $\{\alpha,\beta\}=\{\alpha',\beta'\}$ as multisets, which is the claim.
+Conversely $\omega_{\alpha,\beta}=\omega_{\beta,\alpha}$: for every $f$, $\Sat f$ is $s$-invariant
+(\cref{I.satake.thm:satake-image-invariant}), and $(\Sat f)(\beta,\alpha)=(s\,\Sat f)(\alpha,\beta)=(\Sat f)(\alpha,\beta)$.
+\end{proof}

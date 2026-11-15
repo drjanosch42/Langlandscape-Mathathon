@@ -1,0 +1,30 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Section 12: sources and acknowledgements. The fixed acknowledgments wording names a team member and is therefore
+% placed in the title block (\thanks); this section points to it.
+\paragraph{Our prior work.} The Lean library builds on a curated fork (about 30\,000 lines) of the team's earlier GL(2)
+trace-formula Lean project (about 170\,000 lines), imported as \pathtt{lean/trace-formula-project-import/} (library
+\texttt{AlgJL}, namespace \texttt{GL2TF}): quaternion algebras, class sets, Brandt matrices, the Eichler mass formula as a
+hypothesis, and GL(2)/$\Q$ material, with a LaTeX text and its back-translation. It is frozen in this repository; its two
+\texttt{sorry}s are outside every audited declaration (\S\ref{sec:lean}).
+
+\paragraph{HACS.} HACS v0.2.1 \cite{HACS021} (DOI 10.5281/zenodo.24231446; all versions: DOI 10.5281/zenodo.24118841) and
+the census data hacs-data v0.2.0 \cite{HACSdata020} (DOI 10.5281/zenodo.24147012). The snapshot in \pathtt{code/hacs/} is
+v0.2.1 plus the Jacquet--Langlands module of this project, three documented hook lines and regenerated CLI tables
+(\pathtt{code/hacs/CHANGES.md}).
+
+\paragraph{Lean libraries and vendored code.} Lean~4 \texttt{v4.35.0} and Mathlib \cite{Mathlib20} (Apache-2.0; pinned, not
+vendored). Vendored, with upstream headers and licences kept (\pathtt{THIRD-PARTY-NOTICES.md}): eight modules of AxiomMath's
+Lean formalisation of parts of the Stacks project \cite{AxiomStacks} (Skolem--Noether, simple rings, Morita theory; in
+\pathtt{lean/Langlandscape/Vendor/AxiomStacks/}); in the imported fork, two definition modules of Anthropic's
+Fermat's-Last-Theorem definitions \cite{FLTAnthropic} and two modules of the Imperial College FLT project \cite{FLTImperial}
+(restricted products). The Lean formalisation of the Bruhat--Tits tree by Ludwig and Merten \cite{LM} is cited, not used.
+
+\paragraph{Software.} Python~3.10.12, PARI/GP~2.15.4 through \texttt{cypari2}; NVIDIA CUDA for HACS.
+
+\paragraph{Literature.} The cited literature is listed in the bibliography; every citation in the chapters gives the
+theorem or section number, and points where a source could not be checked are marked as such (\S\ref{sec:limits}). The
+problem statement references are \cite{JL} and \cite[Ch.~8]{Bergeron16}.
+
+\paragraph{Acknowledgements.} The funding acknowledgment, in its fixed wording, is printed with the title (it names a person and
+therefore sits in the title block of this report).

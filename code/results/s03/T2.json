@@ -1,0 +1,655 @@
+{
+ "data": {
+  "B11_q2": {
+   "D": 11,
+   "T_q_eigenvalues": [
+    -2,
+    3
+   ],
+   "X_per_type": 2,
+   "acceptance_note": "Literal coker(alpha alpha^dagger) on Z[X]^2 is Z + Z/3 (weighted) and Z (unweighted) for B11,q=2, not 5. The plan's 5 is realised only as (a) det of alpha alpha^dagger on the cuspidal T_q-eigenspace (q+1)^2 - lambda^2 = 9-4 = 5 and as |Phi^comb| of the collapsed two-vertex graph (weights 2,1,1). The other readings do NOT give 5: coker on the quotient by the Eisenstein saturation = 30 (weighted) / 4 (unweighted); coker of W -> W^vee on the weighted-orthogonal complement W = ker eps = 1800 (weighted) / 16 (unweighted). Flagged for prop:s03-LRdef / WP M2 to pin down the intended object.",
+   "alpha_alphadag_unweighted": {
+    "coker_W_to_Wdual_order": 16,
+    "coker_on_quotient_by_Eis_saturation": 4,
+    "divisors_gt1": [],
+    "eisenstein_vector": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "free_rank": 1,
+    "index_on_ker_eps": 4,
+    "matrix": [
+     [
+      2,
+      0,
+      -1,
+      -1
+     ],
+     [
+      0,
+      1,
+      -1,
+      0
+     ],
+     [
+      -1,
+      -1,
+      2,
+      0
+     ],
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "rank_Q": 3,
+    "rank_matrix": 3,
+    "torsion_order": 1
+   },
+   "alpha_alphadag_unweighted_RibetSign": {
+    "matrix": [
+     [
+      2,
+      0,
+      1,
+      1
+     ],
+     [
+      0,
+      1,
+      1,
+      0
+     ],
+     [
+      1,
+      1,
+      2,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "alpha_alphadag_weighted": {
+    "coker_W_to_Wdual_order": 1800,
+    "coker_on_quotient_by_Eis_saturation": 30,
+    "divisors_gt1": [
+     3
+    ],
+    "eisenstein_vector": [
+     3,
+     2,
+     3,
+     2
+    ],
+    "free_rank": 1,
+    "index_on_ker_eps": 30,
+    "matrix": [
+     [
+      3,
+      0,
+      -1,
+      -3
+     ],
+     [
+      0,
+      3,
+      -2,
+      0
+     ],
+     [
+      -1,
+      -3,
+      3,
+      0
+     ],
+     [
+      -2,
+      0,
+      0,
+      3
+     ]
+    ],
+    "rank_Q": 3,
+    "rank_matrix": 3,
+    "torsion_order": 3
+   },
+   "alpha_alphadag_weighted_RibetSign": {
+    "matrix": [
+     [
+      3,
+      0,
+      1,
+      3
+     ],
+     [
+      0,
+      3,
+      2,
+      0
+     ],
+     [
+      1,
+      3,
+      3,
+      0
+     ],
+     [
+      2,
+      0,
+      0,
+      3
+     ]
+    ]
+   },
+   "collapse_two_vertex_weights": [
+    2,
+    1,
+    1
+   ],
+   "cusp_det_q1sq_minus_lam_sq": [
+    5
+   ],
+   "hecke": {
+    "H": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      0
+     ]
+    ],
+    "H_transpose": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    "Hprime": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      0
+     ]
+    ],
+    "Hprime_equals_HT": true
+   },
+   "lem_bip": {
+    "a_ker_in_deg0": true,
+    "a_rank": true,
+    "a_surjective": true,
+    "b_ker_Q": true,
+    "b_ker_Z": true,
+    "c_collapse_H1": true,
+    "c_connecting_kernel": true
+   },
+   "n_edges_X_Uprime": 3,
+   "n_vertices_BG": 4,
+   "phi_collapsed_order": 5,
+   "phi_comb_BG": {
+    "cyclic": true,
+    "divisors": [],
+    "order": 1,
+    "rank": 0
+   },
+   "phi_comb_BG_unweighted": {
+    "cyclic": true,
+    "divisors": [],
+    "order": 1,
+    "rank": 0
+   },
+   "phi_comb_collapsed": {
+    "cyclic": true,
+    "divisors": [
+     5
+    ],
+    "order": 5,
+    "rank": 2
+   },
+   "q": 2,
+   "ribet_exact": {
+    "alpha_injective_mod_H1": true,
+    "coker_alpha_iso_Z": true,
+    "coker_alpha_rank": 1,
+    "coker_alpha_torsion_free": true,
+    "eps_kills_im_alpha": true,
+    "ker_alpha_rank": 0,
+    "ker_alpha_saturated": true,
+    "rank_alpha": 3,
+    "rk_H1": 0,
+    "rk_H1_formula": 0
+   },
+   "rk_H1": 0,
+   "s0": [
+    0,
+    0,
+    1
+   ],
+   "s1": [
+    0,
+    1,
+    0
+   ],
+   "sign_check": {
+    "diag_blocks_are_q_plus_1": true,
+    "interpretation": "offdiag blocks of alpha alpha^dagger for alpha=(-s0*,s1*) are -T_q (-H', -H^T); Ribet's (s0*,s1*) gives +T_q",
+    "offdiag_entries_nonpositive": true,
+    "offdiag_lower_is_minus_HT": true,
+    "offdiag_upper_is_minus_Hprime": true
+   },
+   "w_edges": [
+    2,
+    1,
+    1
+   ],
+   "w_vertices": [
+    2,
+    3
+   ]
+  },
+  "B2_q13": {
+   "D": 2,
+   "T_q_eigenvalues": [
+    14
+   ],
+   "X_per_type": 1,
+   "acceptance_note": null,
+   "alpha_alphadag_unweighted": {
+    "coker_W_to_Wdual_order": 12,
+    "coker_on_quotient_by_Eis_saturation": 6,
+    "divisors_gt1": [
+     3
+    ],
+    "eisenstein_vector": [
+     1,
+     1
+    ],
+    "free_rank": 1,
+    "index_on_ker_eps": 6,
+    "matrix": [
+     [
+      3,
+      -3
+     ],
+     [
+      -3,
+      3
+     ]
+    ],
+    "rank_Q": 1,
+    "rank_matrix": 1,
+    "torsion_order": 3
+   },
+   "alpha_alphadag_unweighted_RibetSign": {
+    "matrix": [
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      3
+     ]
+    ]
+   },
+   "alpha_alphadag_weighted": {
+    "coker_W_to_Wdual_order": 672,
+    "coker_on_quotient_by_Eis_saturation": 28,
+    "divisors_gt1": [
+     14
+    ],
+    "eisenstein_vector": [
+     1,
+     1
+    ],
+    "free_rank": 1,
+    "index_on_ker_eps": 28,
+    "matrix": [
+     [
+      14,
+      -14
+     ],
+     [
+      -14,
+      14
+     ]
+    ],
+    "rank_Q": 1,
+    "rank_matrix": 1,
+    "torsion_order": 14
+   },
+   "alpha_alphadag_weighted_RibetSign": {
+    "matrix": [
+     [
+      14,
+      14
+     ],
+     [
+      14,
+      14
+     ]
+    ]
+   },
+   "collapse_two_vertex_weights": [
+    3,
+    3,
+    2
+   ],
+   "cusp_det_q1sq_minus_lam_sq": [],
+   "hecke": {
+    "H": [
+     [
+      14
+     ]
+    ],
+    "H_transpose": [
+     [
+      14
+     ]
+    ],
+    "Hprime": [
+     [
+      14
+     ]
+    ],
+    "Hprime_equals_HT": true
+   },
+   "lem_bip": {
+    "a_ker_in_deg0": true,
+    "a_rank": true,
+    "a_surjective": true,
+    "b_ker_Q": true,
+    "b_ker_Z": true,
+    "c_collapse_H1": true,
+    "c_connecting_kernel": true
+   },
+   "n_edges_X_Uprime": 3,
+   "n_vertices_BG": 2,
+   "phi_collapsed_order": 21,
+   "phi_comb_BG": {
+    "cyclic": true,
+    "divisors": [
+     21
+    ],
+    "order": 21,
+    "rank": 2
+   },
+   "phi_comb_BG_unweighted": {
+    "cyclic": true,
+    "divisors": [
+     3
+    ],
+    "order": 3,
+    "rank": 2
+   },
+   "phi_comb_collapsed": {
+    "cyclic": true,
+    "divisors": [
+     21
+    ],
+    "order": 21,
+    "rank": 2
+   },
+   "q": 13,
+   "ribet_exact": {
+    "alpha_injective_mod_H1": true,
+    "coker_alpha_iso_Z": true,
+    "coker_alpha_rank": 1,
+    "coker_alpha_torsion_free": true,
+    "eps_kills_im_alpha": true,
+    "ker_alpha_rank": 2,
+    "ker_alpha_saturated": true,
+    "rank_alpha": 1,
+    "rk_H1": 2,
+    "rk_H1_formula": 2
+   },
+   "rk_H1": 2,
+   "s0": [
+    0,
+    0,
+    0
+   ],
+   "s1": [
+    0,
+    0,
+    0
+   ],
+   "sign_check": {
+    "diag_blocks_are_q_plus_1": true,
+    "interpretation": "offdiag blocks of alpha alpha^dagger for alpha=(-s0*,s1*) are -T_q (-H', -H^T); Ribet's (s0*,s1*) gives +T_q",
+    "offdiag_entries_nonpositive": true,
+    "offdiag_lower_is_minus_HT": true,
+    "offdiag_upper_is_minus_Hprime": true
+   },
+   "w_edges": [
+    3,
+    3,
+    2
+   ],
+   "w_vertices": [
+    12
+   ]
+  },
+  "B2_q7": {
+   "D": 2,
+   "T_q_eigenvalues": [
+    8
+   ],
+   "X_per_type": 1,
+   "acceptance_note": null,
+   "alpha_alphadag_unweighted": {
+    "coker_W_to_Wdual_order": 8,
+    "coker_on_quotient_by_Eis_saturation": 4,
+    "divisors_gt1": [
+     2
+    ],
+    "eisenstein_vector": [
+     1,
+     1
+    ],
+    "free_rank": 1,
+    "index_on_ker_eps": 4,
+    "matrix": [
+     [
+      2,
+      -2
+     ],
+     [
+      -2,
+      2
+     ]
+    ],
+    "rank_Q": 1,
+    "rank_matrix": 1,
+    "torsion_order": 2
+   },
+   "alpha_alphadag_unweighted_RibetSign": {
+    "matrix": [
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   },
+   "alpha_alphadag_weighted": {
+    "coker_W_to_Wdual_order": 384,
+    "coker_on_quotient_by_Eis_saturation": 16,
+    "divisors_gt1": [
+     8
+    ],
+    "eisenstein_vector": [
+     1,
+     1
+    ],
+    "free_rank": 1,
+    "index_on_ker_eps": 16,
+    "matrix": [
+     [
+      8,
+      -8
+     ],
+     [
+      -8,
+      8
+     ]
+    ],
+    "rank_Q": 1,
+    "rank_matrix": 1,
+    "torsion_order": 8
+   },
+   "alpha_alphadag_weighted_RibetSign": {
+    "matrix": [
+     [
+      8,
+      8
+     ],
+     [
+      8,
+      8
+     ]
+    ]
+   },
+   "collapse_two_vertex_weights": [
+    3,
+    3
+   ],
+   "cusp_det_q1sq_minus_lam_sq": [],
+   "hecke": {
+    "H": [
+     [
+      8
+     ]
+    ],
+    "H_transpose": [
+     [
+      8
+     ]
+    ],
+    "Hprime": [
+     [
+      8
+     ]
+    ],
+    "Hprime_equals_HT": true
+   },
+   "lem_bip": {
+    "a_ker_in_deg0": true,
+    "a_rank": true,
+    "a_surjective": true,
+    "b_ker_Q": true,
+    "b_ker_Z": true,
+    "c_collapse_H1": true,
+    "c_connecting_kernel": true
+   },
+   "n_edges_X_Uprime": 2,
+   "n_vertices_BG": 2,
+   "phi_collapsed_order": 6,
+   "phi_comb_BG": {
+    "cyclic": true,
+    "divisors": [
+     6
+    ],
+    "order": 6,
+    "rank": 1
+   },
+   "phi_comb_BG_unweighted": {
+    "cyclic": true,
+    "divisors": [
+     2
+    ],
+    "order": 2,
+    "rank": 1
+   },
+   "phi_comb_collapsed": {
+    "cyclic": true,
+    "divisors": [
+     6
+    ],
+    "order": 6,
+    "rank": 1
+   },
+   "q": 7,
+   "ribet_exact": {
+    "alpha_injective_mod_H1": true,
+    "coker_alpha_iso_Z": true,
+    "coker_alpha_rank": 1,
+    "coker_alpha_torsion_free": true,
+    "eps_kills_im_alpha": true,
+    "ker_alpha_rank": 1,
+    "ker_alpha_saturated": true,
+    "rank_alpha": 1,
+    "rk_H1": 1,
+    "rk_H1_formula": 1
+   },
+   "rk_H1": 1,
+   "s0": [
+    0,
+    0
+   ],
+   "s1": [
+    0,
+    0
+   ],
+   "sign_check": {
+    "diag_blocks_are_q_plus_1": true,
+    "interpretation": "offdiag blocks of alpha alpha^dagger for alpha=(-s0*,s1*) are -T_q (-H', -H^T); Ribet's (s0*,s1*) gives +T_q",
+    "offdiag_entries_nonpositive": true,
+    "offdiag_lower_is_minus_HT": true,
+    "offdiag_upper_is_minus_Hprime": true
+   },
+   "w_edges": [
+    3,
+    3
+   ],
+   "w_vertices": [
+    12
+   ]
+  }
+ },
+ "provenance": {
+  "commit": "518e93aaf4025645559146fe5ba1ff1997d9e94c-dirty",
+  "date": "2026-11-14T20:25:55+00:00",
+  "notes": "S03-C3: collapse of BG(Ohat^x,q); alpha alpha^dagger weighted/unweighted; sign check",
+  "params": {
+   "cases": [
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     13
+    ],
+    [
+     11,
+     2
+    ]
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.28738285600411473,
+  "script": "langlandscape.ribet.collapse"
+ }
+}

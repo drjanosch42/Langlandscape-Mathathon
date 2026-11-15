@@ -1,0 +1,1565 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/Haar.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline: planned IDs (\tfplanned) only; no statements or proofs yet.
+
+\chapter{\texorpdfstring{Haar measures on $\GL_2(F)$, $\GL_2(\R)$, $\GL_2(\A)$ and $G(\A)^1$}{Haar measures on GL₂(F), GL₂(ℝ), GL₂(𝔸) and G(𝔸)¹}}\label{ch:ch-0-06-haar}
+
+\noindent\emph{Sources:} \cite[§§1--2]{AIntro}; \cite[§1]{A-I}; \cite[§§2, 7]{JL}.
+
+\section{Unimodularity}
+\begin{definition}[unimodular group]
+\tfstmt{X.haar.def:is-unimodular}
+\lean{GL2TF.IsUnimodular}
+\end{definition}
+\begin{tfformal}{X.haar.def:is-unimodular}
+\tfsem{X.haar.def:is-unimodular}{5dcd1d58a85b777a3ec4503866b39d5213f42ce32a276db40e66a17a2fcb37aa}
+\tfhyps{X.haar.def:is-unimodular}{}
+\tfbinder{X.haar.def:is-unimodular}{0}{6b8b0c0f}{the type of the group $G$}
+\tfbinder{X.haar.def:is-unimodular}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.haar.def:is-unimodular}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.haar.def:is-unimodular}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{X.haar.def:is-unimodular}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{X.haar.def:is-unimodular}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{X.haar.def:is-unimodular}{6}{36a70a30}{the $\sigma$-algebra of $G$}
+\tfbinder{X.haar.def:is-unimodular}{7}{382fb71f}{the assumption that this is the Borel $\sigma$-algebra of $G$}
+\begin{tffidelity}
+``Locally compact Hausdorff topological group with its Borel $\sigma$-algebra'' is the binders \texttt{IsTopologicalGroup}, \texttt{LocallyCompactSpace}, \texttt{T2Space}, \texttt{MeasurableSpace}, \texttt{BorelSpace}. The definition (a \texttt{Prop}) says: for every Haar measure $\mu$ (\texttt{IsHaarMeasure}), every measurable set $E$ and every $g$, $\mu(\{xg:x\in E\})=\mu(E)$; the image of $E$ under right multiplication by $g$ is $Eg$.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{lemma}[unimodular iff the modular character is trivial]
+\tfstmt{X.haar.lem:unimodular-iff-modular-character}
+\bonly
+\lean{GL2TF.isUnimodular_iff_modularCharacter}
+\uses{X.haar.def:is-unimodular}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:unimodular-iff-modular-character}
+\tfsem{X.haar.lem:unimodular-iff-modular-character}{f2844eda48cb74f105d1ab9c144b8beb3b099c6c944c577cec71e2b814df8494}
+\tfhyps{X.haar.lem:unimodular-iff-modular-character}{}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{0}{6b8b0c0f}{the type of the group $G$}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{3}{9211ef29}{the assumption that $G$ is a topological group (B-only)}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{4}{b9372ff8}{the assumption that $G$ is locally compact (B-only)}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (B-only)}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{6}{2be8b0e3}{the assumption that $G$ is second countable (B-only)}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.haar.lem:unimodular-iff-modular-character}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra (B-only)}
+\begin{tffidelity}
+B-only. \texttt{IsUnimodular G ↔ Measure.modularCharacter = 1}, where the modular character is Mathlib's homomorphism $G\to\mathbb R_{\ge0}$. $G$ is second countable, as every group in the project (binder 6, added with the approved statement change M4-SC-1). The premises \texttt{μ.IsHaarMeasure} and \texttt{MeasurableSet E} reported by the tools as hidden binders at the path \texttt{↔.1} are the bound variables of the definition \texttt{IsUnimodular} (``for every left Haar measure $\mu$, every measurable $E$ and every $g$''), quantified inside it; they are not assumptions of the lemma.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+($\Rightarrow$) Let $\mu$ be a Haar measure and $g\in G$. Unimodularity (applied to the preimage as an image under $x\mapsto xg^{-1}$) gives $(\cdot\,g)_*\mu=\mu$. Choose a continuous compactly supported $f\ge0$ with $f(1)>0$; then $\int f\ne0$ and Mathlib's formula $\Delta(g)=\int f\,\dd(\cdot g)_*\mu\big/\int f\,\dd\mu$ (\texttt{haarScalarFactor\_eq\_integral\_div}) gives $\Delta(g)=1$. ($\Leftarrow$) If the modular character is trivial, then $(\cdot\,g^{-1})_*\mu=\Delta(g^{-1})\cdot\mu=\mu$ (\texttt{map\_right\_mul\_eq\_modularCharacterFun\_smul}), so $\mu(Eg)=\mu(E)$. Mathlib's $\Delta$ satisfies $(\cdot\,g)_*\mu=\Delta(g)\mu$, the reciprocal of A's convention; the statement is invariant.
+\end{proof}
+
+\section{\texorpdfstring{Haar measure on $\GL_2(F)$}{Haar measure on GL₂(F)}}
+\begin{lemma}[$\GL_2(F)$ is locally compact]
+\tfstmt{I.haar.lem:gl2-local-locally-compact-instance}
+\bonly
+\lean{GL2TF.Local.gl2_locallyCompactSpace}
+\uses{I.lf.def:nalf, I.topgrp.thm:gl2-local-locally-compact}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-local-locally-compact-instance}
+\tfsem{I.haar.lem:gl2-local-locally-compact-instance}{e033dcd805703a2476938be702a78d814f4da4eaa19d05bc8bb1cd978e006466}
+\tfhyps{I.haar.lem:gl2-local-locally-compact-instance}{}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:gl2-local-locally-compact-instance}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace (GL (Fin 2) F)}, the first component of \cref{I.topgrp.thm:gl2-local-locally-compact}; units topology.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first component of \cref{I.topgrp.thm:gl2-local-locally-compact}.
+\end{proof}
+
+\begin{lemma}[the $\sigma$-algebra of $\GL_2(F)$ is Borel]
+\tfstmt{I.haar.lem:gl2-local-borel-instance}
+\bonly
+\lean{GL2TF.Local.gl2_borelSpace_local}
+\uses{I.lf.def:nalf, I.lf.lem:nalf-t2, I.lf.thm:nalf-second-countable, X.topgrp.def:matrix-measurable-space, X.topgrp.thm:gl2-borel-measurable}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-local-borel-instance}
+\tfsem{I.haar.lem:gl2-local-borel-instance}{9a3a0211e810c736b881027668be0020805fc62e36c4e11fd51e98da3e0ef8dc}
+\tfhyps{I.haar.lem:gl2-local-borel-instance}{}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.lem:gl2-local-borel-instance}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace (GL (Fin 2) F)}, obtained from \cref{X.topgrp.thm:gl2-borel-measurable} using second countability and Hausdorffness of $F$ (\cref{I.lf.thm:nalf-second-countable}, \cref{I.lf.lem:nalf-t2}). Binders: the two measurable-structure binders of $F$ as in \cref{I.haar.def:haar-local}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\cref{X.topgrp.thm:gl2-borel-measurable} for $F$, whose side conditions (continuity, $T_1$, second countability) come from \cref{I.lf.lem:nalf-t2} and \cref{I.lf.thm:nalf-second-countable}.
+\end{proof}
+
+\begin{definition}[the normalized Haar measure]
+\tfstmt{I.haar.def:haar-local}
+\lean{GL2TF.Local.haarLocal}
+\uses{I.conv.def:max-compact-local, I.haar.lem:gl2-local-borel-instance, I.lf.def:nalf, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:haar-local}
+\tfsem{I.haar.def:haar-local}{4ff019744779322dfa376bd0cec1c32775e35271e2e6c46bb76d19aef6d8eb65}
+\tfhyps{I.haar.def:haar-local}{}
+\tfbinder{I.haar.def:haar-local}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.def:haar-local}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.def:haar-local}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.def:haar-local}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.def:haar-local}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.def:haar-local}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.def:haar-local}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+Lean defines \texttt{haarLocal F} as Mathlib's \texttt{Measure.haarMeasure} for the positive compact set $K_F$ (compact by \cref{I.topgrp.thm:max-compact-local-compact-open}, with non-empty interior since $K_F$ is open and contains $1$), which is the left Haar measure with $\mu(K_F)=1$; the snippet describes it by this property (uniqueness of Haar measure makes the description exact), Lean picks Mathlib's. The measurable structure of $F$ is carried by the two binders \texttt{[MeasurableSpace F] [BorelSpace F]} (not mentioned in the snippet; the Borel $\sigma$-algebra of $F$ exists and is unique, so they restrict nothing). The $\sigma$-algebra of $\GL_2(F)$ is Mathlib's \texttt{Units.instMeasurableSpace}; that it is the Borel $\sigma$-algebra and that $\GL_2(F)$ is locally compact are supplied by the B-only instances \cref{I.haar.lem:gl2-local-borel-instance} and \cref{I.haar.lem:gl2-local-locally-compact-instance}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{Measure.haarMeasure} for the positive compact set $K_F$: compact by \cref{I.topgrp.thm:max-compact-local-compact-open}, with non-empty interior since $K_F$ is open (\texttt{interior\_eq}) and contains $1$.
+\end{proof}
+
+\begin{theorem}[volume of $K_F$]
+\tfstmt{I.haar.thm:vol-max-compact-local}
+\lean{GL2TF.Local.haarLocal_isHaarMeasure_vol_maxCompact}
+\uses{I.conv.def:max-compact-local, I.haar.def:haar-local, I.haar.lem:gl2-local-borel-instance, I.lf.def:nalf, I.topgrp.thm:max-compact-local-compact-open, X.topgrp.def:matrix-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:vol-max-compact-local}
+\tfsem{I.haar.thm:vol-max-compact-local}{59a8cf0b0095e1b2bd95bd82aca8659b77f3abeaf532db020c675ae3b545ef84}
+\tfhyps{I.haar.thm:vol-max-compact-local}{}
+\tfbinder{I.haar.thm:vol-max-compact-local}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:vol-max-compact-local}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:vol-max-compact-local}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:vol-max-compact-local}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:vol-max-compact-local}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.thm:vol-max-compact-local}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:vol-max-compact-local}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+The two assertions are the conjunction \texttt{(haarLocal F).IsHaarMeasure ∧ haarLocal F K = 1}, with $\vol$ the measure of the set $K_F$ (coerced to a set). The measurable structure of $F$ is carried by the two binders \texttt{[MeasurableSpace F] [BorelSpace F]} (not mentioned in the snippet; the Borel $\sigma$-algebra of $F$ exists and is unique, so they restrict nothing). The $\sigma$-algebra of $\GL_2(F)$ is Mathlib's \texttt{Units.instMeasurableSpace}; that it is the Borel $\sigma$-algebra and that $\GL_2(F)$ is locally compact are supplied by the B-only instances \cref{I.haar.lem:gl2-local-borel-instance} and \cref{I.haar.lem:gl2-local-locally-compact-instance}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Term-mode: \texttt{Measure.isHaarMeasure\_haarMeasure} and \texttt{Measure.haarMeasure\_self} (the normalization of Mathlib's Haar measure).
+\end{proof}
+
+\begin{theorem}[$\GL_2(F)$ is unimodular]
+\tfstmt{I.haar.thm:gl2-local-unimodular}
+\lean{GL2TF.Local.gl2_isUnimodular}
+\uses{I.cartan.def:cartan-element, I.cartan.lem:cartan-exists, I.cartan.lem:unif-ne-zero, I.conv.def:max-compact-local, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.lf.def:nalf, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:max-compact-local-compact-open, X.haar.def:is-unimodular, X.topgrp.def:matrix-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:gl2-local-unimodular}
+\tfsem{I.haar.thm:gl2-local-unimodular}{aba318985387785fc191a3d13b48ff25723f88b58318194c19c4c11a8db71358}
+\tfhyps{I.haar.thm:gl2-local-unimodular}{}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:gl2-local-unimodular}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+The statement is \texttt{IsUnimodular (GL (Fin 2) F)} (\cref{X.haar.def:is-unimodular}); its hypotheses (topological group, locally compact, Hausdorff, Borel) are found by instance search from the binders, using the B-only instances \cref{I.haar.lem:gl2-local-locally-compact-instance}, \cref{I.haar.lem:gl2-local-borel-instance} and \cref{I.lf.lem:nalf-t2}. The measurable structure of $F$ is carried by the two binders \texttt{[MeasurableSpace F] [BorelSpace F]} (not mentioned in the snippet; the Borel $\sigma$-algebra of $F$ exists and is unique, so they restrict nothing). The $\sigma$-algebra of $\GL_2(F)$ is Mathlib's \texttt{Units.instMeasurableSpace}; that it is the Borel $\sigma$-algebra and that $\GL_2(F)$ is locally compact are supplied by the B-only instances \cref{I.haar.lem:gl2-local-borel-instance} and \cref{I.haar.lem:gl2-local-locally-compact-instance}. The premises \texttt{μ.IsHaarMeasure} and \texttt{MeasurableSet E} flagged as hidden binders by the tools are the bound variables of the \emph{definition} \texttt{IsUnimodular} (``for every Haar measure $\mu$ and every measurable set $E$ ...''), not assumptions on $\GL_2(F)$: they are quantified inside the statement, as in the snippet's definition of unimodularity.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Route of A, via the modular character $\Delta$ of Mathlib ($\mu(\,\cdot\,h)_*=\Delta(h)\mu$). (1) $\Delta(k)=1$ for $k\in K_F$: $K_Fk=K_F$ and $K_F$ is compact, open, of positive finite measure. (2) $\Delta(t_{a,b})=\Delta(t_{b,a})$: the private helper \texttt{swapGL} (the swap matrix $s\in K_F$) satisfies $s\,t_{a,b}=t_{b,a}\,s$ (private lemma \texttt{swapGL\_mul\_cartanElement}), and $\Delta(s)\neq0$ is cancelled. (3) $t_{a,b}t_{b,a}=\unif^{a+b}\cdot1$ is central (private lemma \texttt{cartanElement\_mul\_comm}), so left and right translation agree and $\Delta(t_{a,b}t_{b,a})=1$; with (2), $\Delta(t_{a,b})^2=1$, hence $\Delta(t_{a,b})=1$ since $\Delta\ge0$. (4) Every $h=k\,t_{a,b}\,k'$ by \cref{I.cartan.lem:cartan-exists}, so $\Delta\equiv1$ and $\mu(Eg)=\mu(E)$.
+\end{proof}
+
+\begin{theorem}[volume of a double coset]
+\tfstmt{I.haar.thm:vol-double-coset}
+\lean{GL2TF.Local.vol_double_coset}
+\uses{I.conv.def:max-compact-local, I.haar.lem:gl2-local-borel-instance, I.lf.def:nalf, I.topgrp.thm:max-compact-local-compact-open, X.topgrp.def:matrix-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:vol-double-coset}
+\tfsem{I.haar.thm:vol-double-coset}{64e9157e7601b5de4896e2a8ffe41cf4c4912c81f63b67ede4cf37730491a44c}
+\tfhyps{I.haar.thm:vol-double-coset}{}
+\tfbinder{I.haar.thm:vol-double-coset}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:vol-double-coset}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:vol-double-coset}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:vol-double-coset}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:vol-double-coset}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.thm:vol-double-coset}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:vol-double-coset}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:vol-double-coset}{7}{13e516e9}{the measure $\mu$ on $\GL_2(F)$}
+\tfbinder{I.haar.thm:vol-double-coset}{8}{30ea65cd}{the assumption that $\mu$ is a Haar measure (left invariant, finite on compact sets, positive on open sets)}
+\tfbinder{I.haar.thm:vol-double-coset}{9}{224c86af}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+The finiteness of $K_FgK_F/K_F$ is \texttt{Set.Finite} of the image of the double coset under \texttt{QuotientGroup.mk}; the cardinality is \texttt{Nat.card} of that set, cast to \texttt{ℝ≥0∞}, multiplied by $\mu(K_F)$. ``Left Haar measure'' is \texttt{μ.IsHaarMeasure}, Mathlib's class (left invariant, finite on compact sets, positive on non-empty open sets). The measurable structure of $F$ is carried by the two binders \texttt{[MeasurableSpace F] [BorelSpace F]} (not mentioned in the snippet; the Borel $\sigma$-algebra of $F$ exists and is unique, so they restrict nothing). The $\sigma$-algebra of $\GL_2(F)$ is Mathlib's \texttt{Units.instMeasurableSpace}; that it is the Borel $\sigma$-algebra and that $\GL_2(F)$ is locally compact are supplied by the B-only instances \cref{I.haar.lem:gl2-local-borel-instance} and \cref{I.haar.lem:gl2-local-locally-compact-instance}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$D=K_FgK_F$ is compact (product of compacts) and $K_F$ is open, so $\GL_2(F)/K_F$ is discrete (\texttt{QuotientGroup.discreteTopology}) and the image of $D$ is finite. $D$ is the full preimage of its image (right-invariance by $K_F$ on both sides). Each fibre is a left coset $oK_F=(x\mapsto o^{-1}x)^{-1}(K_F)$, open hence measurable, of measure $\mu(K_F)$ by left invariance (\texttt{measure\_preimage\_mul}). Summing over the finitely many cosets (\texttt{sum\_measure\_preimage\_singleton}) gives $\#\cdot\mu(K_F)$.
+\end{proof}
+
+\begin{corollary}[volume of a Cartan cell]
+\tfstmt{I.haar.cor:vol-cartan-cell}
+\lean{GL2TF.Local.vol_cartan_cell}
+\uses{I.cartan.def:cartan-element, I.cartan.thm:double-coset-index, I.conv.def:max-compact-local, I.haar.thm:vol-double-coset, I.lf.def:nalf, I.lf.def:residue-cardinality, X.topgrp.def:matrix-measurable-space}
+\end{corollary}
+\begin{tfformal}{I.haar.cor:vol-cartan-cell}
+\tfsem{I.haar.cor:vol-cartan-cell}{204a22b12c9da712e94d6fcb1ff286287032d45f4207c83df2b37684eec46e92}
+\tfhyps{I.haar.cor:vol-cartan-cell}{}
+\tfbinder{I.haar.cor:vol-cartan-cell}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.cor:vol-cartan-cell}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.cor:vol-cartan-cell}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{7}{13e516e9}{the measure $\mu$ on $\GL_2(F)$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{8}{30ea65cd}{the assumption that $\mu$ is a Haar measure (left invariant, finite on compact sets, positive on open sets)}
+\tfbinder{I.haar.cor:vol-cartan-cell}{9}{c213428f}{the integer $a$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{10}{6d106234}{the integer $b$}
+\tfbinder{I.haar.cor:vol-cartan-cell}{11}{ec99c14f}{the hypothesis $b\le a$}
+\begin{tffidelity}
+The statement is unconditional: the hypothesis family \texttt{Hyp.SliceDummy} of the first version was discharged by \cref{I.cartan.thm:double-coset-index} (statement change M1-SC-01), and its binder has disappeared. Measures take values in \texttt{ℝ≥0∞}: the case $a>b$ is the \texttt{else} branch of \texttt{if a = b}, using $b\le a$, and the factor $q^{a-b}+q^{a-b-1}$ is the natural number \texttt{q F \^{} (a - b).toNat + q F \^{} (a - b - 1).toNat} cast to \texttt{ℝ≥0∞}. ``Left Haar measure'' is \texttt{μ.IsHaarMeasure}, Mathlib's class (left invariant, finite on compact sets, positive on non-empty open sets). The measurable structure of $F$ is carried by the two binders \texttt{[MeasurableSpace F] [BorelSpace F]} (not mentioned in the snippet; the Borel $\sigma$-algebra of $F$ exists and is unique, so they restrict nothing). The $\sigma$-algebra of $\GL_2(F)$ is Mathlib's \texttt{Units.instMeasurableSpace}; that it is the Borel $\sigma$-algebra and that $\GL_2(F)$ is locally compact are supplied by the B-only instances \cref{I.haar.lem:gl2-local-borel-instance} and \cref{I.haar.lem:gl2-local-locally-compact-instance}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$. The double coset $K_F\,t_{a,b}\,K_F$ is \texttt{DoubleCoset.doubleCoset (cartanElement F a b) K K} with $K$ coerced to a set.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Rewrite with \cref{I.haar.thm:vol-double-coset} for $g=t_{a,b}$ and replace the cardinality by the second conjunct of \cref{I.cartan.thm:double-coset-index} (\texttt{(double\_coset\_index F a b hab).2}); the two cases $a=b$ and $a>b$ are split with \texttt{split\_ifs} and \texttt{simp}.
+\end{proof}
+
+
+\begin{definition}[additive Haar measure on $\Mat_2$]
+\tfstmt{I.haar.def:matrix-additive-haar}
+\lean{GL2TF.Local.matAddHaar}
+\uses{I.lf.def:normalized-abs, I.lf.def:nalf, X.topgrp.thm:gl2-units-open-embedding, I.haar.lem:matrix-integers-compact, I.haar.lem:matrix-integers-interior-nonempty, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:matrix-additive-haar}
+\tfsem{I.haar.def:matrix-additive-haar}{f90e753a16b0f4e6c6dc7f168bad91e8d9b4aa538cec54a77d4585e4ab5af051}
+\tfhyps{I.haar.def:matrix-additive-haar}{}
+\tfbinder{I.haar.def:matrix-additive-haar}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.def:matrix-additive-haar}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.def:matrix-additive-haar}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.def:matrix-additive-haar}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.def:matrix-additive-haar}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.haar.def:matrix-additive-haar}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.def:matrix-additive-haar}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: ``Borel'')}
+\begin{tffidelity}
+Lean states only part~1 for a non-archimedean local field: \texttt{matAddHaar F}, the additive Haar measure on \texttt{Matrix (Fin 2) (Fin 2) F} whose value on $\Mat_2(\Ocal_F)$ is $1$ (Mathlib's \texttt{Measure.addHaarMeasure} for the compact set $\Mat_2(\Ocal_F)$ with non-empty interior, \cref{I.haar.lem:matrix-integers-compact,I.haar.lem:matrix-integers-interior-nonempty}). The identification $\Mat_2(F)=F^4$ is not used (Lean works on \texttt{Matrix (Fin 2) (Fin 2) F}). The measure $\abs{\det g}_F^{-2}\dd X$ on $\GL_2(F)$ is the B-only \cref{I.haar.def:det-density-measure}, and the Lebesgue measure on $\Mat_2(\R)$ of part~2 is the B-only \cref{I.haar.def:matrix-lebesgue}. The property $\dd X(\Mat_2(\Ocal_F))=1$ is not a separate lemma.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the determinant density is a Haar measure]
+\tfstmt{I.haar.thm:det-density-haar}
+\lean{GL2TF.Local.detDensityHaar_isHaarMeasure}
+\uses{I.haar.def:matrix-additive-haar, I.haar.def:det-density-measure, I.lf.def:nalf, X.topgrp.def:matrix-measurable-space, I.haar.lem:matrix-integers-compact, I.haar.lem:matrix-integers-interior-nonempty, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:haar-modulus-linear, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, X.topgrp.lem:matrix-borel-space, X.topgrp.thm:gl2-borel-measurable, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:det-density-haar}
+\tfsem{I.haar.thm:det-density-haar}{edb63c2cfe077925e48d3ba923e0c40def86abdaa776eebe99dcc044d55a2590}
+\tfhyps{I.haar.thm:det-density-haar}{}
+\tfbinder{I.haar.thm:det-density-haar}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:det-density-haar}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:det-density-haar}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:det-density-haar}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:det-density-haar}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.haar.thm:det-density-haar}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:det-density-haar}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: ``Borel'')}
+\begin{tffidelity}
+Two clauses. The measure is \texttt{detDensityHaar F} (\cref{I.haar.def:det-density-measure}); it is \texttt{IsHaarMeasure}, and for every $h\in\GL_2(F)$ and measurable $E$ the images $hE$ and $Eh$ (\texttt{(fun x => h * x) '' E}, \texttt{(fun x => x * h) '' E}) have the same measure as $E$. Same content as A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Lean's route differs from A's determinant computation on $F^4$ (see \texttt{M3-divergences}). Let $dX$ be \cref{I.haar.def:matrix-additive-haar}. \emph{Right translation.} $X\mapsto Xh$ acts row by row on $M_2(F)=(F^2)^2$, each row $v\mapsto vh$ being the linear map with matrix $h^{\mathsf T}$; by \cref{I.lf.thm:haar-modulus-linear} (with $n=2$) it scales the Haar measure of $F^2$ by $\abs{\det h}_F^{-1}$ (\texttt{nalf\_vecMul\_map}), so the product measure of the rows is scaled by $\abs{\det h}_F^{-2}$ (\texttt{map\_mulRight\_pi}); $dX$ is a Haar measure on $M_2(F)$ and so a constant multiple of this product (\texttt{matAddHaar\_mulRight}). \emph{Transpose.} The transpose $T$ preserves $dX$: $T_*dX$ is again a Haar measure, hence $c\cdot dX$, and $T$ fixes the test set $M_2(\Ocal)$ of volume $1$, so $c=1$ (\texttt{map\_transpose\_eq}, \texttt{matAddHaar\_transpose}). \emph{Left translation.} $hX=(X^{\mathsf T}h^{\mathsf T})^{\mathsf T}$, so by the two previous steps $X\mapsto hX$ also scales $dX$ by $\abs{\det h}_F^{-2}$ (\texttt{map\_mulLeft\_of\_mulRight}). \emph{Conclusion} (\texttt{detDensity\_isHaar}): $\rho(X)=\abs{\det X}_F^{-2}$ satisfies $\rho(AX)=\rho(XA)=\abs{\det A}_F^{-2}\rho(X)$, so on the measurable embedding $\GL_2(F)\subseteq M_2(F)$ (an open embedding, \cref{X.topgrp.thm:gl2-units-open-embedding}) the comap of $\rho\,dX$ is invariant under left and right translations (\texttt{withDensity\_image\_eq}); it is finite on compacts since $\rho$ is bounded on a compact subset of $\GL_2(F)$, and charges non-empty open sets since $\rho>0$ and $dX$ charges non-empty open sets of $M_2(F)$.
+\end{proof}
+
+\begin{theorem}[the volume of $K_F$ for $\dd X$]
+\tfstmt{I.haar.thm:vol-kp-additive}
+\lean{GL2TF.Local.vol_kp_additive}
+\uses{I.haar.def:matrix-additive-haar, I.conv.def:max-compact-local, I.lf.def:residue-cardinality, I.haar.def:det-density-measure, I.lf.def:nalf, X.topgrp.def:matrix-measurable-space, I.cartan.lem:maximal-ideal-eq-span-unif, I.conv.lem:max-compact-local-mem, I.haar.lem:gl2-local-borel-instance, I.haar.lem:matrix-integers-compact, I.haar.lem:matrix-integers-interior-nonempty, I.lf.def:normalized-abs, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:haar-modulus-linear, I.lf.thm:nalf-second-countable, I.topgrp.thm:max-compact-local-compact-open, X.topgrp.lem:matrix-borel-space, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:vol-kp-additive}
+\tfsem{I.haar.thm:vol-kp-additive}{61029f3dd79a24779a7a0e6a86cadcf79a8ca326fc8a8c0d4539bdd69ca018cb}
+\tfhyps{I.haar.thm:vol-kp-additive}{}
+\tfbinder{I.haar.thm:vol-kp-additive}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:vol-kp-additive}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:vol-kp-additive}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:vol-kp-additive}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:vol-kp-additive}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.haar.thm:vol-kp-additive}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:vol-kp-additive}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\begin{tffidelity}
+Two equalities in $[0,\infty]$ with value \texttt{ENNReal.ofReal ((1 - q⁻¹) * (1 - (q\^{}2)⁻¹))}: $\dd X(K_F)$, where $K_F$ is viewed in $\Mat_2(F)$ as the image \texttt{Units.val '' K\_F}, and $(\abs{\det g}_F^{-2}\dd X)(K_F)$ as a measure on $\GL_2(F)$. Here $q$ is the residue cardinality \texttt{q F}, cast to $\R$. The value is positive and finite since $q\ge2$ gives $0<(1-q^{-1})(1-q^{-2})<1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The reduction map $K_F\to\GL_2(k)$ is surjective onto the matrices with $\det\ne0$ (\texttt{val\_maxCompact\_eq\_iUnion}): $g\in K_F$ iff its entries are integral and $\det g\in\Ocal^\times$, and a lift $A\in M_2(\Ocal)$ of $Y$ has $\det A\in\Ocal^\times$ iff $\det Y\ne0$. So $K_F=\bigsqcup_{Y\in\GL_2(k)}\mathrm{redFiber}(Y)$, a disjoint union (\texttt{redFiber\_disjoint}) of $\#\GL_2(k)=(q^2-1)(q^2-q)$ sets (\texttt{card\_det\_ne\_zero}, from Mathlib's \texttt{Matrix.card\_GL\_field}). Each fibre is a translate $A_0+\varpi M_2(\Ocal)$ (\texttt{redFiber\_eq}), so its $dX$-measure is $dX(\varpi M_2(\Ocal))=q^{-4}$ -- obtained from the left-multiplication scaling: $X\mapsto(\varpi\cdot1)X$ scales $dX$ by $\abs{\det(\varpi\cdot1)}_F^{-2}=\abs{\varpi^2}_F^{-2}=q^{4}$, so $dX(\varpi M_2(\Ocal))=q^{-4}dX(M_2(\Ocal))=q^{-4}$, not by counting $q^4$ fibres (\texttt{matAddHaar\_unif\_smul}, \texttt{M3-divergences}). Hence $dX(K_F)=(q^2-1)(q^2-q)q^{-4}=(1-q^{-1})(1-q^{-2})$. For the second equality $\abs{\det g}_F=1$ on $K_F$ (\cref{I.lf.thm:abs-uniformizer} for units), so the density is $1$ there (\texttt{setLIntegral\_congr\_fun}).
+\end{proof}
+
+\begin{theorem}[every Haar measure is a determinant density]
+\tfstmt{I.haar.thm:haar-local-det-formula}
+\lean{GL2TF.Local.haar_local_det_formula}
+\uses{I.haar.def:matrix-additive-haar, I.conv.def:max-compact-local, I.lf.def:residue-cardinality, I.haar.def:haar-local, I.haar.def:det-density-measure, I.lf.def:nalf, X.topgrp.def:matrix-measurable-space, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.thm:det-density-haar, I.haar.thm:vol-kp-additive, I.haar.thm:vol-max-compact-local, I.topgrp.thm:gl2-local-locally-compact}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:haar-local-det-formula}
+\tfsem{I.haar.thm:haar-local-det-formula}{7ab88eae8cf321b844efd045ce8f4f2fc6b40ecabc493d53f62056d03fb344cc}
+\tfhyps{I.haar.thm:haar-local-det-formula}{}
+\tfbinder{I.haar.thm:haar-local-det-formula}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:haar-local-det-formula}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:haar-local-det-formula}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:haar-local-det-formula}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:haar-local-det-formula}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.haar.thm:haar-local-det-formula}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:haar-local-det-formula}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\tfbinder{I.haar.thm:haar-local-det-formula}{7}{13e516e9}{the measure $\mu$ on $\GL_2(F)$}
+\tfbinder{I.haar.thm:haar-local-det-formula}{8}{30ea65cd}{the assumption that $\mu$ is a Haar measure (A: ``Haar'')}
+\begin{tffidelity}
+Two clauses. First, for every left Haar measure $\mu$ on $\GL_2(F)$ (binder \texttt{[μ.IsHaarMeasure]}): $\mu=(\mu(K_F)/\texttt{ofReal}((1-q^{-1})(1-q^{-2})))\cdot\texttt{detDensityHaar F}$, with the scalar in $[0,\infty]$ (division in \texttt{ℝ≥0∞}). Second, ``in particular'': \texttt{haarLocal F} $=(\texttt{ofReal}((1-q^{-1})(1-q^{-2})))^{-1}\cdot\texttt{detDensityHaar F}$, which expresses $\dd g_F$ of \cref{I.haar.def:haar-local}. As in decision D13, the formula is a theorem and not the definition of $\dd g_F$. The denominator is positive and finite: $q\ge2$ gives $0<(1-q^{-1})(1-q^{-2})<1$, and $\mu(K_F)$ is positive and finite as $K_F$ is compact open.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $\nu$ be any left Haar measure. Since $$\abs{\det g}_F^{-2}dX$$ is a left Haar measure (\cref{I.haar.thm:det-density-haar}) on the second countable group $\GL_2(F)$, uniqueness (\texttt{isMulLeftInvariant\_eq\_smul}) gives $\nu=c\cdot\abs{\det g}_F^{-2}dX$, and evaluating on $K_F$ with \cref{I.haar.thm:vol-kp-additive} gives $c=\nu(K_F)/v$, $v=(1-q^{-1})(1-q^{-2})\ne0,\infty$. For $\nu=\mathrm{haarLocal}$ one has $\nu(K_F)=1$ (\cref{I.haar.thm:vol-max-compact-local}).
+\end{proof}
+
+\begin{definition}[the measure $\abs{\det g}^{-2}\dd X$ on $\GL_2(F)$]
+\tfstmt{I.haar.def:det-density-measure}
+\bonly
+\lean{GL2TF.Local.detDensityHaar}
+\uses{I.haar.def:matrix-additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:det-density-measure}
+\tfsem{I.haar.def:det-density-measure}{645338bb4b73bf64192a12a6cb7783e3ed95b2d84d60d0ab93b6029f1eb6278c}
+\tfhyps{I.haar.def:det-density-measure}{}
+\tfbinder{I.haar.def:det-density-measure}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.def:det-density-measure}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.def:det-density-measure}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.def:det-density-measure}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.def:det-density-measure}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.haar.def:det-density-measure}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.def:det-density-measure}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\begin{tffidelity}
+B-only. The measure on \texttt{GL (Fin 2) F} which is the comap along \texttt{Units.val} of \texttt{(matAddHaar F).withDensity} the function $X\mapsto\texttt{ofReal}((\abs{\det X}_F^{-1})^2)$. For $E\subseteq\GL_2(F)$ measurable this is the integral $\int_E\abs{\det g}_F^{-2}\dd X(g)$ of \cref{I.haar.def:matrix-additive-haar}(1).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\Mat_2(\Ocal_F)$ is compact]
+\tfstmt{I.haar.lem:matrix-integers-compact}
+\bonly
+\lean{GL2TF.Local.matIntegers_isCompact}
+\uses{I.lf.def:nalf}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:matrix-integers-compact}
+\tfsem{I.haar.lem:matrix-integers-compact}{719bd7d99cf3f2068df13791de783e0ffffcd1d1bf2c729e7c9d04870d5f9c9c}
+\tfhyps{I.haar.lem:matrix-integers-compact}{}
+\tfbinder{I.haar.lem:matrix-integers-compact}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:matrix-integers-compact}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:matrix-integers-compact}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:matrix-integers-compact}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:matrix-integers-compact}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The set $\{X:X_{ij}\in\Ocal_F\ \forall i,j\}\subseteq\Mat_2(F)$ is compact; stated under the assumptions that $F$ is a non-archimedean local field only (no $\sigma$-algebra).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$M_2(\Ocal)=\prod_{i,j}\Ocal$ is a product (\texttt{Set.pi}) of copies of the compact set $\Ocal$ (\texttt{isCompact\_integer}); \texttt{isCompact\_univ\_pi} twice.
+\end{proof}
+
+\begin{lemma}[$\Mat_2(\Ocal_F)$ has non-empty interior]
+\tfstmt{I.haar.lem:matrix-integers-interior-nonempty}
+\bonly
+\lean{GL2TF.Local.matIntegers_interior_nonempty}
+\uses{I.lf.def:nalf}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:matrix-integers-interior-nonempty}
+\tfsem{I.haar.lem:matrix-integers-interior-nonempty}{83efa0734d56a9a7f49a62e901f40ca1217acc7eb435844209563b3fe6fc603d}
+\tfhyps{I.haar.lem:matrix-integers-interior-nonempty}{}
+\tfbinder{I.haar.lem:matrix-integers-interior-nonempty}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:matrix-integers-interior-nonempty}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:matrix-integers-interior-nonempty}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:matrix-integers-interior-nonempty}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:matrix-integers-interior-nonempty}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The same set has non-empty interior in \texttt{Matrix (Fin 2) (Fin 2) F}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Again $M_2(\Ocal)=\prod\Ocal$; $\Ocal$ is open (\texttt{Valuation.isOpen\_integer}), so the finite product is open (\texttt{isOpen\_set\_pi}) and equals its interior, which contains $0$.
+\end{proof}
+
+\begin{lemma}[$K_F$ is compact]
+\tfstmt{I.haar.lem:max-compact-local-compact-instance}
+\bonly
+\lean{GL2TF.Local.maxCompact_compactSpace}
+\uses{I.conv.def:max-compact-local, I.lf.def:nalf, I.topgrp.thm:max-compact-local-compact-open}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:max-compact-local-compact-instance}
+\tfsem{I.haar.lem:max-compact-local-compact-instance}{23b87954e0c2539016e508e29dd48b2d44242efca3b2b5198bc40e92f5af15c3}
+\tfhyps{I.haar.lem:max-compact-local-compact-instance}{}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.lem:max-compact-local-compact-instance}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. The instance \texttt{CompactSpace 𝐊[F]}, the compactness half of \cref{I.topgrp.thm:max-compact-local-compact-open}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$K_F$ is compact by \cref{I.topgrp.thm:max-compact-local-compact-open} (\texttt{isCompact\_iff\_compactSpace}).
+\end{proof}
+
+\section{\texorpdfstring{Haar measure on $\GL_2(\R)$}{Haar measure on GL₂(ℝ)}}
+
+\begin{definition}[the standard Haar measure on $\GL_2(\R)$]
+\tfstmt{I.haar.def:haar-real}
+\lean{GL2TF.haarReal}
+\uses{I.haar.def:matrix-additive-haar, I.haar.def:matrix-lebesgue, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:haar-real}
+\tfsem{I.haar.def:haar-real}{7ea3f096e30a81461c9cdbb16e1473a77bc37a22be76b62de71b57495b452c96}
+\tfhyps{I.haar.def:haar-real}{}
+\begin{tffidelity}
+The measure on \texttt{GL (Fin 2) ℝ} is the comap along \texttt{Units.val} of \texttt{matLebesgue.withDensity} the function $X\mapsto\texttt{ofReal}((\abs{\det X}^{-1})^2)$, where \texttt{matLebesgue} is the B-only \cref{I.haar.def:matrix-lebesgue}. For measurable $E$ this is the integral of the snippet.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$\dd g_\infty$ is a Haar measure]
+\tfstmt{I.haar.thm:haar-real-is-haar}
+\lean{GL2TF.haarReal_isHaarMeasure}
+\uses{I.haar.def:haar-real, X.topgrp.def:matrix-measurable-space, I.haar.def:matrix-lebesgue, X.topgrp.lem:matrix-borel-space, X.topgrp.thm:gl2-borel-measurable, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:haar-real-is-haar}
+\tfsem{I.haar.thm:haar-real-is-haar}{4a4768330ca6aa4c4ac34605c9959c14fc8867c09cce42487dddee39ab6f7c7d}
+\tfhyps{I.haar.thm:haar-real-is-haar}{}
+\begin{tffidelity}
+Same shape as \cref{I.haar.thm:det-density-haar}: \texttt{haarReal.IsHaarMeasure} and invariance of the measure of measurable sets under the images \texttt{(fun x => h * x) '' E} and \texttt{(fun x => x * h) '' E}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The same structure as \cref{I.haar.thm:det-density-haar}, with Lebesgue measure on $\R^4=M_2(\R)$ (\texttt{matLebesgue}). Right translation $X\mapsto Xh$ acts on the two rows $v\mapsto vh$, which scale Lebesgue measure of $\R^2$ by $\abs{\det h}^{-1}$ (Mathlib's \texttt{Real.map\_linearMap\_volume\_pi\_eq\_smul\_volume\_pi}), so $dX$ is scaled by $\abs{\det h}^{-2}$ (\texttt{matLebesgue\_mulRight}). Lebesgue measure is transpose invariant: the unit cube $[0,1]^4$ is transpose invariant of volume $1$ (\texttt{matLebesgue\_transpose}). Left translation follows by $hX=(X^{\mathsf T}h^{\mathsf T})^{\mathsf T}$. The general lemma \texttt{detDensity\_isHaar} for $m=\abs{\cdot}$ then gives that $\abs{\det g}^{-2}dX$ is a left Haar measure on $\GL_2(\R)$, invariant under right translations (no $4\times4$ determinants are computed, see \texttt{M3-divergences}).
+\end{proof}
+
+\begin{theorem}[$\GL_2(\R)$ is unimodular]
+\tfstmt{I.haar.thm:gl2-real-unimodular}
+\lean{GL2TF.gl2Real_isUnimodular}
+\uses{X.haar.def:is-unimodular, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, X.topgrp.def:matrix-measurable-space, I.haar.def:haar-real, I.haar.lem:gl2-real-second-countable-instance, I.haar.thm:haar-real-is-haar}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:gl2-real-unimodular}
+\tfsem{I.haar.thm:gl2-real-unimodular}{bf7e44840b1241c1513680d175755d70f057415498c2b22104c98d784947b6df}
+\tfhyps{I.haar.thm:gl2-real-unimodular}{}
+\begin{tffidelity}
+The statement is \texttt{IsUnimodular (GL (Fin 2) ℝ)} (\cref{X.haar.def:is-unimodular}): every Haar measure on $\GL_2(\R)$ is right invariant. The binders of \texttt{IsUnimodular} (a measure, the Haar hypothesis, a measurable set and a group element) are bound inside the definition and reported by the audit as hidden binders; they are not assumptions of the theorem. The theorem does not mention the particular measure $\dd g_\infty$; the companion statement for $\dd g_\infty$ is \cref{I.haar.thm:haar-real-is-haar}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \cref{I.haar.thm:haar-real-is-haar} $dg_\infty$ is right invariant: for measurable $E$, $dg_\infty(E g^{-1})=dg_\infty(E)$ gives $(\cdot g)_*dg_\infty=dg_\infty$ (\texttt{Measure.ext}). Every left Haar measure is a constant multiple of $dg_\infty$ (\texttt{isMulLeftInvariant\_eq\_smul}), hence right invariant, so the group is unimodular (\texttt{isUnimodular\_of\_rightInvariant}).
+\end{proof}
+
+\begin{definition}[Haar measure on $\Ort(2)$]
+\tfstmt{I.haar.def:haar-orthogonal}
+\lean{GL2TF.haarOrthogonal}
+\uses{I.conv.def:max-compact-real, I.haar.lem:max-compact-real-borel-instance, I.haar.lem:max-compact-real-compact-instance, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:haar-orthogonal}
+\tfsem{I.haar.def:haar-orthogonal}{f6165126a7a991b03577ad2e81a548e4b2b680d610625d49afb41625069c91c9}
+\tfhyps{I.haar.def:haar-orthogonal}{}
+\begin{tffidelity}
+Lean defines $\dd k$ as Mathlib's \texttt{Measure.haarMeasure ⊤} on the compact group \texttt{maxCompactReal} (the Haar measure whose value on the positive compact set $\top$ is $1$); that this has total mass $1$ is not stated in the definition. The theorems that use it take an arbitrary Haar probability measure $\kappa$ as a binder.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[Lebesgue measure on $\Mat_2(\R)$]
+\tfstmt{I.haar.def:matrix-lebesgue}
+\bonly
+\lean{GL2TF.matLebesgue}
+\uses{X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:matrix-lebesgue}
+\tfsem{I.haar.def:matrix-lebesgue}{897d2671c48fa6b137b4db02b1aa596ae125b366773b52af2fb2a57babf44c16}
+\tfhyps{I.haar.def:matrix-lebesgue}{}
+\begin{tffidelity}
+B-only. The Lebesgue measure on \texttt{Matrix (Fin 2) (Fin 2) ℝ}, defined as the image of \texttt{volume} on \texttt{Fin 2 → Fin 2 → ℝ} under \texttt{Matrix.of}. This is part~2 of \cref{I.haar.def:matrix-additive-haar}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\GL_2(\R)$ is locally compact]
+\tfstmt{I.haar.lem:gl2-real-locally-compact-instance}
+\bonly
+\lean{GL2TF.gl2Real_locallyCompactSpace}
+\uses{I.topgrp.thm:gl2-real-locally-compact, X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-real-locally-compact-instance}
+\tfsem{I.haar.lem:gl2-real-locally-compact-instance}{6c12ba851643c0de8b5432569494526843369bf273f1b828bc5cad6659e3c0ac}
+\tfhyps{I.haar.lem:gl2-real-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace (GL (Fin 2) ℝ)}, a component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{proof}
+
+\begin{lemma}[$\GL_2(\R)$ is second countable]
+\tfstmt{I.haar.lem:gl2-real-second-countable-instance}
+\bonly
+\lean{GL2TF.gl2Real_secondCountableTopology}
+\uses{I.topgrp.thm:gl2-real-locally-compact, X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-real-second-countable-instance}
+\tfsem{I.haar.lem:gl2-real-second-countable-instance}{02141ece3b712b97eefb739b532179ec3be4704628143a547b30cbd225f64bfe}
+\tfhyps{I.haar.lem:gl2-real-second-countable-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{SecondCountableTopology (GL (Fin 2) ℝ)}, a component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The third component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{proof}
+
+\begin{lemma}[the $\sigma$-algebra of $\GL_2(\R)$ is Borel]
+\tfstmt{I.haar.lem:gl2-real-borel-instance}
+\bonly
+\lean{GL2TF.gl2Real_borelSpace}
+\uses{I.topgrp.thm:gl2-real-locally-compact, X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-real-borel-instance}
+\tfsem{I.haar.lem:gl2-real-borel-instance}{84fe1c4297e6447b76ac33fd2d2d2945ddf92dda99431dd2ee972e017c386d35}
+\tfhyps{I.haar.lem:gl2-real-borel-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace (GL (Fin 2) ℝ)}, a component of \cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The last component of \cref{I.topgrp.thm:gl2-real-locally-compact} (the $\sigma$-algebra is Borel).
+\end{proof}
+
+\begin{lemma}[$K_\infty$ is compact]
+\tfstmt{I.haar.lem:max-compact-real-compact-instance}
+\bonly
+\lean{GL2TF.maxCompactReal_compactSpace}
+\uses{I.topgrp.thm:max-compact-real-compact, I.conv.def:max-compact-real}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:max-compact-real-compact-instance}
+\tfsem{I.haar.lem:max-compact-real-compact-instance}{5ac0241f7df983125b9ff65be176bcb8d6bda2ef18d46493e0f1617f4b3ae3dc}
+\tfhyps{I.haar.lem:max-compact-real-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{CompactSpace maxCompactReal}, from \cref{I.topgrp.thm:max-compact-real-compact}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$K_\infty$ is compact by \cref{I.topgrp.thm:max-compact-real-compact} (\texttt{isCompact\_iff\_compactSpace}).
+\end{proof}
+
+\begin{lemma}[the $\sigma$-algebra of $K_\infty$ is Borel]
+\tfstmt{I.haar.lem:max-compact-real-borel-instance}
+\bonly
+\lean{GL2TF.maxCompactReal_borelSpace}
+\uses{I.conv.def:max-compact-real, I.haar.lem:gl2-real-borel-instance, X.topgrp.def:matrix-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:max-compact-real-borel-instance}
+\tfsem{I.haar.lem:max-compact-real-borel-instance}{b6ca1c9f717c094af761cc6c6ca054449cdb3b3378191259c1f73b4beb135618}
+\tfhyps{I.haar.lem:max-compact-real-borel-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace maxCompactReal} for the subspace $\sigma$-algebra of $K_\infty\subseteq\GL_2(\R)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A subtype of a space with Borel $\sigma$-algebra carries the Borel $\sigma$-algebra (\texttt{Subtype.borelSpace}).
+\end{proof}
+
+\section{Integration in Iwasawa coordinates}
+
+\begin{definition}[modular character of $B$]
+\tfstmt{I.haar.def:modular-character-borel}
+\lean{GL2TF.modularCharBorel}
+\uses{I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent}
+\end{definition}
+\begin{tfformal}{I.haar.def:modular-character-borel}
+\tfsem{I.haar.def:modular-character-borel}{cf04fc9886a9dded7eecc0e2c5f05e53985106b299172ddb0d2bc6627f344f62}
+\tfhyps{I.haar.def:modular-character-borel}{}
+\tfbinder{I.haar.def:modular-character-borel}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.def:modular-character-borel}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.def:modular-character-borel}{2}{58fcfca3}{the homomorphism $\abs{\cdot}\colon R^\times\to\R_{\ge0}$}
+\tfbinder{I.haar.def:modular-character-borel}{3}{d5d9e2c0}{the element $b\in B(R)$}
+\begin{tffidelity}
+$|\cdot|$ is a monoid homomorphism \texttt{Rˣ →* ℝ≥0} (a homomorphism from a group into $\R_{\ge0}$ never takes the value $0$, so it takes values in $\R_{>0}$). The value is $\delta_B(b)=|b_{11}|\,|b_{22}|^{-1}$ with the diagonal entries made into units by the B-only \cref{I.haar.lem:borel-diag-is-unit}, as a function on the subtype \texttt{borel R}. The remark $\delta_B(n(x)\diag(t_1,t_2))=|t_1/t_2|$ is not a separate statement in Lean.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[coordinate measures on $N$ and $T$]
+\tfstmt{I.haar.def:borel-coordinate-measures}
+\lean{GL2TF.unipotentMeasure}
+\uses{I.conv.def:unipotent, I.conv.def:torus, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:borel-coordinate-measures}
+\tfsem{I.haar.def:borel-coordinate-measures}{3a74fc73e9336028c260ef7720ec8807af53f9eab3d8fcbaf956f1c50a05fb19}
+\tfhyps{I.haar.def:borel-coordinate-measures}{}
+\tfbinder{I.haar.def:borel-coordinate-measures}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.def:borel-coordinate-measures}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.def:borel-coordinate-measures}{2}{746bd334}{the $\sigma$-algebra of $R$}
+\tfbinder{I.haar.def:borel-coordinate-measures}{3}{f302949c}{the measure $\lambda$ on $R$}
+\begin{tffidelity}
+Lean defines only $\dd n$ (\texttt{unipotentMeasure lam}), the image of the measure $\lambda$ on $R$ under $x\mapsto n(x)\in N(R)$; it needs only a commutative ring with a $\sigma$-algebra and no topology. The measure $\dd t$ is the B-only \cref{I.haar.def:torus-coordinate-measure}. The topology of $R$ and the Borel assumptions of the snippet are not used in the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the left Haar measure of $B$]
+\tfstmt{I.haar.lem:borel-left-haar}
+\lean{GL2TF.borel_left_haar}
+\uses{I.haar.def:modular-character-borel, I.conv.def:borel, I.conv.def:unipotent, I.conv.def:torus, I.haar.def:borel-coordinates, X.topgrp.def:matrix-measurable-space, I.conv.def:diag-element, I.conv.lem:diag-elt-hom, I.conv.lem:torus-normalizes-unipotent, I.haar.lem:borel-coordinates-mem, X.topgrp.lem:matrix-borel-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:borel-left-haar}
+\tfsem{I.haar.lem:borel-left-haar}{ec4f1b28e936e269e0bf5212a8a93b9facd6244433f28a90f3df33e5ccb2df3e}
+\tfhyps{I.haar.lem:borel-left-haar}{}
+\tfbinder{I.haar.lem:borel-left-haar}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:borel-left-haar}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:borel-left-haar}{2}{041b9d8e}{the topology of $R$}
+\tfbinder{I.haar.lem:borel-left-haar}{3}{fa5a1d05}{the assumption that $R$ is a topological ring (A: ``topological ring'')}
+\tfbinder{I.haar.lem:borel-left-haar}{4}{b9372ff8}{the assumption that $R$ is locally compact (A: ``locally compact'')}
+\tfbinder{I.haar.lem:borel-left-haar}{5}{d9bcd626}{the assumption that $R$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{I.haar.lem:borel-left-haar}{6}{2be8b0e3}{the assumption that $R$ is second countable (A: ``second countable'')}
+\tfbinder{I.haar.lem:borel-left-haar}{7}{3c27ef0d}{the assumption that $Rˣ$ is locally compact (A: ``locally compact'')}
+\tfbinder{I.haar.lem:borel-left-haar}{8}{95757ea0}{the assumption that $Rˣ$ is second countable (A: ``second countable'')}
+\tfbinder{I.haar.lem:borel-left-haar}{9}{2668bb7d}{the $\sigma$-algebra of $R$}
+\tfbinder{I.haar.lem:borel-left-haar}{10}{9e55a1bd}{the assumption that this is the Borel $\sigma$-algebra of $R$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\tfbinder{I.haar.lem:borel-left-haar}{11}{c0b5b7e9}{the assumption that this is the Borel $\sigma$-algebra of $Rˣ$ (A: the convention that measures live on Borel $\sigma$-algebras)}
+\tfbinder{I.haar.lem:borel-left-haar}{12}{31ada79f}{the homomorphism $\abs{\cdot}\colon R^\times\to\R_{\ge0}$}
+\tfbinder{I.haar.lem:borel-left-haar}{13}{60992d95}{the assumption that $\abs{\cdot}$ is continuous (A: ``continuous'')}
+\tfbinder{I.haar.lem:borel-left-haar}{14}{1e38a945}{the measure $\lambda$ on $R$}
+\tfbinder{I.haar.lem:borel-left-haar}{15}{3756b7db}{the assumption that $\lambda$ is an additive Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.lem:borel-left-haar}{16}{45a6179a}{the assumption that $\lambda$ scales by $\abs{a}^{-1}$ under $x\mapsto ax$, for all $a\in R^\times$ (A: the scaling property of $\lambda$ in the snippet)}
+\tfbinder{I.haar.lem:borel-left-haar}{17}{db70d564}{the measure $\nu$ on $R^\times$}
+\tfbinder{I.haar.lem:borel-left-haar}{18}{4a4beffb}{the assumption that $\nu$ is a Haar measure (A: ``Haar'')}
+\begin{tffidelity}
+The hypotheses of the snippet are binders: $R$ with \texttt{IsTopologicalRing}, locally compact, Hausdorff, second countable; $R^\times$ (units topology) locally compact and second countable (Hausdorff is not assumed separately); the $\sigma$-algebras of $R$ and of $R^\times$ are Borel; the homomorphism $|\cdot|\colon R^\times\to\R_{\ge0}$ is continuous; $\lambda$ is additive Haar with $(a\cdot)_*\lambda=|a|^{-1}\lambda$ for all $a\in R^\times$; $\nu$ is Haar. The conclusion is that the image under \texttt{borelCoord} (\cref{I.haar.def:borel-coordinates}) of $(\lambda\otimes(\nu\otimes\nu))$ with density $(|t_1|/|t_2|)^{-1}$ is a Haar measure on the subtype \texttt{borel R}. Haar measure on $B(R)$ is left Haar in Lean (\texttt{IsHaarMeasure} is the left notion).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $D=(\lambda\otimes\nu\otimes\nu)$ with density $\abs{t_1/t_2}^{-1}$, a continuous positive function (as $|\cdot|\colon R^\times\to\R_{>0}$ is a continuous homomorphism); $\beta=\mathrm{borelCoord}$ is a homeomorphism (and measurable equivalence) $R\times R^\times\times R^\times\to B(R)$ with inverse read off from the diagonal entries and the $(1,2)$ entry (\texttt{borelCoordEquiv}). \emph{Left invariance}: for $b=n(y)\mathrm{diag}(s_1,s_2)$ one has $b\cdot n(x)\mathrm{diag}(t_1,t_2)=n(y+s_1s_2^{-1}x)\,\mathrm{diag}(s_1t_1,s_2t_2)$ (\texttt{borelCoord\_mul}), so left translation by $b$ corresponds to the map $(x,t_1,t_2)\mapsto(y+s_1s_2^{-1}x,s_1t_1,s_2t_2)$. This preserves $D$: the translation in $x$ preserves $\lambda$, the scaling $x\mapsto ax$ maps $\lambda$ to $\abs a^{-1}\lambda$ (hypothesis), $\nu$ is invariant, and the density changes by exactly the compensating factor $\abs{s_1/s_2}^{-1}\cdot\abs{s_1/s_2}$ (\texttt{borelDensity\_map}). \emph{Haar:} the image of $D$ under the homeomorphism $\beta$ is finite on compacts and positive on open sets because $D$ is (the density is bounded above and below on compacts, and $\lambda\otimes\nu\otimes\nu$ is Haar on the product), \texttt{isHaarMeasure} fields \texttt{lt\_top\_of\_isCompact}, \texttt{open\_pos}.
+\end{proof}
+
+\begin{theorem}[integration over $G=BK$ with $K$ compact open]
+\tfstmt{X.haar.thm:compact-open-coset-integration}
+\lean{GL2TF.compactOpen_coset_integration}
+\end{theorem}
+\begin{tfformal}{X.haar.thm:compact-open-coset-integration}
+\tfsem{X.haar.thm:compact-open-coset-integration}{b6f74e9efe910e0a9541a5706db8a360326fcd42810f17314646ad233e2dae43}
+\tfhyps{X.haar.thm:compact-open-coset-integration}{}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``group'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: ``locally compact'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{6}{2be8b0e3}{the assumption that $G$ is second countable (A: ``second countable'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{8}{d9d9c103}{the assumption that this is the Borel $\sigma$-algebra of $G$ (A: ``Borel $\sigma$-algebra'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{9}{96f37204}{the subgroup $K\le G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{10}{a2872acf}{the assumption that $K$ is compact (A: ``compact open subgroup'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{11}{6c7927f3}{the assumption that $K$ is open (A: ``compact open subgroup'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{12}{e5e02403}{the subgroup $B\le G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{13}{143a3e37}{the assumption that $B$ is closed (A: ``closed subgroup'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{14}{7872ebb9}{the assumption that every $g\in G$ is $bk$ with $b\in B$, $k\in K$ (A: $G=BK$)}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{15}{0c36cea3}{the measure $\mu_G$ on $G$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{16}{d150ff88}{the assumption that $\mu_G$ is a Haar measure (A: ``left Haar measure on $G$'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{17}{212cdbdf}{the measure $\mu_B$ on the subgroup $B$}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{18}{4ce00858}{the assumption that $\mu_B$ is a Haar measure (A: ``left Haar measure on $B$'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{19}{cbbd7fc8}{the measure $\kappa$ on $K$ (the snippet's $\dd k$)}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{20}{5e1bb583}{the assumption that $\kappa$ is a Haar measure (A: ``Haar probability measure of $K$'')}
+\tfbinder{X.haar.thm:compact-open-coset-integration}{21}{ebb7530e}{the assumption that $\kappa$ is a probability measure (A: ``Haar probability measure of $K$'')}
+\begin{tffidelity}
+All hypotheses of the snippet are binders: $G$ a topological group that is locally compact, Hausdorff and second countable with its Borel $\sigma$-algebra; $K$ a subgroup with \texttt{hKc} (compact) and \texttt{hKo} (open); $B$ a subgroup with \texttt{hB} (closed) and \texttt{hBK} ($\forall g\,\exists b\in B,k\in K,\ bk=g$, i.e.\ $G=BK$); $\mu_G$, $\mu_B$ Haar measures (left, as for \texttt{IsHaarMeasure}) on $G$ and on the subtype $B$; and $\kappa$ a Haar probability measure on $K$ (the snippet's $\dd k$). $B\cap K$ is the set $\{b\in B:b\in K\}$ of the subtype. The conclusion has three parts: $0<\mu_B(B\cap K)$, $\mu_B(B\cap K)<\infty$, and the integral formula, once for measurable $f\colon G\to[0,\infty]$ (iterated \texttt{lintegral}, inner integral over $K$ against $\kappa$, the constant $\mu_G(K)/\mu_B(B\cap K)$ computed in $[0,\infty]$) and once for $\mu_G$-integrable $f\colon G\to\C$ (Bochner integrals, constant via \texttt{toReal}). Same content as A. The denominator is positive and finite: $0<\mu_B(B\cap K)<\infty$ is the first two conjuncts of the conclusion.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Put $H=B\cap K$ (an open compact subgroup of $B$). \emph{Finiteness:} $\mu_B(H)>0$ since $H$ is open in $B$, and $<\infty$ since $H$ is compact (closed subset of the compact $K$). \emph{Restriction to $K$:} $\mu_G|_K=\mu_G(K)\kappa$ by uniqueness of Haar measure on $K$ (both are Haar measures on $K$, and the comap of $\mu_G$ along the open embedding $K\to G$ is Haar). \emph{Cosets:} $G$ is a disjoint countable union of the cosets $xK$ (open subgroup of a second countable group, \texttt{lintegral\_eq\_tsum\_cosets}); by left invariance $\int_{xK}f\,d\mu_G=\int_Kf(xk)\,d\mu_G(k)=\mu_G(K)\int_Kf(xk)\,d\kappa$ (\texttt{setLIntegral\_coset}); so $\int f\,d\mu_G=\mu_G(K)\sum_{c\in G/K}\Phi(\mathrm{out}\,c)$ with $\Phi(g)=\int_Kf(gk)\,d\kappa$, which is right $K$-invariant. The same decomposition for $B$ and $H$ gives $\int_B\Phi\,d\mu_B=\mu_B(H)\sum_{d\in B/H}\Phi(\mathrm{out}\,d)$. The map $B/H\to G/K$ is a bijection since $G=BK$, and $\Phi$ is $K$-invariant, so the two sums are equal. Dividing gives the stated formula for Borel $f\colon G\to[0,\infty]$. \emph{Integrable $f$} (see \texttt{M3-divergences}): no splitting into positive and negative parts. The formula for $f=1_E$ shows $\mu_G=C\cdot\phi_*(\mu_B\otimes\kappa)$ with $\phi(b,k)=bk$ and $C=\mu_G(K)/\mu_B(H)$ (\texttt{coset\_measure\_eq}); then $f$ is integrable for $\phi_*(\mu_B\otimes\kappa)$ and the Bochner integral is computed by \texttt{integral\_map}, \texttt{integral\_prod} (Fubini).
+\end{proof}
+
+\begin{theorem}[Iwasawa integration on $\GL_2(F)$]
+\tfstmt{I.haar.thm:iwasawa-integration-local}
+\lean{GL2TF.Local.iwasawa_integration_local}
+\uses{I.conv.def:max-compact-local, I.conv.def:unipotent, I.conv.def:torus, I.lf.def:normalized-abs, I.conv.def:diag-element, I.lf.def:nalf, X.topgrp.def:matrix-measurable-space, I.conv.def:borel, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.haar.def:borel-coordinates, I.haar.lem:borel-coordinates-mem, I.haar.lem:borel-left-haar, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.haar.lem:max-compact-local-compact-instance, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:haar-scaling, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:max-compact-local-compact-open, X.haar.thm:compact-open-coset-integration, X.topgrp.lem:matrix-borel-space}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:iwasawa-integration-local}
+\tfsem{I.haar.thm:iwasawa-integration-local}{ae102133e6d8da2a184bfe5a660442dfbe7db4a03ee367b276c7e269326e0375}
+\tfhyps{I.haar.thm:iwasawa-integration-local}{}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf}) (A: ``non-archimedean local field'')}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$ (A: ``Borel'')}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{7}{13e516e9}{the measure $\mu$ on $\GL_2(F)$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{8}{30ea65cd}{the assumption that $\mu$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{9}{0af2d11d}{the measure $\lambda$ on $F$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{10}{bfaf3427}{the assumption that $\lambda$ is an additive Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{11}{723140ee}{the measure $\nu$ on $F^\times$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{12}{4d41ea66}{the assumption that $\nu$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{13}{e13e88c2}{the measure $\kappa$ on $K_F$}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{14}{0dddd0c7}{the assumption that $\kappa$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration-local}{15}{a78c0095}{the assumption that $\kappa$ is a probability measure (A: ``probability'')}
+\begin{tffidelity}
+The measures $\mu,\lambda,\nu$ are binders with Haar hypotheses, and $\kappa$ is an arbitrary Haar probability measure on $K_F$ (the snippet's $\dd k$). Two clauses: for every measurable $f\colon\GL_2(F)\to[0,\infty]$ (iterated \texttt{lintegral} over $x$, $t_2$, $t_1$, $k$) and for every $\mu$-integrable $f\colon\GL_2(F)\to\C$ (iterated Bochner integrals), with the constant $c_F=\mu(K_F)/(\lambda(\Ocal_F)\nu(\Ocal_F^\times)^2)$ computed in $[0,\infty]$ and converted by \texttt{toReal} in the complex version. The factor $\abs{t_1/t_2}_F^{-1}$ is \texttt{normAbs F ↑(t₁ / t₂)⁻¹}; $\nu(\Ocal_F^\times)$ is $\nu$ of the image set \texttt{\{u | ∃ v, ↑↑v = ↑u\}} of $\Ocal_F^\times$ in $F^\times$. The order of integration is $\dd k$ innermost, then $\dd\nu(t_1)$, $\dd\nu(t_2)$, $\dd\lambda(x)$, as in the snippet. The denominator is positive and finite: $\lambda(\Ocal_F)$ and $\nu(\Ocal_F^\times)$ are positive and finite as Haar measures of compact open sets.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{M3-divergences}): apply the coset lemma \cref{X.haar.thm:compact-open-coset-integration} with $G=\GL_2(F)$, $K=K_F$, $B=B(F)$ (closed, being $\{g_{21}=0\}$) and $\GL_2(F)=BK_F$ (\cref{I.decomp.thm:iwasawa-local} Iwasawa decomposition). By \cref{I.haar.lem:borel-left-haar} (with $|\cdot|_F$, $\lambda$ and $\nu$) the measure $\mu_B=\beta_*(|t_1/t_2|_F^{-1}\,\lambda\otimes\nu\otimes\nu)$ is a left Haar measure of $B(F)$. Its volume on $B\cap K_F$ is computed by the preimage $\beta^{-1}(B\cap K_F)=\Ocal\times\Ocal^\times\times\Ocal^\times$ (\texttt{borelCoord\_mem\_K\_iff}: $n(x)\mathrm{diag}(t_1,t_2)\in K_F$ iff $x\in\Ocal$, $t_i\in\Ocal^\times$) on which $|t_i|_F=1$ (\cref{I.lf.thm:abs-uniformizer}), so $\mu_B(B\cap K_F)=\lambda(\Ocal)\nu(\Ocal^\times)^2$. The coset formula becomes $\int f\,d\mu=\frac{\mu(K_F)}{\mu_B(B\cap K_F)}\int_B\int_Kf(bk)\,d\kappa\,d\mu_B$, and pulling back along $\beta$ (\texttt{lintegral\_withDensity\_eq\_lintegral\_mul}, Tonelli to reorder as $x,t_2,t_1,k$) gives the iterated form. For $\mathbb C$-valued integrable $f$ the Bochner integral uses the measure identity $\mu=C\cdot\Theta_*(\ldots)$ (\texttt{measure\_eq\_of\_iterated}, \texttt{iterated\_formulas}) as in the coset lemma.
+\end{proof}
+
+\begin{theorem}[Iwasawa integration on $\GL_2(\R)$]
+\tfstmt{I.haar.thm:iwasawa-constant-real}
+\lean{GL2TF.iwasawa_constant_real}
+\uses{I.haar.def:haar-real, I.haar.def:haar-orthogonal, I.conv.def:unipotent, I.conv.def:torus, I.conv.def:diag-element, I.conv.def:max-compact-real, X.topgrp.def:matrix-measurable-space, I.conv.def:rotation, I.conv.def:special-orthogonal-real, I.conv.lem:rotation-surjective, I.haar.def:matrix-lebesgue, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, I.haar.lem:gl2-real-second-countable-instance, I.haar.lem:max-compact-real-borel-instance, I.haar.lem:max-compact-real-compact-instance, X.topgrp.lem:matrix-borel-space, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:iwasawa-constant-real}
+\tfsem{I.haar.thm:iwasawa-constant-real}{dcd344be2af2ca1b22c2cfc621f5cd4eddb04eb2ed06254bd2d3533bc8dff49d}
+\tfhyps{I.haar.thm:iwasawa-constant-real}{}
+\tfbinder{I.haar.thm:iwasawa-constant-real}{0}{127442cf}{the measure $\kappa$ on $K_\infty$}
+\tfbinder{I.haar.thm:iwasawa-constant-real}{1}{b8b0dac6}{the assumption that $\kappa$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-constant-real}{2}{df092aa8}{the assumption that $\kappa$ is a probability measure (A: ``probability'')}
+\begin{tffidelity}
+$\kappa$ is an arbitrary Haar probability measure on \texttt{maxCompactReal}. The measures $\dd t/\abs{t}$ on $\R^\times$ are \texttt{Measure.comap (fun u => ↑u) (volume.withDensity (fun t => ofReal |t|⁻¹))}, written out explicitly; $\dd x$ is Lebesgue measure (\texttt{volume}). Two clauses as in \cref{I.haar.thm:iwasawa-integration-local}: measurable $f\colon\GL_2(\R)\to[0,\infty]$ and $\dd g_\infty$-integrable $f\colon\GL_2(\R)\to\C$ (the constant $\pi$ is \texttt{ENNReal.ofReal Real.pi} resp.\ \texttt{Real.pi •}).\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Change of variables.} Put $\Psi(x,t_1,t_2,\theta)=(a,b,c,d)$ for $n(x)\,\mathrm{diag}(t_1,t_2)\,k(\theta)$ on $S=\{t_1\ne0,\ t_2>0,\ \theta\in(-\pi,\pi)\}$. It is injective on $S$ (polar coordinates for $(c,d)=(-t_2\sin\theta,t_2\cos\theta)$, then $(a,b)$ is an invertible linear function of $(xt_2,t_1)$), is $C^1$ with $\abs{\det D\Psi}=t_2^2$ (\texttt{det\_J}, computed on the $4\times4$ Jacobian), and its image is the set of $\{c\ne0\}$-matrices with $\det\ne0$ (\texttt{psi\_image}); the complement is null (contained in $\{c=0\}$, \texttt{volume\_q2\_zero}). Mathlib's change of variables (\texttt{integral\_image\_eq\_integral\_abs\_det\_fderiv\_smul}) gives $\int_{\Psi(S)}F\,dX=\int_St_2^2F(\Psi p)\,dp$ (\texttt{integral\_iwasawa\_coords}); with $dg_\infty=\abs{\det g}^{-2}dX$ and $\det\Psi=t_1t_2$ the left side of the target becomes $\int t_2^{-2}\ldots$, i.e.\ \texttt{lintegral\_haarReal\_coords}. \emph{The Haar probability of $O(2)$} (differs from A): $O(2)=SO(2)\sqcup\epsilon SO(2)$ with $\epsilon=\mathrm{diag}(1,-1)$, and $\kappa$ is identified by Haar uniqueness with $(4\pi)^{-1}(\delta_{k_a}+\delta_{\epsilon k_a})\,da$ on $\R/2\pi\Z$ (\texttt{o2Measure\_eq}, \texttt{lintegral\_o2}) rather than A's $dk|_{SO(2)}=d\theta/4\pi$. \emph{Symmetrization} (differs from A's partition by the order-$4$ group): the part of $O(2)$ in $\epsilon SO(2)$ is moved to $t_2\to-t_2$ using $\mathrm{diag}(t_1,t_2)\,\epsilon=\mathrm{diag}(t_1,-t_2)$ (\texttt{diagElt\_mul\_eps}), and the half $t_2<0$ is moved by $(t_1,t_2,\theta)\mapsto(-t_1,-t_2,\theta+\pi)$ (\texttt{diagElt\_neg\_neg}, \texttt{rotA\_pi\_add}); the weight $|t_1/t_2|^{-1}$ and the measures $dt/|t|$ (\texttt{realUnitsHaar}, in the coordinate $s\in\R$, \texttt{lintegral\_realUnits}) are invariant, so everything reduces to $t_2>0$ with the evenness lemma \texttt{lintegral\_even} (\texttt{rhs\_coords}). The two sides then agree with the constant $\pi$: this is the formal content of A's constant computation. For integrable complex $f$ the identity of measures $dg_\infty=\pi\cdot\Theta_*(\ldots)$ (\texttt{measure\_eq\_of\_iterated}) gives the Bochner form via \texttt{iterated\_formulas}.
+\end{proof}
+
+\begin{definition}[coordinates on $B(R)$]
+\tfstmt{I.haar.def:borel-coordinates}
+\bonly
+\lean{GL2TF.borelCoord}
+\uses{I.haar.lem:borel-coordinates-mem, I.conv.def:borel, I.conv.def:diag-element}
+\end{definition}
+\begin{tfformal}{I.haar.def:borel-coordinates}
+\tfsem{I.haar.def:borel-coordinates}{401baf7936ff0287d06d944dcb1287a6fb058f6fbb77f51110793770a9972e2e}
+\tfhyps{I.haar.def:borel-coordinates}{}
+\tfbinder{I.haar.def:borel-coordinates}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.def:borel-coordinates}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.def:borel-coordinates}{2}{34961c5b}{the triple $(x,t_1,t_2)\in R\times R^\times\times R^\times$}
+\begin{tffidelity}
+B-only. The map $(x,t_1,t_2)\mapsto n(x)\diag(t_1,t_2)$ from \texttt{R × Rˣ × Rˣ} to the subtype \texttt{borel R}; well-defined by \cref{I.haar.lem:borel-coordinates-mem}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$n(x)\diag(t_1,t_2)\in B(R)$]
+\tfstmt{I.haar.lem:borel-coordinates-mem}
+\bonly
+\lean{GL2TF.borelCoord_mem}
+\uses{I.conv.def:borel, I.conv.def:diag-element}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:borel-coordinates-mem}
+\tfsem{I.haar.lem:borel-coordinates-mem}{43a40b1828b1e4361b59ba9ccfa71e480b8259cfd61b6a2e9855b624a0007452}
+\tfhyps{I.haar.lem:borel-coordinates-mem}{}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{2}{3bf910e8}{the element $x\in R$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{3}{80b5bf7a}{the unit $t_1\in R^\times$}
+\tfbinder{I.haar.lem:borel-coordinates-mem}{4}{3d67046f}{the unit $t_2\in R^\times$}
+\begin{tffidelity}
+B-only. $n(x)\diag(t_1,t_2)\in B(R)$, with $n$ Mathlib's \texttt{upperRightHom}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The $(2,1)$-entry of $n(x)\,\mathrm{diag}(t_1,t_2)$ is $0\cdot t_1+1\cdot0=0$ (\texttt{Matrix.mul\_apply}, \texttt{Fin.sum\_univ\_two}, \texttt{simp}).
+\end{proof}
+
+\begin{lemma}[diagonal entries of $B(R)$ are units]
+\tfstmt{I.haar.lem:borel-diag-is-unit}
+\bonly
+\lean{GL2TF.borel_diag_isUnit}
+\uses{I.conv.def:borel}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:borel-diag-is-unit}
+\tfsem{I.haar.lem:borel-diag-is-unit}{899cfc53a42f70a59b2d65883e06cfdcbf7ce40e8fc0ac92667fb8c2b4052815}
+\tfhyps{I.haar.lem:borel-diag-is-unit}{}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{2}{f62fcbfe}{the element $b\in B(R)$}
+\tfbinder{I.haar.lem:borel-diag-is-unit}{3}{27502d9a}{the index $i\in\{1,2\}$}
+\begin{tffidelity}
+B-only. For $b\in B(R)$ (an element of the subtype \texttt{borel R}) and $i\in\{0,1\}$ the diagonal entry $b_{ii}$ is a unit (\texttt{IsUnit}); this makes $\delta_B$ well-defined.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For $b\in B(R)$, $b_{21}=0$, so $\det b=b_{11}b_{22}$ (\texttt{Matrix.det\_fin\_two}). This is a unit, as $b\in\GL_2(R)$, hence each factor is a unit (\texttt{isUnit\_of\_mul\_isUnit\_left}/\texttt{right}).
+\end{proof}
+
+\begin{lemma}[$\diag(t_1,t_2)\in T(R)$]
+\tfstmt{I.haar.lem:diag-elt-mem-torus}
+\bonly
+\lean{GL2TF.diagElt_mem_torus}
+\uses{I.conv.def:torus, I.conv.def:diag-element}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:diag-elt-mem-torus}
+\tfsem{I.haar.lem:diag-elt-mem-torus}{b6c0f1903b2b09a9b4011856376bf11dfb56c06ca1b7d1d3c6e5f484d06bf7e8}
+\tfhyps{I.haar.lem:diag-elt-mem-torus}{}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{2}{7e426d5e}{the unit $t_1\in R^\times$}
+\tfbinder{I.haar.lem:diag-elt-mem-torus}{3}{80b5bf7a}{the unit $t_2\in R^\times$}
+\begin{tffidelity}
+B-only. $\diag(t_1,t_2)\in T(R)$ for $t_1,t_2\in R^\times$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{simp} with the definitions of \texttt{torus} and \texttt{diagElt}: the off-diagonal entries of $\mathrm{diag}(t_1,t_2)$ are $0$.
+\end{proof}
+
+\begin{definition}[the measure on $T(R)$]
+\tfstmt{I.haar.def:torus-coordinate-measure}
+\bonly
+\lean{GL2TF.torusMeasure}
+\uses{I.conv.def:torus, I.conv.def:diag-element, X.topgrp.def:matrix-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:torus-coordinate-measure}
+\tfsem{I.haar.def:torus-coordinate-measure}{5248a023d2681ec68a7cc5dc4ddb0a8f9e2116d148da12d9a37846acc326f2dd}
+\tfhyps{I.haar.def:torus-coordinate-measure}{}
+\tfbinder{I.haar.def:torus-coordinate-measure}{0}{fe5aea28}{the underlying type of the ring $R$}
+\tfbinder{I.haar.def:torus-coordinate-measure}{1}{63738b18}{the commutative ring structure of $R$}
+\tfbinder{I.haar.def:torus-coordinate-measure}{2}{746bd334}{the $\sigma$-algebra of $R$}
+\tfbinder{I.haar.def:torus-coordinate-measure}{3}{4d3bf5b5}{the measure $\nu$ on $R^\times$}
+\begin{tffidelity}
+B-only. The measure $\dd t$ on the subtype \texttt{torus R} of \texttt{GL (Fin 2) R}: the image of the product measure $\nu\otimes\nu$ on \texttt{Rˣ × Rˣ} under $(t_1,t_2)\mapsto\diag(t_1,t_2)$; the $\sigma$-algebra on $R$ is a binder only because the type of the measure on \texttt{Rˣ} uses it. The product $\nu\otimes\nu$ is Mathlib's \texttt{Measure.prod}, which since Mathlib v4.35 is the junk value $0$ unless $\nu$ is s-finite; so for a measure $\nu$ on $R^\times$ that is not s-finite, \texttt{torusMeasure} $\nu$ is $0$. The definition has no s-finiteness hypothesis. The project has no use of \texttt{torusMeasure} beyond its definition and the test \texttt{unipotentMeasure\_torusMeasure\_eq}, which unfolds it for arbitrary $\nu$ and needs no s-finiteness.
+\end{tffidelity}
+\end{tfformal}
+
+\section{Adelic Haar measures}
+\begin{theorem}[second countability of restricted products]
+\tfstmt{X.topgrp.thm:restricted-product-second-countable}
+\lean{GL2TF.resProd_secondCountableTopology}
+\end{theorem}
+\begin{tfformal}{X.topgrp.thm:restricted-product-second-countable}
+\tfsem{X.topgrp.thm:restricted-product-second-countable}{b0b51cc8165ace18511e3ca390513072615af651f9ba8453630fbc131c9574af}
+\tfhyps{X.topgrp.thm:restricted-product-second-countable}{}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{1}{51c6bf8e}{the assumption that the index set $\iota$ is countable (A: ``countable'')}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{2}{ce532c75}{the family of types $X_i$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{3}{b85b1d8c}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{4}{a461e99c}{the assumption that every $X_i$ is second countable (A: ``second countable'')}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{5}{c136b664}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.thm:restricted-product-second-countable}{6}{9fd77963}{the assumption that every $A_i$ is open (A: ``open'')}
+\begin{tffidelity}
+The restricted product is Mathlib's \texttt{RestrictedProduct (fun i => X i) (fun i => A i) Filter.cofinite} with its restricted-product topology. The hypothesis that the subsets $A_i$ are open is an explicit argument \texttt{(∀ i, IsOpen (A i))} after $A$; countability of the index set and second countability of the $X_i$ are instance binders. The instance form with \texttt{Fact (∀ i, IsOpen (A i))} is the B-only \cref{X.topgrp.lem:restricted-product-second-countable-instance}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+For a finite $F\subseteq\iota$, the principal restricted product $\prod'_i[X_i,A_i]_{\mathcal P(F^c)}$ embeds as an open subspace of the restricted product (\texttt{isOpenEmbedding\_inclusion\_principal}) and is second countable, being a subspace of $\prod_iX_i$ (\texttt{isEmbedding\_coe\_of\_principal}). Each point $x$ has all but finitely many coordinates in $A_i$, so lies in the image for some $F$ (\texttt{exists\_inclusion\_eq\_of\_eventually}); as $\iota$ is countable there are countably many finite $F$, and a space covered by countably many open second countable subspaces is second countable (\texttt{secondCountableTopology\_of\_countable\_cover}).
+\end{proof}
+
+\begin{definition}[restricted-product measure]
+\tfstmt{X.haar.def:restricted-product-measure}
+\lean{GL2TF.resProdMeasure}
+\uses{X.topgrp.thm:restricted-product-second-countable, X.haar.def:restricted-product-box, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{X.haar.def:restricted-product-measure}
+\tfsem{X.haar.def:restricted-product-measure}{54e102ad75af021422afe5da275f9f0898a74e9a7a5dd98e1e3c44cad2a78446}
+\tfhyps{X.haar.def:restricted-product-measure}{}
+\tfbinder{X.haar.def:restricted-product-measure}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.def:restricted-product-measure}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.def:restricted-product-measure}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-measure}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-measure}{4}{c5384995}{the assumption that every $G_i$ is a topological group (A: ``group'')}
+\tfbinder{X.haar.def:restricted-product-measure}{5}{bee08e27}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.def:restricted-product-measure}{6}{69b061d9}{the assumption that every $K_i$ is open (A: ``open'')}
+\tfbinder{X.haar.def:restricted-product-measure}{7}{ef08cec1}{the assumption that every $K_i$ is compact (A: ``compact'')}
+\tfbinder{X.haar.def:restricted-product-measure}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-measure}{9}{180dfbd7}{the family of measures $\mu_i$ on $G_i$}
+\begin{tffidelity}
+The definition \texttt{resProdMeasure K hK μ} takes the families $K_i$, a proof \texttt{hK} that each $K_i$ is open, the instances that each $K_i$ is compact, the $\sigma$-algebras of the $G_i$ and the family of measures $\mu_i$. It does \emph{not} assume that the $\mu_i$ are Haar measures, that $\mu_i(K_i)=1$ for almost all $i$, that the index set is countable, or that the $G_i$ are Hausdorff, second countable or Borel; these hypotheses are in the theorems \cref{X.haar.lem:restricted-product-measure-is-haar}, \cref{X.haar.thm:restricted-product-measure-unique}, \cref{X.haar.thm:restricted-product-measure-factorization}. The value is Haar measure normalized on the box $\prod_iK_i$ (\cref{X.haar.def:restricted-product-box}), scaled by the finite product $\prod^{\mathrm{f}}_i\mu_i(K_i)$ (\texttt{finprod}). If infinitely many $\mu_i(K_i)\neq1$ the \texttt{finprod} is $1$ (a junk value); the theorems exclude this case by the hypothesis \texttt{hμK}. The measure lives on Mathlib's restricted product over the cofinite filter with its Borel $\sigma$-algebra \cref{X.topgrp.def:restricted-product-measurable-space}. The multiplicative and additive versions are separate declarations (the additive one is B-only).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[uniqueness]
+\tfstmt{X.haar.thm:restricted-product-measure-unique}
+\lean{GL2TF.resProdMeasure_unique}
+\uses{X.haar.def:restricted-product-measure, X.topgrp.def:restricted-product-measurable-space, X.haar.def:restricted-product-box, X.topgrp.lem:restricted-product-borel-space, X.topgrp.lem:restricted-product-second-countable-instance}
+\end{theorem}
+\begin{tfformal}{X.haar.thm:restricted-product-measure-unique}
+\tfsem{X.haar.thm:restricted-product-measure-unique}{5d3f7ea4169790cb7018d3365c07fd396d988adfb408a4d201805d3f753bdc47}
+\tfhyps{X.haar.thm:restricted-product-measure-unique}{}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{4}{1f0b91a8}{the assumption that the index set $\iota$ is countable (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{5}{ed98e6ba}{the assumption that every $G_i$ is a topological group (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{6}{7cd2898a}{the assumption that every $G_i$ is Hausdorff (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{7}{017de849}{the assumption that every $G_i$ is second countable (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{9}{7c175c79}{the assumption that every $G_i$ carries its Borel $\sigma$-algebra (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{10}{9903f214}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{11}{f12a1dd5}{the assumption that every $K_i$ is open (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{12}{e2128827}{the assumption that every $K_i$ is compact (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{13}{ee1f1603}{the family of measures $\mu_i$ on $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{14}{5eba577a}{the assumption that every $\mu_i$ is a Haar measure (A: ``Haar'')}
+\tfbinder{X.haar.thm:restricted-product-measure-unique}{15}{465ada4d}{the assumption that $\mu_i(K_i)=1$ for all but finitely many $i$ (A: $\mu_i(K_i)=1$ for almost all $i$)}
+\begin{tffidelity}
+Hypotheses as binders: countable index set; each $G_i$ a topological group that is Hausdorff and second countable with its Borel $\sigma$-algebra; $K_i$ compact open; each $\mu_i$ Haar; and \texttt{hμK}. Two clauses: every Haar measure $\nu$ with $\nu(\prod_iK_i)=\prod^{\mathrm f}_i\mu_i(K_i)$ equals \texttt{resProdMeasure K hK μ}, and every Haar measure is $c\cdot\texttt{resProdMeasure K hK μ}$ for a unique $c\in\R_{\ge0}$ with $c>0$ (\texttt{∃! c : ℝ≥0, 0 < c ∧ ν = ↑c • …}). The product on the box is a \texttt{finprod}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $\nu$ be a left Haar measure on the restricted product. By uniqueness of left Haar measures (\texttt{isMulLeftInvariant\_eq\_smul}) $\nu=c\cdot\bigotimes'\mu_i$ with $c=\texttt{haarScalarFactor}$, $c>0$. Evaluate at the box $\prod K_i$ where $\bigotimes'\mu_i$ takes the finite nonzero value $\prod^{\mathrm f}\mu_i(K_i)$ (\cref{X.haar.lem:restricted-product-measure-is-haar}). If $\nu$ takes the same value, cancelling gives $c=1$ (\texttt{ENNReal.mul\_eq\_right}), so $\nu=\bigotimes'\mu_i$. Uniqueness of $c$: if $\nu=c'\bigotimes'\mu_i$, evaluating at the box gives $c'=c$ (\texttt{ENNReal.mul\_left\_inj}).
+\end{proof}
+
+\begin{theorem}[factorization]
+\tfstmt{X.haar.thm:restricted-product-measure-factorization}
+\lean{GL2TF.resProdMeasure_factorization}
+\uses{X.haar.def:restricted-product-measure, X.topgrp.def:restricted-product-measurable-space, X.haar.def:restricted-product-box, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{X.haar.thm:restricted-product-measure-factorization}
+\tfsem{X.haar.thm:restricted-product-measure-factorization}{c494328381c0e773bb844ba9fc68ee9e1a4f369a51e8d12d4bf1d74089ce27e9}
+\tfhyps{X.haar.thm:restricted-product-measure-factorization}{}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{4}{1f0b91a8}{the assumption that the index set $\iota$ is countable (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{5}{ed98e6ba}{the assumption that every $G_i$ is a topological group (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{6}{7cd2898a}{the assumption that every $G_i$ is Hausdorff (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{7}{017de849}{the assumption that every $G_i$ is second countable (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{9}{7c175c79}{the assumption that every $G_i$ carries its Borel $\sigma$-algebra (A: ``Borel'')}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{10}{9903f214}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{11}{f12a1dd5}{the assumption that every $K_i$ is open (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{12}{e2128827}{the assumption that every $K_i$ is compact (A: standing assumption of the situation of \cref{X.haar.def:restricted-product-measure})}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{13}{ee1f1603}{the family of measures $\mu_i$ on $G_i$}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{14}{5eba577a}{the assumption that every $\mu_i$ is a Haar measure (A: ``Haar'')}
+\tfbinder{X.haar.thm:restricted-product-measure-factorization}{15}{465ada4d}{the assumption that $\mu_i(K_i)=1$ for all but finitely many $i$ (A: $\mu_i(K_i)=1$ for almost all $i$)}
+\begin{tffidelity}
+Same hypotheses as \cref{X.haar.thm:restricted-product-measure-unique}. Clause 1: for integrable $f_i\colon G_i\to\C$ with $f_i=1_{K_i}$ for almost all $i$, the function $x\mapsto\prod^{\mathrm f}_if_i(x_i)$ is integrable and its integral is $\prod^{\mathrm f}_i\int f_i\dd\mu_i$ (\texttt{finprod}). Clause 2: for measurable $E_i$ with $E_i=K_i$ for almost all $i$, the measure of $\prod_iE_i$ is $\prod^{\mathrm f}_i\mu_i(E_i)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Fix $S$ finite with $\mu_i(K_i)=1$ and $f_i=1_{K_i}$ for $i\notin S$ (resp.\ $E_i=K_i$). The integral part follows A: $\mathrm{splitHom}$ is an open embedding onto the open subgroup $U_S$, and $(\bigotimes'\mu_i)|_{U_S}=(\mathrm{splitHom})_*(\bigotimes_{i\in S}\mu_i\otimes\bigotimes_{i\notin S}\mu_i|_{K_i})$ with the second factor a probability measure (\texttt{comap\_splitHom}, via Haar uniqueness on $U_S$ and comparing the values $1$ on the box $\prod K_i$). The function $x\mapsto\prod^{\mathrm f}_if_i(x_i)$ vanishes off $U_S$ (a coordinate $x_i\notin K_i$, $i\notin S$, gives $f_i(x_i)=0$) and on $U_S$ equals $\prod_{i\in S}f_i(p_i)$, so it is integrable with integral $\prod_{i\in S}\int f_i\,d\mu_i=\prod^{\mathrm f}_i\int f_i\,d\mu_i$ by Fubini (\texttt{integral\_fintype\_prod\_eq\_prod}, \texttt{integral\_fun\_fst}). \emph{Set part} (\texttt{M3-divergences}): it is not derived from $f_i=1_{E_i}$, since $\mu_i(E_i)$ may be $\infty$ and $1_{E_i}$ need not be integrable. Instead $\prod E_i\subseteq U_S$ (\texttt{box\_subset\_range}) and its preimage in $U_S$ is $\prod_{i\in S}E_i\times\prod_{i\notin S}K_i$; its measure is $\prod_{i\in S}\mu_i(E_i)\cdot 1=\prod^{\mathrm f}_i\mu_i(E_i)$ (\texttt{Measure.pi\_pi}, \texttt{Measure.prod\_prod}). Measurability of the $E_i$ is only used on the finite part $S$.
+\end{proof}
+
+
+\begin{definition}[Haar measures on $G(\Af)$ and $G(\A)$]
+\tfstmt{I.haar.def:haar-adelic}
+\lean{GL2TF.haarAdelic}
+\uses{X.haar.def:restricted-product-measure, I.topgrp.thm:gl2-adelic-restricted-product, I.topgrp.def:max-compact-adelic, I.haar.def:haar-local, I.haar.def:haar-real, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.def:haar-fin-adelic, I.lf.def:padic-measurable-space, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:haar-adelic}
+\tfsem{I.haar.def:haar-adelic}{44a4e407a7a936e3efe133da6bb581b78c7b2f0db07a9b8f012182607b67aa44}
+\tfhyps{I.haar.def:haar-adelic}{}
+\tfbinder{I.haar.def:haar-adelic}{0}{e53c3de5}{the measure $\mu_\infty$ on $\GL_2(\R)$}
+\tfbinder{I.haar.def:haar-adelic}{1}{1936371c}{the family of measures $\mu_p$ on $\GL_2(\Qp)$}
+\begin{tffidelity}
+\texttt{haarAdelic μInf μ} takes arbitrary measures $\mu_\infty$ on \texttt{GL (Fin 2) ℝ} and $\mu_p$ on \texttt{GL (Fin 2) ℚ\_[p]} (no Haar or normalization hypotheses; D13). It is the pull-back (\texttt{Measure.comap}, the transported measure because the map is injective with measurable images, resting on the B-only Borel lemma \cref{I.haar.lem:gl2-adelic-borel}) along $g\mapsto(g_\infty,g_f)$ of $\mu_\infty\otimes\dd g_f$, where $\dd g_f$ is the B-only \cref{I.haar.def:haar-fin-adelic}. The claims that $\dd g_f$ and $\dd g$ are left Haar measures and the value $\dd g_f(K_f)=\prod_p\mu_p(K_p)$ are the B-only \cref{I.haar.lem:haar-adelic-spec}. The ``standard choice'' $\mu_p=\dd g_p$, $\mu_\infty=\dd g_\infty$ is not part of the definition; it occurs in the second clause of \cref{I.haar.thm:iwasawa-integration}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$G(\A)$ is unimodular]
+\tfstmt{I.haar.thm:gl2-adelic-unimodular}
+\lean{GL2TF.gl2Adelic_isUnimodular}
+\uses{X.haar.def:is-unimodular, I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:zhat, I.conv.def:gl2, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.haar.def:haar-adelic, I.haar.def:haar-fin-adelic, I.haar.def:haar-local, I.haar.lem:gl2-adelic-borel, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, I.haar.lem:gl2-real-second-countable-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:max-compact-local-compact-instance, I.haar.thm:gl2-local-unimodular, I.haar.thm:gl2-real-unimodular, I.haar.thm:vol-max-compact-local, I.lf.def:padic-measurable-space, I.lf.lem:padic-borel-space, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:max-compact-local-compact-open, X.haar.def:restricted-product-measure, X.haar.thm:restricted-product-measure-factorization, X.topgrp.lem:restricted-product-borel-space, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:gl2-adelic-unimodular}
+\tfsem{I.haar.thm:gl2-adelic-unimodular}{6679c5be6535c1a2189c640949d97fdd9fb86b24df6c38380aa2393a1982aedd}
+\tfhyps{I.haar.thm:gl2-adelic-unimodular}{}
+\begin{tffidelity}
+A conjunction \texttt{IsUnimodular (GL (Fin 2) FinAdele) ∧ IsUnimodular (GL (Fin 2) Adele)}. As for \cref{I.haar.thm:gl2-real-unimodular}, the binders inside \texttt{IsUnimodular} are hidden binders, not assumptions.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{$G(\A_f)$} (\texttt{gl2FinAdele\_isUnimodular}): as in A, test with the compact open subgroup $K_f$ of volume $1$ for $dg_f=\bigotimes'_p\mathrm{haarLocal}_p$ (\cref{I.haar.def:haar-adelic}, \cref{I.haar.lem:haar-adelic-spec}). The criterion \texttt{isUnimodular\_of\_test}: if a left Haar measure $\mu_0$ and a measurable $C$ with $0<\mu_0C<\infty$ satisfy $\mu_0(Cg)=\mu_0(C)$ for all $g$, then every right translate of $\mu_0$ equals $\mu_0$ (uniqueness of left Haar measures and evaluation at $C$), hence $G$ is unimodular. Here $K_fg=\prod_pK_pg_p$ and by the factorization theorem for sets, \cref{X.haar.thm:restricted-product-measure-factorization} (with $E_p=K_pg_p=K_p$ for almost all $p$, \texttt{gl2Fin\_eventually\_mem}), $dg_f(K_fg)=\prod_p\mathrm{haarLocal}_p(K_pg_p)=\prod_p\mathrm{haarLocal}_p(K_p)=1$ by local unimodularity \cref{I.haar.thm:gl2-local-unimodular}. \emph{$G(\A)$} (\texttt{M3-divergences}): transport along the topological group isomorphism $G(\A)\cong\GL_2(\R)\times G(\A_f)$ (\texttt{isUnimodular\_of\_equiv}). A product of unimodular groups is unimodular (\texttt{isUnimodular\_prod}): the product of the right invariant Haar measures is a right invariant left Haar measure of the product, and any Haar measure is a multiple of it. This uses \cref{I.haar.thm:gl2-real-unimodular}, and avoids a compact set $C_\infty$.
+\end{proof}
+
+\begin{theorem}[Iwasawa integration on $G(\A)$]
+\tfstmt{I.haar.thm:iwasawa-integration}
+\lean{GL2TF.iwasawa_integration}
+\uses{I.haar.def:haar-adelic, I.topgrp.def:max-compact-adelic, I.adele.def:idele-haar, I.adele.def:idele-norm, I.conv.def:unipotent, I.conv.def:torus, I.adele.def:adele-haar, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:primes-fact-instance, I.conv.def:diag-element, I.conv.def:max-compact-local, I.haar.def:haar-local, I.haar.def:haar-real, I.lf.def:padic-measurable-space, I.lf.def:padic-nalf-instance, I.lf.lem:padic-borel-space, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-unit-box, I.adele.def:finite-adele-haar, I.adele.def:idele-inf-fin, I.adele.def:idele-norm-fun, I.adele.def:norm-one-class-group, I.adele.def:norm-one-ideles, I.adele.def:rat-embedding, I.adele.def:rat-ideles, I.adele.def:rat-ideles-embedding, I.adele.def:real-units-haar, I.adele.lem:adele-haar-spec, I.adele.lem:finadele-locally-compact-instance, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-haar-spec, I.adele.lem:idele-norm-spec, I.adele.lem:ideles-borel, I.adele.lem:padic-int-compact-instance, I.adele.lem:zhat-units-explicit, I.adele.thm:adele-fundamental-domain, I.adele.thm:ideles-second-countable, I.adele.thm:product-formula, I.adele.thm:rat-quotient-compact, I.conv.def:borel, I.conv.def:gl2, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.haar.def:borel-coordinates, I.haar.def:haar-fin-adelic, I.haar.lem:borel-coordinates-mem, I.haar.lem:borel-left-haar, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-second-countable-instance, I.haar.lem:haar-adelic-spec, I.haar.lem:max-compact-real-borel-instance, I.haar.lem:max-compact-real-compact-instance, I.haar.thm:haar-real-is-haar, I.haar.thm:iwasawa-constant-real, I.haar.thm:vol-max-compact-local, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.lf.thm:nalf-second-countable, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-fin-adelic-eventually-max-compact, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, X.haar.def:restricted-product-add-measure, X.haar.lem:restricted-product-add-measure-is-haar, X.haar.thm:compact-open-coset-integration, X.topgrp.lem:matrix-borel-space, X.topgrp.lem:restricted-product-borel-space, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:iwasawa-integration}
+\tfsem{I.haar.thm:iwasawa-integration}{30ddf5e86cf23f2bc5f4f00b506e8a03115b0ed46bf870960471a70a677433e8}
+\tfhyps{I.haar.thm:iwasawa-integration}{}
+\tfbinder{I.haar.thm:iwasawa-integration}{0}{217a8dc6}{the family of measures $\mu_p$ on $\GL_2(\Qp)$}
+\tfbinder{I.haar.thm:iwasawa-integration}{1}{a1ae7147}{the assumption that every $\mu_p$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration}{2}{7e81ff30}{the assumption that $\mu_p(K_p)=1$ for all but finitely many primes $p$ (A: $\mu_p(K_p)=1$ for almost all $p$)}
+\tfbinder{I.haar.thm:iwasawa-integration}{3}{fe5cbc27}{the measure $\lambda$ on $\A$}
+\tfbinder{I.haar.thm:iwasawa-integration}{4}{9b6d1714}{the assumption that $\lambda$ is an additive Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration}{5}{88361c4c}{the measure $\nu$ on $\A^\times$}
+\tfbinder{I.haar.thm:iwasawa-integration}{6}{674e2b3c}{the assumption that $\nu$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration}{7}{e7e7dc93}{the measure $\kappa$ on $K=K_\infty\times K_f$}
+\tfbinder{I.haar.thm:iwasawa-integration}{8}{6548be32}{the assumption that $\kappa$ is a Haar measure (A: ``Haar'')}
+\tfbinder{I.haar.thm:iwasawa-integration}{9}{c4df1705}{the assumption that $\kappa$ is a probability measure (A: ``probability'')}
+\begin{tffidelity}
+The measures $\mu_p$ ($\mu_p(K_p)=1$ for almost all $p$), $\lambda$, $\nu$ are binders with Haar hypotheses; $\kappa$ is an arbitrary Haar probability measure on $K$ (the snippet's $\dd k$). $\dd g=\mu_\infty\otimes\bigotimes'\mu_p$ is \texttt{haarAdelic haarReal μ}. The constant is $c=\pi\prod^{\mathrm f}_p\mu_p(K_p)/(\lambda([0,1)\times\Zhat)\,\nu(\texttt{ideleUnitBox})^2)$, computed in $[0,\infty]$, with $\kappa(\nu)=\nu([1,e)\times\Zhat^\times)$ written out as $\nu(\texttt{ideleUnitBox})$, \cref{I.adele.def:idele-unit-box}; the product over $p$ is a \texttt{finprod}. Clause 1: measurable $f\colon G(\A)\to[0,\infty]$; clause 2: $\dd g$-integrable $f\colon G(\A)\to\C$ (constant via \texttt{toReal}); clause 3: for the standard measures ($\mu_p=\dd g_p$ i.e.\ \texttt{haarLocal}, $\lambda=\dd x$ i.e.\ \texttt{adeleHaar}, $\nu=\dtimes x$ i.e.\ \texttt{ideleHaar}) the constant equals \texttt{ENNReal.ofReal Real.pi}. The denominator is positive and finite: $\lambda([0,1)\times\Zhat)$ is positive and finite by \cref{I.adele.thm:rat-quotient-compact}, and $\nu(\texttt{ideleUnitBox})=\kappa(\nu)\in(0,\infty)$ by \cref{I.adele.lem:idele-haar-decomposition}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A (see \texttt{M3-divergences}): the local identity of \cref{I.haar.thm:iwasawa-integration-local} for the finite part is assembled with the real identity \cref{I.haar.thm:iwasawa-constant-real} using the splittings $G(\A)\cong\GL_2(\R)\times G(\A_f)$, $K\cong K_\infty\times K_f$ (\texttt{kSplit}), $\A=\R\times\A_f$ and $\A^\times\cong\R^\times\times\A_f^\times$ (\texttt{ideleSplitCME}). Bookkeeping that differs from A: (i) $|\cdot|_{\A_f}$ on $\A_f^\times$ is $b\mapsto|(1,b)|_\A$ (\texttt{absF}); the scaling $d(ax_f)=|a|_{\A_f}dx_f$ follows from \texttt{adele\_haar\_scaling} on $\A=\R\times\A_f$. (ii) $\A_f^\times$ is locally compact via $\A^\times\cong\R^\times\times\A_f^\times$ (\texttt{finUnits\_topology}), and Borel by Lusin--Souslin (\texttt{units\_borelSpace\_of\_polish}). (iii) $(\ast)$ is stated for the Haar measure $\mathrm{finUnitsHaar}$ of $\A_f^\times$ normalized by $\Zhat^\times$ (\texttt{finUnitsHaar\_unitsF}); by Haar uniqueness $\lambda=\lambda(D)\,dx$ and $\nu=\nu(\text{box})\cdot(dx/|x|\otimes d^\times x_f)$ (\texttt{lam\_eq}, \texttt{nu\_eq}), and $\kappa=\kappa_\infty\otimes\kappa_f$ on $K\cong K_\infty\times K_f$ by uniqueness of the Haar probability (\texttt{haar\_prob\_unique}). (iv) Tonelli is replaced by an identity of measures: $\mathrm{map}\,\xi$ is the measure-preserving rearrangement of the eight coordinate factors $((x_\infty,s_\infty,t_\infty,k_\infty),(x_f,s_f,t_f,k_f))\mapsto(x,s,t,k)$ (\texttt{map\_xi}, \texttt{theta\_xi}, \texttt{w\_xi}), after which the iterated formulas of the local and real cases (\texttt{iterated\_formulas}) are applied to $\Theta\colon(x,t_2,t_1,k)\mapsto n(x)\mathrm{diag}(t_1,t_2)k$ with density $|t_1/t_2|_\A^{-1}$. The constant is $\pi\prod^{\mathrm f}\mu_p(K_p)/(\lambda(D)\nu(\text{box})^2)$, and for the standard measures $\prod^{\mathrm f}\mathrm{haarLocal}_p(K_p)=1$, $\mathrm{adeleHaar}(D)=1$ (\cref{I.adele.thm:rat-quotient-compact}) and $\mathrm{ideleHaar}(\text{box})=1$ (\cref{I.adele.lem:idele-haar-spec}) give $c=\pi$.
+\end{proof}
+
+\begin{definition}[the measure on $G(\A)^1$]
+\tfstmt{I.haar.def:haar-norm-one}
+\lean{GL2TF.haarNormOne}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:central-split-component, I.topgrp.thm:norm-one-splitting, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:primes-fact-instance, I.haar.def:norm-one-normalization, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:haar-norm-one}
+\tfsem{I.haar.def:haar-norm-one}{78829af19b99d747bd088a5d5aa79f51af3752c2a05d40c16a4cdd1a87396e4b}
+\tfhyps{I.haar.def:haar-norm-one}{}
+\tfbinder{I.haar.def:haar-norm-one}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\begin{tffidelity}
+\texttt{haarNormOne μ} takes an arbitrary measure $\mu$ on \texttt{GL (Fin 2) Adele}. It is defined as the comap along \texttt{Subtype.val} of the image under the normalization \cref{I.haar.def:norm-one-normalization} of the restriction of $\mu$ to $\{g:\sqrt{\abs{\det g}_\A}\in[1,e)\}$. That $\mu^1(E)=\mu(\{a(r)g:1\le r<e,g\in E\})$, that $\mu^1$ is Haar, and the correspondence $\mu\leftrightarrow\dd r/r\otimes\mu^1$ are the B-only \cref{I.haar.lem:haar-norm-one-spec}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$G(\A)^1$ is unimodular]
+\tfstmt{I.haar.thm:norm-one-unimodular}
+\lean{GL2TF.normOne_unimodular}
+\uses{X.haar.def:is-unimodular, I.topgrp.def:norm-one-group, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:primes-fact-instance, I.haar.def:haar-norm-one, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.haar.thm:gl2-adelic-unimodular, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:norm-one-unimodular}
+\tfsem{I.haar.thm:norm-one-unimodular}{da3df615deaa79904d462405b70d3702d4e666f146b4c5b332cdeccfa3511a92}
+\tfhyps{I.haar.thm:norm-one-unimodular}{}
+\begin{tffidelity}
+The statement is the proposition \texttt{IsUnimodular normOneGroup} (\cref{X.haar.def:is-unimodular}): every left Haar measure on the closed subgroup $G(\A)^1\le G(\A)$ (subspace topology, Borel $\sigma$-algebra) is right invariant. There are no binders; local compactness of $G(\A)^1$ is supplied by instance search through the B-only \cref{I.haar.lem:norm-one-locally-compact-instance}. The constant \texttt{IsUnimodular} occurs in the conclusion, not in a binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The criterion \texttt{isUnimodular\_of\_test} says that $G$ is unimodular as soon as, for one left Haar measure $\mu_0$ and one measurable set $C$ with $0<\mu_0(C)<\infty$, $\mu_0\bigl((\cdot g)^{-1}C\bigr)=\mu_0(C)$ for all $g$ (a right translate of a left Haar measure is a multiple $c(g)\mu_0$, and the test set forces $c(g)=1$). Take $\mu_0=\mu^1$ for the Haar measure of $G(\A)$ (\texttt{haarNormOne Measure.haar}, a left Haar measure by \texttt{haarNormOne\_spec}), and $C=K$ a compact neighbourhood of $1$ in $G(\A)^1$ (\texttt{exists\_compact\_mem\_nhds}, which exists since $G(\A)^1$ is locally compact, \texttt{normOneGroup\_locallyCompactSpace}): $\mu^1(K)>0$ as $K$ is a neighbourhood of $1$, and $\mu^1(K)<\infty$ as $K$ is compact. The invariance is \texttt{haarNormOne\_preimage\_mul}: $\mu^1$ is the push-forward of $\mu$, restricted to the shell $D=\{1\le\sqrt{|\det x|_\A}<e\}$, along the normalisation $x\mapsto a(\sqrt{|\det x|_\A})^{-1}x$ with $a(r)$ central (\texttt{normOneNormalize}), pulled back to $G(\A)^1$. For $g\in G(\A)^1$, right multiplication by $g$ preserves $|\det|_\A$, hence $D$, and commutes with the normalisation (\texttt{normOneNormalize\_mul\_normOne}); so $\mu^1((\cdot g)^{-1}C)=\mu\bigl((\cdot g)^{-1}(\text{shell over }C)\bigr)=\mu(\text{shell over }C)=\mu^1(C)$, the middle equality being right invariance of $\mu$ on the unimodular group $G(\A)$ (\texttt{gl2Adelic\_isUnimodular}, \texttt{measure\_preimage\_mul\_right}).
+\end{proof}
+
+\begin{lemma}[$G(\A)^1$ is locally compact]
+\tfstmt{I.haar.lem:norm-one-locally-compact-instance}
+\bonly
+\lean{GL2TF.normOneGroup_locallyCompactSpace}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:norm-one-group, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:norm-one-locally-compact-instance}
+\tfsem{I.haar.lem:norm-one-locally-compact-instance}{03190756656363e040396af1e0afda3860c5efba9fc783262b0ef8d016b54f3b}
+\tfhyps{I.haar.lem:norm-one-locally-compact-instance}{}
+\begin{tffidelity}
+B-only. The instance \texttt{LocallyCompactSpace normOneGroup}, obtained from the closed embedding of $G(\A)^1$ in $G(\A)$; it is used by instance search wherever \texttt{IsUnimodular normOneGroup} or a Haar measure on $G(\A)^1$ is formed.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$G(\A)^1$ is closed in $G(\A)$ (\texttt{normOneGroup\_closed\_normal}), so the inclusion is a closed embedding, and a closed subspace of the locally compact space $G(\A)$ is locally compact (\texttt{IsClosedEmbedding.locallyCompactSpace}).
+\end{proof}
+
+\begin{lemma}[second countability as an instance]
+\tfstmt{X.topgrp.lem:restricted-product-second-countable-instance}
+\bonly
+\lean{GL2TF.resProd_secondCountableTopology_inst}
+\uses{X.topgrp.thm:restricted-product-second-countable}
+\end{lemma}
+\begin{tfformal}{X.topgrp.lem:restricted-product-second-countable-instance}
+\tfsem{X.topgrp.lem:restricted-product-second-countable-instance}{8627c98e049558e863e3061d65eb868693a6788c51789e7841862a710501d223}
+\tfhyps{X.topgrp.lem:restricted-product-second-countable-instance}{}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{1}{51c6bf8e}{the assumption that the index set $\iota$ is countable}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{2}{ce532c75}{the family of types $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{3}{b85b1d8c}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{4}{a461e99c}{the assumption that every $X_i$ is second countable}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{5}{c136b664}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-second-countable-instance}{6}{cdfeedc8}{the assumption that every $A_i$ is open (as a typeclass assumption)}
+\begin{tffidelity}
+B-only. Instance form of \cref{X.topgrp.thm:restricted-product-second-countable}: the openness of the $A_i$ is a \texttt{Fact (∀ i, IsOpen (A i))} instance binder instead of an explicit argument.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\cref{X.topgrp.thm:restricted-product-second-countable} with the openness hypothesis taken from the \texttt{Fact} (\texttt{hA.out}).
+\end{proof}
+
+\begin{definition}[the Borel $\sigma$-algebra of a restricted product]
+\tfstmt{X.topgrp.def:restricted-product-measurable-space}
+\bonly
+\lean{GL2TF.resProd_measurableSpace}
+\end{definition}
+\begin{tfformal}{X.topgrp.def:restricted-product-measurable-space}
+\tfsem{X.topgrp.def:restricted-product-measurable-space}{571b148121198b02b2a9eff7e810bbef8354c7e9083259ae15843a89698f7ff4}
+\tfhyps{X.topgrp.def:restricted-product-measurable-space}{}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{1}{f9101264}{the family of types $X_i$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{2}{f12aabfe}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{3}{ab247d6b}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.def:restricted-product-measurable-space}{4}{345f9cfa}{the filter on the index set $\iota$ defining the restricted product}
+\begin{tffidelity}
+B-only. The Borel $\sigma$-algebra (\texttt{borel}) on Mathlib's \texttt{RestrictedProduct} for an arbitrary filter $\mathcal F$ on the index set; all $X_i$ carry topologies.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the $\sigma$-algebra of a restricted product is Borel]
+\tfstmt{X.topgrp.lem:restricted-product-borel-space}
+\bonly
+\lean{GL2TF.resProd_borelSpace}
+\uses{X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{X.topgrp.lem:restricted-product-borel-space}
+\tfsem{X.topgrp.lem:restricted-product-borel-space}{bf8516381f2ff455f033d1715007b225a21f2e0fc02c634bff9110ceb1b7845c}
+\tfhyps{X.topgrp.lem:restricted-product-borel-space}{}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{1}{f9101264}{the family of types $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{2}{f12aabfe}{the topologies of the $X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{3}{ab247d6b}{the family of subsets $A_i\subseteq X_i$}
+\tfbinder{X.topgrp.lem:restricted-product-borel-space}{4}{345f9cfa}{the filter on the index set $\iota$ defining the restricted product}
+\begin{tffidelity}
+B-only. The instance \texttt{BorelSpace} for the $\sigma$-algebra of \cref{X.topgrp.def:restricted-product-measurable-space}, for every filter.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By definition (\texttt{resProd\_measurableSpace}) the $\sigma$-algebra on the restricted product is \texttt{borel}, so the claim holds by \texttt{rfl}.
+\end{proof}
+
+\begin{lemma}[the box is compact]
+\tfstmt{X.haar.lem:restricted-product-box-compact}
+\bonly
+\lean{GL2TF.resProd_box_isCompact}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-box-compact}
+\tfsem{X.haar.lem:restricted-product-box-compact}{dfc8008ef99648773daa84f727fc6f85178c61f464a0b4a7654dabe17fbcae7f}
+\tfhyps{X.haar.lem:restricted-product-box-compact}{}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-compact}{5}{13df567e}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. The box $\{x:\forall i,\ x_i\in K_i\}$ is compact if each $K_i$ is compact (instance binders).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The box $\{x:\forall i,\ x_i\in K_i\}$ is the range of the structure map $\prod_iK_i\to\prod'_i[G_i,K_i]$ (\texttt{range\_structureMap}); the source is compact (Tychonoff) and the structure map is continuous (\texttt{isEmbedding\_structureMap}), so \texttt{isCompact\_range} applies.
+\end{proof}
+
+\begin{lemma}[the box is open]
+\tfstmt{X.haar.lem:restricted-product-box-open}
+\bonly
+\lean{GL2TF.resProd_box_isOpen}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-box-open}
+\tfsem{X.haar.lem:restricted-product-box-open}{245d55406e33d31edb0520dd1a52577a906013dc45985beca5c62d3afdc94f14}
+\tfhyps{X.haar.lem:restricted-product-box-open}{}
+\tfbinder{X.haar.lem:restricted-product-box-open}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-open}{5}{4c3d9d04}{the assumption that every $K_i$ is open}
+\begin{tffidelity}
+B-only. The box is open if each $K_i$ is open (explicit argument \texttt{hK}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{RestrictedProduct.isOpen\_forall\_mem} applied to the open subgroups $K_i$.
+\end{proof}
+
+\begin{lemma}[the box has non-empty interior]
+\tfstmt{X.haar.lem:restricted-product-box-interior-nonempty}
+\bonly
+\lean{GL2TF.resProd_box_interior_nonempty}
+\uses{X.haar.lem:restricted-product-box-open}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-box-interior-nonempty}
+\tfsem{X.haar.lem:restricted-product-box-interior-nonempty}{23d8ccdff287d8f234e96e7a05652ef7f439ffafbdebc8dc60e76fa366973fad}
+\tfhyps{X.haar.lem:restricted-product-box-interior-nonempty}{}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-box-interior-nonempty}{5}{4c3d9d04}{the assumption that every $K_i$ is open}
+\begin{tffidelity}
+B-only. The box has non-empty interior if each $K_i$ is open.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \cref{X.haar.lem:restricted-product-box-open} the box is open, hence equals its interior, which contains $1$.
+\end{proof}
+
+\begin{definition}[the box as a positive compact set]
+\tfstmt{X.haar.def:restricted-product-box}
+\bonly
+\lean{GL2TF.resProdBox}
+\uses{X.haar.lem:restricted-product-box-compact, X.haar.lem:restricted-product-box-interior-nonempty}
+\end{definition}
+\begin{tfformal}{X.haar.def:restricted-product-box}
+\tfsem{X.haar.def:restricted-product-box}{9ea000a9743c7b6eb0308c4f3b7332bd3a9100bf905b79d5da9923d371cf1bb9}
+\tfhyps{X.haar.def:restricted-product-box}{}
+\tfbinder{X.haar.def:restricted-product-box}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.def:restricted-product-box}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{4}{d41e3e69}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.def:restricted-product-box}{5}{4c3d9d04}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.def:restricted-product-box}{6}{308af00e}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. The box as an element of Mathlib's \texttt{PositiveCompacts} (a compact set with non-empty interior) of the restricted product, built from \cref{X.haar.lem:restricted-product-box-compact} and \cref{X.haar.lem:restricted-product-box-interior-nonempty}; used to normalize Haar measure in \cref{X.haar.def:restricted-product-measure}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the restricted-product measure is a Haar measure]
+\tfstmt{X.haar.lem:restricted-product-measure-is-haar}
+\bonly
+\lean{GL2TF.resProdMeasure_isHaarMeasure_box}
+\uses{X.haar.def:restricted-product-measure, X.topgrp.def:restricted-product-measurable-space, X.haar.def:restricted-product-box, X.topgrp.lem:restricted-product-borel-space}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-measure-is-haar}
+\tfsem{X.haar.lem:restricted-product-measure-is-haar}{20d98bc7487aaf64bf7ce682949a224a048df86f0ca5bbd097192b3a6308a92b}
+\tfhyps{X.haar.lem:restricted-product-measure-is-haar}{}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{2}{0daf67e1}{the group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{4}{1f0b91a8}{the assumption that the index set $\iota$ is countable}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{5}{ed98e6ba}{the assumption that every $G_i$ is a topological group}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{6}{7cd2898a}{the assumption that every $G_i$ is Hausdorff}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{7}{017de849}{the assumption that every $G_i$ is second countable}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{9}{7c175c79}{the assumption that every $G_i$ carries its Borel $\sigma$-algebra}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{10}{9903f214}{the family of subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{11}{f12a1dd5}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{12}{e2128827}{the assumption that every $K_i$ is compact}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{13}{ee1f1603}{the family of measures $\mu_i$ on $G_i$}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{14}{5eba577a}{the assumption that every $\mu_i$ is a Haar measure}
+\tfbinder{X.haar.lem:restricted-product-measure-is-haar}{15}{465ada4d}{the assumption that $\mu_i(K_i)=1$ for all but finitely many $i$}
+\begin{tffidelity}
+B-only. The first claim of \cref{X.haar.def:restricted-product-measure}: with the hypotheses of \cref{X.haar.thm:restricted-product-measure-unique} (countable index set, Hausdorff second countable topological groups with Borel $\sigma$-algebra, compact open $K_i$, Haar $\mu_i$, \texttt{hμK}), \texttt{resProdMeasure K hK μ} is a Haar measure and its value on the box is $\prod^{\mathrm f}_i\mu_i(K_i)$ (\texttt{finprod}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By definition (\cref{X.haar.def:restricted-product-measure}) $\bigotimes'\mu_i=c\cdot\nu_{\mathrm{box}}$ with $c=\prod^{\mathrm f}_i\mu_i(K_i)$ and $\nu_{\mathrm{box}}$ the Haar measure of the restricted product normalized to give the compact open box $\prod K_i$ the value $1$ (\texttt{haarMeasure\_self}; box compact and with non-empty interior by \cref{X.haar.lem:restricted-product-box-compact}, \cref{X.haar.lem:restricted-product-box-interior-nonempty}). The constant $c$ is neither $0$ nor $\infty$ (\texttt{finprod\_ne\_zero\_ne\_top}), since each $\mu_i(K_i)$ is positive ($K_i$ open non-empty) and finite ($K_i$ compact). A finite nonzero multiple of a Haar measure is a Haar measure (\texttt{IsHaarMeasure.smul}), and its value on the box is $c\cdot1=c$.
+\end{proof}
+
+\begin{definition}[the box (additive groups)]
+\tfstmt{X.haar.def:restricted-product-add-box}
+\bonly
+\lean{GL2TF.resProdAddBox}
+\uses{X.haar.lem:restricted-product-add-box-compact, X.haar.lem:restricted-product-add-box-interior-nonempty}
+\end{definition}
+\begin{tfformal}{X.haar.def:restricted-product-add-box}
+\tfsem{X.haar.def:restricted-product-add-box}{7d2ed0342ef7e02c4590e1552ce554b19c60f2577b00ce797b5f6b23049752f7}
+\tfhyps{X.haar.def:restricted-product-add-box}{}
+\tfbinder{X.haar.def:restricted-product-add-box}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.def:restricted-product-add-box}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{4}{34121211}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.def:restricted-product-add-box}{5}{c34c8e16}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.def:restricted-product-add-box}{6}{a31e7aaa}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The box as a \texttt{PositiveCompacts} of the additive restricted product.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the box is compact (additive groups)]
+\tfstmt{X.haar.lem:restricted-product-add-box-compact}
+\bonly
+\lean{GL2TF.resProdAdd_box_isCompact}
+\uses{X.haar.lem:restricted-product-box-compact}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-add-box-compact}
+\tfsem{X.haar.lem:restricted-product-add-box-compact}{b4bcbb3aa5605fe7e8f0c49c9fa38d81cfa54bbd4f7ffff2309fd30aeae0019e}
+\tfhyps{X.haar.lem:restricted-product-add-box-compact}{}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{4}{34121211}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-compact}{5}{a32f57c2}{the assumption that every $K_i$ is compact}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The box is compact if each $K_i$ is.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.lem:restricted-product-box-compact}: same proof (range of the structure map, \texttt{isCompact\_range}).
+\end{proof}
+
+\begin{lemma}[the box has non-empty interior (additive groups)]
+\tfstmt{X.haar.lem:restricted-product-add-box-interior-nonempty}
+\bonly
+\lean{GL2TF.resProdAdd_box_interior_nonempty}
+\uses{X.haar.lem:restricted-product-box-interior-nonempty}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-add-box-interior-nonempty}
+\tfsem{X.haar.lem:restricted-product-add-box-interior-nonempty}{4472201c411e0aa5f5d64aae1d1759da8b6749e07c0c4782a281e3109a7c15d7}
+\tfhyps{X.haar.lem:restricted-product-add-box-interior-nonempty}{}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{4}{34121211}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-box-interior-nonempty}{5}{c34c8e16}{the assumption that every $K_i$ is open}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The box has non-empty interior if each $K_i$ is open.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.lem:restricted-product-box-interior-nonempty}: the box is open (\texttt{isOpen\_forall\_mem}) and contains $0$.
+\end{proof}
+
+\begin{definition}[the restricted-product measure (additive groups)]
+\tfstmt{X.haar.def:restricted-product-add-measure}
+\bonly
+\lean{GL2TF.resProdAddMeasure}
+\uses{X.haar.def:restricted-product-measure, X.haar.def:restricted-product-add-box, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{X.haar.def:restricted-product-add-measure}
+\tfsem{X.haar.def:restricted-product-add-measure}{579ac1aadce2b08f25ac62cb63b04729900dfc9363bca77a89ba62d9adce0734}
+\tfhyps{X.haar.def:restricted-product-add-measure}{}
+\tfbinder{X.haar.def:restricted-product-add-measure}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.def:restricted-product-add-measure}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-measure}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-measure}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-measure}{4}{df4774f8}{the assumption that every $G_i$ is a topological additive group}
+\tfbinder{X.haar.def:restricted-product-add-measure}{5}{491c2328}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.def:restricted-product-add-measure}{6}{86803d3c}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.def:restricted-product-add-measure}{7}{9beb254a}{the assumption that every $K_i$ is compact}
+\tfbinder{X.haar.def:restricted-product-add-measure}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.def:restricted-product-add-measure}{9}{180dfbd7}{the family of measures $\mu_i$ on $G_i$}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. \texttt{resProdAddMeasure K hK μ} takes the same arguments as \texttt{resProdMeasure} and, as there, no Haar, countability or normalization hypothesis; it is the additive Haar measure normalized on the box and scaled by $\prod^{\mathrm f}_i\mu_i(K_i)$. The items 89--92 of the plan are stated in A once for multiplicative and additive groups (``the same definition applies verbatim to additive groups''); Lean has the two copies, and only the multiplicative ones are shared with A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the additive restricted-product measure is a Haar measure]
+\tfstmt{X.haar.lem:restricted-product-add-measure-is-haar}
+\bonly
+\lean{GL2TF.resProdAddMeasure_isAddHaarMeasure_box}
+\uses{X.haar.lem:restricted-product-measure-is-haar, X.haar.def:restricted-product-add-measure, X.topgrp.def:restricted-product-measurable-space, X.haar.def:restricted-product-add-box, X.topgrp.lem:restricted-product-borel-space}
+\end{lemma}
+\begin{tfformal}{X.haar.lem:restricted-product-add-measure-is-haar}
+\tfsem{X.haar.lem:restricted-product-add-measure-is-haar}{ab84fc8fa242035e469ee113b653fdc0af76f03e9707829a75fd0bbe1a4a58bb}
+\tfhyps{X.haar.lem:restricted-product-add-measure-is-haar}{}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{4}{1f0b91a8}{the assumption that the index set $\iota$ is countable}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{5}{2dabd651}{the assumption that every $G_i$ is a topological additive group}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{6}{7cd2898a}{the assumption that every $G_i$ is Hausdorff}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{7}{017de849}{the assumption that every $G_i$ is second countable}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{9}{7c175c79}{the assumption that every $G_i$ carries its Borel $\sigma$-algebra}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{10}{4adeb3db}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{11}{aed77132}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{12}{2b20621b}{the assumption that every $K_i$ is compact}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{13}{ee1f1603}{the family of measures $\mu_i$ on $G_i$}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{14}{fa1611e5}{the assumption that every $\mu_i$ is an additive Haar measure}
+\tfbinder{X.haar.lem:restricted-product-add-measure-is-haar}{15}{05caed3b}{the assumption that $\mu_i(K_i)=1$ for all but finitely many $i$}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The additive copy of \cref{X.haar.lem:restricted-product-measure-is-haar}: \texttt{resProdAddMeasure K hK μ} is an additive Haar measure with value $\prod^{\mathrm f}_i\mu_i(K_i)$ on the box.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.lem:restricted-product-measure-is-haar}, with the same proof (the file contains a verbatim additive duplicate with \texttt{AddSubgroup}, \texttt{addHaarMeasure}).
+\end{proof}
+
+\begin{theorem}[uniqueness (additive groups)]
+\tfstmt{X.haar.thm:restricted-product-add-measure-unique}
+\bonly
+\lean{GL2TF.resProdAddMeasure_unique}
+\uses{X.haar.thm:restricted-product-measure-unique, X.haar.def:restricted-product-add-measure, X.topgrp.def:restricted-product-measurable-space, X.haar.def:restricted-product-add-box, X.topgrp.lem:restricted-product-borel-space, X.topgrp.lem:restricted-product-second-countable-instance}
+\end{theorem}
+\begin{tfformal}{X.haar.thm:restricted-product-add-measure-unique}
+\tfsem{X.haar.thm:restricted-product-add-measure-unique}{1063a463c8388b4649187fa9bea2db28fed99da2338affacbd125ef3a7cdfe4a}
+\tfhyps{X.haar.thm:restricted-product-add-measure-unique}{}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{4}{1f0b91a8}{the assumption that the index set $\iota$ is countable}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{5}{2dabd651}{the assumption that every $G_i$ is a topological additive group}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{6}{7cd2898a}{the assumption that every $G_i$ is Hausdorff}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{7}{017de849}{the assumption that every $G_i$ is second countable}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{9}{7c175c79}{the assumption that every $G_i$ carries its Borel $\sigma$-algebra}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{10}{4adeb3db}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{11}{aed77132}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{12}{2b20621b}{the assumption that every $K_i$ is compact}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{13}{ee1f1603}{the family of measures $\mu_i$ on $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{14}{fa1611e5}{the assumption that every $\mu_i$ is an additive Haar measure}
+\tfbinder{X.haar.thm:restricted-product-add-measure-unique}{15}{05caed3b}{the assumption that $\mu_i(K_i)=1$ for all but finitely many $i$}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The additive copy of \cref{X.haar.thm:restricted-product-measure-unique}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.thm:restricted-product-measure-unique}: uniqueness of additive Haar measures (\texttt{isAddLeftInvariant\_eq\_smul}) and evaluation at the box.
+\end{proof}
+
+\begin{theorem}[factorization (additive groups)]
+\tfstmt{X.haar.thm:restricted-product-add-measure-factorization}
+\bonly
+\lean{GL2TF.resProdAddMeasure_factorization}
+\uses{X.haar.thm:restricted-product-measure-factorization, X.haar.def:restricted-product-add-measure, X.topgrp.def:restricted-product-measurable-space, X.haar.def:restricted-product-add-box, X.topgrp.lem:restricted-product-borel-space}
+\end{theorem}
+\begin{tfformal}{X.haar.thm:restricted-product-add-measure-factorization}
+\tfsem{X.haar.thm:restricted-product-add-measure-factorization}{715393596107c4c29908ebe7f613d42ef118b618e800f9038f9d73773d8ac195}
+\tfhyps{X.haar.thm:restricted-product-add-measure-factorization}{}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{0}{fe5aea28}{the index type $\iota$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{1}{409fa184}{the family of groups' underlying types $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{2}{f47bd57f}{the additive group structures of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{3}{1646201c}{the topologies of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{4}{1f0b91a8}{the assumption that the index set $\iota$ is countable}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{5}{2dabd651}{the assumption that every $G_i$ is a topological additive group}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{6}{7cd2898a}{the assumption that every $G_i$ is Hausdorff}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{7}{017de849}{the assumption that every $G_i$ is second countable}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{8}{becedaf3}{the $\sigma$-algebras of the $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{9}{7c175c79}{the assumption that every $G_i$ carries its Borel $\sigma$-algebra}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{10}{4adeb3db}{the family of additive subgroups $K_i\le G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{11}{aed77132}{the assumption that every $K_i$ is open}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{12}{2b20621b}{the assumption that every $K_i$ is compact}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{13}{ee1f1603}{the family of measures $\mu_i$ on $G_i$}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{14}{fa1611e5}{the assumption that every $\mu_i$ is an additive Haar measure}
+\tfbinder{X.haar.thm:restricted-product-add-measure-factorization}{15}{05caed3b}{the assumption that $\mu_i(K_i)=1$ for all but finitely many $i$}
+\begin{tffidelity}
+B-only. Additive transcription of items 89--92 (\cref{X.haar.def:restricted-product-measure} and its theorems): a hand-written copy of the multiplicative declaration (not generated by \texttt{to\_additive}) for \texttt{AddGroup}, \texttt{AddSubgroup}, \texttt{IsTopologicalAddGroup} and \texttt{IsAddHaarMeasure}. The additive copy of \cref{X.haar.thm:restricted-product-measure-factorization}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additive copy of \cref{X.haar.thm:restricted-product-measure-factorization}, with the same proof.
+\end{proof}
+
+\begin{definition}[the measure $\bigotimes'_p\mu_p$ on $G(\Af)$]
+\tfstmt{I.haar.def:haar-fin-adelic}
+\bonly
+\lean{GL2TF.haarFinAdelic}
+\uses{X.haar.def:restricted-product-measure, I.topgrp.def:gl2-fin-to-restricted-product, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.lf.def:padic-measurable-space, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.haar.def:haar-fin-adelic}
+\tfsem{I.haar.def:haar-fin-adelic}{5df854c3409f8356d52ff86cab98eba971a08997df3de43120e4b48fbe35eb37}
+\tfhyps{I.haar.def:haar-fin-adelic}{}
+\tfbinder{I.haar.def:haar-fin-adelic}{0}{217a8dc6}{the family of measures $\mu_p$ on $\GL_2(\Qp)$}
+\begin{tffidelity}
+B-only. The measure $\dd g_f=\bigotimes'_p\mu_p$ on \texttt{GL (Fin 2) FinAdele}: the comap (the transported measure because the map is injective with measurable images, resting on \cref{I.haar.lem:gl2-adelic-borel}) along \cref{I.topgrp.def:gl2-fin-to-restricted-product} of \texttt{resProdMeasure} for the family $K_p=\GL_2(\Zp)$ and the given measures $\mu_p$. No hypotheses on the $\mu_p$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[properties of the adelic Haar measures]
+\tfstmt{I.haar.lem:haar-adelic-spec}
+\bonly
+\lean{GL2TF.haarAdelic_spec}
+\uses{I.haar.def:haar-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-local, I.haar.def:haar-fin-adelic, I.lf.def:padic-measurable-space, I.topgrp.def:max-compact-fin-adelic, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.conv.def:gl2, I.conv.def:max-compact-real, I.conv.lem:max-compact-local-mem, I.haar.lem:gl2-adelic-borel, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-real-borel-instance, I.haar.lem:gl2-real-locally-compact-instance, I.haar.lem:gl2-real-second-countable-instance, I.haar.lem:max-compact-local-compact-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.lem:padic-borel-space, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:finite-adelic-component-place, I.topgrp.def:gl2-fin-to-restricted-product, I.topgrp.def:max-compact-adelic, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:max-compact-adelic-compact, I.topgrp.thm:max-compact-local-compact-open, X.haar.def:restricted-product-measure, X.haar.lem:restricted-product-measure-is-haar, X.topgrp.lem:restricted-product-borel-space, I.topgrp.def:gl2-product-equiv, II.simple.def:fin-restricted-equiv, II.simple.def:fin-to-restricted-hom}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:haar-adelic-spec}
+\tfsem{I.haar.lem:haar-adelic-spec}{9f8f9fe984e5ea093a0c9bacdc638cedd0541110f3759b0b9702d9e885256895}
+\tfhyps{I.haar.lem:haar-adelic-spec}{}
+\tfbinder{I.haar.lem:haar-adelic-spec}{0}{e53c3de5}{the measure $\mu_\infty$ on $\GL_2(\R)$}
+\tfbinder{I.haar.lem:haar-adelic-spec}{1}{f009c77e}{the assumption that $\mu_\infty$ is a Haar measure}
+\tfbinder{I.haar.lem:haar-adelic-spec}{2}{0ecf674f}{the family of measures $\mu_p$ on $\GL_2(\Qp)$}
+\tfbinder{I.haar.lem:haar-adelic-spec}{3}{9f23b028}{the assumption that every $\mu_p$ is a Haar measure}
+\tfbinder{I.haar.lem:haar-adelic-spec}{4}{0a309bfc}{the assumption that $\mu_p(K_p)=1$ for all but finitely many primes $p$}
+\begin{tffidelity}
+B-only. The claims of \cref{I.haar.def:haar-adelic}: for Haar measures $\mu_\infty$, $\mu_p$ with $\mu_p(K_p)=1$ for almost all $p$ (binders), \texttt{haarFinAdelic μ} and \texttt{haarAdelic μInf μ} are Haar measures, and \texttt{haarFinAdelic μ ↑maxCompactFin} equals the \texttt{finprod} $\prod^{\mathrm f}_p\mu_p(K_p)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{$dg_f$ is Haar:} $G(\A_f)\cong\prod'_p(\GL_2(\Qp),K_p)$ (\cref{I.topgrp.thm:gl2-adelic-restricted-product}), a homeomorphism, so the restricted-product measure \cref{X.haar.lem:restricted-product-measure-is-haar} pulls back to a Haar measure (comap along an open embedding, \texttt{IsHaarMeasure.comap}). The box is $K_f$, with value $\prod^{\mathrm f}_p\mu_p(K_p)$ (\texttt{himg}, \texttt{hRbox}). \emph{$dg$ is Haar:} the comap of $\mu_\infty\otimes dg_f$ along the isomorphism $G(\A)\cong\GL_2(\R)\times G(\A_f)$, $g\mapsto(g_\infty,g_f)$ (\texttt{glProdEquiv}, open embedding).
+\end{proof}
+
+\begin{definition}[a real number as a unit]
+\tfstmt{I.haar.def:real-unit-of}
+\bonly
+\lean{GL2TF.realUnitOf}
+\end{definition}
+\begin{tfformal}{I.haar.def:real-unit-of}
+\tfsem{I.haar.def:real-unit-of}{1866a4fbba69903154d7d7369024e5e937d539047dafe66d3edfc41b250c047c}
+\tfhyps{I.haar.def:real-unit-of}{}
+\tfbinder{I.haar.def:real-unit-of}{0}{dc6ede6d}{the real number $r$}
+\begin{tffidelity}
+B-only. The function $\R\to\R^\times$ with $r\mapsto r$ for $r\neq0$ and the junk value $1$ for $r=0$ (defined by a case distinction with classical decidability).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[normalization to $G(\A)^1$]
+\tfstmt{I.haar.def:norm-one-normalization}
+\bonly
+\lean{GL2TF.normOneNormalize}
+\uses{I.haar.def:real-unit-of, I.topgrp.def:central-element, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.haar.def:norm-one-normalization}
+\tfsem{I.haar.def:norm-one-normalization}{2f85ec5d26df099407bbfba10b69dccb556001bb7fd4b86d1442a4cdb097531e}
+\tfhyps{I.haar.def:norm-one-normalization}{}
+\tfbinder{I.haar.def:norm-one-normalization}{0}{a2aaccd5}{the element $g\in G(\A)$}
+\begin{tffidelity}
+B-only. The map $g\mapsto a(u)^{-1}g$ with $u=\texttt{realUnitOf}(\sqrt{\abs{\det g}_\A})$; for $\det g$ an idele the square root is positive, so $u$ is the positive real number $\abs{\det g}_\A^{1/2}$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[properties of the measure on $G(\A)^1$]
+\tfstmt{I.haar.lem:haar-norm-one-spec}
+\bonly
+\lean{GL2TF.haarNormOne_spec}
+\uses{I.haar.def:haar-norm-one, I.topgrp.thm:norm-one-splitting, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:real-units-haar, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:diag-element, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.thm:abs-padic-eq, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:gl2-adelic, I.topgrp.lem:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:haar-norm-one-spec}
+\tfsem{I.haar.lem:haar-norm-one-spec}{c76998df11220b8c0ee1e2f1beffdca42a3f1229a361277d9851c09d369ac7ac}
+\tfhyps{I.haar.lem:haar-norm-one-spec}{}
+\tfbinder{I.haar.lem:haar-norm-one-spec}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.haar.lem:haar-norm-one-spec}{1}{c626ff1c}{the assumption that $\mu$ is a Haar measure}
+\begin{tffidelity}
+B-only. The claims of \cref{I.haar.def:haar-norm-one} for a Haar measure $\mu$ on $G(\A)$: the formula for $\mu^1(E)$ for measurable $E\subseteq G(\A)^1$ (the set $\{a(r)g\}$ with $r\in\R^\times$, $1\le r<e$ and $g\in E$); \texttt{IsHaarMeasure}; and, for every continuous group isomorphism $e\colon\AGplus\times G(\A)^1\to G(\A)$ with $e(a,g)=ag$, $\mu$ is the image under $e$ of the product of the image of $\dd r/r$ on $\R_{>0}$ (transported to $\AGplus$ along $r\mapsto a(r)$) and $\mu^1$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The proof of the formula for $\mu^1(E)$ (\texttt{haarNormOne\_apply}) unfolds the comap along the closed (hence measurable) embedding $G(\A)^1\hookrightarrow G(\A)$ and the push-forward along \texttt{normOneNormalize}$(g)=a(\sqrt{\abs{\det g}_\A})^{-1}g$; the preimage of $E$ is $\{x:1\le\sqrt{\abs{\det x}_\A}<e,\ a(\sqrt{\abs{\det x}_\A})^{-1}x\in E\}=\{a(r)g:1\le r<e,g\in E\}$, because $\sqrt{\abs{\det(a(r)g)}_\A}=r$ for $g$ of norm one. The Haar property and the product decomposition (\texttt{normOne\_product}) follow a different route from A (divergence recorded in \texttt{docs/notes/M3-divergences.md}), with no $\pi$-system argument. Take the isomorphism $e\colon A_G^+\times G(\A)^1\simeq G(\A)$, $(a,g)\mapsto ag$ of \cref{I.topgrp.thm:norm-one-splitting} and a Haar measure $\nu_1$ of the locally compact second countable group $G(\A)^1$. The pull-back $\mu'=e^{-1}_*\mu$ is a Haar measure of $A_G^+\times G(\A)^1$, and so is $\rho\otimes\nu_1$ with $\rho$ the image of $\dd r/r$ on $\R_{>0}$ (the restriction of $\dd x/\abs x$ to the open subgroup $\R_{>0}$ is a Haar measure of that subgroup). By uniqueness of Haar measure (\texttt{isMulLeftInvariant\_eq\_smul}) $\mu'=c\,(\rho\otimes\nu_1)$ with $c\ne0$ finite. Evaluating on the box $\{a(r):1\le r<e\}\times E$ (which has $\rho$-measure $\int_1^e\dd r/r=1$) and using the formula for $\mu^1(E)$ gives $\mu^1(E)=c\,\nu_1(E)$ for all measurable $E$, so $\mu^1=c\,\nu_1$ is a Haar measure, and then $\mu'=\rho\otimes\mu^1$, i.e.\ $\mu=e_*(\dd r/r\otimes\mu^1)$.
+\end{proof}
+
+\begin{lemma}[Borel structures on $G(\Af)$ and $G(\A)$]
+\tfstmt{I.haar.lem:gl2-adelic-borel}
+\bonly
+\lean{GL2TF.gl2Adelic_borelSpace}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.lem:finadele-second-countable-instance, I.adele.lem:finadele-topological-ring-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.thm:gl2-adelic-locally-compact, X.topgrp.lem:matrix-borel-space, X.topgrp.lem:restricted-product-borel-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-adelic-borel}
+\tfsem{I.haar.lem:gl2-adelic-borel}{40e9223427b8908c2bdde564e3b32742ef854122282624b91e23dee51ab9e422}
+\tfhyps{I.haar.lem:gl2-adelic-borel}{}
+\begin{tffidelity}
+B-only. The $\sigma$-algebras of \texttt{GL (Fin 2) FinAdele} and \texttt{GL (Fin 2) Adele} (comap along \texttt{Units.val} to matrices) are the Borel $\sigma$-algebras of the units topologies; used to define the Haar measures on these groups.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Both $G(\A_f)$ and $G(\A)$ are locally compact and second countable (\cref{I.topgrp.thm:gl2-adelic-locally-compact}) and the matrix rings $M_2(\A_f)$, $M_2(\A)$ are second countable, with Borel $\sigma$-algebras (\cref{X.topgrp.lem:matrix-borel-space}). Lusin--Souslin (\texttt{gl2\_borelSpace\_of\_polish}): the group $\GL_2$ is Polish (a locally compact second countable Hausdorff group is completely metrizable for the right uniformity, \texttt{polishSpace\_of\_group}); the injective continuous map $\texttt{Units.val}\colon\GL_2\to M_2$ then maps Borel sets of $\GL_2$ to Borel sets of $M_2$ (\texttt{image\_of\_continuousOn\_injOn}), which shows that the comap $\sigma$-algebra contains the Borel sets; the other inclusion is continuity of \texttt{Units.val}.
+\end{proof}
+
+\begin{lemma}[the $\sigma$-algebra of $G(\A)$ is Borel]
+\tfstmt{I.haar.lem:gl2-adelic-borel-instance}
+\bonly
+\lean{GL2TF.gl2Adele_borelSpace}
+\uses{I.haar.lem:gl2-adelic-borel, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-adelic-borel-instance}
+\tfsem{I.haar.lem:gl2-adelic-borel-instance}{05a4982f34e7f6cea767cff6e036c9644b1539fe8515aa7485947d344dcd6859}
+\tfhyps{I.haar.lem:gl2-adelic-borel-instance}{}
+\begin{tffidelity}
+B-only. The second component of \cref{I.haar.lem:gl2-adelic-borel} as an instance: \texttt{BorelSpace (GL (Fin 2) Adele)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The second component of \cref{I.haar.lem:gl2-adelic-borel}.
+\end{proof}
+
+\begin{lemma}[the $\sigma$-algebra of $G(\Af)$ is Borel]
+\tfstmt{I.haar.lem:gl2-fin-adelic-borel-instance}
+\bonly
+\lean{GL2TF.gl2FinAdele_borelSpace}
+\uses{I.haar.lem:gl2-adelic-borel, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.haar.lem:gl2-fin-adelic-borel-instance}
+\tfsem{I.haar.lem:gl2-fin-adelic-borel-instance}{814bae995d790316caeb60f2b3fa9881d59f83da49bbb9c5d1c9681a280e2fcc}
+\tfhyps{I.haar.lem:gl2-fin-adelic-borel-instance}{}
+\begin{tffidelity}
+B-only. The first component of \cref{I.haar.lem:gl2-adelic-borel} as an instance: \texttt{BorelSpace (GL (Fin 2) FinAdele)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first component of \cref{I.haar.lem:gl2-adelic-borel}.
+\end{proof}
+
+\section{Integration formulas}
+\begin{theorem}[integration over the big cell]
+\tfstmt{I.haar.thm:big-cell-integration}
+\lean{GL2TF.big_cell_integration}
+\uses{I.adele.def:real-units-haar, I.conv.def:diag-element, I.conv.def:unipotent, I.conv.def:weyl-element, I.haar.def:det-density-measure, I.haar.def:haar-real, I.haar.def:matrix-additive-haar, I.haar.def:matrix-lebesgue, I.haar.lem:matrix-integers-compact, I.haar.lem:matrix-integers-interior-nonempty, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, X.topgrp.def:matrix-measurable-space, X.topgrp.lem:matrix-borel-space}
+\end{theorem}
+\begin{tfformal}{I.haar.thm:big-cell-integration}
+\tfsem{I.haar.thm:big-cell-integration}{5721ad1ad1aced36ccb5e23024b4c3302c1b1af0324fd64ea7b003faa672cef6}
+\tfhyps{I.haar.thm:big-cell-integration}{}
+\begin{tffidelity}
+One Lean theorem, the conjunction of the case $F=\R$ and the case of every non-archimedean local field $F$ (\texttt{Local.IsNALF F}, $F$ in an arbitrary universe \texttt{u}, with its topology, Borel structure and valuation); no binders. Each case has the $[0,\infty]$ form (\texttt{Measurable f}, \texttt{ENNReal}-valued, \texttt{lintegral}) and the integrable $\C$-valued form (\texttt{Integrable f}, Bochner integral, the real weight acting by \texttt{•}, as in \cref{I.haar.thm:iwasawa-integration-local}).
+The measure $\abs{\det g}_F^{-2}\,\dd X$ on $\GL_2(F)$ is \texttt{haarReal} for $F=\R$ (whose body is that density over \texttt{matLebesgue}) and \texttt{Local.detDensityHaar F} otherwise. The measure $\dd a/\abs a_F$ is \texttt{realUnitsHaar} for $\R$, and for general $F$ written inline as \texttt{(normAddHaar F).withDensity $\abs a^{-1}$} pulled back along \texttt{Units.val}; $\dd x$, $\dd y$ are \texttt{Local.normAddHaar F} (Lebesgue for $\R$ is the same measure by normalization). The Jacobian $\abs{a_1/a_2}^{-1}$ is \texttt{ENNReal.ofReal (|a₁/a₂|)⁻¹} resp.\ the real scalar $\abs{a_1/a_2}^{-1}$ acting by \texttt{•}. The order of integration is innermost $a_1$, then $a_2$, $x$, $y$, matching $\dd a_1\,\dd a_2\,\dd x\,\dd y$ of A (the Lean order reads outermost-last, i.e.\ \texttt{∫ y ∫ x ∫ a₂ ∫ a₁}). The element is $n(x)\,\texttt{diagElt}(a_1,a_2)\,w\,n(y)$ with \texttt{upperRightHom} for $n$ and \texttt{weylElement F} for $w$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{BigCellAux} in \texttt{HaarBigCell.lean} proves A's computation once for a field $K$ with an additive measure $\nu$, a multiplicative $N\colon K\to\R$ and the scaling law $\int g(ax)\,d\nu=N(a)^{-1}\int g\,d\nu$ (\texttt{scale\_rev}). The core (\texttt{inner\_three}, \texttt{outer}, \texttt{core}) substitutes $b=a_1+ad/c$, $a=cx$, $d=cy$, $c=-a_2$ in the iterated integral over $(a,b,c,d)$ (\texttt{bcMat}, \texttt{pt}); this is done in $[0,\infty]$ with Tonelli, so no integrability is needed. The identification of $dX$ with $\nu^4$ is by uniqueness of Haar measure (\texttt{mat\_haar\_eq}, \texttt{bcEquiv}). The restriction from $M_2(K)$ to the open set $\GL_2(K)$ and the density $|\det g|_K^{-2}$ are \texttt{gl\_side}, \texttt{units\_side}, \texttt{lintegral\_units}; they give the measure identity \texttt{meas\_eq} between the pull-back of $\nu^2\otimes(\text{units measure})^2$ along $(x,a_1,a_2,y)\mapsto n(x)\operatorname{diag}(a_1,a_2)wn(y)$ and $|\det g|_K^{-2}dX$ (\texttt{bigcell\_val} computes the matrix). The $[0,\infty]$ form is \texttt{lint\_gen}, the Bochner form \texttt{int\_gen} (from \texttt{meas\_eq}, using that the parametrization is a measurable embedding on its image of full measure; the complement $\{c=0\}$ is null by \texttt{nalf\_singleton} resp.\ Lebesgue). The two instances are \texttt{big\_cell\_real} ($\nu=dx$, $N=|\cdot|$, \texttt{matLebesgue\_eq\_prod}) and \texttt{big\_cell\_nalf} ($\nu=dx_F$, $N=|\cdot|_F$, \texttt{matAddHaar\_eq\_prod}); the theorem is their conjunction. Divergence from A: none in the route; the generic-field packaging is Lean only (nothing recorded in \texttt{M8-divergences.md}).
+\end{proof}
+

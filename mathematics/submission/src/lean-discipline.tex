@@ -1,0 +1,77 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Lean section: hypothesis discipline and the final gate. Report body: anonymised (no person, machine or account names).
+% Numbers checked against mathematics/submission/generated/lean-table.json (tools/lean_table.py) and the gate logs.
+
+\begin{sloppypar}
+\paragraph{Hypothesis discipline.}
+Every input that we cite from the literature, or prove on paper but have not formalized, enters Lean as a
+\emph{registered hypothesis}: a \texttt{Prop}-valued definition \texttt{Langlandscape.Hyp.$\ast$} (one file per
+hypothesis in \pathtt{Langlandscape/Hyp/}), never an \texttt{axiom}, a \texttt{sorry} or a global instance. A theorem
+that needs such an input takes a proof of it as an \emph{explicit argument}, for example
+\texttt{(hSA : Hyp.SA d q hq)}. Two things follow. First, every audited theorem is sorry-free (the library itself contains no \texttt{sorry}) and depends only
+on the three standard axioms \texttt{propext}, \pathtt{Classical.choice}, \texttt{Quot.sound}, whatever it assumes;
+the assumptions are not hidden in the axiom list. Second, the \emph{type} of each theorem shows exactly which hypotheses
+it uses, so ``Lean-verified conditional on \texttt{Hyp.A}, \texttt{Hyp.B}'' in Table~L1 is read off the signature, not
+asserted by us. A conditional theorem is a proof of the implication ``hypotheses $\Rightarrow$ claim'', nothing more;
+a registered hypothesis that the chapters attribute to a cited theorem stays cited. The registry
+\pathtt{lean/Langlandscape/HYPOTHESES.md} lists 29 registered hypotheses (28 in \pathtt{Langlandscape.Hyp} and
+Eichler's mass formula \pathtt{GL2TF.Hyp.EichlerMass}, reused from the imported trace-formula project), each with its
+statement label, source, consumers, test instances and discharge plan. Three are \emph{discharged} in Lean:
+\pathtt{Hyp.PadicOrdDecomp} by \pathtt{Ordinary.padicOrdDecomp\_holds}, \pathtt{Hyp.RamNrdSurj} by
+\pathtt{Hyp.ramNrdSurj\_holds} and \pathtt{Hyp.BrandtStabFree} by \BSFdischargeName; the theorems that take them keep the explicit argument, and supplying the discharge lemma removes only that argument: each such theorem is then free of that registered hypothesis but keeps its other explicit hypotheses, such as the connectivity \pathtt{Tree.BGConnected} of the Brandt graph (for \texttt{PadicOrdDecomp} and \texttt{RamNrdSurj} the library also contains versions with the suffix \texttt{\_uncond}, in which the discharge lemma is plugged in and
+which likewise keep those hypotheses; see the corollaries paragraph below). Our status for such a theorem is: Lean-verified under the stated hypotheses
+(e.g.\ connectivity); registered hypotheses discharged. One is discharged \emph{conditionally}: \pathtt{Hyp.ResidualBurnside} follows from the
+absolute irreducibility of the residual representation (\pathtt{Hyp.residualBurnside\_of\_absIrred}). The other 25 are
+open. Of the \NumAuditedRows{} audited declarations, 52 theorems and 5 definitions take registered hypotheses as explicit arguments
+(24 of these theorems only the three discharged ones), and 28 are the hypotheses themselves; Table~L1 marks the latter
+``registered hypothesis'', since there the Lean object is the statement of the claim, not a proof of it. Some theorems
+in addition take non-registered premises of the claim itself as arguments (for example the connectivity
+\pathtt{Tree.BGConnected} of the quotient graph); Table~L1 records these under ``Difference''. Where the chapter's
+statement is about the actual Hecke algebras or Galois representations, the Lean statement is usually about abstract
+data satisfying the relevant axioms (for the defect formula an abstract \pathtt{Defect.Setting}); this too is recorded
+there.
+\end{sloppypar}
+
+\begin{sloppypar}
+\paragraph{The final gate.}
+The tables refer to the Lean tree \texttt{c70ef3a9} of the final gate (job bsf-gate-1, after the merge of the
+\pathtt{Hyp.BrandtStabFree} discharge), built on build machine A \emph{from scratch} in an unseeded worktree (4205 jobs, no errors;
+the vendored files 1955 jobs; the logs are in \pathtt{supplementary/gate-logs/bsf-gate-1/}). The previous gate, of the submission bundle (Lean tree \texttt{28d2b091}, gate commit
+\texttt{dc61af50}), passed on build machine A from scratch and on build machine B from a fresh checkout, 950/950.
+The audit file \pathtt{Audit/PrintAxioms.lean} runs \texttt{\#print axioms} on \NumAuditedRows{}
+declarations; all \GateAudited{} were printed, and none uses an axiom outside the standard triple: 929 use exactly
+\texttt{[propext, Classical.choice, Quot.sound]}, 23 a proper subset (19 \texttt{[propext, Quot.sound]}, 4
+\texttt{[propext]}; the same 23 lines as at the previous gates; the five new rows of the \pathtt{Hyp.BrandtStabFree} discharge are full triples), and 3 no axiom at all. In particular no audited declaration depends on \texttt{sorryAx}; this was
+checked by the generating script on every line of the gate's axiom log. The gate's forbidden-token grep over the project's sources
+(the tokens \texttt{sorry}, \texttt{admit}, a top-level \texttt{axiom}, \pathtt{native\_decide},
+\pathtt{implemented\_by}) returns no line. The build reports
+exactly one \texttt{sorry}, in the frozen imported file \pathtt{AlgJL/VolIII/P2/Instances.lean} (a worked example of
+the imported project, the theorem \pathtt{eichler\_mass\_instances\_small}); that module is imported only by our test
+library, not by the library \texttt{Langlandscape}, and since \texttt{sorryAx} occurs in no audited axiom list it is
+used by none of the \NumAuditedRows{} declarations. One further \texttt{sorry} of the import,
+\pathtt{hecke\_d11\_weight4} in \pathtt{AlgJL/VolIII/Brandt/BrandtInstances.lean}, is in a module that our project does not
+import, so it is not part of the build. At the previous final gate (\texttt{2323a252}, 840 audited declarations) the chapters
+cited 104 declarations that were not in the axiom audit; the submission bundle added 102 of them to
+\pathtt{Audit/PrintAxioms.lean}, so they are now audited (Tables~L1 and~L3). The 2 test-library declarations
+\pathtt{LanglandscapeTests.S04.Hyp.hsiehCR\_toy} and \pathtt{LanglandscapeTests.Hyp.S05.toyTate\_gal\_uncond} (toy instances of
+registered hypotheses) are not in the audit (Table~L2); they exist in the code and compile in the from-scratch build, are covered only
+by the \texttt{sorry} count and the forbidden-token grep, are not claimed as Lean-verified, and no claim of the report rests on them. Toolchain and Mathlib are pinned (Lean \texttt{v4.35.0}); Tables~L1--L3 are generated from
+the sources of this tree and the gate's axiom log by \pathtt{mathematics/submission/tools/lean\_table.py}.
+\end{sloppypar}
+
+\begin{sloppypar}
+\paragraph{Corollaries free of registered hypotheses.}
+For \texttt{PadicOrdDecomp} and \texttt{RamNrdSurj} the library contains \texttt{\_uncond} twins of their consumers, which plug the discharge
+lemma into the explicit argument; all are audited with the standard axioms (Table~L3). The 8 twins of the
+\pathtt{Hyp.RamNrdSurj} consumers in \texttt{Uncond.lean} (\texttt{Quat.nrdSurj\_\{Ohat,U0,U1,Utower\}\_uncond},
+\texttt{Tree.isQAdmissible\_\{Ohat,U0,U1,Utower\}\_uncond}; \texttt{lem:s01-nrd}, \texttt{def:s02-GU}) and the 18 twins of the
+\pathtt{Hyp.PadicOrdDecomp} consumers in \pathtt{Ordinary/TowerUncond.lean} (stage~04, e.g.\
+\pathtt{ordRibet\_exact\_Utower\_uncond}, \pathtt{ord\_control\_finite\_uncond}, \pathtt{lim\_exact\_ribet\_uncond}) are
+\emph{free of registered hypotheses, under the stated explicit hypotheses} (for the \texttt{RamNrdSurj} twins: none, the coprimality
+\texttt{hN}, resp.\ \texttt{hqN}; for the \texttt{PadicOrdDecomp} twins e.g.\ the connectivity \texttt{hc}/\texttt{hconn}, the
+surjectivity \texttt{hA} of the $A$-transitions in \pathtt{lim\_exact\_ribet\_uncond}, and the level conditions \texttt{hM}, \texttt{hpM},
+\texttt{hs}, \texttt{h5}). They are Lean-verified statements of exactly that form, no more: where an explicit hypothesis is itself the
+conclusion of an open registered hypothesis (\texttt{hA}, the conclusion of \pathtt{Hyp.InvLimExact}) or a premise of the claim
+(connectivity), the claim remains conditional on it.
+\end{sloppypar}

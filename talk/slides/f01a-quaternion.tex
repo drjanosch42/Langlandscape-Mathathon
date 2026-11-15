@@ -1,0 +1,23 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame A: quaternion algebras over Q, and what classical JL says (definite and indefinite).
+% Sources: mathematics/chapters/s00/setup.tex (ss:s00-algebra; def:s01-B, known, [Vo]); s00/scope.tex ("What is known":
+% JL Ch. III, sec. 14-16, Thm 16.1, cited; "What we treat": definite vs anisotropic/indefinite); s01/6-targets.tex thm:s01-JLclassical
+% (Brandt form at Gamma_0 level, k >= 2 even, trivial character; cited [JL], Eichler, Shimizu).
+% Speaker note (oral only; beamer notes are not enabled): B^x is an inner form of GL_2.
+\begin{frame}{Quaternion algebras over $\QQ$}
+  \small
+  \begin{itemize}\setlength{\itemsep}{4pt}
+    \item A quaternion algebra: $B=\QQ\langle i,j\rangle$ with $i^2=a$, $j^2=b$, $ij=-ji$ ($a,b\in\QQ^\times$); $4$-dimensional over $\QQ$.
+      Example: Hamilton's quaternions ($a=b=-1$).
+    \item At each prime and at $\infty$, $B$ is either \emph{split} (like $2\times2$ matrices) or not (\emph{ramified}).
+      The number of ramified places is even, and they classify $B$; $D$ is the product of the ramified primes \stattag{cited}.
+    \item \emph{Definite} $B$: ramified at $\infty$, i.e.\ ``like Hamilton's quaternions'' over $\mathbb R$.
+      Example: $a=b=-1$ over $\QQ$, ramified at $2$ and $\infty$.
+  \end{itemize}
+  \begin{block}{Jacquet--Langlands}
+    Automorphic forms on $B^\times$ correspond to those automorphic forms on $\GL_2$ that are ``special'' at the primes where $B$
+    ramifies, compatibly with Hecke operators. For definite $B$ these are functions on a finite set; for indefinite $B$, forms on a
+    Shimura curve. \reftag{Jacquet--Langlands 1970; Eichler, Shimizu}
+  \end{block}
+\end{frame}

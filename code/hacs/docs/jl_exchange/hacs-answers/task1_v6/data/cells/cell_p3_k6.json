@@ -1,0 +1,380 @@
+{
+ "p": 3,
+ "k": 6,
+ "n": 4,
+ "q_list": [
+  2,
+  5,
+  7,
+  11,
+  13
+ ],
+ "rank_H1_SL2Z": 1,
+ "check_X_equals_Tp_level1": true,
+ "check_Y_equals_p^-n_X": true,
+ "check_omega'_dg_p_equals_p+1": true,
+ "check_omega_dg_1_equals_p+1": true,
+ "charpoly_Tq_H1_SL2Z": {
+  "2": "x - 33",
+  "5": "x - 3126",
+  "7": "x - 16808",
+  "11": "x - 161052",
+  "13": "x - 371294",
+  "3": "x - 244"
+ },
+ "level1_T_matrices": {
+  "2": [
+   [
+    "33"
+   ]
+  ],
+  "5": [
+   [
+    "3126"
+   ]
+  ],
+  "7": [
+   [
+    "16808"
+   ]
+  ],
+  "11": [
+   [
+    "161052"
+   ]
+  ],
+  "13": [
+   [
+    "371294"
+   ]
+  ],
+  "3": [
+   [
+    "244"
+   ]
+  ]
+ },
+ "alpha*alpha": [
+  [
+   "4",
+   "-244"
+  ],
+  [
+   "-244/81",
+   "4"
+  ]
+ ],
+ "det_alpha*alpha": "-58240/81",
+ "det_alpha*alpha_num_factored": {
+  "2": 7,
+  "5": 1,
+  "7": 1,
+  "13": 1
+ },
+ "candidate_ells": [
+  7,
+  13
+ ],
+ "det_formula_check": null,
+ "ell": {
+  "7": {
+   "E": 8,
+   "modulus": "7^8",
+   "rank_H1_Gamma0p": 4,
+   "basis_H1_Gamma0p_coords": [
+    15,
+    17,
+    18,
+    19
+   ],
+   "basis_H1_SL2Z_coords": [
+    4
+   ],
+   "alpha_mod_l^E": [
+    [
+     3,
+     5764800
+    ],
+    [
+     12,
+     108
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     5764800,
+     243
+    ]
+   ],
+   "alpha_elementary_divisor_valuations": [
+    0,
+    1
+   ],
+   "coker_alpha_free_rank": 2,
+   "coker_alpha_torsion": [
+    "Z/7"
+   ],
+   "alpha_injective_mod_l^E": true,
+   "alpha*alpha_elementary_divisor_valuations": [
+    0,
+    1
+   ],
+   "charpoly_mod_l_Tq_H1_Gamma0p": {
+    "2": [
+     4,
+     3,
+     4,
+     2,
+     1
+    ],
+    "5": [
+     2,
+     3,
+     1,
+     1,
+     1
+    ],
+    "7": [
+     4,
+     2,
+     6,
+     1,
+     1
+    ],
+    "11": [
+     4,
+     4,
+     5,
+     2,
+     1
+    ],
+    "13": [
+     0,
+     0,
+     1,
+     5,
+     1
+    ]
+   },
+   "equivariance_T_alpha": {
+    "2": true,
+    "5": true,
+    "7": true,
+    "11": true,
+    "13": true
+   },
+   "T1_charpoly_mod_l": {
+    "2": [
+     2,
+     1
+    ],
+    "5": [
+     3,
+     1
+    ],
+    "7": [
+     6,
+     1
+    ],
+    "11": [
+     4,
+     1
+    ],
+    "13": [
+     0,
+     1
+    ]
+   },
+   "dim_ker_alpha_mod_l": 1,
+   "T_q_on_ker_alpha_mod_l": {
+    "2": [
+     5
+    ],
+    "5": [
+     4
+    ],
+    "7": [
+     1
+    ],
+    "11": [
+     3
+    ],
+    "13": [
+     0
+    ]
+   },
+   "eisenstein_value_1+q^(k-1)_mod_l": {
+    "2": 5,
+    "5": 4,
+    "7": 1,
+    "11": 3,
+    "13": 0
+   },
+   "dim_ker_alpha*alpha_mod_l": 1,
+   "T_q_on_ker_alpha*alpha_mod_l": {
+    "2": [
+     5
+    ],
+    "5": [
+     4
+    ],
+    "7": [
+     1
+    ],
+    "11": [
+     3
+    ],
+    "13": [
+     0
+    ]
+   },
+   "wall_s": 0.04
+  },
+  "13": {
+   "E": 6,
+   "modulus": "13^6",
+   "rank_H1_Gamma0p": 4,
+   "basis_H1_Gamma0p_coords": [
+    15,
+    17,
+    18,
+    19
+   ],
+   "basis_H1_SL2Z_coords": [
+    4
+   ],
+   "alpha_mod_l^E": [
+    [
+     3,
+     4826808
+    ],
+    [
+     12,
+     108
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     4826808,
+     243
+    ]
+   ],
+   "alpha_elementary_divisor_valuations": [
+    0,
+    0
+   ],
+   "coker_alpha_free_rank": 2,
+   "coker_alpha_torsion": [],
+   "alpha_injective_mod_l^E": true,
+   "alpha*alpha_elementary_divisor_valuations": [
+    0,
+    1
+   ],
+   "charpoly_mod_l_Tq_H1_Gamma0p": {
+    "2": [
+     9,
+     6,
+     8,
+     11,
+     1
+    ],
+    "5": [
+     9,
+     7,
+     8,
+     2,
+     1
+    ],
+    "7": [
+     1,
+     4,
+     6,
+     4,
+     1
+    ],
+    "11": [
+     1,
+     6,
+     7,
+     7,
+     1
+    ],
+    "13": [
+     1,
+     9,
+     6,
+     9,
+     1
+    ]
+   },
+   "equivariance_T_alpha": {
+    "2": true,
+    "5": true,
+    "7": true,
+    "11": true,
+    "13": true
+   },
+   "T1_charpoly_mod_l": {
+    "2": [
+     6,
+     1
+    ],
+    "5": [
+     7,
+     1
+    ],
+    "7": [
+     1,
+     1
+    ],
+    "11": [
+     5,
+     1
+    ],
+    "13": [
+     12,
+     1
+    ]
+   },
+   "dim_ker_alpha_mod_l": 0,
+   "T_q_on_ker_alpha_mod_l": {
+    "2": [],
+    "5": [],
+    "7": [],
+    "11": [],
+    "13": []
+   },
+   "eisenstein_value_1+q^(k-1)_mod_l": {
+    "2": 7,
+    "5": 6,
+    "7": 12,
+    "11": 8,
+    "13": 1
+   },
+   "dim_ker_alpha*alpha_mod_l": 1,
+   "T_q_on_ker_alpha*alpha_mod_l": {
+    "2": [
+     7
+    ],
+    "5": [
+     6
+    ],
+    "7": [
+     12
+    ],
+    "11": [
+     8
+    ],
+    "13": [
+     1
+    ]
+   },
+   "wall_s": 0.04
+  }
+ },
+ "wall_s": 0.13
+}

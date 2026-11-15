@@ -1,0 +1,26 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame B: JL in Brandt form (definite B, discriminant D).
+% Sources: mathematics/chapters/s00/setup.tex (class sets, weights w_x = |Gamma_x/(Gamma_x cap {+-1})|, Brandt modules, Hecke operators);
+% s01/6-targets.tex thm:s01-JLclassical (cited: JL Thm 16.1; Eichler; basis problem); D = 11 numbers: code/results/s01/brandt_w2.json
+% (data.T1: D = 11, h = 2, gammas = [4, 6] so w = (2, 3), mass 5/12, T2 = [[1,2],[3,0]], eigenvalues [3, -2], X0_11: genus 1,
+% a2(11a1) = -2 via ellap and mf), as on the earlier problem/JL frame; ex:s01-masschecks.
+\begin{frame}{JL in Brandt form (definite $B$, discriminant $D$)}
+  \small
+  \begin{itemize}\setlength{\itemsep}{2pt}
+    \item Class set $X_B=B^\times\backslash\widehat B^\times/\widehat{\mathcal O}^\times$ (finite); weights $w_x=|\mathcal O_x^\times/\{\pm1\}|$;
+      the Brandt module $\ZZ[X_B]$; the Brandt matrices $B(\ell)$, $\ell\nmid D$, are the Hecke operators.
+  \end{itemize}
+  \begin{block}{JL in Brandt form (Eichler; the basis problem)}
+    \[\ZZ[X_B]^0\otimes\mathbb C\;\cong\;S_2(\Gamma_0(D))^{D\text{-new}}\quad\text{as Hecke modules, i.e.}\quad
+      \operatorname{tr}B(\ell)|_{\deg 0}=\operatorname{tr}T_\ell\,|\,S_2(\Gamma_0(D))^{\mathrm{new}};\]
+    in weight $k$ via $\mathrm{Sym}^{k-2}$; at level $M$: $S_k(\Gamma_0(DM))^{D\text{-new}}$.\\
+    An identity of spectra; proofs via the trace formula.
+  \end{block}
+  \textbf{Example $D=11$} \stattag{computed}:
+  \begin{itemize}\setlength{\itemsep}{1pt}
+    \item $h=2$ classes, $|\mathcal O_x^\times|=4,6$, so $w=(2,3)$; mass $\tfrac14+\tfrac16=\tfrac5{12}=\tfrac{11-1}{24}$.
+    \item $B(2)=\left(\begin{smallmatrix}1&2\\3&0\end{smallmatrix}\right)$, eigenvalues $3$ (constants) and $-2$;\\
+      $X_0(11)$ has genus $1$, and the newform $11a$ has $a_2=-2$.
+  \end{itemize}
+\end{frame}

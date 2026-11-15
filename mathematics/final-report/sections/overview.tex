@@ -1,0 +1,107 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+\section{Overview}\label{sec:overview}
+
+\subsection{The Jacquet--Langlands correspondence}
+Let $B=\Bd$ be the definite quaternion algebra over $\Q$ ramified exactly at $\infty$ and at the primes dividing a
+squarefree $D$ with an odd number of prime factors. The Jacquet--Langlands correspondence \cite{JL} matches automorphic
+representations of $B^\times(\A)$ (other than characters) with the cuspidal automorphic representations of $\GL_2(\A)$ that
+are discrete series at every $\ell\mid D$. On the definite side automorphic forms of level $U$ are functions on the finite
+class set $\XB{U}=B^\times\backslash\Bhat^\times/U$, so the correspondence becomes an isomorphism of Hecke modules between
+Brandt modules and the $D$-new part of spaces of modular forms (classical form: \cite{JL,Gr99}; $p$-adic families:
+\cite{Ch}; $\Lambda$-adic Hecke algebras: \cite{LV,Hs}). These are \emph{cited}, not reproved, in this project.
+The project rebuilds what sits around this isomorphism on the definite side as explicit, integral objects: tree quotients
+and their homology (the stand-in for the character group of a Jacobian with bad reduction at an auxiliary prime $q$), the
+definite Ribet sequence and Ihara lemma as statements about weighted graphs, their passage up the $p$-power tower to
+Hida families, a single comparison hypothesis $\HypX$ that isolates all geometry, and, for $D=q$, an integral defect formula
+comparing congruence ideals on the two sides.
+
+\subsection{The six stages}
+The summaries below are the chapter introductions of \mainpdf{} \cite{LLmain}, shortened; \S\ref{sec:results} gives the statements.
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[Stage 01: quaternionic foundations] fixes the definite side: the algebra $B=\Bd$, its levels and class sets, the
+  Eichler mass formula, Brandt modules and the Brandt pairing, the Hecke operators with the fixed normalisation
+  $N_{U_p}$, the conventions dictionary and the cited targets (classical, $p$-adic and $\Lambda$-adic JL).
+\item[Stage 02: tree quotients] realises the definite class sets as quotients of the Bruhat--Tits tree of
+  $\GL_2(\Q_q)$ by the $S$-arithmetic group $\GU=\cO_U[1/q]^1$, builds the bipartite Brandt graph $\BG(U,q)$, proves
+  that strong approximation at one level is equivalent to the connectivity of $\BG(U,q)$ (a finite check), and sets up
+  the associated (co)homology.
+\item[Stage 03: weighted graphs, the definite Ribet sequence and the Ihara lemma] attaches to the Brandt graph its
+  weighted-graph invariants ($X(\G)$ and $\Phicomb(\G)$), checks them against Mazur at level~$1$, proves the definite Ribet
+  sequence as a vertex collapse and the definite Ihara lemma including the Hecke action on $H_0$, and records the Betti
+  side for $\GL_2$ (amalgam, Mayer--Vietoris, $\Psi^*\Psi$).
+\item[Stage 04: the ordinary and $\Lambda$-adic passage] constructs the ordinary projector, shows that it kills every
+  Eisenstein-type term met so far, proves freeness and control of the $\Lambda$-adic Brandt module by an elementary
+  argument, proves the $\Lambda$-adic definite Ribet sequence, and translates Hsieh's Gorenstein and self-pairing results
+  for $\eta^B_F$ into the conventions of stage~01.
+\item[Stage 05: the comparison hypothesis and the simplicial shape] owns the single geometric input of the route, the
+  comparison $\HypX$ between the character group at $q$ of the Jacobian of the $\Gamma_1(Mp^s)\cap\Gamma_0(q)$ modular curve
+  and the degree-zero part of the definite Brandt module, with every normalisation fixed (the sign $\varepsilon$ and the
+  exponent of $\Pi_q$, the diamonds, $U_p$); it proves the formal consequences of $\HypX$, records what is known in the
+  literature and what is not, and describes the simplicial shape for several ramified primes.
+\item[Stage 06: the integral Jacquet--Langlands defect] proves (modulo cited results, under the standing hypotheses; \S\ref{sec:results}), on the $\GL_2$ side and with $B=B_q$ entering only
+  through the $\Lambda$-adic Hecke JL isomorphism, that the defect $(h_F)=\eta_F(\eta^B_F)^{-1}$ of a $q$-new Hida branch
+  is the old/new congruence ideal $\cc_q(F)$ (commutative algebra) and that $\cc_q(F)$ is the Tamagawa ideal $\tq_q(F)$
+  (Galois theory plus one fixed-weight input). $\HypX$ is not used.
+\end{description}
+\noindent In these summaries ``proves'' is the wording of the chapter introductions. The status of each result is the one
+printed in \S\ref{sec:results} and is in several cases weaker: Prop.~7.9 uses the cited connectedness of the tree in one
+direction; Thm~10.2(b) and Thm~11.3 (Ihara (iii)) are \stpmc; Thm~14.4(b) (control at weights) is \stcited, in part
+\stexp; Thm~21.5 is \stpmc{} under the hypotheses of Hyp.~20.1 and \stopen{} for $q\equiv-1\bmod p$ outside (Lev);
+Prop.~18.20(c2) is \stopen.
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm and 0.45cm, >={Stealth},
+  st/.style={draw,rounded corners=2pt,inner sep=3pt,font=\small,align=center,fill=green!8,draw=green!40!black}]
+  \node[st] (s1) {01\\foundations};
+  \node[st,right=of s1] (s2) {02\\tree quotients};
+  \node[st,right=of s2] (s3) {03\\Ribet--Ihara};
+  \node[st,right=of s3] (s4) {04\\$\Lambda$-adic};
+  \node[st,above right=0.05cm and 0.6cm of s4] (s5) {05\\comparison $\HypX$};
+  \node[st,below right=0.05cm and 0.6cm of s4] (s6) {06\\integral defect};
+  \draw[->] (s1)--(s2); \draw[->] (s2)--(s3); \draw[->] (s3)--(s4); \draw[->] (s4)--(s5); \draw[->] (s4)--(s6);
+\end{tikzpicture}\\[2pt]
+{\small All six stages are closed and merged (milestone closures S01--S06, 14--15 November 2026).}
+\end{center}
+
+\subsection{HACS}
+HACS (\emph{Harder Arithmetic Cohomology System}; Fabian Januszewski) computes the cohomology of arithmetic groups with
+integral coefficients, the Hecke action and congruence phenomena, via simplicial orbifold models (C++/AVX-512/CUDA). It is released as v0.2.1 \cite{HACS021} with census data hacs-data v0.2.0 \cite{HACSdata020}; the snapshot
+in \texttt{code/hacs/} is HACS v0.2.1 plus our clearly marked JL module, three documented hook lines (a \texttt{CMakeLists.txt}
+include and the \texttt{RegisterJL} declaration and call) and the regenerated CLI manual tables (\texttt{code/hacs/CHANGES.md}). In this project HACS was used in two lanes (\S\ref{ss:hacs}): Lane~A
+bridges our Python/PARI results to HACS (definite local algebras, the Betti side of T4, a Brandt-lattice export format),
+and Lane~B adds a native quaternion core and exact integral congruence modules of Brandt lattices read through HACS's
+integral engine. Every HACS number in this report is \emph{computed}; nothing is called ``certified''.
+
+\subsection{The agentic process}
+The work was carried out by a hierarchy of Claude Code agents coordinated through git: a global master on Fabian's node
+delegates to stage masters and work-package agents (Haiku, Sonnet, Opus; Fable for audits), two further machines (TITAN,
+CONCEPTD) run all Lean builds and the from-scratch final gates, and Abhijit's node (a separate account) takes work
+packages over a git message channel, including cross-account blind reviews. Each stage ran through a staged plan, work
+packages on branches, batched integration builds, an early gate, parallel Fable Lean and chapter audits, and a
+from-scratch final gate on two machines. Stage wall times were about $2.2$, $1.3$, $1.1$, $2.2$, $1.1$ and $1.2$ hours
+(stages 01--06). Decisions of mathematical substance (e.g.\ FD1, FD2 and the case $q\equiv-1\bmod p$, \S\ref{sec:open}) were
+taken by Fabian. The process is documented in \texttt{docs/agentic-process/}.
+
+\subsection{Status legend}\label{ss:legend}
+Statuses are those of the chapters, never upgraded. The markers are the macros of \texttt{mathematics/preamble.tex}:
+\begin{center}\small
+\begin{tabular}{@{}l p{0.68\textwidth}@{}}\toprule
+marker & meaning\\\midrule
+\stproved & proof written in the chapter\\
+\stpmc & proved here, modulo the cited inputs named in the statement\\
+\stcited & taken from the literature, with a precise pointer\\
+\stknown & standard / textbook, reference given\\
+\stformal{} / \stformalized & exists in Lean 4 (declaration names given by \lean{\dots}); \emph{formalized modulo $H$}: the Lean statement takes the registered hypotheses $H$ as explicit arguments\\
+\stcomp & machine computation, result file under \texttt{code/results/}\\
+\stconj{} / \stexp & conjectural / expected\\
+\stopen & open (no proof claimed)\\
+\stsketch & sketched (argument not complete)\\
+\sttoprove & still to be proved (planning marker)\\
+\sthyp & a hypothesis, assumed\\
+\leanplanned & formalization planned, not done at that point\\
+\provisional{\dots} & a change made provisionally after the global seam audit, pending Fabian's review\\\bottomrule
+\end{tabular}
+\end{center}
+A Lean \emph{hypothesis} \texttt{Hyp.X} is a named \texttt{Prop} taken as an explicit argument, never an \texttt{axiom}.
+A toy instance of a hypothesis in the Lean tests shows consistency (non-vacuity) only and is never called evidence.

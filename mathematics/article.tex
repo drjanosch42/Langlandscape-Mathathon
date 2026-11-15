@@ -1,0 +1,73 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Article version of mathematics/. A thin wrapper: all text is \input from the shared sources (chapters/, acknowledgments)
+% plus the short section article/mainresults.tex. Build from this directory: latexmk -pdf -interaction=nonstopmode article.tex
+\documentclass[11pt]{amsart}
+\input{preamble}
+% Same bibliography setup as main.tex.
+\IfFileExists{bib/s05-m1.bib}{\addbibresource{bib/s05-m1.bib}}{}
+\IfFileExists{bib/s05-m2.bib}{\addbibresource{bib/s05-m2.bib}}{}
+\IfFileExists{bib/s05-m3.bib}{\addbibresource{bib/s05-m3.bib}}{}
+\IfFileExists{bib/s05-m4.bib}{\addbibresource{bib/s05-m4.bib}}{}
+\IfFileExists{bib/s05-m5.bib}{\addbibresource{bib/s05-m5.bib}}{}
+\IfFileExists{bib/s05-m6.bib}{\addbibresource{bib/s05-m6.bib}}{}
+\IfFileExists{bib/s05-m7.bib}{\addbibresource{bib/s05-m7.bib}}{}
+\IfFileExists{bib/s06-m1.bib}{\addbibresource{bib/s06-m1.bib}}{}
+\IfFileExists{bib/s06-m2.bib}{\addbibresource{bib/s06-m2.bib}}{}
+\IfFileExists{bib/s06-m3.bib}{\addbibresource{bib/s06-m3.bib}}{}
+\IfFileExists{bib/s06-m4.bib}{\addbibresource{bib/s06-m4.bib}}{}
+\IfFileExists{bib/s06-m5.bib}{\addbibresource{bib/s06-m5.bib}}{}
+\IfFileExists{bib/s06-m7.bib}{\addbibresource{bib/s06-m7.bib}}{}
+\IfFileExists{bib/s06-m8.bib}{\addbibresource{bib/s06-m8.bib}}{}
+\IfFileExists{bib/s06-m11.bib}{\addbibresource{bib/s06-m11.bib}}{}
+\providecommand{\GateAudited}{950}
+\title[The definite Jacquet--Langlands correspondence over $\Q$]{The definite Jacquet--Langlands correspondence over $\Q$,
+integral and $\Lambda$-adic: a Bruhat--Tits tree route, a Lean~4 formalization and computations}
+\author{M.Sc. Abhijit Aryampilly Jayanthan}
+\address{Institute of Mathematics, Department EIM, Paderborn University}
+\author{Prof.\ Dr.\ Fabian Januszewski}
+\address{Institute of Mathematics, Department EIM, Paderborn University}
+\date{15 November 2026}
+% the Stage-2 plan (chapters/s00/plan.tex) is not part of the article: whycited.tex then names it in words
+\def\sOOnoplan{}
+\begin{document}
+\begin{abstract}
+\IfFileExists{chapters/s00/abstract-short.tex}{\input{chapters/s00/abstract-short}}{\textit{[abstract: chapters/s00/abstract-short.tex]}}
+\end{abstract}
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+% Introduction: the main results, then the mathematical parts of chapter s00, numbered 0.1, 0.2, ... as in chapters/s00.tex;
+% the section counter is reset afterwards so that the numbering of stages 01--06 equals that of main.tex.
+\section*{Introduction}\label{sec:article-intro}
+\let\sOOthesection\thesection
+\let\sOOtheHsection\theHsection
+\renewcommand{\thesection}{0.\arabic{section}}
+\renewcommand{\theHsection}{s00.\arabic{section}}
+\input{chapters/s00/legend}
+\input{article/mainresults}
+\input{chapters/s00/motivation}
+\IfFileExists{chapters/s00/whycited.tex}{\input{chapters/s00/whycited}}{}
+\input{chapters/s00/question}
+\input{chapters/s00/ribet}
+\input{chapters/s00/scope}
+\input{chapters/s00/setup}
+\input{chapters/s00/guide}
+\input{chapters/s00/computing}
+\input{chapters/s00/newknown}
+\input{chapters/s00/prior}
+\setcounter{section}{0}
+\let\thesection\sOOthesection
+\let\theHsection\sOOtheHsection
+
+\input{chapters/s01}
+\input{chapters/s02}
+\input{chapters/s03}
+\input{chapters/s04}
+\input{chapters/s05}
+\input{chapters/s06}
+\nocite{*}
+\printbibliography
+\input{acknowledgments}
+\end{document}

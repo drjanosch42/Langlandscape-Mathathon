@@ -1,0 +1,16 @@
+Let $f\colon G(\A)^1\to\C$, and for every Dirichlet pair $\mu$ let $B_\mu$ be a finite set of functions $G(\A)\to\C$ (in the applications $f\in\Hecke$ and
+$(N,F)$ and the bases $B_\mu$ are as in \cref{I.spec.def:eisenstein-kernel}). Let $X=G(\Q)\backslash G(\A)^1$ carry the measure of
+\cref{I.quot.def:automorphic-quotient-measure} for the standard Haar measure $\dd g$ (\cref{I.haar.def:haar-adelic}). The \emph{spectral kernels} of $f$
+are the functions $K_{\chi,f}\colon G(\A)^1\times G(\A)^1\to\C$, $\chi\in\mathfrak X$ (\cref{II.kernel.def:cuspidal-datum}), defined as follows.
+\begin{enumerate}[label=(\roman*)]
+\item $K_{\mathrm{cusp},f}$ is the cuspidal kernel of $f$ for $\dd g$ (\cref{I.tcl.def:cuspidal-kernel}).
+\item For an orbit $o$ and $x,y\in G(\A)^1$,
+\[
+  K_{o,f}(x,y)=\int_\R\sum_{\mu\in o}\sum_{\varphi\in B_\mu}\widetilde E\bigl(x,I_\mu(it,f)\varphi,it\bigr)\,\overline{\widetilde E(y,\varphi,it)}\,\frac{\dd t}{4\pi^2}
+  +\vol(X)^{-1}\sum_{\nu\,:\,(\nu,\nu)\in o}\hat f(\nu)\,\eta_\nu(x)\,\overline{\eta_\nu(y)} ,
+\]
+with $\widetilde E$ and $I_\mu(it,f)$ as in \cref{I.eis.def:eisenstein-continued,I.eis.def:induced-rep} (for $\dd g$). The first sum is over the elements of the set $o$;
+the integral is the Lebesgue integral, with value $0$ if the integrand is not integrable. The second sum runs over the continuous homomorphisms
+$\nu\colon\Zhat^\times\to\C^\times$ with $(\nu,\nu)\in o$; it has at most one term, and a term exactly when $o=\{(\nu,\nu)\}$. Here $\hat f(\nu)$ and
+$\eta_\nu(x)=\omega_\nu(\det x)$ are as in \cref{I.spec.def:residual-kernel} for the measure on $G(\A)^1$ induced by $\dd g$.
+\end{enumerate}

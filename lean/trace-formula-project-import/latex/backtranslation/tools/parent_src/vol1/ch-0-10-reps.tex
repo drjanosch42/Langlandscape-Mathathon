@@ -1,0 +1,1320 @@
+% Document B (back-translation). Lean counterpart: lean/GL2TF/VolI/P0/Reps.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% G0 outline mirrored from A (M2): planned IDs (\tfplanned) only; formal blocks follow from G1 on.
+
+\chapter{\texorpdfstring{Representations: smooth, admissible, unitary, $(\mathfrak{g},K)$}{Representations: smooth, admissible, unitary, (𝔤,K)}}\label{ch:ch-0-10-reps}
+
+\noindent\emph{Sources:} \cite[§§2--3]{Cas-p}; \cite{Bern}; \cite[§§1, 5]{JL}; \cite{Corv-ptII-3}.
+
+\section{Smooth and admissible representations}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[fixed vectors]
+\tfstmt{I.rep.def:fixed-vectors}
+\bonly
+\lean{GL2TF.fixedVectors}
+\end{definition}
+\begin{tfformal}{I.rep.def:fixed-vectors}
+\tfsem{I.rep.def:fixed-vectors}{055c5ac86f7d62ea94f30216c1998881071d5fd143e2ea78f33352061a83175b}
+\tfhyps{I.rep.def:fixed-vectors}{}
+\tfbinder{I.rep.def:fixed-vectors}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:fixed-vectors}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:fixed-vectors}{2}{d0c93987}{the underlying type of $V$}
+\tfbinder{I.rep.def:fixed-vectors}{3}{9ed00181}{the additive group structure of $V$}
+\tfbinder{I.rep.def:fixed-vectors}{4}{bf6f9324}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:fixed-vectors}{5}{66197941}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.def:fixed-vectors}{6}{c8f4fc03}{the subgroup $K'\subseteq G$}
+\end{tfformal}
+
+
+\begin{definition}[smooth representations]
+\tfstmt{I.rep.def:smooth-rep}
+\lean{GL2TF.IsSmoothRep}
+\end{definition}
+\begin{tfformal}{I.rep.def:smooth-rep}
+\tfsem{I.rep.def:smooth-rep}{5a6785cd082f3ef998293f6d204e1c283014f267cd794d70eb95056c179b47fc}
+\tfhyps{I.rep.def:smooth-rep}{}
+\tfbinder{I.rep.def:smooth-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:smooth-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:smooth-rep}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:smooth-rep}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:smooth-rep}{4}{53dcf958}{the additive group structure of $V$}
+\tfbinder{I.rep.def:smooth-rep}{5}{253edab4}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:smooth-rep}{6}{6029824f}{the representation $\pi$ of $G$ on $V$}
+\end{tfformal}
+
+\begin{definition}[admissible representations]
+\tfstmt{I.rep.def:admissible-rep}
+\lean{GL2TF.IsAdmissibleRep}
+\uses{I.rep.def:smooth-rep, I.rep.def:fixed-vectors}
+\end{definition}
+\begin{tfformal}{I.rep.def:admissible-rep}
+\tfsem{I.rep.def:admissible-rep}{b42a6ce29254f5dddea8085a9caad6d6f294da52dc9b204ec824329399471eb9}
+\tfhyps{I.rep.def:admissible-rep}{}
+\tfbinder{I.rep.def:admissible-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:admissible-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:admissible-rep}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:admissible-rep}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:admissible-rep}{4}{53dcf958}{the additive group structure of $V$}
+\tfbinder{I.rep.def:admissible-rep}{5}{253edab4}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:admissible-rep}{6}{6029824f}{the representation $\pi$ of $G$ on $V$}
+\end{tfformal}
+
+\begin{definition}[measure coefficient]
+\tfstmt{I.rep.def:measure-coeff}
+\bonly
+\lean{TestFunctionAction.measureCoeff}
+\end{definition}
+\begin{tfformal}{I.rep.def:measure-coeff}
+\tfsem{I.rep.def:measure-coeff}{238f76220b1c2f82f4f99fe3374d7826b70580f5a2b99a535b069e8cfb7a032a}
+\tfhyps{I.rep.def:measure-coeff}{}
+\tfbinder{I.rep.def:measure-coeff}{0}{6b8b0c0f}{the underlying type of $G$}
+\tfbinder{I.rep.def:measure-coeff}{1}{63738b18}{the commutative ring structure of $𝕜$}
+\tfbinder{I.rep.def:measure-coeff}{2}{538f6534}{the $\R$-algebra structure of the coefficient ring $\Bbbk$}
+\tfbinder{I.rep.def:measure-coeff}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:measure-coeff}{4}{b49b9fc3}{the $\sigma$-algebra of $X$}
+\tfbinder{I.rep.def:measure-coeff}{5}{43655700}{the measure $\mu$ on $X$}
+\tfbinder{I.rep.def:measure-coeff}{6}{0e174d3e}{the set $s\subseteq X$}
+\end{tfformal}
+
+
+\begin{definition}[integral of a finite-range function]
+\tfstmt{I.rep.def:finite-range-integral}
+\bonly
+\lean{TestFunctionAction.finiteRangeIntegral}
+\uses{I.rep.def:measure-coeff}
+\end{definition}
+\begin{tfformal}{I.rep.def:finite-range-integral}
+\tfsem{I.rep.def:finite-range-integral}{ad11005aff0fea267b61c3e43bf21f8ad581a162fd2d0479d51bb41514c2ea92}
+\tfhyps{I.rep.def:finite-range-integral}{}
+\tfbinder{I.rep.def:finite-range-integral}{0}{6b8b0c0f}{the underlying type of $G$}
+\tfbinder{I.rep.def:finite-range-integral}{1}{63738b18}{the commutative ring structure of $𝕜$}
+\tfbinder{I.rep.def:finite-range-integral}{2}{538f6534}{the $\R$-algebra structure of the coefficient ring $\Bbbk$}
+\tfbinder{I.rep.def:finite-range-integral}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:finite-range-integral}{4}{b49b9fc3}{the $\sigma$-algebra of $X$}
+\tfbinder{I.rep.def:finite-range-integral}{5}{3ad2f85a}{the underlying type of $V$}
+\tfbinder{I.rep.def:finite-range-integral}{6}{872b3c26}{the additive group structure of $V$}
+\tfbinder{I.rep.def:finite-range-integral}{7}{23303652}{the $\Bbbk$-module structure of $V$}
+\tfbinder{I.rep.def:finite-range-integral}{8}{9c2f5282}{the measure $\mu$ on $X$}
+\tfbinder{I.rep.def:finite-range-integral}{9}{c3a48bbd}{the function $X\to V$ being integrated}
+\end{tfformal}
+
+
+\begin{definition}[the action of $C_c^\infty(G)$]
+\tfstmt{I.rep.def:smooth-hecke-action}
+\lean{GL2TF.smoothHeckeAction}
+\uses{I.rep.def:smooth-rep, I.hecke.def:smooth-compact-functions, I.rep.def:finite-range-integral}
+\end{definition}
+\begin{tfformal}{I.rep.def:smooth-hecke-action}
+\tfsem{I.rep.def:smooth-hecke-action}{bd3869f5454933971f3b46c92cc4363a95de9bddaadb361f6267a8e94fb07419}
+\tfhyps{I.rep.def:smooth-hecke-action}{}
+\tfbinder{I.rep.def:smooth-hecke-action}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:smooth-hecke-action}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:smooth-hecke-action}{2}{746bd334}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.def:smooth-hecke-action}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:smooth-hecke-action}{4}{53dcf958}{the additive group structure of $V$}
+\tfbinder{I.rep.def:smooth-hecke-action}{5}{253edab4}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:smooth-hecke-action}{6}{bddf3d7e}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.def:smooth-hecke-action}{7}{18e5b8d9}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.def:smooth-hecke-action}{8}{e8064964}{the function $f\colon G\to\C$}
+\tfbinder{I.rep.def:smooth-hecke-action}{9}{e05b6d43}{the element $v\in V$}
+\begin{tffidelity}
+The function \texttt{smoothHeckeAction} is total: it is the vendored \texttt{finiteRangeIntegral}, which takes the value $0$ when $g\mapsto f(g)\pi(g)v$ has infinite range, and \texttt{measureCoeff} gives $0$ to sets of infinite measure. The finiteness of the range and of the measures asserted in A are properties of smooth $\pi$ and $f\in C_c^\infty(G)$, not hypotheses of the definition; for such $f,\pi$ the junk value never occurs, and the formula is the sum over the non-zero values of $f(\cdot)\pi(\cdot)v$.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{definition}[bilinearity of the Hecke action]
+\tfstmt{I.rep.def:smooth-hecke-action-bilin}
+\bonly
+\lean{GL2TF.smoothHeckeActionBilin}
+\uses{I.hecke.def:smooth-compact-functions, I.rep.def:smooth-hecke-action, I.rep.def:smooth-rep}
+\end{definition}
+\begin{tfformal}{I.rep.def:smooth-hecke-action-bilin}
+\tfsem{I.rep.def:smooth-hecke-action-bilin}{79b4fdf6d549fbebf1c82930b90e27a7e63bdc3a78fd5aaed3c991e93092b945}
+\tfhyps{I.rep.def:smooth-hecke-action-bilin}{}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{9}{75637b62}{the underlying type of $V$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{10}{df592692}{the additive group structure of $V$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{11}{72df3bbf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{12}{ee497784}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{13}{20bb5f34}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{14}{15d118f3}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.def:smooth-hecke-action-bilin}{15}{fdb3e110}{the assumption that $\pi$ is smooth (\cref{I.rep.def:smooth-rep})}
+\begin{tffidelity}
+As in A, $G$ is locally profinite with Borel $\sigma$-algebra and $\mu$ is a left Haar measure; the underlying function \texttt{smoothHeckeAction} is total (value $0$ if the integral takes infinitely many values), and only this bundled bilinear form carries the Haar hypothesis.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[non-degenerate $C_c^\infty(G)$-modules]
+\tfstmt{I.rep.def:nondegenerate-module}
+\lean{GL2TF.IsNondegenerateModule}
+\uses{I.hecke.def:convolution, I.hecke.def:smooth-compact-functions}
+\end{definition}
+\begin{tfformal}{I.rep.def:nondegenerate-module}
+\tfsem{I.rep.def:nondegenerate-module}{58cdb8c364b73f38eb6b7d7530caee8718000326b463c52e7a3e0ad7cdecf315}
+\tfhyps{I.rep.def:nondegenerate-module}{}
+\tfbinder{I.rep.def:nondegenerate-module}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:nondegenerate-module}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:nondegenerate-module}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:nondegenerate-module}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.def:nondegenerate-module}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.def:nondegenerate-module}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.def:nondegenerate-module}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.rep.def:nondegenerate-module}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.def:nondegenerate-module}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.def:nondegenerate-module}{9}{75637b62}{the underlying type of $V$}
+\tfbinder{I.rep.def:nondegenerate-module}{10}{df592692}{the additive group structure of $V$}
+\tfbinder{I.rep.def:nondegenerate-module}{11}{72df3bbf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:nondegenerate-module}{12}{ee497784}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.def:nondegenerate-module}{13}{20bb5f34}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.rep.def:nondegenerate-module}{14}{208a43a6}{the $\C$-bilinear Hecke action $C_c^\infty(G)\times V\to V$, as a linear map $C_c^\infty(G)\to\operatorname{End}_\C(V)$}
+\end{tfformal}
+
+\begin{theorem}[smooth representations are non-degenerate modules]
+\tfstmt{I.rep.thm:smooth-hecke-module}
+\lean{GL2TF.smoothHeckeAction_isNondegenerate}
+\uses{I.rep.def:smooth-hecke-action, I.rep.def:nondegenerate-module, I.hecke.def:idempotent, I.rep.def:fixed-vectors, I.rep.def:smooth-hecke-action-bilin, I.rep.def:smooth-rep, I.hecke.def:convolution, I.hecke.def:smooth-compact-functions, I.hecke.lem:convolution-mem, I.rep.def:finite-range-integral, I.rep.def:measure-coeff}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:smooth-hecke-module}
+\tfsem{I.rep.thm:smooth-hecke-module}{df18721e5f46f3fe867f0e8262d62171bca7c8cd5605b76ec0c0a6748135fdda}
+\tfhyps{I.rep.thm:smooth-hecke-module}{}
+\tfbinder{I.rep.thm:smooth-hecke-module}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:smooth-hecke-module}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.thm:smooth-hecke-module}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.thm:smooth-hecke-module}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.rep.thm:smooth-hecke-module}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.thm:smooth-hecke-module}{9}{75637b62}{the underlying type of $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{10}{df592692}{the additive group structure of $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{11}{72df3bbf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{12}{ee497784}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{13}{20bb5f34}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.rep.thm:smooth-hecke-module}{14}{869f7537}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module}{15}{fdb3e110}{the assumption that $\pi$ is smooth (\cref{I.rep.def:smooth-rep})}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Associativity} (\texttt{smoothHeckeAction\_conv}). As in A: choose $K=K_1\cap K_2\cap K_3$ with $f,g$ bi-$K$-invariant and $K$ fixing $v$, write $\pi(g)v$ and $\pi(f)\pi(g)v$ as coset sums over $G/K$ (\texttt{smoothHeckeAction\_coset\_sum}, from the vendored \texttt{TestFunctionAction} development of $\pi(f)v$ as a finite sum), and reindex $y=x^{-1}z$. Bilinearity is \texttt{smoothHeckeActionBilin}, assembled from the four vendored additivity and homogeneity lemmas.
+
+\emph{Idempotents.} $\pi(e_{K'})v=v$ for $v\in V^{K'}$ (\texttt{smoothHeckeAction\_idempotent\_fixed}) and $\pi(e_{K'})w\in V^{K'}$ for every $w$ (vendored \texttt{heckeSmul\_heckeIdempotent\_mem\_fixedPoints}, with \texttt{heckeIdempotent\_eq\_vendored} identifying $e_{K'}$ with the vendored idempotent); so the range is $V^{K'}$ and $\pi(e_{K'})^2=\pi(e_{K'})$. \emph{Non-degeneracy}: $v\in V^{K}$ for a compact open $K$ inside the open stabilizer of $v$ (\texttt{exists\_compactOpenSubgroup\_sub}), hence $v=\pi(e_K)v$. A's proof, with the finite-sum computations supplied by the vendored library.
+\end{proof}
+
+\begin{theorem}[smooth representations $=$ non-degenerate modules]
+\tfstmt{I.rep.thm:smooth-hecke-module-equiv}
+\lean{GL2TF.smoothHeckeModule_equiv}
+\uses{I.rep.thm:smooth-hecke-module, I.hecke.def:smooth-compact-functions, I.rep.def:nondegenerate-module, I.rep.def:smooth-hecke-action, I.rep.def:smooth-rep, I.hecke.def:convolution, I.hecke.def:idempotent, I.hecke.lem:convolution-mem, I.rep.def:finite-range-integral, I.rep.def:measure-coeff, I.rep.def:smooth-hecke-action-bilin}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:smooth-hecke-module-equiv}
+\tfsem{I.rep.thm:smooth-hecke-module-equiv}{c69adaedcebfca3b231b599095c7818e54e8999921377732ce1cfe16c26b0a3c}
+\tfhyps{I.rep.thm:smooth-hecke-module-equiv}{}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{9}{75637b62}{the underlying type of $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{10}{df592692}{the additive group structure of $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{11}{72df3bbf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{12}{ee497784}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.thm:smooth-hecke-module-equiv}{13}{20bb5f34}{the assumption that $\mu$ is a left Haar measure}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Part (b) is \texttt{smoothRep\_intertwiner\_iff}, following A: ($\Rightarrow$) via the coset sum formula for $\pi_1,v$ and $\pi_2,Tv$; ($\Leftarrow$) $Tv=T\pi_1(e_K)v=\pi_2(e_K)Tv$ and $T\pi_1(g)v=T\pi_1(\lambda_ge_K)v=\pi_2(\lambda_ge_K)Tv=\pi_2(g)Tv$ with \texttt{smoothHeckeAction\_translate}.
+
+Part (a) (\texttt{smoothHeckeModule\_equiv\_a}) constructs $\pi=\texttt{nondegRep}$ as in A. For each $v$ a compact open subgroup $K$ with $e_K\cdot v=v$ is chosen (\texttt{nondeg\_exists\_idempotent\_fixed}, \texttt{nondegK}; stable under shrinking by \texttt{nondeg\_idempotent\_fixed\_mono}), and $\pi(g)v:=(\lambda_ge_K)\cdot v$ (\texttt{nondegPiFun}); independence of $K$ is \texttt{piFun\_eq}, and additivity, homogeneity, $\pi(1)=1$ and multiplicativity (\texttt{piFun\_add}, \texttt{piFun\_smul}, \texttt{piFun\_one}, \texttt{piFun\_mul}, using $K_w=hKh^{-1}$ as in A) give a representation. Smoothness is \texttt{repOf\_smooth} (the open subgroup $K$ fixes $v$); compatibility $\pi(f)v=f\cdot v$ is \texttt{repOf\_compat} through the coset decomposition \texttt{coset\_decomp\_right\_inv} of $f$ into translated indicators; uniqueness reduces to (b) with $T=\mathrm{id}$.
+
+\emph{Divergence from A (for G2).} Independence of $K$ passes to $K_1\cap K_2$ as in A (\texttt{piFun\_eq}); the only difference is that uniqueness is derived from (b) with $T=\mathrm{id}$ instead of the direct computation $\pi'(g)v=\pi'(\lambda_ge_K)v$. Same statements.
+\end{proof}
+
+\begin{definition}[smooth vectors of the dual]
+\tfstmt{I.rep.def:smooth-dual}
+\bonly
+\lean{GL2TF.smoothDual}
+\end{definition}
+\begin{tfformal}{I.rep.def:smooth-dual}
+\tfsem{I.rep.def:smooth-dual}{672e935e4eddf770824ace6ae625adeda4ae533f961738ce84ec32cb7a3490f8}
+\tfhyps{I.rep.def:smooth-dual}{}
+\tfbinder{I.rep.def:smooth-dual}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:smooth-dual}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:smooth-dual}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:smooth-dual}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.def:smooth-dual}{4}{db7471db}{the underlying type of $V$}
+\tfbinder{I.rep.def:smooth-dual}{5}{14a16def}{the additive group structure of $V$}
+\tfbinder{I.rep.def:smooth-dual}{6}{4865f79d}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:smooth-dual}{7}{683e5bfc}{the representation $\pi$ of $G$ on $V$}
+\end{tfformal}
+
+
+\begin{definition}[the contragredient]
+\tfstmt{I.rep.def:contragredient}
+\lean{GL2TF.contragredient}
+\uses{I.rep.def:smooth-rep, I.rep.def:smooth-dual}
+\end{definition}
+\begin{tfformal}{I.rep.def:contragredient}
+\tfsem{I.rep.def:contragredient}{5625c3758da4238e4236838230637438d19c4ff5f8ba89cb46758cb3cf2b94ac}
+\tfhyps{I.rep.def:contragredient}{}
+\tfbinder{I.rep.def:contragredient}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:contragredient}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:contragredient}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:contragredient}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.def:contragredient}{4}{db7471db}{the underlying type of $V$}
+\tfbinder{I.rep.def:contragredient}{5}{14a16def}{the additive group structure of $V$}
+\tfbinder{I.rep.def:contragredient}{6}{4865f79d}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:contragredient}{7}{683e5bfc}{the representation $\pi$ of $G$ on $V$}
+\begin{tffidelity}
+The Lean definition is total in $\pi$: it is formed for every representation, and the smoothness assumed in A is not a binder. For non-smooth $\pi$ the result is the restriction of the full dual representation to the smooth vectors of the dual (\cref{I.rep.def:smooth-dual}), which carries no claim here.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the contragredient of an admissible representation]
+\tfstmt{I.rep.thm:contragredient-admissible}
+\lean{GL2TF.contragredient_admissible}
+\uses{I.rep.def:contragredient, I.rep.def:admissible-rep, I.rep.def:fixed-vectors, I.rep.def:smooth-dual, I.rep.def:finite-range-integral, I.rep.def:measure-coeff, I.rep.def:smooth-rep}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:contragredient-admissible}
+\tfsem{I.rep.thm:contragredient-admissible}{e1524b1012998c500b12b5334a481be6f83bd9ea3aa3601dbc9a7e902cb0ee5a}
+\tfhyps{I.rep.thm:contragredient-admissible}{}
+\tfbinder{I.rep.thm:contragredient-admissible}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:contragredient-admissible}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:contragredient-admissible}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:contragredient-admissible}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:contragredient-admissible}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.thm:contragredient-admissible}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.thm:contragredient-admissible}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.rep.thm:contragredient-admissible}{7}{7f1a0eaa}{the underlying type of $V$}
+\tfbinder{I.rep.thm:contragredient-admissible}{8}{efad9550}{the additive group structure of $V$}
+\tfbinder{I.rep.thm:contragredient-admissible}{9}{52e8800b}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.thm:contragredient-admissible}{10}{fbf4cc09}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.thm:contragredient-admissible}{11}{552db113}{the assumption that $\pi$ is admissible (\cref{I.rep.def:admissible-rep})}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The decisive input is the splitting $V=V^K\oplus A_K$ for smooth $\pi$ and compact open $K$, with $A_K=\operatorname{span}\{\pi(k)u-u\}$ (\texttt{isCompl\_fixed\_aug}). It is obtained by averaging over the compact group $K$: a Haar probability measure $\nu$ on $K$ (\texttt{Measure.haarMeasure}, Borel structure on $G$) is fed to the vendored decomposition \texttt{isCompl\_fixedPoints\_augmentation}. The projection $P$ onto $V^K$ along $A_K$ plays the role of $\pi(e_{K'})$ in A.
+
+(a) A $K$-fixed functional $\ell$ kills $A_K$ (\texttt{kills\_aug}), so $\ell=\ell\circ P$ and restriction to $V^K$ is injective. For surjectivity $\ell\mapsto\ell\circ P$ lands in $\tilde V^K$ (\texttt{mem\_smoothDual\_of\_fixed}) and restricts to $\ell$. (b) Smoothness of $\tilde\pi$ is immediate; $\tilde V^K\cong(V^K)^*$ by (a), hence finite-dimensional. (c) $\mathrm{ev}_v\in\tilde{\tilde V}$ (its stabilizer contains that of $v$), equivariance is \texttt{key}; injectivity uses a functional on $V^K$ and (a); surjectivity follows A: $\Lambda\in\tilde{\tilde V}^K$ is represented on $\tilde V^K$ through $(V^K)^{**}\cong V^K$ (\texttt{Module.evalEquiv}), and then $\Lambda$ and $\mathrm{ev}_w$ agree on all of $\tilde V$ because both kill the augmentation of $\tilde\pi$, via (a) for $\tilde\pi$.
+
+\emph{Divergence from A (for G2).} A averages with the idempotent $\pi(e_{K'})$ of \cref{I.rep.thm:smooth-hecke-module}, for a fixed Haar measure $\mu$ on $G$ and a normal $N\trianglelefteq K'$ fixing $w$. Lean never uses the Hecke action here: it averages directly over $K$ with a Haar probability measure on the compact group $K$ and obtains the complement $A_K$, so no $\mu$ and no $N$. In the surjectivity of (c), A compares $\mathrm{ev}_v$ with $\Phi$ through dimensions; Lean builds $w$ with \texttt{Module.evalEquiv} and verifies equality directly. Same statements.
+\end{proof}
+
+\begin{theorem}[Schur's lemma]
+\tfstmt{I.rep.thm:schur-lemma}
+\lean{GL2TF.schur_lemma}
+\uses{I.rep.def:admissible-rep, I.rep.def:fixed-vectors, I.rep.def:smooth-rep}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:schur-lemma}
+\tfsem{I.rep.thm:schur-lemma}{288b254a517509608c767ca5b1fb4520a956d38f369839a5a821833e9c02b244}
+\tfhyps{I.rep.thm:schur-lemma}{}
+\tfbinder{I.rep.thm:schur-lemma}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:schur-lemma}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:schur-lemma}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:schur-lemma}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:schur-lemma}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.thm:schur-lemma}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.thm:schur-lemma}{6}{889dd227}{the assumption that $G$ is totally disconnected}
+\tfbinder{I.rep.thm:schur-lemma}{7}{7f1a0eaa}{the underlying type of $V$}
+\tfbinder{I.rep.thm:schur-lemma}{8}{efad9550}{the additive group structure of $V$}
+\tfbinder{I.rep.thm:schur-lemma}{9}{52e8800b}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.thm:schur-lemma}{10}{fbf4cc09}{the representation $\pi$ of $G$ on $V$}
+\tfbinder{I.rep.thm:schur-lemma}{11}{552db113}{the assumption that $\pi$ is admissible (\cref{I.rep.def:admissible-rep})}
+\tfbinder{I.rep.thm:schur-lemma}{12}{544c57b1}{the assumption $V\neq0$}
+\tfbinder{I.rep.thm:schur-lemma}{13}{16bb2340}{the irreducibility of $\pi$: every $G$-stable subspace of $V$ is $0$ or $V$}
+\tfbinder{I.rep.thm:schur-lemma}{14}{0ef0c425}{the $\C$-linear map $T\colon V\to V$}
+\tfbinder{I.rep.thm:schur-lemma}{15}{dd09e18e}{the hypothesis that $T$ commutes with every $\pi(g)$}
+\begin{tffidelity}
+Irreducibility is inlined as stated in A: the hypotheses $V\neq0$ (\texttt{Nontrivial V}) and ``every $G$-stable subspace is $0$ or $V$'' (binders 12 and 13) replace a named predicate; there is no separate irreducibility definition in the project.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The statement is reduced to the vendored Schur lemma for smooth admissible representations (\texttt{FLT.SmoothAdmissibleSchurCommutant.exists\_eq\_smul\_one\_of\_smooth\_admissible}), whose hypotheses (smooth, admissible, irreducible, with the ambient group a topological group admitting one compact open subgroup) are supplied by unfolding: the vendored predicates agree definitionally with \texttt{IsSmoothRep}, \texttt{fixedVectors}, \texttt{IsAdmissibleRep}, and irreducibility is the inlined condition ($V\neq0$ and invariant subspaces are $0$ or $V$); a compact open subgroup $K_0$ exists by \texttt{exists\_compactOpenSubgroup\_sub}. The vendored proof is A's: pick $v\neq0$ and $K'$ fixing $v$, restrict $T$ to the finite-dimensional space $V^{K'}$, take an eigenvalue $c$ over $\C$, and use that $\ker(T-c)$ is a non-zero invariant subspace.
+
+\emph{Divergence from A (for G2).} The proof is not written in the repository; it is the vendored Schur lemma (Apache-2.0, file-by-file borrowing). Mathematically identical to A.
+\end{proof}
+
+
+\section{Unitary representations and the regular representation}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[unitary representations]
+\tfstmt{I.rep.def:unitary-rep}
+\lean{GL2TF.IsStronglyContinuous}
+\end{definition}
+\begin{tfformal}{I.rep.def:unitary-rep}
+\tfsem{I.rep.def:unitary-rep}{705b8f6f733cfddfbeb615217a7e60fee20f6a1bc9b522911a31f821e3c38848}
+\tfhyps{I.rep.def:unitary-rep}{}
+\tfbinder{I.rep.def:unitary-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:unitary-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:unitary-rep}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:unitary-rep}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{I.rep.def:unitary-rep}{4}{6c14703e}{the norm of $H$}
+\tfbinder{I.rep.def:unitary-rep}{5}{cd7d414f}{the inner product of $H$}
+\tfbinder{I.rep.def:unitary-rep}{6}{61988864}{completeness of $H$}
+\tfbinder{I.rep.def:unitary-rep}{7}{ca57680e}{the unitary representation $\pi$ of $G$ on $H$ (a homomorphism into the unitary group of $H\to_{L}H$)}
+\begin{tffidelity}
+The identifier is attached to the predicate \texttt{IsStronglyContinuous} on a homomorphism $\pi\colon G\to U(H)$. The homomorphism is Mathlib's type \texttt{G $\to^*$ unitary (H $\to_L$ H)}, so unitarity and the group law are part of the type, and the predicate is the continuity of $g\mapsto\pi(g)v$ for every $v$. Together they are the definition of a unitary representation in A.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the integrated representation]
+\tfstmt{I.rep.def:integrated-rep}
+\lean{GL2TF.integratedRep}
+\uses{I.rep.def:unitary-rep}
+\end{definition}
+\begin{tfformal}{I.rep.def:integrated-rep}
+\tfsem{I.rep.def:integrated-rep}{77ba126869f338af0c02c1dd6b4b042b8aac4ae96787def91f4d7e2a2a3940ea}
+\tfhyps{I.rep.def:integrated-rep}{}
+\tfbinder{I.rep.def:integrated-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:integrated-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:integrated-rep}{2}{d0c93987}{the underlying type of $V$}
+\tfbinder{I.rep.def:integrated-rep}{3}{e057dcd5}{the norm of $H$}
+\tfbinder{I.rep.def:integrated-rep}{4}{29260d5b}{the inner product of $H$}
+\tfbinder{I.rep.def:integrated-rep}{5}{ce4a5871}{completeness of $H$}
+\tfbinder{I.rep.def:integrated-rep}{6}{36a70a30}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.def:integrated-rep}{7}{4b42dc4c}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.def:integrated-rep}{8}{3c7d464c}{the unitary representation $\pi$ of $G$ on $H$ (a homomorphism into the unitary group of $H\to_{L}H$)}
+\tfbinder{I.rep.def:integrated-rep}{9}{ae864d1c}{the function $f\colon G\to\C$}
+\tfbinder{I.rep.def:integrated-rep}{10}{232f051f}{the element $v\in H$}
+\begin{tffidelity}
+The function \texttt{integratedRep} is total: it is the Bochner integral $\int f(g)\pi(g)v\,d\mu$, which is $0$ if the integrand is not integrable. The integrability, boundedness and the estimate $\|\pi(f)\|\le\int|f|$ asserted in A are the content of the B-only \cref{I.rep.lem:integrated-rep-bounded}, for strongly continuous $\pi$, continuous $f$ of compact support and Haar $\mu$.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{lemma}[$\pi(f)$ is bounded]
+\tfstmt{I.rep.lem:integrated-rep-bounded}
+\bonly
+\lean{GL2TF.integratedRep_bounded}
+\uses{I.rep.def:integrated-rep, I.rep.def:unitary-rep}
+\end{lemma}
+\begin{tfformal}{I.rep.lem:integrated-rep-bounded}
+\tfsem{I.rep.lem:integrated-rep-bounded}{1f3cf6e833f0e649b0557edff3ef02b2491692d5e2828f5a514fba08029ffe5b}
+\tfhyps{I.rep.lem:integrated-rep-bounded}{}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{4}{db7471db}{the underlying type of $V$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{5}{da79fd6b}{the norm of $H$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{6}{0b9a74d1}{the inner product of $H$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{7}{8fa064d6}{completeness of $H$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{8}{c269a79d}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{9}{e55f8f8b}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{10}{5e115c1a}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{11}{62485108}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{12}{5b0e7d41}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{13}{2e456f3f}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{14}{315e98b0}{the unitary representation $\pi$ of $G$ on $H$ (a homomorphism into the unitary group of $H\to_{L}H$)}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{15}{1ff02273}{the assumption that $\pi$ is strongly continuous (\cref{I.rep.def:unitary-rep})}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{16}{9efa7ff9}{the function $f\colon G\to\C$}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{17}{b01ce920}{the hypothesis that $f$ is continuous}
+\tfbinder{I.rep.lem:integrated-rep-bounded}{18}{041b0aa7}{the hypothesis that $f$ has compact support}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Integrability: for fixed $v$, $g\mapsto f(g)\pi(g)v$ is continuous (strong continuity of $\pi$, continuity of $f$) with compact support $\operatorname{supp}f$, hence integrable for the Haar measure, which is finite on compacts (\texttt{Continuous.integrable\_of\_hasCompactSupport}). Linearity of $v\mapsto\pi(f)v$ is linearity of the Bochner integral (\texttt{integral\_add}, \texttt{integral\_smul}). Boundedness: $\|\pi(g)v\|=\|v\|$ since $\pi(g)$ is unitary (\texttt{Unitary.norm\_map}), so $\|\pi(f)v\|\le\int\abs{f}\,\|v\|\,d\mu$ (\texttt{norm\_integral\_le\_of\_norm\_le}); the bounded operator $T$ is built by \texttt{LinearMap.mkContinuous}, with $\|T\|\le\int\abs f$ from \texttt{mkContinuous\_norm\_le}.
+\end{proof}
+
+\begin{definition}[the right regular representation]
+\tfstmt{I.rep.def:right-regular-rep}
+\lean{GL2TF.rightRegular}
+\end{definition}
+\begin{tfformal}{I.rep.def:right-regular-rep}
+\tfsem{I.rep.def:right-regular-rep}{eafd9b3a8b9844f70ed6014b1fb3f01a38b08a92822db75d70321ee5f7e7a49f}
+\tfhyps{I.rep.def:right-regular-rep}{}
+\tfbinder{I.rep.def:right-regular-rep}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:right-regular-rep}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:right-regular-rep}{2}{d0c93987}{the underlying type of $V$}
+\tfbinder{I.rep.def:right-regular-rep}{3}{eb96b2f9}{the $\sigma$-algebra of $X$}
+\tfbinder{I.rep.def:right-regular-rep}{4}{295db711}{the right action of $G$ on $X$}
+\tfbinder{I.rep.def:right-regular-rep}{5}{3cade41d}{the assumption that each $x\mapsto xg$ is measurable}
+\tfbinder{I.rep.def:right-regular-rep}{6}{8236d713}{the measure $\nu$ on $X$}
+\tfbinder{I.rep.def:right-regular-rep}{7}{59aa5d76}{the assumption that $\nu$ is $G$-invariant}
+\tfbinder{I.rep.def:right-regular-rep}{8}{7e7f3feb}{the element $g\in G$}
+\tfbinder{I.rep.def:right-regular-rep}{9}{a46d1085}{the element $\varphi$ of $L^2(X,\nu)$}
+\begin{tffidelity}
+The right translation $x\mapsto xg$ is formalized as a left action of the opposite group $G^{\mathrm{op}}$ on $X$ (binder 4), and \texttt{rightRegular} is Mathlib's \texttt{DomMulAct} action, $(R(g)\varphi)(x)=\varphi(x\cdot g)$ almost everywhere. Invariance of $\nu$ is Mathlib's \texttt{SMulInvariantMeasure}, i.e.\ $\nu(\{x: xg\in E\})=\nu(E)$ as in A. Binder 5 (each $x\mapsto xg$ is measurable) is not in A; it is implied by A's continuity of the action and the Borel $\sigma$-algebra, and is needed here to form the action on $L^2$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$R$ is unitary]
+\tfstmt{I.rep.thm:right-regular-unitary}
+\lean{GL2TF.rightRegular_unitary}
+\uses{I.rep.def:right-regular-rep, I.rep.def:unitary-rep}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:right-regular-unitary}
+\tfsem{I.rep.thm:right-regular-unitary}{96875b75651799d48178a3180b19a859f852036c5493a065149b338aa061dd3a}
+\tfhyps{I.rep.thm:right-regular-unitary}{}
+\tfbinder{I.rep.thm:right-regular-unitary}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:right-regular-unitary}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:right-regular-unitary}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:right-regular-unitary}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:right-regular-unitary}{4}{db7471db}{the underlying type of $V$}
+\tfbinder{I.rep.thm:right-regular-unitary}{5}{92d2e6e9}{the topology of $X$}
+\tfbinder{I.rep.thm:right-regular-unitary}{6}{00526eab}{the $\sigma$-algebra of $X$}
+\tfbinder{I.rep.thm:right-regular-unitary}{7}{f10e3736}{the assumption that the $\sigma$-algebra of $X$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.thm:right-regular-unitary}{8}{13752bb0}{the right action of $G$ on $X$}
+\tfbinder{I.rep.thm:right-regular-unitary}{9}{c57e69cf}{the assumption that the right action of $G$ on $X$ is continuous}
+\tfbinder{I.rep.thm:right-regular-unitary}{10}{af56f37b}{the assumption that each $x\mapsto xg$ is measurable}
+\tfbinder{I.rep.thm:right-regular-unitary}{11}{979c977d}{the measure $\nu$ on $X$}
+\tfbinder{I.rep.thm:right-regular-unitary}{12}{7b6e7488}{the assumption that $\nu$ is $G$-invariant}
+\begin{tffidelity}
+The statement is existential: there is a homomorphism $\rho\colon G\to U(L^2(X,\nu))$ into the unitary group with $\rho(g)\varphi=R(g)\varphi$ for all $g,\varphi$. This is equivalent to A's formulation that each $R(g)$ is unitary and $g\mapsto R(g)$ is a homomorphism, since the homomorphism property and unitarity are carried by the type of $\rho$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Differs in organization from A, which checks well-definedness on a.e.\ classes by hand. In Lean the action of $G^{\mathrm{op}}$ on $X$ preserves $\nu$ (\texttt{SMulInvariantMeasure}), and Mathlib's domain-multiplication action \texttt{DomMulAct} of $G^{\mathrm{op}}$ on $L^2(X,\nu)$ already provides a well-defined action by isometries (\texttt{DomMulAct.norm\_smul\_Lp}); $R(g)\varphi$ is this action of $\mathrm{op}(g)$. From the action axioms, $R(gh)=R(g)R(h)$ and $R(1)=1$ (\texttt{rightRegular\_mul}, \texttt{rightRegular\_one\_apply}); the isometry equivalence with inverse $R(g^{-1})$ is \texttt{rightRegularIso} (untagged), and \texttt{Unitary.linearIsometryEquiv} converts the homomorphism $G\to(L^2\simeq_{\ell i}L^2)$ into one with values in $\mathrm{U}(L^2)$.
+\end{proof}
+
+\begin{theorem}[$R$ is strongly continuous]
+\tfstmt{I.rep.thm:right-regular-strongly-continuous}
+\lean{GL2TF.rightRegular_continuous}
+\uses{I.rep.def:right-regular-rep, I.rep.def:unitary-rep}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:right-regular-strongly-continuous}
+\tfsem{I.rep.thm:right-regular-strongly-continuous}{77fc9c72e381977c4a617e701df4ca3eca9e7f69460306c5e1822439ae05f357}
+\tfhyps{I.rep.thm:right-regular-strongly-continuous}{}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{4}{db7471db}{the underlying type of $V$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{5}{92d2e6e9}{the topology of $X$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{6}{00526eab}{the $\sigma$-algebra of $X$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{7}{f10e3736}{the assumption that the $\sigma$-algebra of $X$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{8}{13752bb0}{the right action of $G$ on $X$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{9}{c57e69cf}{the assumption that the right action of $G$ on $X$ is continuous}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{10}{af56f37b}{the assumption that each $x\mapsto xg$ is measurable}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{11}{9c0870b2}{the assumption that $X$ is an $R_1$-space}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{12}{6014a4d6}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{13}{e4abeb00}{the assumption that open subsets of $G$ are measurable}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{14}{e82c4729}{the measure $\nu$ on $X$}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{15}{8825eba9}{the assumption that $\nu$ is $G$-invariant}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{16}{0a1e93bd}{the assumption that $\nu$ is locally finite}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{17}{185f1672}{the assumption that $\nu$ is inner regular for compact sets}
+\tfbinder{I.rep.thm:right-regular-strongly-continuous}{18}{7d273cd1}{the element $\varphi$ of $L^2(X,\nu)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A (for G2).} A proves continuity by hand (inner regularity, tube lemma, indicator functions of finite-measure sets, density). The Lean proof is a one-line application of Mathlib's theorem that the \texttt{DomMulAct} action of a topological group on $L^p(X,\nu)$, $p\neq\infty$, is jointly continuous when the action on $X$ is continuous, $X$ is $R_1$ and $\nu$ is locally finite and inner regular on finite-measure sets: \texttt{continuous\_smul} composed with $g\mapsto(\mathrm{op}\,g,\varphi)$. The hypotheses (\texttt{R1Space}, \texttt{IsLocallyFiniteMeasure}, \texttt{InnerRegularCompactLTTop}) are exactly the inputs of A's Steps 0--2, here hidden inside Mathlib. The statement is the same.
+\end{proof}
+
+\begin{definition}[Dirac sequences]
+\tfstmt{I.rep.def:dirac-sequence}
+\lean{GL2TF.IsDiracSequence}
+\end{definition}
+\begin{tfformal}{I.rep.def:dirac-sequence}
+\tfsem{I.rep.def:dirac-sequence}{a55d77a9824319f3bd51de7f613c3a2c8d669d1081c1898757d375ab65f851a4}
+\tfhyps{I.rep.def:dirac-sequence}{}
+\tfbinder{I.rep.def:dirac-sequence}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:dirac-sequence}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.def:dirac-sequence}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.def:dirac-sequence}{3}{ce8d39e1}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.def:dirac-sequence}{4}{7bbda997}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.def:dirac-sequence}{5}{18db49e4}{the sequence of functions $f_n\colon G\to\R$, indexed from $0$}
+\begin{tffidelity}
+Lean: $f_n\colon\N\to G\to\R$, indexed from $0$, continuous, compactly supported, $\ge0$, $\int f_n\,d\mu=1$, and $\operatorname{tsupport}f_n\subseteq U$ eventually for every neighbourhood $U$ of $1$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[existence of Dirac sequences]
+\tfstmt{I.rep.thm:dirac-sequence-exists}
+\lean{GL2TF.exists_diracSequence}
+\uses{I.rep.def:dirac-sequence}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:dirac-sequence-exists}
+\tfsem{I.rep.thm:dirac-sequence-exists}{f52e23cd0699fa6ab2db0bce5d6a7bc841e71d0edaf906b71b97d6b2f059dee0}
+\tfhyps{I.rep.thm:dirac-sequence-exists}{}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{6}{79df23eb}{the assumption that $G$ is first countable}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{7}{f61be449}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{8}{d9d9c103}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{9}{72535b94}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.thm:dirac-sequence-exists}{10}{9c9c679e}{the assumption that $\mu$ is a left Haar measure}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. A countable decreasing neighbourhood basis $V_n$ of $1$ exists by first countability (\texttt{exists\_antitone\_basis}). Urysohn for the compact set $\{1\}$ and the closed set $(\operatorname{int}V_n)^c$ (\texttt{exists\_continuous\_one\_zero\_of\_isCompact}) gives continuous $\varphi_n\colon G\to[0,1]$ of compact support, $\varphi_n(1)=1$, vanishing off $\operatorname{int}V_n$. Then $\int\varphi_n\,d\mu>0$ (\texttt{integral\_pos\_of\_hasCompactSupport\_nonneg\_nonzero}) and $f_n=(\int\varphi_n)^{-1}\varphi_n$. Given a neighbourhood $U$ of $1$, choose a closed neighbourhood $W\subseteq U$ (regularity of $G$, \texttt{exists\_mem\_nhds\_isClosed\_subset}) and $N$ with $V_N\subseteq W$; then $\operatorname{tsupport}f_n\subseteq\overline{V_n}\subseteq W\subseteq U$ for $n\ge N$. The closure step, absent from A, is needed because the Lean statement uses the topological support.
+\end{proof}
+
+\begin{theorem}[approximate identity]
+\tfstmt{I.rep.thm:approximate-identity}
+\lean{GL2TF.tendsto_integratedRep_diracSequence}
+\uses{I.rep.def:integrated-rep, I.rep.def:dirac-sequence, I.rep.def:unitary-rep}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:approximate-identity}
+\tfsem{I.rep.thm:approximate-identity}{149e92405449b59d770069e90a59f63fc5d84506e79400d2535637df615ea7e2}
+\tfhyps{I.rep.thm:approximate-identity}{}
+\tfbinder{I.rep.thm:approximate-identity}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:approximate-identity}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:approximate-identity}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:approximate-identity}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.thm:approximate-identity}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.thm:approximate-identity}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.thm:approximate-identity}{6}{36a70a30}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.thm:approximate-identity}{7}{382fb71f}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.thm:approximate-identity}{8}{c6021462}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.thm:approximate-identity}{9}{ed047cc1}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.rep.thm:approximate-identity}{10}{98f34740}{the underlying type of $H$}
+\tfbinder{I.rep.thm:approximate-identity}{11}{30e7af92}{the norm of $H$}
+\tfbinder{I.rep.thm:approximate-identity}{12}{f3ac44a3}{the inner product of $H$}
+\tfbinder{I.rep.thm:approximate-identity}{13}{e191e524}{completeness of $H$}
+\tfbinder{I.rep.thm:approximate-identity}{14}{8460ca00}{the unitary representation $\pi$ of $G$ on $H$ (a homomorphism into the unitary group of $H\to_{L}H$)}
+\tfbinder{I.rep.thm:approximate-identity}{15}{28dda3de}{the assumption that $\pi$ is strongly continuous (\cref{I.rep.def:unitary-rep})}
+\tfbinder{I.rep.thm:approximate-identity}{16}{209f18a1}{the sequence of functions $f_n\colon G\to\R$, indexed from $0$}
+\tfbinder{I.rep.thm:approximate-identity}{17}{904e0b37}{the assumption that $f$ is a Dirac sequence (\cref{I.rep.def:dirac-sequence})}
+\tfbinder{I.rep.thm:approximate-identity}{18}{cb45d4df}{the element $v\in H$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, with the estimate done in one chain. Given $\varepsilon>0$, strong continuity gives the neighbourhood $U=\{g:\|\pi(g)v-v\|<\varepsilon/2\}$ of $1$; for $n$ large $\operatorname{tsupport}f_n\subseteq U$. Using $\int f_n\,d\mu=1$, $\pi(f_n)v-v=\int f_n(g)(\pi(g)v-\!v)\,d\mu$ (\texttt{key}, with integrability of both pieces from compact support), and $\|\cdot\|\le\int f_n\cdot\varepsilon/2=\varepsilon/2<\varepsilon$ (\texttt{norm\_integral\_le\_of\_norm\_le}); where $f_n(g)=0$ the integrand vanishes, otherwise $g\in\operatorname{supp}f_n\subseteq U$. Only the integrability of the integrands is used, not \cref{I.rep.lem:integrated-rep-bounded}.
+\end{proof}
+
+\begin{corollary}[approximate identity for the regular representation]
+\tfstmt{I.rep.cor:approximate-identity-regular}
+\lean{GL2TF.tendsto_rightRegular_diracSequence}
+\uses{I.rep.thm:approximate-identity, I.rep.thm:right-regular-unitary, I.rep.thm:right-regular-strongly-continuous, I.rep.def:dirac-sequence, I.rep.def:integrated-rep, I.rep.def:right-regular-rep}
+\end{corollary}
+\begin{tfformal}{I.rep.cor:approximate-identity-regular}
+\tfsem{I.rep.cor:approximate-identity-regular}{21e0541dfef0f7f025c6cd7c9ca12d179e60712f8e00eefd101ef50a05e2c212}
+\tfhyps{I.rep.cor:approximate-identity-regular}{}
+\tfbinder{I.rep.cor:approximate-identity-regular}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{3}{9211ef29}{the assumption that $G$ is a topological group}
+\tfbinder{I.rep.cor:approximate-identity-regular}{4}{b9372ff8}{the assumption that $G$ is locally compact}
+\tfbinder{I.rep.cor:approximate-identity-regular}{5}{d9bcd626}{the assumption that $G$ is Hausdorff}
+\tfbinder{I.rep.cor:approximate-identity-regular}{6}{36a70a30}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{7}{382fb71f}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.cor:approximate-identity-regular}{8}{c6021462}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{9}{ed047cc1}{the assumption that $\mu$ is a left Haar measure}
+\tfbinder{I.rep.cor:approximate-identity-regular}{10}{98f34740}{the underlying type of $H$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{11}{f66159d3}{the topology of $X$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{12}{9db63f54}{the $\sigma$-algebra of $X$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{13}{55a70349}{the assumption that the $\sigma$-algebra of $X$ is the Borel $\sigma$-algebra}
+\tfbinder{I.rep.cor:approximate-identity-regular}{14}{0b9c6e89}{the right action of $G$ on $X$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{15}{09a77c1f}{the assumption that the right action of $G$ on $X$ is continuous}
+\tfbinder{I.rep.cor:approximate-identity-regular}{16}{ceb8b6c2}{the assumption that each $x\mapsto xg$ is measurable}
+\tfbinder{I.rep.cor:approximate-identity-regular}{17}{4d97d9de}{the assumption that $X$ is an $R_1$-space}
+\tfbinder{I.rep.cor:approximate-identity-regular}{18}{28f3ebfc}{the measure $\nu$ on $X$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{19}{6a3e8640}{the assumption that $\nu$ is $G$-invariant}
+\tfbinder{I.rep.cor:approximate-identity-regular}{20}{274513eb}{the assumption that $\nu$ is locally finite}
+\tfbinder{I.rep.cor:approximate-identity-regular}{21}{efd43aad}{the assumption that $\nu$ is inner regular for compact sets}
+\tfbinder{I.rep.cor:approximate-identity-regular}{22}{b401b193}{the unitary representation $\rho$ of $G$ on $L^2(X,\nu)$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{23}{465100eb}{the hypothesis that $\rho$ is the right regular representation (\cref{I.rep.def:right-regular-rep})}
+\tfbinder{I.rep.cor:approximate-identity-regular}{24}{c231dca9}{the sequence of functions $f_n\colon G\to\R$, indexed from $0$}
+\tfbinder{I.rep.cor:approximate-identity-regular}{25}{5f39ce6a}{the assumption that $f$ is a Dirac sequence (\cref{I.rep.def:dirac-sequence})}
+\tfbinder{I.rep.cor:approximate-identity-regular}{26}{295de344}{the element $\varphi$ of $L^2(X,\nu)$}
+\begin{tffidelity}
+Lean quantifies over a unitary representation $\rho$ with $\rho(g)\varphi=R(g)\varphi$ (binders 22 and 23), whose existence is \cref{I.rep.thm:right-regular-unitary}, instead of naming the representation $R$ as a homomorphism; the conclusion is for $\rho(f_n)\varphi$ in the integrated representation of $\rho$. This is A's statement for the right regular representation.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Apply \cref{I.rep.thm:approximate-identity} to $\rho$ (unitary by \cref{I.rep.thm:right-regular-unitary}, with $\rho(g)=R(g)$ by the hypothesis \texttt{h\rho}); strong continuity of $\rho$ is \cref{I.rep.thm:right-regular-strongly-continuous} after rewriting $\rho(g)\psi=R(g)\psi$. As in A.
+\end{proof}
+
+\begin{theorem}[convolution and adjoints]
+\tfstmt{I.rep.thm:integrated-rep-convolution}
+\lean{GL2TF.integratedRep_convolution}
+\uses{I.rep.def:integrated-rep, I.rep.def:unitary-rep, X.haar.def:group-convolution, X.haar.def:is-unimodular}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:integrated-rep-convolution}
+\tfsem{I.rep.thm:integrated-rep-convolution}{f88b130ff9ea1645280a95dda39a61f967acb1616d1841c03641c3e6e7a4bce4}
+\tfhyps{I.rep.thm:integrated-rep-convolution}{}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``topological group'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{4}{b9372ff8}{the assumption that $G$ is locally compact (A: ``locally compact'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{5}{d9bcd626}{the assumption that $G$ is Hausdorff (A: ``Hausdorff'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{6}{36a70a30}{the $\sigma$-algebra of $G$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{7}{382fb71f}{the assumption that the $\sigma$-algebra of $G$ is the Borel $\sigma$-algebra (A: ``Borel'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{8}{c6021462}{the measure $\mu$ on $G$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{9}{ed047cc1}{the assumption that $\mu$ is a left Haar measure (A: ``a left Haar measure'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{10}{98f34740}{the type of the Hilbert space $\mathcal H$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{11}{30e7af92}{the norm and additive group structure of $H$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{12}{f3ac44a3}{the complex inner product of $H$ (A: ``complex Hilbert space'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{13}{e191e524}{the assumption that $H$ is complete (A: ``Hilbert space'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{14}{48438f63}{the unitary representation $\pi\colon G\to\mathrm U(\mathcal H)$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{15}{28dda3de}{the assumption that $\pi$ is strongly continuous (A: ``strongly continuous'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{16}{9efa7ff9}{the function $f\colon G\to\C$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{17}{615fe9b4}{the function $g\colon G\to\C$}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{18}{bcc8d8a3}{the assumption that $f$ is continuous (A: ``continuous'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{19}{fcdb2253}{the assumption that $f$ has compact support (A: ``compact support'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{20}{956012d3}{the assumption that $g$ is continuous (A: ``continuous'')}
+\tfbinder{I.rep.thm:integrated-rep-convolution}{21}{f67ea99b}{the assumption that $g$ has compact support (A: ``compact support'')}
+\begin{tffidelity}
+$\pi(f)$ is \texttt{integratedRep μ π f} (\cref{I.rep.def:integrated-rep}), a Bochner integral $\int f(g)\pi(g)v\,\dd\mu$ for each vector $v$. The conclusion is a conjunction: $f*_\mu g$ is continuous and has compact support (with \texttt{groupConv}); $\pi(f*g)v=\pi(f)(\pi(g)v)$ for all $v$, i.e.\ $\pi(f*g)=\pi(f)\pi(g)$ pointwise on vectors; and, if $G$ is unimodular (\texttt{IsUnimodular G → …}), $\langle\pi(f)v,w\rangle=\langle v,\pi(f^*)w\rangle$ for all $v,w$ with $f^*(x)=\overline{f(x^{-1})}$, i.e.\ $\pi(f)^*=\pi(f^*)$. The unimodularity assumption is an implication inside the conclusion (not a binder). Strong continuity of $\pi$ is the binder \texttt{hπ} (\texttt{IsStronglyContinuous}); the unitary representation is a homomorphism into \texttt{unitary (H →L[ℂ] H)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Continuity of $f\ast g$} (as in A, a uniform estimate): given $\varepsilon$, by uniform continuity of $(p,y)\mapsto g(y^{-1}p)$ on the compact set $\operatorname{supp}f$ (\texttt{IsCompact.mem\_uniformity\_of\_prod}) there is a neighbourhood of $q$ on which $|g(y^{-1}p)-g(y^{-1}q)|<\varepsilon/A$ for all $y\in\operatorname{supp}f$, with $A=\int|f|+1$; integrating gives $|(f\ast g)(p)-(f\ast g)(q)|<\varepsilon$ (\texttt{continuous\_groupConv}). No countability of $G$ is assumed. \emph{Support}: $\operatorname{supp}(f\ast g)\subseteq\operatorname{supp}f\cdot\operatorname{supp}g$. \emph{Product formula} (as in A): $\pi(f\ast g)v=\int\!\!\int f(y)g(y^{-1}w)\,\pi(w)v\,\dd w\,\dd y$ after Fubini for continuous compactly supported integrands, which needs no $\sigma$-finiteness (\texttt{integral\_integral\_swap\_of\_hasCompactSupport}); then substituting $w\mapsto yw$ (left invariance) gives $\int f(y)\pi(y)\int g(z)\pi(z)v\,\dd z\,\dd y=\pi(f)\pi(g)v$. \emph{Adjoint.} Writing $h(y)=\overline{f(y)}\langle v,\pi(y^{-1})w\rangle$, unitarity of $\pi$ gives $\langle\pi(f)v,w\rangle=\int h$ and $\langle v,\pi(f^*)w\rangle=\int h(y^{-1})$ for $f^*(x)=\overline{f(x^{-1})}$. As in A (step \emph{Inversion}), Lean proves $\int h(x^{-1})\,\dd\mu=\int h\,\dd\mu$ for continuous compactly supported $h$ by Weil's argument (\texttt{integral\_inv\_of\_unimodular}): for a bump $u\ge0$ with $u(1)>0$, $(\int u)(\int h\circ\mathrm{inv})=\iint h(x^{-1})u(xy)\,\dd y\,\dd x$ by left invariance, $=\iint h(x^{-1})u(xy)\,\dd x\,\dd y$ by Fubini, $=\iint h(yx^{-1})u(x)\,\dd x\,\dd y$ by right invariance (which comes from \texttt{IsUnimodular}, \texttt{isMulRightInvariant\_of\_unimodular}), $=\iint h(yx^{-1})u(x)\,\dd y\,\dd x$ by a second Fubini, $=(\int u)(\int h)$ by right invariance again.
+\end{proof}
+
+\begin{theorem}[weight vectors are complete]
+\tfstmt{I.rep.thm:k-infinity-types-complete}
+\lean{GL2TF.kInfinity_types_complete}
+\uses{I.rep.def:unitary-rep, I.conv.def:rotation, I.conv.def:max-compact-real, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:k-infinity-types-complete}
+\tfsem{I.rep.thm:k-infinity-types-complete}{8a62e5ffae8890eae5cf3219d931d86f77f7a73d5e7f642cfe58f1b784f2d704}
+\tfhyps{I.rep.thm:k-infinity-types-complete}{}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{2}{041b9d8e}{the topology of $G$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{3}{9211ef29}{the assumption that $G$ is a topological group (A: ``topological group'')}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{4}{9b7a816b}{the homomorphism $\iota\colon K_\infty\to G$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{5}{1af473b7}{the assumption that $\iota$ is continuous (A: ``continuous group homomorphism'')}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{6}{2aa2b896}{the type of the Hilbert space $\mathcal H$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{7}{3d5cc927}{the norm and additive group structure of $H$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{8}{54d08419}{the complex inner product of $H$ (A: ``complex Hilbert space'')}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{9}{6cf742b5}{the assumption that $H$ is complete (A: ``Hilbert space'')}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{10}{fa539c35}{the unitary representation $\pi\colon G\to\mathrm U(\mathcal H)$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{11}{62478e57}{the assumption that $\pi$ is strongly continuous (A: ``strongly continuous'')}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{12}{4b3bde08}{the vector $v\in\mathcal H$}
+\tfbinder{I.rep.thm:k-infinity-types-complete}{13}{95f53a27}{the assumption $P_nv=0$ for every $n\in\Z$ (A: ``If $P_nv=0$ for every $n\in\Z$'')}
+\begin{tffidelity}
+The projections $P_nv$ are written inline: the hypothesis \texttt{hv} says $(2\pi)^{-1}\int_0^{2\pi}e^{-in\theta}\,\pi(\iota(k_\theta))v\,\dd\theta=0$ for every $n\in\Z$ (an interval Bochner integral, \texttt{rotation θ} for $k_\theta$); the conclusion is $v=0$. $\iota$ is a continuous homomorphism \texttt{maxCompactReal →* G} (hypothesis \texttt{hι}); $G$ is a topological group.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. The function $c(\theta)=\langle v,\pi(\iota(k_\theta))v\rangle$ is continuous and $2\pi$-periodic, so it defines a continuous function $F$ on $\mathbb R/2\pi\mathbb Z$. Its Fourier coefficients are $\hat F(n)=\frac1{2\pi}\int_0^{2\pi}e^{-in\theta}c(\theta)\,\dd\theta=\langle v,P_nv\rangle=0$ by hypothesis (the inner product with $v$ commutes with the integral). A continuous function with all Fourier coefficients $0$ is $0$: the coefficients are summable, so the Fourier series converges pointwise to $F$ (\texttt{has\_pointwise\_sum\_fourier\_series\_of\_summable}) and its sum is $0$; \texttt{fourierBasis} is not needed. Hence $\langle v,v\rangle=c(0)=F(0)=0$.
+\end{proof}
+
+\begin{definition}[the automorphic regular representation]
+\tfstmt{I.rep.def:automorphic-regular-rep}
+\lean{GL2TF.automorphicRegular}
+\uses{I.rep.def:right-regular-rep, I.quot.def:automorphic-right-action, I.quot.def:automorphic-quotient-measure, I.quot.def:l2-automorphic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:gl2-rat-norm-one, I.quot.lem:automorphic-quotient-invariant-instance, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.rep.def:automorphic-regular-rep}
+\tfsem{I.rep.def:automorphic-regular-rep}{59df1d470ecc60c916200dc3780eaa6124de5d4c51d0641e4c95e997bc446684}
+\tfhyps{I.rep.def:automorphic-regular-rep}{}
+\tfbinder{I.rep.def:automorphic-regular-rep}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.rep.def:automorphic-regular-rep}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+\texttt{automorphicRegular μ} is a group homomorphism $G(\A)^1\to\mathrm U(L^2(G(\Q)\backslash G(\A)^1))$ (\texttt{unitary (l2Automorphic μ →L[ℂ] l2Automorphic μ)}), chosen by \texttt{Classical.choose} from the unitary right regular representation of M2 for the right action and the quotient measure; the formula $(R(g)\varphi)(\dot x)=\varphi(\dot x\cdot g)$ is the B-only \cref{I.rep.lem:automorphic-regular-apply}. That the right regular representation exists for this action is \cref{I.rep.thm:right-regular-unitary}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Defined as the homomorphism $G(\A)^1\to U(\Ltwo)$ chosen (\texttt{Classical.choose}) from \cref{I.rep.thm:right-regular-unitary} for the right action of $G(\A)^1$ on the quotient and the quotient measure.
+\end{proof}
+
+\begin{lemma}[the formula for $R(g)$]
+\tfstmt{I.rep.lem:automorphic-regular-apply}
+\bonly
+\lean{GL2TF.automorphicRegular_apply}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:automorphic-right-action, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:automorphic-quotient-invariant-instance, I.quot.lem:automorphic-right-action-continuous-instance, I.rep.def:automorphic-regular-rep, I.rep.def:right-regular-rep, I.rep.thm:right-regular-unitary, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{lemma}
+\begin{tfformal}{I.rep.lem:automorphic-regular-apply}
+\tfsem{I.rep.lem:automorphic-regular-apply}{b13c58aed237b25e048cdfe00f7458baf167f72f6b0776ed40e120520e044057}
+\tfhyps{I.rep.lem:automorphic-regular-apply}{}
+\tfbinder{I.rep.lem:automorphic-regular-apply}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.rep.lem:automorphic-regular-apply}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (B-only)}
+\tfbinder{I.rep.lem:automorphic-regular-apply}{2}{11894aa1}{the element $g\in G(\A)^1$}
+\tfbinder{I.rep.lem:automorphic-regular-apply}{3}{c6f485b3}{the vector $\varphi\in L^2(G(\Q)\backslash G(\A)^1)$}
+\begin{tffidelity}
+B-only. \texttt{automorphicRegular μ g φ = rightRegular (automorphicQuotientMeasure μ) g φ}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+This is the specification field of the chosen homomorphism (\texttt{Classical.choose\_spec} of \cref{I.rep.thm:right-regular-unitary}).
+\end{proof}
+
+\begin{theorem}[$R$ is a strongly continuous unitary representation]
+\tfstmt{I.rep.thm:automorphic-regular-unitary}
+\lean{GL2TF.automorphicRegular_unitary}
+\uses{I.rep.def:automorphic-regular-rep, I.rep.def:unitary-rep, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.lem:finadele-topological-ring-instance, I.haar.def:haar-norm-one, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.quot.def:automorphic-right-action, I.quot.lem:automorphic-quotient-borel-instance, I.quot.lem:automorphic-quotient-invariant-instance, I.quot.lem:automorphic-right-action-continuous-instance, I.quot.lem:gl2-rat-norm-one-discrete, I.quot.thm:automorphic-quotient-second-countable, I.rep.def:right-regular-rep, I.rep.lem:automorphic-regular-apply, I.rep.thm:right-regular-strongly-continuous, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.quot.def:quotient-measure, X.quot.lem:quotient-measure-spec}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:automorphic-regular-unitary}
+\tfsem{I.rep.thm:automorphic-regular-unitary}{c509e1a0f37f0248f71ba8619fe33be8f379c1e51e2e8f5cd2cb3187bf06c373}
+\tfhyps{I.rep.thm:automorphic-regular-unitary}{}
+\tfbinder{I.rep.thm:automorphic-regular-unitary}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.rep.thm:automorphic-regular-unitary}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\begin{tffidelity}
+The unitarity is part of the type of \texttt{automorphicRegular μ} (a homomorphism into \texttt{unitary}); the theorem states \texttt{IsStronglyContinuous (automorphicRegular μ)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Unitarity is part of the construction. Strong continuity is \cref{I.rep.thm:right-regular-unitary}'s continuity statement (\texttt{rightRegular\_continuous}) for the right action of $G(\A)^1$ on the quotient, which needs the measure to be finite on compacts and inner regular: both come from \texttt{quotientMeasure\_spec} (finite on compacts) and the quotient being second countable and locally compact (\texttt{automorphicQuotient\_secondCountable}). The finite-volume theorem is not used.
+\end{proof}
+
+\begin{definition}[the operators $R(f)$]
+\tfstmt{I.rep.def:automorphic-test-function-action}
+\lean{GL2TF.automorphicTestAction}
+\uses{I.rep.def:integrated-rep, I.rep.def:automorphic-regular-rep, I.haar.def:haar-norm-one, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space}
+\end{definition}
+\begin{tfformal}{I.rep.def:automorphic-test-function-action}
+\tfsem{I.rep.def:automorphic-test-function-action}{877030ea387f6dac3c776f30333174b740e3ca849722c6569282cfaecb4f5162}
+\tfhyps{I.rep.def:automorphic-test-function-action}{}
+\tfbinder{I.rep.def:automorphic-test-function-action}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.rep.def:automorphic-test-function-action}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{I.rep.def:automorphic-test-function-action}{2}{f87d0e39}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{I.rep.def:automorphic-test-function-action}{3}{c6f485b3}{the vector $\varphi\in L^2(G(\Q)\backslash G(\A)^1)$}
+\begin{tffidelity}
+\texttt{automorphicTestAction μ f φ} is \texttt{integratedRep (haarNormOne μ) (automorphicRegular μ) f φ}, the vector-valued Bochner integral $\int f(y)R(y)\varphi\,\dd\mu^1(y)$; for $f$ not continuous with compact support the value is whatever the integral gives (junk $0$ when not integrable). That it is a bounded operator with $\norm{R(f)}\le\int|f|\,\dd\mu^1$ for $f$ continuous with compact support is the B-only \cref{I.rep.lem:automorphic-test-function-action-bounded}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The definition is \texttt{integratedRep} of M2 for $G(\A)^1$, $\mu^1$ and $R$.
+\end{proof}
+
+\begin{lemma}[$R(f)$ is bounded]
+\tfstmt{I.rep.lem:automorphic-test-function-action-bounded}
+\bonly
+\lean{GL2TF.automorphicTestAction_bounded}
+\uses{I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.def:haar-norm-one, I.quot.def:automorphic-quotient-measure, I.quot.def:gl2-rat-norm-one, I.quot.def:l2-automorphic, I.rep.def:automorphic-test-function-action, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.lem:finadele-topological-ring-instance, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.lem:norm-one-locally-compact-instance, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.rep.def:automorphic-regular-rep, I.rep.def:integrated-rep, I.rep.lem:integrated-rep-bounded, I.rep.thm:automorphic-regular-unitary, I.topgrp.def:central-element, I.topgrp.def:central-split-component}
+\end{lemma}
+\begin{tfformal}{I.rep.lem:automorphic-test-function-action-bounded}
+\tfsem{I.rep.lem:automorphic-test-function-action-bounded}{bfd9674a61dd9278d24103c82055ac2d652d50d2886716fe632bcc3387fd93d1}
+\tfhyps{I.rep.lem:automorphic-test-function-action-bounded}{}
+\tfbinder{I.rep.lem:automorphic-test-function-action-bounded}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.rep.lem:automorphic-test-function-action-bounded}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (B-only)}
+\tfbinder{I.rep.lem:automorphic-test-function-action-bounded}{2}{ba3d685a}{the function $f\colon G(\A)^1\to\C$}
+\tfbinder{I.rep.lem:automorphic-test-function-action-bounded}{3}{3e157d78}{the assumption that $f$ is continuous (B-only)}
+\tfbinder{I.rep.lem:automorphic-test-function-action-bounded}{4}{9fa2c18f}{the assumption that $f$ has compact support (B-only)}
+\begin{tffidelity}
+B-only. The claim inside \cref{I.rep.def:automorphic-test-function-action}: there is a continuous linear map $T$ with $T\varphi=\texttt{automorphicTestAction μ f φ}$ for all $\varphi$ and $\norm T\le\int\norm{f(y)}\,\dd\mu^1(y)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+This is the boundedness statement of \texttt{integratedRep\_bounded} for the strongly continuous unitary representation $R$ (\cref{I.rep.thm:automorphic-regular-unitary}): $\norm{R(f)}\le\int|f|\,\dd\mu^1$.
+\end{proof}
+
+\begin{corollary}[$\pi(f)\neq0$ for some test function]
+\tfstmt{I.rep.cor:nonzero-test-function-action}
+\lean{GL2TF.nonzero_test_function_action}
+\uses{I.hecke.def:test-function, I.hecke.def:convolution-span, I.rep.def:integrated-rep, I.rep.def:unitary-rep, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.haar.def:haar-norm-one, I.topgrp.def:norm-one-group, X.topgrp.def:matrix-measurable-space, X.topgrp.def:restricted-product-measurable-space, I.adele.def:idele-inf-fin, I.adele.def:idele-norm, I.adele.def:idele-norm-fun, I.adele.def:ideles, I.adele.def:zhat, I.adele.lem:finadele-topological-ring-instance, I.adele.lem:idele-norm-spec, I.adele.lem:zhat-units-explicit, I.conv.def:max-compact-real, I.conv.def:rotation, I.haar.def:norm-one-normalization, I.haar.def:real-unit-of, I.haar.lem:gl2-adelic-borel-instance, I.haar.lem:gl2-fin-adelic-borel-instance, I.haar.lem:haar-norm-one-spec, I.haar.thm:gl2-adelic-unimodular, I.hecke.def:k-infinity-adelic-embedding, I.hecke.def:k-infinity-norm-one-embedding, I.hecke.def:norm-one-lift, I.hecke.def:smooth-adelic, I.hecke.def:smooth-compact-norm-one, I.hecke.def:smooth-function-real, I.hecke.thm:convolution-span-meets-k-types, I.hecke.thm:smooth-dirac-sequence-adelic, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:padic-nalf-instance, I.lf.lem:nalf-t2, I.lf.thm:abs-padic-eq, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, I.rep.def:dirac-sequence, I.rep.lem:integrated-rep-bounded, I.rep.thm:approximate-identity, I.rep.thm:integrated-rep-convolution, I.rep.thm:k-infinity-types-complete, I.topgrp.def:adelic-component-fin, I.topgrp.def:adelic-component-inf, I.topgrp.def:central-element, I.topgrp.def:central-split-component, I.topgrp.def:fin-embedding, I.topgrp.def:gl2-product-equiv, I.topgrp.def:inf-embedding, I.topgrp.def:matrix-pair, I.topgrp.def:max-compact-fin-adelic, I.topgrp.lem:gl2-adelic-locally-compact-instance, I.topgrp.lem:gl2-fin-adelic-locally-compact-instance, I.topgrp.lem:norm-one-group-closed-normal, I.topgrp.thm:gl2-adelic-locally-compact, X.haar.def:group-convolution, X.haar.def:is-unimodular, X.topgrp.thm:gl2-units-open-embedding}
+\end{corollary}
+\begin{tfformal}{I.rep.cor:nonzero-test-function-action}
+\tfsem{I.rep.cor:nonzero-test-function-action}{66d76eaf5cb3fd3563c310cc9e7c2734bd44e15ddb4cfc68f2b47a53003939b4}
+\tfhyps{I.rep.cor:nonzero-test-function-action}{}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{0}{86edd255}{the measure $\mu$ on $G(\A)$}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{1}{c626ff1c}{the assumption that $\mu$ is a left Haar measure (A: ``left Haar measure'')}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{2}{ec81f155}{the type of the Hilbert space $\mathcal H$}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{3}{cd50b3a2}{the norm and additive group structure of $H$}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{4}{ca108a7e}{the complex inner product of $H$ (A: ``complex Hilbert space'')}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{5}{1ccc26e7}{the assumption that $H$ is complete (A: ``Hilbert space'')}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{6}{a90cf8a8}{the assumption that $\mathcal H\ne0$ (A: ``$\mathcal H\neq0$'')}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{7}{96814bb7}{the unitary representation $\pi$ of $G(\A)^1$ on $\mathcal H$}
+\tfbinder{I.rep.cor:nonzero-test-function-action}{8}{14090ae9}{the assumption that $\pi$ is strongly continuous (A: ``strongly continuous'')}
+\begin{tffidelity}
+The conclusion is \texttt{∃ f ∈ testFunctions ⊓ convolutionSpan μ, ∃ v, integratedRep (haarNormOne μ) π f v ≠ 0}: $\pi(f)\ne0$ is expressed as a vector $v$ with $\pi(f)v\ne0$. The Hilbert space $\mathcal H\ne0$ is the instance binder \texttt{Nontrivial H}; $\pi$ is a homomorphism $G(\A)^1\to\mathrm U(\mathcal H)$, strongly continuous by \texttt{hπ}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, with $f_k=(P^L_{-n}\varphi_k)\ast(P^R_{-n}\varphi_k)$. Since $\pi\ne0$ on a non-trivial $H$, pick $v\ne0$; by \cref{I.rep.thm:k-infinity-types-complete} some weight projection $P_nv=:w$ is non-zero, and $P_nw=w$ (\texttt{weightProj\_idem}: $\pi(\iota(k_\varphi))$ acts on $P_nw$ by $e^{in\varphi}$, \texttt{weightProj\_rot}). With a Dirac sequence $(\varphi_k)$ (\cref{I.hecke.thm:smooth-dirac-sequence-adelic}), $g_k=P^L_{-n}\varphi_k$ and $h_k=P^R_{-n}\varphi_k$ are in $C_c^\infty(G(\A)^1)$, left respectively right $K_\infty$-finite, so $f_k=g_k\ast h_k\in\mathcal H\cap\mathcal H^{(2)}$ by \cref{I.hecke.thm:convolution-span-meets-k-types}(a). By \cref{I.rep.thm:integrated-rep-convolution}, $\pi(f_k)w=\pi(g_k)\pi(h_k)w$. Remark \texttt{rem:hecke-weight-projections}(d) is proved in Lean for both sides (\texttt{integratedRep\_weightL}, \texttt{integratedRep\_weightR}): $\pi(P^R_{-n}\varphi)u=\pi(\varphi)P_nu$ and $\pi(P^L_{-n}\varphi)u=P_n\pi(\varphi)u$. The $P^L$ side uses left invariance only; the $P^R$ side uses right invariance of $\mu^1$ (\texttt{haarNormOne\_preimage\_mul}, via \texttt{haarNormOne\_isMulRightInvariant}). Each side is a Fubini swap over $[0,2\pi]\times G(\A)^1$ (\texttt{intervalIntegral\_integral\_swap}) followed by $\theta\mapsto-\theta$ and periodicity (\texttt{weightProj\_neg}). So $\pi(f_k)w=P_n\pi(\varphi_k)^2w$, which tends to $P_nw=w\ne0$ because $\pi(\varphi_k)u\to u$ for a Dirac sequence (\texttt{tendsto\_integratedRep\_diracSequence}, applied twice using $\norm{\pi(\varphi_k)}\le1$) and $P_n$ is continuous (\texttt{continuous\_weightProj}). Hence $\pi(f_k)w\neq0$ for large $k$.
+\end{proof}
+
+\section{\texorpdfstring{$(\mathfrak{g},K)$-modules}{(𝔤,K)-modules}}
+% B: formal blocks (\begin{tfformal}...) follow each item from G1 on.
+\begin{definition}[the matrix space as a product type]
+\tfstmt{I.mcalc.def:matrix-pi}
+\bonly
+\lean{GL2TF.MatPi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:matrix-pi}
+\tfsem{I.mcalc.def:matrix-pi}{38f97813fc36fb54716d987cb5f5a80555aee28f5cc72a0314f93d6929b6aff1}
+\tfhyps{I.mcalc.def:matrix-pi}{}
+\end{tfformal}
+
+
+\begin{definition}[transport to the product type]
+\tfstmt{I.mcalc.def:to-pi}
+\bonly
+\lean{GL2TF.matToPi}
+\uses{I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:to-pi}
+\tfsem{I.mcalc.def:to-pi}{d78fed15506b1368df14cca837efc94478646101de152c3eca4b376364ab725d}
+\tfhyps{I.mcalc.def:to-pi}{}
+\end{tfformal}
+
+
+\begin{definition}[the open set $\det\neq0$]
+\tfstmt{I.mcalc.def:det-ne-zero-set}
+\bonly
+\lean{GL2TF.detNeZeroSet}
+\uses{I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:det-ne-zero-set}
+\tfsem{I.mcalc.def:det-ne-zero-set}{9ab5926c527c218e9c00fd434eded6523534648319720c9f8f966bd225c7ecd7}
+\tfhyps{I.mcalc.def:det-ne-zero-set}{}
+\end{tfformal}
+
+
+\begin{definition}[extension by zero]
+\tfstmt{I.mcalc.def:gl-extension}
+\bonly
+\lean{GL2TF.glExt}
+\uses{I.mcalc.def:matrix-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:gl-extension}
+\tfsem{I.mcalc.def:gl-extension}{b5c447475cbb5376957f9068e966ba05973bda474f0cc4cef00ef825487e4599}
+\tfhyps{I.mcalc.def:gl-extension}{}
+\tfbinder{I.mcalc.def:gl-extension}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.mcalc.def:gl-extension}{1}{ecc9dfd8}{the matrix $X\in\Mat_2^{\pi}$ (\cref{I.mcalc.def:matrix-pi})}
+\end{tfformal}
+
+
+\begin{definition}[real directional derivative]
+\tfstmt{I.mcalc.def:real-lie-derivative}
+\bonly
+\lean{GL2TF.lieDerivReal}
+\uses{I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:real-lie-derivative}
+\tfsem{I.mcalc.def:real-lie-derivative}{3acf02012afa7326ae6ebf088d9825810c905d668e9cdef024b917ddb3adb39f}
+\tfhyps{I.mcalc.def:real-lie-derivative}{}
+\tfbinder{I.mcalc.def:real-lie-derivative}{0}{3183e204}{the matrix $X\in\Mat_2(\R)$}
+\tfbinder{I.mcalc.def:real-lie-derivative}{1}{0806c80c}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.mcalc.def:real-lie-derivative}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\end{tfformal}
+
+
+\begin{definition}[matrix exponential in $\GL_2(\R)$]
+\tfstmt{I.mcalc.def:exp-gl}
+\bonly
+\lean{GL2TF.expGL}
+\end{definition}
+\begin{tfformal}{I.mcalc.def:exp-gl}
+\tfsem{I.mcalc.def:exp-gl}{df5c4a0f48b9515d86e080dba87aeaeb7ecfb6929115e8ca9c891a2a5e2d0ac4}
+\tfhyps{I.mcalc.def:exp-gl}{}
+\tfbinder{I.mcalc.def:exp-gl}{0}{3183e204}{the matrix $X\in\Mat_2(\R)$}
+\end{tfformal}
+
+
+\begin{definition}[left translation]
+\tfstmt{I.rep.def:left-translate}
+\bonly
+\lean{GL2TF.leftTranslate}
+\end{definition}
+\begin{tfformal}{I.rep.def:left-translate}
+\tfsem{I.rep.def:left-translate}{8b4fd9b1802caa497e4c89c163616ad27673271d5e43e95e74208068c4b76f66}
+\tfhyps{I.rep.def:left-translate}{}
+\tfbinder{I.rep.def:left-translate}{0}{da0bab74}{the element $h\in\GL_2(\R)$}
+\tfbinder{I.rep.def:left-translate}{1}{0806c80c}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.def:left-translate}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\end{tfformal}
+
+
+\begin{definition}[right translation]
+\tfstmt{I.rep.def:right-translate}
+\bonly
+\lean{GL2TF.rightTranslate}
+\end{definition}
+\begin{tfformal}{I.rep.def:right-translate}
+\tfsem{I.rep.def:right-translate}{2658412a83eecbff11cccbe7e51bd81968ce06feb464efd39ccb28224c1ba768}
+\tfhyps{I.rep.def:right-translate}{}
+\tfbinder{I.rep.def:right-translate}{0}{da0bab74}{the element $h\in\GL_2(\R)$}
+\tfbinder{I.rep.def:right-translate}{1}{0806c80c}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.def:right-translate}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\end{tfformal}
+
+
+\begin{definition}[action of $\mathfrak{gl}_2(\C)$ on smooth functions]
+\tfstmt{I.rep.def:lie-action}
+\lean{GL2TF.lieAction}
+\uses{I.hecke.def:smooth-function-real, I.mcalc.def:real-lie-derivative}
+\end{definition}
+\begin{tfformal}{I.rep.def:lie-action}
+\tfsem{I.rep.def:lie-action}{a598c793ba9bb7d523063311cce900f8b1212160444043582746eb6dbfcd0ea1}
+\tfhyps{I.rep.def:lie-action}{}
+\tfbinder{I.rep.def:lie-action}{0}{c632909d}{the matrix $X\in\mathfrak{gl}_2(\C)$}
+\tfbinder{I.rep.def:lie-action}{1}{0806c80c}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.def:lie-action}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\begin{tffidelity}
+\texttt{lieAction} is total: the Fr\'echet derivative has the junk value $0$ where the function is not smooth; every theorem assumes $f\in C^\infty$. Smoothness is the transported \texttt{ContDiffOn} $\R$ $\infty$.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{theorem}[the exponential formula]
+\tfstmt{I.rep.thm:lie-action-exp}
+\lean{GL2TF.hasDerivAt_lieAction}
+\uses{I.rep.def:lie-action, I.hecke.def:smooth-function-real, I.mcalc.def:exp-gl, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:real-lie-derivative, I.mcalc.def:to-pi}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:lie-action-exp}
+\tfsem{I.rep.thm:lie-action-exp}{4f3b596fe9e835811b89115ed3733fb860fe1dd105c57b30a33bf4d8fef28393}
+\tfhyps{I.rep.thm:lie-action-exp}{}
+\tfbinder{I.rep.thm:lie-action-exp}{0}{4e02119e}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.thm:lie-action-exp}{1}{819ce0c4}{the hypothesis $f\in C^\infty(\GL_2(\R))$ (\cref{I.hecke.def:smooth-function-real})}
+\tfbinder{I.rep.thm:lie-action-exp}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\tfbinder{I.rep.thm:lie-action-exp}{3}{b7fee011}{the matrix $X\in\Mat_2(\R)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A, in the plumbing \texttt{ExpFormula}. $\exp(tX)$ is a unit for every $t$ because $\exp(tX)\exp(-tX)=1$ (\texttt{Matrix.isUnit\_exp}); the curve $t\mapsto g\exp(tX)$ has derivative $gX$ at $0$ (\texttt{hasDerivAt\_curve}, from \texttt{hasDerivAt\_exp\_smul\_const} composed with left multiplication by $g$, using the sup-row-norm instances localized to this section); and the chain rule with the differentiable extension $\tilde f$ gives $\frac{d}{dt}f(g\exp(tX))|_0=D\tilde f(g)(gX)$ (\texttt{hasDerivAt\_lieDerivReal}). The case of complex $X$ is not part of the statement ($X$ real, as in A).
+\end{proof}
+
+
+\begin{theorem}[the bracket relation]
+\tfstmt{I.rep.thm:lie-action-bracket}
+\lean{GL2TF.lieAction_bracket}
+\uses{I.rep.def:lie-action, I.hecke.def:smooth-function-real, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:real-lie-derivative, I.mcalc.def:to-pi}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:lie-action-bracket}
+\tfsem{I.rep.thm:lie-action-bracket}{4b17e2f2f7e2e7264616d5dab5c18890e6d5951bd403a33d369c213aca4d5003}
+\tfhyps{I.rep.thm:lie-action-bracket}{}
+\tfbinder{I.rep.thm:lie-action-bracket}{0}{4e02119e}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.thm:lie-action-bracket}{1}{819ce0c4}{the hypothesis $f\in C^\infty(\GL_2(\R))$ (\cref{I.hecke.def:smooth-function-real})}
+\tfbinder{I.rep.thm:lie-action-bracket}{2}{28519f71}{the matrix $X\in\mathfrak{gl}_2(\C)$}
+\tfbinder{I.rep.thm:lie-action-bracket}{3}{c54906f2}{the matrix $Y\in\mathfrak{gl}_2(\C)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. Smoothness of $X\cdot f$: \texttt{lieDerivReal\_mem} (the formula $Y\mapsto D\tilde f(Y)(YX)$ is a bilinear pairing of the smooth maps $D\tilde f$ and $Y\mapsto YX$), then complex $X$ by real and imaginary parts (\texttt{lieAction\_mem}). Product rule: $X\cdot(Y\cdot f)(g)=D\tilde f(g)(gXY)+D^2\tilde f(g)(gX)(gY)$ (\texttt{lieDerivReal\_lieDerivReal}, via \texttt{fderiv\_clm\_apply}). Subtracting the same expression with $X,Y$ swapped, the second derivatives cancel by symmetry of the second Fr\'echet derivative of a $C^2$ function (\texttt{ContDiffAt.isSymmSndFDerivAt}, Schwarz), leaving $D\tilde f(g)(g[X,Y])$ (\texttt{lieDerivReal\_bracket}). For complex $X,Y$ the identity is bilinear on both sides and is reduced to the four real cases (\texttt{lieAction\_lieAction\_eq}, \texttt{lieAction\_bracket\_aux}, with \texttt{bracket\_map\_re}, \texttt{bracket\_map\_im}).
+\end{proof}
+
+
+\begin{theorem}[equivariance of the Lie action]
+\tfstmt{I.rep.thm:lie-action-equivariant}
+\lean{GL2TF.lieAction_equivariant}
+\uses{I.rep.def:lie-action, I.rep.def:k-finite, I.hecke.def:smooth-function-real, I.rep.def:left-translate, I.rep.def:right-translate, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:real-lie-derivative, I.mcalc.def:to-pi}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:lie-action-equivariant}
+\tfsem{I.rep.thm:lie-action-equivariant}{f97bf8ac14534f8b43a758744d7130f97795d66d0665f4a32398dcf6da8b7cc1}
+\tfhyps{I.rep.thm:lie-action-equivariant}{}
+\tfbinder{I.rep.thm:lie-action-equivariant}{0}{4e02119e}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.thm:lie-action-equivariant}{1}{819ce0c4}{the hypothesis $f\in C^\infty(\GL_2(\R))$ (\cref{I.hecke.def:smooth-function-real})}
+\tfbinder{I.rep.thm:lie-action-equivariant}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\tfbinder{I.rep.thm:lie-action-equivariant}{3}{c54906f2}{the matrix $Y\in\mathfrak{gl}_2(\C)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As in A. $\widetilde{\lambda(h)f}=\tilde f\circ l_h$ and $\widetilde{\rho(h)f}=\tilde f\circ r_h$ on all of $\Mat_2(\R)$ because $l_h,r_h$ preserve $\{\det\neq0\}$ (\texttt{glExt\_leftTranslate\_eqOn}, \texttt{glExt\_rightTranslate\_eqOn}), giving smoothness (\texttt{leftTranslate\_mem}, \texttt{rightTranslate\_mem}); the chain rule gives the identities for the real derivative (\texttt{lieDerivReal\_leftTranslate}, \texttt{lieDerivReal\_rightTranslate}, using $\mathrm{mulLR}$ for $v\mapsto h^{-1}v$, $v\mapsto vh$), and the complex statements follow because conjugation by real $h$ commutes with taking real and imaginary parts (\texttt{conj\_map\_re}, \texttt{conj\_map\_im}).
+\end{proof}
+
+\begin{definition}[the Casimir operator $\Delta$ and the operator $Z$]
+\tfstmt{I.rep.def:casimir}
+\lean{GL2TF.casimir}
+\uses{I.rep.def:lie-action}
+\end{definition}
+\begin{tfformal}{I.rep.def:casimir}
+\tfsem{I.rep.def:casimir}{fda4505f02f4bf1adf6aede656e1cfa0a66a7071a7b610510975ca522e556e9d}
+\tfhyps{I.rep.def:casimir}{}
+\tfbinder{I.rep.def:casimir}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.def:casimir}{1}{c29fe1f6}{the element $g\in\GL_2(\R)$}
+\begin{tffidelity}
+$Z$ is a separate Lean declaration (B-only \cref{I.rep.def:central-operator}) of the same A item; $Z=1$ is the literal identity matrix.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{definition}[the central operator $Z$]
+\tfstmt{I.rep.def:central-operator}
+\bonly
+\lean{GL2TF.centralOp}
+\uses{I.rep.def:lie-action}
+\end{definition}
+\begin{tfformal}{I.rep.def:central-operator}
+\tfsem{I.rep.def:central-operator}{9ee15dd2c994d497c7f5cb4aff0cc5c5a75ae3023b19e1b221818d657bbf6291}
+\tfhyps{I.rep.def:central-operator}{}
+\tfbinder{I.rep.def:central-operator}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.def:central-operator}{1}{c29fe1f6}{the element $g\in\GL_2(\R)$}
+\end{tfformal}
+
+\begin{theorem}[$\Delta$ and $Z$ commute with translations and with $\mathfrak g$]
+\tfstmt{I.rep.thm:casimir-commutes}
+\lean{GL2TF.casimir_commutes}
+\uses{I.rep.def:casimir, I.rep.def:k-finite, I.hecke.def:smooth-function-real, I.rep.def:central-operator, I.rep.def:left-translate, I.rep.def:lie-action, I.rep.def:right-translate, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:real-lie-derivative, I.mcalc.def:to-pi}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:casimir-commutes}
+\tfsem{I.rep.thm:casimir-commutes}{26996b4b524e3ec4c9d9d8ad10e89659bfe030bd8180aefe829fe21e40159e55}
+\tfhyps{I.rep.thm:casimir-commutes}{}
+\tfbinder{I.rep.thm:casimir-commutes}{0}{4e02119e}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.thm:casimir-commutes}{1}{819ce0c4}{the hypothesis $f\in C^\infty(\GL_2(\R))$ (\cref{I.hecke.def:smooth-function-real})}
+\tfbinder{I.rep.thm:casimir-commutes}{2}{5ac0320e}{the element $g\in\GL_2(\R)$}
+\tfbinder{I.rep.thm:casimir-commutes}{3}{c54906f2}{the matrix $Y\in\mathfrak{gl}_2(\C)$}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Smoothness of $\Delta f$ and $Zf$ is \cref{I.rep.thm:lie-action-bracket} applied twice (\texttt{casimir\_mem}, \texttt{centralOp\_mem}). Left translations: $X\cdot$ commutes with $\lambda(h)$ (\cref{I.rep.thm:lie-action-equivariant}), hence so do $\Delta$ and $Z$ (\texttt{casimir\_leftTranslate}, \texttt{centralOp\_leftTranslate}).
+
+\emph{Divergence from A (for G2).} A uses dual bases for the trace form and cyclicity of the trace. In Lean the Casimir is rewritten once and for all as $\Delta=-\tfrac14\bigl(2\sum_{a,b}T(e_{ab},e_{ba})-T(1,1)\bigr)$ in the matrix units $e_{ab}$ (\texttt{casimir\_eq\_bil}, with the bilinear map $T(X,Y)f=X\cdot(Y\cdot f)$ called \texttt{bil}), and two finite identities for any bilinear $\beta$ on $M_2$ (untagged namespace \texttt{GL2TF.Tensor}, by expanding in matrix units and \texttt{fin\_cases}): conjugation invariance $\sum_{a,b}\beta(Pe_{ab}Q,Pe_{ba}Q)=\sum_{a,b}\beta(e_{ab},e_{ba})$ for $PQ=1$ (\texttt{sum\_conj\_invariant}) and Ad-invariance $\sum_{a,b}\bigl(\beta([X,e_{ab}],e_{ba})+\beta(e_{ab},[X,e_{ba}])\bigr)=0$ (\texttt{sum\_ad\_invariant}). Right translations: \cref{I.rep.thm:lie-action-equivariant} twice gives $\rho(h)\,T(X,Y)f=T(hXh^{-1},hYh^{-1})\rho(h)f$ (\texttt{rightTranslate\_bil}); with $P=h$, $Q=h^{-1}$ the first identity gives $\rho(h)\Delta=\Delta\rho(h)$ (\texttt{casimir\_rightTranslate}), and $hh^{-1}=1$ handles $Z$. The Lie action: from \cref{I.rep.thm:lie-action-bracket}, $X\cdot T(Y,Z)f=T(X\cdot f;Y,Z)+T([X,Y],Z)f+T(Y,[X,Z])f$ (\texttt{lieAction\_bil}); summed over the matrix units the last two terms cancel by Ad-invariance (\texttt{casimir\_lieAction}, \texttt{casimir\_final\_alg}), and $[X,1]=0$ gives $Z$ (\texttt{centralOp\_lieAction}). Same statement and same conclusion as A.
+\end{proof}
+
+
+\begin{theorem}[smooth Dirac sequences on $\GL_2(\R)$]
+\tfstmt{I.hecke.thm:smooth-dirac-sequence-real}
+\lean{GL2TF.exists_smooth_diracSequence_real}
+\uses{I.rep.def:dirac-sequence, I.hecke.def:smooth-real, X.topgrp.def:matrix-measurable-space, I.hecke.def:smooth-function-real, I.mcalc.def:det-ne-zero-set, I.mcalc.def:gl-extension, I.mcalc.def:matrix-pi, I.mcalc.def:to-pi, X.topgrp.thm:gl2-borel-measurable, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.hecke.thm:smooth-dirac-sequence-real}
+\tfsem{I.hecke.thm:smooth-dirac-sequence-real}{c3c4fbf73f49ea614dfbabd16fb4b402829aa8b7e1412b5073476f49335a2a83}
+\tfhyps{I.hecke.thm:smooth-dirac-sequence-real}{}
+\tfbinder{I.hecke.thm:smooth-dirac-sequence-real}{0}{e53c3de5}{the measure $\mu$ on $\GL_2(\R)$}
+\tfbinder{I.hecke.thm:smooth-dirac-sequence-real}{1}{f009c77e}{the assumption that $\mu$ is a left Haar measure}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Same plan as A (bump function, normalize by its integral), with two differences (divergence for G2). (1) Lean does not write the bump $\chi(\norm{X-1}^2/r_n^2)$ explicitly and does not prove $\bar B_r\subseteq U$ by hand. It applies Mathlib's \texttt{exists\_contDiff\_tsupport\_subset} on the Pi-space $\Mat_2(\R)$ to the neighbourhood $U\cap B(1,\tfrac1{n+1})$ of $1$ (untagged section \texttt{SmoothDirac}): a $C^\infty$ function $b_n$ with values in $[0,1]$, $b_n(1)=1$, whose topological support is a compact subset of $U\cap B(1,\tfrac1{n+1})$. (2) The compactness and the neighbourhood basis are transported along the open embedding $\GL_2(\R)\hookrightarrow\Mat_2(\R)$ (\texttt{gl2\_units\_isOpenEmbedding}; \texttt{isInducing\_glToPi}, \texttt{range\_glToPi}): $g\mapsto b_n(g)$ is continuous with compact support because $\operatorname{tsupport}b_n\subseteq U=\text{range}$ is compact and the embedding is inducing. Then $f_n=(\int b_n\,d\mu)^{-1}b_n$, with $\int b_n>0$ by \texttt{integral\_pos\_of\_hasCompactSupport\_nonneg\_nonzero} ($b_n(1)=1$), and for a neighbourhood $W$ of $1$ one pulls $W$ back to a ball $B(1,\delta)$ along the inducing map and takes $n\ge N$ with $\tfrac1{N+1}<\delta$. Smoothness of $f_n$ in the sense of \cref{I.hecke.def:smooth-real} is that of $b_n$ times a constant, composed with $\R\to\C$.
+\end{proof}
+
+\begin{definition}[$(\mathfrak g,K)$-modules]
+\tfstmt{I.rep.def:gk-module}
+\lean{GL2TF.GKModule}
+\uses{I.conv.def:max-compact-real, I.conv.def:rotation}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-module}
+\tfsem{I.rep.def:gk-module}{08ae0070e5b5c96ea398c54c6f33cc04ce8504ec94ac39258e89200de51b0337}
+\tfhyps{I.rep.def:gk-module}{}
+\tfbinder{I.rep.def:gk-module}{0}{6b8b0c0f}{the underlying type of $G$}
+\tfbinder{I.rep.def:gk-module}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-module}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\begin{tffidelity}
+Continuity (ii) and the derivative condition (iv) are stated through linear functionals $V\to\C$ (equivalent in finite dimension).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Casimir of a $(\mathfrak g,K)$-module]
+\tfstmt{I.rep.def:gk-casimir}
+\bonly
+\lean{GL2TF.GKModule.casimirOp}
+\uses{I.rep.def:gk-module}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-casimir}
+\tfsem{I.rep.def:gk-casimir}{14adabe4ec826cd987f1d6a72d65cc866b69ca10d40c035716a9e66948bf99d0}
+\tfhyps{I.rep.def:gk-casimir}{}
+\tfbinder{I.rep.def:gk-casimir}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:gk-casimir}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-casimir}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-casimir}{3}{d4fb2a0f}{the $(\mathfrak g,K_\infty)$-module structure $M$ on $V$}
+\end{tfformal}
+
+
+\begin{definition}[admissible and $(\Delta,Z)$-finite $(\mathfrak g,K)$-modules]
+\tfstmt{I.rep.def:gk-admissible}
+\lean{GL2TF.GKModule.IsAdmissible}
+\uses{I.rep.def:gk-module, I.rep.def:casimir, I.conv.def:max-compact-real, I.conv.def:rotation, I.rep.def:gk-casimir}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-admissible}
+\tfsem{I.rep.def:gk-admissible}{cacedede17cd5ee08f712e4dc6dcf5e6eb093898bf8058b7ccb160f1409f38b9}
+\tfhyps{I.rep.def:gk-admissible}{}
+\tfbinder{I.rep.def:gk-admissible}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.rep.def:gk-admissible}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-admissible}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-admissible}{3}{d4fb2a0f}{the $(\mathfrak g,K_\infty)$-module structure $M$ on $V$}
+\begin{tffidelity}
+The weight space $V_n$ quantifies over $k=k_\theta$; the Casimir is the B-only \cref{I.rep.def:gk-casimir}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$\Kinf$-finite functions]
+\tfstmt{I.rep.def:k-finite}
+\lean{GL2TF.IsRightKFinite}
+\uses{I.conv.def:max-compact-real, I.rep.def:right-translate}
+\end{definition}
+\begin{tfformal}{I.rep.def:k-finite}
+\tfsem{I.rep.def:k-finite}{1055f1f5e1756479dcfa86cc7f6993f439e2f89e5f4e3a6e216a6226a8540c4c}
+\tfhyps{I.rep.def:k-finite}{}
+\tfbinder{I.rep.def:k-finite}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\begin{tffidelity}
+Left and bi-$\Kinf$-finiteness are separate Lean declarations (B-only \cref{I.rep.def:left-k-finite}, \cref{I.rep.def:bi-k-finite}) of the same A item.
+\end{tffidelity}
+\end{tfformal}
+
+
+\begin{definition}[left $\Kinf$-finiteness]
+\tfstmt{I.rep.def:left-k-finite}
+\bonly
+\lean{GL2TF.IsLeftKFinite}
+\uses{I.conv.def:max-compact-real, I.rep.def:left-translate}
+\end{definition}
+\begin{tfformal}{I.rep.def:left-k-finite}
+\tfsem{I.rep.def:left-k-finite}{c55bfc8a7dc5a45cc028aa61905edcb4811ebe30c14b7d122e126d5b3f6c527c}
+\tfhyps{I.rep.def:left-k-finite}{}
+\tfbinder{I.rep.def:left-k-finite}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\end{tfformal}
+
+
+\begin{definition}[bi-$\Kinf$-finiteness]
+\tfstmt{I.rep.def:bi-k-finite}
+\bonly
+\lean{GL2TF.IsBiKFinite}
+\uses{I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.rep.def:bi-k-finite}
+\tfsem{I.rep.def:bi-k-finite}{ec77dbef632ec25c8659a9379eb745cd587b34b855013a3fd37b4218313ffde4}
+\tfhyps{I.rep.def:bi-k-finite}{}
+\tfbinder{I.rep.def:bi-k-finite}{0}{c7bde633}{the function $f\colon\GL_2(\R)\to\C$}
+\end{tfformal}
+
+
+\begin{definition}[weight vectors]
+\tfstmt{I.rep.def:weight-vector}
+\lean{GL2TF.HasWeight}
+\uses{I.conv.def:rotation}
+\end{definition}
+\begin{tfformal}{I.rep.def:weight-vector}
+\tfsem{I.rep.def:weight-vector}{8683cd175a93aeb5141502a2e9c82093d701964ff993c7508a4434b0cb05421f}
+\tfhyps{I.rep.def:weight-vector}{}
+\tfbinder{I.rep.def:weight-vector}{0}{2722ba5a}{the integer $n$}
+\tfbinder{I.rep.def:weight-vector}{1}{0806c80c}{the function $f\colon\GL_2(\R)\to\C$}
+\end{tfformal}
+
+
+\begin{theorem}[weight decomposition of $\Kinf$-finite functions]
+\tfstmt{I.rep.thm:k-finite-weight-decomposition}
+\lean{GL2TF.isRightKFinite_iff_sum_weight}
+\uses{I.rep.def:k-finite, I.rep.def:weight-vector, I.conv.def:max-compact-real, I.conv.def:rotation, I.rep.def:right-translate, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{tfformal}{I.rep.thm:k-finite-weight-decomposition}
+\tfsem{I.rep.thm:k-finite-weight-decomposition}{c1331690deba3405ab4eedaa96b780fd4ea121ba2f971315d1a10629e85a5ac4}
+\tfhyps{I.rep.thm:k-finite-weight-decomposition}{}
+\tfbinder{I.rep.thm:k-finite-weight-decomposition}{0}{4e02119e}{the function $f\colon\GL_2(\R)\to\C$}
+\tfbinder{I.rep.thm:k-finite-weight-decomposition}{1}{a7930e6c}{the hypothesis that $f$ is continuous}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\varepsilon=\operatorname{diag}(1,-1)$ (\texttt{kfinEps}) satisfies $k_\theta\varepsilon=\varepsilon k_{-\theta}$ (\texttt{kfin\_rotation\_mul\_eps}).
+
+\emph{O(2) classification.} Every $k\in K_\infty$ equals $k_\theta$ or $k_\theta\varepsilon$ (\texttt{kfin\_maxCompactReal\_cases}). This is proved here from scratch, not quoted: the first column $(a,c)$ lies on the unit circle, so $\theta=\arg(a-ic)$ gives $\cos\theta=a$, $\sin\theta=-c$; the second column is $\pm$ the rotated first one, with sign $t=\det k$, $t^2=1$ (\texttt{nlinarith} and \texttt{linear\_combination}).
+
+($\Leftarrow$) (\texttt{isRightKFinite\_of\_sum}) as in A: $\rho(k_\theta)\sum F_n=\sum e^{in\theta}F_n$ and $\rho(k_\theta\varepsilon)\sum F_n=\sum e^{-in\theta}\rho(\varepsilon)F_n$; so every translate lies in $\operatorname{span}\{F_n,\rho(\varepsilon)F_n\}$.
+
+($\Rightarrow$) With $V=\operatorname{span}\{\rho(k)f\}$: \emph{components} $f_n=\texttt{kFourierCoeff}$ as in A; $f_n$ is continuous (\texttt{continuous\_parametric\_intervalIntegral\_of\_continuous'}), has weight $n$ (\texttt{kFourierCoeff\_weight}, by the substitution $\theta\mapsto\theta+\varphi$ and $2\pi$-periodicity), and lies in $V$ (\texttt{kFourierCoeff\_mem}): in a basis $b_i$ of $V$, $f(gk_\theta)=\sum_ia_i(\theta)b_i(g)$ with $a_i$ continuous as a coordinate functional of $\theta\mapsto\rho(k_\theta)f$ on the finite-dimensional $V$, and the integral commutes with the finite sum. \emph{Finiteness} (\texttt{kFourierCoeff\_finite}): the non-zero $f_n$ are eigenvectors of the single operator $\rho(k_1)$ with eigenvalues $e^{in}$, pairwise distinct since $\pi$ is irrational (\texttt{kfin\_exp\_int\_injective}); eigenvectors for distinct eigenvalues are linearly independent (\texttt{Module.End.eigenvectors\_linearIndependent'}), and they lie in the finite-dimensional $V$. \emph{Sum} (\texttt{kFourierCoeff\_sum}): for fixed $g$, $h(\theta)=f(gk_\theta)$ is a continuous function on the circle $\mathbb R/2\pi\mathbb Z$ with finitely many non-zero Fourier coefficients $\hat h(n)=f_n(g)$; Mathlib's pointwise Fourier inversion for summable coefficients (\texttt{has\_pointwise\_sum\_fourier\_series\_of\_summable}) gives $h(0)=\sum_n\hat h(n)$, i.e.\ $f(g)=\sum_{n\in S}f_n(g)$.
+
+\emph{Divergences from A (for G2).} (i) Step 1 of A (evaluation functionals $g_1,\dots,g_d$ and a matrix $C$) is replaced by a basis of $V$ and continuity of linear functionals on a finite-dimensional space. (ii) Step 3 of A (minimal relation with a $\theta$ depending on a pair $n_1\ne n_2$) is replaced by the eigenvector independence of the one operator $\rho(k_1)$, which needs $e^{in}\ne e^{im}$ for $n\ne m$, i.e.\ the irrationality of $\pi$ (\texttt{irrational\_pi}); A needs only the existence of some $\theta$. (iii) Step 4 of A (vanishing of all Fourier coefficients implies zero, via $L^2$ completeness) is replaced by Mathlib's pointwise Fourier series theorem for finitely supported coefficients. Same statement.
+\end{proof}
+
+
+\begin{definition}[archimedean test functions]
+\tfstmt{I.hecke.def:archimedean-test-functions}
+\lean{GL2TF.archTestFunctions}
+\uses{I.hecke.def:smooth-real, I.rep.def:k-finite, I.rep.def:bi-k-finite}
+\end{definition}
+\begin{tfformal}{I.hecke.def:archimedean-test-functions}
+\tfsem{I.hecke.def:archimedean-test-functions}{e204f067584337d482dc8bed6112ca95c3914e982df8d03e94d13e691f72cacc}
+\tfhyps{I.hecke.def:archimedean-test-functions}{}
+\end{tfformal}
+
+\section{\texorpdfstring{$(\mathfrak g,\Kinf)\times G(\Af)$-modules}{(𝔤,K∞)×G(𝔸f)-modules}}\label{sec:rep-gk-adelic}
+
+\begin{definition}[irreducible $(\mathfrak g,K)$-modules]
+\tfstmt{I.rep.def:gk-irreducible}
+\lean{GL2TF.GKModule.IsIrreducible}
+\uses{I.rep.def:gk-module, I.rep.def:gk-submodule}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-irreducible}
+\tfsem{I.rep.def:gk-irreducible}{65973741bf82b78e77a89357e28a7e3337f9ac8b9e8e7fe6438c791ebf5602c9}
+\tfhyps{I.rep.def:gk-irreducible}{}
+\tfbinder{I.rep.def:gk-irreducible}{0}{fe5aea28}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-irreducible}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-irreducible}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-irreducible}{3}{d4fb2a0f}{the $(\mathfrak g,K_\infty)$-module structure $M$ on $V$}
+\begin{tffidelity}
+$V\ne0$ is \texttt{Nontrivial V}. ``Submodule'' is the B-only \cref{I.rep.def:gk-submodule}; the Lie algebra $\mathfrak g=\Mat_2(\C)$ is quantified over all matrices $X$, as in the Lean structure of \cref{I.rep.def:gk-module}, and no closedness is imposed on $W$ (there is no topology on $V$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$(\mathfrak g,K)$-submodules]
+\tfstmt{I.rep.def:gk-submodule}
+\bonly
+\lean{GL2TF.GKModule.IsSubmodule}
+\uses{I.rep.def:gk-module, I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-submodule}
+\tfsem{I.rep.def:gk-submodule}{e0ddfe0abc23499c0a9caee441fe38361c6668fdebcbb496f23989ca5e14efca}
+\tfhyps{I.rep.def:gk-submodule}{}
+\tfbinder{I.rep.def:gk-submodule}{0}{fe5aea28}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-submodule}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-submodule}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-submodule}{3}{d4fb2a0f}{the $(\mathfrak g,K_\infty)$-module structure $M$ on $V$}
+\tfbinder{I.rep.def:gk-submodule}{4}{2a0b7365}{the $\C$-subspace $W$ of $V$}
+\end{tfformal}
+
+\begin{definition}[isomorphic $(\mathfrak g,K)$-modules]
+\tfstmt{I.rep.def:gk-isomorphism}
+\lean{GL2TF.GKModule.IsIsomorphic}
+\uses{I.rep.def:gk-module, I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-isomorphism}
+\tfsem{I.rep.def:gk-isomorphism}{530c58fb7fd24673cc3293e594f3523f8b690e3d03750db0afd6652b45db8eb6}
+\tfhyps{I.rep.def:gk-isomorphism}{}
+\tfbinder{I.rep.def:gk-isomorphism}{0}{fe5aea28}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-isomorphism}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-isomorphism}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-isomorphism}{3}{c37253cc}{the underlying type of the second module $V'$}
+\tfbinder{I.rep.def:gk-isomorphism}{4}{53dcf958}{the additive group structure of $V'$}
+\tfbinder{I.rep.def:gk-isomorphism}{5}{253edab4}{the $\C$-vector space structure on $V'$}
+\tfbinder{I.rep.def:gk-isomorphism}{6}{fc20d953}{the $(\mathfrak g,K_\infty)$-module structure $M$ on $V$}
+\tfbinder{I.rep.def:gk-isomorphism}{7}{5f55e62c}{the $(\mathfrak g,K_\infty)$-module structure $M'$ on $V'$}
+\begin{tffidelity}
+The bijection is a \texttt{LinearEquiv} $V\simeq_{\C}V'$; the two intertwining conditions are quantified over all $X\in\Mat_2(\C)$ and all $k\in K_\infty$ (the \texttt{kappa} field of the structure), and the relation is stated as an existence, i.e.\ it is a Prop, not data.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[$(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-modules]
+\tfstmt{I.rep.def:gk-finite-adelic-module}
+\lean{GL2TF.GKAdelicModule}
+\uses{I.rep.def:gk-module, I.rep.def:smooth-rep, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.conv.def:max-compact-real}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-finite-adelic-module}
+\tfsem{I.rep.def:gk-finite-adelic-module}{e6ad24a82c2aa9462491f81bc7760e44991cd3d0d3560a60666e43bd8fbb21ab}
+\tfhyps{I.rep.def:gk-finite-adelic-module}{}
+\tfbinder{I.rep.def:gk-finite-adelic-module}{0}{6b8b0c0f}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-finite-adelic-module}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-finite-adelic-module}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\begin{tffidelity}
+A structure with a \texttt{GKModule} field \texttt{gk}, a representation \texttt{finAct} of $G(\mathbb A_f)=\mathrm{GL}_2(\mathbb A_f)$ on $V$ (the Lean group is \texttt{GL (Fin 2) FinAdele}, with the topology of Chapter~0.4), and three Prop fields: \texttt{finAct\_smooth} (the representation is smooth, \cref{I.rep.def:smooth-rep}) and the two commutation laws \texttt{finAct\_act}, \texttt{finAct\_kappa} with the Lie action and $\kappa$. These fields are exactly the conditions of A's definition; they are data of the structure, not hypotheses of a statement. Together with the Prop fields of \texttt{GKModule} they are registered in \texttt{registry/assumptions.yaml} (the Prop-valued constants that occur in later binders). The structure has no admissibility field.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[submodules of $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-modules]
+\tfstmt{I.rep.def:gk-adelic-submodule}
+\bonly
+\lean{GL2TF.GKAdelicModule.IsSubmodule}
+\uses{I.rep.def:gk-finite-adelic-module, I.rep.def:gk-submodule, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-adelic-submodule}
+\tfsem{I.rep.def:gk-adelic-submodule}{70807f921ceb3faa31c5b3f3ed1613e3187a94bbd5f4e6409e38703ac539a483}
+\tfhyps{I.rep.def:gk-adelic-submodule}{}
+\tfbinder{I.rep.def:gk-adelic-submodule}{0}{fe5aea28}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-adelic-submodule}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-adelic-submodule}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-adelic-submodule}{3}{d79def13}{the $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-module structure $M$ on $V$}
+\tfbinder{I.rep.def:gk-adelic-submodule}{4}{2a0b7365}{the $\C$-subspace $W$ of $V$}
+\end{tfformal}
+
+\begin{definition}[irreducible $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-modules]
+\tfstmt{I.rep.def:gk-adelic-irreducible}
+\lean{GL2TF.GKAdelicModule.IsIrreducible}
+\uses{I.rep.def:gk-finite-adelic-module, I.rep.def:gk-adelic-submodule}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-adelic-irreducible}
+\tfsem{I.rep.def:gk-adelic-irreducible}{2c5ec8b3582e0554965f278a9d74b55654b7c2f5eda36f0016a34aef929761e9}
+\tfhyps{I.rep.def:gk-adelic-irreducible}{}
+\tfbinder{I.rep.def:gk-adelic-irreducible}{0}{fe5aea28}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-adelic-irreducible}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-adelic-irreducible}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-adelic-irreducible}{3}{d79def13}{the $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-module structure $M$ on $V$}
+\begin{tffidelity}
+As for \cref{I.rep.def:gk-irreducible}, with submodules in the B-only sense of \cref{I.rep.def:gk-adelic-submodule} (stable under $\mathfrak g$, $K_\infty$ and all of $G(\mathbb A_f)$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[isomorphic $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-modules]
+\tfstmt{I.rep.def:gk-adelic-isomorphism}
+\lean{GL2TF.GKAdelicModule.IsIsomorphic}
+\uses{I.rep.def:gk-finite-adelic-module, I.conv.def:max-compact-real, I.adele.def:finite-adeles-model, I.adele.lem:primes-fact-instance, I.rep.def:gk-module}
+\end{definition}
+\begin{tfformal}{I.rep.def:gk-adelic-isomorphism}
+\tfsem{I.rep.def:gk-adelic-isomorphism}{ba0013f276e21f90858cd22ef1fb52eed046f6a8abbd06b15f8889508a807436}
+\tfhyps{I.rep.def:gk-adelic-isomorphism}{}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{0}{fe5aea28}{the underlying type of the module $V$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{1}{f317aabb}{the additive group structure of $V$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{2}{00da47cf}{the $\C$-vector space structure on $V$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{3}{c37253cc}{the underlying type of the second module $V'$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{4}{53dcf958}{the additive group structure of $V'$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{5}{253edab4}{the $\C$-vector space structure on $V'$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{6}{cbcceeb4}{the $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-module structure $M$ on $V$}
+\tfbinder{I.rep.def:gk-adelic-isomorphism}{7}{b0e9faaf}{the $(\mathfrak g,K_\infty)\times G(\mathbb A_f)$-module structure $M'$ on $V'$}
+\begin{tffidelity}
+As for \cref{I.rep.def:gk-isomorphism}, with the third intertwining condition $T(\sigma_f(h)v)=\sigma_f'(h)T(v)$ for all $h\in\mathrm{GL}_2(\mathbb A_f)$.
+\end{tffidelity}
+\end{tfformal}

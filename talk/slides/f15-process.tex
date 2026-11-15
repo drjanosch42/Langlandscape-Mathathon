@@ -1,0 +1,18 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 15: the agentic process (brief). Sources: docs/agentic-process/{README,architecture,timeline}.md, agents/rules/model-selection.md,
+% mathematics/final-report/sections/overview.tex (agentic process paragraph; stage walls).
+\begin{frame}{The agentic process}
+  \small
+  \begin{itemize}\setlength{\itemsep}{3pt}
+    \item A hierarchy of Claude Code agents coordinated through git: one global master delegates to stage masters and work-package
+      agents (Haiku, Sonnet, Opus; Fable for audits). opencode models: questions and answers only, plus one disclosed external
+      draft (the \texttt{RamNrdSurj} discharge; audited and gated from scratch).
+    \item Two further machines run all Lean builds and the from-scratch final gates; Abhijit's node (a separate account) takes work
+      packages over a git message channel, including \emph{cross-account blind reviews}.
+    \item Each stage: plan $\to$ work packages $\to$ integration builds $\to$ parallel Fable audits $\to$ from-scratch final gate.
+    \item Statuses are never upgraded; every deviation is disclosed. Decisions of mathematical substance (the model for Hyp.X, the sign,
+      the case $q\equiv-1\bmod p$) were taken by Fabian.
+    \item Stage wall times $\approx2.2$, $1.3$, $1.1$, $2.2$, $1.1$, $1.2$\,h (stages 01--06).
+  \end{itemize}
+\end{frame}

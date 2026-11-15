@@ -1,0 +1,418 @@
+% Document A (readable edition). Lean counterpart: lean/GL2TF/VolI/P0/TopGroups.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §§1--2 written (M1, unit U1); §3 written (M2, unit U1); §§4--6 written (M3, unit U6).
+
+\chapter{\texorpdfstring{$\GL_2$ as a topological group, locally and adelically}{GL₂ as a topological group, locally and adelically}}\label{ch:ch-0-04-top-groups}
+
+\noindent\emph{Sources:} \cite[§2]{AIntro}; \cite{GH}; \cite{Bor-fin}.
+
+\section{\texorpdfstring{$\GL_2$ over a topological field}{GL₂ over a topological field}}\label{sec:topgrp-field}
+
+\noindent\emph{Sources for this section:} \cite[§2]{AIntro}; the units topology is Mathlib's topology on the units
+of a topological monoid (\texttt{Topology/\allowbreak Algebra/\allowbreak Constructions.lean}).
+
+\emph{Conventions.} For a field $F$ with a topology, $\Mat_2(F)=F^{2\times2}$ carries the product topology. The group
+$\GL_2(F)=\Mat_2(F)^\times$ carries the \emph{units topology}: the topology induced by the injective map
+\[
+  e\colon\GL_2(F)\to\Mat_2(F)\times\Mat_2(F),\qquad e(g)=(g,g^{-1}).
+\]
+With this topology $\GL_2(F)$ is a topological group as soon as $\Mat_2(F)$ is a topological ring, and a map
+$Y\to\GL_2(F)$ is continuous if and only if both $y\mapsto g(y)$ and $y\mapsto g(y)^{-1}$ are continuous into
+$\Mat_2(F)$. We write $j\colon\GL_2(F)\to\Mat_2(F)$ for the inclusion $g\mapsto g$, and
+$U=\{X\in\Mat_2(F):\det X\neq0\}$. The point of this section is that the units topology agrees with the naive one,
+so that measure theory on $\GL_2(F)$ can be transported from the open subset $U$ of $F^4$.
+
+\begin{theorem}[$\GL_2(F)$ is open in $\Mat_2(F)$]
+\tfstmt{X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{proof}
+\emph{The image is $U$.} If $g\in\GL_2(F)$, then $\det g\cdot\det g^{-1}=\det1=1$, so $\det g\neq0$. Conversely,
+if $\det X\neq0$, then $X$ is invertible with inverse $(\det X)^{-1}\operatorname{adj}(X)$, where
+$\operatorname{adj}\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}=\begin{psmallmatrix}d&-b\\-c&a\end{psmallmatrix}$.
+
+\emph{$U$ is open.} The map $\det\colon\Mat_2(F)\to F$, $X\mapsto X_{11}X_{22}-X_{12}X_{21}$, is continuous, being
+a polynomial in the coordinates. Since points of $F$ are closed, $F^\times=F\setminus\{0\}$ is open, and so is
+$U=\det^{-1}(F^\times)$.
+
+\emph{$j$ is continuous}, since $j$ is the first component of $e$.
+
+\emph{The inverse $r\colon U\to\GL_2(F)$ of $j$ is continuous.} By the conventions above it suffices that
+$X\mapsto X$ and $X\mapsto X^{-1}=(\det X)^{-1}\operatorname{adj}(X)$ are continuous on $U$. The first is clear. For
+the second, $\det\colon U\to F^\times$ is continuous, inversion is continuous on $F^\times$ by hypothesis, the entries
+of $\operatorname{adj}(X)$ are $\pm$ coordinates of $X$, and multiplication in $F$ is continuous.
+
+Thus $j$ is a continuous injection whose inverse on its image $U$ is continuous, i.e.\ a homeomorphism onto the open
+set $U$: an open embedding.
+\end{proof}
+
+\begin{theorem}[units topology $=$ subspace topology]
+\tfstmt{X.topgrp.thm:gl2-units-topology-eq-subspace}
+\uses{X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{proof}
+\uses{X.topgrp.thm:gl2-units-open-embedding}
+An embedding is a map whose domain carries the topology induced from its codomain; $j$ is one by
+\cref{X.topgrp.thm:gl2-units-open-embedding}.
+\end{proof}
+
+\begin{theorem}[the Borel structure on $\GL_2(F)$]
+\tfstmt{X.topgrp.thm:gl2-borel-measurable}
+\uses{X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:gl2-units-topology-eq-subspace}
+\end{theorem}
+\begin{proof}
+\uses{X.topgrp.thm:gl2-units-topology-eq-subspace}
+Since $F$ is second countable, the Borel $\sigma$-algebra of the finite product $\Mat_2(F)=F^{2\times2}$ equals
+the product of the Borel $\sigma$-algebras of the factors (for second countable spaces, the Borel $\sigma$-algebra of
+a countable product is the product $\sigma$-algebra). So the $\sigma$-algebra in question is
+$j^{-1}\mathcal B(\Mat_2(F))=\{j^{-1}(E):E\in\mathcal B(\Mat_2(F))\}$. Taking preimages commutes with generating
+$\sigma$-algebras: $j^{-1}\sigma(\mathcal T)=\sigma(j^{-1}\mathcal T)$ for every family $\mathcal T$ of subsets.
+Applied to the family $\mathcal T$ of open subsets of $\Mat_2(F)$, and since $j^{-1}\mathcal T$ is the units topology
+by \cref{X.topgrp.thm:gl2-units-topology-eq-subspace}, we obtain $j^{-1}\mathcal B(\Mat_2(F))=\mathcal B(\GL_2(F))$.
+\end{proof}
+\noindent From now on $\GL_2(F)$ carries this $\sigma$-algebra whenever $F$ is second countable.
+
+\section{\texorpdfstring{$\GL_2$ over a non-archimedean local field}{GL₂ over a non-archimedean local field}}\label{sec:topgrp-nalf}
+
+\noindent\emph{Sources for this section:} \cite[§9.1]{Cas-p}; \cite[§1]{Corv-ptIII-1}.
+
+\begin{theorem}[$\GL_2(F)$ is locally compact]
+\tfstmt{I.topgrp.thm:gl2-local-locally-compact}
+\uses{I.lf.def:nalf, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{proof}
+\uses{X.topgrp.thm:gl2-units-open-embedding, I.lf.thm:nalf-second-countable}
+By \cref{rem:lf-standard-facts}\ref{lf-fact-topfield}, $F$ satisfies the hypotheses of
+\cref{X.topgrp.thm:gl2-units-open-embedding} (a Hausdorff space has closed points), so $\GL_2(F)$ is homeomorphic to
+the open subset $U$ of $\Mat_2(F)=F^4$. The space $F$ is locally compact (\cref{I.lf.def:nalf}), Hausdorff, and second
+countable (\cref{I.lf.thm:nalf-second-countable}); these three properties pass to finite products, so they hold for
+$F^4$. An open subset of a locally compact Hausdorff space is locally compact, and every subspace of a Hausdorff
+(resp.\ second countable) space is Hausdorff (resp.\ second countable). Hence $U$, and therefore $\GL_2(F)$, has all
+three properties.
+\end{proof}
+
+\begin{theorem}[$K_F$ is compact open]
+\tfstmt{I.topgrp.thm:max-compact-local-compact-open}
+\uses{I.conv.def:max-compact-local, I.lf.def:nalf, X.topgrp.thm:gl2-units-open-embedding}
+\end{theorem}
+\begin{proof}
+\uses{I.conv.lem:max-compact-local-mem, X.topgrp.thm:gl2-units-open-embedding, I.lf.def:uniformizer}
+$K_F$ is a subgroup, being the image of a group homomorphism (\cref{I.conv.def:max-compact-local}). Write
+$\Ocal=\Ocal_F$ and $\mathfrak p=\mathfrak p_F=\unif\Ocal$.
+
+\emph{$\Ocal^\times$ is open and closed in $F$.} The ideal $\mathfrak p$ is an open additive subgroup (the image of
+the open set $\Ocal$ under the homeomorphism $x\mapsto\unif x$), hence also closed. So
+$\Ocal^\times=\Ocal\setminus\mathfrak p$ (\cref{rem:lf-standard-facts}\ref{lf-fact-dvr}) is closed. It is open: for
+$u\in\Ocal^\times$ the open set $u+\mathfrak p$ lies in $\Ocal^\times$, because $u+x\in\mathfrak p$ with
+$x\in\mathfrak p$ would give $u\in\mathfrak p$.
+
+\emph{The image $C=j(K_F)$.} By \cref{I.conv.lem:max-compact-local-mem} (for the injective inclusion
+$\Ocal\subseteq F$),
+\[
+  C=\Mat_2(\Ocal)\cap\det{}^{-1}(\Ocal^\times).
+\]
+The set $\Mat_2(\Ocal)=\Ocal^{2\times2}$ is compact and open in $\Mat_2(F)$, as a finite product of copies of the
+compact open set $\Ocal$. Since $\det$ is continuous, $\det^{-1}(\Ocal^\times)$ is open and closed. Hence $C$ is open
+in $\Mat_2(F)$, and compact as a closed subset of the compact set $\Mat_2(\Ocal)$.
+
+\emph{Transport.} By \cref{X.topgrp.thm:gl2-units-open-embedding}, $j$ is continuous and restricts to a homeomorphism
+$\GL_2(F)\to U$ with inverse $r$. Therefore $K_F=j^{-1}(C)$ is open, and $K_F=r(C)$ is compact as the continuous
+image of a compact set ($C\subseteq U$).
+\end{proof}
+
+\section{\texorpdfstring{$\GL_2(\R)$}{GL₂(ℝ)}}\label{sec:topgrp-real}
+
+\noindent\emph{Sources for this section:} \cite[§5]{JL}; \cite[§2]{AIntro}. The arguments are those of
+\cref{sec:topgrp-nalf} with $\R$ in place of $F$.
+
+\begin{theorem}[$\GL_2(\R)$ is locally compact]
+\tfstmt{I.topgrp.thm:gl2-real-locally-compact}
+\uses{X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:gl2-borel-measurable}
+\end{theorem}
+\begin{proof}
+\uses{X.topgrp.thm:gl2-units-open-embedding, X.topgrp.thm:gl2-borel-measurable}
+$\R$ is a Hausdorff topological field, so \cref{X.topgrp.thm:gl2-units-open-embedding} applies: $\GL_2(\R)$ is
+homeomorphic to the open subset $U=\{\det\neq0\}$ of $\Mat_2(\R)=\R^4$. The space $\R^4$ is locally compact,
+Hausdorff and second countable; an open subset of a locally compact Hausdorff space is locally compact, and
+subspaces of Hausdorff (resp.\ second countable) spaces are Hausdorff (resp.\ second countable). The statement about
+the $\sigma$-algebra is \cref{X.topgrp.thm:gl2-borel-measurable} for $F=\R$, which is second countable.
+\end{proof}
+
+\begin{theorem}[$\Kinf$ is compact]
+\tfstmt{I.topgrp.thm:max-compact-real-compact}
+\uses{I.conv.def:max-compact-real}
+\end{theorem}
+\begin{proof}
+\uses{X.topgrp.thm:gl2-units-open-embedding}
+Let $C=\{X\in\Mat_2(\R):X^{\mathsf T}X=1\}$. It is closed, as the preimage of the point $1$ under the continuous
+(polynomial) map $X\mapsto X^{\mathsf T}X$. It is bounded: the diagonal entries of $X^{\mathsf T}X=1$ say that the columns of
+$X$ are unit vectors, so $\abs{X_{ij}}\le1$. Hence $C$ is compact (Heine--Borel). Every $X\in C$ has
+$\det(X)^2=\det(X^{\mathsf T}X)=1$, so $C\subseteq U$ and $C=j(\Kinf)$. By \cref{X.topgrp.thm:gl2-units-open-embedding}
+the inverse $r\colon U\to\GL_2(\R)$ of $j$ is continuous, so $\Kinf=r(C)$ is compact. It is a subgroup by the remark
+after \cref{I.conv.def:max-compact-real}.
+\end{proof}
+
+\section{\texorpdfstring{Adelic $\GL_2$}{Adelic GL₂}}\label{sec:topgrp-adelic}
+
+\noindent\emph{Sources for this section:} \cite[§§4.3--4.4]{GH}; \cite[§2]{AIntro}; \cite{Bor-fin}. The ring $\A$ is not
+a field, and the units topology on $\GL_2(\A)$ is strictly finer than the subspace topology of $\Mat_2(\A)$. All
+statements below are made for the units topology.
+
+\emph{Two facts on units topologies,} used repeatedly. (U1) For a topological ring $R$ (with continuous
+multiplication), the units topology on $\GL_2(R)=\Mat_2(R)^\times$ makes it a topological group, and every continuous
+ring homomorphism $R\to R'$ induces a continuous homomorphism $\GL_2(R)\to\GL_2(R')$. (U2) If $R=\prod_{i\in I}R_i$ is a
+product of topological rings, the units topology of $\Mat_2(R)^\times=\prod_i\GL_2(R_i)$ is the product of the units
+topologies: both are the topologies induced by $g\mapsto(g,g^{-1})$, into $\prod_i(\Mat_2(R_i)\times\Mat_2(R_i))$. If
+$S\subseteq R$ is an open subring, then $\Mat_2(S)^\times=\{g\in\GL_2(R):g,g^{-1}\in\Mat_2(S)\}$ is open in $\GL_2(R)$,
+and its units topology is the subspace topology.
+
+\begin{definition}[adelic $\GL_2$]
+\tfstmt{I.topgrp.def:gl2-adelic}
+\uses{I.adele.def:adele-ring, I.conv.def:gl2, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent By (U1) and \cref{I.adele.thm:adele-locally-compact}, $G(\A)$ and $G(\Af)$ are topological groups and the maps
+$g\mapsto g_\infty,g_f,g_p$ are continuous homomorphisms.
+
+\begin{theorem}[$G(\Af)$ as a restricted product]
+\tfstmt{I.topgrp.thm:gl2-adelic-restricted-product}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:max-compact-local, I.adele.def:finite-adeles-model, I.adele.def:adele-ring}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:finite-adeles-model, I.topgrp.thm:max-compact-local-compact-open, I.conv.lem:max-compact-local-mem, I.adele.def:ideles, I.adele.def:zhat, I.lf.def:padic-nalf-instance}
+(a) \emph{Bijective homomorphism.} $g\mapsto(g_p)_p$ is a homomorphism into $\prod_p\GL_2(\Qp)$. If $g\in G(\Af)$, the
+entries of $g$ and of $g^{-1}$ lie in $\Zp$ for almost all $p$, so $g_p\in K_p$ for almost all $p$, and the image lies
+in the restricted product. It is injective, since the entries of $g$ are determined by their components. Conversely,
+if $(g_p)$ has $g_p\in K_p$ for almost all $p$, then the matrices $(g_p)$ and $(g_p^{-1})$ have entries in $\Af$ and are
+mutually inverse in $\Mat_2(\Af)$.
+
+\emph{Homeomorphism.} For a finite set $S$ of primes let $G_S=\prod_{p\in S}\GL_2(\Qp)\times\prod_{p\notin S}K_p$.
+On the restricted-product side, $G_S$ is open with the product topology (as for $\Af$, \cref{I.adele.def:finite-adeles-model}).
+$K_p$ is open in $\GL_2(\Qp)$ by \cref{I.topgrp.thm:max-compact-local-compact-open}. On the side of $G(\Af)$, $G_S$
+corresponds to $\Mat_2(\A_{f,S})^\times$, which is open by (U2), since $\A_{f,S}$ is an open subring. Its units
+topology is, by (U2) again, the product of the units topologies of $\GL_2(\Qp)$ ($p\in S$) and of
+$\Mat_2(\Zp)^\times=K_p$ ($p\notin S$). The latter is the subspace topology from $\GL_2(\Qp)$, by (U2) for the open
+subring $\Zp\subseteq\Qp$. So the two topologies induce the same topology on each member of the open cover
+$(G_S)_S$ of the group, and therefore coincide.
+
+(b) $\A=\R\times\Af$ is a product of topological rings, so (b) is (U2) for two factors.
+\end{proof}
+
+\begin{theorem}[local compactness and second countability]
+\tfstmt{I.topgrp.thm:gl2-adelic-locally-compact}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-adelic-restricted-product, I.topgrp.thm:gl2-local-locally-compact, I.topgrp.thm:gl2-real-locally-compact, I.topgrp.thm:max-compact-local-compact-open}
+By \cref{I.topgrp.thm:gl2-adelic-restricted-product} we work with $\prod'_p(\GL_2(\Qp),K_p)$. Each $G_S$ (notation of
+that proof) is open. With the product topology, $G_S$ is Hausdorff and second countable, as a countable product of such
+spaces (\cref{I.topgrp.thm:gl2-local-locally-compact}). It is locally compact: $\prod_{p\notin S}K_p$ is compact
+(Tychonoff; \cref{I.topgrp.thm:max-compact-local-compact-open}), and a finite product of locally compact spaces with a
+compact space is locally compact. Every point has a neighbourhood $G_S$ with these properties, so $G(\Af)$ is locally
+compact. It is Hausdorff, since $\Mat_2(\Af)^2$ is. There are countably many finite sets $S$, and a space covered by
+countably many open second countable subspaces is second countable. For $G(\A)\cong\GL_2(\R)\times G(\Af)$ use
+\cref{I.topgrp.thm:gl2-real-locally-compact}.
+\end{proof}
+
+\begin{theorem}[$G(\Q)$ is discrete]
+\tfstmt{I.topgrp.thm:gl2-rat-discrete}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.conv.def:gl2}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.def:gl2-adelic, I.adele.thm:rat-discrete}
+Injectivity holds because $\Q\to\A$ is injective. Let $V=(-1,1)\times\Zhat$, an open subset of $\A$. The set
+$U=\{g\in G(\A):g-1\in\Mat_2(V)\}$ is open in the units topology (it is the preimage of an open set under the
+continuous inclusion $G(\A)\to\Mat_2(\A)$), and it contains $1$. If $\gamma\in G(\Q)\cap U$, every entry of $\gamma-1$
+lies in $\Q\cap V=\{0\}$ (\cref{I.adele.thm:rat-discrete}), so $\gamma=1$. Hence $G(\Q)$ is discrete ($\gamma U$ meets
+$G(\Q)$ only in $\gamma$), and closed, as a discrete subgroup of a Hausdorff topological group (proof of
+\cref{I.adele.thm:rat-discrete}).
+\end{proof}
+
+\begin{definition}[the maximal compact subgroups $\Kf$ and $K$]
+\tfstmt{I.topgrp.def:max-compact-adelic}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:max-compact-local, I.conv.def:max-compact-real, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent They are subgroups because $g\mapsto g_\infty,g_p$ are homomorphisms. An element of $\Kf$ has entries in $\Zhat$
+and determinant in $\Zhat^\times$, and conversely; so $\Kf=\GL_2(\Zhat)$.
+
+\begin{theorem}[compactness of $\Kf$ and $K$]
+\tfstmt{I.topgrp.thm:max-compact-adelic-compact}
+\uses{I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.conv.def:max-compact-local, I.conv.def:max-compact-real}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:gl2-adelic-restricted-product, I.topgrp.thm:max-compact-local-compact-open, I.topgrp.thm:max-compact-real-compact}
+Under \cref{I.topgrp.thm:gl2-adelic-restricted-product}(a), $\Kf$ is $G_\emptyset=\prod_pK_p$, which is open and carries
+the product topology. It is compact by Tychonoff and \cref{I.topgrp.thm:max-compact-local-compact-open}. Under (b), $K$
+is $\Kinf\times\Kf$, compact by \cref{I.topgrp.thm:max-compact-real-compact}.
+\end{proof}
+
+\begin{definition}[adelic subgroups]
+\tfstmt{I.topgrp.def:adelic-subgroups}
+\uses{I.topgrp.def:gl2-adelic, I.conv.def:borel, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:center, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles}
+\end{definition}
+\noindent\emph{On $T(\A)^1$.} This is Arthur's $T(\A)^1$ \cite[§§2, 7]{AIntro}, the intersection of the kernels of
+$t\mapsto\abs{t_1}_\A$ and $t\mapsto\abs{t_2}_\A$. It is \emph{not} $T(\A)\cap G(\A)^1=\{\abs{t_1t_2}_\A=1\}$: the
+quotient $T(\Q)\backslash T(\A)^1$ is compact (\cref{ch:ch-0-07-quotient}), while $T(\Q)\backslash(T(\A)\cap G(\A)^1)$
+is not. It is a subgroup, since $t\mapsto t_i$ and $\abs{\cdot}_\A$ are homomorphisms (\cref{I.adele.def:idele-norm}).
+
+\begin{theorem}[the adelic subgroups are closed]
+\tfstmt{I.topgrp.thm:adelic-subgroups-closed}
+\uses{I.topgrp.def:adelic-subgroups, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.conv.def:borel, I.conv.def:center, I.conv.def:torus, I.conv.def:unipotent}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.def:adelic-subgroups, I.adele.thm:adele-locally-compact, I.adele.def:idele-norm}
+The entry maps $g\mapsto g_{ij}$ are continuous $G(\A)\to\A$, and $\A$ is Hausdorff
+(\cref{I.adele.thm:adele-locally-compact}), so the sets $\{g_{ij}=c\}$ and $\{g_{ij}=g_{kl}\}$ are closed. Now
+$B(\A)=\{g_{21}=0\}$, $T(\A)=\{g_{12}=0\}\cap\{g_{21}=0\}$, $N(\A)=\{g_{11}=1\}\cap\{g_{22}=1\}\cap\{g_{21}=0\}$ (an
+element of $B(\A)$ with diagonal $(1,1)$ is $n(g_{12})$), and $Z(\A)=T(\A)\cap\{g_{11}=g_{22}\}$. For $T(\A)^1$: on $T(\A)$
+the maps $t\mapsto t_i\in\A^\times$ are continuous for the units topology (as $t_i^{-1}=(t^{-1})_{ii}$), and
+$\abs{\cdot}_\A$ is continuous on $\A^\times$, so $T(\A)^1$ is closed in the closed set $T(\A)$.
+\end{proof}
+
+\section{\texorpdfstring{$G(\A)^1$ and $A_G^+$}{G(𝔸)¹ and AG⁺}}\label{sec:topgrp-norm-one}
+
+\noindent\emph{Sources for this section:} \cite[§§1--2]{AIntro}; \cite[Lecture I]{Gel}.
+
+\begin{definition}[$G(\A)^1$]
+\tfstmt{I.topgrp.def:norm-one-group}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:idele-norm, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles}
+\end{definition}
+\noindent $\det\colon G(\A)\to\A^\times$ is a continuous homomorphism for the units topologies ($\det g^{-1}=(\det g)^{-1}$
+and $\det$ is a polynomial in the entries). So $g\mapsto\abs{\det g}_\A$ is a continuous homomorphism to $\R_{>0}$, and
+$G(\A)^1$ is its kernel: a closed normal subgroup.
+
+\begin{definition}[$\AGplus$]
+\tfstmt{I.topgrp.def:central-split-component}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model}
+\end{definition}
+\noindent $a(r)a(r')=a(rr')$, and $a(r)$ is central. $r\mapsto a(r)$ is continuous and injective. Its inverse
+$a(r)\mapsto r=(a(r)_\infty)_{11}$ is continuous, so it is a homeomorphism onto its image.
+
+\begin{theorem}[$G(\A)=\AGplus\times G(\A)^1$]
+\tfstmt{I.topgrp.thm:norm-one-splitting}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:central-split-component, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:idele-norm, I.adele.def:ideles, I.topgrp.def:gl2-adelic}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.def:norm-one-group, I.topgrp.def:central-split-component, I.adele.thm:product-formula, I.adele.def:zhat}
+$\abs{\det a(r)}_\A=r^2$. For $g\in G(\A)$ put $\rho(g)=\abs{\det g}_\A^{1/2}$. Then $a(\rho(g))^{-1}g\in G(\A)^1$, so
+the stated inverse is well defined. It is continuous, as a composite of continuous maps. The map $(a,g)\mapsto ag$ is a
+continuous homomorphism, since $\AGplus$ is central. The two maps are mutually inverse: for $a=a(r)$ and $g\in G(\A)^1$,
+$\rho(a(r)g)=r$. For $\gamma\in G(\Q)$, $\det\gamma\in\Q^\times$, so $\abs{\det\gamma}_\A=1$ by
+\cref{I.adele.thm:product-formula}.
+\end{proof}
+
+\section{Strong approximation}\label{sec:topgrp-strong-approx}
+
+\noindent\emph{Sources for this section:} \cite[§4.11]{GH}; Knightly--Li (\texttt{literature/knightly}, §2.1, the
+congruence subgroups and (2.1)); the elementary proof of \cref{I.topgrp.thm:sl2-reduction-surjective} is standard.
+
+\begin{definition}[congruence subgroups]
+\tfstmt{I.topgrp.def:congruence-subgroups}
+\uses{I.topgrp.def:max-compact-adelic, I.adele.def:zhat, I.adele.def:finite-adeles-model, I.conv.def:borel}
+\end{definition}
+\noindent\emph{Proof of the claims.} $N\Zhat$ is an ideal of $\Zhat$, and reduction modulo $N\Zhat$ is a ring
+homomorphism $\Zhat\to\Zhat/N\Zhat\cong\Z/N\Z$ (proof of \cref{I.adele.thm:zhat-characters-finite-order}). So
+$k\mapsto k\bmod N$ is a homomorphism $\Kf=\GL_2(\Zhat)\to\GL_2(\Z/N\Z)$. $\Kf(N)$ is its kernel, $K_0(N)$ the preimage
+of the upper triangular matrices, and $K_1(N)$ the preimage of the subgroup of upper triangular matrices with lower
+right entry $1$. \emph{They are open:} each contains $\Kf(N)$, which corresponds to
+$\prod_{p\mid N}(K_p\cap(1+p^{\operatorname{ord}_pN}\Mat_2(\Zp)))\times\prod_{p\nmid N}K_p$, an open subgroup of
+$\prod_pK_p$. Moreover the subgroups $\Kf(N)$, $N\ge1$, form a neighbourhood base of $1$ in $G(\Af)$, because the sets
+$K_p\cap(1+p^k\Mat_2(\Zp))$, $k\ge0$, form one in $K_p$ (the $p^k\Zp$ form one at $0$ in $\Zp$).
+
+\begin{theorem}[$\SL_2(\Z)\to\SL_2(\Z/N)$ is surjective]
+\tfstmt{I.topgrp.thm:sl2-reduction-surjective}
+\end{theorem}
+\begin{proof}
+Let $\bar g\in\SL_2(\Z/N\Z)$ and lift its entries to integers $a,b,c,d$ with $ad-bc\equiv1\pmod N$.
+
+\emph{Step 1: we may assume $\gcd(c,d)=1$.} Replacing $c$ by $c+N$ if $c=0$, we may assume $c\neq0$. Every prime
+dividing $c$, $d$ and $N$ would divide $ad-bc\equiv1$, so $\gcd(c,d,N)=1$. Let $t$ be the product of the primes $p\mid c$
+with $p\nmid d$ (so $t=1$ if there are none), and replace $d$ by $d+tN$; this does not change $d\bmod N$. Let $p\mid c$.
+If $p\mid d$, then $p\nmid N$ and $p\nmid t$, so $d+tN\equiv tN\not\equiv0\pmod p$. If $p\nmid d$, then $p\mid t$ and
+$d+tN\equiv d\not\equiv0\pmod p$. Hence $\gcd(c,d+tN)=1$.
+
+\emph{Step 2.} Write $ad-bc=1+kN$ and choose $x,y\in\Z$ with $xd-yc=1$ (Bezout). Then $a'=a-kNx$, $b'=b-kNy$ satisfy
+$a'\equiv a$, $b'\equiv b\pmod N$ and $a'd-b'c=ad-bc-kN(xd-yc)=1$. So
+$\begin{psmallmatrix}a'&b'\\c&d\end{psmallmatrix}\in\SL_2(\Z)$ reduces to $\bar g$.
+\end{proof}
+
+\begin{theorem}[strong approximation for $\SL_2$]
+\tfstmt{I.topgrp.thm:sl2-strong-approximation}
+\uses{I.topgrp.def:gl2-adelic, I.adele.def:finite-adeles-model, I.conv.def:gl2}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:sl2-reduction-surjective, I.topgrp.def:congruence-subgroups, I.decomp.thm:iwasawa-local, I.adele.thm:adele-fundamental-domain, I.lf.thm:unit-uniformizer-decomposition, I.topgrp.thm:gl2-adelic-restricted-product}
+Write $\SL_2(R)$ for the determinant-one matrices, and $\SL_2(\Zhat)=\Kf\cap\SL_2(\Af)$.
+
+\emph{Step 1: $\SL_2(\Af)=\SL_2(\Q)\,\SL_2(\Zhat)$.} Let $g\in\SL_2(\Af)$. For each $p$ write $g_p=b_pk_p$ with
+$b_p\in B(\Qp)$ and $k_p\in K_p$ (\cref{I.decomp.thm:iwasawa-local}). Replacing $k_p$ by $\diag(\det k_p^{-1},1)k_p$
+and $b_p$ by $b_p\diag(\det k_p,1)$, we may assume $\det k_p=1$, hence $\det b_p=1$. For the almost all $p$ with
+$g_p\in K_p$ take $b_p=1$. Write $b_p=n(x_p)\diag(t_p,t_p^{-1})$. Let $t=\prod_pp^{n_p}\in\Q_{>0}$, where
+$t_p\in p^{n_p}\Zp^\times$ (\cref{I.lf.thm:unit-uniformizer-decomposition}). Then $t^{-1}t_p\in\Zp^\times$ for all
+$p$. The family $(x_p)_p$ lies in $\Af$ (almost all $x_p=0$). There is $x\in\Q$ with $x_p-x\in t^2\Zp$ for all $p$. Indeed, write $t^2=a/b$ with integers $a,b\ge1$;
+then $t^2\Zhat\supseteq a\Zhat$, and $\Af=\Q+\Zhat=\Q+a\Zhat$ by \cref{I.adele.thm:adele-fundamental-domain} and
+$\Zhat=\Z+a\Zhat$ by the Chinese remainder theorem (for $y\in\Zhat$ choose $m\in\Z$ with $m\equiv y_p\bmod p^{v_p(a)}\Zp$ for the finitely many $p\mid a$; then $y-m\in a\Zhat$). Put $\beta=n(x)\diag(t,t^{-1})\in\SL_2(\Q)$. Then
+\[
+  \beta^{-1}b_p=\diag(t^{-1},t)\,n(x_p-x)\,\diag(t_p,t_p^{-1})=n\bigl(t^{-2}(x_p-x)\bigr)\diag(t^{-1}t_p,\,tt_p^{-1})\in K_p
+\]
+(\cref{I.conv.lem:torus-normalizes-unipotent}), so $\beta^{-1}g_p=(\beta^{-1}b_p)k_p\in K_p\cap\SL_2(\Qp)$ for all $p$,
+i.e.\ $\beta^{-1}g\in\SL_2(\Zhat)$.
+
+\emph{Step 2: density.} The sets $g(\Kf(N)\cap\SL_2(\Af))$, $N\ge1$, form a neighbourhood base of $g$ in $\SL_2(\Af)$
+(remark after \cref{I.topgrp.def:congruence-subgroups}). By Step~1, $g=\beta k$ with $\beta\in\SL_2(\Q)$ and
+$k\in\SL_2(\Zhat)$. The reduction $k\bmod N$ lies in $\SL_2(\Z/N\Z)$ ($\Zhat/N\Zhat\cong\Z/N\Z$). By
+\cref{I.topgrp.thm:sl2-reduction-surjective} there is $\sigma\in\SL_2(\Z)$ with $\sigma\equiv k\pmod N$. Then
+$k'=\sigma^{-1}k\in\Kf(N)\cap\SL_2(\Af)$, and $\beta\sigma=gk'^{-1}\in\SL_2(\Q)\cap g(\Kf(N)\cap\SL_2(\Af))$.
+\end{proof}
+
+\begin{theorem}[strong approximation for $\GL_2$]
+\tfstmt{I.topgrp.thm:strong-approximation}
+\uses{I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:zhat, I.conv.def:gl2}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:sl2-strong-approximation, I.adele.thm:idele-decomposition, I.topgrp.thm:gl2-adelic-restricted-product}
+We prove a more precise statement, which is used again in \cref{I.topgrp.thm:double-coset-det}.
+
+\emph{Claim.} Let $K'\subseteq\Kf$ be an open subgroup and $g\in G(\A)$. Let $\delta\in G(\Af)$ with
+$\det\delta=u(\det g)$ (\cref{I.adele.thm:idele-decomposition}). Then $g\in G(\Q)\,G(\R)^+\,\delta K'$.
+
+\emph{Proof of the claim.} Write $\det g=q\cdot(r,u)$ with $q\in\Q^\times$, $r>0$ and $u=u(\det g)\in\Zhat^\times$. Let
+$\gamma_0=\diag(q,1)\in G(\Q)$ and $g_1=\gamma_0^{-1}g$. Then $\det g_1=(r,u)$: $\det g_{1,\infty}=r>0$ and
+$\det g_{1,f}=u$. The element $g_{1,f}\delta^{-1}$ lies in $\SL_2(\Af)$. The set
+$g_{1,f}\delta^{-1}\cdot\delta K''\delta^{-1}$, with $K''=K'\cap\SL_2(\Af)$, is open in $\SL_2(\Af)$ (a translate of
+the open subgroup $\delta K''\delta^{-1}$) and non-empty. By \cref{I.topgrp.thm:sl2-strong-approximation} it contains
+some $\gamma\in\SL_2(\Q)$: $\gamma=g_{1,f}k\delta^{-1}$ with $k\in K''$, i.e.\ $g_{1,f}=\gamma\delta k^{-1}$. Then, in
+$G(\A)\cong\GL_2(\R)\times G(\Af)$,
+\[
+  g_1=(g_{1,\infty},\gamma\delta k^{-1})=\gamma\cdot(\gamma^{-1}g_{1,\infty},1)\cdot(1,\delta)\cdot(1,k^{-1}),
+\]
+with $\det(\gamma^{-1}g_{1,\infty})=r>0$. So $g=\gamma_0\gamma\cdot h\cdot\delta k^{-1}$ with $\gamma_0\gamma\in G(\Q)$,
+$h\in G(\R)^+$, $k^{-1}\in K'$.
+
+\emph{The theorem.} If $\det K'=\Zhat^\times$, choose $\delta\in K'$ with $\det\delta=u(\det g)$. The claim gives
+$g\in G(\Q)G(\R)^+K'$.
+\end{proof}
+\noindent For $K'=\Kf$, $K_0(N)$ and $K_1(N)$ the hypothesis holds ($\diag(u,1)\in K_1(N)$ for $u\in\Zhat^\times$). For
+$\Kf(N)$ with $N\ge3$ it fails, and \cref{I.topgrp.thm:double-coset-det} gives the replacement.
+
+\begin{theorem}[double cosets and the determinant]
+\tfstmt{I.topgrp.thm:double-coset-det}
+\uses{I.topgrp.def:gl2-adelic, I.topgrp.def:max-compact-adelic, I.adele.thm:idele-decomposition, I.adele.def:adele-ring, I.adele.def:finite-adeles-model, I.adele.def:ideles, I.adele.def:zhat, I.conv.def:gl2}
+\end{theorem}
+\begin{proof}
+\uses{I.topgrp.thm:strong-approximation, I.adele.thm:idele-decomposition, I.topgrp.def:congruence-subgroups}
+\emph{$\det K'$ is open.} $K'$ contains some $\Kf(N)$ (neighbourhood base), and
+$\det\Kf(N)\supseteq U_N=\Zhat^\times\cap(1+N\Zhat)$, since $\diag(u,1)\in\Kf(N)$ for $u\in U_N$. $U_N$ is open, and a
+subgroup containing an open subgroup is open.
+
+\emph{Well defined.} $u\colon\A^\times\to\Zhat^\times$ is a homomorphism with $u(q)=1$ for $q\in\Q^\times$ and $u((r,1))=1$
+for $r>0$. For $\gamma\in G(\Q)$, $h\in G(\R)^+$ and $k\in K'$:
+$u(\det(\gamma ghk))=u(\det g)\det k$, the same class modulo $\det K'$.
+
+\emph{Surjective.} For $v\in\Zhat^\times$, the element $g=(1,\diag(v,1))$ has $u(\det g)=v$.
+
+\emph{Injective.} Let $u(\det g)=u(\det g')\det k_0$ with $k_0\in K'$. Apply the claim in the proof of
+\cref{I.topgrp.thm:strong-approximation} to $g$ with $\delta=(\diag(u(\det g'),1))k_0$ and to $g'$ with
+$\delta'=\diag(u(\det g'),1)$. This gives $g,g'\in G(\Q)G(\R)^+\delta'K'$, since $\delta K'=\delta'K'$. So $g$ and $g'$
+lie in the same double coset; $G(\R)^+$ commutes with $G(\Af)$ inside $G(\A)$.
+\end{proof}
+\noindent For $K'=\Kf(N)$, $\det\Kf(N)=U_N$ and $\Zhat^\times/U_N\cong(\Z/N\Z)^\times$, by the proof of
+\cref{I.adele.thm:zhat-characters-finite-order}.

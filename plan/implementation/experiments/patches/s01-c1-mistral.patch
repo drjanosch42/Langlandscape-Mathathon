@@ -1,0 +1,863 @@
+diff --git a/code/python/langlandscape/classset.py b/code/python/langlandscape/classset.py
+new file mode 100644
+index 0000000..a7420d0
+--- /dev/null
++++ b/code/python/langlandscape/classset.py
+@@ -0,0 +1,75 @@
++"""Class sets at level O-hat^x of definite quaternion algebras of squarefree discriminant D (computed with PARI).
++
++For each D: the class number h = |X_B(O-hat^x)|, the stabiliser orders |Gamma_x| = |O_x^x| (full unit group of the
++right order, not modulo +-1; stage tex Def. ``def:s01-classset``, Prop. ``prop:s01-finite``), the type number and
++the mass sum 1/|Gamma_x|, compared with the Eichler mass formula prod_{l | D}(l-1)/24 = phi(D)/24 (stage tex
++Thm. ``thm:s01-mass``(a), full-unit convention; Voight, *Quaternion Algebras*, Thm. 25.1.1; Eichler 1955).
++Checks against stage tex Ex. ``ex:s01-masschecks``.  Algorithms: see ``quat.py``.
++
++Status: computed.  Result file: ``code/results/s01/classsets.json`` (``python -m langlandscape.classset``).
++"""
++
++from __future__ import annotations
++
++import time
++from fractions import Fraction
++
++from .quat import DefiniteAlgebra, is_squarefree, primes_of
++
++EXTRA_D = (66, 70, 78)
++
++
++def phi(D: int) -> int:
++    """Euler's phi of the squarefree ``D``, i.e. prod_{l | D} (l - 1)."""
++    r = 1
++    for p in primes_of(D):
++        r *= p - 1
++    return r
++
++
++def definite_discriminants() -> list[int]:
++    """Squarefree D <= 60 with omega(D) odd, plus 66, 70, 78."""
++    ds = [D for D in range(2, 61) if is_squarefree(D) and len(primes_of(D)) % 2 == 1]
++    return ds + list(EXTRA_D)
++
++
++def class_set(D: int) -> dict:
++    """Class number, stabiliser orders |Gamma_x|, type number and mass of B_D at level O-hat^x."""
++    A = DefiniteAlgebra(D)
++    orders = sorted(A.unit_orders)
++    mass = sum(Fraction(1, g) for g in orders)
++    return {
++        "D": D,
++        "a": A.a,
++        "b": A.b,
++        "h": len(orders),
++        "gamma_orders": orders,
++        "type_number": A.type_number(),
++        "mass": mass,
++        "mass_expected": Fraction(phi(D), 24),
++        "mass_ok": mass == Fraction(phi(D), 24),
++    }
++
++
++def compute_all() -> dict:
++    """``class_set(D)`` for all D of ``definite_discriminants()``, keyed by ``str(D)``."""
++    return {str(D): class_set(D) for D in definite_discriminants()}
++
++
++def main() -> None:  # pragma: no cover - writes the result file
++    from . import results
++
++    t = time.perf_counter()
++    data = compute_all()
++    results.write(
++        "s01/classsets.json",
++        data,
++        script="code/python/langlandscape/classset.py",
++        params={"D": definite_discriminants(), "level": "maximal order O-hat^x"},
++        runtime_s=time.perf_counter() - t,
++        notes="Gamma_x = O_x^x (full unit group); mass = sum 1/|Gamma_x| = prod(l-1)/24.",
++    )
++
++
++if __name__ == "__main__":  # pragma: no cover
++    main()
+diff --git a/code/python/langlandscape/quat.py b/code/python/langlandscape/quat.py
+new file mode 100644
+index 0000000..3d4fd17
+--- /dev/null
++++ b/code/python/langlandscape/quat.py
+@@ -0,0 +1,329 @@
++"""Definite quaternion algebras over Q of squarefree discriminant D, maximal orders and ideal classes.
++
++``DefiniteAlgebra(D)`` realises B = (a, b)_Q (i^2 = a, j^2 = b, a, b < 0) ramified exactly at the primes dividing D
++and at infinity (omega(D) odd); stage tex Def. ``def:s01-B``.
++
++* Maximal order.  Starting from Z<1,i,j,k>, an order is enlarged at a prime l with l^2 | disc/D^2 by adjoining c/l,
++  c running over the kernel of the trace form mod l with l^2 | nrd(c), and closing under multiplication
++  (``DefiniteAlgebra._enlarge``, whose docstring contains the correctness argument).  An order is maximal iff its
++  reduced discriminant is D [Voight, *Quaternion Algebras*, GTM 288 (2021), Ch. 15 and Thm. 15.5.5].
++* Classes.  Left ideal classes of the maximal order are enumerated by l-neighbours (l the smallest prime not dividing
++  D): right multiplication by the l+1 left ideals of norm l of the right order, a connected graph by strong
++  approximation [Kirschmer-Voight, *Algorithmic enumeration of ideal classes for quaternion orders*, SIAM J. Comput.
++  39 (2010), Sec. 6; Voight Ch. 17].  I ~ J iff conj(I)J contains an element of reduced norm N(I)N(J), decided
++  with ``qfminim``.
++* Stabilisers.  |Gamma_x| = |O_x^x| (full unit group, *not* modulo +-1), O_x the right order of the x-th class;
++  this is Gamma_x of stage tex Def. ``def:s01-classset`` at level U = O-hat^x (Prop. ``prop:s01-finite``;
++  Voight Thm. 11.5.14).  With this convention the Eichler mass formula reads sum 1/|Gamma_x| = prod_{l | D}(l-1)/24
++  (stage tex Thm. ``thm:s01-mass``(a); Voight Thm. 25.1.1, Eichler 1955), checked in ``classset.py``.
++* Type number.  Norm forms of the right orders are compared with ``qfisom``.
++
++Status of claims: computed (PARI via cypari2); the maximal-order step is proved in ``_enlarge``'s docstring.
++"""
++
++from __future__ import annotations
++
++import itertools
++import math
++from fractions import Fraction
++from functools import cached_property
++
++from .pari import get_pari
++
++Vec = tuple  # 4-tuple of Fractions (coordinates in 1, i, j, k)
++
++
++def primes_of(n: int) -> list[int]:
++    """The distinct prime divisors of ``n >= 1``, increasing."""
++    ps, p = [], 2
++    while p * p <= n:
++        if n % p == 0:
++            ps.append(p)
++            while n % p == 0:
++                n //= p
++        p += 1
++    if n > 1:
++        ps.append(n)
++    return ps
++
++
++def is_squarefree(n: int) -> bool:
++    """Whether ``n >= 1`` is squarefree."""
++    return all(n % (p * p) for p in primes_of(n))
++
++
++class Lattice:
++    """Full-rank Z-lattice in B = Q^4, stored as a canonical HNF basis (rows are basis vectors)."""
++
++    __slots__ = ("alg", "basis", "_key")
++
++    def __init__(self, alg: "DefiniteAlgebra", gens: list[Vec]):
++        self.alg = alg
++        d = 1
++        for g in gens:
++            for c in g:
++                d = d * c.denominator // math.gcd(d, c.denominator)
++        cols = [[int(c * d) for c in g] for g in gens]
++        P = get_pari()
++        M = P.matrix(4, len(cols), [cols[j][i] for i in range(4) for j in range(len(cols))])
++        H = P.mathnf(M)
++        ent = [[int(H[i, j]) for j in range(4)] for i in range(4)]  # ent[i][j] = coord i of basis vector j
++        g = d
++        for row in ent:
++            for e in row:
++                g = math.gcd(g, e)
++        d //= g
++        ent = [[e // g for e in row] for row in ent]
++        self._key = (d, tuple(tuple(r) for r in ent))
++        self.basis = [tuple(Fraction(ent[i][j], d) for i in range(4)) for j in range(4)]
++
++    def __eq__(self, other):
++        return self._key == other._key
++
++    def __hash__(self):
++        return hash(self._key)
++
++    def covolume(self) -> Fraction:
++        d, ent = self._key
++        P = get_pari()
++        det = abs(int(P.matdet(P.matrix(4, 4, [ent[i][j] for i in range(4) for j in range(4)]))))
++        return Fraction(det, d**4)
++
++    def conj(self) -> "Lattice":
++        return Lattice(self.alg, [self.alg.conj(v) for v in self.basis])
++
++    def __mul__(self, other: "Lattice") -> "Lattice":
++        mul = self.alg.mul
++        return Lattice(self.alg, [mul(x, y) for x in self.basis for y in other.basis])
++
++    def scale(self, c: Fraction) -> "Lattice":
++        return Lattice(self.alg, [tuple(c * x for x in v) for v in self.basis])
++
++    def add(self, other: "Lattice") -> "Lattice":
++        return Lattice(self.alg, self.basis + other.basis)
++
++
++class DefiniteAlgebra:
++    """Definite quaternion algebra of squarefree discriminant ``D`` (``omega(D)`` odd) over Q."""
++
++    def __init__(self, D: int):
++        if D < 2 or not is_squarefree(D):
++            raise ValueError("D must be squarefree and > 1")
++        self.primes = primes_of(D)
++        if len(self.primes) % 2 == 0:
++            raise ValueError("omega(D) must be odd for a definite algebra")
++        self.D = D
++        self.a, self.b = self._find_ab()
++        self.order = self._maximal_order()
++
++    # -- algebra B = (a,b) ------------------------------------------------------------------------------
++    def _find_ab(self) -> tuple[int, int]:
++        """(a, b) with a, b < 0 squarefree, |ab| minimal, such that (a, b)_Q is ramified exactly at D and infinity.
++
++        Ramification at a finite prime p is read off from the Hilbert symbol (a, b)_p; it can only occur for p | 2ab.
++        Any such pair works: ``_maximal_order`` is correct for every (a, b).
++        """
++        P = get_pari()
++        target = set(self.primes)
++        for n in itertools.count(1):
++            for a in range(1, math.isqrt(n) + 1):
++                if n % a or not is_squarefree(a) or not is_squarefree(n // a):
++                    continue
++                b = n // a
++                for (x, y) in ((-a, -b), (-b, -a)):
++                    ram = {p for p in primes_of(2 * n) if int(P.hilbert(x, y, p)) == -1}
++                    if ram == target:
++                        return x, y
++        raise AssertionError  # pragma: no cover
++
++    def mul(self, x: Vec, y: Vec) -> Vec:
++        a, b = self.a, self.b
++        x0, x1, x2, x3 = x
++        y0, y1, y2, y3 = y
++        return (
++            x0 * y0 + a * x1 * y1 + b * x2 * y2 - a * b * x3 * y3,
++            x0 * y1 + x1 * y0 - b * x2 * y3 + b * x3 * y2,
++            x0 * y2 + x2 * y0 + a * x1 * y3 - a * x3 * y1,
++            x0 * y3 + x3 * y0 + x1 * y2 - x2 * y1,
++        )
++
++    @staticmethod
++    def conj(x: Vec) -> Vec:
++        return (x[0], -x[1], -x[2], -x[3])
++
++    def nrd(self, x: Vec) -> Fraction:
++        return x[0] ** 2 - self.a * x[1] ** 2 - self.b * x[2] ** 2 + self.a * self.b * x[3] ** 2
++
++    @staticmethod
++    def trd(x: Vec) -> Fraction:
++        return 2 * x[0]
++
++    def gram(self, L: Lattice, scale: Fraction = Fraction(1)) -> list[list[int]]:
++        """Gram matrix of the form 2*nrd(x)/scale on ``L`` (must be integral)."""
++        bs = L.basis
++        G = [[self.trd(self.mul(bs[i], self.conj(bs[j]))) / scale for j in range(4)] for i in range(4)]
++        assert all(g.denominator == 1 for r in G for g in r), "form not integral"
++        return [[int(g) for g in r] for r in G]
++
++    # -- maximal order ----------------------------------------------------------------------------------
++    def _trace_matrix(self, O: Lattice) -> list[list[int]]:
++        """Integer matrix (trd(b_i b_j)) of the trace form on the basis of the order ``O``."""
++        bs = O.basis
++        T = [[self.trd(self.mul(bs[i], bs[j])) for j in range(4)] for i in range(4)]
++        assert all(t.denominator == 1 for r in T for t in r), "not an order"
++        return [[int(t) for t in r] for r in T]
++
++    def _disc(self, O: Lattice) -> int:
++        """|det(trd(b_i b_j))| = discrd(O)^2 for an order ``O``; equals D^2 iff ``O`` is maximal."""
++        P = get_pari()
++        T = self._trace_matrix(O)
++        return abs(int(P.matdet(P.matrix(4, 4, [T[i][j] for i in range(4) for j in range(4)]))))
++
++    def _maximal_order(self) -> Lattice:
++        """A maximal order containing Z<1,i,j,k>, by repeated enlargement at the primes l with l^2 | disc/D^2."""
++        one, I, J, K = (tuple(Fraction(int(i == j)) for i in range(4)) for j in range(4))
++        O = Lattice(self, [one, I, J, K])
++        while True:
++            disc = self._disc(O)
++            if disc == self.D**2:
++                return O
++            assert disc % self.D**2 == 0
++            l = primes_of(disc // self.D**2)[0]
++            O2 = self._enlarge(O, l)
++            if O2 is None:  # pragma: no cover - impossible by the argument in ``_enlarge``
++                raise RuntimeError("maximalisation failed at l = %d" % l)
++            O = O2
++
++    def _enlarge(self, O: Lattice, l: int) -> Lattice | None:
++        """An order O' with O < O' and l-power index, or ``None`` if ``O`` is l-maximal.
++
++        Correctness (any prime l, ramified or not).  If O is not l-maximal there is an order M > O (inside a maximal
++        order) and z in M - O with l z in O.  Write c = l z in O.  Since M is an order, trd(c y) = l trd(z y) is
++        divisible by l for all y in O, i.e. c mod l lies in the kernel K of the trace form (trd(b_i b_j)) mod l, and
++        nrd(c) = l^2 nrd(z) is divisible by l^2.  Conversely, for c in O with c mod l in K, nrd(c) mod l^2 depends
++        only on c mod l (nrd(c + l y) = nrd(c) + l trd(c conj(y)) + l^2 nrd(y), and trd(c conj(y)) = trd(c) trd(y) -
++        trd(c y) is 0 mod l).  Replacing z by a unit multiple or by z + O does not change O[z].  Hence it suffices to
++        run over the projective points c of K with l^2 | nrd(c) and to close O + Z c/l under multiplication; the
++        closure is accepted iff it stabilises before its discriminant drops below D^2.
++        """
++        P = get_pari()
++        B = O.basis
++        T = self._trace_matrix(O)
++        M = P.matrix(4, 4, [T[i][j] for i in range(4) for j in range(4)]) * P("Mod(1,%d)" % l)
++        ker = P.matker(M)
++        kb = [[int(P.lift(ker[j][i])) for i in range(4)] for j in range(len(ker))]
++        r = len(kb)
++        covol_min = Fraction(self.D) / (4 * abs(self.a * self.b))  # covolume of a maximal order
++        for t in range(r):  # projective points: coefficient vectors (0,..,0,1,*,..,*)
++            for rest in itertools.product(range(l), repeat=r - 1 - t):
++                coef = [0] * t + [1] + list(rest)
++                c = [sum(coef[s] * kb[s][i] for s in range(r)) for i in range(4)]
++                x = tuple(sum(Fraction(c[i]) * B[i][k] for i in range(4)) for k in range(4))
++                if self.nrd(x) % (l * l):
++                    continue
++                L = Lattice(self, B + [tuple(v / l for v in x)])
++                while True:
++                    if L.covolume() < covol_min:
++                        break  # not contained in any order
++                    L2 = L.add(L * L)
++                    if L2 == L:
++                        return L
++                    L = L2
++        return None
++
++    # -- ideals -----------------------------------------------------------------------------------------
++    def norm_of(self, I: Lattice) -> int:
++        """Reduced norm of a left ideal of the maximal order: sqrt of the index [O : I]."""
++        idx = I.covolume() / self.order.covolume()
++        n = math.isqrt(int(idx))
++        assert idx.denominator == 1 and n * n == idx
++        return n
++
++    def right_order(self, I: Lattice) -> Lattice:
++        return (I.conj() * I).scale(Fraction(1, self.norm_of(I)))
++
++    def units(self, R: Lattice) -> int:
++        """|R^x| = number of x in R with nrd(x) = 1 (qfminim on the norm form)."""
++        P = get_pari()
++        G = self.gram(R)
++        return _count_norm_two(P, G)
++
++    def equivalent(self, I: Lattice, J: Lattice) -> bool:
++        """I ~ J as left ideals (J = I*alpha) iff conj(I)*J has an element of reduced norm N(I)N(J)."""
++        if I == J:
++            return True
++        scale = Fraction(self.norm_of(I) * self.norm_of(J))
++        L = I.conj() * J
++        return _count_norm_two(get_pari(), self.gram(L, scale)) > 0
++
++    def neighbours(self, I: Lattice, l: int) -> list[Lattice]:
++        """The l+1 left ideals I*J, J running over the left ideals of norm l of the right order of I."""
++        R = self.right_order(I)
++        found: dict[Lattice, None] = {}
++        lR = R.scale(Fraction(l))
++        for c in itertools.product(range(l), repeat=4):
++            if not any(c):
++                continue
++            al = tuple(sum(Fraction(c[i]) * R.basis[i][k] for i in range(4)) for k in range(4))
++            if self.nrd(al) % l:
++                continue
++            J = Lattice(self, [self.mul(r, al) for r in R.basis] + lR.basis)
++            if J.covolume() != R.covolume() * l * l:
++                continue
++            found[J] = None
++            if len(found) == l + 1:
++                break
++        assert len(found) == l + 1
++        return [I * J for J in found]
++
++    def _neighbour_prime(self) -> int:
++        """The smallest prime l not dividing D (the l-neighbour graph on classes is then connected)."""
++        l = 2
++        while self.D % l == 0 or primes_of(l) != [l]:
++            l += 1
++        return l
++
++    @cached_property
++    def classes(self) -> list[Lattice]:
++        """Representatives of the left ideal classes of the maximal order (BFS in the l-neighbour graph)."""
++        l = self._neighbour_prime()
++        reps = [self.order]
++        queue = [self.order]
++        while queue:
++            I = queue.pop(0)
++            for N in self.neighbours(I, l):
++                if not any(self.equivalent(N, X) for X in reps):
++                    reps.append(N)
++                    queue.append(N)
++        return reps
++
++    @cached_property
++    def right_orders(self) -> list[Lattice]:
++        return [self.right_order(I) for I in self.classes]
++
++    @cached_property
++    def unit_orders(self) -> list[int]:
++        """|Gamma_x| = |O_x^x| for each class, in the order of ``classes``."""
++        return [self.units(R) for R in self.right_orders]
++
++    def type_number(self) -> int:
++        """Number of isometry classes of norm forms of the right orders (computed with ``qfisom``)."""
++        P = get_pari()
++        grams = [P.matrix(4, 4, [e for r in self.gram(R) for e in r]) for R in self.right_orders]
++        reps = []
++        for G in grams:
++            if not any(_isometric(P, G, H) for H in reps):
++                reps.append(G)
++        return len(reps)
++
++
++def _count_norm_two(P, G: list[list[int]]) -> int:
++    """Number of x in Z^4 with x^T G x = 2 (G positive definite, even); exact ``qfminim`` (flag 0)."""
++    M = P.matrix(4, 4, [G[i][j] for i in range(4) for j in range(4)])
++    vecs = P.qfminim(M, 2, None, 0)[2]  # one vector of each pair +-v
++    return 2 * sum(1 for j in range(int(P.matsize(vecs)[1])) if int(P.qfeval(M, vecs[j])) == 2)
++
++
++def _isometric(P, G, H) -> bool:
++    """Integral isometry of the positive definite forms ``G``, ``H`` (``qfisom`` returns 0 if there is none)."""
++    return bool(P.qfisom(G, H) != 0)
+diff --git a/code/python/tests/test_s01_classset.py b/code/python/tests/test_s01_classset.py
+new file mode 100644
+index 0000000..654066a
+--- /dev/null
++++ b/code/python/tests/test_s01_classset.py
+@@ -0,0 +1,72 @@
++"""S01-C1: class sets of definite quaternion algebras at maximal level (mass formula, h(D), |Gamma_x|)."""
++
++import json
++from fractions import Fraction
++
++import pytest
++
++from langlandscape import classset, results
++from langlandscape.pari import get_pari
++from langlandscape.quat import DefiniteAlgebra, primes_of
++
++H_PRIMES = dict(zip(
++    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53],
++    [1, 1, 1, 1, 2, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5],
++))
++
++
++@pytest.fixture(scope="module")
++def data():
++    return classset.compute_all()
++
++
++def test_discriminant_list():
++    ds = classset.definite_discriminants()
++    assert 66 in ds and 70 in ds and 78 in ds and 30 in ds and 6 not in ds and 1 not in ds
++
++
++def test_mass_formula(data):
++    for D in classset.definite_discriminants():
++        d = data[str(D)]
++        assert d["mass"] == Fraction(classset.phi(D), 24), D
++        assert all(24 % g == 0 for g in d["gamma_orders"]), D
++
++
++def test_class_numbers_primes(data):
++    for D, h in H_PRIMES.items():
++        assert data[str(D)]["h"] == h, D
++
++
++def test_stabilisers(data):
++    assert data["11"]["gamma_orders"] == [4, 6]
++    assert data["2"]["gamma_orders"] == [24]
++
++
++def test_result_file_matches_computation(data):
++    # the committed result file is produced by `python -m langlandscape.classset` on a clean commit
++    r = results.read("s01/classsets.json")
++    assert r["data"] == json.loads(json.dumps(data, default=results._default))
++    assert not r["provenance"]["commit"].endswith("-dirty")
++
++
++@pytest.mark.parametrize("D, h", [(73, 6), (97, 8)])
++def test_maximal_order_large_primes(D, h):
++    # (a, b) has an unramified prime l >= 5 dividing ab (here l = 7): Z<1,i,j,k> is hereditary at l
++    A = DefiniteAlgebra(D)
++    assert any(l >= 5 and D % l for l in primes_of(abs(A.a * A.b)))
++    assert A._disc(A.order) == D**2
++    d = classset.class_set(D)
++    assert d["h"] == h  # (p-1)/12 for p = 1 mod 12
++    assert d["mass"] == Fraction(classset.phi(D), 24)
++
++
++@pytest.mark.parametrize("D, ab", [(2, (-1, -5)), (7, (-1, -35)), (2, (-1, -101)), (3, (-1, -219))])
++def test_maximal_order_forced_ab(monkeypatch, D, ab):
++    # maximalisation must not depend on the (a, b) chosen by `_find_ab`
++    P = get_pari()
++    ram = {p for p in primes_of(2 * ab[0] * ab[1]) if int(P.hilbert(*ab, p)) == -1}
++    assert ram == set(primes_of(D))
++    monkeypatch.setattr(DefiniteAlgebra, "_find_ab", lambda self: ab)
++    A = DefiniteAlgebra(D)
++    assert (A.a, A.b) == ab and A._disc(A.order) == D**2
++    assert sum(Fraction(1, g) for g in A.unit_orders) == Fraction(classset.phi(D), 24)
+diff --git a/code/results/s01/classsets.json b/code/results/s01/classsets.json
+new file mode 100644
+index 0000000..48a5b29
+--- /dev/null
++++ b/code/results/s01/classsets.json
+@@ -0,0 +1,363 @@
++{
++ "data": {
++  "11": {
++   "D": 11,
++   "a": -1,
++   "b": -11,
++   "gamma_orders": [
++    4,
++    6
++   ],
++   "h": 2,
++   "mass": "5/12",
++   "mass_expected": "5/12",
++   "mass_ok": true,
++   "type_number": 2
++  },
++  "13": {
++   "D": 13,
++   "a": -2,
++   "b": -13,
++   "gamma_orders": [
++    2
++   ],
++   "h": 1,
++   "mass": "1/2",
++   "mass_expected": "1/2",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "17": {
++   "D": 17,
++   "a": -3,
++   "b": -17,
++   "gamma_orders": [
++    2,
++    6
++   ],
++   "h": 2,
++   "mass": "2/3",
++   "mass_expected": "2/3",
++   "mass_ok": true,
++   "type_number": 2
++  },
++  "19": {
++   "D": 19,
++   "a": -1,
++   "b": -19,
++   "gamma_orders": [
++    2,
++    4
++   ],
++   "h": 2,
++   "mass": "3/4",
++   "mass_expected": "3/4",
++   "mass_ok": true,
++   "type_number": 2
++  },
++  "2": {
++   "D": 2,
++   "a": -1,
++   "b": -1,
++   "gamma_orders": [
++    24
++   ],
++   "h": 1,
++   "mass": "1/24",
++   "mass_expected": "1/24",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "23": {
++   "D": 23,
++   "a": -1,
++   "b": -23,
++   "gamma_orders": [
++    2,
++    4,
++    6
++   ],
++   "h": 3,
++   "mass": "11/12",
++   "mass_expected": "11/12",
++   "mass_ok": true,
++   "type_number": 3
++  },
++  "29": {
++   "D": 29,
++   "a": -2,
++   "b": -29,
++   "gamma_orders": [
++    2,
++    2,
++    6
++   ],
++   "h": 3,
++   "mass": "7/6",
++   "mass_expected": "7/6",
++   "mass_ok": true,
++   "type_number": 3
++  },
++  "3": {
++   "D": 3,
++   "a": -1,
++   "b": -3,
++   "gamma_orders": [
++    12
++   ],
++   "h": 1,
++   "mass": "1/12",
++   "mass_expected": "1/12",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "30": {
++   "D": 30,
++   "a": -3,
++   "b": -10,
++   "gamma_orders": [
++    6,
++    6
++   ],
++   "h": 2,
++   "mass": "1/3",
++   "mass_expected": "1/3",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "31": {
++   "D": 31,
++   "a": -1,
++   "b": -31,
++   "gamma_orders": [
++    2,
++    2,
++    4
++   ],
++   "h": 3,
++   "mass": "5/4",
++   "mass_expected": "5/4",
++   "mass_ok": true,
++   "type_number": 3
++  },
++  "37": {
++   "D": 37,
++   "a": -2,
++   "b": -37,
++   "gamma_orders": [
++    2,
++    2,
++    2
++   ],
++   "h": 3,
++   "mass": "3/2",
++   "mass_expected": "3/2",
++   "mass_ok": true,
++   "type_number": 2
++  },
++  "41": {
++   "D": 41,
++   "a": -3,
++   "b": -41,
++   "gamma_orders": [
++    2,
++    2,
++    2,
++    6
++   ],
++   "h": 4,
++   "mass": "5/3",
++   "mass_expected": "5/3",
++   "mass_ok": true,
++   "type_number": 4
++  },
++  "42": {
++   "D": 42,
++   "a": -1,
++   "b": -21,
++   "gamma_orders": [
++    4,
++    4
++   ],
++   "h": 2,
++   "mass": "1/2",
++   "mass_expected": "1/2",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "43": {
++   "D": 43,
++   "a": -1,
++   "b": -43,
++   "gamma_orders": [
++    2,
++    2,
++    2,
++    4
++   ],
++   "h": 4,
++   "mass": "7/4",
++   "mass_expected": "7/4",
++   "mass_ok": true,
++   "type_number": 3
++  },
++  "47": {
++   "D": 47,
++   "a": -1,
++   "b": -47,
++   "gamma_orders": [
++    2,
++    2,
++    2,
++    4,
++    6
++   ],
++   "h": 5,
++   "mass": "23/12",
++   "mass_expected": "23/12",
++   "mass_ok": true,
++   "type_number": 5
++  },
++  "5": {
++   "D": 5,
++   "a": -2,
++   "b": -5,
++   "gamma_orders": [
++    6
++   ],
++   "h": 1,
++   "mass": "1/6",
++   "mass_expected": "1/6",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "53": {
++   "D": 53,
++   "a": -2,
++   "b": -53,
++   "gamma_orders": [
++    2,
++    2,
++    2,
++    2,
++    6
++   ],
++   "h": 5,
++   "mass": "13/6",
++   "mass_expected": "13/6",
++   "mass_ok": true,
++   "type_number": 4
++  },
++  "59": {
++   "D": 59,
++   "a": -1,
++   "b": -59,
++   "gamma_orders": [
++    2,
++    2,
++    2,
++    2,
++    4,
++    6
++   ],
++   "h": 6,
++   "mass": "29/12",
++   "mass_expected": "29/12",
++   "mass_ok": true,
++   "type_number": 6
++  },
++  "66": {
++   "D": 66,
++   "a": -1,
++   "b": -33,
++   "gamma_orders": [
++    4,
++    4,
++    6,
++    6
++   ],
++   "h": 4,
++   "mass": "5/6",
++   "mass_expected": "5/6",
++   "mass_ok": true,
++   "type_number": 2
++  },
++  "7": {
++   "D": 7,
++   "a": -1,
++   "b": -7,
++   "gamma_orders": [
++    4
++   ],
++   "h": 1,
++   "mass": "1/4",
++   "mass_expected": "1/4",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "70": {
++   "D": 70,
++   "a": -2,
++   "b": -35,
++   "gamma_orders": [
++    2,
++    2
++   ],
++   "h": 2,
++   "mass": "1/1",
++   "mass_expected": "1/1",
++   "mass_ok": true,
++   "type_number": 1
++  },
++  "78": {
++   "D": 78,
++   "a": -6,
++   "b": -13,
++   "gamma_orders": [
++    2,
++    2
++   ],
++   "h": 2,
++   "mass": "1/1",
++   "mass_expected": "1/1",
++   "mass_ok": true,
++   "type_number": 1
++  }
++ },
++ "provenance": {
++  "commit": "2ccd2a3aeeba56ad7568257ff6f4ec1bb442f825",
++  "date": "2026-11-14T17:36:16+00:00",
++  "notes": "Gamma_x = O_x^x (full unit group); mass = sum 1/|Gamma_x| = prod(l-1)/24.",
++  "params": {
++   "D": [
++    2,
++    3,
++    5,
++    7,
++    11,
++    13,
++    17,
++    19,
++    23,
++    29,
++    30,
++    31,
++    37,
++    41,
++    42,
++    43,
++    47,
++    53,
++    59,
++    66,
++    70,
++    78
++   ],
++   "level": "maximal order O-hat^x"
++  },
++  "pari_version": "2.15.4",
++  "python": "3.10.12",
++  "runtime_s": 0.8359322879987303,
++  "script": "code/python/langlandscape/classset.py"
++ }
++}

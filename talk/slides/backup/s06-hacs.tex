@@ -1,0 +1,56 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit and the Langlandscape team
+% S06-THACS: HACS integral engine check of the Mazur congruence modules. Source: plan/hacs/outbox/20261115T0150Z_laneB-closure.md
+% (final, on main; sections 2 and 6), code/results/laneB/{congruence_k,py_reference}.json, review plan/hacs/outbox/20261115_HJ6b_review.md (ACCEPT).
+% Included by main.tex via \IfFileExists (after s03-mazur). Two frames (split in the final consistency pass).
+\begin{frame}[shrink=3]{HACS check: Mazur through HACS's native integral engine}
+  \footnotesize
+  \begin{itemize}
+    \item Our Brandt lattices for the definite side $B_{q,\infty}$, weight $2$, fed to HACS's native integral engine
+      (\texttt{EXW LatticeFromFreeZ} $\to$ \texttt{ReadLocal}); the Eisenstein congruence module is read off.
+  \end{itemize}
+  \begin{center}\scriptsize
+  \begin{tabular}{rrrcl}\toprule
+    $q$ & $h$ & $\operatorname{num}\frac{q-1}{12}$ & $\ell$ & congruence module\\\midrule
+    $11$  & $2$  & $5$  & $5$      & $\mathbb Z/5$\\
+    $23$  & $3$  & $11$ & $11$     & $\mathbb Z/11$\\
+    $37$  & $3$  & $3$  & $3$      & $\mathbb Z/3$\\
+    $101$ & $9$  & $25$ & $5$      & $\mathbb Z/25$\\
+    $131$ & $12$ & $65$ & $5,\,13$ & $\mathbb Z/5\oplus\mathbb Z/13$\\\bottomrule
+  \end{tabular}
+  \end{center}
+  \begin{block}{Census (\emph{computed})}
+    Through HACS's integral engine, the Eisenstein congruence module is $\mathbb Z/\operatorname{num}\frac{q-1}{12}$ for every prime
+    $q\le 600$ at $\ell\ge5$ ($109/109$ levels, $178$\,s), and exactly ($2$- and $3$-parts included) for the first $80$ primes, $q\le 409$
+    ($80/80$; our own exact BigInt Smith route in the HACS build, deviation D4; the run was capped at 15\,min).
+  \end{block}
+  \begin{itemize}
+    \item HACS \texttt{ReadLocal} on $L\oplus L$ agrees with our exact Smith route for $\ell\ge 5$, and for $\ell=3$ when requested ($q=37$);
+      $\ell=2$ is out of its reach (no square root at $2$). $k=2$, $2$-parts by the exact route: $D=17$: $\mathbb Z/4$, $D=41$: $\mathbb Z/10$.
+  \end{itemize}
+  \vfill
+  {\tiny Sources: \texttt{plan/hacs/outbox/20261115T0150Z\_laneB-closure.md} (\S2, \S6); \texttt{code/results/laneB/congruence\_k.json}.
+  Status: \emph{computed}; Mazur's theorem itself is \emph{cited} (rem.\ s03-mazur).}
+\end{frame}
+
+\begin{frame}{HACS: beyond Mazur, two implementations, honest timing}
+  \footnotesize
+  \begin{itemize}
+    \item \textbf{$k>2$} ($60$ integral $\mathrm{Sym}^n$ cells, $26$ of positive rank; the lane closure counts $32$): one cusp--cusp congruence beyond Mazur, at $D=13$, $k=8$: $|C|=37$,
+      between the orbits $(x-10)$ and $(x^2+19x+6)$, both with $w_{13}=-1$. GL$_2$ side:
+      $\operatorname{Res}_{\mathbb Z}(x-10,\,x^2+19x+6)=296=2^3\cdot 37$, and $37$ divides no other resultant of $T_2$-factors at $(13,8)$
+      (consistent, not a confirmation). At $k>2$ the lattice is not canonical.
+    \item Ring module $(T_f\times T_f^c)/T$ (lattice-independent; depends on the operator list): primes at $k>2$ in $\{2,3,D\}$,
+      plus $7$ at $(13,12)$ and $37$ at $(13,8)$; at $k=2$: the Mazur primes.
+    \item \textbf{Two independent exact implementations} (HACS-native C++; Python $+$ PARI) agree on all $69$ orbit modules and on Mazur $14/14$.
+      Reading is milliseconds in both: no read-side speed claim.
+    \item \textbf{Build side, the one speed line:} class set $+\,T_2$ for $B_{997,\infty}$ ($h=83$), single-threaded, same node:
+      Python $64.7$\,s vs native HACS-JL core $0.02$\,s (a factor of about $3\times10^3$; ``$\sim10^3\times$'' is the honest statement, not an exact factor;
+      a first measurement on a loaded node gave $61$\,s vs $0.025$\,s).
+    \item Native census: all $404$ primes $q\le 2777$ generated in $19.6$\,min; Eichler's class-number formula holds for all $1229$ primes $D<10^4$.
+  \end{itemize}
+  \vfill
+  {\tiny\sloppy \emph{computed} (HACS-native JL module; independent Python/cypari2 and sympy recomputation, review HJ-6b ACCEPT).
+  Relaxed Mathathon protocol: nothing is called ``certified''; $8$ disclosed deviations D1--D8 (targeted validation only; full HACS battery after the merge).
+  Releases: HACS v0.2.1, DOI 10.5281/zenodo.24231446 (\texttt{github.com/drjanosch42/hacs}); hacs-data v0.2.0, DOI 10.5281/zenodo.24147012.}
+\end{frame}

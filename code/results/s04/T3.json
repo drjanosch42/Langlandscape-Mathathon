@@ -1,0 +1,179 @@
+{
+ "data": {
+  "checks": {
+   "C4_cross_check_s1_value": 1,
+   "S_s": [
+    2,
+    50,
+    1250
+   ],
+   "rank_Delta_e_constant": true,
+   "rank_Delta_e_values": [
+    1,
+    1,
+    1
+   ]
+  },
+  "levels": {
+   "s1": {
+    "E_eq_3S": true,
+    "E_s": 6,
+    "S_s": 2,
+    "S_s_expected": 2,
+    "alpha_equivariant_U_p_Delta": true,
+    "ekills_a": {
+     "deg_U_p_eq_p": true,
+     "deg_e_zero_mod_5^3": true,
+     "rk_e_ZS": 1
+    },
+    "ekills_d": {
+     "e_ne_e_star": false,
+     "pairing_gram_invertible_mod_5": true,
+     "pairing_gram_rank_mod_5": 1,
+     "rk_e": 1,
+     "rk_e_star": 1
+    },
+    "hida_d_rank_Delta_ZS": {
+     "delta_order": 1,
+     "free": true,
+     "rank_Delta": 1,
+     "rank_Zp": 1
+    },
+    "ribet": {
+     "e_alpha_image_rank_mod5": 2,
+     "eps_e_zero": true,
+     "expected_2rk_e_ZS": 2,
+     "free_E": true,
+     "free_H1": true,
+     "identity_rk_eH1_eq_rkeZE_minus_2rkeZS": true,
+     "rank_Delta_e_H1": 2,
+     "rank_Delta_e_ZE": 4,
+     "rank_Delta_identity": true,
+     "rk_e_H1": 2,
+     "rk_e_ZE": 4,
+     "rk_e_ZS": 1
+    },
+    "rk_H1": 3,
+    "rk_H1_eq_S_plus_1": true,
+    "stage02_X_per_type": 2,
+    "stage02_edges": 6,
+    "stage02_rk_H1": 3
+   },
+   "s2": {
+    "E_eq_3S": true,
+    "E_s": 150,
+    "S_s": 50,
+    "S_s_expected": 50,
+    "alpha_equivariant_U_p_Delta": true,
+    "ekills_a": {
+     "deg_U_p_eq_p": true,
+     "deg_e_zero_mod_5^3": true,
+     "rk_e_ZS": 5
+    },
+    "ekills_d": {
+     "e_ne_e_star": true,
+     "pairing_gram_invertible_mod_5": true,
+     "pairing_gram_rank_mod_5": 5,
+     "rk_e": 5,
+     "rk_e_star": 5
+    },
+    "hida_d_rank_Delta_ZS": {
+     "delta_order": 5,
+     "free": true,
+     "rank_Delta": 1,
+     "rank_Zp": 5
+    },
+    "ribet": {
+     "e_alpha_image_rank_mod5": 10,
+     "eps_e_zero": true,
+     "expected_2rk_e_ZS": 10,
+     "free_E": true,
+     "free_H1": true,
+     "identity_rk_eH1_eq_rkeZE_minus_2rkeZS": true,
+     "rank_Delta_e_H1": 2,
+     "rank_Delta_e_ZE": 4,
+     "rank_Delta_identity": true,
+     "rk_e_H1": 10,
+     "rk_e_ZE": 20,
+     "rk_e_ZS": 5
+    },
+    "rk_H1": 51,
+    "rk_H1_eq_S_plus_1": true,
+    "stage02_X_per_type": 50,
+    "stage02_edges": 150,
+    "stage02_rk_H1": 51
+   },
+   "s3": {
+    "E_eq_3S": true,
+    "E_s": 3750,
+    "S_s": 1250,
+    "S_s_expected": 1250,
+    "alpha_equivariant_U_p_Delta": true,
+    "ekills_a": {
+     "deg_U_p_eq_p": true,
+     "deg_e_zero_mod_5^3": true,
+     "rk_e_ZS": 25
+    },
+    "ekills_d": {
+     "e_ne_e_star": true,
+     "pairing_gram_invertible_mod_5": true,
+     "pairing_gram_rank_mod_5": 25,
+     "rk_e": 25,
+     "rk_e_star": 25
+    },
+    "hida_d_rank_Delta_ZS": {
+     "delta_order": 25,
+     "free": true,
+     "rank_Delta": 1,
+     "rank_Zp": 25
+    },
+    "ribet": {
+     "e_alpha_image_rank_mod5": 50,
+     "eps_e_zero": true,
+     "expected_2rk_e_ZS": 50,
+     "free_E": true,
+     "free_H1": true,
+     "identity_rk_eH1_eq_rkeZE_minus_2rkeZS": true,
+     "rank_Delta_e_H1": 2,
+     "rank_Delta_e_ZE": 4,
+     "rank_Delta_identity": true,
+     "rk_e_H1": 50,
+     "rk_e_ZE": 100,
+     "rk_e_ZS": 25
+    },
+    "rk_H1": 1251,
+    "rk_H1_eq_S_plus_1": true,
+    "stage02_X_per_type": 1250,
+    "stage02_edges": 3750,
+    "stage02_rk_H1": 1251
+   }
+  },
+  "variant_s1": "left_kernel",
+  "variants_well_defined_s1": {
+   "column_space": false,
+   "left_kernel": true,
+   "right_kernel": false,
+   "row_space": false
+  }
+ },
+ "provenance": {
+  "commit": "6ab4b0735d992f28d9d8bdce39db6972a6882416",
+  "date": "2026-11-14T22:09:41+00:00",
+  "notes": "S04-C2: T3; E_s = X(U_1(5^s) cap U_0(2)); H_1 = ker(alpha) via spanning tree (\"-dirty\" stripped: worktree held only other WPs' untracked files; commit = cbcfe2a code); e == e* at s=1 (rank 1, S_1 has 2 points), e != e* checked in H6",
+  "params": {
+   "D": 3,
+   "m": 3,
+   "p": 5,
+   "q": 2,
+   "s": [
+    1,
+    2,
+    3
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 401.94,
+  "script": "code/python/langlandscape/ordinary/t3.py (cd code/python && python -m langlandscape.ordinary.t3)"
+ }
+}

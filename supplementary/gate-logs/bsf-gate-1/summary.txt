@@ -1,0 +1,11 @@
+a-build rc=0 wall=346s Maximum resident set size (kbytes): 4902536
+b-vendor rc=0 wall=7s Maximum resident set size (kbytes): 894180
+c-axioms rc=0 wall=8s Maximum resident set size (kbytes): 4571980
+c-axcount rc=0 : printed=955 expected=955 nonstandard=0
+f-frozen rc=0 wall=4s Maximum resident set size (kbytes): 894136
+d grep rc=1 lines=0
+e sorry-count(a)=1 warning: AlgJL/VolIII/P2/Instances.lean:1815:8: declaration uses `sorry`
+c counts: full-triple=929 subset=23 none=3 total-source-lines=955 bad=0 errors=0
+warnings: a total=541 Langlandscape=204 Tests=71; b=0; errors a=0 b=0
+jobs: Build completed successfully (4205 jobs).; Build completed successfully (1955 jobs).; frozen All targets up-to-date (3989 jobs)
+counts: full-triple=929 subset=23 none=3 => 955; all 23 subset lines inside the standard set ([propext,Quot.sound] x19, [propext] x4); no sorryAx/ofReduceBool/trustCompiler. Forbidden grep (sorry|admit|^axiom|native_decide|ofReduceBool|implemented_by): 0 lines.

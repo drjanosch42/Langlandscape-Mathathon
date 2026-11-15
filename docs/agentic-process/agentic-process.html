@@ -1,0 +1,2558 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>The agentic process of team Langlandscape</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <!-- SPDX-License-Identifier: CC-BY-4.0 -->
+  <!-- Style for agentic-process.html; included with pandoc -H (see README.md). -->
+  <style>
+    :root {
+      --bg: #f4f5f7;        /* page */
+      --paper: #ffffff;     /* content card */
+      --ink: #1f2328;
+      --muted: #57606a;
+      --rule: #c9ced6;
+      --head: #d5d9e0;      /* table header */
+      --row-a: #ffffff;     /* odd rows */
+      --row-b: #eceef2;     /* even rows */
+      --col-tint: rgba(0, 0, 0, 0.035); /* every other column */
+      --accent: #3d5a80;
+    }
+    html { background: var(--bg); }
+    body {
+      max-width: 62em; margin: 2em auto; padding: 2em 2.5em;
+      background: var(--paper); color: var(--ink);
+      font: 16px/1.55 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      border: 1px solid var(--rule); border-radius: 6px;
+    }
+    h1, h2, h3, h4 { color: var(--accent); line-height: 1.25; }
+    h1.title { border-bottom: 2px solid var(--rule); padding-bottom: .3em; }
+    h2 { border-bottom: 1px solid var(--rule); padding-bottom: .2em; margin-top: 2em; }
+    a { color: var(--accent); }
+    code { background: var(--row-b); padding: .1em .3em; border-radius: 3px; font-size: .92em; }
+    pre { background: var(--row-b); padding: .8em 1em; border-radius: 4px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 4px solid var(--rule); margin-left: 0; padding-left: 1em; color: var(--muted); }
+    nav#TOC { background: var(--row-b); padding: .6em 1.2em; border-radius: 4px; }
+
+    table {
+      border-collapse: collapse; margin: 1.2em 0; width: 100%;
+      font-size: .93em; border: 1px solid var(--rule);
+    }
+    th, td { padding: .45em .7em; border: 1px solid var(--rule); vertical-align: top; text-align: left; }
+    thead th, tr.header th { background: var(--head); font-weight: 600; }
+    tbody tr:nth-child(odd)  td { background: var(--row-a); }
+    tbody tr:nth-child(even) td { background: var(--row-b); }
+    /* alternate column brightness on top of the row stripes */
+    tbody td:nth-child(even) { background-image: linear-gradient(var(--col-tint), var(--col-tint)); }
+    thead th:nth-child(even) { background-image: linear-gradient(var(--col-tint), var(--col-tint)); }
+    tbody tr:hover td { background: #dde3ec; }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16181c; --paper: #1e2126; --ink: #e6e8eb; --muted: #a0a7b0; --rule: #3a3f47;
+        --head: #353a42; --row-a: #1e2126; --row-b: #272b31; --col-tint: rgba(255,255,255,0.04); --accent: #8fb3de;
+      }
+      tbody tr:hover td { background: #2f3540; }
+    }
+    @media print {
+      html, body { background: #fff; border: none; margin: 0; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">The agentic process of team Langlandscape</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#the-agentic-process-of-team-langlandscape">The agentic process of team Langlandscape</a>
+<ul>
+<li><a href="#summary-state-2026-11-14-1810-pst">Summary (state: 2026-11-14, ~18:10 PST)</a></li>
+<li><a href="#index">Index</a></li>
+<li><a href="#conventions">Conventions</a></li>
+</ul></li>
+<li><a href="#architecture">Architecture</a>
+<ul>
+<li><a href="#nodes">1. Nodes</a>
+<ul>
+<li><a href="#a.-cross-node-process-stages-36">1a. Cross-node process (stages 3–6)</a></li>
+</ul></li>
+<li><a href="#agent-hierarchy">2. Agent hierarchy</a></li>
+<li><a href="#communication-channels">3. Communication channels</a></li>
+<li><a href="#branch-families">4. Branch families</a></li>
+<li><a href="#diagram">5. Diagram</a></li>
+</ul></li>
+<li><a href="#workflow">Workflow</a>
+<ul>
+<li><a href="#phases-master_log.md-phase-plan">1. Phases (master_log.md “Phase plan”)</a></li>
+<li><a href="#work-packages">2. Work packages</a></li>
+<li><a href="#the-per-stage-loop">3. The per-stage loop</a></li>
+<li><a href="#frozen-toolchain-guards">4. Frozen-toolchain guards</a></li>
+<li><a href="#changes-to-the-loop-in-stages-36-from-runss03.md-runss06.md">5. Changes to the loop in stages 3–6 (from <code>runs/s03.md</code> … <code>runs/s06.md</code>)</a></li>
+<li><a href="#external-contributions">6. External contributions</a></li>
+</ul></li>
+<li><a href="#timeline-2026-11-14-to-2026-11-15">Timeline (2026-11-14 to 2026-11-15)</a>
+<ul>
+<li><a href="#wall-time-per-phase-and-stage">1. Wall time per phase and stage</a></li>
+<li><a href="#milestones">2. Milestones</a></li>
+<li><a href="#jobs-and-gates-per-stage">3. Jobs and gates per stage</a></li>
+<li><a href="#submission-phase-14-nov-2245-pst-15-nov-0930-pst">4. Submission phase (14 Nov 22:45 PST – 15 Nov ~09:30 PST)</a></li>
+</ul></li>
+<li><a href="#hacs-in-the-agentic-process-state-2026-11-15-0930-pst">HACS in the agentic process (state 2026-11-15 ~09:30 PST)</a>
+<ul>
+<li><a href="#sequence">1. Sequence</a></li>
+<li><a href="#fabians-decisions-state.md-decisions-by-fabian-1645-pst">2. Fabian’s decisions (STATE.md “Decisions by Fabian”, ~16:45 PST)</a></li>
+<li><a href="#lane-a-closure-2026-11-14-start-1631-pst-1-h-10-min-22-commits">3. Lane A (closure 2026-11-14, START 16:31 PST, ≈ 1 h 10 min, 22 commits)</a></li>
+<li><a href="#lane-b-closure-final-start-1655-pst-closure-1750-pst-1-h-8-subagents-4-at-once">4. Lane B (closure FINAL, START 16:55 PST, closure 17:50 PST, ≈ 1 h, 8 subagents ≤ 4 at once)</a></li>
+<li><a href="#lane-c-merged-on-main-33e4a2cc-2026-11-15-0547-pst-7-h-37-min-wall-2210-0547-pst-0610z-1347z-hard-stop-0930-pst-kept">5. Lane C (merged on main 33e4a2cc, 2026-11-15 05:47 PST; ≈ 7 h 37 min wall, 22:10 → 05:47 PST (06:10Z → 13:47Z); hard stop 09:30 PST kept)</a></li>
+<li><a href="#the-relaxed-hacs-protocol-and-its-disclosed-deviations">6. The relaxed HACS protocol and its disclosed deviations</a></li>
+<li><a href="#how-hacs-fits-the-stage-loop">7. How HACS fits the stage loop</a></li>
+</ul></li>
+<li><a href="#model-vs-task-study">Model-vs-task study</a>
+<ul>
+<li><a href="#design">1. Design</a></li>
+<li><a href="#results-per-cell">2. Results per cell</a></li>
+<li><a href="#resulting-policy-summary-of-agentsrulesmodel-selection.md-1">3. Resulting policy (summary of <code>agents/rules/model-selection.md</code> §1)</a></li>
+<li><a href="#a.-stages-46-additions">3a. Stages 4–6 additions</a></li>
+<li><a href="#confounds-summary-4-log-deviations">4. Confounds (SUMMARY §4, LOG deviations)</a></li>
+</ul></li>
+<li><a href="#incidents-and-lessons-2026-11-14-to-2026-11-15-pst">Incidents and lessons (2026-11-14 to 2026-11-15, PST)</a>
+<ul>
+<li><a href="#recurring-patterns">Recurring patterns</a></li>
+</ul></li>
+<li><a href="#metrics-state-2026-11-14-1810-pst-after-stage-6-and-hacs-lanes-ab">Metrics (state 2026-11-14 ~18:10 PST, after stage 6 and HACS Lanes A/B)</a>
+<ul>
+<li><a href="#repository">1. Repository</a></li>
+<li><a href="#work-packages-1">2. Work packages</a></li>
+<li><a href="#lean-at-each-final-gate-all-print-axioms-lines-standard-propext-classical.choice-quot.sound-subsets">3. Lean at each final gate (all <code>#print axioms</code> lines standard: propext / Classical.choice / Quot.sound subsets)</a></li>
+<li><a href="#maths-code-talk">4. Maths, code, talk</a></li>
+<li><a href="#remote-packages-abhijits-node-batches-19">5. Remote packages (Abhijit’s node), batches 1–9</a></li>
+<li><a href="#audits-added-since-the-2026-11-14-version">6. Audits (added since the 2026-11-14 version)</a></li>
+<li><a href="#build-nodes-and-models">7. Build nodes and models</a></li>
+<li><a href="#hacs-lanes">8. HACS lanes</a></li>
+</ul></li>
+</ul>
+</nav>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="the-agentic-process-of-team-langlandscape">The agentic process of team Langlandscape</h1>
+<p>Team Langlandscape (Abhijit A J, Fabian Januszewski) works on the Jacquet–Langlands correspondence at Caltech × SAIR Mathathon 2026: mathematics (LaTeX), a Lean 4 formalization (Lean v4.35.0, frozen Mathlib), computations (Python/PARI, HACS) and a talk. This folder documents <strong>how</strong> the work is done: by a hierarchy of Claude Code agents across four machines, coordinated through git. It is written for later documentation and for presenting the process itself (slides, write-up).</p>
+<h2 id="summary-state-2026-11-14-1810-pst">Summary (state: 2026-11-14, ~18:10 PST)</h2>
+<p>A single <strong>global master</strong> session on Fabian’s node runs the project autonomously from 2026-11-14 01:20 PST. It delegates every task to subagents (Opus coordinators; Sonnet/Haiku/Opus workers; Fable auditors). Two helper sessions on other machines (TITAN, CONCEPTD) run all Lean builds, and Abhijit’s node (a separate Claude account) takes work packages and cross-account reviews over a git message channel. The work went through a staged mathematical plan (6 stages, audited by Muse Spark Open and then by Fable), detailed implementation plans (audited the same way), and then stage-by-stage execution. In stage execution, work packages (WPs) are stacked on unverified drafts, checked in batched integration rounds on the remote Lean nodes, and closed by an early full gate, parallel Fable Lean and chapter audits, and a from-scratch final gate on TITAN with a cross-check on CONCEPTD. <strong>Outcome:</strong> all six stages are complete and merged on <code>main</code>. Final gates from scratch PASS with only standard axioms and 0 <code>sorry</code> in our code: 161 / 195 / 519 / 592 / 747 / 836 <code>#print axioms</code> lines (stages 1–6); after stage 6, the discharge of <code>Hyp.RamNrdSurj</code> (an external contribution, see <a href="workflow.md">workflow.md</a>) was gated from scratch at <code>2323a252</code>: 840/840; the Lean submission bundle (tree <code>28d2b091</code>, gate commit <code>dc61af50</code>, TITAN from scratch, CONCEPTD fresh checkout) passed 950/950; the final gate, after the <code>Hyp.BrandtStabFree</code> discharge (tree <code>c70ef3a9</code>, TITAN bsf-gate-1 from scratch in an unseeded worktree, logs <code>fa755069</code>), is <strong>955/955</strong>. Stage walls: 2.2 / 1.3 / 1.1 / 2.2 / 1.1 / ≈ 1.2 h against plans of 8.8 / 2.5 / 2.85 / 3.0 / 2.1 / 2.2–2.6 h. Stage 6’s headline theorem <code>Defect.defect_formula</code> is <em>formalized modulo registered hypotheses</em>, including the Galois half (<code>Hyp.FreeRankTwo</code>), which is disclosed as equivalent to the conclusion of its use. HACS ran as two 1-hour lanes under a <strong>relaxed protocol</strong> with eight disclosed deviations, all results <em>computed</em>, none certified. <code>main</code> has ≈ 2058 commits (405 merges). A model-vs-task study (Haiku/Sonnet/Opus/Fable/Muse/Mistral; five stages of strands, 25 <code>exp/*</code> branches) set the model policy in <code>agents/rules/model-selection.md</code>. The <strong>final integration</strong> (report, this folder, talk consistency pass, release notes) was launched at ≈ 18:01 PST on 2026-11-14; the submission deadline is ≈ 2026-11-15 11:45 PST.</p>
+<h2 id="index">Index</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="architecture.md">architecture.md</a></td>
+<td>nodes, agent hierarchy, communication channels, branch families, diagram</td>
+</tr>
+<tr class="even">
+<td><a href="workflow.md">workflow.md</a></td>
+<td>the phases from seed to stage execution; the per-stage loop; frozen-toolchain guards</td>
+</tr>
+<tr class="odd">
+<td><a href="timeline.md">timeline.md</a></td>
+<td>dated milestones, wall times per phase/stage (plan vs actual), jobs, gate results</td>
+</tr>
+<tr class="even">
+<td><a href="model-study.md">model-study.md</a></td>
+<td>the model-vs-task experiment: design, results per cell, resulting policy</td>
+</tr>
+<tr class="odd">
+<td><a href="lessons.md">lessons.md</a></td>
+<td>incidents: symptom → cause → fix, with dates</td>
+</tr>
+<tr class="even">
+<td><a href="hacs.md">hacs.md</a></td>
+<td>HACS lanes A/B, Fabian’s decisions, the relaxed protocol and its disclosed deviations D1–D8</td>
+</tr>
+<tr class="odd">
+<td><a href="agentic-process.html">agentic-process.html</a></td>
+<td>all of the above concatenated in reading order (generated with pandoc)</td>
+</tr>
+<tr class="even">
+<td><a href="metrics.md">metrics.md</a></td>
+<td>counts (commits, merges, WPs, Lean, tests, pages, remote packages, audits), each with source</td>
+</tr>
+<tr class="odd">
+<td><a href="pst-conversion-log.md">pst-conversion-log.md</a></td>
+<td>log of the conversion of all clock times to PST (original, zone, evidence, result)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conventions">Conventions</h2>
+<ul>
+<li>All clock times in this folder are <strong>PST (UTC−8)</strong>. Sources: <code>agents/status/master_log.md</code> and the git commit times of Fabian’s node, TITAN, CONCEPTD and Abhijit’s node are Berlin time (CET, UTC+1; PST = CET − 9 h); run reports, outbox/inbox file names and message file names use <strong>UTC</strong> (suffix <code>Z</code>; PST = UTC − 8 h). File names, commit hashes and job ids that contain a UTC stamp are kept verbatim. Undated times fall on 2026-11-14 (PST); the conversion is logged in <a href="pst-conversion-log.md">pst-conversion-log.md</a>.</li>
+<li>“(not recorded)” marks a quantity no source records. Numbers carry their source.</li>
+<li>Main sources: <code>agents/status/master_log.md</code>, <code>agents/status/STATE.md</code>, <code>agents/roles/</code>, <code>agents/rules/</code>, <code>plan/staged/</code>, <code>plan/implementation/</code>, and on the implementation worktree (<code>…-wt/impl/plan/implementation/</code>): <code>runs/</code>, <code>outbox/</code>, <code>inbox/</code>, <code>experiments/</code>.</li>
+<li>Maintained by the global master; update at each stage closure. Stages 3–6 and HACS were written up on 2026-11-15 by the final-integration lane from the closures, <code>runs/</code>, STATE.md and git; quantities no source records are marked “(not recorded)”.</li>
+<li>Combined document: regenerate with <code>pandoc -s --toc -H style-header.html README.md architecture.md workflow.md timeline.md hacs.md model-study.md lessons.md metrics.md -o agentic-process.html --metadata title="The agentic process of team Langlandscape"</code> (run in this folder).</li>
+</ul>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="architecture">Architecture</h1>
+<h2 id="nodes">1. Nodes</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Node</th>
+<th>Hardware (source: <code>agents/rules/resources.md</code>)</th>
+<th>Session</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Fabian’s node</strong> (localhost, WSL2)</td>
+<td>32 threads, 82 GB RAM, <code>/mnt/c</code> 182 GB free at start; RTX PRO 6000 Blackwell Max-Q 96 GB (log 12:53 PST)</td>
+<td>“JL MASTER RZN” (the global master)</td>
+<td>orchestration, all agents, merges, pushes; LaTeX/Python. <strong>Local Lean switched off</strong> from ≈ 07:52 PST (log 07:50 PST: CPU/GPU reserved for HACS 0.2.1, <code>resources.md</code> TEMPORARY)</td>
+</tr>
+<tr class="even">
+<td><strong>TITAN</strong></td>
+<td>16 threads, 94 GB, 708 GB disk</td>
+<td>helper session “TITAN”</td>
+<td>Lean build node #1, 3 slots (ready 01:35 PST; import build 6:43 wall)</td>
+</tr>
+<tr class="odd">
+<td><strong>CONCEPTD</strong></td>
+<td>i7-10875H 8C/16T, WSL 25 GiB (+7 GiB swap) after a raise from 15 GiB, RTX 2080S</td>
+<td>helper session “CONCEPTD”</td>
+<td>Lean build node #2, 2 slots (ready 11:48 PST; import 6:45, warm build 2:04, peak 5.2 GiB)</td>
+</tr>
+<tr class="even">
+<td><strong>Abhijit’s node</strong></td>
+<td>notebook i5-1235U, 12 threads, 15 GB (≈ 4 GB free), 107 GB</td>
+<td>own Claude session, <strong>other account</strong> (own quota; “28 % of a 5-h window” on 2026-11-14, STATE.md)</td>
+<td>remote WPs (maths chapters, literature, Mathlib-only Lean drafts), <strong>cross-account blind reviews</strong>, <code>summary/</code>; 3–4 Opus agents; git channel only; may run direct <code>lean</code> draft checks of Mathlib-only files</td>
+</tr>
+</tbody>
+</table>
+<p>Lean build nodes are set up by <code>agents/roles/lean_build_node.md</code>: a frozen Mathlib copied from an existing node (no downloads), wrapper scripts only, results pushed only to <code>titan/&lt;job&gt;</code> / <code>conceptd/&lt;job&gt;</code>.</p>
+<h3 id="a.-cross-node-process-stages-36">1a. Cross-node process (stages 3–6)</h3>
+<ul>
+<li><strong>Fabian’s node</strong> runs the global master (session “JL MASTER RZN”), every stage master, all writers and auditors, and both HACS lane masters (<code>hacsA</code>, <code>hacsB</code> worktrees); only it pushes <code>wip-*</code>, <code>impl/*</code> and merges into <code>main</code>. Local Lean is off (<code>resources.md</code> TEMPORARY); CPU/GPU is for HACS.</li>
+<li><strong>TITAN</strong> (3 slots) and <strong>CONCEPTD</strong> (2 slots, WSL 25 GiB) are <strong>Lean build nodes</strong> driven by the global master over <code>SendMessage</code> (cross-session socket, prompt). Job flow (<code>resources.md</code>, <code>orchestration.md</code>, <code>master_resume.md</code> §3): stage master commits <code>outbox/&lt;UTC&gt;_&lt;id&gt;.md</code> → global master pushes the branch and relays the spec → node builds through wrappers → pushes <strong>only</strong> <code>titan/&lt;job&gt;</code> or <code>conceptd/&lt;job&gt;</code> (<code>.titan/out/*</code>) → global master writes <code>inbox/&lt;UTC&gt;_&lt;job&gt;.md</code> (verbatim errors) → stage master reads. Two nodes with single-WP lettered jobs ran in parallel from stage 3 (e.g. int6/int6a, int10/int10r); final gates run from scratch on TITAN with a fresh cross-check on CONCEPTD. Result branches by 2026-11-14 ~18:10 PST: 107 <code>titan/*</code>, 68 <code>conceptd/*</code>. CONCEPTD also builds <strong>acceptance jobs</strong> for Abhijit’s Lean drafts (<code>acc-b34-1</code>, <code>acc-b5-1</code>).</li>
+<li><strong>Abhijit’s node</strong> has its own Claude account, so no <code>SendMessage</code> reaches it: all traffic is git files in <code>agents/messages/{abhijit,fabian}/</code> (rule file <code>messages.md</code>; filename <code>YYYYMMDD-HHMMSSZ_&lt;from&gt;_&lt;slug&gt;.md</code>, front matter id/from/to/type/re/priority; archive after processing; 134 messages by 2026-11-14 ~18:10 PST; polled every 10 min). The global master delegates <strong>batches</strong> (1–7 sent: S06 Lean WPs L1–L17, S03–S06 chapters, literature, then cross-account reviews; batch 8 = review of the final report and talk). Deliveries come on <code>abhijit/*</code> branches, <strong>accepted only after a TITAN/CONCEPTD build</strong>, then merged by the stage master. Cross-account <strong>blind reviews</strong> (s01, s02, s03, s05 chapters; S06-M5 second reader; PARI check F4) were the independent reading that changed the <code>q ≡ −1</code> statement twice. Abhijit’s node also maintains <code>summary/</code> on <code>abhijit/summary</code>, merged by the global master after each stage.</li>
+<li>Stage-4 incident class: his import-minimisation merge arrived mid-stage (hold 14:07 PST, gate 14:21 PST) and a message order mismatch; the committed outbox note, not message order, is authoritative (<code>runs/s04.md</code> lesson 7).</li>
+</ul>
+<h2 id="agent-hierarchy">2. Agent hierarchy</h2>
+<pre><code>global master (Fabian&#39;s node; Opus; never does work itself, keeps only conclusions)
+ ├─ planning masters (Opus): staged plan (P1), implementation plans (P3), re-plan, HACS plan
+ ├─ stage masters (Opus): stage1-master, stage2-master, stage3-master …   (one per stage, on wip-implementation)
+ │    ├─ track sub-coordinators (Opus): M (maths), C/T (code+talk) lane, S06 early lane
+ │    │    └─ workers (Haiku / Sonnet / Opus; ≤ 8 concurrent per delegating agent)
+ │    ├─ Lean WP workers (one worktree + branch impl/sNN-&lt;wp&gt; each)
+ │    ├─ experiment strands (exp/sNN-&lt;wp&gt;-&lt;model&gt;, paired models, blind audits)
+ │    └─ auditors (Opus WP audits; Fable Lean + chapter audits, in parallel)
+ ├─ build jobs → TITAN (3 slots), CONCEPTD (2 slots)    [separate sessions, relayed by the global master]
+ ├─ one-off agents: scouts (Lean repos, read-only via gh api), abhijit-dispatch, licensing, model-policy, process-docs
+ └─ Abhijit&#39;s node (its own master + 3–4 Opus agents)   [git messages only]</code></pre>
+<p>Rules (<code>agents/roles/global_master.md</code>, <code>agents/rules/orchestration.md</code>): subagents commit, never push; only the global master pushes and merges into <code>main</code>; each master/coordinator has its own worktree under <code>…/Langlandscape-wt/</code>; reports ≤ 30 lines, detail in files. Subagent cap: 3, raised to 8 per delegating agent at 07:32 PST (Fabian); Fable may run in parallel (09:22 PST). Stages 3–6 additionally had HACS lane masters (Opus, <code>impl/hacs-laneA</code>, <code>impl/hacs-laneB</code>, ≤ 4 subagents at once) next to the stage master, and from ≈ 18:01 PST (2026-11-14) a <strong>final-integration master</strong> (Opus, branch <code>wip-final</code>/<code>final/*</code>, worktrees under <code>…-wt/</code>) for the report, <code>docs/agentic-process/</code>, the talk consistency pass and release notes.</p>
+<h2 id="communication-channels">3. Communication channels</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Channel</th>
+<th>Between</th>
+<th>Mechanism</th>
+<th>Observed reliability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>In-session teammate messages</td>
+<td>global master ↔︎ its own subagents/teammates</td>
+<td><code>SendMessage</code> to “team-lead”/“main”</td>
+<td><strong>delayed by hours</strong>: a burst of messages from 02:52–08:51 PST arrived at 09:53 PST (log; lesson in <code>global_master.md</code>); one job batch lost at 08:49 PST</td>
+</tr>
+<tr class="even">
+<td>Cross-session messages</td>
+<td>global master ↔︎ TITAN, CONCEPTD (same account, different machines)</td>
+<td><code>SendMessage</code> to a session name (uds socket)</td>
+<td>prompt</td>
+</tr>
+<tr class="odd">
+<td><strong>File outbox / inbox</strong></td>
+<td>stage master ↔︎ global master</td>
+<td>committed files <code>plan/implementation/outbox/&lt;UTC&gt;_&lt;id&gt;.md</code> (job specs, status, closures) and <code>inbox/&lt;UTC&gt;_&lt;job&gt;.md</code> (verbatim build results), polled at every heartbeat</td>
+<td>prompt; primary since 08:49 PST (decision F11)</td>
+</tr>
+<tr class="even">
+<td><strong>Git message inboxes</strong></td>
+<td>Fabian’s node ↔︎ Abhijit’s node (different accounts)</td>
+<td><code>agents/messages/{fabian,abhijit}/&lt;UTC&gt;_&lt;from&gt;_&lt;slug&gt;.md</code> on <code>main</code>, archived after processing (<code>agents/rules/messages.md</code>); polled by a cron every 10 min</td>
+<td>reliable; 39 messages so far</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why the file channels became primary.</strong> In-session messages were the only channel that failed (lost/delayed), while files in git and the cross-session socket arrived promptly. Since F11 every job spec, status and closure is a committed file and <code>SendMessage</code> is only a notification (“outbox: <file>”), never the payload. Files also leave an audit trail for this write-up.</p>
+<p>Job relay (<code>agents/roles/master_resume.md</code> §3): stage master writes the outbox spec → global master pushes the branch (or a neutral <code>titan-in/&lt;id&gt;</code> ref for experiment strands) → sends the node a self-contained spec → node pushes <code>titan/&lt;id&gt;</code> → global master writes the inbox file (verbatim errors, no fix hints for strands) and notifies the stage master.</p>
+<p>Two crons drive the global master (STATE.md): heartbeat at minutes 7 and 37 (disk/RAM, agent status, next phase, commit/push, one log line) and inbox check every 10 min (<code>git pull --no-rebase</code>).</p>
+<h2 id="branch-families">4. Branch families</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family</th>
+<th>Purpose</th>
+<th>Written by</th>
+<th>Merged?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>main</code></td>
+<td>integrated state; agents/, messages</td>
+<td>global master only</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>wip-plan</code>, <code>wip-mathematics</code>, <code>wip-lean</code>, <code>wip-code</code>, <code>wip-talk</code></td>
+<td>per-directory work (planning used <code>wip-plan</code>)</td>
+<td>coordinators</td>
+<td>→ <code>main</code> by global master</td>
+</tr>
+<tr class="odd">
+<td><code>wip-implementation</code></td>
+<td>stage execution, spans all track dirs</td>
+<td>stage master</td>
+<td>→ <code>main</code> at stage end</td>
+</tr>
+<tr class="even">
+<td><code>impl/sNN-&lt;wp&gt;</code>, <code>impl/sNN-int&lt;k&gt;</code></td>
+<td>WP drafts; integration rounds (top commit = <code>.titan/</code> spec only, never merged)</td>
+<td>WP workers; stage master</td>
+<td>WPs → <code>wip-implementation</code> after a green round</td>
+</tr>
+<tr class="odd">
+<td><code>exp/sNN-&lt;wp&gt;-&lt;model&gt;</code></td>
+<td>experiment strands</td>
+<td>strand agents</td>
+<td>at most one strand merged; <strong>local only, never pushed</strong></td>
+</tr>
+<tr class="even">
+<td><code>titan-in/&lt;job&gt;</code></td>
+<td>neutral temporary refs for strand jobs (no model names)</td>
+<td>global master</td>
+<td>deleted after fetch</td>
+</tr>
+<tr class="odd">
+<td><code>titan/&lt;job&gt;</code>, <code>conceptd/&lt;job&gt;</code></td>
+<td>build results (<code>.titan/out/*</code>)</td>
+<td>build nodes</td>
+<td>never merged; read only</td>
+</tr>
+<tr class="even">
+<td><code>abhijit/&lt;wp&gt;</code></td>
+<td>remote packages (may stack on each other)</td>
+<td>Abhijit’s node</td>
+<td>fetched, accepted by a TITAN/CONCEPTD build, merged by stage master</td>
+</tr>
+</tbody>
+</table>
+<p>On <code>origin</code> (<code>git ls-remote origin</code>, 2026-11-14 ~18:10 PST): 107 <code>titan/*</code>, 68 <code>conceptd/*</code>, 129 <code>impl/*</code>, 37 <code>abhijit/*</code>, 3 <code>doc/*</code>, 6 <code>wip-*</code>, <code>main</code> (2026-11-14 13:00 PST it was 48 / 10 / 37 / 13). HACS and doc branches: <code>impl/hacs-laneA</code>, <code>impl/hacs-laneB</code>, <code>doc/hacs-*</code>.</p>
+<h2 id="diagram">5. Diagram</h2>
+<pre class="mermaid"><code>flowchart LR
+  subgraph F[&quot;Fabian&#39;s node&quot;]
+    GM[&quot;global master&quot;]
+    SM[&quot;stage master (Opus)&quot;]
+    W[&quot;workers / strands / auditors&quot;]
+    OB[(&quot;outbox / inbox files&quot;)]
+    SM --&gt; W
+    SM -- &quot;job spec (file)&quot; --&gt; OB
+    OB -- &quot;polled at heartbeat&quot; --&gt; GM
+    GM -- &quot;results (file)&quot; --&gt; OB
+  end
+  GH[(&quot;GitHub origin&quot;)]
+  T[&quot;TITAN (3 Lean slots)&quot;]
+  C[&quot;CONCEPTD (2 Lean slots)&quot;]
+  A[&quot;Abhijit&#39;s node (other account)&quot;]
+  GM -- &quot;push wip-*, impl/*, titan-in/*&quot; --&gt; GH
+  GM -- &quot;SendMessage spec&quot; --&gt; T
+  GM -- &quot;SendMessage spec&quot; --&gt; C
+  T -- &quot;push titan/*&quot; --&gt; GH
+  C -- &quot;push conceptd/*&quot; --&gt; GH
+  GH -- &quot;fetch results&quot; --&gt; GM
+  GM -- &quot;agents/messages/abhijit/&quot; --&gt; GH
+  GH --&gt; A
+  A -- &quot;abhijit/* + agents/messages/fabian/&quot; --&gt; GH</code></pre>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="workflow">Workflow</h1>
+<h2 id="phases-master_log.md-phase-plan">1. Phases (master_log.md “Phase plan”)</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Phase</th>
+<th>What</th>
+<th>Who</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P0</td>
+<td>test the opencode CLI with Muse Spark Open</td>
+<td>Haiku, replaced by Sonnet</td>
+<td><code>agents/rules/opencode.md</code></td>
+</tr>
+<tr class="even">
+<td>P1</td>
+<td><strong>staged mathematical plan</strong> from the frozen seed <code>plan/seed/</code>: coarse split into 6 stages → parallel Opus stage drafts with literature checks → one <strong>Muse Spark Open audit per stage</strong> → Sonnet/Opus revisers judge each finding (confirmed / partial / rejected) → integration</td>
+<td>planning master (Opus), branch <code>wip-plan</code></td>
+<td><code>plan/staged/</code> (SPLIT.md, 6 stage tex files, main.pdf 61 pp), <code>literature/MISSING_LITERATURE.md</code></td>
+</tr>
+<tr class="odd">
+<td>P2</td>
+<td><strong>global Fable seam audit</strong> of all stages (alone), then fixes; read-only Lean scouting (3 Opus scouts via <code>gh api</code>)</td>
+<td>Fable; seam-fixer (Opus); scout coordinator</td>
+<td><code>plan/staged/audits/global-fable-*.md</code>; merge <code>wip-plan → main</code></td>
+</tr>
+<tr class="even">
+<td>P3</td>
+<td><strong>implementation plans</strong> for all stages: OVERVIEW (conventions, branches, Lean project layout), per-stage WP tables with DAG and critical path, experiment protocol; Muse audits + revisers</td>
+<td>impl-plan master (Opus)</td>
+<td><code>plan/implementation/</code></td>
+</tr>
+<tr class="odd">
+<td>P4</td>
+<td><strong>Fable audit of the stage-1 implementation plan</strong> (alone), fixes</td>
+<td>Fable; stage1-plan-fixer (Opus)</td>
+<td>merge <code>wip-plan → main</code></td>
+</tr>
+<tr class="even">
+<td>P5…</td>
+<td><strong>stage execution</strong>, one stage master per stage; after stage 1 a <strong>re-plan</strong> of stages 2–6 with stage-1 priors</td>
+<td>stage masters (Opus); replan master</td>
+<td><code>wip-implementation → main</code> per stage</td>
+</tr>
+</tbody>
+</table>
+<p>Human decisions that the agents could not take were applied <strong>provisionally</strong> (marked <code>\provisional</code> / “PROVISIONAL global master”) and listed for Fabian in <code>agents/status/STATE.md</code>.</p>
+<h2 id="work-packages">2. Work packages</h2>
+<p>WP ids <code>S&lt;NN&gt;-&lt;T&gt;&lt;k&gt;</code> with track T ∈ {X infra, M maths, L Lean, C code, H HACS, T talk} (OVERVIEW §1). Every WP row names its inputs, outputs, acceptance check, difficulty class, model and fix-round budget. Tracks are <strong>decoupled</strong>: maths may run ahead of Lean; the only coupling is that a statement must exist before it is formalized (<code>orchestration.md</code>).</p>
+<h2 id="the-per-stage-loop">3. The per-stage loop</h2>
+<ol type="1">
+<li><strong>Kickoff (X1)</strong>: sync <code>wip-implementation</code> from <code>main</code>, stubs, aggregator files, drivers, strand briefs.</li>
+<li><strong>WPs in parallel</strong> (≤ 8 agents per delegating agent), each in its own worktree on <code>impl/sNN-&lt;wp&gt;</code>. Lean WPs <strong>stack on unverified drafts</strong> of their upstream WPs instead of waiting (F14).</li>
+<li><strong>Batched integration rounds</strong>: the stage master merges several drafts into <code>impl/sNN-int&lt;k&gt;</code>, adds a <code>.titan/</code> spec commit, and writes an outbox file. The global master relays it to TITAN or CONCEPTD (warmest build, free slot). Results come back as inbox files with verbatim errors and goal states. Fixed drafts go into the next lettered round (<code>int1 → int1a → int1b …</code>). One round per cycle amortises the remote round trip of a few minutes.</li>
+<li><strong>Merge gate</strong>: a WP is merged into <code>wip-implementation</code> only after its spec line passed <strong>on the merged tree</strong>, and only with or after its upstream WPs (stacking rule O6).</li>
+<li><strong>Early gate (<code>sNN-gate1</code>)</strong> as soon as the core Lean WPs are green: all targets, <code>Audit/PrintAxioms.lean</code> (every declaration’s axioms ⊆ {propext, Classical.choice, Quot.sound}), forbidden-token grep, <code>check_frozen.sh</code>.</li>
+<li><strong>Parallel Fable audits</strong> on the early-gate commit: Lean audit (<code>agents/roles/lean_audit.md</code>) ∥ chapter audit (<code>agents/roles/mathematics_chapter_audit.md</code>). Required remarks become audit-fix WPs in the same stage (F17).</li>
+<li><strong>Final gate from scratch</strong> (<code>sNN-final-1</code>, unseeded build) after the audit fixes; cross-check on the second node.</li>
+<li><strong>Closure</strong> (<code>agents/roles/milestone_closure.md</code>): outbox file <code>…_milestone-closure-sNN.md</code> (delivered / verification / open issues / request) and <code>runs/sNN.md</code> (per-WP times, rounds, deviations).</li>
+<li><strong>Merge and mirror</strong> (global master): push <code>wip-implementation</code>, <code>git merge --no-ff</code> into <code>main</code> (checks: no <code>literature/</code>, no <code>.lake</code>, no file &gt; 10 MB, frozen paths unchanged), push, fast-forward <code>wip-implementation</code>, remove worktrees, then <code>rclone copy</code> the milestone PDFs to Drive (copy only) and launch the next stage master.</li>
+</ol>
+<p>Experiment strands (model study) run inside this loop on 1–2 WPs per stage; see <a href="model-study.md">model-study.md</a>. Remote WPs for Abhijit’s node are sent as batches of packages; Lean drafts from there are accepted only by a build on TITAN or CONCEPTD (<code>master_resume.md</code> §3).</p>
+<h2 id="frozen-toolchain-guards">4. Frozen-toolchain guards</h2>
+<p>The Lean toolchain (v4.35.0) and Mathlib (rev <code>56a00585…</code>) are frozen on every node (<code>agents/rules/frozen.md</code>). - <strong>Forbidden</strong> for all agents: <code>lake update</code>, <code>lake clean</code>, <code>lake exe cache get</code>, manifest/toolchain edits, writes into the frozen Mathlib or its dependency farm. Dependencies are symlinks into the frozen copy. - <strong>Wrappers only</strong> (<code>tools/lbuild.sh</code>, <code>lfile.sh</code>, <code>check_frozen.sh</code>, <code>link_deps.sh</code>, <code>titan_batch.sh</code>): they take locks, cap memory and check the frozen trees. Nobody calls <code>lake</code> directly. - <strong>Pin guard</strong>: every wrapper checks <code>tools/pins.sha256</code> (sha256 of <code>lakefile.toml</code>, <code>lake-manifest.json</code>, <code>lean-toolchain</code>) and the absence of <code>.lake/package-overrides.json</code> before any <code>lake</code> call, and exits <strong>99</strong> on failure; exit 99 means stop and alert the global master (<code>agents/rules/lean.md</code>). Reason: a missing manifest would make Lake run a full update through the frozen farm symlinks. - <strong><code>check_frozen.sh</code></strong>: verifies that the frozen trees are untouched; part of every gate. It caught the bad import of 2026-11-14 12:23 PST (see <a href="lessons.md">lessons.md</a>). - Worktree seeding only by <code>cp -a --reflink=auto</code> (never hard links); removal only by <code>git worktree remove</code> (never <code>rm -rf</code>). - Single exception: Abhijit’s node may run a direct <code>lean</code> draft check of Mathlib-only files, outputs outside the repo, followed by a <code>find &lt;frozen tree&gt; -newer &lt;marker&gt;</code> check (<code>frozen.md</code>).</p>
+<h2 id="changes-to-the-loop-in-stages-36-from-runss03.md-runss06.md">5. Changes to the loop in stages 3–6 (from <code>runs/s03.md</code> … <code>runs/s06.md</code>)</h2>
+<ul>
+<li><strong>Pregate</strong>: from S05 on, a full six-step gate on the merged tree <em>without</em> the still-open WPs runs at t ≈ 35 min (709/709 in S05, 786/786 in S06), so gate-1 is a short round (S05 6 min, S06 7 min).</li>
+<li><strong>Audits in parts</strong>: Fable Lean audits run while WPs are still open (S04 three parts, S05 three, S06 two), with in-stage fix WPs (L17a/b/c, L11a/b/c, L15a/b); the final gate is on the tree after the last fix.</li>
+<li><strong>Rescue writers</strong> for hard WPs at fix-round 2–3 (S03-L2, S04-L6/L12/L4) and escalation to Opus after two failed Sonnet rounds; insurance, never decisive.</li>
+<li><strong>Two build nodes</strong> from S03: single-WP lettered rounds in parallel; speculative supersets only when a node is free.</li>
+<li><strong>Cross-account review</strong> as a stage deliverable: batches to Abhijit’s node include blind reviews of finished chapters and second readers for conceptual claims.</li>
+<li><strong>Closure artefacts</strong> unchanged: <code>…_milestone-closure-sNN.md</code> plus <code>runs/sNN.md</code>; S06 closure and <code>runs/s06.md</code> merged post-gate (587ee503, <code>lean/</code> unchanged vs 4405815).</li>
+<li><strong>After stage 6</strong>: a final-integration master (≈ 18:01 PST) works on branch <code>wip-final</code> with no Lean changes; target ≈ 2026-11-15 00:00 PST, submission deadline ≈ 2026-11-15 11:45 PST (STATE.md).</li>
+<li>Process decisions by Fabian are recorded in STATE.md “Decisions by Fabian” and applied provisionally until then (FD1, FD2, <code>q ≡ −1</code>, HACS).</li>
+</ul>
+<h2 id="external-contributions">6. External contributions</h2>
+<p>One Lean result entered the library from outside the agent process, after stage 6. The disclosure, verbatim:</p>
+<blockquote>
+<p>The discharge of Hyp.RamNrdSurj was drafted by an external model (mistral-large-4-0 via opencode), run by Fabian Januszewski on Abhijit A J’s machine, outside our agent process (where opencode is Q&amp;A-only); it was integrated into the library, independently audited (Fable, PASS WITH REMARKS) and gated from scratch by the Langlandscape agents.</p>
+</blockquote>
+<p>Result: <code>Langlandscape.Hyp.ramNrdSurj_holds (d : DefiniteData) : Hyp.RamNrdSurj d</code> (<em>formalized</em>; standard axioms only), with <code>Hyp.ramNrdSurj_of_local</code>, <code>Local.exists_nrd_eq_unit_of_ne_two</code>, <code>Local.exists_nrd_eq_unit_two</code>; final gate TITAN <code>ramnrd-final-2</code> at <code>2323a252</code>, 840/840 (see <a href="timeline.md">timeline.md</a>, <a href="metrics.md">metrics.md</a>). Open follow-ups: the <code>AlgJL</code> import in the two <code>Local/QuatNrd*</code> files is not minimised; the two files use the non-module layout (their dependencies are not modules); stale “hypothesis” wording in the docstrings of <code>Quat/LevelNrd.lean:26</code> and <code>Tree/Admissible.lean:48–59</code>.</p>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="timeline-2026-11-14-to-2026-11-15">Timeline (2026-11-14 to 2026-11-15)</h1>
+<p>Times in PST, converted from <code>agents/status/master_log.md</code> and <code>git log</code> commit times (CET, UTC+1) and from UTC (<code>Z</code>) sources (<code>runs/sNN.md</code>, outbox/inbox names). Undated times fall on 2026-11-14 (PST). Updated 2026-11-14 ~18:10 PST, after stage 6 and the HACS lanes; §4 (submission phase) added 2026-11-15 ~09:30 PST.</p>
+<h2 id="wall-time-per-phase-and-stage">1. Wall time per phase and stage</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Phase / stage</th>
+<th>Start</th>
+<th>End</th>
+<th>Wall</th>
+<th>Plan</th>
+<th>Notes (source)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P0 opencode test</td>
+<td>01:20 PST</td>
+<td>02:21 PST</td>
+<td>1.0 h</td>
+<td>—</td>
+<td>blocked ≈ 70 min on the folder-trust dialog (log 02:20 PST)</td>
+</tr>
+<tr class="even">
+<td>P1 staged plan</td>
+<td>01:20 PST</td>
+<td>04:20 PST</td>
+<td>3.0 h</td>
+<td>—</td>
+<td>split → last revision 02:20–03:07 PST ≈ 47 min; integration stall ≈ 40 min (<code>plan/staged/METRICS.md</code>)</td>
+</tr>
+<tr class="odd">
+<td>P2 Fable seam audit + fixes + scouting</td>
+<td>04:20 PST</td>
+<td>05:20 PST</td>
+<td>1.0 h</td>
+<td>—</td>
+<td>Fable verdict at 04:50 PST</td>
+</tr>
+<tr class="even">
+<td>P3 implementation plans</td>
+<td>05:20 PST</td>
+<td>06:19 PST</td>
+<td>1.0 h</td>
+<td>—</td>
+<td>6 plans + OVERVIEW + protocol ≈ 37 min (<code>plan/implementation/METRICS.md</code>)</td>
+</tr>
+<tr class="odd">
+<td>P4 Fable stage-1 plan audit + fixes</td>
+<td>06:19 PST</td>
+<td>07:20 PST</td>
+<td>1.0 h</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>Stage 1</strong> quaternion foundations</td>
+<td>07:32 PST (t = 0)</td>
+<td>09:47 PST</td>
+<td><strong>2.2 h</strong></td>
+<td><strong>8.8 h</strong></td>
+<td><code>runs/s01.md</code></td>
+</tr>
+<tr class="odd">
+<td>Re-plan stages 2–6</td>
+<td>09:49 PST</td>
+<td>10:50 PST</td>
+<td>1.0 h</td>
+<td>—</td>
+<td><code>REPLAN-S02-06.md</code></td>
+</tr>
+<tr class="even">
+<td><strong>Stage 2</strong> tree quotients</td>
+<td>10:51:30 PST</td>
+<td>12:09 PST gate / 12:10 PST merge</td>
+<td><strong>1.3 h</strong></td>
+<td><strong>2.5 h ± 0.7</strong></td>
+<td><code>runs/s02.md</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Stage 3</strong> Ribet–Ihara</td>
+<td>12:16:53 PST</td>
+<td>final gate PASS ≈ 13:20 PST; merge 13:25 PST</td>
+<td><strong>1.1 h</strong></td>
+<td><strong>2.85 h</strong> (2.2–3.6)</td>
+<td><code>runs/s03.md</code>, closure s03</td>
+</tr>
+<tr class="even">
+<td><strong>Stage 4</strong> Lambda-adic Ribet (inverse limits)</td>
+<td>13:24 PST</td>
+<td>final gate PASS 15:35:38 PST; merge 15:36 PST</td>
+<td><strong>2.2 h</strong> (gate-1 PASS at 1.97 h)</td>
+<td><strong>3.0 h</strong> (2.6–3.8)</td>
+<td><code>runs/s04.md</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Stage 5</strong> comparison</td>
+<td>15:40 PST</td>
+<td>final gate PASS 16:46:24 PST; merge 16:47 PST</td>
+<td><strong>1.1 h</strong></td>
+<td><strong>2.1 h</strong> (1.5–3.2)</td>
+<td><code>runs/s05.md</code></td>
+</tr>
+<tr class="even">
+<td><strong>Stage 6</strong> integral defect</td>
+<td>16:48:52 PST</td>
+<td>final-gate sha 4405815 at 17:50 PST; PASS on both nodes; merge 17:58 PST</td>
+<td><strong>≈ 1.2 h</strong> (62 min to the final-gate sha)</td>
+<td>2.2–2.6 h</td>
+<td><code>runs/s06.md</code>, STATE.md</td>
+</tr>
+<tr class="odd">
+<td>HACS planning (JL transfer plan, checks battery, CUDA build)</td>
+<td>≈ 12:53 PST</td>
+<td>merge 13:54 PST (08200a4)</td>
+<td>≈ 1 h</td>
+<td>—</td>
+<td>log; <code>plan/hacs/</code></td>
+</tr>
+<tr class="even">
+<td>HACS Lane A (HJ-0, A1–A3, HJ-B0 v2)</td>
+<td>16:31 PST</td>
+<td>closure ≈ 17:40 PST; merge 17:37 PST commit time (0024903a)</td>
+<td>≈ 1 h 10 min</td>
+<td>HACS plan: 17 WPs ≈ 8–9 h with 2 lanes</td>
+<td><code>plan/hacs/outbox/20261115T0137Z_laneA-closure.md</code></td>
+</tr>
+<tr class="odd">
+<td>HACS Lane B (HJ-6-min, HJ-6b, HJ-1+2, PC2 prep)</td>
+<td>16:55 PST</td>
+<td>closure 17:50 PST; merged on main by 18:03 PST</td>
+<td>≈ 1 h</td>
+<td>same</td>
+<td><code>plan/hacs/outbox/20261115T0150Z_laneB-closure.md</code></td>
+</tr>
+<tr class="even">
+<td><strong>Final integration</strong> (report, docs, talk pass, release notes)</td>
+<td>≈ 18:01 PST</td>
+<td>target ≈ 2026-11-15 00:00 PST</td>
+<td>—</td>
+<td>submission ≈ 2026-11-15 11:45 PST</td>
+<td>STATE.md; dab49356</td>
+</tr>
+</tbody>
+</table>
+<p>Stage walls are t0 to the final-gate PASS. Stages 1–6 ran from 07:32 to 17:58 PST (≈ 10.4 h including the 1 h re-plan); the plan for them (8.8 + 2.5 + 2.85 + 3.0 + 2.1 + ≈ 2.4 h) sums to ≈ 21.7 h. Actual/plan per stage: 0.25, 0.52, 0.39, 0.73, 0.52, ≈ 0.5. Planned Lean walls were repeatedly “about 2x too long” (<code>runs/s03.md</code> to <code>runs/s05.md</code>); the critical path was a chain of cheap single-error fix rounds, not proof difficulty (<code>runs/s04.md</code>, <code>runs/s06.md</code>: “rounds, not writing, dominate the Lean wall”).</p>
+<h2 id="milestones">2. Milestones</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Time</th>
+<th>Event</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>01:20 PST</td>
+<td>autonomous run starts (P0 + P1)</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>01:35 PST</td>
+<td>TITAN ready (import build 6:43)</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>02:09 PST</td>
+<td>Fabian signs off; agents continue autonomously</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>02:25 PST</td>
+<td>SPLIT.md: 6 stages</td>
+<td>log, wip-plan 2753da8</td>
+</tr>
+<tr class="odd">
+<td>04:20 PST</td>
+<td><strong>P1 done</strong>; MISSING_LITERATURE: 29 missing / 12 unusable / 25 mis-citations</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>04:50 PST</td>
+<td>Fable seam audit: PASS WITH REQUIRED FIXES (0 crit, 7 major, 13 minor)</td>
+<td>log, 8ca2db3</td>
+</tr>
+<tr class="odd">
+<td>05:20 PST</td>
+<td><strong>P2 done</strong>: 19 fixes applied, 1 modified; merge <code>wip-plan → main</code> 2277355</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>06:19 PST</td>
+<td><strong>P3 done</strong> (wip-plan f972d7e)</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>06:49 PST</td>
+<td>Fable stage-1 plan audit: GO WITH REQUIRED FIXES (3 crit / 14 major / 12 minor)</td>
+<td>log, 5442db5</td>
+</tr>
+<tr class="even">
+<td>07:20 PST</td>
+<td><strong>P4 done</strong>: 27 fixes applied, 2 modified; merge a4efa59; stage-1 master launched</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>07:32 PST</td>
+<td>subagent cap raised 3 → 8</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>07:50 PST</td>
+<td>local Lean off; all Lean jobs → TITAN</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>08:49 PST</td>
+<td>incident: lost SendMessage → file outbox introduced</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>09:19 PST</td>
+<td>stage-1 gate L14 PASS (119 axiom lines standard) after one FAIL at the axioms step</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>09:26 PST</td>
+<td>Fable Lean audit L15: PASS WITH REMARKS (R1–R4 required)</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>09:43 PST</td>
+<td>early gate s01-gate-2 PASS (151 axiom lines)</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>09:46 PST</td>
+<td><strong>stage-1 final gate from scratch PASS</strong> (0492baa; 161 axiom lines standard; 0 sorry; 80 warnings)</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>09:47 PST</td>
+<td><strong>STAGE 1 COMPLETE</strong>, merge 9aba3c7</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>10:03 PST</td>
+<td>third machine announced (later CONCEPTD)</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>10:50 PST</td>
+<td>re-plan merged (0c31df4); stage-2 master launched</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>11:30 PST / 11:48 PST</td>
+<td>CONCEPTD online / ready as Lean node #2 (after the WSL memory raise)</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>11:32 PST</td>
+<td>Fabian: delegate WPs to Abhijit’s node</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>11:39 PST</td>
+<td>Abhijit batch 1 sent (P1–P4)</td>
+<td>log; message 20261114-194045Z</td>
+</tr>
+<tr class="even">
+<td>11:56 PST</td>
+<td>stage-2 gate1 PASS (8a99a25; 191/191 standard; 134 warnings)</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>12:01 PST</td>
+<td>Fable Lean audit L12: PASS WITH REMARKS (vacuous D = 1 instance)</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>12:09 PST</td>
+<td><strong>stage-2 final gate from scratch PASS</strong> (c45f2e8; 195/195 standard; 0 sorry; 84 warnings); CONCEPTD cross-check PASS</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>12:10 PST</td>
+<td><strong>STAGE 2 COMPLETE</strong>, merge 13ae47c</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>12:11 PST</td>
+<td>Abhijit batch 1 complete</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>12:17 PST</td>
+<td>stage 3 starts; Abhijit batch 2 sent</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>12:32 PST</td>
+<td>licensing scheme committed (a0cf2df)</td>
+<td>log</td>
+</tr>
+<tr class="odd">
+<td>12:53 PST</td>
+<td>Abhijit batch 3 sent; HACS planning master launched</td>
+<td>log</td>
+</tr>
+<tr class="even">
+<td>13:03 PST</td>
+<td>Abhijit batch 4 sent (message 13:02 PST)</td>
+<td>message batch4</td>
+</tr>
+<tr class="odd">
+<td>13:20 PST</td>
+<td>stage-3 final gate 5aa765a PASS (519/519, 180 s; CONCEPTD cross-check 519/519)</td>
+<td><code>runs/s03.md</code></td>
+</tr>
+<tr class="even">
+<td>13:25 PST</td>
+<td><strong>STAGE 3 COMPLETE</strong>, merge 2e54ed8 (+ addendum 1ea477e 13:26 PST)</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>13:54 PST</td>
+<td>HACS plan merged (08200a4): CHECKS-NOW (36 checks), CUDA build sm_120 green, 246/246</td>
+<td>git; STATE.md</td>
+</tr>
+<tr class="even">
+<td>15:21:55 PST</td>
+<td>stage-4 gate-1 e7285a99 PASS 558/558</td>
+<td><code>runs/s04.md</code>; inbox commit 6552b066</td>
+</tr>
+<tr class="odd">
+<td>15:35 PST</td>
+<td>stage-4 final gate 71576d1 PASS 592/592 (251 s; CONCEPTD cross-check 3:50)</td>
+<td>closure s04</td>
+</tr>
+<tr class="even">
+<td>15:36 PST</td>
+<td><strong>STAGE 4 COMPLETE</strong>, merge fafd783; <code>Hyp.PadicOrdDecomp</code> discharged</td>
+<td>git; STATE.md</td>
+</tr>
+<tr class="odd">
+<td>15:47 PST</td>
+<td>Abhijit batch 7 sent (004745Z)</td>
+<td>message batch7</td>
+</tr>
+<tr class="even">
+<td>16:14:56 PST</td>
+<td>stage-5 pregate PASS 709/709 (early full-tree gate, before L4)</td>
+<td><code>runs/s05.md</code></td>
+</tr>
+<tr class="odd">
+<td>16:23:11 PST</td>
+<td>stage-5 gate-1 PASS</td>
+<td><code>runs/s05.md</code></td>
+</tr>
+<tr class="even">
+<td>16:46:24 PST</td>
+<td>stage-5 final gate 9ddd83e PASS 747/747 (273 s)</td>
+<td><code>runs/s05.md</code></td>
+</tr>
+<tr class="odd">
+<td>16:47–16:48 PST</td>
+<td><strong>STAGE 5 COMPLETE</strong>, merge 1ce44ea (+ CONCEPTD cross-check addendum 63e8660)</td>
+<td>git</td>
+</tr>
+<tr class="even">
+<td>16:31 PST</td>
+<td>HACS Lane A started (hacs-laneA-master)</td>
+<td>git 17d8acf, 125ef34</td>
+</tr>
+<tr class="odd">
+<td>16:32 PST</td>
+<td>HACS Lean-vs-our-hypotheses survey merged (0d3a200)</td>
+<td>git</td>
+</tr>
+<tr class="even">
+<td>16:38 PST</td>
+<td>slot-27 review: Lane B to the post-Mathathon quaternion stage, HJ-B0 now (5dc5507)</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>16:45 PST</td>
+<td>Fabian’s HACS decisions recorded (relaxed protocol; Lane B start now)</td>
+<td>git dc374847; STATE.md</td>
+</tr>
+<tr class="even">
+<td>16:48:52 PST</td>
+<td>stage 6 starts; Lane A HJ-0</td>
+<td>git e42c5a68, 06d142c</td>
+</tr>
+<tr class="odd">
+<td>16:50 PST</td>
+<td>HACS Lane B launched</td>
+<td>git 4224b7d</td>
+</tr>
+<tr class="even">
+<td>17:23 PST</td>
+<td>stage-6 pregate PASS 786/786 (before the Defect layer)</td>
+<td>git dfa663b</td>
+</tr>
+<tr class="odd">
+<td>17:36 PST</td>
+<td>stage-6 gate-1 PASS 833/833 from scratch (7447d96e)</td>
+<td>git 01a5353</td>
+</tr>
+<tr class="even">
+<td>17:37 PST</td>
+<td>HACS Lane A merged on main (0024903a)</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>17:50 PST</td>
+<td>S06 final-gate sha 4405815 (exact FreeRankTwo disclosure)</td>
+<td>git 44058153</td>
+</tr>
+<tr class="even">
+<td>17:57–17:58 PST</td>
+<td>stage-6 final gates PASS (TITAN from scratch, CONCEPTD fresh) 836/836; <strong>STAGE 6 COMPLETE</strong>, merge aed93c37</td>
+<td>closure s06; git</td>
+</tr>
+<tr class="odd">
+<td>18:00 PST (STATE.md: ≈ 18:01 PST)</td>
+<td><strong>final integration launched</strong> (dab49356)</td>
+<td>git</td>
+</tr>
+<tr class="even">
+<td>≈ 18:03 PST</td>
+<td>HACS Lane B closure FINAL on main (merge ffb527c is the newest main commit seen)</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>18:25 PST</td>
+<td>external draft of the <code>Hyp.RamNrdSurj</code> discharge (mistral-large-4-0 via opencode, outside the agent process) pushed on <code>abhijit/ramnrdsurj-discharge</code></td>
+<td>git 35b31cc9</td>
+</tr>
+<tr class="even">
+<td>18:34–18:56 PST</td>
+<td>integrated as <code>Hyp.ramNrdSurj_holds</code> (d8317460); Fable audit PASS WITH REMARKS (75649ef4); lint fixes; merge on main 2323a252</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>19:00–19:02 PST</td>
+<td>CONCEPTD quick check ramnrd-3 PASS; TITAN ramnrd-final-2 from scratch PASS 840/840 (4198 jobs, 321 s): new final gate (superseded by the submission bundle gate)</td>
+<td>git <code>conceptd/ramnrd-3</code>, <code>titan/ramnrd-final-2</code></td>
+</tr>
+<tr class="even">
+<td>22:44–22:45 PST</td>
+<td>Lean submission bundle: TITAN subl-gate-1 from scratch PASS 950/950 (4199 jobs, 323 s; gate commit dc61af50); CONCEPTD subl-gate-1x fresh PASS 950/950; bundle merged on main 28d2b091: <strong>final gate</strong></td>
+<td>git <code>titan/subl-gate-1</code>, <code>conceptd/subl-gate-1x</code></td>
+</tr>
+<tr class="odd">
+<td>15 Nov 07:47–07:51 PST</td>
+<td><code>Hyp.BrandtStabFree</code> discharge (external opencode/Mistral draft, integrated by our agents, Fable audit PASS) merged (87ba0c34 on the final branch); TITAN bsf-gate-1 from scratch PASS 955/955 (4205 jobs, 346 s; VendorStacks 1955 jobs; Lean tree c70ef3a9; logs fa755069): new final gate</td>
+<td>git <code>titan/bsf-gate-1</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs-and-gates-per-stage">3. Jobs and gates per stage</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Outbox files</th>
+<th>Inbox files</th>
+<th>Remote result branches</th>
+<th>Gates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>19</td>
+<td>0 (inbox introduced in stage 2)</td>
+<td>16 <code>titan/s01-*</code></td>
+<td>L14: 1 FAIL (12 unqualified names in PrintAxioms) then PASS 119 lines; gate-2 PASS 151; final PASS 161 lines, 0 sorry, 3842 jobs</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>39</td>
+<td>16</td>
+<td>19 <code>titan/s02-*</code>, 1 <code>conceptd/s02-*</code>; 19 jobs in the <code>runs/s02.md</code> job list</td>
+<td>gate1 PASS 191/191; final PASS 195/195, 0 sorry (only the import’s <code>Instances.lean:1815</code>), 84 warnings</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>60</td>
+<td>30</td>
+<td>20 <code>titan/s03-*</code>, 11 <code>conceptd/s03-*</code></td>
+<td>gate-1 516/516; final PASS 519/519, 180 s; CONCEPTD 519/519</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>85</td>
+<td>55</td>
+<td>30 <code>titan/s04-*</code>, 25 <code>conceptd/s04-*</code></td>
+<td>gate-1 558/558; final PASS 592/592, 251 s; CONCEPTD 592/592</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>42</td>
+<td>24</td>
+<td>11 <code>titan/s05-*</code>, 13 <code>conceptd/s05-*</code></td>
+<td>pregate 709/709; gate-1 PASS; final PASS 747/747, 273 s; CONCEPTD cross-check PASS</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>47</td>
+<td>21</td>
+<td>10 <code>titan/s06-*</code>, 13 <code>conceptd/s06-*</code></td>
+<td>pregate 786/786; gate-1 833/833 (from scratch 304 s); final PASS 836/836 (TITAN 319 s, CONCEPTD 5:21; 4194 jobs); after stage 6: RamNrdSurj discharge, gate ramnrd-final-2 PASS 840/840 (TITAN 321 s, 4198 jobs; CONCEPTD quick check ramnrd-3); submission bundle: final gate subl-gate-1 PASS 950/950 (TITAN 323 s, 4199 jobs; CONCEPTD subl-gate-1x fresh PASS)</td>
+</tr>
+</tbody>
+</table>
+<p>Outbox/inbox counts (recounted 2026-11-15 on <code>final/agentic</code>): files in <code>…-wt/impl/plan/implementation/{outbox,inbox}/</code> whose name contains <code>s0N</code> (a proxy for job traffic; status and closure files included). Result branches: <code>git ls-remote origin</code> (2026-11-14 ~18:10 PST: 107 <code>titan/*</code>, 68 <code>conceptd/*</code>, 129 <code>impl/*</code>, 37 <code>abhijit/*</code>). Of the 17 stage-6 TITAN outbox files, 3 CONCEPTD outbox files exist as <code>_conceptd-s06-*</code>; earlier stages name CONCEPTD jobs inside shared <code>titan-sNN-*</code> files (job node is in the spec), so per-node job counts come from the result branches (above), not from outbox names. Stage-3/4 rows had been counted while running in an earlier version of this table.</p>
+<h2 id="submission-phase-14-nov-2245-pst-15-nov-0930-pst">4. Submission phase (14 Nov 22:45 PST – 15 Nov ~09:30 PST)</h2>
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted. Sources: <code>git show origin/main:agents/status/master_log.md</code> (lines until 08:24 CET carry CET stamps, PST = CET − 9 h; after the compaction they carry UTC <code>HH:MMZ</code> stamps, PST = Z − 8 h), git committer times (<code>+0100</code>, PST = CET − 9 h) on <code>main</code> and the merged branches, and the inbox/outbox and message files. The <code>wip-submission</code> merges into <code>main</code> and the coordinator’s instructions to the global master can be reconstructed from <code>git log --first-parent main</code> and <code>git log wip-submission</code>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Time (PST)</th>
+<th>Event</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>11-14 21:39–22:00</td>
+<td>lead-in: submission package drafted on <code>wip-submission</code> (flattener, chapter s00, report sources; first flattened report draft 22:00)</td>
+<td>git e5864976 … abe4b5a7; <code>master_log.md</code> 06:46 (CET)</td>
+</tr>
+<tr class="even">
+<td>11-14 21:51</td>
+<td>Fabian’s facts recorded; lean-bundle master, HACS Lane C master (hard stop 17:30Z = 09:30 PST) and logs collector launched</td>
+<td>git f0ddadc9; <code>master_log.md</code> 06:51</td>
+</tr>
+<tr class="odd">
+<td>11-14 21:54</td>
+<td>HACS Lane C plan committed (the closure states START 06:10Z = 22:10 PST)</td>
+<td>git 1296ea9d; <code>plan/hacs/outbox/20261115T1347Z_laneC-closure.md</code></td>
+</tr>
+<tr class="even">
+<td>11-14 22:41</td>
+<td>Fabian away ≈ 7–8 h; submission-phase resume block in STATE.md; <strong>no-<code>rm</code> rule</strong> (22:46: no <code>git rm</code> either)</td>
+<td>git 38fce7c1, d8eebf93, 4f9f79ff; <code>master_log.md</code> 07:41</td>
+</tr>
+<tr class="odd">
+<td>11-14 22:45</td>
+<td><strong>Lean submission bundle merged</strong> on main 28d2b091 (950/950, TITAN + CONCEPTD from scratch)</td>
+<td>git 28d2b091; <code>master_log.md</code> 07:45</td>
+</tr>
+<tr class="even">
+<td>11-14 22:53</td>
+<td><strong>clean-room PASS</strong> <code>subl-clean-1</code> (TITAN: fresh clone + <code>lake exe cache get</code> + <code>lake build</code> ≈ 6.5 min; 950 axiom lines standard; lakefile/manifest unchanged)</td>
+<td><code>titan/subl-clean-1</code> 56f3f0fc; git 7481308e; <code>master_log.md</code> 07:53</td>
+</tr>
+<tr class="odd">
+<td>11-14 22:57–22:58</td>
+<td>batch 9 sent to Abhijit’s node: H1 cross-account review of the submission report, H2 of the talk</td>
+<td>git 3ed689fa, 26e01d9c; messages <code>20261115-065740Z_fabian_batch9.md</code>, <code>…065825Z_fabian_batch9-talk.md</code></td>
+</tr>
+<tr class="even">
+<td>11-14 23:05</td>
+<td>independent audit of the talk (17 frames)</td>
+<td>git 9aecf5c2</td>
+</tr>
+<tr class="odd">
+<td>11-14 23:30 / 23:33</td>
+<td>CONCEPTD released (TITAN only for Lean); Fabian signs off ≈ 8 h</td>
+<td>git ecf696e9, 1a662d58; <code>master_log.md</code> 07:30Z, 07:33Z</td>
+</tr>
+<tr class="even">
+<td>11-14 23:34</td>
+<td>Lane C HJ-8-def merged into <code>impl/hacs-laneC</code> (native η^B)</td>
+<td>git 513366bf; <code>master_log.md</code> 07:34Z</td>
+</tr>
+<tr class="odd">
+<td>11-14 23:42</td>
+<td>HJ-8-def review <strong>FAIL</strong> (2 major: Hecke congruence ideal at k+(p−1); mixed census blocks)</td>
+<td>git 103b5e47; <code>master_log.md</code> 07:43Z</td>
+</tr>
+<tr class="even">
+<td>11-15 00:23–00:27</td>
+<td>HJ-8-def fixes merged; re-check PASS (census 5869 cells)</td>
+<td>git 558b4f9a, debe8a9f; <code>master_log.md</code> 08:27Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 00:32 / 00:35</td>
+<td>HJ-8a (GL₂ side through HACS) merged; review PASS (5 minor)</td>
+<td>git 908adfbf, 97eaddeb; <code>master_log.md</code> 08:32Z, 08:36Z</td>
+</tr>
+<tr class="even">
+<td>11-15 02:46</td>
+<td>batch 9 reminder (H1/H2 due 10:30Z = 02:30 PST)</td>
+<td>git 7acec582; message <code>20261115T1046Z_batch9-reminder.md</code></td>
+</tr>
+<tr class="odd">
+<td>11-15 02:48</td>
+<td>Fable talk audit applied (B1, M1–M9, m1–m9)</td>
+<td>git 72bed0a8</td>
+</tr>
+<tr class="even">
+<td>11-15 02:50</td>
+<td><strong>combined fix round</strong> merged on <code>wip-submission</code> (report 186 pp, talk 17 frames, one-way-transfer subsection)</td>
+<td>git ee6856ea; <code>master_log.md</code> 10:51Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 02:52 / 02:56</td>
+<td>HJ-8b (H3, defect census) merged; review PASS (6 minor)</td>
+<td>git 167f0701, a85e7edd; <code>master_log.md</code> 10:53Z</td>
+</tr>
+<tr class="even">
+<td>11-15 04:16</td>
+<td>Abhijit’s node still silent: <strong>Fable audit of the fix-round diff requested as the fallback</strong> for batch 9</td>
+<td><code>master_log.md</code> 12:16Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 04:21</td>
+<td>fallback Fable audit PASS with fixes (3 majors applied)</td>
+<td>git f2ff5f43; <code>master_log.md</code> 12:22Z</td>
+</tr>
+<tr class="even">
+<td>11-15 04:46</td>
+<td>Fabian back</td>
+<td><code>master_log.md</code> 12:46Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 04:59</td>
+<td>Fabian GO: short abstract (≤ 150 words) and <code>mathematics/article.tex</code></td>
+<td>git fb179e45; <code>master_log.md</code> 12:59Z</td>
+</tr>
+<tr class="even">
+<td>11-15 05:01 / 05:02 / 05:05</td>
+<td><strong>short abstract</strong> (91c92bc8); <strong>article</strong> with Main results (6c86ea2c); <strong>whycited</strong> subsection “Why classical JL is cited, not proved” (a8d77915)</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>11-15 05:12</td>
+<td><strong>team decision: first case</strong> (D = q, weight 2, Γ₀) = proof of JL modulo cited geometry (Ribet); in general JL is invoked</td>
+<td>git e9231fde; <code>master_log.md</code> 13:12Z</td>
+</tr>
+<tr class="even">
+<td>11-15 05:15–05:36</td>
+<td>first-case wording in report and talk (new JL frame 7318ca22; 7bb5d35a); N1/N2: tree vs <strong>DR</strong> paragraph (1ebea1b5); audit 8785ce1d</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>11-15 05:34</td>
+<td>Fabian GO: guide to the six stages for non-specialists</td>
+<td>git 5f7bd45c; <code>master_log.md</code> 13:34Z</td>
+</tr>
+<tr class="even">
+<td>11-15 05:39–05:49</td>
+<td><strong>guide</strong> added (a66c56bd); guide round with the <strong>p-adic / Λ-adic</strong> paragraph (why they are cited; 96956efa), merged 08e4f249; guide audit ceb67433</td>
+<td>git</td>
+</tr>
+<tr class="odd">
+<td>11-15 05:47</td>
+<td><strong>Lane C closed</strong> (535e8628) and <strong>merged on main</strong> 33e4a2cc; battery 253/253 at 08481d69</td>
+<td>git 33e4a2cc; <code>master_log.md</code> 13:47Z</td>
+</tr>
+<tr class="even">
+<td>11-15 05:53–06:01</td>
+<td>Lane C facts into report and talk; Lane C audit (lattice invariance for p ∤ D, 37 as a factor on the intrinsic lattice, census wording)</td>
+<td>git d12c8199, 792bb900, 8ab035e7, 1e417d64</td>
+</tr>
+<tr class="odd">
+<td>11-15 06:00</td>
+<td><strong>computing section</strong> (non-specialist section on computability and the HACS implementation); audit 06:05</td>
+<td>git 681f250d, e25b1e0f</td>
+</tr>
+<tr class="even">
+<td>11-15 06:08 / 06:09</td>
+<td><strong>three-lanes frame</strong> “Three lanes in parallel” (19 frames) and its audit</td>
+<td>git d687e910, 03a417b4</td>
+</tr>
+<tr class="odd">
+<td>11-15 06:10</td>
+<td><strong>content commit 699edeb2</strong>: <code>wip-submission</code> merged into main (submission package: report, article, talk, agent logs)</td>
+<td>git 699edeb2; <code>master_log.md</code> 14:10Z</td>
+</tr>
+<tr class="even">
+<td>11-15 06:11–06:12</td>
+<td>three footnote commits on main (crossing messages, lesson 45)</td>
+<td>git 3d0a6fb8, 4d330a21, 9eb98f88</td>
+</tr>
+<tr class="odd">
+<td>11-15 06:14</td>
+<td>submission ready (strict check 21 PASS / A7 WARN / 0 FAIL); handover to Fabian</td>
+<td>git 84d64ef5; <code>master_log.md</code> 14:14Z</td>
+</tr>
+<tr class="even">
+<td>11-15 06:33–06:34</td>
+<td><strong>acknowledgments</strong> (Mathathon compute credits), <strong>README</strong> “Use of AI”, HACS as a separate software project; held round</td>
+<td>git 129b7bef, fc555a2f, c592c325, 3633e6f0; <code>master_log.md</code> 14:34Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 06:46 / 06:47</td>
+<td><strong>backup frame</strong> “Agentic process: five lessons” and its audit</td>
+<td>git e2d88b55, bd511d86</td>
+</tr>
+<tr class="even">
+<td>11-15 07:06</td>
+<td><strong>PST normalization</strong> of <code>docs/agentic-process/</code> and the report sources (conversion log)</td>
+<td>git 65a921e3, adb1174c</td>
+</tr>
+<tr class="odd">
+<td>11-15 07:37</td>
+<td>Fabian: integrate <code>abhijit/brandtstabfree</code> (external opencode + Mistral draft of the <code>Hyp.BrandtStabFree</code> discharge) on <code>impl/brandtstab-discharge</code></td>
+<td><code>master_log.md</code> 15:37Z</td>
+</tr>
+<tr class="even">
+<td>11-15 07:41–07:45</td>
+<td><strong>BrandtStabFree integrated</strong> (ee379dca, c70ef3a9); <strong>acceptance <code>bsf-acc-1</code> PASS</strong> at c70ef3a9; Fable audit PASS (fa6f813a, a50efce0); Fabian: submit now, replace later</td>
+<td><code>titan/bsf-acc-1</code> 09c8af15; <code>master_log.md</code> 15:46Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 07:51</td>
+<td><strong>gate <code>bsf-gate-1</code></strong> from scratch PASS at c70ef3a9: 4205 jobs, 955/955 standard, 0 sorry, frozen clean; <code>Hyp.BrandtStabFree</code> discharged</td>
+<td><code>titan/bsf-gate-1</code> fa755069; <code>master_log.md</code> 15:52Z</td>
+</tr>
+<tr class="even">
+<td>11-15 07:59</td>
+<td><strong>content commit bd55bea6</strong> (v2: BrandtStabFree, gate 955/955, acknowledgments, README AI use, PST times); title hash 7a450345</td>
+<td>git bd55bea6, 7a450345; <code>master_log.md</code> 16:00Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 08:31</td>
+<td>v3 <strong>CET-convention fix</strong>: all machines on Berlin time (CET, UTC+1), report sources in UTC (no converted time changed)</td>
+<td>git d7db2ea0</td>
+</tr>
+<tr class="even">
+<td>11-15 08:38–08:39</td>
+<td><strong>log freeze</strong>: localhost 08:38 PST (16:38:36Z; 565 sessions), TITAN 08:38 PST (16:38:19Z); CONCEPTD was frozen at 2026-11-14 22:36 PST (06:36:45Z)</td>
+<td>git ef368b90, aef65589; <code>supplementary/agent-logs/README.md</code></td>
+</tr>
+<tr class="odd">
+<td>11-15 08:40</td>
+<td><strong>content commit fc3666e0</strong> (v3: CET convention fix, final log freeze + freeze times); title hash fe20eb50</td>
+<td>git fc3666e0, fe20eb50; <code>master_log.md</code> 16:42Z</td>
+</tr>
+<tr class="even">
+<td>11-15 08:57</td>
+<td><strong>second team member’s logs</strong>: <code>abhijit/agent-logs</code> 98488501 (72 sessions, frozen 08:56 PST); the node reports batch 9 “not done on this node”</td>
+<td>git 98488501; message <code>20261115T1657Z_abhijit_agent-logs-delivered.md</code></td>
+</tr>
+<tr class="odd">
+<td>11-15 09:08</td>
+<td>logs merged (920cdf9b); <strong>literature post-filter</strong> <code>tools/postfilter_lit.py</code> applied to all nodes</td>
+<td>git 920cdf9b, 77ee595e</td>
+</tr>
+<tr class="even">
+<td>11-15 09:10</td>
+<td><strong>option 3</strong> (Fabian): new public repository Langlandscape-Mathathon with one orphan commit; the development repository becomes private (its history has unfiltered logs)</td>
+<td><code>master_log.md</code> 17:10Z</td>
+</tr>
+<tr class="odd">
+<td>11-15 09:12–09:16</td>
+<td>public-repository version of the report (aa80715a, 9ad4b874); <strong>provisional P1</strong> (orphan commit 62e4e849, to be replaced by a force-push; the hash commit P2 follows) pushed to Langlandscape-Mathathon</td>
+<td>git aa80715a, 9ad4b874; <code>master_log.md</code> 17:16Z</td>
+</tr>
+</tbody>
+</table>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="hacs-in-the-agentic-process-state-2026-11-15-0930-pst">HACS in the agentic process (state 2026-11-15 ~09:30 PST)</h1>
+<p>HACS (release 0.2.1, DOI 10.5281/zenodo.24231446; data 0.2.0, DOI 10.5281/zenodo.24147012) is Fabian’s CUDA/C++ computer-algebra system; its snapshot lives in <code>code/hacs/</code> (own licence scheme, never changed by us). The JL transfer (HACS-JL) uses it as an independent integral engine for the definite (quaternion) side. Status words: everything below is <em>computed</em>; nothing is called certified.</p>
+<h2 id="sequence">1. Sequence</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>When (PST)</th>
+<th>Step</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>12:53 PST (11-14)</td>
+<td>HACS planning master launched</td>
+<td>master log</td>
+</tr>
+<tr class="even">
+<td>13:54 PST</td>
+<td>plan merged (08200a4): <code>plan/hacs/{HACS-JL-PLAN, CHECKS-NOW (36 checks), checks-results-2026-11-14, titan-hacs-build-job, REPORT}.md</code>; TITAN CUDA 12.9 user-toolkit build, sm_120, 246/246, RN-1…RN-6 PASS; implementation <strong>held</strong> (17 WPs, ≈ 8–9 h with two lanes)</td>
+<td>STATE.md</td>
+</tr>
+<tr class="odd">
+<td>16:20–16:32 PST</td>
+<td>HACS-Lean survey (<code>plan/hacs/HACS-LEAN-HYP-SURVEY.md</code>) of HACS’s Lean (v4.33) against our registered hypotheses; slot-27 review</td>
+<td>git</td>
+</tr>
+<tr class="even">
+<td>16:45 PST</td>
+<td><strong>Fabian’s decisions</strong> (below); Lane A starts 16:31 PST; Lane B launched 16:50 PST (start 16:55 PST per its closure)</td>
+<td>STATE.md; Lane closures</td>
+</tr>
+<tr class="odd">
+<td>17:37 PST</td>
+<td>Lane A merged on main (0024903a)</td>
+<td>git</td>
+</tr>
+<tr class="even">
+<td>≈ 18:03 PST</td>
+<td>Lane B closure FINAL and on main</td>
+<td><code>plan/hacs/outbox/20261115T0150Z_laneB-closure.md</code></td>
+</tr>
+<tr class="odd">
+<td>21:51 PST</td>
+<td>Lane C master launched (hard stop 17:30Z = 09:30 PST on 11-15); plan 1296ea9d at 21:54 PST (the closure states START 06:10Z = 22:10 PST)</td>
+<td><code>master_log.md</code> 06:51 (CET); git</td>
+</tr>
+<tr class="even">
+<td>23:34 PST → 02:56 PST (11-15)</td>
+<td>HJ-8-def merged 513366bf, review FAIL (2 major), fixed, re-check PASS 00:27 PST (558b4f9a, debe8a9f); HJ-8a merged 00:32 PST (908adfbf), review PASS; HJ-8b merged 02:52 PST (167f0701), review PASS</td>
+<td>git; <code>master_log.md</code> 07:34Z–10:53Z</td>
+</tr>
+<tr class="odd">
+<td>05:47 PST (11-15)</td>
+<td><strong>Lane C closed</strong> (535e8628) and merged on main <strong>33e4a2cc</strong>; battery 253/253 at 08481d69</td>
+<td>git; <code>plan/hacs/outbox/20261115T1347Z_laneC-closure.md</code></td>
+</tr>
+<tr class="even">
+<td>05:53–06:01 PST (11-15)</td>
+<td>Lane C audit of the report/talk wording (lattice invariance for p ∤ D; 37 as a factor on the intrinsic lattice; census “0 disagreements on computed blocks”)</td>
+<td>git d12c8199, 792bb900, 8ab035e7, 1e417d64</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fabians-decisions-state.md-decisions-by-fabian-1645-pst">2. Fabian’s decisions (STATE.md “Decisions by Fabian”, ~16:45 PST)</h2>
+<ul>
+<li>Deadline ≈ 2026-11-15 11:45 PST (19 h from 16:45 PST on 2026-11-14); HACS <strong>implementation</strong> has priority over long HACS runs (a 23.8 h run cannot make it); large runs may go to TITAN or the PC2 Paderborn H100 (512/768 GB, 20 GPU-h; SLURM script under <code>plan/hacs/pc2/</code>, Fabian submits).</li>
+<li><strong>Q3 = YES with caveat</strong> (relaxed protocol): no 100 %-watertight certificates before the deadline; a post-Mathathon merge adds audits and certificates; advance the implementation rather than follow the line-by-line HACS process, but <strong>disclose every deviation</strong>.</li>
+<li><strong>Targeted validation only</strong>: relevant registry entries, smoke, affected golden tier; the full battery only at significant milestones (lane closures).</li>
+<li><strong>Lane B starts now</strong>; Q2 (small upstream hooks) OK; Q5b: implement and execute HJ-6 (talk numbers), parallel swarm; Q6: s27 locks or own, either; Q4 = YES (<code>descent(...).module_Z()</code> allowed; Lane A keeps it behind its opt-in flag); licence of the CC-BY-4.0 <code>cell.py</code> snippet inside GPL <code>betti_t4.py</code> confirmed (attribution + snippet SPDX tags).</li>
+</ul>
+<h2 id="lane-a-closure-2026-11-14-start-1631-pst-1-h-10-min-22-commits">3. Lane A (closure 2026-11-14, START 16:31 PST, ≈ 1 h 10 min, 22 commits)</h2>
+<p>Deliverables: HJ-0 bridge runner and smoke script; HJ-A1 <code>gl2_dnew.py</code> (symn 66/66, pi_sign 8/8; extended grid 152/204 OK); HJ-A2 <code>definite_alg.py</code> (Mazur’s 5 non-étale and Gorenstein, negative control clean); HJ-A3 <code>betti_t4.py</code> (coker(Ψ*Ψ)_m = (Z/17)² at k = 12, 28, 44, 60); HJ-B0 spec <code>langlandscape_brandt/v2</code> with 74 <code>free_block_z</code> records. Audits: HJ-0, A1, B0 Opus FAIL r0 → fixed; A2 Opus PASS; A3 Fable FAIL r0 → fixed. Verified at closure: 86 Lane A tests; Python suite 483 passed / 3 skipped; strict golden tier A 12154/0, B 6231/0 at build time. No upstream HACS file modified. <strong>Disclosed deviations (Lane A closure):</strong> (1) code in <code>code/python/langlandscape/hacs_bridge/</code>, not <code>code/hacs/jl/*.py</code> (the exporter uses PARI, forbidden inside <code>code/hacs/</code>); (2) no re-audit of fix rounds; (3) HJ-A1 skips 52 extended cells (predicted RSS &gt; 3 GiB), U_D signs ambiguous on 8 cells, prime D and M = 1 only, wall 21.4 min vs a 20 min cap; (4) HJ-A2 uses the anemic algebra T^(Dℓ), S06-C1 comparison replaced by an independent Python check; (5) HJ-A3 <code>module_Z()</code> off by default, k ≥ ℓ rows <code>interpretation: expected</code>; (6) HJ-B0 v1 superseded by v2, k &gt; 2 <code>canonical: false</code>; (7) result records carry <code>commit …-dirty</code>. Open: S06-C3 cross-check of HJ-A3, <code>code/results/INDEX.md</code> rows.</p>
+<h2 id="lane-b-closure-final-start-1655-pst-closure-1750-pst-1-h-8-subagents-4-at-once">4. Lane B (closure FINAL, START 16:55 PST, closure 17:50 PST, ≈ 1 h, 8 subagents ≤ 4 at once)</h2>
+<p>Deliverables: HJ-6-min (Brandt lattices → HACS <code>LatticeFromFreeZ</code> → <code>ReadLocal</code>; review PASS, 1 major wording + 8 minor), HJ-6b (exact integral congruence modules; review ACCEPT, 0 crit/maj, 6 minor), Python reference (5/5 tests, 69/69 orbit Smith lists agree with HJ-6b), HJ-1 + HJ-2 (native quaternion core <code>Registry/JL/quat/</code>, self-test 8084/0, <code>jl_brandt2_dump</code> writes v2, = Lane A 14/14 <code>F_fnv</code>), PC2 prep (<strong>not submitted</strong>). Results (all <em>computed</em>): the Eisenstein congruence module of the definite Brandt module equals ℤ/num((q−1)/12) on all 14 Lane A levels (exact), HACS ReadLocal agrees at ℓ ≥ 5 on all 109 primes q ≤ 600 (agree_mazur 109/109, 178 s), the exact route (2- and 3-parts included) on the first 80 primes, q ≤ 409 (80/80; the run was capped by the 15-min limit); beyond Mazur the only nontrivial lattice congruence module among the 60 integral Sym^n cells at k &gt; 2 (26 of positive rank; the closure counts 32) is D = 13, k = 8, |C| = 37 (GL₂ resultant 2³·37 consistent, not a confirmation; lattice not canonical at k &gt; 2); build side: class set + T₂ for B_{997,∞} 64.7 s Python vs 0.02 s native, factor ≈ 3 × 10³ (single thread, load ≈ 6/32); two independent implementations agree; <strong>no read-side speed claim</strong>. Not read: the full 404-level native census up to q = 2777 (large-h cells take minutes each).</p>
+<h2 id="lane-c-merged-on-main-33e4a2cc-2026-11-15-0547-pst-7-h-37-min-wall-2210-0547-pst-0610z-1347z-hard-stop-0930-pst-kept">5. Lane C (merged on main 33e4a2cc, 2026-11-15 05:47 PST; ≈ 7 h 37 min wall, 22:10 → 05:47 PST (06:10Z → 13:47Z); hard stop 09:30 PST kept)</h2>
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted. Sources: closure <code>plan/hacs/outbox/20261115T1347Z_laneC-closure.md</code>, summary <code>plan/hacs/outbox/20261115T0830Z_laneC-summary.md</code>, report <code>mathematics/submission/src/hacs.tex</code> §“Lane C” (numbers below as there, after the Lane C audit 792bb900), results <code>code/results/laneC/</code>. Branch <code>impl/hacs-laneC</code> from main f0ddadc9; 3 Opus workers (A: HJ-4a/HJ-3/HJ-4b/INT/summary; C: HJ-7a/b, HJ-9, HJ-8-def; D: HJ-8a/b), 11 fresh reviewers/auditors (Opus ×6, Fable ×2, Sonnet ×3), ≤ 4 subagents and ≤ 4 worktrees at once. Status of every number: <em>computed</em> (“checked” where it equals an independent reference); none is certified.</p>
+<p><em>Note:</em> the Lane C closure (<code>plan/hacs/outbox/20261115T1347Z_laneC-closure.md</code>) gives “10 fresh reviewers/auditors (Opus ×6, Fable ×2, Sonnet ×3)”, which sums to 11, and “about 7 h 45 min wall” (to an approximate closure time ≈ 13:55Z); both figures are corrected here (11; 7 h 37 min from START 06:10Z to the merge 13:47Z). - <strong>HJ-4a</strong>, integral Sym^n Brandt modules on an <strong>intrinsic lattice</strong> (= Sym^n(ℤ_p²) at every <strong>p ∤ D</strong>; only the choice at p | D is ours): charpolys agree with <code>s01/symn.json</code> 66/66 and the PARI newspace 374/374 operators. Congruence modules at k &gt; 2 on it are invariants at every p ∤ D; the factor 37 at D = 13, k = 8 reappears on it: indices <strong>2·37</strong> and <strong>2²·37</strong> for the two congruent orbits, <strong>2³</strong> for the quartic one. Fable audit PASS, 7 minor. - <strong>HJ-3</strong> levels (U₀(M), U₁(N), U₀(q)U, S_s towers; |S_4| = 31 250); <strong>HJ-4b</strong> Sym^n at Eichler-type level (PARI T_ℓ/U_ℓ 249/249; Fable re-audit PASS). - <strong>HJ-7a</strong>, tree quotients at weight 2: stage-02/03 values reproduced 288/288 cells; Ribet map α and αα† native; B₁₁, q = 2: coker(αα†) on the cuspidal part ≅ ℤ/5 = Φ^comb. <strong>HJ-7b</strong>: exact ℤ-cokernel of the quaternionic Ihara map on 210 cells by two native routes (210/210 agree); torsion prime to 6Dq only at (k, ℓ) ∈ {(8,5), (10,7), (14,5), (14,11)}; W_D vs PARI 38/38. - <strong>HJ-9</strong>, Λ-adic definite side (B₃, q = 2, p = 5): rk e = 1 for s = 1..5 (|S_5| = 781 250). - <strong>HJ-8</strong>, the integral defect comparison η_f(q) = c_q(f)·η^B: T5 at weight k 7/7 = stage 06; at k+(p−1) Thm E on 4 cells, 2 new ((13,18,19)<span class="citation" data-cites="36">@36</span>, (13,12,31)<span class="citation" data-cites="42">@42</span>), 3 open ((3,18,53)<span class="citation" data-cites="70">@70</span>, (3,18,61)<span class="citation" data-cites="78">@78</span>, (13,16,101)<span class="citation" data-cites="116">@116</span>). H3 9/9 blocks. Census (q prime ≤ 50; k even ≤ 20; p prime, k &lt; p &lt; 200, p ≥ 5, p ≠ q, p ∤ q²−1): <strong>5869 cells with a non-zero module</strong>; the 5 genuine definite congruences (η^B = p) agree 5/5; of 50 old-congruent cells 44/44 computed agree, 6 not run; 120 blocks not determined; <strong>0 disagreements on computed blocks</strong>. U_q sign in 3 cells from PARI’s q-new eigenforms (cypari2 in our Python driver, not HACS); where HACS’s sign is unique, PARI agrees 30/30. Review history: HJ-8-def FAIL (2 major) → fixed → re-check PASS; HJ-8a/b Opus PASS (5 + 6 minor). - <strong>Validation</strong>: one full battery at 08481d69: <code>--all</code> 253/253, <code>GOLDEN_STRICT</code> tiers A/B 0 failures; the linked paths are unchanged up to the final branch (empty diff). Not run: digests, <code>LABEL_CENSUS</code>, <code>--all-full</code>, device lane. Deviations: <code>code/hacs/CHANGES.md</code> (“Deviations — Lane C”), including two <code>rm</code> uses before the no-delete rule (<a href="lessons.md">lessons.md</a> 41).</p>
+<h2 id="the-relaxed-hacs-protocol-and-its-disclosed-deviations">6. The relaxed HACS protocol and its disclosed deviations</h2>
+<p>Normal HACS practice (<code>code/hacs/</code> docs and rules): contract text, refereed [C] lines, full battery (<code>--all</code>, <code>--all-full</code>, <code>GOLDEN_STRICT</code>, digests, <code>LABEL_CENSUS</code>), slot-27 locks, owner-gated emitters. Under Fabian’s Q3 the work was done under a <strong>relaxed protocol</strong>; the Lane B closure lists:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Deviation</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>D1</td>
+<td>relaxed protocol: no contract text, no refereed [C] line; HACS certificate words printed as <code>met(hacs_word)</code></td>
+<td>nothing is called certified</td>
+</tr>
+<tr class="even">
+<td>D2</td>
+<td>targeted validation only; NOT run: <code>--all</code>/<code>--all-full</code>, <code>GOLDEN_STRICT</code>, four digests, <code>LABEL_CENSUS</code>, <code>ConsoleScriptValidation</code>, route bit-identity arm, parallel-decomposition statement, quiet-window timing. Run: <code>--list</code> (298 names, upstream 294 in order), four JL validations, <code>HeckeZExportWord</code>, <code>HeckeZLocal</code>, <code>CliManualCoverage</code>, <code>LicenceGuard</code>; <code>--all</code> grows 246 → 248</td>
+<td>one full run due after the merge, since hooks touch shared registration and CMake</td>
+</tr>
+<tr class="odd">
+<td>D3</td>
+<td>L ⊕ L adapter (ReadLocal assumes cusp multiplicity 2) is not a HACS route</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>D4</td>
+<td>own exact BigInt Smith/HNF (HACS routes are mod ℓ^K only) and own minimal JSON reader</td>
+<td>dense Smith step is the bottleneck at h ≳ 40</td>
+</tr>
+<tr class="odd">
+<td>D5</td>
+<td><code>OC_ENABLE_JL</code> defaults ON (plan: OFF until HJ-11)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>D6</td>
+<td>no catalogue entry, no <code>EXPECT_NAMES</code>/roster update; HJ-1/2 is a standalone build</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>D7</td>
+<td>no separate fresh review of HJ-1/2</td>
+<td>acceptance on self-test, byte-exact agreement with Lane A’s independent v2 records, Python cross-check</td>
+</tr>
+<tr class="even">
+<td>D8</td>
+<td>slot-27 heavy-job locks skipped; builds via our <code>heavy.sh</code> semaphore (2 slots)</td>
+<td>Q6 allowed either</td>
+</tr>
+</tbody>
+</table>
+<p>Upstream touched (Q2, marked <code>Langlandscape JL hook</code>): one <code>include(cmake/jl/JL.cmake)</code> line in <code>code/hacs/CMakeLists.txt</code>, <code>RegisterJL()</code> declaration and call in <code>ValidationRegistry.cpp</code>, regenerated CLI manual tables, <code>CHANGES.md</code> rows (one per file/hook plus three deviation sections). Not touched: <code>Registry/Slot27/*</code>, <code>cmake/slot27/*</code>, golden <code>.inc</code>, emitters, licence files, <code>code/hacs/lean/</code>. The Lane A deviations (§3) apply as well. <strong>Post-Mathathon</strong>: full HACS battery, certificates and audits; HJ-3…HJ-12 (levels, native Sym^n, JSON CLI, tree/Ihara, JL defect, GPU census, registration, audits; HJ-3, HJ-4, HJ-7, HJ-8 and HJ-9 were done in Lane C under the relaxed protocol, §5); sparse layout v3; PC2 census (≈ 4000 core-h to q ≤ 10⁵; feasible on this node to q ≲ 5000).</p>
+<h2 id="how-hacs-fits-the-stage-loop">7. How HACS fits the stage loop</h2>
+<p>HACS results enter the maths and talk through stage 6 (S06-T-HACS slide, numbers gated on review HJ-6b ACCEPT; 17:35 PST merge 33002d2a; earlier preliminary slide 057977a9 with <code>TODO-HACS-FINAL</code> placeholders) and the code track (S06-C3 and C1 cross-checks, S06-H1 = HJ-A3 <code>T4_betti.json</code>; <code>H1</code> itself was dropped as a stage-6 WP, D6). Long runs are decoupled from the stage clock; the heavy-job lock <code>/home/janosch/data/hacs-run/heavy-shared.lock</code> serialises Lane A, Lane B and TITAN use of this node’s GPU/CPU.</p>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="model-vs-task-study">Model-vs-task study</h1>
+<p>Goal: for each task class (track × difficulty), find the cheapest model that does not lengthen the stage’s wall time. Protocol: <code>plan/implementation/EXPERIMENT_PROTOCOL.md</code> (PROT). Data: <code>…-wt/impl/plan/implementation/experiments/{LOG.md, SUMMARY.md,events.tsv}</code>. Resulting policy: <a href="../../agents/rules/model-selection.md"><code>agents/rules/model-selection.md</code></a>.</p>
+<h2 id="design">1. Design</h2>
+<ul>
+<li><strong>Strands.</strong> For a selected WP, two (stage 1: up to three) models implement the same brief at the same minute, from the same base sha, each in its own worktree on <code>exp/sNN-&lt;wp&gt;-&lt;model&gt;</code> (PROT §2.1). Everything a build node or auditor sees is <strong>neutral</strong> (<code>a</code>/<code>b</code> job ids, <code>titan-in/*</code> refs, no model names); model names appear only in LOG.md.</li>
+<li><strong>Blind audits.</strong> Each strand gets its own fresh auditor (order randomised), fed only the diff without commit metadata, the brief, the stage-tex excerpt and an independently run acceptance check. The auditor lists defects (critical/major/minor) and scores a rubric Q = correctness 0–4 + completeness 0–2 + interface fidelity 0–2 + maintainability 0–2 (PROT §2.3).</li>
+<li><strong>Pass</strong> = acceptance green, 0 critical, 0 major, ≤ 3 minor. Weighted findings <strong>W = 3·crit + 2·maj + min</strong>. A failing strand gets a same-model fix if W ≤ 5 and improving, otherwise escalates one rung (haiku/muse/mistral → sonnet → opus → fail); at most 3 fix rounds (PROT §2.4). Stage 3 (E8) override: exactly one planned opus fix round for the opus reference, none for the fable challenger.</li>
+<li><strong>Scoring</strong> (PROT §3): <code>active</code> = implementation + audit + fix minutes (decision metric; build waits excluded); <code>wall</code> reported beside it; <code>cost_idx</code> = Σ weight × agent minutes with weights muse 1, haiku 2, mistral 3, sonnet 4, opus 10, fable 20; classes A &lt; 40, B &lt; 150, C ≥ 150.</li>
+<li><strong>Decision rule</strong> (PROT §4): speed first: the passing strand with the smallest <code>active</code> wins unless another passing strand is within <strong>τ = max(15 % of best active, 5 min)</strong> and quality-equivalent (|ΔQf| ≤ 1, equal correctness); then lower <code>cost_idx</code> wins. <strong>Tie rule:</strong> higher Q0, then the cheaper model, then the reference strand. Exactly one passing strand wins; none → <code>all-fail</code>. A reference strand may be merged at mechanical acceptance (<code>merged-first</code>) so downstream work is not blocked.</li>
+<li><strong>Budget:</strong> at most 1–2 strands per stage after stage 1, only for undecided or confounded cells (OVERVIEW §5.2).</li>
+</ul>
+<h2 id="results-per-cell">2. Results per cell</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Cell</th>
+<th>Stage / WP</th>
+<th>Models</th>
+<th>Result (active min, W0, Q)</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lean mechanical (vendoring)</td>
+<td>S01 E6 / X3</td>
+<td>haiku vs mistral</td>
+<td>haiku 4.8, W 4, Q 10; mistral 9.2, W 2, Q 10 (both pass)</td>
+<td><strong>haiku</strong> (cheaper, faster)</td>
+</tr>
+<tr class="even">
+<td>Lean routine</td>
+<td>S01 E2 / L5a</td>
+<td>sonnet vs muse</td>
+<td>sonnet 4.0, W 3, Q 9; muse 13.0, W 10 (2 crit), Q 3, failed</td>
+<td><strong>sonnet</strong></td>
+</tr>
+<tr class="odd">
+<td>Lean hard</td>
+<td>S01 E1 / L9</td>
+<td>opus vs sonnet (muse cancelled)</td>
+<td>opus ≈ 16 agent min, 1 TITAN round, pass; sonnet ≈ 12, 4 TITAN rounds, 4 minors, no pass</td>
+<td>opus, <strong>confounded</strong> (remote latency penalises iterative models; opus audited opus)</td>
+</tr>
+<tr class="even">
+<td>Lean hard</td>
+<td>S02 E1 / L1</td>
+<td>opus vs sonnet</td>
+<td>sonnet 26.6, W 5, Qf 9; opus 36.2, W 6, Qf 10; both pass after 1 round</td>
+<td>sonnet by τ (merged: opus, since downstream had built on it); challenger off-regime in round 1</td>
+</tr>
+<tr class="odd">
+<td>Lean mechanical-with-meaning (stacked)</td>
+<td>S01 E5 / L13</td>
+<td>sonnet vs haiku</td>
+<td>sonnet W 1, Q 10, pass; haiku W 5 (major signature deviation), Q 8</td>
+<td><strong>sonnet</strong> (agent time not recorded)</td>
+</tr>
+<tr class="even">
+<td>code routine</td>
+<td>S01 E3 / C1</td>
+<td>sonnet vs mistral</td>
+<td>sonnet 10.8 (1 opus fix); mistral 46.0, opencode timed out twice, passed only after sonnet → opus</td>
+<td><strong>sonnet</strong></td>
+</tr>
+<tr class="odd">
+<td>LaTeX routine</td>
+<td>S01 E4 / M2</td>
+<td>sonnet vs muse</td>
+<td>sonnet 7.7 (1 opus fix), Q 10; muse W 19 (2 crit, 5 maj), failed</td>
+<td>sonnet</td>
+</tr>
+<tr class="even">
+<td>LaTeX routine</td>
+<td>S02 E4 / M1</td>
+<td>sonnet + opus fix vs opus single shot</td>
+<td>sonnet 8.05, pass at r1; opus 7.8, failed on minor 6 &gt; 3</td>
+<td><strong>sonnet + opus fix</strong></td>
+</tr>
+<tr class="odd">
+<td>LaTeX hard</td>
+<td>S01 E8 / M4</td>
+<td>opus vs sonnet</td>
+<td>opus 14.3, W 6, failed at top rung; sonnet W 10, escalated, no result logged</td>
+<td>all-fail (proposed)</td>
+</tr>
+<tr class="even">
+<td>LaTeX hard</td>
+<td>S03 E8 / M2</td>
+<td>opus + planned fix vs fable single shot</td>
+<td>opus 22.2, pass at r1, Qf 9; fable 20.1, W 4, Q0 10, failed on minor 4 &gt; 3</td>
+<td><strong>opus + fix</strong> (opus audited opus)</td>
+</tr>
+<tr class="odd">
+<td>Lean hard</td>
+<td>S04 E1′ / L6</td>
+<td>sonnet (+ opus fix) vs opus, both strands on TITAN, pair jobs</td>
+<td>opus: active ~26.3 min, r0 W 4 (protocol FAIL on minors 4 &gt; 3), after fix W 2, Q 9, cost 313/C; sonnet: active ~18.1, r0 W 6, opus fix, W 3, Q 10, cost 145/B; both passed after one fix</td>
+<td><strong>sonnet + 1 opus fix</strong> (prior); the opus head was merged first (production green 14:14 PST) so merged ≠ winner; confounds: production rescue writer loaded the queue, n = 1, no tokens (<code>runs/s04.md</code>)</td>
+</tr>
+<tr class="even">
+<td>Lean mechanical-with-meaning</td>
+<td>S05 E5′ / L4 (non-vacuity instances, CONCEPTD, same seed)</td>
+<td>sonnet + 1 opus fix vs opus + same-model fix</td>
+<td>sonnet 16.8 min, blind Fable W 3 (0/0/3), Q 6; opus 27.5, W 2 (0/0/2), Q 7; τ = 5</td>
+<td><strong>sonnet + 1 opus fix</strong>, confirms the stage-1 prior; merged = winner (<code>model-selection.md</code> §2, <code>runs/s05.md</code> lesson 4)</td>
+</tr>
+<tr class="odd">
+<td>Muse as auditor</td>
+<td>P1, P3</td>
+<td>Muse Spark Open</td>
+<td>P1: 7/70 findings confirmed, 22 partial, 41 rejected; P3: 15/89 confirmed, 43 partial, 31 rejected; 12 “critical” in P3, 0 after verification</td>
+<td>first-pass checklist only</td>
+</tr>
+</tbody>
+</table>
+<p>Sources: LOG.md, SUMMARY.md, <code>plan/staged/METRICS.md</code>, <code>plan/implementation/METRICS.md</code>. All verdicts are <strong>priors</strong> from 1–2 comparisons per cell.</p>
+<h2 id="resulting-policy-summary-of-agentsrulesmodel-selection.md-1">3. Resulting policy (summary of <code>agents/rules/model-selection.md</code> §1)</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task class</th>
+<th>Model</th>
+<th>Fix-round budget</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lean mechanical copy/vendoring</td>
+<td>haiku</td>
+<td>none; red → sonnet</td>
+</tr>
+<tr class="even">
+<td>Lean routine, mechanical-with-meaning</td>
+<td>sonnet</td>
+<td>1 opus fix</td>
+</tr>
+<tr class="odd">
+<td>Lean hard on the critical path / remote-only</td>
+<td>opus (right first time)</td>
+<td>1 planned opus fix</td>
+</tr>
+<tr class="even">
+<td>Lean hard off the critical path, equal regime</td>
+<td>sonnet first, opus fix</td>
+<td>1 opus fix</td>
+</tr>
+<tr class="odd">
+<td>LaTeX / code routine</td>
+<td>sonnet</td>
+<td>1 opus fix (expect 6–8 minors at r0)</td>
+</tr>
+<tr class="even">
+<td>LaTeX hard</td>
+<td>opus</td>
+<td>1 planned opus fix, always</td>
+</tr>
+<tr class="odd">
+<td>conceptual / delicate</td>
+<td>opus or fable</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Lean and chapter audits</td>
+<td>fable, in parallel</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>coordination</td>
+<td>opus</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>logging, polling, mechanical edits</td>
+<td>haiku</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>opencode (Muse, Mistral)</td>
+<td>not as implementers; Q&amp;A and first-pass checks behind a verifier</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Observations that shaped it: remote-only Lean penalises iterative models, so batched rounds and right-first-time models on the critical path matter; a stronger single shot does not remove the fix round (opus on routine LaTeX, fable on hard LaTeX both failed on the minor count alone); relays to strands must carry no fix hints.</p>
+<h2 id="a.-stages-46-additions">3a. Stages 4–6 additions</h2>
+<ul>
+<li>Two further cells were decided as priors (S04 E1′, S05 E5′); both favour <strong>Sonnet first + one Opus fix</strong> over Opus single-handed when the build regime is equal. Strand branches <code>exp/s04-l6-{opus,sonnet}</code> and <code>exp/s05-l4-{a,b}</code> exist locally (25 <code>exp/*</code> branches in all; never pushed); the LOG has 35 table rows.</li>
+<li>The experiment budget was cut to 1–2 strands per stage after stage 1; no <code>exp/s06-*</code> branch exists and the HACS lanes had no strands because of the deadline: Fabian’s directive of 2026-11-14 16:45 PST (<code>agents/status/STATE.md</code>, “Decisions by Fabian”) put implementation progress first, and the model policy for those task cells had already been decided by S04-E1′ and S05-E5′ (<code>agents/rules/model-selection.md</code>), so further experiments had no decision value.</li>
+<li>Practice evidence, not strands: <strong>Fable</strong> found what Opus audits missed: the vacuous <code>Hyp.RamNrdSurj</code> instance (S02), <code>Hyp.FreeRankTwo</code> being equivalent to the conclusion of its use (S06 part 2), wrong “non-vacuity reasons”, and the M &gt; 1 error in the S06 chapter (part 2 FAIL); it also corrected a second reader’s error. Opus WP audits of Opus work carry a self-preference confound (named in LOG).</li>
+<li><strong>Opus</strong> stayed coordinator, hard-writer and rescue-writer; <strong>Sonnet</strong> wrote most Lean/LaTeX/code drafts; <strong>Haiku</strong> logged and generated axiom lists; Muse/Mistral stayed Q&amp;A only. In HACS Lane B 3 of 4 implementers were Opus and the two fresh reviewers Opus; fix rounds again followed the “r0 fails, planned fix passes” pattern (all Lane A WPs except HJ-A2 failed audit r0 and passed after fixes).</li>
+<li>The model-policy file <code>agents/rules/model-selection.md</code> was last updated 2026-11-14 16:33 PST (stage 5). Token/cost totals per model: not recorded in the repo.</li>
+</ul>
+<h2 id="confounds-summary-4-log-deviations">4. Confounds (SUMMARY §4, LOG deviations)</h2>
+<p>Remote build latency after local Lean was switched off; strands stacked on unverified upstream drafts (S01 E5: 3 of 4 rounds blocked upstream); Opus auditing Opus strands; S02 E1 challenger sent alone in round 1; missing agent times (E5) and some missing fix/audit events (S01 E8 sonnet); one audit per strand; n = 1–2 per cell.</p>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="incidents-and-lessons-2026-11-14-to-2026-11-15-pst">Incidents and lessons (2026-11-14 to 2026-11-15, PST)</h1>
+<p>Items 1–18: stages 1–3. Items 19 onward: stages 3–6 and HACS, from <code>runs/s03.md</code> … <code>runs/s06.md</code>, <code>runs/s04-deviations.md</code> and <code>agents/roles/global_master.md</code>. Each item: <strong>symptom → cause → fix</strong>. Times converted to PST from <code>agents/status/master_log.md</code> (CET) or from UTC (<code>Z</code>) sources; items 1–40 fall on 2026-11-14 (PST); items 41–46 are from the submission phase (14–15 Nov, <code>timeline.md</code> §4), each verified against git, <code>master_log.md</code> (UTC <code>Z</code> stamps after the compaction) or the message files unless marked “per the global master’s account”.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Time</th>
+<th>Incident</th>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix / rule</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>02:20 PST</td>
+<td><strong>Folder-trust dialog</strong></td>
+<td>plan master and opencode tester idle since spawn; ≈ 70 min lost</td>
+<td>the repo had been renamed (Langlandscope → Langlandscape); a new path triggers Claude Code’s interactive trust prompt in each spawned pane</td>
+<td>accepted the prompt; <code>global_master.md</code>: within ~2 min of spawning and at every heartbeat run <code>tmux capture-pane</code> on agent panes and check CPU time</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>02:09 PST</td>
+<td>Stalled Haiku</td>
+<td>the opencode test (Haiku) made no progress for 45 min</td>
+<td>not the model: like all agents spawned after the folder rename, it was blocked by the Claude Code folder-trust dialog in its tmux pane (found at 02:49 PST, see incident 1)</td>
+<td>replaced by Sonnet (unnecessary in hindsight); pane checks added to the master’s routine</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>03:49 PST</td>
+<td>Integration stall</td>
+<td>P1 Sonnet integrator uncommitted since 03:10 PST; ≈ 40 min lost</td>
+<td>(not recorded)</td>
+<td>stopped; the plan master finished it and fixed a bib note that broke biber (<code>plan/staged/METRICS.md</code>)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>05:37–05:51 PST</td>
+<td>Handed-off revisers not started</td>
+<td>two P3 revisers waited ≈ 13 min</td>
+<td>revisers were handed to the global master without a free slot</td>
+<td>taken back; hand off only after the master confirms a free slot (<code>plan/implementation/METRICS.md</code>)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>08:49 PST, 09:53 PST</td>
+<td><strong>Delayed in-session teammate messages</strong></td>
+<td>a stage-1 job batch and <code>s01-int1-1</code> were lost, stage idle ≈ 6 min; at 09:53 PST a burst of messages from 02:52–08:51 PST arrived at once</td>
+<td>in-session <code>SendMessage</code> to the master was queued for hours; the cross-session socket and files were prompt</td>
+<td><strong>file outbox</strong> <code>plan/implementation/outbox/</code> (F11): every job spec, status and closure is a committed file; SendMessage only notifies; lesson in <code>global_master.md</code></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>09:01–09:04 PST</td>
+<td><strong>Fix hints in experiment relays</strong></td>
+<td>the global master’s relay for strand <code>l9-b-2</code> contained fix hints</td>
+<td>a relay paraphrased the errors and suggested fixes</td>
+<td>the stage master stripped them, so the strand was not contaminated (log 09:04 PST); rule: relay the build-log path and verbatim errors only, no fix hints, no model names (<code>model-selection.md</code> §3, <code>lean_build_node.md</code>)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>stage 1</td>
+<td><strong>Stale-base strands</strong></td>
+<td>S01-L13 strands failed 3 of 4 TITAN rounds on upstream errors</td>
+<td>strands were stacked on an unverified upstream draft (L11a) that was fixed later, and they were not rebased</td>
+<td>OVERVIEW §9 lesson 4: rebase open strands and WP branches onto the fixed upstream head (or <code>impl/sNN-int&lt;k&gt;~1</code>, never its <code>.titan/</code> commit) before the next round. Recurred in stage 3 (12:27 PST: L4/L7 jobs ran on a base without the L1 fix → re-run)</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>09:18 PST, 09:41 PST</td>
+<td>Axiom scratch files</td>
+<td>gate L14 failed only at the axiom step (12 unqualified names); int3 scratch file missed an import</td>
+<td>hand-written <code>#print axioms</code> lists</td>
+<td>fully qualified names, all imports, mechanical generation by one Haiku WP per stage; <code>axcount.sh</code> (OVERVIEW §9 lesson 2)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>11:12 PST</td>
+<td>Memory spike</td>
+<td>s02-int1 peak RSS 6.9 GB</td>
+<td>a file used <code>import Mathlib</code></td>
+<td>flagged; RSS back to 4.3 GB after targeted imports</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>11:36 PST</td>
+<td><strong>CONCEPTD WSL memory limit</strong></td>
+<td>CONCEPTD could not start builds</td>
+<td>WSL had 15.5 GiB, below the 16 GiB build floor of the wrappers</td>
+<td>Fabian raised the WSL memory (<code>.wslconfig</code>, now 25 GiB); node ready 11:48 PST</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>12:01 PST</td>
+<td><strong>Vacuous hypothesis instance (D = 1)</strong></td>
+<td>Fable Lean audit L12: <code>Hyp.RamNrdSurj</code> had no real instance; the only discharge was at D = 1</td>
+<td>for D = 1 there is no definite quaternion algebra over ℚ of the required kind (ω(D) odd), so the lemma was vacuous</td>
+<td>lemma removed in S02-L13a; <code>Hyp.RamNrdSurj</code> stays a registered open hypothesis</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>12:11 PST</td>
+<td><strong><code>git pull --rebase</code> on merges</strong></td>
+<td>after the stage-2 merge the main checkout stopped mid-rebase, detached; PDFs copied to Drive from the working tree were stale</td>
+<td><code>pull --rebase</code> tried to linearise the stage merge commit and hit a conflict</td>
+<td>on <code>main</code> only <code>git pull --no-rebase</code>, then copy PDFs; inbox cron changed accordingly (lesson in <code>global_master.md</code>)</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>12:23 PST</td>
+<td><strong>Bad Mathlib import caught by the frozen guard</strong></td>
+<td>TITAN job s03-l10-1 failed</td>
+<td>a worker imported <code>Mathlib.Data.Matrix.Notation</code>, which does not exist at the frozen rev</td>
+<td><code>check_frozen.sh</code> aborted the job, frozen tree untouched; import fixed in the next round</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>12:33 PST</td>
+<td><strong>Name clashes across WPs</strong></td>
+<td>integration round failed on <code>Graph.mem_deg0_iff</code></td>
+<td>two WPs in parallel worktrees defined the same name</td>
+<td>renames; parallel writers keep names in their own namespaces</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>12:40 PST</td>
+<td><strong>Worker committed in the main checkout</strong></td>
+<td>commit 154b2e4 on <code>main</code> in the main checkout</td>
+<td>an L4 writer ran git in the wrong directory</td>
+<td>the writer reset it; <code>main</code> unchanged, nothing pushed; rule: each writer works only in its own worktree (<code>orchestration.md</code>)</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>12:56 PST</td>
+<td>Slow convergence</td>
+<td>S03-L2 still 1 error after 4 rounds (whnf heartbeat timeouts earlier)</td>
+<td>hard proof under remote round trips</td>
+<td>parallel rescue writer suggested (log)</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>stage 1</td>
+<td><strong>Muse/Mistral implementer failures</strong></td>
+<td>Muse failed r0 on Lean routine (2 crit) and LaTeX routine (W 19); Mistral’s opencode runs timed out twice with an empty patch (46 vs 11 min); Muse cancelled on Lean hard</td>
+<td>no local Lean loop for opencode after local Lean was switched off; weak first drafts</td>
+<td>opencode models dropped as implementers (OVERVIEW §5.1, F13); Q&amp;A and first-pass checks only</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>P1, P3</td>
+<td>Muse severity inflation</td>
+<td>33 of 70 P1 findings labelled critical/major; P3: 12 “critical”, 0 after verification</td>
+<td>(model behaviour)</td>
+<td>Muse audits are a cheap first pass behind a verifying reviser; labels and suggested fixes not trusted</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>S03</td>
+<td><strong>Stale base wastes a round</strong> (re-learned)</td>
+<td><code>s03-l4-1</code>, <code>s03-l7-1</code> “NOT ASSESSABLE”</td>
+<td>single-WP jobs cut from a base without the L1 fix</td>
+<td>every job contains all upstream fixes (⊇ chains int2 ⊇ int1b) (<code>runs/s03.md</code> lesson 2)</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>S03–S06</td>
+<td><strong>Cheap errors cascade on the critical path</strong></td>
+<td>S03: L2 → L8 → L9, 5 writer rounds for L2; S06: L8a/L9a ate seven rounds</td>
+<td>bad import, missing <code>noncomputable</code>, propositionally-equal subgroups, <code>whnf</code> heartbeat timeouts</td>
+<td>escalate to Opus after 2 failed Sonnet rounds (not 5); start a rescue writer at round 3; compile-check the statement/skeleton WP first (S05 lesson 1, S06 lesson 10)</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>S04</td>
+<td><strong>Test-file scope errors</strong></td>
+<td>library green one round before its test file (L5, L9, L12, L10b, L6)</td>
+<td>writers never built the test module</td>
+<td>Lean brief pre-checks 7 and 8: build the test module locally (2c7125c6)</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>S04</td>
+<td><strong>Experiment blocked the critical path</strong></td>
+<td>both E1′ strands red after round 1 while L9/L10/L12 waited on L6</td>
+<td>strands only</td>
+<td>production rescue writer + early merge of the green strand head; rule: “merged ≠ winner” decided up front (<code>runs/s04-deviations.md</code> 1, 5)</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>S04</td>
+<td><strong>Header/licence/import churn mid-stage</strong></td>
+<td>117-file conversion round (13.7 min of TITAN queue), merged files rewritten twice</td>
+<td>GPL → Apache-2.0 → Mathlib header, module layout, public/private imports; import minimisation merged by Abhijit’s node mid-stage</td>
+<td>freeze Lean conventions at stage launch and put them in the first brief (<code>runs/s04.md</code> lesson 6)</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>S04</td>
+<td><strong><code>#min_imports</code> output broke a module</strong></td>
+<td><code>Ribet.Mazur</code> regression after <code>abhijit/min-imports</code> (b96b907); S04-IMP dropped a PadicDecomp import</td>
+<td>per-file builds do not see downstream users</td>
+<td>run the full root build for every import-only change (fix a19997fa)</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>S04</td>
+<td><strong>Speculative superset job behind a rebuild</strong></td>
+<td>TITAN queue waits of 12–13 min; <code>int6-1</code> returned mostly “blocked”</td>
+<td>superset queued behind header/rebuild jobs</td>
+<td>send single-WP fix jobs to the free node; no speculative supersets behind rebuilds</td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td>S04</td>
+<td><strong>Optional theorem dropped</strong></td>
+<td><code>transA_surjective_of_snake</code> (L13b) <code>whnf</code> timeouts over two rounds</td>
+<td>unfolding <code>BG</code>/<code>ZX</code>/<code>ordPart</code></td>
+<td>dropped; <code>lim_exact_ribet</code> takes <code>hA : Hyp.InvLimExact</code>; chapter status stays <em>proved</em>, HYPOTHESES row says undischarged (deviation 7)</td>
+</tr>
+<tr class="odd">
+<td>27</td>
+<td>2026-11-14 16:19 PST</td>
+<td><strong><code>git push origin HEAD:wip-implementation</code> from a shared worktree</strong></td>
+<td>strand-D commits reached <code>origin/wip-implementation</code></td>
+<td>impl worktree had an experiment strand checked out</td>
+<td>repaired by force-with-lease; rule: push by explicit ref and check <code>git branch --show-current</code> first (<code>global_master.md</code>)</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>S04–S06</td>
+<td><strong>Outbox file names are not reliable times</strong></td>
+<td>nominal names ahead of real times</td>
+<td>stage masters stamped planned times</td>
+<td>take times from commits and inbox files (<code>runs/s05.md</code> lesson 10b; <code>runs/s06.md</code> lesson 11)</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td>S05</td>
+<td><strong>Skeleton quality gates the whole core</strong></td>
+<td>L1 skeleton lacked an import and had two proof errors; L2, L3, L5, L2b, L7 blocked for 3 rounds</td>
+<td>stacked on an uncompiled skeleton</td>
+<td>compile-check skeletons (one-file job) before stacking dependants; early full-tree <strong>pregate</strong> (S05 t = 35 min, S06 t = 35) took gate-1 off the critical path</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>S05</td>
+<td><strong>Production rescue writer not needed</strong></td>
+<td>strand B green first, rescue 90 s later, discarded</td>
+<td>—</td>
+<td>start a rescue writer only if the first strand round is red by a margin</td>
+</tr>
+<tr class="odd">
+<td>31</td>
+<td>S06</td>
+<td><strong>Notation traps</strong></td>
+<td><code>A ⧸ J ≃ₐ[R] B</code> parses as <code>A ⧸ (J ≃ₐ[R] B)</code> (two rounds); <code>congruenceIdeal</code> needs both implicits pinned (three rounds); <code>include D in</code> gives no dot-notation (27 errors, one fix); module conversion dropped <code>Ideal.Span</code> transitively (L14)</td>
+<td>Lean elaboration</td>
+<td>lean.md candidates; after a first error, grep every occurrence and fix all at once; after module conversion re-derive every file’s imports (<code>runs/s06.md</code> 1–4)</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td>S06</td>
+<td><strong>A hypothesis equal to the conclusion of its use</strong></td>
+<td>Fable Lean audit part 2: <code>Hyp.FreeRankTwo</code> ≡ Galois half of <code>defect_formula</code> (<code>tq ≤ cq</code>)</td>
+<td>registered hypothesis too strong</td>
+<td>disclosure rule: such a hypothesis is named so in its docstring, chapter, HYPOTHESES.md and on the slide; claim stated as “formalized modulo registered hypotheses, including the Galois half”; Lean exact iff <code>Defect.freeRankTwo_iff_le</code> given ResidualBurnside (4405815)</td>
+</tr>
+<tr class="odd">
+<td>33</td>
+<td>S06</td>
+<td><strong>Non-vacuity “reasons” were wrong</strong></td>
+<td>audit: three of four reasons for missing instances were factually false</td>
+<td>writers’ justification unchecked</td>
+<td>a non-vacuity reason is a claim; audit it; L15b added the instances</td>
+</tr>
+<tr class="even">
+<td>34</td>
+<td>S06</td>
+<td><strong>Conceptual claim wrong in the plan and in the text</strong></td>
+<td><code>q ≡ −1</code> (M &gt; 1): GAP found by Abhijit’s M6, M = 1 confirmed (F2 A), counterexample B2 restricted the statement (F2 B); Fable corrected the second reader’s own error (B2 refutes step (4) only)</td>
+<td>single-account reading</td>
+<td>budget a second reader on the <strong>other account</strong> for every conceptual claim a talk sentence rests on; Fabian’s decision 17:33 PST: lift F1/F1′ to <code>\stpmc</code> (M squarefree, N(ρ̄) = 1), N(ρ̄) &gt; 1 <code>\stopen</code></td>
+</tr>
+<tr class="odd">
+<td>35</td>
+<td>S06</td>
+<td><strong>Plan items can be false</strong></td>
+<td>C4 plan item <code>rk T′_m ≥ 2</code>: actual rank 1</td>
+<td>plan assumption</td>
+<td>the computation decides; recorded in <code>runs/s06.md</code> 14</td>
+</tr>
+<tr class="even">
+<td>36</td>
+<td>S06</td>
+<td><strong>Lint suppressed on purpose</strong></td>
+<td><code>linter.overlappingInstances</code> suppressed locally on 3 headline theorems</td>
+<td><code>IsDomain</code> + <code>IsLocalRing</code> binders in <code>Defect.Setting</code></td>
+<td>disclosed; post-Mathathon: restructure binders (<code>runs/s06.md</code> 12)</td>
+</tr>
+<tr class="odd">
+<td>37</td>
+<td>HACS Lane A</td>
+<td><strong>Shared worktree, dirty provenance</strong></td>
+<td>several result records carry <code>commit …-dirty</code></td>
+<td>parallel workers in one worktree</td>
+<td>each record regenerated from the WP’s final code; disclosed (Lane A closure D7)</td>
+</tr>
+<tr class="even">
+<td>38</td>
+<td>HACS Lane A/B</td>
+<td><strong>Spec v1 not deterministic</strong></td>
+<td>HJ-B0 class order was process-dependent</td>
+<td>first export format</td>
+<td>superseded by <code>langlandscape_brandt/v2</code> within ≈ 1 h; byte-exact <code>F_fnv</code> agreement with HACS</td>
+</tr>
+<tr class="odd">
+<td>39</td>
+<td>HACS Lane B</td>
+<td><strong>Binary points at removed worktrees</strong></td>
+<td><code>OC_SOURCE_DIR</code> of both Lane B binaries → pruned worktrees</td>
+<td>worktree cleanup before the merge</td>
+<td>data reads unaffected; fixture-reading validations need a rebuild from <code>hacsB</code> (Lane B closure §1)</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>HACS Lane B</td>
+<td><strong>Timing claim corrected</strong></td>
+<td>first measurement 61 s vs 0.025 s (≈ 2.4 × 10³)</td>
+<td>loaded node</td>
+<td>re-timed at load ≈ 6/32: 64.7 s vs 0.02 s, factor ≈ 3 × 10³; talk says “~10³×” and makes <strong>no</strong> read-side speed claim</td>
+</tr>
+<tr class="odd">
+<td>41</td>
+<td>2026-11-14 22:41 PST</td>
+<td><strong>Deletes stalled unattended work</strong></td>
+<td>agent <code>rm</code> commands (also <code>rmdir</code>, <code>find -delete</code>, wildcard deletes, sometimes <code>git rm</code>) raised permission prompts on the human’s shell while he was away, so the agents waited for an approval nobody could give</td>
+<td>deletions in agent shell commands need an interactive approval</td>
+<td><strong>no-delete rule</strong> (Fabian; d8eebf93, refined 22:46 PST in 4f9f79ff: no <code>git rm</code> either): <code>git worktree remove &lt;exact path&gt;</code> only, <code>mv</code> to <code>/home/janosch/data/trash/</code>, new build-dir names, renders into a new <code>mktemp -d</code> dir (the last per the global master’s account); repeated in every brief (<code>orchestration.md</code>). Lane C disclosed two <code>rm</code> uses before the rule (Lane C closure §5)</td>
+</tr>
+<tr class="even">
+<td>42</td>
+<td>2026-11-15 07:42 PST (15:42Z)</td>
+<td><strong>A helper script ran a local build</strong></td>
+<td>during the BrandtStabFree integration the lane master (<code>brandtstab-master</code>) ran <code>tools/check_wp.sh</code> for static checks on localhost, where local Lean was off; one local build ran</td>
+<td><code>check_wp.sh</code> is an acceptance check that calls <code>tools/lbuild.sh</code> (one Lake build of the touched modules); its name does not say so</td>
+<td>it went through the wrapper, the frozen trees were reported untouched, and the lane master disclosed it at once (session log <code>supplementary/agent-logs/localhost/redacted/claude-0e414911-2a36-4cb1-9e33-cab86dac6bd5.md</code>); rule: briefs name every wrapper that builds (<code>resources.md</code>: “<code>check_wp.sh</code> with builds” only on TITAN)</td>
+</tr>
+<tr class="odd">
+<td>43</td>
+<td>2026-11-15 ≈ 09:16 PST (public export; <code>master_log.md</code> 17:16Z)</td>
+<td><strong><code>.gitignore</code> dropped a tracked file in the public export</strong></td>
+<td><code>plan/staged/main.pdf</code> was missing from the first public single-commit tree (per the global master’s account)</td>
+<td>the file is tracked in the development repository although <code>plan/staged/.gitignore:12</code> (<code>main.pdf</code>) ignores it (verified with <code>git check-ignore -v --no-index</code>); re-adding the exported tree applied the rule silently</td>
+<td>compare the tree hashes (<code>git ls-tree</code> / <code>git rev-parse &lt;commit&gt;^{tree}</code>) of the export and the source commit before publishing; add ignored-but-tracked files explicitly</td>
+</tr>
+<tr class="even">
+<td>44</td>
+<td>2026-11-15 08:57 PST (message 16:57Z)</td>
+<td><strong>Literature excerpts in the session logs</strong></td>
+<td>excerpts of literature PDFs were left in redacted transcripts</td>
+<td><code>redact_logs.py</code> only caught reads under <code>literature/</code> or via <code>pdftotext</code>; subagents also read PDF-extracted <code>.txt</code> copies in scratch dirs outside <code>literature/</code> (e.g. <code>ribet-stein_2001….txt</code>, <code>hsieh_2017.txt</code>)</td>
+<td>found by the second team member’s node, which ran a stricter post-filter (message <code>20261115T1657Z_abhijit_agent-logs-delivered.md</code>); <code>tools/postfilter_lit.py</code> applied to all nodes (77ee595e); the public submission is a clean single-commit repository (option 3), the development history stays private (<code>master_log.md</code> 17:10Z)</td>
+</tr>
+<tr class="odd">
+<td>45</td>
+<td>2026-11-15 06:11–06:12 PST</td>
+<td><strong>Crossing messages, three footnote commits</strong></td>
+<td>three commits on <code>main</code> within 59 s for one footnote: 3d0a6fb8 “set content commit hash”, 4d330a21 “content-commit note per the global master”, 9eb98f88 “exact content-commit note”</td>
+<td>instructions for the same footnote crossed between the global master and the final-integration lane (cause per the global master’s account; the commits are in git)</td>
+<td>one final instruction per edit, from one owner; later title-hash rounds were single commits (7a450345, fe20eb50)</td>
+</tr>
+<tr class="even">
+<td>46</td>
+<td>2026-11-14 22:57 → 2026-11-15 08:57 PST</td>
+<td><strong>Cross-account review never arrived</strong></td>
+<td>batch 9 (H1 report, H2 talk; 22:57/22:58 PST) got no answer, not after the reminder (02:46 PST) either; at 08:57 PST the node reported “Not done on this node”</td>
+<td>(not recorded): the other account’s session did not take up the batch</td>
+<td><strong>fallback Fable audit</strong> of the fix-round diff (requested 04:16 PST, PASS with fixes at 04:21 PST, f2ff5f43) plus the Fable talk audit (72bed0a8); rule: give a cross-account review a cutoff and budget a same-account Fable fallback</td>
+</tr>
+</tbody>
+</table>
+<h2 id="recurring-patterns">Recurring patterns</h2>
+<ul>
+<li>The failures were in coordination, not in the mathematics: dialogs, delayed messages, stale bases, wrong directories. Each became a check or a rule in <code>agents/</code> within minutes, so the process got more robust during the day.</li>
+<li>Every channel that writes to git was reliable; the in-session channel was not.</li>
+<li>Remote-only builds make the base commit of each round matter: most wasted rounds came from stale bases, not from the WP itself.</li>
+<li>Stages 3–6: wall time was set by the number of remote rounds, not by writing or proof difficulty; two build nodes with single-WP lettered jobs gave 2–4 min feedback (S03: 22 rounds in 52 min; S04: 49 rows in 112 min).</li>
+<li>Rules that paid off, in order of adoption: file outbox (S01), early gate, pregate on the merged tree (S05, S06), Fable audits in parts with in-stage fix WPs (S04–S06), rescue writers at round 2–3 (S03–S04), second readers on the other account (S06).</li>
+<li>Honesty rules became process: every hypothesis whose statement implies its use’s conclusion is disclosed as such (S06), every relaxed HACS step is listed as a deviation (see <a href="hacs.md">hacs.md</a>), and nothing computed is called certified.</li>
+</ul>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<!-- Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team) -->
+<p>All times PST (UTC−8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.</p>
+<h1 id="metrics-state-2026-11-14-1810-pst-after-stage-6-and-hacs-lanes-ab">Metrics (state 2026-11-14 ~18:10 PST, after stage 6 and HACS Lanes A/B)</h1>
+<p>“(not recorded)” = no source records it. Counts marked <em>recounted</em> were taken on branch <code>final/agentic</code> (= <code>main</code> ffb527c plus this folder) with the same commands as the 2026-11-14 version of this file.</p>
+<h2 id="repository">1. Repository</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>commits on <code>main</code></td>
+<td>2058 (471 first-parent), of which 405 merge commits (state 2026-11-14 13:00 PST: 590 / 136 / 123)</td>
+<td><code>git rev-list --count [--first-parent \| --merges] main</code>, recounted</td>
+</tr>
+<tr class="even">
+<td>phase/stage merges into <code>main</code> (first-parent)</td>
+<td>P1 2277355, P3/P4 a4efa59, S1 9aba3c7, re-plan 0c31df4, S2 13ae47c, S3 2e54ed8, HACS plan 08200a4, S4 fafd783, S5 1ce44eab, HACS Lane A 0024903a, S6 aed93c37</td>
+<td><code>git log --first-parent --merges main</code></td>
+</tr>
+<tr class="odd">
+<td>commits added per stage (<code>git rev-list A..B</code>, includes side-branch commits) / merges among them</td>
+<td>S1 244 / 80; S2 215 / 28; S3 327 / 59; S4 502 / 82; S5 284 / 48; S6 376 / 99</td>
+<td>recounted between the stage-merge commits</td>
+</tr>
+<tr class="even">
+<td>remote branches (2026-11-14 ~18:10 PST)</td>
+<td>107 <code>titan/*</code>, 68 <code>conceptd/*</code>, 129 <code>impl/*</code>, 37 <code>abhijit/*</code>, 3 <code>doc/*</code>, <code>wip-*</code> ×6, <code>main</code>, <code>HEAD</code></td>
+<td><code>git ls-remote origin</code></td>
+</tr>
+<tr class="odd">
+<td>cross-node messages</td>
+<td>134 files: 83 in <code>agents/messages/fabian/archive/</code> (from Abhijit’s node), 50 archived + 1 unprocessed in <code>agents/messages/abhijit/</code> (from Fabian’s node); 7 work batches sent (batch 8 announced in <code>…fabian_s06-closed</code>, not yet sent)</td>
+<td><code>ls agents/messages/*/archive</code> (recounted; 2026-11-14 13:00 PST: 39)</td>
+</tr>
+<tr class="even">
+<td><code>experiments/LOG.md</code> table rows</td>
+<td>35 (incl. headers)</td>
+<td><code>grep -c '^|'</code></td>
+</tr>
+<tr class="odd">
+<td>agent session transcripts (<code>supplementary/agent-logs/</code>, redacted)</td>
+<td>726: localhost 565 (frozen 2026-11-15 08:38 PST), TITAN 1 (08:38 PST), CONCEPTD 88 (2026-11-14 22:36 PST), Abhijit’s node 72 (2026-11-15 08:56 PST)</td>
+<td><code>supplementary/agent-logs/README.md</code> (manifest rows per node)</td>
+</tr>
+<tr class="even">
+<td>local <code>exp/*</code> strand branches</td>
+<td>25 (S01 15, S02 4, S03 2, S04 2, S05 2)</td>
+<td><code>git branch --list 'exp/*'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="work-packages-1">2. Work packages</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>WPs planned</th>
+<th>Notes (source)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>51 (P3 plan), ≈ 56 executed</td>
+<td>closure s01</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>36</td>
+<td><code>REPLAN-S02-06.md</code>; <code>runs/s02.md</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>34 (X 2, M 9, L 14, C 5, H 1, T 3); executed adds L10b, L13 (audit fixes), M9</td>
+<td><code>REPLAN-S02-06.md</code>; <code>runs/s03.md</code> rows</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>43 planned; added at execution: E1M/E1L, L10b, MOD, IMP, L17a/b/c</td>
+<td><code>runs/s04-deviations.md</code>, <code>runs/s04.md</code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>31 rows (27 scheduled); added: E1, M10, LT, L4g, L11a/b/c, M9a/b/c, M8b</td>
+<td><code>runs/s05.md</code></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>53 rows (48 planned); added: MODH, FD, HS, S05FIX, M5d, THACS, L15a/b</td>
+<td><code>runs/s06.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="lean-at-each-final-gate-all-print-axioms-lines-standard-propext-classical.choice-quot.sound-subsets">3. Lean at each final gate (all <code>#print axioms</code> lines standard: propext / Classical.choice / Quot.sound subsets)</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>S1 0492baa</th>
+<th>S2 c45f2e8</th>
+<th>S3 5aa765a</th>
+<th>S4 71576d1c</th>
+<th>S5 9ddd83e</th>
+<th>S6 4405815</th>
+<th>2323a252 (RamNrdSurj)</th>
+<th>28d2b091 (submission bundle)</th>
+<th>final c70ef3a9 (BrandtStabFree discharge)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PrintAxioms</code> lines</td>
+<td>161</td>
+<td>195</td>
+<td><strong>519</strong></td>
+<td><strong>592</strong></td>
+<td><strong>747</strong></td>
+<td><strong>836</strong></td>
+<td>840</td>
+<td><strong>950</strong></td>
+<td><strong>955</strong></td>
+</tr>
+<tr class="even">
+<td>gate-1 / pregate lines</td>
+<td>151</td>
+<td>191</td>
+<td>516</td>
+<td>558</td>
+<td>pregate 709</td>
+<td>pregate 786, gate-1 833</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>sorry</code> in our code</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>only <code>sorry</code> anywhere</td>
+<td></td>
+<td>the import’s <code>Instances.lean:1815</code></td>
+<td>same</td>
+<td>same</td>
+<td>same</td>
+<td>“the import’s 1”</td>
+<td>the import’s 1</td>
+<td>the import’s 1</td>
+<td>the import’s 1</td>
+</tr>
+<tr class="odd">
+<td>from-scratch build wall</td>
+<td>3842 jobs</td>
+<td>(not recorded for final)</td>
+<td>180 s</td>
+<td>251 s</td>
+<td>273 s</td>
+<td>TITAN 319 s / CONCEPTD 5:21, 4194 jobs</td>
+<td>TITAN 321 s, 4198 jobs</td>
+<td>TITAN 323 s, 4199 jobs</td>
+<td>TITAN 346 s, 4205 jobs (VendorStacks 1955 jobs), unseeded worktree</td>
+</tr>
+<tr class="even">
+<td>CONCEPTD cross-check</td>
+<td>—</td>
+<td>PASS</td>
+<td>519, 3:16</td>
+<td>592, 3:50</td>
+<td>PASS (closure addendum)</td>
+<td>836, 5:21</td>
+<td>quick check ramnrd-3: 840, PASS</td>
+<td>subl-gate-1x fresh checkout: 950, 341 s, PASS</td>
+<td>— (none)</td>
+</tr>
+<tr class="odd">
+<td>linter warnings (<code>Langlandscape/</code> / tests)</td>
+<td>80</td>
+<td>84</td>
+<td>171 / 42</td>
+<td>169 / 47</td>
+<td>183 (closure: carried lint debt)</td>
+<td>181 / 71 overall, 0 in S06 files</td>
+<td>187 / 71 (6 module-system import notices in the 2 new files)</td>
+<td>187 / 71, 0 in <code>Uncond.lean</code></td>
+<td>204 / 71</td>
+</tr>
+<tr class="even">
+<td>library / Hyp / test modules (stage)</td>
+<td></td>
+<td></td>
+<td>13 / 3 / 8</td>
+<td>20 / 5 / 20</td>
+<td>9 lib + 6 test</td>
+<td>32 files via <code>check_wp</code> (S06)</td>
+<td>5 files via <code>check_wp</code></td>
+<td><code>Uncond.lean</code> via <code>check_wp</code></td>
+<td>6 new files (<code>Quat/StabFree/*</code>, <code>Hyp/BrandtStabFreeDischarge.lean</code>) and the test file</td>
+</tr>
+</tbody>
+</table>
+<p>Sources: <code>runs/s0N.md</code>, <code>*_milestone-closure-s0N.md</code>. The S03, S04, S05, S06 counts were verified in the closure files and <code>runs/</code> (S03: closure line “519/519 axiom lines standard”; S04 “PrintAxioms 592/592 standard”; S05 “598 -&gt; 747 rows”; S06 “836/836, nonstandard 0”; <code>2323a252</code>: TITAN <code>titan/ramnrd-final-2</code> <code>c-axcount.log</code> “printed=840 expected=840 nonstandard=0”; final: TITAN <code>titan/subl-gate-1</code> <code>c-axcount.log</code> “printed=950 expected=950 nonstandard=0”; final: TITAN <code>titan/bsf-gate-1</code> (logs fa755069) <code>c-axcount.log</code> “printed=955 expected=955 nonstandard=0”, CONCEPTD <code>conceptd/subl-gate-1x</code> <code>c-axcount.txt</code> the same). Registered hypotheses: 29 registered / 26 in the table, 12 instances (commit 63328fbb; <code>mathematics/</code> hyp table); after the <code>RamNrdSurj</code> discharge (2323a252): 2 discharged (<code>PadicOrdDecomp</code>, <code>RamNrdSurj</code>), 1 conditionally discharged (<code>ResidualBurnside</code>), 13 table rows with an instance or proof. After the <code>BrandtStabFree</code> discharge (c70ef3a9): 3 discharged (<code>PadicOrdDecomp</code>, <code>RamNrdSurj</code>, <code>BrandtStabFree</code>), 1 conditionally discharged.</p>
+<p>Whole-library size at <code>main</code> (recounted): 195 non-vendored <code>.lean</code> files under <code>lean/Langlandscape/</code> (library + tests), ≈ 37 980 lines, ≈ 1975 <code>theorem</code>/<code>lemma</code> and ≈ 610 <code>def</code>/<code>structure</code>/<code>instance</code>/<code>abbrev</code>/<code>class</code>/<code>inductive</code> declarations (<code>git grep</code>; approximate, counts declaration keywords at line start). Per-stage numbers for stages 3–5 were not recomputed.</p>
+<h2 id="maths-code-talk">4. Maths, code, talk</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>S1</th>
+<th>S2</th>
+<th>S3</th>
+<th>S4</th>
+<th>S5</th>
+<th>S6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mathematics/main.pdf</code> pages</td>
+<td>29</td>
+<td>55</td>
+<td>74–87 (87 at M9, log)</td>
+<td>106</td>
+<td>140</td>
+<td><strong>170</strong></td>
+</tr>
+<tr class="even">
+<td>talk PDF pages</td>
+<td></td>
+<td></td>
+<td>9</td>
+<td>11</td>
+<td>13</td>
+<td><strong>17</strong></td>
+</tr>
+<tr class="odd">
+<td>pytest</td>
+<td>231 passed, 3 skipped</td>
+<td>313 → 330</td>
+<td>341 → 354 → 371</td>
+<td>(not recorded here)</td>
+<td>(not recorded here)</td>
+<td>HACS Lane A closure: 483 passed, 3 skipped (full Python suite)</td>
+</tr>
+</tbody>
+</table>
+<p>Sources: STATE.md (“PDFs mirrored (106 pp, 11 pp)”, “(140 pp, 13 pp)”, “(170 pp, 17 pp, Hsieh note 4 pp, hypotheses report)”), <code>runs/s03.md</code> (87 pp at M9), earlier log lines. Code results: <code>code/results/</code> has 120 tracked files (recounted).</p>
+<h2 id="remote-packages-abhijits-node-batches-19">5. Remote packages (Abhijit’s node), batches 1–9</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Batch</th>
+<th>Sent (PST; file name in UTC)</th>
+<th>Content (from the batch files and STATE.md)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>11:40 PST (<code>20261114-194045Z</code>)</td>
+<td>S06-L1–L3 (Lean), S06 chapter, S03 chapter, q ≡ −1 second reader</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>12:16 PST</td>
+<td>S04 chapter, S06-L13/L17/L4, literature (S06-M11, S04-M5)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>12:51 PST</td>
+<td>S05 chapter, S05 literature + R1, S06-L5a/L10a, S06-L7/L6/L14/L6b</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>13:02 PST</td>
+<td>C1 S04-L7 / L13a (Mathlib-only Lean), C2–C4 blind cross-account reviews of s03, s01, s02, C5 literature</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>13:39 PST</td>
+<td>D1 S05-L6, D2 S05-L8 algebraic half, D3 S05 chapter open items, D4 literature</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>14:47 PST</td>
+<td>(content not summarised in this file; see <code>agents/messages/abhijit/archive/20261114-224725Z_fabian_batch6.md</code>)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>16:47 PST</td>
+<td>F1 blind cross-account review of the S05 chapter, F2 S06-M5 second reader (parts A and B), F4 PARI check of T4/H3</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>18:15 PST (<code>20261115-021557Z</code>)</td>
+<td>cross-account review of the final report and talk; answered 18:29 PST (<code>20261115-022937Z_abhijit_xr-final-report.md</code>; W = 32, 0 crit, 7 maj)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>2026-11-14 22:57 / 22:58 PST (<code>20261115-065740Z</code>, <code>…065825Z</code>)</td>
+<td>H1 cross-account review of the submission report, H2 of the talk; reminder 2026-11-15 02:46 PST; <strong>never answered</strong> (“not done on this node”, 08:57 PST); replaced by the fallback Fable audits (<a href="lessons.md">lessons.md</a> 46)</td>
+</tr>
+</tbody>
+</table>
+<p>Accepted Lean from Abhijit’s node entered <code>main</code> only after a CONCEPTD or TITAN acceptance build (<code>acc-b34-1</code>, <code>acc-b5-1</code>; <code>conceptd-acc-*</code> outbox files).</p>
+<h2 id="audits-added-since-the-2026-11-14-version">6. Audits (added since the 2026-11-14 version)</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Audit</th>
+<th>Auditor</th>
+<th>Verdict / findings</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>S03 Lean L12, chapter M8</td>
+<td>Fable</td>
+<td>PASS WITH REMARKS; M8: 0 crit / 8 required / 6 minor</td>
+<td><code>runs/s03.md</code></td>
+</tr>
+<tr class="even">
+<td>S04 Lean (3 parts), chapter, cross-account review</td>
+<td>Fable, Abhijit’s node</td>
+<td>PASS WITH REMARKS; fixes L17a/b/c</td>
+<td><code>runs/s04.md</code></td>
+</tr>
+<tr class="odd">
+<td>S05 Lean L10 (3 parts), chapter M8</td>
+<td>Fable</td>
+<td>parts: 2 / 6 / 3 required; chapter 0/3/11, follow-up 0/0/8</td>
+<td>closure s05</td>
+</tr>
+<tr class="even">
+<td>S06 Lean part 1, part 2</td>
+<td>Fable</td>
+<td>0/0/9; 0/2/11 (+7 optional); part 2 found <code>Hyp.FreeRankTwo</code> ≡ conclusion of its use</td>
+<td>closure s06</td>
+</tr>
+<tr class="odd">
+<td>S06 chapter parts 1–3</td>
+<td>Fable</td>
+<td>0/2/12; FAIL for M &gt; 1 then PASS WITH REMARKS 0/2/4; 0/0/7</td>
+<td>closure s06</td>
+</tr>
+<tr class="even">
+<td>cross-account</td>
+<td>Abhijit’s node ↔︎ ours</td>
+<td>s03, s01, s02, s05 (W = 14) blind reviews; S06-M5 second reader (counterexample B2)</td>
+<td>closure s06; batches 4, 7</td>
+</tr>
+<tr class="odd">
+<td>HACS Lane A WP audits</td>
+<td>Opus ×3, Fable ×1</td>
+<td>FAIL r0 → fixed (HJ-0, A1, A3, B0), PASS (A2)</td>
+<td>Lane A closure</td>
+</tr>
+<tr class="even">
+<td>HACS Lane B reviews</td>
+<td>fresh Opus ×2</td>
+<td>HJ-6-min PASS (1 major wording, 8 minor), HJ-6b ACCEPT (0 crit/maj, 6 minor)</td>
+<td>Lane B closure</td>
+</tr>
+</tbody>
+</table>
+<h2 id="build-nodes-and-models">7. Build nodes and models</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Node</th>
+<th>Result branches s01…s06</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TITAN (3 slots)</td>
+<td>16, 19, 20, 30, 11, 10 = 106 (+1 other)</td>
+<td>outbox file names <code>*_titan-s0N-*</code>: 18, 19, 30, 51, 24, 17</td>
+</tr>
+<tr class="even">
+<td>CONCEPTD (2 slots)</td>
+<td>0, 1, 11, 25, 13, 13 = 63 (+5 acceptance/other)</td>
+<td>most CONCEPTD specs are filed under <code>titan-…</code> names; 3 <code>conceptd-s06-*</code></td>
+</tr>
+</tbody>
+</table>
+<p>Counts: <code>git ls-remote origin 'refs/heads/titan/s0N*'</code> / <code>conceptd/s0N*</code>, 2026-11-15; branch total 107 / 68. Models used (sources: <code>runs/</code>, closures, <code>model-selection.md</code>): Opus (global master, all stage/planning masters, hard Lean and hard LaTeX writers, rescue writers, WP auditors, HACS lane masters and reviewers), Sonnet (routine Lean/LaTeX/code writers, HACS PC2 prep and one Lane B implementer), Haiku (logging, polling, vendoring, axiom lists), Fable (Lean and chapter audits, adversarial audits), Muse Spark Open and Mistral Large 4 (stage 1–P3 audits and strands only). Token counts and costs: not recorded in the repo (apart from the <code>cost_idx</code> of the experiment strands in <code>LOG.md</code>).</p>
+<h2 id="hacs-lanes">8. HACS lanes</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lane A</td>
+<td>22 commits on <code>impl/hacs-laneA</code>; 5 WPs (HJ-0, A1, A2, A3, B0); 86 Lane A tests; full Python suite 483 passed / 3 skipped (178 s); strict golden tier A 12154/0, tier B 6231/0 (at build)</td>
+<td>Lane A closure</td>
+</tr>
+<tr class="even">
+<td>Lane B</td>
+<td>8 subagents (≤ 4 at once: Opus ×3 + Sonnet ×1 implementers, 2 Opus reviewers, 1 Sonnet PC2 prep); 5 deliverables; HJ-1/2 self-test 8084/0</td>
+<td>Lane B closure</td>
+</tr>
+<tr class="odd">
+<td>HACS release</td>
+<td>v0.2.1 (DOI 10.5281/zenodo.24231446); data v0.2.0 (DOI 10.5281/zenodo.24147012)</td>
+<td>STATE.md</td>
+</tr>
+<tr class="even">
+<td>Python bridge results</td>
+<td><code>code/results/s05/gl2_dnew.json</code>, <code>s06/definite_local.json</code>, <code>s06/T4_betti.json</code>, <code>laneB/congruence_k.json</code>, <code>laneB/py_reference.json</code></td>
+<td>closures</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

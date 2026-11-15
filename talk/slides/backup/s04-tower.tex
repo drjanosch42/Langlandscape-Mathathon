@@ -1,0 +1,25 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% S04-T2: Hida tower S_{s+1} -> X'_s -> S_s at s=2. Sizes: |S_s| = 2,50,1250 (T3.json checks.S_s); |X'_2| = |S_2|*p = 250 (computed from T3).
+% math: mathematics/chapters/s04/control.tex lem:s04-hida
+\begin{frame}{The Hida tower: the factor $p$ is absorbed by $e$}
+  \footnotesize
+  \begin{center}
+  \begin{tikzpicture}[>=stealth, every node/.style={draw, rounded corners, minimum width=2.6cm, minimum height=0.9cm}]
+    \node (a) {$S_3$: $1250$};
+    \node[right=2.8cm of a.east, anchor=west] (b) {$X'_2$: $250$};
+    \node[right=2.8cm of b.east, anchor=west] (c) {$S_2$: $50$};
+    \draw[->] (a) -- node[draw=none, above] {$\cdot\,5$} (b);
+    \draw[->] (b) -- node[draw=none, above] {$\cdot\,5$} (c);
+    \draw[->, bend left=25] (a) to node[draw=none, above] {$\pi$: $\cdot\,25$} (c);
+  \end{tikzpicture}
+  \end{center}
+  \begin{itemize}
+    \item Sizes at $s=2$ ($p=5$): $|S_2|=50$, $|S_3|=1250$ (T3, \emph{computed}); $|X'_2|=|S_2|\cdot p=250$ (derived).
+    \item Each step of degree $p$ is invisible after $e$: $e$ cuts $\mathbb Z_p[S_s]$ to rank $5$ ($s=2$), $25$ ($s=3$), i.e.\ the
+      tower is $\Delta$-free of rank $1$ (lem.\ s04-hida, \emph{proved}; T3).
+    \item $\pi_*U_p=U_p\pi_*$ and $\pi_*e=e\pi_*$ mod $5^3$, but $U'_p$ and $e'$ do not commute with $\pi_*$ (H6, \emph{computed}).
+  \end{itemize}
+  \vfill
+  {\tiny Sources: \texttt{code/results/s04/\{T3,H6\}.json}; lem.\ s04-hida.}
+\end{frame}

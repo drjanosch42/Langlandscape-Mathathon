@@ -1,0 +1,32 @@
+| D | k | rank H^1/tors | dims (eis, old cusp, new) | rank T_P | C(old cusp, new) | C(all old = Eis + old cusp, new) | C(Eis, cusp) | primes l > k, l not dividing D in C(old,new) | HACS anemic record: Eisenstein C_T (verbatim) |
+|---|---|---|---|---|---|---|---|---|---|
+| 3 | 4 | 2 | (2, 0, 0) | 1 | -- (no such part) | -- (no such part) | -- (no such part) | none | -; status=-; upper=- |
+| 3 | 6 | 4 | (2, 0, 2) | 2 | -- (no such part) | Z/39  [3 * 13] | Z/39  [3 * 13] | 13 | upper_bound_certified; status=upper_bound_certified; upper=3^1*13^1 |
+| 3 | 8 | 4 | (2, 0, 2) | 2 | -- (no such part) | Z/123  [3 * 41] | Z/123  [3 * 41] | 41 | upper_bound_certified; status=upper_bound_certified; upper=3^1*41^1 |
+| 3 | 10 | 6 | (2, 0, 4) | 3 | -- (no such part) | Z/54351  [3^4 * 11 * 61] | Z/54351  [3^4 * 11 * 61] | 11, 61 | upper_bound_certified; status=upper_bound_certified; upper=3^4*5^1*11^1*61^1 |
+| 3 | 12 | 8 | (2, 4, 2) | 3 | Z/102  [2 * 3 * 17] | Z/201042  [2 * 3^4 * 17 * 73] | Z/4085883  [3^4 * 73 * 691] | 17, 73 | upper_bound_certified; status=upper_bound_certified; upper=3^4*73^1*691^1 |
+| 3 | 14 | 8 | (2, 0, 6) | 4 | -- (no such part) | Z/145282653  [3^5 * 547 * 1093] | Z/145282653  [3^5 * 547 * 1093] | 547, 1093 | upper_bound_certified; status=upper_bound_certified; upper=3^5*5^1*547^1*1093^1 |
+| 5 | 4 | 4 | (2, 0, 2) | 2 | -- (no such part) | Z/13  [13] | Z/13  [13] | 13 | certified:0xd; status=certified; upper=13^1 |
+| 5 | 6 | 4 | (2, 0, 2) | 2 | -- (no such part) | Z/31  [31] | Z/31  [31] | 31 | certified:0x1f; status=certified; upper=31^1 |
+| 5 | 8 | 8 | (2, 0, 6) | 4 | -- (no such part) | Z/20345  [5 * 13 * 313] | Z/20345  [5 * 13 * 313] | 13, 313 | upper_bound_certified; status=upper_bound_certified; upper=5^1*13^1*313^1 |
+| 5 | 10 | 8 | (2, 0, 6) | 4 | -- (no such part) | Z/184955  [5 * 71 * 521] | Z/184955  [5 * 71 * 521] | 71, 521 | upper_bound_certified; status=upper_bound_certified; upper=5^1*71^1*521^1 |
+| 5 | 12 | 12 | (2, 4, 6) | 5 | Z/75980  [2^2 * 5 * 29 * 131] | Z/5 x Z/7077916900  [2^2 * 5^3 * 29 * 31 * 131 * 601] | Z/321850525  [5^2 * 31 * 601 * 691] | 29, 31, 131, 601 | upper_bound_certified; status=upper_bound_certified; upper=5^2*31^1*601^1*691^1 |
+| 5 | 14 | 12 | (2, 0, 10) | 6 | -- (no such part) | Z/6357828775  [5^2 * 29 * 449 * 19531] | Z/6357828775  [5^2 * 29 * 449 * 19531] | 29, 449, 19531 | upper_bound_certified; status=upper_bound_certified; upper=5^2*7^1*29^1*449^1*19531^1 |
+| 7 | 4 | 4 | (2, 0, 2) | 2 | -- (no such part) | Z/10  [2 * 5] | Z/10  [2 * 5] | 5 | certified:0xa; status=certified; upper=2^1*5^1 |
+| 7 | 6 | 8 | (2, 0, 6) | 4 | -- (no such part) | Z/1634  [2 * 19 * 43] | Z/1634  [2 * 19 * 43] | 19, 43 | upper_bound_certified; status=upper_bound_certified; upper=2^1*3^1*19^1*43^1 |
+| 7 | 8 | 8 | (2, 0, 6) | 4 | -- (no such part) | Z/12010  [2 * 5 * 1201] | Z/12010  [2 * 5 * 1201] | 1201 | upper_bound_certified; status=upper_bound_certified; upper=2^1*3^2*5^1*1201^1 |
+| 7 | 10 | 12 | (2, 0, 10) | 6 | -- (no such part) | Z/7489874  [2 * 7 * 191 * 2801] | Z/7489874  [2 * 7 * 191 * 2801] | 191, 2801 | upper_bound_certified; status=upper_bound_certified; upper=2^1*3^1*5^1*7^2*191^1*2801^1 |
+| 7 | 12 | 16 | (2, 4, 10) | 7 | Z/441420  [2^2 * 3 * 5 * 7 * 1051] | Z/70 x Z/130551730680  [2^4 * 3 * 5^2 * 7^2 * 19 * 43 * 181 * 1051] | Z/14305620980  [2^2 * 5 * 7 * 19 * 43 * 181 * 691] | 19, 43, 181, 1051 | upper_bound_certified; status=upper_bound_certified; upper=2^1*3^1*5^1*7^1*19^1*43^1*181^1*691^1 |
+| 7 | 14 | 16 | (2, 0, 14) | 8 | -- (no such part) | Z/197815062914  [2 * 7 * 29 * 113 * 911 * 4733] | Z/197815062914  [2 * 7 * 29 * 113 * 911 * 4733] | 29, 113, 911, 4733 | upper_bound_certified; status=upper_bound_certified; upper=2^1*3^2*5^1*7^1*29^1*113^1*911^1*4733^1 |
+| 11 | 4 | 6 | (2, 0, 4) | 3 | -- (no such part) | Z/61  [61] | Z/61  [61] | 61 | certified:0x3d; status=certified; upper=61^1 |
+| 11 | 6 | 10 | (2, 0, 8) | 5 | -- (no such part) | Z/3515  [5 * 19 * 37] | Z/3515  [5 * 19 * 37] | 19, 37 | certified:0xdbb; status=certified; upper=5^1*19^1*37^1 |
+| 11 | 8 | 14 | (2, 0, 12) | 7 | -- (no such part) | Z/446581  [61 * 7321] | Z/446581  [61 * 7321] | 61, 7321 | certified:0x6d075; status=certified; upper=61^1*7321^1 |
+| 11 | 10 | 18 | (2, 0, 16) | 9 | -- (no such part) | Z/1080726025  [5^2 * 3221 * 13421] | Z/1080726025  [5^2 * 3221 * 13421] | 3221, 13421 | upper_bound_certified; status=upper_bound_certified; upper=5^3*3221^1*13421^1 |
+| 11 | 12 | 22 | (2, 4, 16) | 10 | Z/399210550  [2 * 5^2 * 233 * 34267] | Z/19122309499481050  [2 * 5^2 * 19 * 37 * 61 * 233 * 1117 * 34267] | Z/33099114901  [19 * 37 * 61 * 691 * 1117] | 19, 37, 61, 233, 1117, 34267 | certified:0x7b4dc6995; status=certified; upper=19^1*37^1*61^1*691^1*1117^1 |
+| 11 | 14 | 26 | (2, 0, 24) | 13 | -- (no such part) | Z/174052007058985  [5 * 11 * 43 * 45319 * 1623931] | Z/174052007058985  [5 * 11 * 43 * 45319 * 1623931] | 43, 45319, 1623931 | partial(unfactored); status=partial(unfactored); upper=5^2*7^1*11^2*43^1*45319^1*[c:0x2cc85b3eed4fa32b3c9] |
+| 13 | 4 | 8 | (2, 0, 6) | 4 | -- (no such part) | Z/119  [7 * 17] | Z/119  [7 * 17] | 7, 17 | upper_bound_certified; status=upper_bound_certified; upper=2^2*7^1*17^1 |
+| 13 | 6 | 12 | (2, 0, 10) | 6 | -- (no such part) | Z/9577  [61 * 157] | Z/9577  [61 * 157] | 61, 157 | upper_bound_certified; status=upper_bound_certified; upper=2^4*3^1*61^1*157^1 |
+| 13 | 8 | 16 | (2, 0, 14) | 8 | -- (no such part) | Z/1699439  [7 * 17 * 14281] | Z/1699439  [7 * 17 * 14281] | 17, 14281 | upper_bound_certified; status=upper_bound_certified; upper=2^3*3^2*7^1*17^1*14281^1 |
+| 13 | 10 | 20 | (2, 0, 18) | 10 | -- (no such part) | Z/522191257  [7 * 2411 * 30941] | Z/522191257  [7 * 2411 * 30941] | 2411, 30941 | upper_bound_certified; status=upper_bound_certified; upper=2^5*3^2*5^1*7^1*2411^1*30941^1 |
+| 13 | 12 | 28 | (2, 4, 22) | 13 | Z/2647468572  [2^2 * 3 * 7 * 31 * 191 * 5323] | Z/12238283363005271964  [2^2 * 3 * 7 * 17 * 31 * 61 * 157 * 191 * 5323 * 28393] | Z/3194241432467  [17 * 61 * 157 * 691 * 28393] | 17, 31, 61, 157, 191, 5323, 28393 | upper_bound_certified; status=upper_bound_certified; upper=2^3*3^2*17^1*61^1*157^1*691^1*28393^1 |
+| 13 | 14 | 28 | (2, 0, 26) | 14 | -- (no such part) | Z/164057349404137  [7^2 * 29 * 22079 * 5229043] | Z/164057349404137  [7^2 * 29 * 22079 * 5229043] | 29, 22079, 5229043 | partial(unfactored); status=partial(unfactored); upper=2^4*3^4*5^1*7^3*29^1*22079^1*[c:0x37767a74597377347e2506bfd] |

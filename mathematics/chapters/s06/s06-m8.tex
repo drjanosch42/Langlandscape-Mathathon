@@ -1,0 +1,62 @@
+% S06-M8 (optional; package abhijit/s06-math): open cases and several ramified primes.
+% Labels: rem:s06-open, conj:s06-several, rem:s06-several-r3.
+\section{Beyond \texorpdfstring{$D=q$}{D=q}: open cases}
+
+\begin{remark}[open cases; seed Remark open cases, O5]\label{rem:s06-open}
+(i) $q\equiv-1\bmod p$ with $\bar\rho$ unramified at $q$, outside (Lev) of Hyp.~\ref{hyp:s06-H}: for $N(\bar\rho)>1$ (open; the proof of Prop.~\ref{prop:s06-levM} fails when $\bar\rho$ is not
+twist-minimal), for $M$ with $\ell^2\mid M$ at a prime where $\bar\rho$ is unramified, and, outside our sign-fixed reading of \cite[Thm~3.14]{KO},
+for $M$ with a prime $\ell\mid M$, $\ell\equiv-1\bmod p$ (Remark~\ref{rem:s06-minus1}, Remark~\ref{rem:s06-levM-status}). (ii) Branches whose only weight-two points are $p$-new, or for which (P2)'s extra condition fails. The
+combinatorial half holds; the Galois half needs a version of \cite{KO} at level $Np$. (iii) Trivial primes, $q\equiv1\bmod p$ with
+$\bar\rho(\mathrm{Frob}_q)=\pm1$. Here the quaternionic Hecke algebra is neither a complete intersection nor Gorenstein \cite[Intro.,
+Thm~1.2]{BKM}
+\lit{bockle-khare-manning\_2019\_wiles-defect-for-hecke-algebras-that-are-not-complete-intersections\_arxiv}{\S1, p.~2--3}
+\stcited, so (Gor$_{R'}$) fails and $\cc$ is not principal (Thm~\ref{thm:s06-E}(iv), whose ``if and only if'' presupposes that $R'$ is $I_F$-free, e.g.\ $R/\fb$ free by Lemma~\ref{lem:s06-D}(c), which in turn needs (Gor$_R$), discussed in the next paragraph). Under (Gor$_R$), Thm~\ref{thm:s06-E}(iii) gives the identity
+still at height-one primes. $q\equiv1$ non-trivial is excluded by (H0) through $p\nmid\varphi(N)$; \cite{Hs} would allow it only
+if $\bar\rho$ is ramified at $q$. (iv) Dropping (Im) (probably vacuous, R4). (v) Several primes in $D$ (Conj.~\ref{conj:s06-several}).
+\stopen{}
+\end{remark}
+\noindent\emph{On (iii).} In case (iii) Thm~\ref{thm:s06-E}(i) still applies whenever (Gor$_R$) holds (Hsieh's (Gor$_R$) concerns the
+full $\GL_2$ algebra, and at trivial primes Hsieh's (CR,$\{q\}$) fails, so (Gor$_R$) is itself not available from \cite{Hs}). If it holds,
+$\eta_F$ is the order ideal of the image $x$ of $\theta$ in $R'$, and the failure of (Gor$_{R'}$) appears exactly as the non-cyclicity of
+$\cc\cong R'^\vee$ (Thm~\ref{thm:s06-E}(iv)). \cite[Thm~1.2]{BKM} computes the corresponding Wiles defect at fixed weight
+($\cO/\varpi^{2n_q}$); comparing it with $\cc$ is not attempted here. \stopen
+
+\begin{conjecture}[several ramified primes; seed \S10, last paragraph]\label{conj:s06-several}
+Let $D=q_1\cdots q_r$ ($r$ odd), with each $q_i$ satisfying (H0), (H0$^-$) and $F$ $D$-new. Let
+$\T=\T^{(0)}\twoheadrightarrow\T^{(1)}\twoheadrightarrow\cdots\twoheadrightarrow\T^{(r)}=\T^{D\text{-new}}\cong\T^{\ord}_{B_D}$ be the
+$q_1\cdots q_i$-new quotients, and let $\cc^{(i)}_{q_i}(F)$ be the old/new congruence ideal of $\T^{(i-1)}\twoheadrightarrow\T^{(i)}$ at
+$q_i$. Then $(h_F)=\prod_i\cc^{(i)}_{q_i}(F)=\prod_i\tq_{q_i}(F)$. \stconj{} If every $\T^{(i)}_\m$ is Gorenstein, the first
+equality follows by iterating Thm~\ref{thm:s06-E} \stsketch. Whether the intermediate quotients are Gorenstein is \stopen{} (Hsieh
+covers $i=0$ and $i=r$). The second equality would follow from Prop.~\ref{prop:s06-galois} at each step and \cite[Thm~1.1]{KO} with
+$N^-=D$, by the squeeze of step (5) \stsketch. Note that $q_i$ is $q_1\cdots q_{i-1}$-new-ramified in the intermediate algebras,
+which needs the relative version of Lemma~\ref{lem:s06-decomp} at each step.
+\end{conjecture}
+
+\begin{remark}[the case $r=3$: which quotients must be Gorenstein]\label{rem:s06-several-r3}
+Let $D=q_1q_2q_3$ and write $S_i:=\T^{(i)}\otimes_\Lam I_F$, $\lambda_i:S_i\to I_F$ for the eigensystem of $F$ (which factors through every
+$S_i$, $F$ being $D$-new), $\fa_i:=\ker(S_{i-1}\to S_i)$ and $\fb_i:=\ker(S_{i-1}\to S_{i-1}^{q_i\text{-old}})$ for $i=1,2,3$.
+\begin{enumerate}[label=(\alph*)]
+\item \emph{Step $i$ of the iteration} is Thm~\ref{thm:s06-E} for $(S,\fa,\fb,S')=(S_{i-1},\fa_i,\fb_i,S_i)$. It needs:
+  the fields of \texttt{NewOldData} for $(S_{i-1},\fa_i,\fb_i)$ and $S_{i-1}/\fb_i$ free (a relative Lemma~\ref{lem:s06-decomp}: the
+  $q_i$-old quotient of the $q_1\cdots q_{i-1}$-new algebra is the $q_1\cdots q_{i-1}$-new algebra of level $D/q_i\cdot M$, localised,
+  via the Hensel root of $X^2-T_{q_i}X+q_iS_{q_i}$; this uses $q_i\not\equiv1$); (Gor$_{S_{i-1}}$) (indispensable); and (Gor$_{S_i}$) or the
+  unimodularity condition of Thm~\ref{thm:s06-E}(ii). Its output is $\eta(S_{i-1},\lambda_{i-1})=\cc^{(i)}\cdot\eta(S_i,\lambda_i)$.
+\item \emph{The chain.} Multiplying the three steps gives $\eta(S_0)=\cc^{(1)}\cc^{(2)}\cc^{(3)}\eta(S_3)$, i.e.\ $(h_F)=\prod_i\cc^{(i)}$. The
+  Gorenstein inputs are: $S_0$ (Gor$_R$, \cite[\S3.3]{Hs}) as the ``$S$'' of step 1; $S_3$ (\cite[Thm~4.5]{Hs} via JL) as the ``$S'$'' of step 3;
+  and the two \emph{intermediate} algebras $S_1$, $S_2$, each as the ``$S$'' of one step (steps 2, 3: \emph{indispensable}) and as the
+  ``$S'$'' of the previous one (steps 1, 2: replaceable by unimodularity). So for $r=3$ exactly the Gorenstein property of the
+  $q_1$-new and of the $q_1q_2$-new quotients is missing. For general odd $r$ it is the $r-1$ intermediate quotients $S_1,\dots,S_{r-1}$.
+  \stsketch
+\item \emph{Independence of the order.} The product $\prod_i\cc^{(i)}$ is defined through an ordering of $q_1,q_2,q_3$; the conjecture
+  predicts that it does not depend on it. Under the Gorenstein hypotheses of (b) for all orderings this follows from (b), since
+  $\eta(S_0)$ and $\eta(S_3)$ do not depend on the ordering. \stsketch
+\item \emph{Galois half and squeeze.} If, at each step, the old part is unramified at $q_i$ and a free-rank-two module exists over
+  $S_{i-1}$ (a relative input (1) of Prop.~\ref{prop:s06-galois}, e.g.\ from Shimura curves of discriminant $q_1\cdots q_{i-1}$ when
+  $i-1$ is even), then Prop.~\ref{prop:s06-galois} gives $\tq_{q_i}(F)\subseteq\cc^{(i)}$. At one point $P$, \cite[Thm~1.1]{KO} with $N^-=D$
+  (whose condition (6) is (H0$^-$) for each $q_i$) gives $\ord\eta_f(N)-\ord\eta_f(N^+,D)=\sum_it_f(q_i)$, i.e.\
+  $P(\prod_i\cc^{(i)})\widetilde\cO_P=(\varpi_P^{\sum t_i})=P(\prod_i\tq_{q_i})\widetilde\cO_P$ after control at each step. The squeeze of step (5) (for the
+  product) then gives $\prod_i\tq_{q_i}=\prod_i\cc^{(i)}$; writing $\tq_{q_i}=c_i\mathfrak d_i$ with $\cc^{(i)}=(c_i)$, one gets $\prod\mathfrak d_i=I_F$, and since
+  $I_F$ is local each $\mathfrak d_i=I_F$. So the factorwise equalities $\cc^{(i)}=\tq_{q_i}$ follow from the product one; no per-step
+  fixed-weight input is needed. \stsketch
+\end{enumerate}
+\end{remark}

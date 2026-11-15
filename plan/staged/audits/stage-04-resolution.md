@@ -1,0 +1,26 @@
+# Stage 04 (lambda-adic): resolution of the Muse audit
+
+Reviser: Claude Opus 5.5. Start 11:58:32, end 12:03 (local time, 2026-11-14).
+Input: `audits/stage-04-muse.md` (13 findings, 7 marked major). Each finding was re-derived; the cited PDFs (Hsieh arXiv,
+Hida 1988, Longo–Vigni 2011 arXiv) were opened with pdftotext. Drafter deviations D1–D5 kept; D4/D5 wording corrected (see F11).
+
+| F | Title | Verdict | Reason | Change |
+|---|---|---|---|---|
+| F1 | U_p normalisation vs seed's diag(1,p) | REJECTED | Stage already records the switch to N_Up and that the seed's U'_p fails π_*-compatibility (Thm lambdaribet proof, HACS H6). The audit's "diag(p,1) and diag(1,p) are not conjugate in GL2(Qp)" is false (the Weyl element conjugates them); what differs are the double cosets for U_1(p^s). | no change |
+| F2 | Existence/exactness of e_T | REJECTED | For M f.g. over Zp, End M is finite over Zp, so Hida 1993 §7.2 Lemma 1 applies to Zp[T]; "T = p^{-1}" cannot occur for an endomorphism. Exactness on T-equivariant short exact sequences only needs e_T to be a limit of polynomials in T; centrality in a larger algebra is not needed for exactness. | no change |
+| F3 | Proof of ekills (c)/(d), transpose of U_p | REJECTED | The lemma assumes s ≥ 1 where w_x = 1 and ν = id, so U_p^* is the transpose and the column-sum computation Σ_e φ(U_p^*[e]) = p Σ φ(e') is correct (re-derived). The extension (d) is already documented as D3; the "not a naive limit" remark already follows the lemma. | no change |
+| F4 | Prop ekillsVk: missing imports, sketch | PARTIALLY CONFIRMED | Re-derived the mod-p computation (g ∈ ϖ_j K_s has a ≡ c ≡ 0, d ≡ 1, so gP ≡ P(0,1)(bX+dY)^n, U_p^2 ≡ 0 mod p): correct; status \sttoprove and off-critical-path already set. Confirmed part: `if:s02-SA` is used but was not imported (same as F9). | imports (see F9) |
+| F5 | Inverted diamonds / P^ad_k | REJECTED | Audit concedes correctness; this is the documented deviation D1 (kept per brief), with Def s04-Pk and HACS C2 as safeguards. Downstream instructions are for stages 05/06, not this file. | no change |
+| F6 | Lemma hida (d): e commutes with ⊗ | CONFIRMED | The proof of (d) needs U_p to commute with the Δ_{s+1}-action (so e is Zp[Δ_{s+1}]-linear); this was cited in Prop freeA but not in (d). Rest of the lemma re-derived (matrix ϖ_i^{-1}uϖ_j has lower row (pc, cj+d); torsor K'_s/K_{s+1} ≅ ker(Δ_{s+1}→Δ_s)): correct. | Lemma `lem:s04-hida`, proof of (d) |
+| F7 | Hida 1988 / LV11 citations unverifiable | PARTIALLY CONFIRMED | The pdftotext layer of Hida 1988 *does* allow locating the headers: Thm 8.6 p.362, Thm 9.4 p.369, Thm 10.1 p.370, Cor 10.4 p.373; statements only partly legible. Hsieh's "[Hid88b, Cor. 10.1]" is Theorem 10.1 (no Cor. 10.1 exists). LV11 Prop 3.6 proof p.28 confirmed (uses [14, Cor. 10.4]); journal data still not confirmed (web search inconclusive), stays "to be checked". | Thm `thm:s04-control` status lines; Risk R5; bib `Hi88b` note; missing (Hida row, item 10) |
+| F8 | Mittag-Leffler in lambdaribet proof | PARTIALLY CONFIRMED | The label "Mittag-Leffler" was an imprecise justification. The audit's fix is itself wrong: ML is a condition on the *left* system (eH_1), not surjectivity of the middle/right maps. Correct reason: f.g. Zp-modules are compact, so lim^1 = 0. Freeness argument (Λ local) correct. | proof of `thm:s04-lambdaribet` |
+| F9 | Missing imports if:s01-mass, if:s02-SA | CONFIRMED | `if:s01-mass` is used in ekills (c) (v_p\|X_s\|) and `if:s02-SA` in Prop ekillsVk; SPLIT exports both to 04, but neither was restated. `if:s02-tree` is not used (v_0, v_1 enter via `if:s03-graph`), so not added. | Imported block: new interfaces `if:s01-mass`, `if:s02-SA` (verbatim from SPLIT); usage paragraph |
+| F10 | Exported Mord/etaB extensions | REJECTED | No defect: D2/D4 already document the explicit residual hypothesis and the extra comparison; Hsieh Rem 7.8 (p.71) re-checked: (η_{f^D}) ⊇ (η_f), equality if ρ̄ ramified at all ℓ ∈ Σ^-, as stated. | no change |
+| F11 | B_N, factor 2, duplicate bib key | PARTIALLY CONFIRMED | Duplicate key confirmed: main.tex uses `\nocite{*}`, so `Hs-stage04` printed Hsieh twice. The audit's claim that the factor-2 note is correct is **refuted** by Hsieh (4.1), p.29: Γ_{N,x} := (D^× ∩ xR̂^×x^{-1})Q^×/Q^×, i.e. exactly stage 01's w_x = \|Γ_x/Γ_x∩{±1}\|; the factor 2 is against \|Γ_x\| (import's Nat.card), not against w_x. Hel07/Wil95 inherited through Hsieh, already in R2. | `Hs-stage04` turned into `@comment` in bib; Def `def:s04-BN` translation item (iv); "Factor 2" paragraph; Interface deviation D4 wording (D5 kept); missing item 11 |
+| F12 | Local macros | REJECTED | Drafters may not touch preamble.tex; the macros are new (no redefinition) via \providecommand, and the request is already in missing/stage-04.md. Integration task, not a stage defect. | no change |
+| F13 | Lean/HACS feasibility | REJECTED | No defect asserted; sizes \|S_s\| = 2, 50, 1250 re-checked from the mass formula for B_3, p = 5. | no change |
+
+Counts: total 13; confirmed 2; partially confirmed 4; rejected 7.
+
+Overall: moderately useful — it caught two real interface omissions and a small proof gap, but most findings restate documented
+deviations, several proposed fixes are mathematically wrong (F1 conjugacy, F8 ML direction), and it endorsed an incorrect factor-2 claim.

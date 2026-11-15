@@ -1,0 +1,199 @@
+% S06-M3 (package abhijit/s06-math): fixed-weight input, control, defect formula, all weights.
+% Labels: thm:s06-KO, cor:s06-fixed, lem:s06-control, lem:s06-pstab, thm:s06-defect, cor:s06-allweights, if:s06-defect.
+% prop:s06-levM and rem:s06-minus1 are owned by s06-m5 (sibling rule).
+\section{The defect formula for \texorpdfstring{$D=q$}{D=q}}
+
+\subsection{The fixed-weight input}
+\begin{theorem}[Kim--Ota]\label{thm:s06-KO}
+Let $p\ge5$ and $f\in S_k(\Gamma_0(N))$ a newform with $N=N^+N^-$, and assume: (1) $(N,p)=1$; (2) $\bar\rho_f|_{G_{\Q(\sqrt{p^*})}}$
+is absolutely irreducible; (3) $2\le k\le p-1$; (4) $(N^+,N^-)=1$; (5) $N^-$ squarefree; (6) if $q\mid N^-$ and $q\equiv\pm1\bmod p$,
+then $\bar\rho_f$ is ramified at $q$. Then $\ord_\lambda\eta_f(N)=\ord_\lambda\eta_f(N^+,N^-)+\sum_{q\mid N^-}t_f(q)$, where the
+congruence ideals are taken in the full and in the $N^-$-new Hecke algebras of $S_k(\Gamma_0(N))$, localised at $\m_f$.
+\stcited{} \cite[Thm~1.1]{KO}
+\lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{Thm 1.1, p.~1;
+Def.~2.11 ($N^-$-new congruence ideal), p.~6}. At $k=2$ it is \cite[Thm~6.8]{PW}
+\lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{Thm 6.8, p.~21} with the definite self-pairing
+$\xi_f$, under PW's (CR), whose (2) is the same $\pm1$ condition, and which also needs (CR)(1) ($\bar\rho_f$ surjective) and an odd number of primes in $N^-$ (harmless here: $N^-=q$) \lit{pollack-weston\_2006\_anticyclotomic-mu-invariants-of-modular-forms\_arxiv}{(CR), p.~2}.
+\end{theorem}
+\noindent \cite{KO}'s $\T(N)_{\m_f}$ is the full Hecke algebra acting on $H^1_{\text{ét},c}(Y_1(N),\mathcal F_k)[\langle\cdot\rangle-1]$,
+localised at $\m_f$; \cite[\S2.1.3, p.~5]{KO} notes that it equals the image of the $S$-anemic algebra after this localisation
+\lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{\S2.1.2--2.1.3, p.~4--5}.
+So it is our $\T_k(N)_\m$ (which contains $U_q$, H1).
+
+\begin{corollary}[fixed-weight level lowering mod $\varpi^t$; replaces seed step (4)]\label{cor:s06-fixed}
+Let $f$ be a newform of level $N=qM$ and weight $2\le k\le p-1$, with $p\nmid N$, (H0), (H0$^-$), (H2) for $\bar\rho_f$, and $\m_f$ non-Eisenstein. Then $\cc_q(f)=(\varpi^{t_f(q)})$, and in particular $\cc_q(f)\subseteq(\varpi^{t_f(q)})$. \stpmc{}
+\end{corollary}
+\begin{proof}
+\emph{Gorenstein input.} $\T_k(N)_{\m_f}$ is Gorenstein over $\cO$. In general this is \cite[Prop.~5.1(1)]{KO}
+\lit{kim-ota\_2019\_quantitative-variation-of-congruence-ideals-and-integral-periods-of-modular-forms\_arxiv}{Prop.~5.1, p.~18--19},
+citing \cite[Prop.~5.5]{Dim09} \stcited. In the application to Thm~\ref{thm:s06-defect} (where $f=F_P$ at the point of (P)) it is \emph{derived}, which is how the
+Lean track does it: by Lemma~\ref{lem:s06-control} below, $R\otimes_{I_F,P}\widetilde\cO_P=\T\otimes_\Lam\widetilde\cO_P=\T_k(N)_\m\otimes_\cO\widetilde\cO_P$, and this
+is $\widetilde\cO_P$-Gorenstein by Lemma~\ref{lem:s06-S} applied to (Gor$_R$). We then run the argument below over the DVR $\widetilde\cO_P$ instead of
+$\cO$; this changes nothing, since $\cO\to\widetilde\cO_P$ is flat, so $\eta$, $\Ann$ and $\cc_q$ commute with it (proof of
+Thm~\ref{thm:s06-E}(iii)), and $t_f(q)$ is computed over $\widetilde\cO_P$ (Lemma~\ref{lem:s06-tam}(b)). We do not use \cite[Cor.~5.4]{KO} (Gorenstein property of
+the $N^-$-new quotient with no condition on $N^-$, in conflict with \cite{BKM} at trivial primes) beyond $q\not\equiv1$.
+\provisional{D6: \cite[Cor.~5.4]{KO} restricted to $q\not\equiv1$; before: no statement (Cor.~5.4 was not cited in stages 05, 06).}
+
+\emph{Commutative algebra.} By Lemma~\ref{lem:s06-decomp} at weight $k$ (its proof with $\cO$ in place of $\Lam$; the $q$-new form $f$
+lies in $\m_f$), $(\T_k(N)_{\m_f},\fa_k,\fb_k)$ satisfies the hypotheses of Lemma~\ref{lem:s06-D} over the DVR $\cO$, and $\lambda_f$ factors
+through the $q$-new quotient $\T'_k$. Thm~\ref{thm:s06-E}(iii) over the DVR $\cO$ (no condition on the new quotient) gives
+$\eta_f(N)=\cc_q(f)\,\eta_f(M,q)$, where $\eta_f(M,q)=\eta(\T'_k,\lambda'_f)$ is \cite{KO}'s $N^-$-new congruence ideal for $N^-=q$, $N^+=M$
+(Def.~2.11 of \cite{KO} is literally $\eta(\T'_k,\lambda'_f)$).
+
+\emph{Comparison.} The hypotheses of Thm~\ref{thm:s06-KO} hold for $N^-=q$, $N^+=M$: (1) $p\nmid N$; (2) is (H2); (3) is
+$2\le k\le p-1$; (4), (5) since $q\nmid M$ is prime; (6) $q\not\equiv1$ by (H0), and $q\equiv-1$ only with $\bar\rho_f$ ramified at $q$ by
+(H0$^-$). So $\ord_\varpi\eta_f(N)=\ord_\varpi\eta_f(M,q)+t_f(q)$. Both congruence ideals are non-zero ($f$ is a newform, so the factor of
+$\T_k(N)_{\m_f}\otimes K$ at $\lambda_f$ is a field), hence $\ord_\varpi\cc_q(f)=t_f(q)$.
+\end{proof}
+
+\noindent So under (H0$^-$) step (4) of the seed does not need a new $R=\T$ argument (``passing to the quotient new at $\ell\,\|\,M$''). It
+\emph{is} \cite[Thm~1.1]{KO} read through the fixed-weight Thm~\ref{thm:s06-E}. Without (H0$^-$), the seed's direct $R=\T$ argument gives the
+inclusion (Prop.~\ref{prop:s06-levM}). \provisional{F3: ``under (H0$^-$)'' and the pointer to the second proof added; before: step
+(4) ``is'' \cite[Thm~1.1]{KO}, with no alternative.} The $R=\T$ theorems (\cite[Thm~0.2 $=$ 3.7]{DFG}
+\lit{diamond-flach-guo\_2004\_tamagawa-number-conjecture-of-adjoint-motives}{Thm 0.2, PDF p.~4 = journal p.~666}; \cite[Thm~6.6]{Dim09}
+\lit{dimitrov\_2005\_iharas-lemma-for-hilbert-modular-varieties\_arxiv}{Thm 6.6, p.~23}; \cite[Thm~2.9, p.~5]{KO}) and
+\textbf{B\"ockle's presentation} enter only inside the proof of \cite{KO}. The latter is \cite[Thm~3.12 (B\"ockle), p.~12]{KO}: a complete
+intersection presentation of the global deformation ring, citing \cite[Cor.~4.3, Thm~5.8]{Boc07} $=$ G.~B\"ockle, \emph{Presentations of
+universal deformation rings}, LMS Lecture Note Ser.\ 320 (2007), 24--58. (Contrary to the tex, a copy is now in
+\pathtt{literature/}: \pathtt{bockle\_2007\_presentations-of-universal-deformation-rings}; not re-checked here, see NOTES.)
+
+\subsection{Control}
+\begin{lemma}[ordinary $p$-stabilisation]\label{lem:s06-pstab}
+Let $k\ge3$, $p\nmid N$, and let $\m$ be a maximal ideal of $\T^{\ord}_k(\Gamma_0(Np))$ (trivial character). Then restriction of
+operators gives $\T_k(N)_{\m}\cong\T^{\ord}_k(\Gamma_0(Np))_\m$ with $U_p\mapsto\alpha_p$, the unit root of $X^2-T_pX+p^{k-1}$ in
+$\T_k(N)_\m$. The same holds at $k=2$ if $\T^{\ord}_2(\Gamma_0(Np))_\m$ has no $p$-new eigenforms (condition (P2)). \stpmc{} (cited: (I2); multiplicity one for the $p$-old space.)
+\end{lemma}
+\begin{proof}
+A $p$-new eigenform of level $Np$, weight $k$ and trivial character has $a_p^2=p^{k-2}$ (by (I2) of Lemma~\ref{lem:s06-decomp} for an $\ell'$-adic
+representation, $\ell'\ne p$: $\rho|_{G_p}$ is an extension of $\chi$ by $\chi\epsilon$ with $\chi(\Frob_p)=a_p$ and $\det\rho=\epsilon^{k-1}$), which is not a unit for $k\ge3$; so the ordinary part at level $Np$
+consists of $p$-old forms, and at $k=2$ the same holds by assumption. On the $p$-old space (two copies of level $N$) $U_p$ acts by the
+companion matrix of $X^2-T_pX+p^{k-1}$, whose roots mod $\m$ are a unit $u_p$ and $0$, hence distinct; Hensel's lemma (as in the
+proof of Lemma~\ref{lem:s06-decomp}(b)) splits it, and the ordinary projector keeps the unit-root factor. The argument of
+Lemma~\ref{lem:s06-decomp}(b), with $p$ in place of $q$, identifies the Hecke algebras.
+\end{proof}
+
+\begin{lemma}[control as an equality; step (3)]\label{lem:s06-control}
+Assume (H0), (H1), (H2), (Gor$_\T$) ($\T$ is $\Lam$-Gorenstein, see step (1) below), and let $P$ be an arithmetic prime of $I_F$
+over $P_k$, $k\ge2$, with trivial character, $q$-new specialisation $f=F_P$ ($F_P$ is the $p$-stabilisation of a newform of level $N$, $F$ being primitive of tame level $N$), and (if $k=2$) the condition of (P2). Then
+\begin{enumerate}[label=(\alph*)]
+\item $\T/P_k\T\cong\T_k(N)_\m$, $\T''/P_k\T''\cong\T''_k\cong\T_k(M)_\m$, $\T'/P_k\T'\cong\T'_k$ (the $q$-new quotient at weight $k$), and
+  $\fb\otimes_\Lam\Lam/P_k=\fb_k$, compatibly with the maps $\T\to\T',\T''$;
+\item $P(\cc_q(F))\widetilde\cO_P=\cc_q(f)$ (equality, not only ``$\subseteq$'').
+\end{enumerate}
+\stpmc{} (cited: Hida control.)
+\end{lemma}
+\begin{proof}
+(a) \emph{$\T$ and $\T''$.} Hida's control theorem \cite[Cor.~3.2, (3.3b), p.~250]{Hi86b}
+\lit{hida\_1986\_iwasawa-modules-attached-to-congruences-of-cusp-forms}{Cor.~3.2, (3.3b), p.~250} \stcited{} gives
+$\T/P_k\T\cong\T^{\ord}_k(\Gamma_0(Np))_\m$ and $\T(M)_\m/P_k\cong\T^{\ord}_k(\Gamma_0(Mp))_\m$ for $k\ge2$ (cusp forms; trivial-character
+component of Hida's $\Gamma_1$ statement). By Lemma~\ref{lem:s06-pstab} (for $k=2$: (P2) excludes $p$-new forms at level $Np$, in
+particular the $q$-old ones from level $Mp$), these are $\T_k(N)_\m$ and $\T_k(M)_\m$. By Lemma~\ref{lem:s06-decomp}(b) at $\Lam$ and at
+weight $k$, $\T''\cong\T(M)_\m$ and $\T''_k\cong\T_k(M)_\m$, both with $U_q\mapsto\alpha_q$; since reduction mod $P_k$ maps the root
+$\alpha_q\equiv U_q$ of $X^2-T_qX+qS_q$ to the root $\equiv U_q$ of $X^2-T_qX+q^{k-1}$, $\T''/P_k\T''\cong\T''_k$ compatibly with
+$\T\to\T''$.
+
+\emph{$\fb$.} The sequence $0\to\fb\to\T\to\T''\to0$ of $\Lam$-modules splits ($\T''$ is $\Lam$-free), so it stays exact after
+$\otimes\Lam/P_k$: $0\to\fb/P_k\fb\to\T_k(N)_\m\to\T''_k\to0$. Hence $\fb/P_k\fb\cong\ker(\T_k(N)_\m\to\T''_k)=\fb_k$, and the image of $\fb$
+in $\T_k(N)_\m$ is $\fb_k$.
+
+\emph{$\T'$.} By Lemma~\ref{lem:s06-D}(c) (with (Gor$_\T$) and $\T''$ free) $\T'$ is $\Lam$-free. Write $\fa_k:=\ker(\T_k(N)_\m\to\T'_k)$. The
+image $\bar\fa$ of $\fa$ in $\T_k(N)_\m$ satisfies $\bar\fa\cdot\fb_k=\overline{\fa\fb}=0$, so $\bar\fa\subseteq\Ann(\fb_k)=\fa_k$ by
+Lemma~\ref{lem:s06-D}(a) at weight $k$. Thus $\T\to\T_k(N)_\m\to\T'_k$ factors through a surjection $\T'/P_k\T'\to\T'_k$. Both are free
+$\cO$-modules of the same rank: $\rk_\cO\T'/P_k\T'=\rk_\Lam\T'=\rk_\Lam\T-\rk_\Lam\T''=\rk_\cO\T_k(N)_\m-\rk_\cO\T''_k=\rk_\cO\T'_k$
+(Lemma~\ref{lem:s06-decomp}(a) over $\Lam$ and at weight $k$). A surjection of free $\cO$-modules of equal finite rank is an
+isomorphism.
+
+(b) $\lambda_f=P\circ\lambda_F$ factors through $\T/P_k\T=\T_k(N)_\m$. So $P(\cc_q(F))\widetilde\cO_P=P(\lambda(\fb R))\widetilde\cO_P=\lambda_f(\text{image of
+}\fb)\widetilde\cO_P=\lambda_f(\fb_k)\widetilde\cO_P=\cc_q(f)$ (with $\cc_q(f)$ taken in $\widetilde\cO_P$).
+\end{proof}
+\noindent The tex's step (3) states only ``$\subseteq$''; equality holds, and both directions are used in Cor.~\ref{cor:s06-allweights}.
+The tex derives $\T'$ free from Lemma~\ref{lem:s06-D}(c) without naming its Gorenstein hypothesis; (Gor$_\T$) over $\Lam$ is the
+input \cite[\S3.3]{Hs} already used for (Gor$_R$).
+
+\subsection{The theorem}
+\begin{theorem}[$\Lam$-adic defect formula; seed Thm~defect, corrected]\label{thm:s06-defect}
+Assume (H0), (H1), (H2), (P) (with (P2) in its corrected form), and (H0$^-$) or (Lev) (Hyp.~\ref{hyp:s06-H}). Then
+\[(h_F)=\cc_q(F)=\tq_q(F)\qquad\text{as principal ideals of }I_F.\]
+\stpmc{} under (H0$^-$). Under (Lev) (this is where $q\equiv-1\bmod p$ with $\bar\rho$ unramified at $q$ is covered): \stpmc{} for $M=1$
+and for $M>1$ in the cases (F1), (F1$'$) of Prop.~\ref{prop:s06-levM} (for (F1$'$) in our sign-fixed reading of \cite[Thm~3.14]{KO}, not
+\cite{KO}'s text). For $q\equiv-1\bmod p$ with $\bar\rho$ unramified at $q$ and outside (Lev) ($N(\bar\rho)>1$, or $\ell^2\mid M$ at a prime $\ell$ where $\bar\rho$ is unramified) the theorem is \stopen{} (Remark~\ref{rem:s06-open}(i), Remark~\ref{rem:s06-levM-status}).
+
+ Cited inputs: Hida freeness
+and control \cite[Thm~3.1, Cor.~3.2]{Hi86b} \lit{hida\_1986\_iwasawa-modules-attached-to-congruences-of-cusp-forms}{Thm 3.1, Cor.~3.2
+(3.3b), p.~250}; (Gor$_R$) and (Gor$_{R'}$), with freeness of $H$ (\cite{Hs} as above, resting on \cite{Wi95}, \cite{MW86}, \cite[Cor.~8.11]{Hel}
+\lit{helm\_2004\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves\_arxiv}{Cor.~8.11, p.~31}); the $\Lam$-adic JL
+(\pathtt{if:s01-targets}); and Thm~\ref{thm:s06-KO} at the point $P$ of (P) under (H0$^-$), or Prop.~\ref{prop:s06-levM} at $P$ under
+(Lev) (resting on \cite[Thm~2.9, Lemma~2.4]{KO} for $M=1$, \cite[Thm~3.14]{KO} for (F1), (F1$'$)). (Im) is not used.
+\end{theorem}
+\begin{proof}
+Let $P$ be the point of (P), $k=k_P$, $f=F_P$, $\widetilde\cO_P$ the normalisation of $I_F/P$ (a DVR, finite over $I_F/P$ and over $\cO$; Lemma~\ref{lem:s06-tam}, remark after the proof; $I_F/P$ itself need not be normal), $P:I_F\to\widetilde\cO_P$ the induced local homomorphism, $t:=t_f(q)$.
+
+(1) \emph{Gorenstein.} (Gor$_\T$): $\T$ is $\Lam$-Gorenstein \cite[\S3.3, p.~17--18]{Hs}
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S3.3, p.~17--18; \S7.2, p.~68} \stcited{} under
+(CR), which holds by (H2) (Remark~\ref{rem:s06-CR}); (Gor$_R$) follows by base change along $\Lam\to I_F$ (Lemma~\ref{lem:s06-S}).
+(Gor$_{R'}$): \cite[Thm~4.5 and proof, p.~34]{Hs} \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Thm 4.5 and
+proof, p.~34; Rem.~7.8, p.~71} \stcited{} gives the Gorenstein property of the definite algebra $\T^\ord_{B,\m}$ (\texttt{if:s04-Mord})
+under (CR,$\{q\}$), which holds by Remark~\ref{rem:s06-CR}; it is transported to $\T'$ by the $\Lam$-adic JL isomorphism
+$\T'\cong\T^\ord_B$ (\cite[Rem.~7.8]{Hs}: $\T^D$ is the $N^-$-new quotient; \pathtt{if:s01-targets}), with the $\Lam$-structures matched by
+$[u]\mapsto[u]^{-1}$, and base-changed to $I_F$ by Lemma~\ref{lem:s06-S}. Coefficients: \texttt{thm:s04-Gor} (ii)/(iv) is stated over $\mathbb I=I_F$ (for $\T^D(N,\chi,\mathbb I)_{\m_F}\cong R'$); this $I_F$-form is all that Thm~\ref{thm:s06-E}(iii) needs here. The $\Lam$-form (Gorenstein over $\Lam$, then base-changed to $I_F$ by Lemma~\ref{lem:s06-S}) is Hsieh's theorem for the $\Lam$-algebra; deducing it from the $I_F$-form would need descent along the finite free $\Lam\to I_F$, which is not done here. In Lean, \pathtt{Setting.gor\_new} uses the $\Lam$-form (\pathtt{Hyp.HsiehGor} with $A:=\Lam$), and the entry point \pathtt{Setting.gor\_new\_of\_I} (being added on the Lean side) uses the $I_F$-form (\pathtt{Hyp.HsiehGor} with $A:=I_F$). By Lemma~\ref{lem:s06-decomp}(c), Thm~\ref{thm:s06-E}(iii)
+applies to $(R,\fa,\fb,\lambda)$: $\eta_F=\cc_q(F)\eta^B_F$, so $(h_F)=\cc_q(F)$, a principal ideal $(h)$.
+
+(2) \emph{Galois half.} $\tq_q(F)\subseteq\cc_q(F)=(h)$ (Prop.~\ref{prop:s06-galois}).
+
+(3) \emph{Control.} $P(\cc_q(F))\widetilde\cO_P=\cc_q(f)$ (Lemma~\ref{lem:s06-control}, with (P) giving $k\ge3$ or the (P2) condition).
+\provisional{F2: control for $\T''$ is control for $\T(M)_\m$ via the corrected Lemma decomp(b); before: ``Hida's control for $\T$
+and for $\T(M)$ (hence for $\T''$)'', with $\T''$ the rank-two extension.}
+
+(4) \emph{Fixed weight.} Under (H0$^-$): Cor.~\ref{cor:s06-fixed}, $\cc_q(f)=(\varpi_P^t)$. Under (Lev):
+Prop.~\ref{prop:s06-levM} (cases (F0), (F1), (F1$'$)), $\cc_q(f)\subseteq(\varpi_P^t)$. The squeeze needs only the inclusion.
+
+
+(5) \emph{Squeeze, with $P$ local.} By Lemma~\ref{lem:s06-tam}(b),(c), $P(\tq_q(F))\widetilde\cO_P=(\varpi_P^t)$ with $t<\infty$. Then
+\[(\varpi_P^t)=P(\tq_q(F))\widetilde\cO_P\subseteq P(\cc_q(F))\widetilde\cO_P=\cc_q(f)\subseteq(\varpi_P^t),\]
+so all are equal; in particular $P(h)\widetilde\cO_P=(\varpi_P^t)\ne0$, so $P(h)\ne0$ and $h\ne0$.
+Put $\mathfrak d:=\{d\in I_F:hd\in\tq_q(F)\}$; since $\tq_q(F)\subseteq(h)$ and $I_F$ is a domain, $\tq_q(F)=h\mathfrak d$. Applying $P$:
+$P(h)\,P(\mathfrak d)\widetilde\cO_P=P(\tq_q(F))\widetilde\cO_P=P(h)\widetilde\cO_P$, and cancelling $P(h)\ne0$ in the domain $\widetilde\cO_P$ gives $P(\mathfrak d)\widetilde\cO_P=\widetilde\cO_P$. As
+$\widetilde\cO_P$ is local and $P(\mathfrak d)\widetilde\cO_P=\widetilde\cO_P$, some $d\in\mathfrak d$ has $P(d)\in\widetilde\cO_P^\times$ (otherwise all $P(d)$ lie in the maximal ideal).
+\emph{Here locality is used:} $P:I_F\to\widetilde\cO_P$ is a local homomorphism, so $P^{-1}(\m_{\widetilde\cO_P})=\m_{I_F}$ and $d\notin\m_{I_F}$, i.e.\ $d\in I_F^\times$. (Surjectivity of $P$ is not needed; all the squeeze uses is a local homomorphism to a local domain, as in the Lean \pathtt{CommAlg.squeeze} with \texttt{[IsLocalHom P]}.)
+Hence $\mathfrak d=I_F$ and $\tq_q(F)=(h)=\cc_q(F)=(h_F)$.
+\end{proof}
+\noindent Without locality of the specialisation the squeeze is false: for $\Z_{(p)}\to\Q$, $\tq=(p)$, $h=1$: the map is neither surjective nor local, and what the argument needs is that $P$ is a local homomorphism. In Lean this is the hypothesis \texttt{[IsLocalHom P]} of \pathtt{CommAlg.squeeze}; in the Lean \pathtt{Defect.Setting} the locality of the specialisation is the structural field \texttt{P\_local : IsLocalHom (algebraMap I \ensuremath{\mathcal O})}, with $\mathcal O=\widetilde\cO_P$; no surjectivity is assumed (in the chapter, locality follows from integrality of $\widetilde\cO_P$ over $I_F/P$).
+
+\begin{corollary}[all weights of the branch; seed Cor.~allweights]\label{cor:s06-allweights}
+Under the hypotheses of Thm~\ref{thm:s06-defect}, let $P'$ be any arithmetic point of weight $k'\ge3$ with trivial character
+(including $k'\ge p$), with $q$-new $f'=F_{P'}$ ($F_{P'}$ is the $p$-stabilisation of a newform of level $N$, $F$ being primitive of tame level $N$). Then $\cc_q(f')=(\varpi_{P'}^{t_{f'}(q)})$ (in $\widetilde\cO_{P'}$) and
+$\ord_{\varpi_{P'}}\eta_{f'}(N)-\ord_{\varpi_{P'}}\eta_{f'}(M,q)=t_{f'}(q)$, for the ring-theoretic congruence ideals of $\T_{k'}(N)_\m$ and of its
+$q$-new quotient. \stpmc{} (with the status of the case of Thm~\ref{thm:s06-defect} that is used; under (Lev), case (F1$'$), in our reading of \cite[Thm~3.14]{KO}).
+\end{corollary}
+\begin{proof}
+By Thm~\ref{thm:s06-defect}, $\cc_q(F)=\tq_q(F)=(h)$. Lemma~\ref{lem:s06-control}(b) at $P'$ ($k'\ge3$, so Lemma~\ref{lem:s06-pstab}
+applies for every $k'\ge3$, including $k'\ge p$) gives $\cc_q(f')=P'(\cc_q(F))\widetilde\cO_{P'}$, and Lemma~\ref{lem:s06-tam}(b) at $P'$ gives
+$P'(\tq_q(F))\widetilde\cO_{P'}=(\varpi_{P'}^{t_{f'}(q)})$. So $\cc_q(f')=(\varpi_{P'}^{t_{f'}(q)})$. Next, $\T_{k'}(N)_\m\otimes\widetilde\cO_{P'}=R\otimes_{I_F,P'}\widetilde\cO_{P'}$
+(Lemma~\ref{lem:s06-control}(a)) is $\widetilde\cO_{P'}$-Gorenstein by Lemma~\ref{lem:s06-S} applied to (Gor$_R$), and
+$(\T_{k'}(N)_\m,\fa_{k'},\fb_{k'})\otimes\widetilde\cO_{P'}$ satisfies the hypotheses of Lemma~\ref{lem:s06-D} (Lemma~\ref{lem:s06-decomp} at weight
+$k'$). Thm~\ref{thm:s06-E}(iii) over the DVR $\widetilde\cO_{P'}$ gives $\eta_{f'}(N)=\cc_q(f')\,\eta_{f'}(M,q)$, and both are non-zero
+($f'$ is a newform). Taking $\ord_{\varpi_{P'}}$ gives the formula.
+\end{proof}
+\noindent For $k'\ge p$ this goes beyond \cite{KO} ($k\le p-1$); it is the new content, together with the identification $(h_F)=\cc_q(F)$
+on the new branch. The only inputs at $P'$ are Hida control, $p$-stabilisation and Lemma~\ref{lem:s06-tam}; no $R=\T$ theorem is
+used at $P'$.
+
+\begin{interface}[\pathtt{if:s06-defect}]\label{if:s06-defect}
+For the talk and Lean: Thm~\ref{thm:s06-E} with the explicit hypotheses (Gor$_S$), (Gor$_{S'}$) or the unimodularity condition;
+Thm~\ref{thm:s06-defect} under (H0), (H1), (H2), (P) [with (P2) corrected], and (H0$^-$) or (Lev); Cor.~\ref{cor:s06-allweights}.
+Status as stated there. The talk may claim the case $q\equiv-1\bmod p$ (with $\bar\rho$ unramified at $q$) under (Lev): for
+$M=1$ and for (F1) (\stpmc), and for (F1$'$) only as \stpmc{} in our reading of \cite[Thm~3.14]{KO}. $N(\bar\rho)>1$ and non-squarefree $M$ are open and must not
+be claimed.
+
+\end{interface}
+
+\noindent\emph{Lean pointers (stage 06; hypotheses are registered in \pathtt{plan/implementation/stage-06.md}, each is formalized as an explicit \texttt{Prop}-valued definition in \pathtt{Langlandscape/Hyp/} and taken as a hypothesis argument; they are cited, not proved).}
+Lemma~\ref{lem:s06-decomp}(c) $\leftrightarrow$ \pathtt{Hyp.OldDecomp}; (Gor$_R$) $\leftrightarrow$ \pathtt{Hyp.HsiehGorFull}; (Gor$_{R'}$)
+$\leftrightarrow$ \pathtt{Hyp.HsiehGor} together with \pathtt{Hyp.LambdaJL}; Lemma~\ref{lem:s06-tam} $\leftrightarrow$ \texttt{Hyp.TamSpec};
+Lemma~\ref{lem:s06-control} $\leftrightarrow$ \pathtt{Hyp.HidaControlGL2}; Thm~\ref{thm:s06-KO} $\leftrightarrow$ \texttt{Hyp.KimOta};
+Prop.~\ref{prop:s06-levM} $\leftrightarrow$ \pathtt{Hyp.KimOtaRT}; Prop.~\ref{prop:s06-galois}: given \pathtt{Hyp.ResidualBurnside}, \pathtt{Hyp.FreeRankTwo} is equivalent to the inclusion $\tq_q\subseteq\cc_q$; both directions are proved in Lean (\pathtt{Defect.galois}, \pathtt{Defect.freeRankTwo\_of\_le}, packaged as \pathtt{Defect.freeRankTwo\_iff\_le}). The Galois half is therefore not formalized independently: its arithmetic content (that the old-form representation $\rho_M$ exists at level $M$, steps 1--3 of Prop.~\ref{prop:s06-galois}) is the cited hypothesis; toy instances of \pathtt{Hyp.HidaControlGL2}, \texttt{Hyp.KimOta}, \pathtt{Hyp.KimOtaRT} in the Lean tests are consistency (non-vacuity) instances only, not evidence; Thm~\ref{thm:s06-defect} $\leftrightarrow$ \pathtt{Defect.defect\_formula},
+Cor.~\ref{cor:s06-fixed} $\leftrightarrow$ \pathtt{Defect.cor\_fixed} (which takes the DVR as an explicit assumption), Cor.~\ref{cor:s06-allweights}
+$\leftrightarrow$ \pathtt{Defect.cor\_allweights} (it gives $\cc_q(f')=(\varpi_{P'}^{t'})$ and the ideal identity
+$\eta_{f'}(N)=(\varpi_{P'}^{t'})\,\eta_{f'}(M,q)$; the chapter's $\ord$-formula additionally needs $\cc\ne0$ at both points, i.e.\
+$\eta_{f'}(N)\ne0\ne\eta_{f'}(M,q)$ (newform condition), not assumed in Lean); the Defect layer is formalized in \texttt{Defect/}, modulo the \texttt{Hyp.*} listed above. The commutative-algebra core exists in
+\pathtt{lean/Langlandscape/Langlandscape/CommAlg/} (\texttt{LemmaS}, \texttt{NewOld}, \texttt{ThmE}, \texttt{DVR}, \texttt{Squeeze}).

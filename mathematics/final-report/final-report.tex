@@ -1,0 +1,78 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Final project report of team Langlandscape (Caltech x SAIR Mathathon 2026).
+% Build from this directory: latexmk -pdf -interaction=nonstopmode final-report.tex
+% The result statements in generated/ are copied verbatim from ../chapters/ by tools/extract_statements.py.
+\documentclass[11pt]{amsart}
+\input{../preamble}
+\input{counts}
+% the same bibliography resources as ../main.tex (statements quoted from the chapters cite them)
+\IfFileExists{../bib/s05-m1.bib}{\addbibresource{../bib/s05-m1.bib}}{}
+\IfFileExists{../bib/s05-m2.bib}{\addbibresource{../bib/s05-m2.bib}}{}
+\IfFileExists{../bib/s05-m3.bib}{\addbibresource{../bib/s05-m3.bib}}{}
+\IfFileExists{../bib/s05-m4.bib}{\addbibresource{../bib/s05-m4.bib}}{}
+\IfFileExists{../bib/s05-m5.bib}{\addbibresource{../bib/s05-m5.bib}}{}
+\IfFileExists{../bib/s05-m6.bib}{\addbibresource{../bib/s05-m6.bib}}{}
+\IfFileExists{../bib/s05-m7.bib}{\addbibresource{../bib/s05-m7.bib}}{}
+\IfFileExists{../bib/s06-m1.bib}{\addbibresource{../bib/s06-m1.bib}}{}
+\IfFileExists{../bib/s06-m2.bib}{\addbibresource{../bib/s06-m2.bib}}{}
+\IfFileExists{../bib/s06-m3.bib}{\addbibresource{../bib/s06-m3.bib}}{}
+\IfFileExists{../bib/s06-m4.bib}{\addbibresource{../bib/s06-m4.bib}}{}
+\IfFileExists{../bib/s06-m5.bib}{\addbibresource{../bib/s06-m5.bib}}{}
+\IfFileExists{../bib/s06-m7.bib}{\addbibresource{../bib/s06-m7.bib}}{}
+\IfFileExists{../bib/s06-m8.bib}{\addbibresource{../bib/s06-m8.bib}}{}
+\IfFileExists{../bib/s06-m11.bib}{\addbibresource{../bib/s06-m11.bib}}{}
+\addbibresource{final-report.bib}
+\usepackage{pdfpages}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+% verbatim-quoted result: {kind}{number in main.pdf}{page}{label}{title}{source file}
+\newenvironment{quoted}[6]{%
+  \begin{tcolorbox}[breakable,enhanced,colback=gray!3,colframe=gray!45,boxrule=0.4pt,arc=1pt,
+    left=4pt,right=4pt,top=2pt,bottom=2pt,
+    title={\small\textbf{#1 #2}\ifx\relax#5\relax\else\ (#5)\fi\hfill\texttt{\footnotesize #4}},
+    coltitle=black,colbacktitle=gray!14,
+    after title={\par\noindent{\scriptsize main.pdf, p.~#3; source \texttt{mathematics/#6}}\par}]
+  \small}{\end{tcolorbox}}
+
+\newcommand{\mainpdf}{\texttt{mathematics/main.pdf}}
+\newcommand{\res}[1]{{\small\nolinkurl{code/results/#1}}}
+
+\title[Langlandscape: final project report]{Langlandscape: the definite Jacquet--Langlands correspondence over $\Q$, integral and $\Lambda$-adic\\[2pt]
+\normalsize Final project report, Caltech $\times$ SAIR Mathathon 2026}
+\author[Abhijit A J and F. Januszewski]{Team Langlandscape: Abhijit A J and Fabian Januszewski}
+\date{15 November 2026}
+
+\begin{document}
+\sloppy
+\begin{abstract}
+We report on a two-person, agent-assisted project on the Jacquet--Langlands correspondence between the definite
+quaternion algebra $B_D$ over $\Q$ and $\GL_2$. The project rebuilt the definite side of the correspondence as an explicit,
+integral and $\Lambda$-adic construction in six stages (class sets and Brandt modules; tree quotients; the definite Ribet
+sequence and Ihara lemma; the ordinary $\Lambda$-adic passage; a single comparison hypothesis $\HypX$; the integral defect
+$(h_F)=\cc_q(F)=\tq_q(F)$ for $D=q$, proved modulo cited results under explicit hypotheses), formalized a large part in Lean~4 (\GateAudited{} audited declarations, standard axioms only, all
+mathematical inputs not proved in Lean taken as explicit arguments, \NumHypRegistered{} registered hypotheses), and checked the statements numerically (Python/PARI and the HACS
+engine). This report collects the result statements with their status exactly as in the chapters, the Lean status, the
+computations, one literature correction, and the open items. The full mathematical text is \mainpdf{} (170 pages).
+\end{abstract}
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\input{sections/overview}
+\input{sections/results}
+\input{sections/lean}
+\input{sections/computations}
+\input{sections/hsieh}
+\input{sections/open}
+\input{sections/pointers}
+
+\input{../acknowledgments}
+
+{\sloppy\printbibliography}
+
+\appendix
+\input{sections/appendix}
+\end{document}

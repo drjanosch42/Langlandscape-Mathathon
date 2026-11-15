@@ -1,0 +1,60 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Article version: short "Main results" section answering the items (a)-(e) of chapters/s00/question.tex. Every status is
+% copied from chapters/s00/achieved.tex (none upgraded). It also carries the anchors ss:s00-question, ss:s00-outline and
+% ss:s00-route referred to by the s00 parts included in article.tex (achieved, outline and route themselves are not included).
+\section{Main results}\label{ss:s00-question}
+
+The question of \S\ref{ss:s00-hope} asks for an integral, Hecke-equivariant and computable realisation of the
+Jacquet--Langlands transfer as maps on cohomology, with properties (a)--(e). Our answer is partial. Throughout, ``given (iii)''
+means given the connectivity of the Brandt graph (Prop.~\ref{prop:s02-BG}); the statuses are those of the chapters.
+
+\begin{description}[leftmargin=0pt,itemsep=3pt]
+\item[(a) Base change to $\C$.] At $\Gamma_0$-type level the integral comparison is Ribet's,
+  $\Xq(J_0(qM'))\cong\Z[\XBq{\Uzero{M'}}]^0$ (Thm.~\ref{thm:s05-G}, \stcited), with the sign $U_q\mapsto+\Pi_q$
+  (Prop.~\ref{prop:s05-sign}(a), \stpmc). Its definite-side ingredients are proved: the definite Ribet sequence
+  (Thm.~\ref{thm:s03-ribet}(a), \stproved{} given (iii)) and the definite Ihara lemma (Cor.~\ref{cor:s03-ihara}(i),(ii),
+  \stproved{} given (iii)). At $\Gamma_1(Mp^s)$-level the map is the hypothesis $\HypX$ (Hyp.~\ref{hyp:s05-X}, \sthyp; open as
+  a whole); without canonicity $\HypXiso$ holds at good $\m$ (Prop.~\ref{prop:s05-Xiso}, \stpmc). A simplicial realisation is
+  Conj.~\ref{conj:s05-O2} (\stconj, \stopen); a degree-preserving chain map cannot exist (Remark~\ref{rem:s05-degree}, \stsketch).
+  Over $\C$, in the first case ($D=q$, weight~$2$, $\Gamma_0$-type level) this reproves classical JL modulo the cited
+  geometry (\status{proved modulo cited geometry}; the argument is Ribet's, ours is its tree form); for $D=q$ at $\Gamma_1(Mp^s)$-level it rests on $\HypX$,
+  expected without JL by the same geometry (Remark~\ref{rem:s05-Xstatus}, \stexp); beyond $D=q$ JL is invoked
+  (Thm.~\ref{thm:s01-JLclassical}, \stcited; it enters at the Shimura-curve comparison), and removing that input is route~1 (trace
+  formula; planned, timing uncertain) or route~2
+  (geometric, \stopen).
+\item[(b) Chenevier's $p$-adic JL.] Cited only: Thm.~\ref{thm:s01-chenevier} (\stcited). On the ordinary locus the maps of
+  Prop.~\ref{prop:s05-Xlambda}(d) are supported on the ordinary part of the image of $\JL_p$ (Remark~\ref{rem:s05-O7},
+  \stsketch). Beyond the ordinary locus nothing is claimed (\stopen): there is
+  no finite-slope analogue of $e$ killing $\Phicomb$, and $\JL_p$ is a rigid-analytic statement outside our framework.
+\item[(c) $\Lambda$-adic JL.] $\Mord(U)$ is $\Lam$-free with control at finite level (Thm.~\ref{thm:s04-control}(a),
+  \stproved); the $\Lambda$-adic definite Ribet sequence is exact (Thm.~\ref{thm:s04-lambdaribet}(a), \stproved{} given
+  connectivity of $\BG(UU_s,q)$ for all $s$). Given $\HypXchar$, the maps $\varphi_s$ induce a Hecke-equivariant isomorphism
+  $\Phi:\varprojlim_se(\Xq(J_s)\otimes\Zp)\xrightarrow\sim\Mord(M)$ (Prop.~\ref{prop:s05-Xlambda}(a), \stproved{} given
+  $\HypXchar$). The $\Lambda$-adic Hecke JL itself is cited (Thm.~\ref{thm:s01-lambdaJL}, \stcited): the chapters do not derive it from
+  $\Phi$, and stage~06, which does not use $\HypX$, takes it as a cited input. Open: (c2) (\stopen)
+  and $\HypX$ itself.
+\item[(d) Congruence modules.] For $D=q$ and a $q$-new Hida branch $F$, $(h_F)=\cc_q(F)=\tq_q(F)$
+  (Thm.~\ref{thm:s06-defect}, \stpmc{} under the standing hypotheses; \stopen{} for $q\equiv-1\bmod p$ outside (Lev));
+  $\HypX$ is not used. Its commutative-algebra half is Thm.~\ref{thm:s06-E} (\stproved; \stformalized{} in abstract form,
+  (i)--(iv), with exceptions); the inclusion $\tq_q\subseteq\cc_q$ is Prop.~\ref{prop:s06-galois} (\stpmc). On lattices, the
+  cokernel of the $q$-new sub- versus quotient lattice is $(\T/(\fa+\fb))^{\oplus r}$ (Prop.~\ref{prop:s05-subquot},
+  \stproved, \stformal). At level $1$ the definite component group is Mazur's
+  $\Z/\mathrm{num}\frac{q-1}{12}$, where $\mathrm{num}\frac{q-1}{12}$ is the numerator of $\frac{q-1}{12}$ in lowest terms (Prop.~\ref{prop:s03-mazur}, \stpmc) and
+  Eisenstein (Prop.~\ref{prop:s03-phieis}, \stproved). Open: several ramified primes (Conj.~\ref{conj:s06-several},
+  \stconj).
+\item[(e) Computability.] All definite-side objects are finite: class sets, Brandt matrices, the Brandt graph $\BG(U,q)$
+  (Def.~\ref{def:s02-BG}), DR graphs and their $\Phicomb$, and they were computed (\stcomp; result files under
+  \texttt{code/results/}). Open: computing the $\GL_2$-side map itself at $\Gamma_1$-level needs $\HypX$.
+\end{description}
+
+\paragraph{Route.}\label{ss:s00-route} The definite-side results above are obtained from the action of the
+$\{q\}$-arithmetic group $\GU$ on the Bruhat--Tits tree $\cT_q$, whose quotient is, given (iii), the finite Brandt graph
+$\BG(U,q)$ (Prop.~\ref{prop:s02-BG}, \stproved), instead of from bad reduction of modular and Shimura curves; the latter
+enters only through cited results such as Thm.~\ref{thm:s05-G} and through the hypothesis $\HypX$. The defect formula of
+item~(d) is obtained by commutative algebra and Galois theory on the $\GL_2$ side, modulo cited results.
+
+\paragraph{Stages.}\label{ss:s00-outline} Stages 01--04 build on each other (quaternionic foundations, tree quotients,
+weighted graphs with the definite Ribet sequence and Ihara lemma, the ordinary and $\Lambda$-adic passage); stage~05 (the
+comparison hypothesis $\HypX$) and stage~06 (the integral defect) both build on them, and stage~06 does not use $\HypX$. The
+computations referred to in the introduction are those of item~(e).

@@ -1,0 +1,178 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 05, WP S05-M4 (package abhijit/s05-math): the substitute Hyp.X^iso at good maximal ideals, the q-new sub- versus quotient
+% lattice (exported as if:s05-subquot), several ramified primes (Prop. nochain).
+% Labels: ss:s05-subquot, def:s05-Xiso, prop:s05-Xiso, prop:s05-subquot, rem:s05-split, if:s05-subquot, ss:s05-general (also
+% sss:s05-general), prop:s05-nochain, rem:s05-nochain.
+% Stage-06 labels (if:s06-lemD, lem:s06-D) are text with the quoted statement, never \ref (stage-05.md section 0, TEXCHK rule).
+\subsection{A substitute at good maximal ideals; sub- versus quotient lattice}\label{ss:s05-subquot}
+
+\paragraph{The imported Lemma D.} We use stage 06's new/old duality through its interface, quoted here (stage tex \texttt{lem:s06-D}
+and the fixed Lean block of \texttt{if:s06-lemD} in \pathtt{stage-06.md}~\S0, rev.~2):
+\begin{quote}\small
+\texttt{if:s06-lemD} (\texttt{lem:s06-D}). Let $A$ be a Noetherian local domain with fraction field $K$, $S$ a finite free $A$-algebra, and
+$\fa,\fb\subseteq S$ ideals with $S/\fa$, $S/\fb$ $A$-torsion-free, $\fa\cap\fb=0$ and $S_K=(S/\fa)_K\times(S/\fb)_K$ (in Lean: the
+structure \texttt{NewOldData A S} with fields \texttt{free}, \texttt{finite}, \texttt{tf\_a}, \texttt{tf\_b}, \texttt{inf\_eq\_bot}, and the
+field-free field \texttt{split}: there is $c\in A$, $c\ne0$, whose image in $S$ lies in $\fa+\fb$ (Lean: $\fa\sqcup\fb$), equivalent to the splitting by \pathtt{NewOldData.split\_iff}). Then:
+(a) $\Ann_S\fa=\fb$ and $\Ann_S\fb=\fa$, with no Gorenstein hypothesis (\pathtt{NewOldData.ann\_a}, \pathtt{NewOldData.ann\_b});
+(b) if $S$ is $A$-Gorenstein with trace $\ell$, then $\beta\mapsto\ell(\beta\,\cdot)$ gives isomorphisms $\fb\cong(S/\fa)^\vee$ and
+$\fa\cong(S/\fb)^\vee$, $A$-linear and $S$-equivariant (\texttt{bEquivDualQuot}, \texttt{aEquivDualQuot} with \texttt{\_apply}, \texttt{\_smul});
+(c) if moreover $S/\fb$ is $A$-free, then $\fb$ is an $A$-direct summand of $S$, hence $A$-free, and $S/\fa\cong\fb^\vee$ is $A$-free.
+Status there: \stproved.
+\end{quote}
+The seam conditions of \pathtt{stage-05.md}~\S0 are kept: $A$ is local, $\T$ is the localisation at $\m$, and the splitting is passed to the
+field-free form by \texttt{split\_iff}, not re-proved and not restated as a hypothesis (Remark~\ref{rem:s05-split} only records why the two
+forms agree).
+
+\begin{definition}[$\HypXiso(s)$; \texttt{if:s05-hypX}]\label{def:s05-Xiso}
+Let $s\ge1$ and $\m$ a maximal ideal of the ordinary Hecke algebra $\T$ of $\Gamma_s$ (weight $2$, acting on $eH^1_{\rm par}(\Gamma_s,\Zp)$),
+non-Eisenstein and satisfying Hsieh's residual condition (stated in \ref{if:s04-Mord}). Let $\T'$ be the $q$-new quotient and
+$\fa=\ker(\T\to\T')$. $\HypXiso(s)$: there is an isomorphism of $\T'_\m$-modules
+\[e\,\Zp[S_s]_\m\cong eH^1_{\rm par}(\Gamma_s,\Zp)^{\pm}_\m[\fa]\]
+(the $q$-new \emph{sub}module, for a fixed sign $\pm$ of complex conjugation), with $\T'$ acting on the left through $\theta_s$
+(Def.~\ref{def:s05-theta}; $\T'_\m\to\T_{B,\m}$ of \pathtt{if:s01-targets}), compatible with $\pi_*$ on the left and the corresponding trace on
+the right for $s'\ge s$. \sthyp.
+\end{definition}
+
+\begin{proposition}[$\HypXiso$ holds non-canonically]\label{prop:s05-Xiso}
+Under the hypotheses of Def.~\ref{def:s05-Xiso}, assume:
+\begin{enumerate}[label=(\roman*)]
+\item $H:=eH^1_{\rm par}(\Gamma_s,\Zp)^{\pm}_\m$ is free of rank one over $\T_\m$, and $\T_\m$ is $\Zp$-Gorenstein;
+\item the hypotheses of Prop.~\ref{prop:s05-subquot} hold for $A=\Zp$, $\T_\m$, $\fa$ and $\fb:=\ker(\T_\m\to\T''_\m)$ ($\T''$ the $q$-old
+  quotient): $\T_\m$ is finite free over $\Zp$ (automatic: finite and torsion-free over the PID $\Zp$), $\T'_\m$, $\T''_\m$ are torsion-free
+  (automatic: images in endomorphism rings of lattices), $\fa\cap\fb=0$ and $(\T_\m)_K=(\T'_\m)_K\times(\T''_\m)_K$ (new and old
+  eigensystems are disjoint, as the $U_q$-eigenvalues on the $q$-old part have absolute value $\sqrt q$ and those on the $q$-new part
+  absolute value $1$);
+\item $\T'_\m\cong\T_{B,\m}$ via $\theta_s$ (\pathtt{if:s01-targets}), and $e\,\Zp[S_s]_\m$ is free of rank one over $\T_{B,\m}$ with
+  $\T_{B,\m}$ Gorenstein (\ref{if:s04-Mord}, [Hs, Thm.~4.5]).
+\end{enumerate}
+Then both sides of $\HypXiso(s)$ are free of rank one over $\T'_\m$, hence isomorphic (non-canonically). \stpmc.\\\emph{Lean:} the algebraic half (for $H$ free of rank one over a local $A$-Gorenstein $T$, with $T/\fa$ Gorenstein and the hypotheses of Prop.~\ref{prop:s05-subquot}, $H[\fa]\cong T/\fa$) is \stformal{} (\pathtt{Comparison/XIso.lean}, sorry-free): \lean{Langlandscape.Comparison.xiso\_of\_gorenstein}; the verification of (i)--(iii) for the Hecke algebras of the modular curve and the $\Lam$-adic compatibility are not formalized.
+Compatibility in $s$ (choosing compatible generators along the tower) additionally needs $\Lam$-adic freeness of $\varprojlim_sH$ over
+the $\Lam$-adic $\T_\m$ (Hida, [Hi86a], not in \pathtt{literature/}) and of ${\Mord}_\m$ (\ref{if:s04-Mord}); \stsketch.
+\emph{Freeness of rank one} is Hsieh's Thm.~4.5, which also assumes his hypothesis (CR) and the support condition on $N^-$ (to be carried explicitly in (i), (iii)); Helm's Cor.~8.11 and Rem.~8.12 are multiplicity-one (dimension) statements, entering via Hsieh's proof.\\
+References: \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Thm.~4.5, p.~34, whose proof cites
+[Wil95, Thm.~2.1] and [Hel07, Cor.~8.11, Rem.~8.12]};
+\lit{helm\_2004\_maps-between-modular-jacobians-and-jacobians-of-shimura-curves\_arxiv}{Cor.~8.11, Remark~8.12, p.~31}.
+\end{proposition}
+\begin{proof}
+\emph{Left side.} By (iii), $e\,\Zp[S_s]_\m$ is free of rank one over $\T_{B,\m}\cong\T'_\m$.
+\emph{Right side.} Prop.~\ref{prop:s05-subquot} with $r=1$, $A=\Zp$, $\T=\T_\m$ (its hypotheses are (ii)) gives $H[\fa]=\fb H\cong\fb$ as
+$\T_\m$-modules; $\fb$ is killed by $\fa$ ($\fa\fb\subseteq\fa\cap\fb=0$), so this is an isomorphism of $\T'_\m$-modules. By Lemma~D(b)
+(\texttt{if:s06-lemD}, using that $\T_\m$ is Gorenstein by (i)), $\fb\cong\Hom_{\Zp}(\T'_\m,\Zp)$, $\T_\m$-equivariantly, hence
+$\T'_\m$-equivariantly. $\T'_\m$ is finite free over $\Zp$ (finite, torsion-free over a PID) and Gorenstein, being isomorphic to
+$\T_{B,\m}$ by (iii); by definition of ``Gorenstein'' (\texttt{lem:s06-D} setting: $S^\vee$ free of rank one over $S$),
+$\Hom_{\Zp}(\T'_\m,\Zp)$ is free of rank one over $\T'_\m$. So $H[\fa]$ is free of rank one over $\T'_\m$.
+\emph{Conclusion.} Two free rank-one $\T'_\m$-modules are isomorphic; the isomorphism depends on the choice of generators. The proof
+uses (i) only through ``$H$ free of rank one'' and ``$\T_\m$ Gorenstein'', (ii) only through Prop.~\ref{prop:s05-subquot} and the
+hypotheses of Lemma~D, and (iii) twice. Without (iii), $H[\fa]$ is only the dualising module of $\T'_\m$.
+\emph{Degenerate cases.} If $\T'_\m=0$ (no $q$-new eigensystem at $\m$), then by (iii) $\T_{B,\m}=0$, both sides are $0$ and the statement is
+empty; if $\T''_\m=0$, then $\fb=\T_\m$, $\fa=0$ and $H[\fa]=H$.
+Status \stpmc: (i), (iii) are cited inputs (Hsieh, Helm, Wiles), Lemma~D is imported.
+\end{proof}
+It is a \emph{substitute} for (X1), not a consequence of it: (X1) concerns the quotient lattice $\Xq(J_s)\otimes\Zp\cong T_pJ_s/T^{I_q}$
+(Thm.~\ref{thm:s05-G}(v)), $\HypXiso$ the submodule. They differ exactly by the old/new congruence module:
+
+\begin{proposition}[$q$-new sub- versus quotient lattice; seed Prop.~subquot; \pathtt{if:s05-subquot}]\label{prop:s05-subquot}
+Let $A$ be a Noetherian local domain with fraction field $K$, $\T$ a local, finite free $A$-algebra, and $\fa,\fb\subseteq\T$ ideals with
+$\T/\fa$, $\T/\fb$ $A$-torsion-free, $\fa\cap\fb=0$ and $\T_K=(\T/\fa)_K\times(\T/\fb)_K$ (equivalently, by \pathtt{NewOldData.split\_iff}:
+there is $c\in A\setminus\{0\}$ with $c\in\fa+\fb$). Put $\T':=\T/\fa$, $\T'':=\T/\fb$ and $\cc_{\T'}:=(\fa+\fb)/\fa\subseteq\T'$. Let $H$ be free
+of rank $r\ge0$ over $\T$, and $H[\fa]:=\{h\in H:\fa h=0\}$. Then
+\[H[\fa]=\fb H\cong\fb^{\oplus r},\qquad H/\fa H\cong\T'^{\oplus r},\]
+the natural map $H[\fa]\hookrightarrow H\twoheadrightarrow H/\fa H$ is injective, and its cokernel is $(\T'/\cc_{\T'})^{\oplus r}\cong(\T/(\fa+\fb))^{\oplus r}$.
+In particular the cokernel is killed by $c$. \stproved{} (below), using only Lemma~D(a) ($\Ann_\T\fa=\fb$; \texttt{if:s06-lemD}; there
+\stproved).
+\emph{Lean:} \stformal{} (\pathtt{CommAlg/SubQuot.lean}, sorry-free, standard axioms only): \lean{Langlandscape.CommAlg.subquot\_kernel}, \lean{Langlandscape.CommAlg.subquot\_coker}.
+\end{proposition}
+\begin{proof}
+Choose a $\T$-basis $h_1,\dots,h_r$ of $H$, so $H=\bigoplus_i\T h_i$ and every statement splits as an $r$-fold direct sum of the statement
+for $H=\T$; for $r=0$ everything is $0$. So let $H=\T$.
+\emph{Kernel.} $\T[\fa]=\{t\in\T:t\fa=0\}=\Ann_\T\fa=\fb$ by Lemma~D(a), and $\fb\T=\fb$.
+\emph{Quotient.} $\T/\fa\T=\T'$.
+\emph{The map} $\fb\to\T/\fa$, $b\mapsto b+\fa$, has kernel $\fb\cap\fa=0$, so it is injective, and its image is $(\fb+\fa)/\fa=\cc_{\T'}$. Hence its
+cokernel is $\T'/\cc_{\T'}=(\T/\fa)/((\fa+\fb)/\fa)\cong\T/(\fa+\fb)$.
+\emph{Killed by $c$}: $c\in\fa+\fb$.
+\end{proof}
+\noindent Neither $\T'$ nor $\T''$ need be $A$-free, and $\T$ need not be Gorenstein: the proof uses only $\Ann\fa=\fb$. The locality of $\T$
+is not used in the proof either; it is kept because the statement is applied to $\T=\T_\m$ and because it is the shape of the seam
+(\pathtt{stage-05.md}~\S0). The hypotheses ``Noetherian local domain'' on $A$ are those under which Lemma~D(a) is imported.
+\emph{Edge cases.} If $\fa=0$ then $\T_K=\T_K\times(\T/\fb)_K$ forces $(\T/\fb)_K=0$, hence $\T/\fb=0$ (torsion-free), $\fb=\T$, and the
+statement reads $H[0]=H$, cokernel $0$; symmetrically $\fb=0$ forces $\fa=\T$, $H[\fa]=0$, $H/\fa H=0$. If $A=K$ is a field, the splitting gives
+$\fa+\fb=\T$ and the cokernel is $0$. In each case the formula holds as stated.
+
+\begin{remark}[the field-free splitting]\label{rem:s05-split}
+For ideals $\fa,\fb$ of a finite free $A$-algebra $\T$ with $\fa\cap\fb=0$ the natural map $\T\to\T/\fa\times\T/\fb$ is injective, and so is
+$\T_K\to(\T/\fa)_K\times(\T/\fb)_K$ ($-\otimes_AK$ is exact). It is surjective iff $(\fa+\fb)_K=\T_K$ (Chinese remainder theorem over $\T_K$,
+with $(\fa\cap\fb)_K=0$), iff $1\in(\fa+\fb)_K$, iff $c\in\fa+\fb$ for some $c\in A\setminus\{0\}$. This is the content of stage 06's
+\pathtt{NewOldData.split\_iff}; we do not use the argument, only the statement. \stproved.
+\end{remark}
+
+\begin{interface}[\pathtt{if:s05-subquot}]\label{if:s05-subquot}
+Prop.~\ref{prop:s05-subquot} (hypotheses as stated there: $A$ a Noetherian local domain, $\T$ local, finite free, $\T/\fa$, $\T/\fb$
+torsion-free, $\fa\cap\fb=0$, splitting in the field-free form $\exists c\ne0$, $c\in\fa+\fb$; $H$ free of rank $r$): $H[\fa]=\fb H\cong\fb^{\oplus r}$,
+$H/\fa H\cong\T'^{\oplus r}$, $H[\fa]\to H/\fa H$ injective with cokernel $(\T/(\fa+\fb))^{\oplus r}$. \stproved{} given Lemma~D(a),
+\texttt{if:s06-lemD}.
+\end{interface}
+\noindent So $\HypXiso$ suffices for congruence- and Fitting-ideal statements at good $\m$, but not for Eisenstein or non-Gorenstein
+$\m$, for pairings beyond $\eta^B$, or for anything Galois (O6, Remark~\ref{rem:s05-O46}).
+
+\subsubsection{Several ramified primes (seed \S10)}\label{sss:s05-general}
+\begin{proposition}[no tree-only chain; corrected form of seed Prop.~noChain]\label{prop:s05-nochain}
+Let $\mathcal C$ be the class of Hecke-equivariant module maps generated by the identifications of \texttt{if:s02-quot}
+(Prop.~\ref{prop:s02-quot}) for a fixed definite algebra $B'$ and tree prime $r\nmid\mathrm{disc}B'$, the maps of \ref{if:s03-ribet},
+compositions, kernels and cokernels.
+\begin{enumerate}[label=(\alph*)]
+\item For $r\nmid\mathrm{disc}B'$ the cells of tree quotients are class sets of $B'$; for $r\mid\mathrm{disc}B'$ there is no tree
+  ($\cO'_r[\frac1r]^1=\cO'^1_r$ is compact). \stproved.
+\item Every object produced by $\mathcal C$ from data of $B'$ is a subquotient of a direct sum of Brandt modules $\Brandt{U'}{V}$ of
+  the \emph{same} algebra $B'$, with Hecke operators acting through the right-translation action of $\Bhat'^\times$; in particular no
+  morphism in $\mathcal C$ has source or target a Brandt module of $B_D$ for $B'\not\cong B_D$. \stproved{} (induction on the construction).
+\item (b) is \emph{not} an obstruction at the level of isomorphism classes: for $D=q_1q_2q_3$ and $B'=B_{q_1}$, the intersection of the
+  $q_2$-new and $q_3$-new parts of $\Brandt{\Uzero{q_2q_3M}}{V_k}$ (built in $\mathcal C$ from Ribet sequences at $r=q_2$ and $r=q_3$) is,
+  after $\otimes\Q$ and on cuspidal parts, Hecke-isomorphic (anemic algebra) to $\Brandt{\Uzero{M}}{V_k}\otimes\Q$ for $B_D$, by classical JL
+  applied twice. \stpmc{} (\pathtt{if:s01-targets}).
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\emph{(a).} If $r\nmid\mathrm{disc}B'$, Prop.~\ref{prop:s02-quot} identifies the vertices and edges of $\Gamma_U\backslash\cT_r$ with class sets
+$\XB{U}\sqcup\XB{U}$ and $\XB{\Uzero rU}$ of $B'$ (\texttt{if:s02-quot}). If $r\mid\mathrm{disc}B'$, $B'_r$ is a division algebra, $\cO'_r=\{x:v_r(\Nrd x)\ge0\}$
+is its unique maximal order, and an element of $B'_r$ of reduced norm $1$ lies in $\cO'_r$; so $\cO'_r[\frac1r]^1=\cO'^1_r$ is compact. Consequently the
+$\{r\}$-arithmetic group $\cO'[\frac1r]^1$, a discrete subgroup of the compact group $B'^1_\infty\times B'^1_r$, is finite, and there is no
+tree (the building of $\SL_1(B'_r)$ is a point).
+\emph{(b).} Induction on the construction. Generators: by Prop.~\ref{prop:s02-quot} the cell modules of the tree quotient are
+$\Z[\XB{U}]^2$ and $\Z[\XB{\Uzero rU}]$ (with coefficients $V$: Brandt modules $\Brandt{\cdot}{V}$) of $B'$, with Hecke equivariance for
+operators supported away from $r$; the Ribet maps of \ref{if:s03-ribet} are maps between such modules and the (co)homology of the
+two-term complex, i.e.\ kernels and cokernels of maps between direct sums of Brandt modules of $B'$. Steps: the class of subquotients of
+finite direct sums of Brandt modules of $B'$ with Hecke operators acting through $\Bhat'^\times$ is closed under compositions, kernels and
+cokernels (a kernel or cokernel of a map between subquotients $X_1/Y_1\to X_2/Y_2$ of $P_1$, $P_2$ is a subquotient of $P_1$, resp.\ $P_2$).
+The last clause is then a statement about the type of the objects: a Brandt module of $B_D$ is a module of functions on
+$X_{B_D}(\cdot)$, which is not an object of this class unless $B'\cong B_D$; it is tautological in this sense (Remark~\ref{rem:s05-nochain}).
+\emph{(c).} By classical JL (Thm.~\ref{thm:s01-JLclassical}) for $B_{q_1}$, $\Brandt{\Uzero{q_2q_3M}}{V_k}\otimes\Q$ on cuspidal parts is
+Hecke-isomorphic (anemic algebra) to the $q_1$-new part of $S_k(\Gamma_0(q_1q_2q_3M))$. The $q_2$-new part (defined by the Ribet sequence at
+$r=q_2$, \ref{if:s03-ribet}, as the kernel of the two degeneracies to level $q_3M$) corresponds to the $q_1q_2$-new part, and likewise for
+$q_3$; the intersection corresponds to the $q_1q_2q_3$-new part, i.e.\ to $S_k(\Gamma_0(DM))^{D\text{-new}}$, which JL for $B_D$ identifies with the
+cuspidal part of $\Brandt{\Uzero{M}}{V_k}\otimes\Q$ for $B_D$. All identifications are $T_\ell$-equivariant for $\ell\nmid DMp$. \stpmc.
+\end{proof}
+\begin{remark}[on the seed's (b)]\label{rem:s05-nochain}
+The seed states ``no sequence of operations in $\mathcal C$ applied to definite algebras of smaller discriminant produces the Brandt
+module of $B_D$'' as \stproved{} ``(the operations never change the algebra)''. Read literally (as the source/target statement) this is
+(b), and is tautological. Read as ``produces a module isomorphic to'', it is false rationally by (c), and at a non-Eisenstein $\m$ with both
+sides free of rank one over the same Gorenstein Hecke algebra it is false integrally as well (non-canonically, as in
+Prop.~\ref{prop:s05-Xiso}). The true content is that $\mathcal C$ produces no \emph{canonical comparison map}; we keep only (a)--(c) and the
+geometric chain below.
+\end{remark}
+The geometric chain for $D=q_1q_2q_3$ (seed table), with the D1 convention of Remark~\ref{rem:s05-D1}:
+\begin{center}\small
+\begin{tabular}{@{}p{5.9cm}p{3.4cm}p{4.9cm}@{}}
+\toprule
+link & tree-only & geometric input\\\midrule
+$X_{q_1}(J_0(MD))\cong\Z[\XB{\Uzero{q_2q_3M}}]^0$, $B=B_{q_1}$ & definition & $\HypX$ at $q_1$ ($\Gamma_0$-type)\\
+Ribet collapse for $B_{q_1}$, tree at $q_2$ & \ref{if:s03-ribet} & none\\
+$H_1(\BG(U,q_2),\Z)=X_{q_2}(J^{q_1q_2}(q_3M))$ & lost & Čerednik--Drinfeld (G5)\\
+$X_{q_2}(J^{q_1q_2})\leftrightarrow X_{q_3}(J^{q_1q_2})$ & no substitute & only through $T_\ell J$ (Galois)\\
+$X_{q_3}(J^{q_1q_2}(q_3M))\cong\Z[X_{B_D}(\Uzero{M})]^0$ & definition & Shimura-curve $\HypX$
+(\lit{kohel\_2001\_hecke-module-structure-of-quaternions\_preprint}{Thm.~4.3, p.~11}; Buzzard)\\
+\bottomrule
+\end{tabular}
+\end{center}
+At the level of Hecke algebras the $\Lam$-adic $\T^{D\text{-new}}\cong\T_{B_D}$ holds for all $D$ (\pathtt{if:s01-targets}). The several-primes
+defect formula is stage 06's (it is \stconj{}/\stsketch{} there).

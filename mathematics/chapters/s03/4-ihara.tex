@@ -1,0 +1,390 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit and the Langlandscape team
+% Stage 03, WP S03-M4: conventions (C1)--(C6) checked against the merged s01/s02 chapters (R1)--(R4),
+% Thm iharaH0 (a)--(c) with the unfolding identity and the well-definedness of epsilon, Remark pm (exponent table),
+% Cor eis, Remark T6. Owner of if:s03-ihara and of the interface deviations (D1)--(D5).
+% Labels are fixed by plan/staged/stage-03-ribet-ihara.tex; new labels: ss:s03-ihara, lem:s03-unfold, lem:s03-adjoint, ss:s03-deviations.
+\section{The definite Ihara lemma: \texorpdfstring{$H_0$}{H0} and its Hecke action}\label{ss:s03-ihara}
+
+\subsection{Conventions fixed in this stage}\label{ss:s03-conv}
+Throughout, $q\nmid D$, $U$ is as in Prop.~quot of stage 02 (so $U_q=\GL_2(\Zq)$ and $\Nrd U=\Zhat^\times$), and
+$U':=\Uzero{q}U$ is the Iwahori level at $q$. We put $\alpha=\iota_q^{-1}\mathrm{diag}(1,q)$ as in stage 02. Whenever $p$ and a $U_p$-module
+$V$ occur, $U$ is in addition factorisable at $p$, $U=U_p\times U^{(p)}$ (true for all standard levels, Def.~\ref{def:s01-levels}); this is
+needed for (C6) and for the density statement of Prop.~\ref{prop:s02-coh}(c). After each convention we record the check against the merged
+chapters of stages 01 and 02.
+\begin{enumerate}[label=(C\arabic*)]
+\item \emph{Orientation and sign.} Every edge of the quotient graph is oriented from its type-$0$ end to its type-$1$ end. Hence
+  $\partial e=[s_1e]_1-[s_0e]_0$, and
+  \[\alpha:=(-s_{0*},\,s_{1*}):\ \Z[\XB{U'}]\to\Z[\XB U]\oplus\Z[\XB U].\]
+  The transpose for the evaluation pairing $\Z[X]\times\Z^X\to\Z$ is $\alpha^\vee(f_0,f_1)=s_1^*f_1-s_0^*f_0$, which the seed
+  writes as $\alpha^*=(-s_0^*,s_1^*)$. Ribet [Ri90] uses $\delta=(s_{0*},s_{1*})$ with no sign. The two differ by the automorphism
+  $(x,y)\mapsto(-x,y)$, which flips the sign of the off-diagonal entries of $\alpha\alpha^\dagger$
+  (Prop.~\ref{prop:s03-LRdef}, \S2).\\
+  \emph{Check.} This is the sign line of \texttt{if:s02-coh}: the sign table of \S\ref{ss:s03-ribet} compares it row by row with the table of
+  \S\ref{ss:s02-coh} (orientation Def.~\ref{def:s02-tree}; $o=s_0$, $t=s_1$ by Prop.~\ref{prop:s02-quot}(a); $\delta=\partial^{\mathsf T}$ by
+  Prop.~\ref{prop:s02-duality}(a)). \stproved
+\item \emph{Weights.} The default is $w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$. We have $-1\in\Gamma_x$ if and only if $-1\in U$. So $|\Gamma_x|=2w_x$
+  when $-1\in U$ (e.g.\ $\hat\cO^\times$, $\Uzero M$), and $|\Gamma_x|=w_x$ when $-1\notin U$ (e.g.\ $\Uone N$, $N>2$). The
+  mass formula of \texttt{if:s01-mass} is stated with $|\Gamma_x|$, so it reads $\sum_x w_x^{-1}=\frac1{12}\prod_{\ell\mid D}(\ell-1)$.\\
+  \emph{Check.} Def.~\ref{def:s01-classset} and Thm.~\ref{thm:s01-mass}(a) (``equivalently $\sum1/w_x=\varphi(D)/12$''). \stproved
+\item \emph{Pullback and trace.} On cohomological Brandt modules, $(s_0^*f)(y)=f(y)$ and $(s_1^*f)(y)=f(y\alpha)$. The traces are
+  \[(s_{0*}g)(x)=\sum_{u\in U/U'}g(xu),\qquad (s_{1*}g)(x)=\sum_{u\in U/\alpha^{-1}U'\alpha}g(xu\alpha^{-1}),\]
+  with representatives $u\in\GL_2(\Zq)$. No twist by $V$ occurs, because $\alpha$ lives at $q\ne p$. With the pairing
+  $\langle f,\varphi\rangle_U:=\sum_{[x]\in\XB U}w_x^{-1}\langle f(x),\varphi(x)\rangle$ between $\Brandt UV$ and $\Brandt U{V^\vee}$, the
+  maps $s_{j*}$ are adjoint to $s_j^*$ (Lemma~\ref{lem:s03-adjoint}). Under the norm identification of \pathtt{if:s01-brandt} ($p\nmid|\Gamma_x|$),
+  they are the homological pushforwards $[y]\mapsto[y]$ and $[y]\mapsto[y\alpha]$.
+  \emph{Factor-$2$ hypothesis} (stage 01, Prop.~s01-adjoint(c)). For $\pi:\XB{U'}\to\XB U$, one has $\nu\circ\pi_*=\mathrm{tr}\circ\nu'$
+  only if $-1\in U'$ or $-1\notin U$. Otherwise $\mathrm{tr}\circ\nu'=2\,\nu\circ\pi_*$. For the degeneracies $s_0,s_1$ of this stage the
+  hypothesis \emph{always holds}: $U'=\Uzero qU$ differs from $U$ (and $\alpha^{-1}U'\alpha$ from $U$) only at $q$, and $-1\in\Iw_q$, so
+  $-1\in U'\iff-1\in U$. The same holds for the unfolding identity used for $\varepsilon$ in Thm~\ref{thm:s03-iharaH0}: there the
+  orbit sizes are $w_x/w_y=|\Gamma_x|/|\Gamma_y|$ (Lemma~\ref{lem:s03-unfold}). This stage never passes from $\hat\cO^\times$ to $\Uone N$. Any such level change
+  (for example comparing $\Phicomb(\GDR_q(\Uone{Mp^s}))$ with level $1$, or in stage 04) must carry the factor $2$ explicitly whenever
+  $-1\in U$ and $-1\notin U'$.\\
+  \emph{Check.} The traces are stage 02's $\mathrm{tr}_0,\mathrm{tr}_1$ (Def.~\ref{def:s02-Mhom}(iv), whose factor $u_p$ is $1$ for representatives
+  in $\GL_2(\Zq)$); $\nu\circ s_{j*}=\mathrm{tr}_j\circ\nu'$ is Prop.~\ref{prop:s02-Mhomprops}(d), and the factor-$2$ statement is
+  Prop.~\ref{prop:s01-adjoint}(c). \stproved
+\item \emph{Hecke operators.} For $g\in\Bhat^\times$ supported at $\ell\nmid Dpq$ with $UgU=\coprod_ig_iU$, put
+  $(T_gf)(x)=\sum_if(xg_i)$ on $\Brandt UV$. This is the convention of \pathtt{if:s01-hecke}. The quotient $\coker\alpha$ carries the
+  \emph{induced} action. For $\langle,\rangle_U$ one has $T_g^\dagger=T_{g^{-1}}$. For $T_\ell$ ($g=\mathrm{diag}(\ell,1)$) this
+  is $T_{g^{-1}}=S_\ell^{-1}T_\ell$.\\
+  \emph{Check (R1), (R2) below.} $T_g^\dagger=T_{g^{-1}}$ with coefficients is Lemma~\ref{lem:s03-adjoint}(c). \stproved
+\item \emph{Norm character.} Every $a\in\Qhat^\times$ factors uniquely as $a=r_at_a$ with $r_a\in\Q_{>0}$ and
+  $t_a\in\Zhat^\times$. Put $\tau(x):=(t_{\Nrd x})_p\in\Zp^\times$ for $x\in\Bhat^\times$. Equivalently,
+  $\tau(x)=\Nrd(x)_p\,\|\Nrd x\|$ with $\|\cdot\|$ the finite idelic norm. This is the factor $(\det g_l\,\|\det g\|)$ of [DT, p.~446]
+  \lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{p.~446}
+  and the \texttt{normWeight} of the import. Then $\tau(\gamma xu)=\tau(x)\det(u_p)$, $\tau(x\alpha)=q^{-1}\tau(x)$, and
+  $\tau(xg)=\ell^{-1}\tau(x)$ for $\Nrd g\in\ell\Z_\ell^\times$ at $\ell$.\\
+  \emph{Check.} In the notation of \S5 of stage 01 (``Notation used throughout this section''), $\Nrd x=r_xu_x$ and $\tau(x)=u_{x,p}$; the
+  transformation rule $u_{\gamma xu}=u_x\Nrd(u)$ is stated there. Proof of the three rules: $\Nrd\gamma\in\Q_{>0}$ ($B$ definite) only changes
+  $r$; $\Nrd u\in\Zhat^\times$ only changes $t$, by $\Nrd u$, whose $p$-component is $\det(u_p)$; the idele $\Nrd\alpha$ is $q$ at $q$ and $1$
+  elsewhere, $=q\cdot t$ with $t$ equal to $q^{-1}$ at every prime $\ne q$; likewise for $g$ at $\ell$ (more generally
+  $\tau(xg)=\ell^{-m}\tau(x)$ if $\Nrd g\in\ell^m\Z_\ell^\times$ at $\ell$ and $g$ is $1$ elsewhere). The equivalent form: $\|a\|=r_a^{-1}$, and
+  $a_p=r_a(t_a)_p$. \stproved
+\item \emph{Coinvariants as $\Zp[\Zp^\times]$-modules.} Put $U_p^1:=U_p\cap\SL_2(\Zp)$. Then $\det:U_p/U_p^1\xrightarrow\sim\Zp^\times$.
+  For a $U_p$-module $V$ and $t\in\Zp^\times$, let $[t]$ denote the action of any $u_t\in U_p$ with $\det u_t=t$ on
+  $V_{U^1_p}$, and also on $V^{U^1_p}$. It is well defined because $U^1_p$ is normal in $U_p$.\\
+  \emph{Check.} $\det U_p=\Zp^\times$ because $\Nrd U=\Zhat^\times$ and $U=U_p\times U^{(p)}$. If $u_t'=u_th$ with $h\in U^1_p$, then on
+  coinvariants $u_th\bar v=u_t\bar v+\overline{(u_thu_t^{-1})u_tv-u_tv}=u_t\bar v$, and on invariants $u_thv=u_tv$; so $[t]$ is well defined, and
+  $t\mapsto[t]$ is a homomorphism from the abelian group $\Zp^\times$ (it factors through $U_p/U^1_p$). For $u\in U_p$, $u$ acts on $V_{U^1_p}$ and on
+  $V^{U^1_p}$ as $[\det u]$. \stproved
+\end{enumerate}
+
+\paragraph{Checks against the merged chapters of stages 01 and 02.}
+(R1) Stage 01 uses (C4): the cohomological $T_gf(x)=\sum_ig_{i,p}f(xg_i)$ (Def.~\ref{def:s01-hecke}); for $g$ supported away from $p$ we may take
+all $g_{i,p}=1$, which is (C4). At level $\Uzero M\cdot\GL_2(\Zp)$, $S_\ell=\ell^{k-2}$ (Prop.~\ref{prop:s01-relations}(a)). So
+Thm~\ref{thm:s03-iharaH0}(b) holds with exponent $+1$ as stated; consistency: $S_\ell$ is the scalar $\ell^{k-2}$ on $\Brandt U{\Vk}$, hence on every
+quotient, and (b) gives $S_\ell\mapsto[\ell]^2=$ the scalar $\ell\in\Zp^\times\subseteq U_p$, which acts on $\Vk$ as $\ell^{k-2}$ (\eqref{eq:s01-Vk}).
+\stproved.
+(R2) Stage 01 states $T_g^*=T_{g^{-1}}$ (\pathtt{if:s01-hecke}, Prop.~\ref{prop:s01-adjoint}(a), trivial coefficients). Its norm map $\nu$
+intertwines $T_g$ on $\Z[X]$ (transpose action) with $T_{g^{-1}}$ on $\Z^X$ (Prop.~\ref{prop:s01-adjoint}(b)), and $\pi_*$ with the trace
+(Prop.~\ref{prop:s01-adjoint}(c), Remark~\ref{rem:s01-nu-hecke}). This is (C3). With coefficients, Lemma~\ref{lem:s03-adjoint} below extends
+$T_g^\dagger=T_{g^{-1}}$ to the pairing $\langle,\rangle_U$ of $\Brandt UV$ with $\Brandt U{V^\vee}$; it has no Gross factor. The pairing
+$\langle,\rangle_k$ of Def.~\ref{def:s01-pairingV} pairs $\Brandt U{\Vk}$ with itself through $u_{x,p}^n\beta_n$, i.e.\ through
+$\Vk\cong\Vk^\vee\otimes{\det}^n$ twisted by $\tau^n$; this is why its adjoints carry the factor $r_g^n$ of Lemma~\ref{lem:s01-dictionary}. The two
+statements are consistent. \stproved.
+(R3) Stage 02 presents $H_*(\GU,V)$ as the homology of the \emph{homological} modules $\Brandt{\cdot}{V}_*$, with $\partial=(-s_{0*},s_{1*})$, edges
+oriented $0\to1$, and the graph $\BG(U,q)$ connected (Prop.~\ref{prop:s02-coh}(b)). This is consistent with (C1). However, if $H_0$ is taken as
+$\coker\partial$ on $\Brandt UV_*^2$ with the stage-01 transposed Hecke action, then $\nu$ turns $T_\ell$ into $T_\ell^\dagger$, and the exponent in
+Thm~\ref{thm:s03-iharaH0}(b) becomes $-1$ (Remark~\ref{rem:s03-pm}). Every use must say which presentation it means. The normative convention is the
+one fixed in stage 02, \pathtt{if:s02-indef} (Def.~\ref{def:s02-indef}, ``Hecke action''): the Hecke action on $H_*(\GU,V)$ comes from the
+homological complex with the transposed operators, which corresponds to the adjoint operators $T_{g^{-1}}$ on the cohomological modules. In it the
+exponent is $-1$; Thm~\ref{thm:s03-iharaH0}(b) keeps $+1$ for the cohomological operators. \stproved{} (the transport $\nu\circ T=T_{g^{-1}}\circ\nu$
+with coefficients is proved in Def.~\ref{def:s02-indef}).
+\emph{Consequence for $S_\ell$.} The normative convention is not the classical one in $S_\ell$ either: $z_\ell=\ell y$ with $y\in U$, $y_p=\ell^{-1}$ (the
+scalar), so the homological operator is $[xz_\ell]\otimes v=[x]\otimes y_pv$, i.e.\ $S_\ell^{\mathrm{hom}}$ is the scalar $\ell^{2-k}$ on
+$\Brandt U{\Vk}_*$ (when $U_p$ contains the scalars), and under $\nu$ it is $T_{z_\ell^{-1}}=S_\ell^{-1}$. In general the normative operators $T_\ell$,
+$S_\ell$ are the classical $S_\ell^{-1}T_\ell$, $S_\ell^{-1}$ of (C4). So every comparison with classical eigenvalues ($a_\ell$, $S_\ell=\ell^{k-2}$; HACS,
+stages 04 and 06) must first apply $T\mapsto T^\dagger$ (exponent table, column ``$S_\ell$ on $H_0$''). \stproved{} (as for $T_\ell$, with $g=z_\ell$).
+(R4) $H_0(\GU,V)=V_{U^1_p}$, and hence Thm~\ref{thm:s03-iharaH0}, uses the full density of $\GU$ in $U^1_p$ (\texttt{if:s02-coh},
+Prop.~\ref{prop:s02-coh}(c), stage 02 D3). It is \emph{not} discharged by the finite per-level connectivity check of stage 02, which suffices only for
+Thm~\ref{thm:s03-ribet}(a) and Cor.~\ref{cor:s03-ihara}(i), (ii). The full dependence table is at the end of \S\ref{ss:s03-ribet}.
+
+\subsection{Two lemmas: unfolding and adjoints}
+\emph{Standing hypotheses for the rest of this section:} $p\ge5$, $p\ne q$, $p\nmid D$, $U$ is $q$-admissible and factorisable at $p$, condition (iii) of
+Prop.~\ref{prop:s02-BG} holds, and $V$ is a finitely generated $\Zp$-module with continuous $U_p$-action. If $-1\in U$ we assume that $-1$ acts
+trivially on $V$; this loses nothing: for the summand $V^-$ on which $-1$ acts by $-1$ all Brandt modules vanish (Remark~\ref{rem:s02-minusone}),
+and so does $(V^-)_{U^1_p}$, because $-1\in U^1_p$ acts trivially on coinvariants and by $-1$, and $2$ is invertible.
+
+\begin{lemma}[unfolding]\label{lem:s03-unfold}
+Let $U''\subseteq U$ be an open subgroup with $-1\in U''\iff-1\in U$, let $N$ be a $\Zp$-module, and let $F:\Bhat^\times\to N$ satisfy $F(\gamma yu)=F(y)$
+for $\gamma\in B^\times$, $u\in U''$. Then for every $x$, $\sum_{u\in U/U''}F(xu)=\sum_{[y]\in\pi^{-1}[x]}\frac{|\Gamma_x|}{|\Gamma_y|}F(y)$ (with
+$\pi:\XB{U''}\to\XB U$; $\Gamma_y$ at level $U''$), and
+\[\sum_{[x]\in\XB U}w_x^{-1}\sum_{u\in U/U''}F(xu)=\sum_{[y]\in\XB{U''}}w_y^{-1}F(y).\]
+This applies to $U''=U'$ and $U''=U'_\alpha=\alpha^{-1}U'\alpha$ (by (C3)), and to $U''=U\cap gUg^{-1}$ for every $g\in\Bhat^\times$ ($-1$ is central).
+\stproved. ($w_x^{-1}\in\Zp$ since $p\nmid w_x$, Lemma~\ref{lem:s01-stab}(c).)
+\end{lemma}
+\begin{proof}
+The inner sum does not depend on the representative $x$: for $x'=\gamma xv$ ($\gamma\in B^\times$, $v\in U$), reindex $u\mapsto v^{-1}u$. As in the proof of
+Thm.~\ref{thm:s01-mass}(b), $uU''\mapsto[xu]$ induces a bijection $\Gamma_x\backslash(U/U'')\to\pi^{-1}[x]$, and the orbit of $uU''$ has
+$|\Gamma_x|/|\Gamma_{xu}(U'')|$ elements. Since $F(xu)$ depends only on $[xu]\in\XB{U''}$, this gives the first identity. Now $|\Gamma|=\varepsilon w$ with
+$\varepsilon=|\{\pm1\}\cap U|=|\{\pm1\}\cap U''|$ at both levels (Def.~\ref{def:s01-classset}), so $w_x^{-1}|\Gamma_x|/|\Gamma_y|=w_y^{-1}$, and summing over $[x]$
+gives the second.
+\end{proof}
+
+\begin{lemma}[adjoints with coefficients]\label{lem:s03-adjoint}
+Let $V^\vee$ be either $\Hom_{\Zp}(V,\Zp)$ or $V^*:=\Hom_{\Zp}(V,\Qp/\Zp)$, with the contragredient action $(u\varphi)(v)=\varphi(u^{-1}v)$, and
+$\langle,\rangle:V\times V^\vee\to\Zp$ (resp.\ $\Qp/\Zp$) the evaluation. Put $\langle f,\varphi\rangle_U:=\sum_{[x]\in\XB U}w_x^{-1}\langle f(x),\varphi(x)\rangle$ for
+$f\in\Brandt UV$, $\varphi\in\Brandt U{V^\vee}$.
+\begin{enumerate}[label=(\alph*)]
+\item $\langle,\rangle_U$ is well defined. For $V^\vee=V^*$ it is a perfect pairing: $\Brandt U{V^*}\xrightarrow\sim\Hom_{\Zp}(\Brandt UV,\Qp/\Zp)$.
+\item $\langle s_{j*}g,\varphi\rangle_U=\langle g,s_j^*\varphi\rangle_{U'}$ for $g\in\Brandt{U'}V$, $j=0,1$. Hence $\langle\alpha g,(\varphi_0,\varphi_1)\rangle_U=\langle
+  g,\alpha^\vee(\varphi_0,\varphi_1)\rangle_{U'}$.
+\item For $g$ supported at a finite set $S$ of primes with $p,q\notin S$ (and $U=U_S\times U^S$): $\langle T_gf,\varphi\rangle_U=\langle f,T_{g^{-1}}\varphi\rangle_U$.
+\item In (c), $\deg(Ug^{-1}U)=\deg(UgU)$, where $\deg$ is the number of left $U$-cosets.
+\end{enumerate}
+\stproved{} (the coefficient version of Prop.~\ref{prop:s01-adjoint}(a),(c); there is no Gross factor because $g_p=1$ and $V$ is paired with
+its contragredient).
+\end{lemma}
+\begin{proof}
+(a) For $x'=\gamma xu$: $w_{x'}=w_x$ and $\langle u_p^{-1}f(x),u_p^{-1}\varphi(x)\rangle=\langle f(x),\varphi(x)\rangle$. By Def.~\ref{def:s01-brandt},
+$\Brandt UV=\bigoplus_xV^{H_x}$ with $H_x=x_p^{-1}\Gamma_xx_p$ finite of order prime to $p$. The averaging idempotent $e_x=|H_x|^{-1}\sum_{h\in H_x}h$ gives an
+$H_x$-stable decomposition $V=V^{H_x}\oplus\ker e_x$, hence $V^*=(V^{H_x})^*\oplus(\ker e_x)^*$ and $(V^*)^{H_x}=(V^{H_x})^*$ (on $(\ker e_x)^*$ the
+transpose of $e_x$ is $0$). So $\Brandt U{V^*}=\bigoplus_x(V^{H_x})^*$, and $\langle,\rangle_U$ is the orthogonal sum of the evaluation pairings twisted by the
+units $w_x^{-1}$, which are perfect.
+
+(b) $j=0$: since $s_0^*\varphi$ is right $U$-invariant up to the action and representatives $u\in U/U'$ have $u_p=1$,
+$\langle(s_{0*}g)(x),\varphi(x)\rangle=\sum_{u\in U/U'}\langle g(xu),\varphi(xu)\rangle$. The function $F(y)=\langle g(y),\varphi(y)\rangle$ is left $B^\times$- and right
+$U'$-invariant, so Lemma~\ref{lem:s03-unfold} gives $\langle s_{0*}g,\varphi\rangle_U=\sum_{[y]\in\XB{U'}}w_y^{-1}F(y)=\langle g,s_0^*\varphi\rangle_{U'}$. $j=1$: here
+$\varphi(x)=\varphi(xu)=(s_1^*\varphi)(xu\alpha^{-1})$, so the summand is $\sum_{u\in U/U'_\alpha}F_1(xu)$ with $F_1(z):=\langle g(z\alpha^{-1}),(s_1^*\varphi)(z\alpha^{-1})\rangle$,
+which is right $U'_\alpha$-invariant. Unfold for $U'_\alpha$, and use the bijection $\XB{U'_\alpha}\to\XB{U'}$, $[z]\mapsto[z\alpha^{-1}]$, which preserves the
+weights ($\Gamma_z(U'_\alpha)=\Gamma_{z\alpha^{-1}}(U')$). The second statement follows by linearity.
+
+(c) Put $W:=U\cap gUg^{-1}$. Then $UgU=\coprod_{u\in U/W}ugU$, and since $U$ and $W$ agree outside $S$ the $u$ can be chosen with $u_p=1$; also
+$g_p=1$. So $(T_gf)(x)=\sum_{u\in U/W}f(xug)$ and $\langle T_gf,\varphi\rangle_U=\sum_xw_x^{-1}\sum_{u\in U/W}F(xu)$ with $F(y):=\langle f(yg),\varphi(y)\rangle$. For
+$v\in W$, $g^{-1}vg\in U$ and $(g^{-1}vg)_p=v_p$, so $F(yv)=\langle v_p^{-1}f(yg),v_p^{-1}\varphi(y)\rangle=F(y)$. By Lemma~\ref{lem:s03-unfold},
+$\langle T_gf,\varphi\rangle_U=\sum_{[y]\in\XB W}w_y^{-1}\langle f(yg),\varphi(y)\rangle$. In the same way, with $W':=U\cap g^{-1}Ug=g^{-1}Wg$,
+$\langle f,T_{g^{-1}}\varphi\rangle_U=\sum_{[z]\in\XB{W'}}w_z^{-1}\langle f(z),\varphi(zg^{-1})\rangle$. The map $\XB W\to\XB{W'}$, $[y]\mapsto[yg]$, is a bijection with
+$\Gamma_{yg}(W')=\Gamma_y(W)$, and it matches the summands ($z=yg$).
+
+(d) $\deg(UgU)=[U:W]$ and $\deg(Ug^{-1}U)=[U:W']=[U:g^{-1}Wg]$. Everything happens in $G_S=\prod_{\ell\in S}B_\ell^\times$; let $\mu$ be a left Haar measure. Then
+$[U:W]=\mu(U_S)/\mu(W_S)$ and $[U:g^{-1}Wg]=\mu(U_S)/\mu(g^{-1}W_Sg)=\mu(U_S)/(\Delta(g)\mu(W_S))$ with the modular function $\Delta$. Each $B_\ell^\times$ is
+unimodular: $\Delta$ is a continuous homomorphism to $\R_{>0}$, trivial on compact subgroups and on the centre. If $\ell\mid D$, $B_\ell^\times/\Q_\ell^\times$ is
+compact, so $\Delta=1$. If $\ell\nmid D$, $B_\ell^\times\cong\GL_2(\Q_\ell)$, whose commutator subgroup is $\SL_2(\Q_\ell)$; so $\Delta=\delta\circ\det$ with
+$\delta:\Q_\ell^\times\to\R_{>0}$ trivial on $\Z_\ell^\times$ and on the squares (determinants of central elements), hence $\delta(\ell)^2=1$ and $\delta=1$. So
+$\Delta=1$ and the two degrees agree.
+\end{proof}
+
+\subsection{The cokernel of \texorpdfstring{$\alpha$}{alpha}}
+
+\begin{theorem}[Ihara (iii): $H_0$ and its Hecke action]\label{thm:s03-iharaH0}
+Let $p\ge5$ and let $V$ be a finitely generated $\Zp$-module with continuous $U_p$-action. Use conventions (C1)--(C6).
+\begin{enumerate}[label=(\alph*)]
+\item The map
+  \[\varepsilon:\Brandt UV^2\to V_{U^1_p},\qquad \varepsilon(f_0,f_1)=\sum_{[x]\in\XB U}w_x^{-1}\big([\tau(x)]\,f_0(x)+[q\,\tau(x)]\,f_1(x)\big)\]
+  is well defined and surjective, and $\ker\varepsilon=\mathrm{im}\,\alpha$. Hence $\coker\alpha\cong H_0(\GU,V)=V_{U^1_p}$.
+\item For $g$ supported at $\ell\nmid Dpq$, and $U$ factorisable at $\ell$, $U=U_\ell\times U^{(\ell)}$ (true for the standard levels,
+  Def.~\ref{def:s01-levels}), the induced action of $T_g$ on $\coker\alpha$ is
+  \[T_g\ \longmapsto\ \deg(UgU)\cdot[\ell^{\,v_\ell(\Nrd g)}].\]
+  In particular, $T_\ell$ acts as $(1+\ell)[\ell]$ and $S_\ell$ acts as $[\ell]^2$, the exponent being $+1$. If $U_p$ contains
+  the scalars, then $[\ell]^2$ is the scalar $\ell$, which acts on $\Vk$ as $\ell^{k-2}$, in agreement with the classical
+  normalisation $S_\ell=\ell^{k-2}$. The exponent $+1$ is for the cohomological operators $T_g$; for the transposed (homological) operators of the normative convention of stage 02, \pathtt{if:s02-indef}, it is $-1$, and there $S_\ell$ acts as $[\ell]^{-2}$ (Remark~\ref{rem:s03-pm},
+  exponent table, (R3)).
+\item On the $\chi$-eigenpiece of $V_{U^1_p}\otimes\cOE$ for a character $\chi:\Zp^\times\to\cOE^\times$ (via $[\cdot]$), $T_\ell$ acts by
+  $(1+\ell)\chi(\ell)$.
+\end{enumerate}
+\emph{Status.} \stpmc{} (proof below; the stage tex has \sttoprove{} with a sketch, which upgrades the seed's ``Hecke action \stsketch''). The
+well-definedness of $\varepsilon$, $\varepsilon\circ\alpha=0$, surjectivity and the formula $\varepsilon\circ T_g=\deg(UgU)[\ell^m]\circ\varepsilon$ are \stproved{}
+outright; $\ker\varepsilon\subseteq\mathrm{im}\,\alpha$ uses Cor.~\ref{cor:s03-ihara}(ii$'$), hence (iii) and the density of $\GU$ in $U^1_p$ (full strong
+approximation, (R4)); the identification with $H_0(\GU,V)$ is Prop.~\ref{prop:s02-coh}(b),(c). Lean (S03-L11): the definitions \lean{Langlandscape.Ribet.tau}, \lean{Langlandscape.Ribet.diamond}, \lean{Langlandscape.Ribet.epsilon} and the predicate
+\lean{Langlandscape.Ribet.EpsWellDefined} \stformal{} (definitions only); clause (a) is the \emph{registered hypothesis} \lean{Langlandscape.Hyp.IharaH0} over
+\pathtt{Ribet.alphaV} (an assumption, not a formalized theorem); clause (b) is
+maths only here (the Hecke operators with coefficients, S04-L15a, now exist in Lean, but clause (b) itself is neither stated nor proved), \leanplanned
+\end{theorem}
+\begin{proof}
+Throughout, coset representatives $u$ of $U/U'$, $U/U'_\alpha$ and $U/(U\cap gUg^{-1})$ are taken with $u_p=1$ (the groups agree away from $q$, resp.\
+away from the support of $g$; for the latter this uses $U=U_\ell\times U^{(\ell)}$, as does Prop.~\ref{prop:s02-quot}(c) in (b)), so $\tau(xu)=\tau(x)$.
+
+\emph{(a1) $\varepsilon$ is well defined.} The weights $w_x^{-1}\in\Zp$ (Lemma~\ref{lem:s01-stab}(c)). Let $x'=\gamma xu$ with $\gamma\in B^\times$, $u\in U$. Then
+$w_{x'}=w_x$, $\tau(x')=\tau(x)\det u_p$ by (C5), and $f_j(x')=u_p^{-1}f_j(x)$. In $V_{U^1_p}$ the element $u_p^{-1}$ acts as $[\det u_p]^{-1}$ (C6), so
+$[\tau(x')]f_0(x')=[\tau(x)][\det u_p][\det u_p]^{-1}\overline{f_0(x)}=[\tau(x)]\overline{f_0(x)}$, and likewise for the $f_1$-term. So each summand depends only on
+$[x]$, and $\varepsilon$ is a $\Zp$-linear map.
+
+\emph{(a2) $\varepsilon\circ\alpha=0$ (the unfolding identity).} Let $g\in\Brandt{U'}V$ and put $F(y):=[\tau(y)]\overline{g(y)}\in V_{U^1_p}$ for $y\in\Bhat^\times$. As in
+(a1), $F(\gamma yu)=F(y)$ for $\gamma\in B^\times$, $u\in U'$. By (C3) and $\tau(xu)=\tau(x)$,
+\[\sum_{[x]}w_x^{-1}[\tau(x)]\,(s_{0*}g)(x)=\sum_{[x]}w_x^{-1}\sum_{u\in U/U'}F(xu)=\sum_{[y]\in\XB{U'}}w_y^{-1}F(y)\]
+by Lemma~\ref{lem:s03-unfold}. For the second component, $\tau(xu\alpha^{-1})=q\,\tau(x)$ by (C5), so $[q\tau(x)]\overline{g(xu\alpha^{-1})}=F(xu\alpha^{-1})$, and the
+function $z\mapsto F(z\alpha^{-1})$ is right $U'_\alpha$-invariant. Lemma~\ref{lem:s03-unfold} for $U'_\alpha$ and the weight-preserving bijection
+$\XB{U'_\alpha}\to\XB{U'}$, $[z]\mapsto[z\alpha^{-1}]$, give
+\[\sum_{[x]}w_x^{-1}[q\tau(x)]\,(s_{1*}g)(x)=\sum_{[z]\in\XB{U'_\alpha}}w_z^{-1}F(z\alpha^{-1})=\sum_{[y]\in\XB{U'}}w_y^{-1}F(y).\]
+Hence $\varepsilon(\alpha g)=\varepsilon(-s_{0*}g,s_{1*}g)=-\sum_yw_y^{-1}F(y)+\sum_yw_y^{-1}F(y)=0$. (Both terms equal $\sum_{[y]}w_y^{-1}[\tau(y)]g(y)$, as in the stage tex.)
+
+\emph{(a3) $\varepsilon$ is onto.} Let $v\in V$ and $x\in\Bhat^\times$. Put $H_x=x_p^{-1}\Gamma_xx_p\subseteq U_p$ and $N_xv:=\sum_{h\in H_x/(H_x\cap\{\pm1\})}hv\in V^{H_x}$ (well
+defined as $-1$ acts trivially). Let $f_0$ be the element of $\Brandt UV$ supported on $[x]$ with $f_0(x)=N_xv$ (Def.~\ref{def:s01-brandt}), and $f_1=0$. Each
+$h\in H_x$ lies in $U_p$ and has $\det h=\Nrd(\gamma)=1$ ($\gamma\in\Gamma_x$, Lemma~\ref{lem:s01-stab}(a)), so $h\in U^1_p$ acts trivially on $V_{U^1_p}$, and
+$\overline{N_xv}=w_x\bar v$. Hence $\varepsilon(f_0,0)=[\tau(x)]\bar v$. Replacing $v$ by $u_{\tau(x)}^{-1}v$ shows that every $\bar v$ is in the image. (This does
+not need $\tau$ to be onto.)
+
+\emph{(a4) $\ker\varepsilon=\mathrm{im}\,\alpha$.} Put $P:=\Brandt UV^2$, a finitely generated $\Zp$-module, and $V^*=\Hom(V,\Qp/\Zp)$. By
+Lemma~\ref{lem:s03-adjoint}(a), $\Brandt U{V^*}^2=\Hom(P,\Qp/\Zp)$ via $\langle,\rangle_U$, and by Lemma~\ref{lem:s03-adjoint}(b) the annihilator of
+$\mathrm{im}\,\alpha$ is $\ker\big(\alpha^\vee:\Brandt U{V^*}^2\to\Brandt{U'}{V^*}\big)$. The $U_p$-action on the discrete module $V^*$ is continuous (a
+$\varphi\in V^*$ has finite image, so it kills $p^nV$ for some $n$, and is fixed by the open kernel of $U_p\to\mathrm{Aut}(V/p^nV)$). So
+Cor.~\ref{cor:s03-ihara}(ii$'$) applies with $W=V^*$:
+$\ker\alpha^\vee=\{(f_\varphi,f_{[q]^{-1}\varphi}):\varphi\in(V^*)^{U^1_p}\}$. Note $(V^*)^{U^1_p}=\Hom(V_{U^1_p},\Qp/\Zp)$, and for $\varphi$ in it and $t\in\Zp^\times$,
+$\langle v,[t]^{-1}\varphi\rangle=\varphi(u_tv)=\varphi([t]\bar v)$. Therefore
+\[\big\langle(f_0,f_1),(f_\varphi,f_{[q]^{-1}\varphi})\big\rangle_U=\sum_{[x]}w_x^{-1}\Big(\varphi\big([\tau(x)]\overline{f_0(x)}\big)+\varphi\big([q][\tau(x)]\overline{f_1(x)}\big)\Big)=\varphi\big(\varepsilon(f_0,f_1)\big).\]
+So $(f_0,f_1)$ is orthogonal to $\ker\alpha^\vee=(\mathrm{im}\,\alpha)^\perp$ iff $\varphi(\varepsilon(f_0,f_1))=0$ for all $\varphi\in\Hom(V_{U^1_p},\Qp/\Zp)$, iff
+$\varepsilon(f_0,f_1)=0$ (Pontryagin duality: the characters of the finitely generated $\Zp$-module $V_{U^1_p}$ separate points). On the other hand
+$(\mathrm{im}\,\alpha)^{\perp\perp}=\mathrm{im}\,\alpha$, because the characters of $P/\mathrm{im}\,\alpha$ separate its points. Hence $\ker\varepsilon=\mathrm{im}\,\alpha$.
+
+\emph{The identification.} By Thm.~\ref{thm:s03-ribet}(b) (i.e.\ Prop.~\ref{prop:s02-coh}(b) transported by $\nu$), $\coker\alpha\cong H_0(\GU,V)$, and
+$H_0(\GU,V)=V_{U^1_p}$ by Prop.~\ref{prop:s02-coh}(c). (a1)--(a4) give the isomorphism $\bar\varepsilon:\coker\alpha\xrightarrow\sim V_{U^1_p}$ directly.
+
+(b) $T_g$ commutes with $s_{0*},s_{1*}$ (Prop.~\ref{prop:s02-quot}(c)), so it preserves $\mathrm{im}\,\alpha$ and acts on $\coker\alpha$. Let $m:=v_\ell(\Nrd g)$, so
+$\tau(yg)=\ell^{-m}\tau(y)$ (C5), and $W:=U\cap gUg^{-1}$, $W':=g^{-1}Wg=U\cap g^{-1}Ug$. For $f\in\Brandt UV$ and $c\in\{1,q\}$ put
+$F_c(y):=[c\,\tau(y)]\overline{f(y)}\in V_{U^1_p}$; it is left $B^\times$- and right $U$-invariant (a1). As in the proof of Lemma~\ref{lem:s03-adjoint}(c),
+$(T_gf)(x)=\sum_{u\in U/W}f(xug)$, and $[c\tau(x)]=[\ell^m][c\,\tau(xug)]$. Hence
+\begin{align*}\sum_{[x]}w_x^{-1}[c\tau(x)](T_gf)(x)&=[\ell^m]\sum_{[x]}w_x^{-1}\sum_{u\in U/W}F_c(xug)=[\ell^m]\sum_{[y]\in\XB W}w_y^{-1}F_c(yg)\\
+&=[\ell^m]\sum_{[z]\in\XB{W'}}w_z^{-1}F_c(z),\end{align*}
+by Lemma~\ref{lem:s03-unfold} for $W$ (the function $y\mapsto F_c(yg)$ is right $W$-invariant) and the bijection $[y]\mapsto[yg]$. By Lemma~\ref{lem:s03-unfold}
+for $W'$ in the reverse direction ($F_c$ is right $U$-invariant, so $\sum_{u\in U/W'}F_c(xu)=[U:W']F_c(x)$) this is
+$[\ell^m]\,[U:W']\sum_{[x]}w_x^{-1}F_c(x)$. Applying this with $c=1$ to $f_0$ and $c=q$ to $f_1$:
+\[\varepsilon(T_gf_0,T_gf_1)=[U:W']\,[\ell^m]\,\varepsilon(f_0,f_1),\qquad [U:W']=\deg(Ug^{-1}U)=\deg(UgU)\]
+by Lemma~\ref{lem:s03-adjoint}(d). Via $\bar\varepsilon$ this is the claim. For $T_\ell$: $g=\varpi_\ell$, $\Nrd g=\ell$, $\deg=\ell+1$ (Def.~\ref{def:s01-hecke}), so
+$T_\ell\mapsto(1+\ell)[\ell]$. For $S_\ell$: $g=z_\ell$ central, $\Nrd z_\ell=\ell^2$, one coset, so $S_\ell\mapsto[\ell^2]=[\ell]^2$. If $\Zp^\times\subseteq U_p$ (scalars),
+then $[\ell^2]$ is the action of the scalar $\ell$ ($\det=\ell^2$), which is $\ell^{k-2}$ on $\Vk$ by \eqref{eq:s01-Vk}.
+
+(c) On the $\chi$-eigenpiece $\{v:[t]v=\chi(t)v\ \forall t\}$ of $V_{U^1_p}\otimes\cOE$, $(1+\ell)[\ell]$ acts as $(1+\ell)\chi(\ell)$; note $\ell\in\Zp^\times$.
+\end{proof}
+
+\noindent\emph{Cross-check of (b) by duality.} On $H^0$: for $\varphi\in(V^\vee)^{U^1_p}$, $(T_gf_\varphi)(x)=\sum_i[\tau(xg_i)]^{-1}\varphi=\deg(UgU)\,[\ell^m]\,f_\varphi(x)$, so
+$T_g$ acts on $\ker\alpha^\vee\cong(V^\vee)^{U^1_p}$ as $\deg(UgU)[\ell^m]$, also with exponent $+1$. By Lemma~\ref{lem:s03-adjoint}(c) the action of $T_g$ on
+$\coker\alpha$ is the transpose of that of $T_{g^{-1}}$ on $\ker\alpha^\vee$, i.e.\ of $\deg(Ug^{-1}U)[\ell^{-m}]$ on $(V^*)^{U^1_p}$; the transpose of $[t]$ on $V^*$ is
+$[t]^{-1}$ on $V$ (as $\langle[t]^{-1}v,\varphi\rangle=\langle v,[t]\varphi\rangle$), which gives $\deg(UgU)[\ell^m]$ again. \stproved
+
+\begin{remark}[where $\ell^{-1}$ comes from]\label{rem:s03-pm}
+The seed's exponent $\ell^{\pm1}$ is the choice between $T_\ell$ and its adjoint $T_\ell^\dagger=T_{g^{-1}}=S_\ell^{-1}T_\ell$. The
+adjoint acts on $\coker\alpha$ as $(1+\ell)[\ell]^{-1}$. One obtains $\ell^{-1}$ by transporting the homological operator
+$[x]\mapsto\sum_i[xg_i]$ on $\Brandt UV_*$ (stage 02's presentation of $H_*$) through the norm map $\nu$ of stage 01, or by dualising the action on $H^0(\GU,V^\vee)$, where $T_\ell$ acts as
+$(1+\ell)[\ell]$ on $(V^\vee)^{U^1_p}$ and the transpose of $[\ell]$ on $V^\vee$ is $[\ell]^{-1}$ on $V$. Compare the adjunction
+formula $([UgV]f_1,f_2)=\|\det g\|^{2-k}(f_1,[Vg^{-1}U]f_2)$ of [DT, p.~446]
+\lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{p.~446}. The exponent is \emph{proved} by (b) (and, for the
+adjoint, by (b) applied to $g^{-1}$); it is not decided by comparison with the classical $S_\ell$. A numerical test can only discriminate between the
+exponents $+1$ and $-1$ on a $[\cdot]$-eigenline $t\mapsto t^a$ of $H_0\otimes\F_p$ with $2a\not\equiv0\bmod(p-1)$ (then $\ell^a\ne\ell^{-a}$ in $\F_p$ for a
+generator $\ell$ of $\F_p^\times$). At maximal level $U_p=\GL_2(\Zp)$ such eigenlines do not occur in the range $k-2\le4p-1$ (\stcomp{} for $p\in\{5,7\}$, Remark~\ref{rem:s03-T6}(c)), but they do occur for larger $k$: \stcomp{}, $(\Sym^{30}\F_5^2)_{\SL_2(\F_5)}$ and $(\Sym^{56}\F_7^2)_{\SL_2(\F_7)}$ are one-dimensional with $\mathrm{diag}(t,1)$ acting by $t$ ($a=1$), i.e.\ $(p,k)=(5,32),(7,58)$; so at maximal level the exponent is testable only for large $k$. They occur at $\Uone{p}$-level for every $k$. HACS test T6 ran exactly there, with both
+normalisations: for $p=5$, $k\in\{7,9\}$ and $p=7$, $k\in\{9,10\}$ ($B_3$, tree at $q=2$) the exponent on $H_0\otimes\F_p$ is $+1$ for the cohomological and $-1$ for the homological
+operators, as predicted by (b) and the exponent table, observed at $\ell=7,13$ ($p=5$) and $\ell=5,11$ ($p=7$); the primes $\ell\equiv1\bmod p$ and $1+\ell\equiv0\bmod p$
+are uninformative. In the same runs $S_\ell$ acts as $[\ell]^2$ (cohomological) resp.\ $[\ell]^{-2}$ (homological) on $H_0$ and as the scalar $\ell^{k-2}$ resp.\ $\ell^{2-k}$ on the
+Brandt module, so the normative homological $S_\ell$ is $\ell^{2-k}$. \stcomp{}, \pathtt{code/results/s03/T6.json} (provenance: commit \texttt{49142d2f}, script
+\pathtt{code/python/langlandscape/ribet/ihara.py}).
+\stproved{} (proof below).
+\end{remark}
+\begin{proof}
+Apply Thm.~\ref{thm:s03-iharaH0}(b) to $g^{-1}$ (also supported at $\ell$, with $v_\ell(\Nrd g^{-1})=-m$ and $\deg(Ug^{-1}U)=\deg(UgU)$): $T_{g^{-1}}\mapsto\deg(UgU)[\ell^m]^{-1}$;
+for $T_\ell$, $(1+\ell)[\ell]^{-1}$, which also equals $[\ell]^{-2}(1+\ell)[\ell]$, the image of $S_\ell^{-1}T_\ell$. \emph{Homological presentation:} under $\nu$ the
+transposed operator $[x]\otimes v\mapsto\sum_i[xg_i]\otimes v$ on $\Brandt UV_*$ becomes $T_{g^{-1}}$ on $\Brandt UV$ (Def.~\ref{def:s02-indef}, ``Hecke
+action''), and $\nu\partial\nu'^{-1}=\alpha$ (proof of Thm.~\ref{thm:s03-ribet}(b)); so on $H_0=\coker\partial$ it acts as $T_{g^{-1}}$ on $\coker\alpha$, i.e.\ by
+$\deg[\ell^m]^{-1}$. \emph{Dual presentation:} the cross-check after the proof of Thm.~\ref{thm:s03-iharaH0}. \emph{Consistency:} $S_\ell$ is the scalar
+$\ell^{k-2}$ on $\Brandt U{\Vk}$ at level $\Uzero M\cdot\GL_2(\Zp)$ (Prop.~\ref{prop:s01-relations}(a)), hence on its quotient $\coker\alpha$. Exponent
+$+1$ gives $[\ell]^2=\ell^{k-2}$, as it must; exponent $-1$ for $T_\ell$ (i.e.\ $S_\ell\mapsto[\ell]^{-2}=\ell^{2-k}$) would contradict this unless
+$\ell^{2(k-2)}-1$ kills $H_0$. This is a consistency check, not a proof, and at maximal level with $k-2\le4p-1$ it is vacuous: there (\stcomp{} for $p\in\{5,7\}$) $H_0\otimes\F_p\ne0$ only if
+$(p-1)\mid(k-2)$, so $\ell^{2(k-2)}\equiv1\bmod p$. The divisibility fails for larger $k$: at $(p,k)=(5,32)$ and $(7,58)$, $H_0\otimes\F_p$ is one-dimensional
+(with $[\ell]=\ell\ne\ell^{-1}$), and at $(7,58)$ even $\ell^{2(k-2)}=3^{112}\equiv4\not\equiv1\bmod7$, so there the check is not vacuous. In the computed cases $[\ell]$ is trivial on $H_0$ ($H_0=\Z/p^2$ with trivial action at $k=2$, $H_0=\Z/p$ at $k=2p$; Remark~\ref{rem:s03-T6}(c)). The proof of the exponent is
+(b). The DT formula has the factor $\|\det g\|^{2-k}$ because DT pair forms of weight $k$ with themselves (as $\langle,\rangle_k$ of
+Def.~\ref{def:s01-pairingV} does); our $\langle,\rangle_U$ pairs $V$ with its contragredient and has no factor (Lemma~\ref{lem:s03-adjoint}(c)).
+\end{proof}
+
+\paragraph{The exponent table.} This is the only place where the exponent is tabulated; all other statements refer to it. $g$ is supported at $\ell\nmid Dpq$,
+$m=v_\ell(\Nrd g)$, and ``$H_0$'' is $\coker\alpha\cong V_{U^1_p}$ (via $\varepsilon$), resp.\ $\coker\partial$ on $\Brandt UV_*^2$ (via $\nu$).
+\begin{center}\small
+\begin{tabular}{>{\raggedright}p{4.4cm}>{\raggedright}p{2.6cm}l>{\raggedright}p{2.4cm}l}\toprule
+Hecke operator on the complex & $T_g$ on $H_0$ & $T_\ell$ on $H_0$ & $S_\ell$ on $H_0$ & exponent\\\midrule
+cohomological $T_gf(x)=\sum_if(xg_i)$ on $\Brandt{\cdot}V$ ((C4), Def.~\ref{def:s01-hecke}) & $\deg(UgU)[\ell^m]$ & $(1+\ell)[\ell]$ &
+  $[\ell]^2$ ($=\ell^{k-2}$ on $\Vk$ if $U_p\supseteq\Zp^\times$) & $+1$\\
+homological (transposed) $[x]\otimes v\mapsto\sum_i[xg_i]\otimes v$ on $\Brandt{\cdot}V_*$ (normative, \pathtt{if:s02-indef}) $=$ adjoint $T_{g^{-1}}$ under $\nu$
+  & $\deg(UgU)[\ell^m]^{-1}$ & $(1+\ell)[\ell]^{-1}$ & $[\ell]^{-2}$ ($=\ell^{2-k}$ on $\Vk$ if $U_p\supseteq\Zp^\times$) & $-1$\\\bottomrule
+\end{tabular}
+\end{center}
+In the normative (homological) convention $S_\ell$ is \emph{not} the classical $\ell^{k-2}$: its $T_\ell,S_\ell$ are the classical $S_\ell^{-1}T_\ell,S_\ell^{-1}$
+((R3)). Comparisons with classical eigenvalues must apply $T\mapsto T^\dagger$ first. This settles the exponent question F9 of the seam audit.
+On $H^0(\GU,V^\vee)=(V^\vee)^{U^1_p}$ the cohomological $T_g$ acts as $\deg(UgU)[\ell^m]$ (exponent $+1$ on $V^\vee$, i.e.\ $[\ell]^{-1}$ after transposing to $V$).
+
+\begin{corollary}[Eisenstein support]\label{cor:s03-eis}
+Call a maximal ideal $\m$ of the Hecke algebra $\T$ (generated over $\Zp$ by the $T_\ell,S_\ell$ with $\ell\nmid NDpq$, where $N$ is the level of $U$ away from $Dpq$) \emph{Eisenstein}
+if there is $a\in\Z/(p-1)$ such that $T_\ell-\ell^a(1+\ell)\in\m$ and $S_\ell-\ell^{2a}\in\m$ for all such $\ell$. This implies
+Eisenstein in the sense of [DT, p.~439--440]. Then every $\m$ in the support of $H_0(\GU,V)$ is Eisenstein, and
+$H_0(\GU,V)_\m=0$ for non-Eisenstein $\m$. \stpmc{} (proof below, from Thm~\ref{thm:s03-iharaH0}). The classical analogue is [DT,
+Lemma~2 and Cor.~1, pp.~445--446] \stcited{} \lit{diamond-taylor\_1994\_non-optimal-levels-of-mod-l-modular-representations}{Lemma 2, p.~445, and Cor.~1, p.~446} (Lemma~2 is the Ihara-type lemma, Cor.~1 the Eisenstein-support statement).
+Lean (planned, optional, S03-L11): \pathtt{Ribet.eis\_support\_of\_IharaH0}. \leanplanned
+\end{corollary}
+\begin{proof}
+Here $\T$ acts on $\Brandt UV^2$ by the cohomological operators (C4), and hence on $H_0=\coker\alpha$. Let $A$ be the
+image of $\Zp[\Zp^\times]$ (acting through $[\cdot]$) in $\End_{\Zp}(V_{U^1_p})$; it is commutative and finite over $\Zp$. By Thm.~\ref{thm:s03-iharaH0}(b), the action
+of $\T$ on $H_0\cong V_{U^1_p}$ factors through a homomorphism $\T\to A$, $T_\ell\mapsto(1+\ell)[\ell]$, $S_\ell\mapsto[\ell]^2$; let $\bar\T\subseteq A$ be its image.
+$H_0$ is a finitely generated faithful $\bar\T$-module, so its support in $\mathrm{Spec}\,\T$ consists of the preimages of the primes of $\bar\T$. Let $\m$ be a
+maximal ideal in the support; it is the preimage of a maximal ideal $\bar\m$ of $\bar\T$, and since $A$ is integral over $\bar\T$ there is a maximal ideal $\mathfrak n$
+of $A$ over $\bar\m$ (lying over). $k:=A/\mathfrak n$ is a finite field of characteristic $p$. The composite $\chi:\Zp^\times\to A^\times\to k^\times$, $t\mapsto[t]\bmod\mathfrak n$,
+is continuous for the discrete topology on $k^\times$ (the action of $\Zp^\times\cong U_p/U^1_p$ on the finitely generated module $V_{U^1_p}$ is continuous). Its restriction to the
+pro-$p$ group $1+p\Zp$ lands in the group $k^\times$ of order prime to $p$, hence is trivial. So $\chi$ factors through $\F_p^\times$, i.e.\ $\chi(t)=\bar t^{\,a}$ for some
+$a\in\Z/(p-1)$. Then $T_\ell\equiv(1+\ell)\ell^a$ and $S_\ell\equiv\ell^{2a}$ modulo $\mathfrak n$, hence modulo $\m=\mathfrak n\cap\T$ (as $p\in\m$, the class of
+$\ell^a$ depends only on $a\bmod p-1$). So $\m$ is Eisenstein. The last claim is the definition of the support.
+\emph{Homological convention:} with the exponent $-1$ (exponent table) one gets $T_\ell-\ell^{-a}(1+\ell)$, $S_\ell-\ell^{-2a}\in\m$, i.e.\ the same notion with
+$a\mapsto-a$.
+\end{proof}
+
+\begin{remark}[vanishing and non-vanishing of $H_0$ with $\Vk$; sharpens T6]\label{rem:s03-T6}
+(a) If $U_p=\GL_2(\Zp)$ and $2<k\le p+1$, then $H_0(\GU,\Vk)=0$. Indeed, $\Sym^{k-2}\F_p^2$ is an irreducible non-trivial
+$\SL_2(\F_p)$-module, so its coinvariants vanish, and Nakayama applies. \stpmc{} (proof below; given Prop.~\ref{prop:s02-coh}(c)).
+(b) If $U_p=\Uone{p^s}_p$ with $s\ge1$, then $U^1_p\bmod p$ is the upper unipotent group. Its coinvariants on $\Sym^{k-2}\F_p^2$ are
+non-zero, so $H_0(\GU,\Vk)\ne0$ for every $k$. This is the finite-level Eisenstein cokernel that stage 04 (Lemma ekills, seed O3)
+must kill with $e$. The $U_p$-action on $H_0$ is not determined here. \stpmc{} (proof below; given Prop.~\ref{prop:s02-coh}(c)).
+(c) The seed lists T6 as ``new''. With Thm~\ref{thm:s03-iharaH0} it becomes a validation item: for $B_3$, tree at $q=2$, $p\in\{5,7\}$ (\stcomp{}, HACS test T6, WP S03-C4,
+\pathtt{code/results/s03/T6.json}, provenance: commit \texttt{49142d2f}, script \pathtt{code/python/langlandscape/ribet/ihara.py}).
+By Prop.~\ref{prop:s02-coh}(c), $H_0(\GU,\Vk)=(\Vk)_{U^1_p}$ depends only on $U_p$, $p$ and $k$:
+\begin{itemize}
+\item \emph{Maximal level} $U_p=\GL_2(\Zp)$, coefficients modulo $p^2$, tested range $2\le k\le10$ for $p=5$ and $2\le k\le14$ for $p=7$: $H_0\ne0$ only at $k=2$ and $k=2p$ ($H_0\cong\Z/p^2$ at $k=2$,
+  where $\Vk$ is trivial, and $H_0\cong\Z/p$ at $k=2p$); in particular $H_0=0$ for $3\le k\le p+1$ (part (a)) and for $p+3\le k<2p$. This agrees with stage 02's
+  \pathtt{code/results/s02/H\_Vk.json}. At $k=2p$, $[\ell]=1$ on $H_0$ and $T_\ell$ acts as $1+\ell$, so $[\ell]\equiv[\ell]^{-1}$: \emph{the exponent
+  $\pm1$ is not testable there}. (Recomputed mod $p$ in the S03-M8 audit, scratch: $(\Sym^{k-2}\F_p^2)_{\SL_2(\F_p)}\ne0$ exactly for $k-2\in\{2(p-1),3(p-1),4(p-1)\}$ in the range
+  $k-2\le4p-1$, one-dimensional, and zero for $k-2=p-1$; in that range, mod $p$, the coinvariants are non-zero only if $(p-1)\mid(k-2)$, as a necessary condition, not a sufficient one. Beyond that range this fails: \stcomp{}, the coinvariants are one-dimensional with $\mathrm{diag}(t,1)$ acting by $t$ at $(p,k-2)=(5,30)$ and $(7,56)$, the smallest such cases for $p=5$ resp.\ $p=7$; S04-E1M recomputation, $\F_p$-linear algebra with the two elementary generators, $k-2<8p$ for $p=5$ and $k-2\le65$ for $p=7$.)
+\item \emph{$\Uone p$-level} (coefficients modulo $p$): $H_0\ne0$ for every tested $k$ ($2\le k\le9$ for $p=5$, $2\le k\le10$ for $p=7$), as in part (b). The exponent test of Remark~\ref{rem:s03-pm} ran at $(p,k)=(5,7),(5,9),(7,9),(7,10)$:
+  cohomological $T_\ell=(1+\ell)\ell^{a}$ (exponent $+1$) and homological $(1+\ell)\ell^{-a}$ (exponent $-1$) are told apart, as required by (b); at these four cases the
+  cohomological operators matched the classical $T_\ell$ on the $3$-new forms of $\Gamma_0(3)\cap\Gamma_1(p)$ (PARI \texttt{mf}). In the normative convention $S_\ell=\ell^{2-k}$ on the Brandt module.
+\end{itemize}
+The prediction ``$H_0=0$ for $k\le p+1$'' at maximal level is part (a), \stpmc; the numerical statements of (c) are \stcomp{}.
+\end{remark}
+\begin{proof}
+By Prop.~\ref{prop:s02-coh}(c), $H_0(\GU,\Vk)=(\Vk)_{U^1_p}$, and coinvariants commute with $\otimes\F_p$ (right exactness):
+$(\Vk)_{U^1_p}\otimes\F_p=(\Sym^n\F_p^2)_{U^1_p}$, $n=k-2$, where $U^1_p$ acts through its image in $\SL_2(\F_p)$.
+
+(a) $U^1_p=\SL_2(\Zp)\to\SL_2(\F_p)$ is onto (lift as in the proof of Lemma~\ref{lem:s02-tree}(c)). \emph{Irreducibility for $0\le n\le p-1$:} let $0\ne Y\subseteq\Sym^n\F_p^2$
+be stable. The unipotent $u=\left(\begin{smallmatrix}1&1\\0&1\end{smallmatrix}\right)$ acts by $P(X,Y)\mapsto P(X,X+Y)$ (\eqref{eq:s01-Vk}) and generates a $p$-group, so $Y$
+contains a non-zero $u$-fixed vector. A $u$-fixed $P=\sum_ic_iX^{n-i}Y^i$ has $P(X,X+Y)-P(X,Y)=0$; if $i_0>0$ is the largest $i$ with $c_i\ne0$, the coefficient of
+$X^{n-i_0+1}Y^{i_0-1}$ in the difference is $i_0c_{i_0}\ne0$ (as $i_0\le n<p$). So the fixed vectors are $\F_pX^n$, and $X^n\in Y$. Applying
+$v_c=\left(\begin{smallmatrix}1&0\\c&1\end{smallmatrix}\right)$: $v_c\cdot X^n=(X+cY)^n=\sum_ic^i\binom niX^{n-i}Y^i\in Y$ for $c=0,1,\dots,n$ (distinct in $\F_p$ since
+$n<p$). The Vandermonde matrix $(c^i)$ is invertible, so each $\binom niX^{n-i}Y^i\in Y$, and $\binom ni\ne0$ in $\F_p$; hence $Y$ is everything. For $1\le n\le p-1$ the module
+is non-trivial ($u\cdot Y^n\ne Y^n$), so the span of the $hv-v$ is a non-zero submodule, hence everything, and the coinvariants vanish. As
+$(\Vk)_{U^1_p}$ is a finitely generated $\Zp$-module with $(\Vk)_{U^1_p}/p=0$, Nakayama gives $(\Vk)_{U^1_p}=0$. ($2<k\le p+1$ is $1\le n\le p-1$.)
+
+(b) An element of $\Uone{p^s}_p\cap\SL_2(\Zp)$ has $c\equiv0$, $d\equiv1$, hence $a\equiv1\bmod p^s$; mod $p$ it is $\left(\begin{smallmatrix}1&b\\0&1\end{smallmatrix}\right)$, and
+every $b\in\F_p$ occurs. So $U^1_p$ acts on $\Sym^n\F_p^2$ through the group $N\cong\Z/p$ of upper unitriangular matrices. For a $p$-group $N$ and a non-zero
+$\F_p[N]$-module $M$, $M_N\ne0$: dually, $(M^*)^N\ne0$ because a $p$-group fixes a non-zero vector of a non-zero $\F_p$-space. Hence
+$(\Vk)_{U^1_p}\otimes\F_p\ne0$ and $H_0(\GU,\Vk)\ne0$, for every $k\ge2$.
+\end{proof}
+
+\begin{interface}[\pathtt{if:s03-ihara}]\label{if:s03-ihara}
+Cor.~\ref{cor:s03-ihara}(i), (ii) over any coefficient group, and (ii$'$). (iii) $=$ Thm~\ref{thm:s03-iharaH0}: $\coker\alpha\cong
+V_{U^1_p}$ via $\varepsilon$, with $T_g\mapsto\deg(UgU)[\ell^{v_\ell(\Nrd g)}]$ under (C4) (exponent table above: $+1$ cohomological, $-1$ for the normative
+homological action; in the latter $S_\ell$ acts as $[\ell]^{-2}$, i.e.\ the normative $T_\ell,S_\ell$ are the classical $S_\ell^{-1}T_\ell,S_\ell^{-1}$, (R3)), and Cor.~\ref{cor:s03-eis} ($H_0$ is Eisenstein). Hypotheses: those of Thm~\ref{thm:s03-iharaH0}, including $U=U_\ell\times U^{(\ell)}$ in (b). Status: (i), (ii) \stproved{} given (iii) of Prop.~\ref{prop:s02-BG}; (ii$'$), (iii)
+\stpmc{} (full proofs in \S\ref{ss:s03-ribet} and \S\ref{ss:s03-ihara}; inputs: (iii), the density of $\GU$ in $U^1_p$ from Thm.~\ref{thm:s02-SA}, and the
+cited tree property behind Lemma~\ref{lem:s02-cellmod}). Lean: \lean{Langlandscape.Ribet.ihara\_surj}, \lean{Langlandscape.Ribet.ihara\_ker\_const} (S03-L9) \stformal{} for (i), (ii); \lean{Langlandscape.Ribet.epsilon}, \lean{Langlandscape.Ribet.tau} (S03-L11) \stformal{} (definitions);
+(iii)(a) is the registered hypothesis \lean{Langlandscape.Hyp.IharaH0} (not a theorem); (ii$'$) and (iii)(b) are not formalized.
+\end{interface}
+
+\subsection{Interface deviations}\label{ss:s03-deviations}
+\begin{enumerate}[label=(D\arabic*)]
+\item \pathtt{if:s03-ihara}: \pathtt{SPLIT.md} says that (iii) ``is sketched''. Here it is upgraded to a full proof (\stpmc, Thm.~\ref{thm:s03-iharaH0}), and the
+  exponent is fixed to $+1$ under (C4). This needs (R1). In the normative homological convention of stage 02 the exponent is $-1$ and $S_\ell$ acts
+  as $\ell^{2-k}$, not as the classical $\ell^{k-2}$ ((R3), exponent table); interface note for stages 02, 04 and 06.
+\item \pathtt{if:s03-ihara}: (ii) is stated for every abelian group $A$ (the seed says $\F_\ell$), and (ii$'$) with coefficients is
+  added.
+\item \pathtt{if:s03-graph}: it adds Lemma~\ref{lem:s03-cyclic}, the Mazur check as a proposition valid for all $q$, and
+  Prop.~\ref{prop:s03-phieis}.
+\item \pathtt{if:s03-amalgam}: the seed's $\Psi^*\Psi$ matrix is replaced by the fixed matrix
+  $\left(\begin{smallmatrix}q+1&-q^{2-k}T_q\\-T_q&q+1\end{smallmatrix}\right)$ (normalisation of \pathtt{plan/implementation/stage-03.md} \S0.2.8;
+  Prop.~\ref{prop:s03-PsiPsi}: coefficients $\Sym^{k-2}$ of the standard representation, $T'_q=q^{2-k}T_q$, $T''_q=T_q$, $T_q$ the classical operator by
+  Lemma~\ref{lem:s03-Tclassical}). This fixed matrix is exported. Stage 06 should still use only $\det(\Psi^*\Psi)$ and $\coker(\Psi^*\Psi)_\m$, which
+  do not depend on the normalisation (the seed's matrix is $D\,M\,D^{-1}$ with $D=\mathrm{diag}(1,q^{2-k})$, see the proof of Prop.~\ref{prop:s03-PsiPsi}).
+\item \pathtt{if:s03-ribet}, \pathtt{if:s03-ihara}: Thm.~\ref{thm:s03-ribet}(a) and Thm.~\ref{thm:s03-iharaH0}(b) assume in addition that $U$ is factorisable at $\Sigma$ (resp.\ at $\ell$);
+  the stage tex states them for all Hecke operators supported away from $q$ (resp.\ at $\ell\nmid Dpq$). This strengthening holds for all standard levels; the proof of (b)
+  uses it (coset representatives with $u_p=1$).
+\end{enumerate}

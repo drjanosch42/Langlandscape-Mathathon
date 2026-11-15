@@ -1,0 +1,80 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage map / timeline: one row per hypothesis, a bar from the introducing stage, events marked.
+% Colour = kind (Okabe--Ito); bar pattern repeats the kind for greyscale; event glyphs are shapes, not colours.
+\begin{tikzpicture}[x=1.75cm,y=0.42cm,font=\sffamily\scriptsize]
+  \tikzset{
+    bar/.style={line width=4pt,line cap=butt},
+    lit/.style={bar,draw=oiBlue!55},
+    inf/.style={bar,draw=oiOrange!70,dash pattern=on 5pt off 1.5pt},
+    oos/.style={bar,draw=oiVerm!65},
+    con/.style={bar,draw=oiPurple!65,dash pattern=on 1.5pt off 1.5pt},
+    dis/.style={bar,draw=oiGreen!70},
+    pln/.style={line width=1pt,draw=oiSky!80!black,dashed},
+    intro/.style={circle,fill=black,inner sep=1.4pt},
+    corr/.style={regular polygon,regular polygon sides=3,fill=white,draw=black,inner sep=1.1pt,line width=0.6pt},
+    disc/.style={rectangle,fill=oiGreen!80!black,draw=black,inner sep=2.1pt},
+    plan/.style={circle,draw=oiSky!80!black,fill=white,inner sep=1.4pt,line width=0.8pt},
+  }
+  % stage columns: S0k at x = k
+  \foreach \k in {1,...,6}{
+    \draw[black!15] (\k-0.5,0.8) -- (\k-0.5,-20.6);
+    \node[font=\sffamily\bfseries\scriptsize] at (\k,1.3) {S0\k};
+  }
+  \draw[black!15] (6.5,0.8) -- (6.5,-20.6);
+  \node[font=\sffamily\tiny,text=black!60] at (4,1.95) {now (2026-11-15): stage 4 closing};
+  \fill[black!6] (4.5,0.8) rectangle (6.5,-20.6);
+  % rows: name / kind / start stage / end (6.45 = still open at end of project horizon)
+  \def\row#1#2#3#4#5{% #1 y, #2 name, #3 style, #4 start, #5 end
+    \node[anchor=east] at (0.45,#1) {\texttt{#2}};
+    \draw[#3] (#4-0.35,#1) -- (#5,#1);
+    \node[intro] at (#4-0.35,#1) {};}
+  \row{0}{EichlerMass}{lit}{1}{6.45}
+  \row{-1}{JLClassical}{oos}{1}{6.45}
+  \row{-2}{LambdaJL}{oos}{1}{6.45}
+  \row{-3}{SA}{lit}{2}{6.45}
+  \row{-4}{HS}{lit}{2}{6.45}
+  \row{-5}{BTtree}{lit}{2}{6.45}
+  \row{-6}{SerreCoh}{lit}{2}{6.45}
+  \row{-7}{SerreFree}{lit}{2}{6.45}
+  \row{-8}{RamNrdSurj}{lit}{2}{6.15}
+  \row{-9}{IharaH0}{inf}{3}{6.45}
+  \row{-10}{EllipticCount}{lit}{3}{6.45}
+  \row{-11}{BrandtStabFree}{inf}{3}{6.45}
+  \row{-12}{PadicOrdDecomp}{dis}{4}{4.15}
+  \row{-13}{MordLambdaFree}{inf}{4}{6.45}
+  \row{-14}{HidaControl}{lit}{4}{6.45}
+  \row{-15}{HsiehCR}{con}{4}{6.45}
+  \row{-16}{InvLimExact}{inf}{4}{6.45}
+  % planned rows
+  \node[anchor=east] at (0.45,-17.5) {\texttt{X.char, X.gal, X.iso}};
+  \draw[pln] (4.65,-17.5) -- (6.45,-17.5); \node[plan] at (4.65,-17.5) {};
+  \node[anchor=east] at (0.45,-18.5) {\texttt{HsiehGor} (moved S05$\to$S06)};
+  \draw[pln] (5.65,-18.5) -- (6.45,-18.5); \node[plan] at (5.65,-18.5) {};
+  \node[anchor=east] at (0.45,-19.5) {\texttt{OldDecomp, \dots, KimOtaRT} (8)};
+  \draw[pln] (5.65,-19.5) -- (6.45,-19.5); \node[plan] at (5.65,-19.5) {};
+  % events: corrections (triangles) with short labels, discharge (square)
+  \def\ev#1#2#3{\node[corr] at (#1,#2) {}; \node[font=\sffamily\tiny,anchor=south west,inner sep=1pt] at (#1+0.04,#2+0.05) {#3};}
+  \ev{1.15}{-1}{hfin (L16c)}
+  \node[corr] at (3.8,-2) {}; \node[font=\sffamily\tiny,anchor=south east,inner sep=1pt] at (3.76,-1.95) {$\langle d\rangle^{-1}$ (X1 / E1L)};
+  \ev{4.4}{-2}{guard (L17a R1)}
+  \ev{2.3}{-3}{finite index, Nikolov--Segal (L13a)}
+  \ev{2.3}{-6}{citations (H2)}
+  \ev{2.3}{-7}{citations (H2)}
+  \ev{2.3}{-8}{vacuous instance removed (M1)}
+  \node[disc] at (6.15,-8) {}; \node[font=\sffamily\tiny,anchor=south east,inner sep=1pt] at (6.1,-7.95) {discharged (final gate)};
+  \ev{3.3}{-11}{status/route (L13)}
+  \node[disc] at (4.15,-12) {}; \node[font=\sffamily\tiny,anchor=west] at (4.25,-12) {discharged: \texttt{padicOrdDecomp\_holds} (L3)};
+  \ev{4.4}{-13}{scope note (L17c R14)}
+  \ev{4.4}{-14}{reason text (L17a R4)}
+  \ev{4.4}{-16}{connectivity premise (L17c R13)}
+  \node[font=\sffamily\tiny,anchor=south west,inner sep=1pt] at (3.65,-8.95) {clause (b) deferred to S04, not done};
+  % legend
+  \begin{scope}[shift={(0.2,-21.8)}]
+    \node[intro] at (0,0) {}; \node[anchor=west] at (0.08,0) {registered};
+    \node[corr] at (1.2,0) {}; \node[anchor=west] at (1.28,0) {corrected};
+    \node[disc] at (2.4,0) {}; \node[anchor=west] at (2.48,0) {discharged};
+    \node[plan] at (3.6,0) {}; \node[anchor=west] at (3.68,0) {planned};
+    \node[anchor=west] at (4.75,0) {bar = open; shaded = future stages};
+  \end{scope}
+\end{tikzpicture}

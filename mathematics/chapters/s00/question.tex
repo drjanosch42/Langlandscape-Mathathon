@@ -1,0 +1,77 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction): the hope, an integral Hecke-equivariant map with properties (a)-(e), and why a map gives more than a
+% trace identity. No \input; reusable in the report.
+\section{The question: an integral Hecke-equivariant map}\label{ss:s00-hope}
+
+A trace identity is a statement over a field. Arithmetic needs the correspondence on lattices, because congruences between
+eigenforms are properties of $\Z$- or $\Zp$-structures. The question posed at the outset of the project is therefore whether the
+transfer can be realised by \emph{maps}, integrally. Is there a homotopical, simplicially realisable and computable realisation of the
+transfer as actual Hecke-equivariant maps on cohomology (degree~$0$ on the quaternionic side, degree~$1$ on the $\GL_2$ side,
+possibly after localising at a non-Eisenstein maximal ideal $\m$), defined integrally, such that
+\begin{enumerate}[label=(\alph*)]
+\item base change to $\C$ recovers an explicit instance, as Hecke-equivariant maps, of cohomological JL;
+\item specialising to $\Zp$ and tensoring with $\Qp$ recovers Chenevier's $p$-adic JL (up to eigenvariety identifications);
+\item specialising to $\Z/p^k$ and taking ordinary parts gives $\Lambda$-adic JL;
+\item in case (c), congruence modules can be defined and described;
+\item the maps are explicitly computable, making (c) and (d) computable, in the spirit of HACS?
+\end{enumerate}
+Items (a)--(e) refine the requirements list (i)--(v) of the seed document (\pathtt{plan/seed/towards\_simplicial\_jl.tex}).
+Here (a) asks for an explicit, Hecke-equivariant form of the classical correspondence; (b) and (c) for its $p$-adic and
+Hida-theoretic interpolations along the tower $\Gamma_1(Mp^s)$; (d) for the arithmetic carried by the cokernel; (e) for finiteness.
+In the first case, $D=q$, weight~$2$ and level $\Gamma_0(qM)$, Ribet's exact sequence realises this hope
+(\S\ref{ss:s00-ribet}); what we achieved in general is in \S\ref{ss:s00-question}.
+
+\subsection{Why a map gives more than a trace identity}\label{ss:s00-map}
+A trace identity, such as the equality of the Eichler and Eichler--Selberg expressions (formalized on the quaternionic side in
+the imported material; the identification with $\tr(T_n\mid S_k)$ is not, see the remarks after Thm.~\ref{thm:s01-JLclassical}), or the
+equality of characteristic polynomials checked numerically, determines at most the semisimplified Hecke modules over a
+field (\stknown). It says nothing about lattices. An integral Hecke-equivariant map $\varphi:L\to L'$ between lattices does:
+\begin{itemize}
+\item its kernel and cokernel are finitely generated Hecke modules that vanish over a field when $\varphi$ is an isomorphism
+  there, and then they measure congruences. For the $q$-new sub- and quotient lattices of a free module $H$ over $\T$ the cokernel of $H[\fa]\to H/\fa H$ is exactly
+  $(\T/(\fa+\fb))^{\oplus r}$, the old/new congruence module (Prop.~\ref{prop:s05-subquot}, \stproved);
+\item an equivariant perfect pairing on a free rank-one module computes the congruence ideal as the self-pairing of a generator
+  of the eigenline (Prop.~\ref{prop:s04-etaprinciple}, \stproved, \stformal), which is how $\eta^B_F$ is a definite-side object
+  (Thm.~\ref{thm:s04-etaB}, \stcited);
+\item comparing two lattices gives the defect: $\eta(S,\lambda)=\cc_q\cdot\eta(S',\lambda')$ (Thm.~\ref{thm:s06-E}(ii),(iii), \stproved),
+  the integral content of Thm.~\ref{thm:s06-defect};
+\item for a graph, the cokernel of $X\to\Hom(X,\Z)$ is $\Phicomb$, the combinatorial component group, Eisenstein and at level~$1$ equal to
+  Mazur's $\Z/\mathrm{num}\frac{q-1}{12}$, where $\mathrm{num}\frac{q-1}{12}$ is the numerator of $\frac{q-1}{12}$ in lowest terms (Props.~\ref{prop:s03-phieis}, \ref{prop:s03-mazur}), and killed by the ordinary projector
+  (Lemma~\ref{lem:s04-ekills}(c), \stproved).
+\end{itemize}
+Over $\C$ all of these cokernels vanish. This is why the question asks for a map and not for an identity of traces.
+
+\subsection{Two explanations of the one-way transfer}\label{ss:s00-oneway}
+The comparison runs in one direction: every system of Hecke eigenvalues on the definite side occurs on the $\GL_2$ side, but not
+conversely, and the integral statements of stage~06 measure the difference. We give two explanations; the first is the
+mechanism behind our results, the second is context only.
+
+\emph{(i) Automorphic.} By classical JL (Thm.~\ref{thm:s01-JLclassical}, \stcited) the Brandt modules of $B$ match the $D$-new
+part of the $\GL_2$ side. Locally at $\ell\mid D$, at the levels used here ($U_\ell=\cO_\ell^\times$), an irreducible smooth representation of $B_\ell^\times$
+with an $\cO_\ell^\times$-fixed vector is trivial on the normal subgroup $\cO_\ell^\times$, so it factors through
+$B_\ell^\times/\cO_\ell^\times\cong\Z$ (valuation of $\Nrd$) and is a character $\chi\circ\Nrd$ with $\chi$ unramified; under the
+local correspondence it corresponds to the twisted Steinberg representation $\chi\otimes\St$ of $\GL_2(\Q_\ell)$
+\cite[Ch.~III, Thm.~15.1 and the paragraph after Lemma~15.4]{JL} (\stcited). So the quaternionic side sees only forms that are special at every $\ell\mid D$. A
+congruence between a $D$-new form and a form that is old at $\ell$, or unramified principal series at $\ell$ (level raising
+\cite{Ri84}; its definite form is the level-raising operator of Prop.~\ref{prop:s03-LRdef}, \stproved, and the Ihara lemma
+Cor.~\ref{cor:s03-ihara}) has no quaternionic counterpart: it is not killed on the definite side, it simply has none there.
+For $D=q$ these congruences are what the old/new congruence ideal $\cc_q$ collects, and they are exactly the difference
+between the two congruence ideals: $\eta_F=\cc_q(F)\,\eta^B_F$ (Thm.~\ref{thm:s06-E}(iii), \stproved, applied in
+Thm.~\ref{thm:s06-defect}, \stpmc).
+
+\emph{(ii) Galois and deformation theory (heuristic; context only, not used in our proofs).} The statement our results rest on is
+on the Hecke side: for $D=q$, the $\GL_2$ Hecke algebra surjects onto its $q$-new quotient, $\T\twoheadrightarrow\T'\cong\T^{\ord}_B$, by the
+$\Lambda$-adic JL \cite[Rem.~7.8]{Hs} (\stcited; the setting of \S\ref{ss:s06-setting}), and at fixed weight the $N^-$-new
+congruence ideal of \cite[Def.~2.11]{KO} is $\eta(\T'_k,\lambda'_f)$ (proof of Cor.~\ref{cor:s06-fixed}). Read through
+$R=\T$ theorems, this corresponds to a surjection of deformation rings $R_{\GL_2}\twoheadrightarrow R_B$: the quaternionic side
+imposes the stricter local condition at $\ell\mid D$ (Steinberg type, $\ell$-new). Points of $R_B$ pull back to $R_{\GL_2}$, not
+conversely; the missing directions show up in the cotangent module $\mathfrak p/\mathfrak p^2$ at the point of $f$, and by Wiles'
+numerical criterion \cite[Appendix]{Wi95} its size is compared with the congruence ideal. In this reading the difference is
+measured by local Tamagawa-type factors $t_f(q)$, as in Ribet--Takahashi's comparison of degrees of parametrisations by Shimura
+and modular curves \cite[Thm.~1]{RT97} and in Kim--Ota's formula \cite[Thm.~1.1]{KO} (Thm.~\ref{thm:s06-KO}, \stcited); our
+defect formula makes the Hecke-side version precise: $\cc_q(F)=\tq_q(F)$ (Thm.~\ref{thm:s06-defect}, \stpmc), and at fixed
+weight $\cc_q(f)=(\varpi^{t_f(q)})$ (Cor.~\ref{cor:s06-fixed}, \stpmc). None of the statements in (ii) about deformation rings
+is proved or used here; $R=\T$ theorems enter our results only as cited inputs: inside the proof of
+\cite[Thm.~1.1]{KO} (Thm.~\ref{thm:s06-KO}) and, as \cite[Thm.~3.14]{KO}, in the proof of Prop.~\ref{prop:s06-levM}.
+

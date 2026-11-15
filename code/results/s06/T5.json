@@ -1,0 +1,254 @@
+{
+ "data": {
+  "all_ok_weight_k": true,
+  "inputs": {
+   "T5_def.json": "99ae910fb0735e044e5f96b45d933b23124636bc",
+   "T5_gl2.json": "502df968b92bf8e5c14077bd38744ec0dfb3d192"
+  },
+  "triples": {
+   "13,12,31": {
+    "k": {
+     "dim_brandt": 11,
+     "dim_mf_new": 11,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 12
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "reason": "not computed within the runtime budget: the exact HNF closure of the Hecke algebra (S06-C1 toolkit, hecke_alg._closure) at level 13 and weight 42 raised a PARI stack error with 4 GiB and was still running after 13 min (8 GiB resident) with 12 GiB (measured at (13, 36); weight 42 is at least as large); mf_integral_hecke alone takes ~3 min at weight 42",
+      "status": "not computed"
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 42
+    }
+   },
+   "13,16,101": {
+    "k": {
+     "dim_brandt": 15,
+     "dim_mf_new": 15,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 16
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "reason": "not feasible here: weight 116, dim S_116(Gamma_0(13)) = 135, Hecke generators T_l up to l = 137; mf_integral_hecke (exact integral lattice, PARI matrixqz) raised a PARI error with a 1 GiB stack, and the HNF closure already fails at weight 36",
+      "status": "not computed"
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 116
+    }
+   },
+   "13,18,19": {
+    "k": {
+     "dim_brandt": 17,
+     "dim_mf_new": 17,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 18
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "reason": "not computed within the runtime budget: the exact HNF closure of the Hecke algebra (S06-C1 toolkit, hecke_alg._closure) at level 13 and weight 36 raised a PARI stack error with 4 GiB and was still running after 13 min (8 GiB resident) with 12 GiB (measured at (13, 36); weight 36 is at least as large)",
+      "status": "not computed"
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 36
+    }
+   },
+   "3,18,53": {
+    "k": {
+     "dim_brandt": 3,
+     "dim_mf_new": 3,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 18
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "ord_c": 1,
+      "ord_eta": 1,
+      "ord_eta_new": 0,
+      "ordinary": true,
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "thm_E_identity": true
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 70
+    }
+   },
+   "3,18,61": {
+    "k": {
+     "dim_brandt": 3,
+     "dim_mf_new": 3,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 18
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "ord_c": 1,
+      "ord_eta": 1,
+      "ord_eta_new": 0,
+      "ordinary": true,
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "thm_E_identity": true
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 78
+    }
+   },
+   "5,16,31": {
+    "k": {
+     "dim_brandt": 5,
+     "dim_mf_new": 5,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 16
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "ord_c": 1,
+      "ord_eta": 1,
+      "ord_eta_new": 0,
+      "ordinary": true,
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "thm_E_identity": true
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 46
+    }
+   },
+   "5,18,23": {
+    "k": {
+     "dim_brandt": 5,
+     "dim_mf_new": 5,
+     "dims_agree": true,
+     "etaB_eq_eta_new": true,
+     "identity_with_etaB": true,
+     "ord_c": 1,
+     "ord_eta": 1,
+     "ord_eta_new": 0,
+     "place_unramified_degree_1": true,
+     "rank_new_definite": 1,
+     "rank_new_gl2": 1,
+     "ranks_agree": true,
+     "t_f_q": 1,
+     "vp_etaB": 0,
+     "weight": 18
+    },
+    "k+p-1": {
+     "gl2_side": {
+      "ord_c": 1,
+      "ord_eta": 1,
+      "ord_eta_new": 0,
+      "ordinary": true,
+      "ranks": {
+       "S_m": 2,
+       "S_new_m": 1,
+       "S_old_m": 1
+      },
+      "thm_E_identity": true
+     },
+     "reason": "eta^B not computed at k+(p-1) (S06-C5 is weight k only; the Gram pairing is not perfect there, Hida control instead)",
+     "status": "not computed",
+     "weight": 40
+    }
+   }
+  }
+ },
+ "provenance": {
+  "commit": "502df968b92bf8e5c14077bd38744ec0dfb3d192-dirty",
+  "date": "2026-11-15T01:45:40+00:00",
+  "notes": "S06-C6: T5 comparison eta^B (C5) vs eta_f(1,q) (C4); eta_f(q) = c_q(f) eta^B at k",
+  "params": {
+   "inputs": [
+    "code/results/s06/T5_def.json",
+    "code/results/s06/T5_gl2.json"
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.0,
+  "script": "code/python/langlandscape/defect/t5_compare.py"
+ }
+}

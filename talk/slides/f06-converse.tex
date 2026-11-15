@@ -1,0 +1,23 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Frame 6: why the converse (GL(2) -> B) fails: automorphic and Galois reasons.
+% Sources: chapters/s05/higherweight.tex Steps 1-2 (pi'_q trivial on O_q^x is chi o Nrd; local JL gives (chi o det) x St; cited JL Thm 15.1);
+% chapters/s06/s06-m2.tex def:s06-ctam; s06-m7.tex prop:s06-betti(b) (pmc; p > k >= 4, q not = -1 mod p);
+% if:s01-targets (Lambda-adic Hecke JL, cited [LV], [Hs]); s06-m3.tex thm:s06-KO (Kim-Ota Thm 1.1, cited); def/lem:s06-tam.
+% Deformation rings appear only as cited context, heuristic (report: s00 ss:s00-oneway, Prior work); theorems are on Hecke algebras.
+\begin{frame}{Why only one direction: congruences do not come back}
+  \vspace*{-4pt}
+  \small
+  \textbf{(i) Automorphic.} At $\ell\mid D$, $B$ sees only $\chi\circ\mathrm{Nrd}$ ($\chi$ unramified), and local JL sends it to
+  $(\chi\circ\det)\otimes\mathrm{St}$ \reftag{JL}: the image is the $D$-new forms. Congruences of a $q$-new $f$ with forms
+  \emph{old} (or unramified principal series) at $q$ (level raising; Ihara, Ribet) have no quaternionic counterpart: not killed, absent. They are measured by the old/new congruence module $\T/(\mathfrak a+\mathfrak b)\cong\T'/\cc$
+  ($\mathfrak a,\mathfrak b$ the $q$-new/$q$-old kernels), at fixed weight ($p>k\ge4$, $q\not\equiv-1$) Ribet's level-raising module
+  $\T_k(M)_\m/(T_q-\epsilon(q+1)q^{(k-2)/2})$ \stattag{proved modulo cited results}.
+
+  \textbf{(ii) Hecke algebras.} $\T\twoheadrightarrow\T'\cong\T_B$ ($\Lambda$-adic Hecke JL \stattag{cited}): the $B$ side is a
+  \emph{quotient}, cut out by the stricter condition at $q$ ($q$-new, i.e.\ Steinberg). Eigensystems pull back from $\T_B$ to $\T$,
+  not conversely. What is lost is measured by congruence ideals, and its size is local:
+  \[\operatorname{ord}\eta_f(N)=\operatorname{ord}\eta_f(M,q)+t_f(q)\qquad\text{\reftag{Kim--Ota}}\]
+  for $2\le k\le p-1$, with $\bar\rho$ ramified at $q$ if $q\equiv\pm1\bmod p$
+  ($t_f(q)$ the Tamagawa exponent; $\Lambda$-adically the ideal $\tq_q(F)$ of the entries of $\rho_F(I_q)-1$ \stattag{proved modulo cited results}).
+\end{frame}

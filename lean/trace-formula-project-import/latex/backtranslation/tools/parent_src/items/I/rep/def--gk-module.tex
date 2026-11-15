@@ -1,0 +1,15 @@
+Let $\mathfrak g=\mathfrak{gl}_2(\C)=\Mat_2(\C)$ with the bracket $[X,Y]=XY-YX$, and $U=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$.
+A \emph{$(\mathfrak g,\Kinf)$-module} is a complex vector space $V$ together with
+\begin{enumerate}[label=(\roman*)]
+\item a $\C$-bilinear map $\mathfrak g\times V\to V$, $(X,v)\mapsto X\cdot v$, with
+  $[X,Y]\cdot v=X\cdot(Y\cdot v)-Y\cdot(X\cdot v)$ for all $X,Y\in\mathfrak g$, $v\in V$;
+\item a group homomorphism $\kappa\colon\Kinf\to\GL(V)$ that is locally finite: every $v\in V$ lies in a
+  finite-dimensional subspace $W\subseteq V$ with $\kappa(k)W\subseteq W$ for all $k\in\Kinf$, such that
+  $k\mapsto\kappa(k)|_W$ is continuous on $\Kinf$;
+\end{enumerate}
+such that, for all $k\in\Kinf$, $X\in\mathfrak g$ and $v\in V$,
+\begin{enumerate}[label=(\roman*),start=3]
+\item $\kappa(k)(X\cdot v)=(kXk^{-1})\cdot\kappa(k)v$;
+\item for every $W$ as in (ii) containing $v$, the map $\theta\mapsto\kappa(k_\theta)v$ from $\R$ to $W$ is
+  differentiable at $\theta=0$ with derivative $U\cdot v$.
+\end{enumerate}

@@ -1,0 +1,41 @@
+% Document A (readable edition). Lean counterpart: lean/AlgJL/VolI/P0/Reps.lean (fork; parent lean/GL2TF/VolI/P0/Reps.lean).
+% Fork algebraic_jl: trimmed copy of the parent's vol1/ch-0-10-reps.tex @ 84818d0. Kept: §1 up to the two definitions
+% smooth-rep and admissible-rep (the B-only fixed-vectors item belongs to them); the remark on van Dantzig's theorem is copied
+% from the parent's ch-0-09-hecke.tex (§1), whose other content (Haar measures, convolution) is dropped. See ../../EDITS.md.
+
+\chapter{Smooth and admissible representations}\label{ch:ch-0-10-reps}
+
+\noindent\emph{Sources:} \cite[§§2--3]{Cas-p}; \cite{Bern}; \cite[§§1, 5]{JL}; \cite{Corv-ptII-3}.
+
+\section{Smooth and admissible representations}\label{sec:rep-smooth}
+
+\noindent\emph{Sources for this section:} \cite[§§1--2]{JL}; \cite[§§2.1--2.2]{Cas-p}; \cite[§§1--2]{BZ}; \cite{Bern}.
+
+\emph{Conventions.} Representations are on complex vector spaces, with no topology. In the parent project this chapter also
+treats the action of $C_c^\infty(G)$ by integration against a Haar measure, contragredients, Schur's lemma, unitary and regular
+representations; that material is not part of this volume. Only the two definitions used by the algebraic theory of the principal
+series (\cref{ch:ch-1-02-smooth}) are kept.
+
+\begin{remark}[compact open subgroups; van Dantzig]\label{rem:van-dantzig}
+Let $G$ be a locally compact, Hausdorff, totally disconnected topological group.
+Every neighbourhood $W$ of $1$ in $G$ contains a compact open subgroup. \emph{Proof.} In a locally compact, Hausdorff,
+totally disconnected space the compact open sets form a basis of the topology, so there is a compact open $C\subseteq W$
+with $1\in C$. For each $c\in C$, continuity of multiplication at $(c,1)$ gives open sets $A_c\ni c$, $B_c\ni1$ with
+$A_cB_c\subseteq C$. Finitely many $A_{c_1},\dots,A_{c_r}$ cover $C$; put $B=\bigcap_lB_{c_l}$ and $V=B\cap B^{-1}$, an open
+symmetric neighbourhood of $1$ with $CV\subseteq C$. Then $CV^n\subseteq C$ for all $n\ge1$, and since $1\in C$, $V^n\subseteq C$.
+The union $H=\bigcup_{n\ge1}V^n$ is a subgroup ($V=V^{-1}$), open (each $V^n$ is open), contained in $C$, and closed (being an
+open subgroup), hence compact. Finite intersections of compact open subgroups are compact open subgroups.
+\end{remark}
+
+\begin{definition}[smooth representations]
+\tfstmt{I.rep.def:smooth-rep}
+\end{definition}
+\noindent The stabilizer of $v$ is a subgroup; it is open if and only if it is a neighbourhood of $1$, and then, if $G$ is locally
+compact, Hausdorff and totally disconnected (e.g.\ $G=\GL_2(F)$ for a non-archimedean local field $F$), it contains a compact open
+subgroup $K'$ by \cref{rem:van-dantzig}, i.e.\ $v\in V^{K'}$. So such a $\pi$ is smooth if and only if $V=\bigcup_{K'}V^{K'}$, the
+union over compact open subgroups.
+
+\begin{definition}[admissible representations]
+\tfstmt{I.rep.def:admissible-rep}
+\uses{I.rep.def:smooth-rep}
+\end{definition}

@@ -1,0 +1,870 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-1-01-spherical (parent commit 84818d0); kept items only.
+\chapter{The spherical Hecke algebra and the Satake isomorphism}\label{ch:ch-1-01-spherical}
+
+\noindent\emph{Scope:} area \texttt{satake}. \emph{Sources:} \cite{Sat}; \cite[§9, Proposition~37]{BumpH}; \cite[§9]{Cas-p}; \cite{Corv-ptI-7}.
+
+\section{The spherical Hecke algebra and Gelfand's trick}
+\begin{definition}[spherical Hecke algebra]
+\tfstmt{I.satake.def:spherical-hecke-algebra}
+\lean{GL2TF.Local.sphericalHeckeAlgebra}
+\uses{I.conv.def:max-compact-local,X.hpair.def:hecke-algebra}
+\end{definition}
+\begin{tfformal}{I.satake.def:spherical-hecke-algebra}
+\tfsem{I.satake.def:spherical-hecke-algebra}{11941cc43898b23687d8366d0123160cc24015011dbd1f8bae0ef3fffc60db0d}
+\tfhyps{I.satake.def:spherical-hecke-algebra}{}
+\tfbinder{I.satake.def:spherical-hecke-algebra}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:spherical-hecke-algebra}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:spherical-hecke-algebra}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\begin{tffidelity}
+The Lean object is \texttt{HeckePair.HeckeAlgebra 𝐊[F] ℂ} (vendored, B-only items \cref{X.hpair.def:hecke-algebra} and the following). The vendored structure \texttt{IsHeckeFun} states left invariance and right invariance separately ($f(ux)=f(x)$ and $f(xu)=f(x)$ for $u\in K$), not as $f(kgk')=f(g)$; the two are equivalent. The finiteness condition (ii) is the finiteness of the image of the support in \texttt{G ⧸ K}. The convolution is \texttt{HeckePair.conv}, the finite sum over $G/K$. The sentence ``associative $\C$-algebra with unit $1_K$'' of the snippet is carried by the vendored \texttt{Ring} and \texttt{Algebra ℂ} instances (\cref{X.hpair.def:ring-instance}), not by a theorem; the unit is the indicator of $K$ (\cref{X.hpair.def:hecke-one}). The abbreviation depends only on the field and its valuation (through $K_F=K(\Ocal_F)$); the topology and \texttt{IsNALF} are not needed to define it and do not appear as binders. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the transpose on $\GL_2(F)$]
+\tfstmt{I.satake.def:transpose-gl}
+\bonly
+\lean{GL2TF.Local.transposeGL}
+\end{definition}
+\begin{tfformal}{I.satake.def:transpose-gl}
+\tfsem{I.satake.def:transpose-gl}{3e8732b426bbf86599c5d1b5512ac0a9b18d39960d6afc2fb1743e12ba897e38}
+\tfhyps{I.satake.def:transpose-gl}{}
+\tfbinder{I.satake.def:transpose-gl}{0}{0393adc7}{the type of the field $F$}
+\tfbinder{I.satake.def:transpose-gl}{1}{a507d942}{the field structure of $F$}
+\tfbinder{I.satake.def:transpose-gl}{2}{2c7c7198}{the matrix $g\in\GL_2(F)$}
+\begin{tffidelity}
+B-only. Defined as the units whose matrix is the transpose of the matrix of $g$, with inverse the transpose of the inverse; the proofs of $\tau(g)\tau(g)^{-1}=1$ use the identities $(AB)^{\mathsf T}=B^{\mathsf T}A^{\mathsf T}$. No difference with the snippet; the field is an implicit binder.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Matrix transpose with inverse the transpose of the inverse; the two unit equations are $(AB)^{\mathsf T}=B^{\mathsf T}A^{\mathsf T}$ and $1^{\mathsf T}=1$.
+\end{proof}
+
+\begin{lemma}[the transpose is a Gelfand involution]
+\tfstmt{I.satake.lem:transpose-gelfand-involution}
+\lean{GL2TF.Local.transpose_gelfand_involution}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:cartan-exists,I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.lf.def:nalf,I.lf.def:uniformizer,I.satake.def:transpose-gl}
+\end{lemma}
+\begin{tfformal}{I.satake.lem:transpose-gelfand-involution}
+\tfsem{I.satake.lem:transpose-gelfand-involution}{088316ce2a12a9fe3693dbfb9296c3f6a049549e96a493d95ab6ff9a365cb34f}
+\tfhyps{I.satake.lem:transpose-gelfand-involution}{}
+\tfbinder{I.satake.lem:transpose-gelfand-involution}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.lem:transpose-gelfand-involution}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.lem:transpose-gelfand-involution}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.lem:transpose-gelfand-involution}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.lem:transpose-gelfand-involution}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The five assertions are the five conjuncts: anti-multiplicativity, involutivity, \texttt{transposeGL '' K = K} (the image of the set $K_F$ equals $K_F$, which is how $\tau(K)=K$ is stated), $\tau(t_{a,b})=t_{a,b}$ for all integers $a,b$, and $\tau(g)\in K\,g\,K$ (a double coset). $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Anti-multiplicativity and involutivity are \texttt{Matrix.transpose\_mul} and \texttt{transpose\_transpose}. $\tau(K_F)=K_F$: $\tau$ preserves $K_F$ (same entries, same determinant, using \texttt{mem\_K\_iff}), and is an involution, so the image is all of $K_F$. $\tau(t_{a,b})=t_{a,b}$: diagonal matrices are symmetric. $\tau(g)\in K_FgK_F$: by \cref{I.cartan.lem:cartan-exists}, $g=k\,t\,k'$; then $\tau(g)=\tau(k')\,t\,\tau(k)\in K_F\,t\,K_F=K_FgK_F$. As in A.
+\end{proof}
+
+\begin{theorem}[commutativity of the spherical Hecke algebra]
+\tfstmt{I.satake.thm:hecke-commutative}
+\lean{GL2TF.Local.hecke_commutative}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:cartan-exists,I.conv.def:max-compact-local,I.lf.def:nalf,I.satake.def:spherical-hecke-algebra,I.satake.def:transpose-gl,I.satake.lem:transpose-gelfand-involution,X.hpair.def:conv-term,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:hecke-commutative}
+\tfsem{I.satake.thm:hecke-commutative}{a4fdc434020c19c6bd7a4e8d750ac35afd71d805a58bfa9f3c55cf478c4e53be}
+\tfhyps{I.satake.thm:hecke-commutative}{}
+\tfbinder{I.satake.thm:hecke-commutative}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:hecke-commutative}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:hecke-commutative}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:hecke-commutative}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:hecke-commutative}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.thm:hecke-commutative}{5}{2c22da7a}{the element $f_1\in\mathcal H(\GL_2(F),K_F)$}
+\tfbinder{I.satake.thm:hecke-commutative}{6}{2145b905}{the element $f_2\in\mathcal H(\GL_2(F),K_F)$}
+\begin{tffidelity}
+Commutativity is the equation \texttt{f₁ * f₂ = f₂ * f₁} in the vendored ring structure of \cref{X.hpair.def:ring-instance} on \texttt{sphericalHeckeAlgebra F}, i.e.\ for the convolution of \cref{X.hpair.def:conv}; it is stated pointwise-free, as an equality in the algebra. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The Gelfand trick is carried by the vendored file: \texttt{HeckePair.IsGelfandInvolution.of\_forall\_exists\_fixedRep} builds the involution datum from the first conclusions of \cref{I.satake.lem:transpose-gelfand-involution} (anti-multiplicative, involutive, preserving $K_F$, and every double coset has a $\tau$-fixed element, namely $t_{a,b}$ by \cref{I.cartan.lem:cartan-exists}), and \texttt{heckeMul\_comm} concludes. The reindexing of the convolution sum by $\tau$ (the bijection of finite sums in A) is therefore inside the vendored file and is not reproved.
+\end{proof}
+
+
+\section{The Hecke basis and the Hecke recursion}
+
+\begin{definition}[the Hecke basis]
+\tfstmt{I.satake.def:hecke-basis}
+\lean{GL2TF.Local.heckeBasis}
+\uses{I.cartan.def:cartan-element,I.conv.def:max-compact-local,I.lf.def:nalf,I.satake.def:spherical-hecke-algebra,I.satake.lem:hecke-basis-mem,X.hpair.def:hecke-indicator}
+\end{definition}
+\begin{tfformal}{I.satake.def:hecke-basis}
+\tfsem{I.satake.def:hecke-basis}{d9896d3774160213cbf46949135007146941c3e0637408405bb3016746f7afb4}
+\tfhyps{I.satake.def:hecke-basis}{}
+\tfbinder{I.satake.def:hecke-basis}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:hecke-basis}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:hecke-basis}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.def:hecke-basis}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.def:hecke-basis}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.def:hecke-basis}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.satake.def:hecke-basis}{6}{5e8c6863}{the integer $b$}
+\begin{tffidelity}
+The Lean object is the vendored \texttt{HeckePair.heckeIndicator ℂ (cartanElement F a b)} of \cref{X.hpair.def:hecke-indicator}, the indicator function of the double coset $K\,t_{a,b}\,K$, with the membership $c_{a,b}\in\mathcal H(G,K)$ (finitely many left cosets) supplied by the B-only lemma \cref{I.satake.lem:hecke-basis-mem}; so \texttt{heckeBasis F a b} is an element of \texttt{sphericalHeckeAlgebra F}, defined for all $a,b\in\Z$ as in A. There are no separate constants for $T_\unif$ and $R_\unif$: A's abbreviations $T_\unif=c_{1,0}$ and $R_\unif=c_{1,1}$ are written out as \texttt{heckeBasis F 1 0} and \texttt{heckeBasis F 1 1} in every later statement. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[left coset representatives]
+\tfstmt{I.satake.lem:left-coset-representatives}
+\lean{GL2TF.Local.left_coset_representatives}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:cartan-invariants,I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.conv.def:unipotent,I.conv.lem:max-compact-local-mem,I.decomp.thm:iwasawa-local,I.lf.def:nalf,I.lf.def:uniformizer,I.lf.thm:unit-uniformizer-decomposition,I.satake.def:upper-coset-matrix}
+\end{lemma}
+\begin{tfformal}{I.satake.lem:left-coset-representatives}
+\tfsem{I.satake.lem:left-coset-representatives}{e18c560a7ac1a8ace2556659252484aa0a7e8c7b6b3bd1aa388e87affe173293}
+\tfhyps{I.satake.lem:left-coset-representatives}{}
+\tfbinder{I.satake.lem:left-coset-representatives}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.lem:left-coset-representatives}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.lem:left-coset-representatives}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.lem:left-coset-representatives}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.lem:left-coset-representatives}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.lem:left-coset-representatives}{5}{e1aea53e}{the family of sets of representatives $\mathcal R_i\subseteq F$}
+\tfbinder{I.satake.lem:left-coset-representatives}{6}{f1ca5f56}{the assumption that $\mathcal R_i$ is a set of representatives of $F/\unif^i\Ocal_F$ (a plain $\forall\exists!$ statement)}
+\begin{tffidelity}
+The matrix $h_{i,j}(x)=\bigl(\begin{smallmatrix}\unif^i&x\\0&\unif^j\end{smallmatrix}\bigr)$ is \texttt{hmat i j x} (B-only item \cref{I.satake.def:upper-coset-matrix}, from the Iwasawa chapter). The system of representatives $\mathcal R_i$ is a function \texttt{R : ℤ → Set F}, and the hypothesis that $\mathcal R_i$ represents $F/\unif^i\Ocal_F$ is the binder \texttt{hR}: for every $i$ and $x$ there is a unique $r\in\mathcal R_i$ with $v(x-r)\le v(\unif^i)$ (a plain $\forall\,\exists!$ statement, not a project predicate). Part (a) is \texttt{∀ g, ∃! p : ℤ × ℤ × F, p.2.2 ∈ R p.1 ∧ gK = h(p)K}, with cosets as elements of \texttt{G ⧸ 𝐊[F]}. Part (b) writes $\min(i,j,\operatorname{ord}x)=b$ by the valuation, since $\operatorname{ord}$ is not a constant: $b\le i\wedge b\le j\wedge v(x)\le v(\unif^b)\wedge(i=b\vee j=b\vee v(x)=v(\unif^b))$; for $x=0$ both sides are true ($\operatorname{ord}0=+\infty$ and $v(0)=0$). The double coset $K\,t_{a,b}\,K$ is Mathlib's \texttt{DoubleCoset.doubleCoset} of the Cartan element. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Part (b) is \texttt{hmat\_mem\_iff\_gen}, a direct computation of the Cartan double coset in terms of $\min(i,j,\operatorname{ord}x)$ and $i+j$. Part (a): by \texttt{exists\_hmat} every $gK$ equals some $h_{i,j}(x)K$; replace $x$ by the representative $r\in\mathcal R_i$ given by \texttt{hR} (the coset $h_{i,j}(x)K$ only depends on $x$ modulo $\unif^i\Ocal_F$, \texttt{hmat\_mk\_eq\_iff}). Uniqueness: equality of two cosets forces $i=i'$, $j=j'$ (\texttt{hmat\_mk\_eq\_iff}) and then $r=r'$ by the uniqueness in \texttt{hR}.
+\end{proof}
+
+\begin{theorem}[the Hecke basis is a basis]
+\tfstmt{I.satake.thm:hecke-basis-basis}
+\lean{GL2TF.Local.hecke_basis_basis}
+\uses{I.cartan.def:cartan-element,I.cartan.thm:cartan-decomposition,I.conv.def:max-compact-local,I.lf.def:nalf,I.satake.def:hecke-basis,I.satake.def:spherical-hecke-algebra,I.satake.lem:hecke-basis-mem,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:hecke-indicator,X.hpair.def:is-hecke-fun,X.hpair.def:ring-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:hecke-basis-basis}
+\tfsem{I.satake.thm:hecke-basis-basis}{d223b6f5338faea80b44572ba83e4561089e4d198ae4e70d569843e70672cfde}
+\tfhyps{I.satake.thm:hecke-basis-basis}{}
+\tfbinder{I.satake.thm:hecke-basis-basis}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:hecke-basis-basis}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:hecke-basis-basis}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:hecke-basis-basis}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:hecke-basis-basis}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The index set $\{a\ge b\}$ is the subtype \texttt{\{p : ℤ × ℤ // p.2 ≤ p.1\}}. ``Basis'' is split as \texttt{LinearIndependent ℂ} together with the expansion: for every $f$ the set of indices with $f(t_{a,b})\ne0$ is finite and $f=\sum^{\mathrm{f}}_{a\ge b}f(t_{a,b})\,c_{a,b}$, a \texttt{finsum} (finite support is the first conjunct, so the sum is the honest finite sum of A). The value $f(t_{a,b})$ is taken through the underlying function of the Hecke algebra element at the Cartan element.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $\delta$ be the Kronecker identity $c_{a',b'}(t_{a,b})=[(a',b')=(a,b)]$, from \texttt{heckeBasis\_apply\_cartan} (support of $c_{a,b}$ is $Kt_{a,b}K$ and Cartan double cosets are disjoint). Linear independence: evaluate a vanishing combination at $t_{i}$ (\texttt{heckeEval}, additive) and use $\delta$. Expansion: the map $p\mapsto t_pK$ is injective by uniqueness in the Cartan decomposition, so the support of $f$ on Cartan elements is finite (finitely many cosets in the support of $f$, \texttt{HeckePair.finite\_cosets}); then two elements of $\mathcal H(G,K)$ with the same values on all $t_{c,d}$ agree (\texttt{hecke\_ext\_cartan}), and the \texttt{finsum} evaluated at $t_{c,d}$ collapses to a single term by \texttt{finsum\_eq\_single} and $\delta$.
+\end{proof}
+
+\begin{theorem}[the Hecke recursion]
+\tfstmt{I.satake.thm:hecke-recursion}
+\lean{GL2TF.Local.hecke_recursion}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:cartan-invariants,I.cartan.lem:maximal-ideal-eq-span-unif,I.cartan.lem:unif-ne-zero,I.cartan.thm:cartan-decomposition,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.decomp.thm:iwasawa-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.lf.thm:unit-uniformizer-decomposition,I.satake.def:hecke-basis,I.satake.def:spherical-hecke-algebra,I.satake.def:upper-coset-matrix,I.satake.lem:hecke-basis-mem,I.satake.lem:left-coset-representatives,I.satake.thm:hecke-basis-basis,X.hpair.def:conv-term,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:hecke-indicator,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:hecke-recursion}
+\tfsem{I.satake.thm:hecke-recursion}{62733364742e18b721f683267db07a7703e87cdade73cc05945d12146f1b795a}
+\tfhyps{I.satake.thm:hecke-recursion}{}
+\tfbinder{I.satake.thm:hecke-recursion}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:hecke-recursion}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:hecke-recursion}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:hecke-recursion}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:hecke-recursion}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.thm:hecke-recursion}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.satake.thm:hecke-recursion}{6}{5e8c6863}{the integer $b$}
+\tfbinder{I.satake.thm:hecke-recursion}{7}{1d041944}{the hypothesis $b\le a$}
+\begin{tffidelity}
+The three cases of the snippet are the three conjuncts \texttt{2 ≤ a - b → …}, \texttt{a - b = 1 → …}, \texttt{a = b → …}, each an equation in \texttt{sphericalHeckeAlgebra F}; the scalars $q$, $q+1$ are the complex numbers \texttt{(q F : ℂ)}, \texttt{(q F : ℂ) + 1}, acting by \texttt{•}. The hypothesis $a\ge b$ is the binder \texttt{hab : b ≤ a}, mapped explicitly by binder row 7 (not a hidden hypothesis). $T_\unif$ is \texttt{heckeBasis F 1 0} (see \cref{I.satake.def:hecke-basis}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \texttt{hecke\_ext\_cartan} it suffices to compare values at $t_{c,d}$. The value of $T_\unif*c_{a,b}$ at $t_{c,d}$ is computed once (\texttt{heckeT\_mul\_heckeBasis\_apply}, from the left coset representatives of \cref{I.satake.lem:left-coset-representatives}); then each of the three cases is a case split on $(c,d)=(a+1,b)$, $(c,d)=(a,b+1)$ (resp.\ $(a,a)$), otherwise, with the scalars $q$ and $q+1$ read off by \texttt{simp} and \texttt{ring}, using the Kronecker formula of \cref{I.satake.thm:hecke-basis-basis}.
+\end{proof}
+
+\begin{theorem}[the central element $R_\unif$]
+\tfstmt{I.satake.thm:hecke-central-shift}
+\lean{GL2TF.Local.hecke_central_shift}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:uniformizer,I.satake.def:hecke-basis,I.satake.def:spherical-hecke-algebra,I.satake.lem:hecke-basis-mem,X.hpair.def:conv-term,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:hecke-indicator,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:hecke-central-shift}
+\tfsem{I.satake.thm:hecke-central-shift}{ca305ff353c93d064d058d34fdeb9a0c30c7f76f263abf1e5cfb0471dce13925}
+\tfhyps{I.satake.thm:hecke-central-shift}{}
+\tfbinder{I.satake.thm:hecke-central-shift}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:hecke-central-shift}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:hecke-central-shift}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:hecke-central-shift}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:hecke-central-shift}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+``$R_\unif$ is a unit with inverse $c_{-1,-1}$'' is the pair of equations \texttt{R * c₋₁₋₁ = 1} and \texttt{c₋₁₋₁ * R = 1} (last two conjuncts), with $R_\unif=$ \texttt{heckeBasis F 1 1} and $c_{-1,-1}=$ \texttt{heckeBasis F (-1) (-1)}; the displayed shift formulas $R_\unif*c_{a,b}=c_{a+1,b+1}$ and $c_{-1,-1}*c_{a,b}=c_{a-1,b-1}$ are the first conjunct, for all $a,b\in\Z$ (also $a<b$, as $c_{a,b}$ is defined for all integers).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{heckeBasis\_diag\_mul}: the central element $c_{n,n}$ multiplies a basis element by shifting both indices ($c_{n,n}$ is the indicator of the coset of the central element $\unif^n\cdot1$, which acts by translation). This gives $R_\unif c_{a,b}=c_{a+1,b+1}$ and, rewriting $a-1=a+(-1)$, the second shift; the two unit equations follow from $c_{1,1}c_{-1,-1}=c_{0,0}=1$ (\texttt{heckeBasis\_zero\_zero}).
+\end{proof}
+
+\begin{theorem}[the spherical Hecke algebra is a polynomial algebra]
+\tfstmt{I.satake.thm:hecke-polynomial}
+\lean{GL2TF.Local.hecke_polynomial}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:unif-ne-zero,I.cartan.thm:cartan-decomposition,I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.satake.def:hecke-basis,I.satake.def:hecke-comm-ring,I.satake.def:spherical-hecke-algebra,I.satake.lem:hecke-basis-mem,I.satake.thm:hecke-basis-basis,I.satake.thm:hecke-central-shift,I.satake.thm:hecke-commutative,I.satake.thm:hecke-recursion,X.hpair.def:algebra-instance,X.hpair.def:conv-term,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:hecke-indicator,X.hpair.def:mul-instance,X.hpair.def:one-instance,X.hpair.def:ring-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:hecke-polynomial}
+\tfsem{I.satake.thm:hecke-polynomial}{feb3baa05e956b05ee345d15b4735ee86703c3e8c325308ae7658460cbd375db}
+\tfhyps{I.satake.thm:hecke-polynomial}{}
+\tfbinder{I.satake.thm:hecke-polynomial}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:hecke-polynomial}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:hecke-polynomial}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:hecke-polynomial}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:hecke-polynomial}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+$\C[T,R^{\pm1}]$ is \texttt{AddMonoidAlgebra ℂ (ℕ × ℤ)}, the monoid algebra of $\N\times\Z$, not the polynomial ring written in A; $T$ is \texttt{single (1, 0) 1} and $R$ is \texttt{single (0, 1) 1}. $\Theta$ is stated existentially: \texttt{∃ Θ : … ≃ₐ[ℂ] sphericalHeckeAlgebra F} with $\Theta(T)=$ \texttt{heckeBasis F 1 0} and $\Theta(R)=$ \texttt{heckeBasis F 1 1}. The consequences listed in A are separate conjuncts: ``generated by $T_\unif,R_\unif,R_\unif^{-1}$'' is \texttt{Algebra.adjoin ℂ \{…\} = ⊤}, and algebraic independence is \texttt{AlgebraicIndependent ℂ ![T, R]}. Both need the ring structure on $\mathcal H(G,K)$ to be commutative, which is the B-only instance \cref{I.satake.def:hecke-comm-ring} built from \cref{I.satake.thm:hecke-commutative}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+One constructs the algebra map $\Theta=$ \texttt{heckeTheta} from $\C[\N\times\Z]$ (a $T$-exponent in $\N$, an $R$-exponent in $\Z$) sending $(m,n)\mapsto T_\unif^{\,m}R_\unif^{\,n}$; it is injective and surjective (\texttt{heckeTheta\_injective}: compare the leading term; \texttt{heckeTheta\_surjective}: by strong induction on $k=a-b$ every $c_{k+b,b}$ lies in the range, using the recursion \cref{I.satake.thm:hecke-recursion} and the shift \cref{I.satake.thm:hecke-central-shift} to express it through $T_\unif c_{k-1+b,b}$ and lower terms \texttt{heckeW}). Then $\Theta(\mathrm{single}(1,0))=c_{1,0}$ and $\Theta(\mathrm{single}(0,1))=c_{1,1}$ by \texttt{heckeTheta\_single}. The image of the generating set $\{T,R,R^{-1}\}$ of the Laurent algebra is $\{c_{1,0},c_{1,1},c_{-1,-1}\}$, so the algebra they generate is $\top$ (\texttt{AlgHom.map\_adjoin}, \texttt{adjoin\_polyTR}); algebraic independence of $(T,R)$ is injectivity of the composite $\Theta\circ\iota$ with the polynomial ring (\texttt{polyTRIota\_injective}).
+\end{proof}
+
+\begin{example}[the square of $T_\unif$]
+\tfstmt{I.satake.ex:hecke-t-squared}
+\lean{GL2TF.Local.hecke_t_squared}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.satake.def:hecke-basis,I.satake.def:spherical-hecke-algebra,I.satake.thm:hecke-recursion,X.hpair.def:hecke-algebra,X.hpair.def:mul-instance}
+\end{example}
+\begin{tfformal}{I.satake.ex:hecke-t-squared}
+\tfsem{I.satake.ex:hecke-t-squared}{fe97cba9fcd9ae434e0b0884d67464a94ade5d291a23ebcf167ef46bc69d23cd}
+\tfhyps{I.satake.ex:hecke-t-squared}{}
+\tfbinder{I.satake.ex:hecke-t-squared}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.ex:hecke-t-squared}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.ex:hecke-t-squared}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.ex:hecke-t-squared}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.ex:hecke-t-squared}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The equation $T_\unif*T_\unif=c_{2,0}+(q+1)R_\unif$ in \texttt{sphericalHeckeAlgebra F}, with $T_\unif=$ \texttt{heckeBasis F 1 0}, $R_\unif=$ \texttt{heckeBasis F 1 1} and $q+1$ as \texttt{(q F : ℂ) + 1} acting by \texttt{•}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The case $(a,b)=(1,0)$ of the Hecke recursion \cref{I.satake.thm:hecke-recursion} (\texttt{hecke\_recursion F 1 0}, second component), after \texttt{simp}.
+\end{proof}
+
+\section{The Satake isomorphism}
+
+\begin{definition}[Laurent polynomials and their Weyl group invariants]
+\tfstmt{I.satake.def:laurent-weyl-invariants}
+\lean{GL2TF.Local.weylInvariants}
+\uses{I.satake.def:laurent-swap}
+\end{definition}
+\begin{tfformal}{I.satake.def:laurent-weyl-invariants}
+\tfsem{I.satake.def:laurent-weyl-invariants}{13f284be3c221c8c7a9ab07d91ecdd6b11a1c3d8a6c66feef31353ecce287824}
+\tfhyps{I.satake.def:laurent-weyl-invariants}{}
+\begin{tffidelity}
+$\C[X^{\pm1},Y^{\pm1}]$ is \texttt{AddMonoidAlgebra ℂ (ℤ × ℤ)} , with $X^aY^b$ the basis element \texttt{single (a, b) 1}; the notation $X$, $Y$ is local to the Lean file (\texttt{𝐗}, \texttt{𝐘}). The Weyl swap $s$ is the B-only automorphism \cref{I.satake.def:laurent-swap} (induced by the swap of $\Z\times\Z$, \texttt{AddMonoidAlgebra.domCongr}), and the invariants are its fixed algebra, \texttt{AlgHom.equalizer s (AlgHom.id ℂ \_)}, a \texttt{Subalgebra ℂ}. The claims of A (``$s$ is a $\C$-algebra automorphism and an involution'', ``the invariants form a subalgebra'') are carried by the types \texttt{≃ₐ[ℂ]} and \texttt{Subalgebra}, not by theorems; the involution property is the Lean lemma \texttt{laurentSwap\_involutive} (untagged).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[generators of the invariants]
+\tfstmt{I.satake.lem:laurent-invariants-generators}
+\lean{GL2TF.Local.laurent_invariants_generators}
+\uses{I.satake.def:laurent-swap,I.satake.def:laurent-weyl-invariants}
+\end{lemma}
+\begin{tfformal}{I.satake.lem:laurent-invariants-generators}
+\tfsem{I.satake.lem:laurent-invariants-generators}{e42439713c8986ab1bbb8b1e740b1474c8c9e433790715a1a56850dc680f6cbb}
+\tfhyps{I.satake.lem:laurent-invariants-generators}{}
+\begin{tffidelity}
+$\C[T,R^{\pm1}]$ is \texttt{AddMonoidAlgebra ℂ (ℕ × ℤ)}, $\C[X^{\pm1},Y^{\pm1}]$ is \texttt{AddMonoidAlgebra ℂ (ℤ × ℤ)}; $(XY)^{-1}$ is \texttt{single (-1, -1) 1}. $\varphi$ is stated existentially (\texttt{∃ φ : … →ₐ[ℂ] …}) with $\varphi(T)=X+Y$, $\varphi(R)=XY$, \texttt{Function.Injective φ} and \texttt{φ.range = weylInvariants}. The consequences in A are the two further conjuncts: \texttt{Algebra.adjoin ℂ \{X+Y, XY, (XY)⁻¹\} = weylInvariants} and \texttt{AlgebraicIndependent ℂ ![X+Y, XY]}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The algebra map $\varphi=$ \texttt{laurentPhi} sends $T\mapsto\mathbf X+\mathbf Y$, $R\mapsto\mathbf X\mathbf Y$ (\texttt{laurentPhi\_T}, \texttt{laurentPhi\_R}); it is injective with range the Weyl-invariants (\texttt{laurentPhi\_injective}, \texttt{laurentPhi\_range}: the symmetric Laurent polynomials are polynomials in the elementary symmetric functions and $(\mathbf X\mathbf Y)^{-1}$). The generation statement is the image of $\{T,R,R^{-1}\}$ under $\varphi$ (\texttt{AlgHom.map\_adjoin}); algebraic independence is injectivity of $\varphi\circ$ \texttt{polyTRIota}.
+\end{proof}
+
+\begin{definition}[the Satake transform]
+\tfstmt{I.satake.def:satake-transform}
+\lean{GL2TF.Local.satake}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.satake.def:coset-transform,I.satake.def:laurent-weyl-invariants,I.satake.def:satake-weight,I.satake.def:spherical-hecke-algebra}
+\end{definition}
+\begin{tfformal}{I.satake.def:satake-transform}
+\tfsem{I.satake.def:satake-transform}{ab44de6b8ce91883d7aed54f85f83569e5f4da5293a0344699daa5ee216e589c}
+\tfhyps{I.satake.def:satake-transform}{}
+\tfbinder{I.satake.def:satake-transform}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:satake-transform}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:satake-transform}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.def:satake-transform}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.def:satake-transform}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.def:satake-transform}{5}{2c22da7a}{the element $f\in\mathcal H(\GL_2(F),K_F)$}
+\begin{tffidelity}
+The coset form of decision L14 is the definition, as in A: $\Sat f=\sum^{\mathrm f}_{gK\in G/K}f(g)\,\mu(gK)$, the B-only \cref{I.satake.def:coset-transform} applied to the weight \cref{I.satake.def:satake-weight}. Two encoding differences. (1) A's weight $\mu(gK)=q^{-(i-j)/2}X^iY^j$ is defined through the diagonal of an upper triangular representative; Lean reads $(i,j)$ off the coset by the B-only \cref{I.satake.def:iwasawa-exponent} (Iwasawa exponent, well defined by the representatives lemma \cref{I.satake.lem:left-coset-representatives}) and writes $q^{-(i-j)/2}$ as \texttt{(√q) \^{} (j - i)} with \texttt{√q = ((Real.sqrt (q F : ℝ) : ℝ) : ℂ)}, the positive root, a \texttt{zpow} in $\C$; there is no $\delta_B$ in the Lean definition (the second expression $\delta_B(\beta)^{1/2}X^iY^j$ of the snippet's display is not formalized; A verifies the equality $\delta_B(\beta)^{1/2}=q^{-(i-j)/2}$ in the text). (2) The summand is evaluated at the chosen representative \texttt{c.out} of each coset $c$, a \texttt{finsum} over \texttt{G ⧸ 𝐊[F]}; that this is independent of the representative (right $K$-invariance of $f$ and of the weight) and has finite support are proof obligations (A's ``proof of the claims''), not conjuncts. The N(F)/N(𝒪) double-sum form and the integral form of the literature are not definitions here but part (b) of \texttt{I.satake.thm:satake-transform-well-defined}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the Satake transform is multiplicative]
+\tfstmt{I.satake.thm:satake-transform-multiplicative}
+\lean{GL2TF.Local.satake_transform_multiplicative}
+\uses{I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.decomp.thm:iwasawa-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.lf.thm:unit-uniformizer-decomposition,I.satake.def:coset-transform,I.satake.def:iwasawa-exponent,I.satake.def:satake-transform,I.satake.def:satake-weight,I.satake.def:spherical-hecke-algebra,I.satake.def:upper-coset-matrix,I.satake.lem:iwasawa-exponent-exists,X.hpair.def:conv,X.hpair.def:conv-term,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:satake-transform-multiplicative}
+\tfsem{I.satake.thm:satake-transform-multiplicative}{fc7b3e0bcb1a2f32e341b8758460cb2d87384c473d4b7d24b163b1e9ce0af8fa}
+\tfhyps{I.satake.thm:satake-transform-multiplicative}{}
+\tfbinder{I.satake.thm:satake-transform-multiplicative}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:satake-transform-multiplicative}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:satake-transform-multiplicative}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:satake-transform-multiplicative}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:satake-transform-multiplicative}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The two assertions of A, multiplicativity $\mathcal S(f_1*f_2)=\mathcal Sf_1\cdot\mathcal Sf_2$ and $\mathcal S(\mathbf 1_K)=1$, are the two conjuncts; $\mathbf 1_K$ is the unit \texttt{1} of the vendored ring structure (\cref{X.hpair.def:hecke-one}). Together with linearity (\texttt{I.satake.thm:satake-transform-well-defined}\,(a)) this is ``$\mathcal S$ is a $\C$-algebra homomorphism''; the bundled \texttt{AlgHom} is the untagged proof object \texttt{satakeAlgHom}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Both parts are instances of the general theorem on coset transforms (\texttt{cosetTransform\_mul}, \texttt{cosetTransform\_one}) for the weight $\mu=$ \texttt{satakeWeight}; here $U=K=$ \texttt{𝐊[F]}. Its hypotheses are right $K$-invariance of the weight (\texttt{satakeWeight\_mul\_right}), the good-representative property (\texttt{satakeWeight\_good}: every coset $gK$ has a representative $y=h_{i,j}(z)$ with $\mu(yx)=\mu(y)\mu(x)$ for all $x$) and $\mu(1)=1$ (\texttt{satakeWeight\_one}). For \texttt{cosetTransform\_mul}, in the sum for $f_1*f_2$ one writes $xK=yzK$ with $y$ the good representative of each coset in the support of $f_1$ and reorders the finite sums (\texttt{finsum\_sum\_comm}); this is the coset-weight proof of A.
+\end{proof}
+
+\begin{theorem}[the Satake transform of the generators]
+\tfstmt{I.satake.thm:satake-generators}
+\lean{GL2TF.Local.satake_generators}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:cartan-invariants,I.cartan.lem:maximal-ideal-eq-span-unif,I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.decomp.thm:iwasawa-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.lf.thm:unit-uniformizer-decomposition,I.satake.def:coset-transform,I.satake.def:hecke-basis,I.satake.def:iwasawa-exponent,I.satake.def:satake-transform,I.satake.def:satake-weight,I.satake.def:upper-coset-matrix,I.satake.lem:hecke-basis-mem,I.satake.lem:iwasawa-exponent-exists,I.satake.lem:left-coset-representatives,I.satake.thm:hecke-central-shift,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:hecke-indicator}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:satake-generators}
+\tfsem{I.satake.thm:satake-generators}{3525620eddc72592cf57c01b48220b98cf2af0b612f062c83adea6e4f3e7a29c}
+\tfhyps{I.satake.thm:satake-generators}{}
+\tfbinder{I.satake.thm:satake-generators}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:satake-generators}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:satake-generators}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:satake-generators}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:satake-generators}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The three equations are the three conjuncts, with $q^{1/2}(X+Y)$ as \texttt{√q • (𝐗 + 𝐘)}, $XY$ as \texttt{𝐗 * 𝐘}, and $X^{-1}Y^{-1}$ as \texttt{single (-1, -1) 1}; $R_\unif^{-1}$ is written $c_{-1,-1}=$ \texttt{heckeBasis F (-1) (-1)} (equal to $R_\unif^{-1}$ by \cref{I.satake.thm:hecke-central-shift}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first is \texttt{satake\_heckeT}: unfold the coset transform and split the sum over $Kt_{1,0}K$ by \texttt{finsum\_heckeT} into the coset $h_{0,1}(0)K=t_{0,1}K$, of weight $\sqrt q\,\mathbf Y$, and the $q$ cosets $h_{1,0}(u)K$, $u\in\Ocal_F/\unif\Ocal_F$, of weight $\sqrt q^{-1}\mathbf X$ each (\texttt{satakeWeight\_hmat}, \texttt{card\_quot\_span\_pow}); $q\cdot\sqrt q^{-1}=\sqrt q$. For the diagonal ones \texttt{satake\_heckeBasis\_diag}: $S(c_{a,a})=\mathrm{single}(a,a)$, since only $x=0$ contributes; hence $S(c_{1,1})=\mathrm{single}(1,1)=\mathbf X\mathbf Y$ (\texttt{single\_mul\_single}) and $S(c_{-1,-1})=\mathrm{single}(-1,-1)$.
+\end{proof}
+
+\begin{theorem}[the image is Weyl group invariant]
+\tfstmt{I.satake.thm:satake-image-invariant}
+\lean{GL2TF.Local.satake_image_invariant}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.satake.def:coset-transform,I.satake.def:hecke-basis,I.satake.def:hecke-comm-ring,I.satake.def:laurent-swap,I.satake.def:laurent-weyl-invariants,I.satake.def:satake-transform,I.satake.def:satake-weight,I.satake.def:spherical-hecke-algebra,I.satake.thm:hecke-polynomial,I.satake.thm:satake-generators,I.satake.thm:satake-transform-multiplicative,X.hpair.def:algebra-instance,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:satake-image-invariant}
+\tfsem{I.satake.thm:satake-image-invariant}{25608902ff307084b6f8ce89939f1581caa4d69e1b3e9862b6127bba0d3e9c07}
+\tfhyps{I.satake.thm:satake-image-invariant}{}
+\tfbinder{I.satake.thm:satake-image-invariant}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:satake-image-invariant}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:satake-image-invariant}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:satake-image-invariant}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:satake-image-invariant}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.thm:satake-image-invariant}{5}{2c22da7a}{the element $f\in\mathcal H(\GL_2(F),K_F)$}
+\begin{tffidelity}
+``$\mathcal Sf\in\C[X^{\pm1},Y^{\pm1}]^{S_2}$'' is membership \texttt{satake F f ∈ weylInvariants} (\cref{I.satake.def:laurent-weyl-invariants}), for the argument $f$ of the binder table.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+By \cref{I.satake.thm:hecke-polynomial} the algebra $\mathcal H(G,K)$ is generated by $c_{1,0},c_{1,1},c_{-1,-1}$ (\texttt{Algebra.adjoin} $=\top$), and the Weyl-invariants form a subalgebra. So $\mathrm{adjoin}\le$ the preimage of \texttt{weylInvariants} under the algebra map $S$ (\texttt{Algebra.adjoin\_le\_iff}); for each of the three generators, \cref{I.satake.thm:satake-generators} gives $\sqrt q(\mathbf X+\mathbf Y)$, $\mathbf X\mathbf Y$, $(\mathbf X\mathbf Y)^{-1}$, each fixed by the swap (\texttt{laurentSwap\_single}, \texttt{add\_comm}, \texttt{mul\_comm}).
+\end{proof}
+
+\begin{theorem}[triangularity]
+\tfstmt{I.satake.thm:satake-triangular}
+\lean{GL2TF.Local.satake_triangular}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.satake.def:coset-transform,I.satake.def:hecke-basis,I.satake.def:hecke-comm-ring,I.satake.def:iwasawa-exponent,I.satake.def:satake-transform,I.satake.def:satake-weight,I.satake.def:spherical-hecke-algebra,I.satake.def:upper-coset-matrix,I.satake.lem:hecke-basis-mem,I.satake.lem:iwasawa-exponent-exists,I.satake.lem:left-coset-representatives,I.satake.thm:hecke-recursion,I.satake.thm:satake-generators,I.satake.thm:satake-transform-multiplicative,X.hpair.def:algebra-instance,X.hpair.def:conv-term,X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:hecke-indicator,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:satake-triangular}
+\tfsem{I.satake.thm:satake-triangular}{0c2185d7aa09815b234206af3ce44411c88fb871e6491f1a933389e9133344c3}
+\tfhyps{I.satake.thm:satake-triangular}{}
+\tfbinder{I.satake.thm:satake-triangular}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:satake-triangular}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:satake-triangular}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:satake-triangular}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:satake-triangular}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+Two conjuncts: $\mathcal S(c_{a,a})=X^aY^a$ (which is the case $n=0$ of A) and, for $a>b$, $\mathcal S(c_{a,b})=q^{(a-b)/2}\bigl(X^aY^b+X^bY^a+(1-q^{-1})\sum_{b<i<a}X^iY^{a+b-i}\bigr)$, with $q^{(a-b)/2}$ as \texttt{√q \^{} (a - b)}, $1-q^{-1}$ as \texttt{1 - (q F : ℂ)⁻¹}, and the sum over \texttt{Finset.Ioo b a} (the open interval of integers) of \texttt{single (i, a + b - i) 1}. A's separate treatment of $n=1$ (empty middle sum) is the empty \texttt{Finset.Ioo}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The diagonal case is \texttt{satake\_heckeBasis\_diag}. For $b<a$ one proves the formula for $c_{a,b}$ by induction on $a-b-1$ (\texttt{satake\_tri\_aux}), with two base cases: $a=b+1$ from $c_{b+1,b}=c_{b,b}*T_\unif$ (\texttt{heckeBasis\_diag\_mul}, \texttt{tri\_base1}) and $a=b+2$ from the recursion for $a-b=1$ (\texttt{tri\_base2}). The step (\texttt{tri\_step}) uses the Hecke recursion \cref{I.satake.thm:hecke-recursion} to express $c_{a+1,b}$ via $T_\unif*c_{a,b}$ and $c_{a,b+1}$, the multiplicativity of $S$ (\cref{I.satake.thm:satake-transform-multiplicative}) and $S(c_{1,0})=\sqrt q(\mathbf X+\mathbf Y)$ (\cref{I.satake.thm:satake-generators}); it is checked by comparing the coefficient of each monomial $X^xY^y$ (\texttt{coeff\_satakeTri}) with a case split on $x$.
+\end{proof}
+
+\begin{theorem}[the Satake isomorphism]
+\tfstmt{I.satake.thm:satake-isomorphism}
+\lean{GL2TF.Local.satake_isomorphism}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.satake.def:coset-transform,I.satake.def:hecke-basis,I.satake.def:hecke-comm-ring,I.satake.def:laurent-weyl-invariants,I.satake.def:satake-transform,I.satake.def:satake-weight,I.satake.def:spherical-hecke-algebra,I.satake.lem:laurent-invariants-generators,I.satake.thm:hecke-polynomial,I.satake.thm:satake-generators,I.satake.thm:satake-image-invariant,I.satake.thm:satake-transform-multiplicative,X.hpair.def:algebra-instance,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:satake-isomorphism}
+\tfsem{I.satake.thm:satake-isomorphism}{217e80d21aa83716718b4b07dc9d9700da9aa69d9f9b69b7a646900b05a5694b}
+\tfhyps{I.satake.thm:satake-isomorphism}{}
+\tfbinder{I.satake.thm:satake-isomorphism}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:satake-isomorphism}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:satake-isomorphism}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:satake-isomorphism}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:satake-isomorphism}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+The isomorphism is stated existentially, as in A: \texttt{∃ e : sphericalHeckeAlgebra F ≃ₐ[ℂ] weylInvariants, ∀ f, (e f : AddMonoidAlgebra ℂ (ℤ × ℤ)) = satake F f}; the target is the subtype of the subalgebra \cref{I.satake.def:laurent-weyl-invariants} coerced back to the Laurent algebra for the comparison with $\mathcal S$. Here $\C[X^{\pm1},Y^{\pm1}]^{S_2}$ is the subalgebra \texttt{weylInvariants} of \texttt{AddMonoidAlgebra ℂ (ℤ × ℤ)} (\cref{I.satake.def:laurent-weyl-invariants}), an isomorphism being a $\C$-algebra equivalence \texttt{≃ₐ[ℂ]} onto the subtype of that subalgebra. Exit item; the exit witness is closed at the field $\Q_2$ (decision L20).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $\Theta$ (\cref{I.satake.thm:hecke-polynomial}) and $\varphi$ (\cref{I.satake.lem:laurent-invariants-generators}) be the two parametrisations by $\C[T,R]$. Since $S(c_{1,0})=\sqrt q(\mathbf X+\mathbf Y)$ and $S(c_{1,1})=\mathbf X\mathbf Y$, one has $S\circ\Theta=\varphi\circ\mathrm{polyScale}_{\sqrt q}$ (checked on the generators by \texttt{polyTR\_algHom\_ext}), where polyScale rescales $T$ by $\sqrt q\ne0$ (an algebra automorphism with inverse polyScale$_{1/\sqrt q}$). The codomain of $S$ is restricted to the invariants (\cref{I.satake.thm:satake-image-invariant}); injectivity follows from injectivity of $\varphi$ and surjectivity of $\Theta$; surjectivity from $\mathrm{range}\,\varphi=$ \texttt{weylInvariants}: the preimage of $\varphi(p)$ is $\Theta(\mathrm{polyScale}_{1/\sqrt q}(p))$. \texttt{AlgEquiv.ofBijective} gives $e$, and $e\,f=S f$ by \texttt{rfl}.
+\end{proof}
+
+\section{Characters of the spherical Hecke algebra}
+
+\begin{theorem}[characters of the spherical Hecke algebra]
+\tfstmt{I.satake.thm:hecke-characters}
+\lean{GL2TF.Local.hecke_characters}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.satake.def:coset-transform,I.satake.def:hecke-basis,I.satake.def:hecke-comm-ring,I.satake.def:laurent-eval,I.satake.def:laurent-swap,I.satake.def:laurent-weyl-invariants,I.satake.def:satake-transform,I.satake.def:satake-weight,I.satake.def:spherical-hecke-algebra,I.satake.thm:hecke-central-shift,I.satake.thm:hecke-polynomial,I.satake.thm:satake-generators,I.satake.thm:satake-image-invariant,I.satake.thm:satake-transform-multiplicative,X.hpair.def:algebra-instance,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{I.satake.thm:hecke-characters}
+\tfsem{I.satake.thm:hecke-characters}{26a30b927b1a09984d3b5de9a84a7405288fc4b7106bf6f26d460ca65c641ead}
+\tfhyps{I.satake.thm:hecke-characters}{}
+\tfbinder{I.satake.thm:hecke-characters}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.thm:hecke-characters}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.thm:hecke-characters}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.thm:hecke-characters}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.thm:hecke-characters}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+Part (a): $\omega_{\alpha,\beta}$ is the composite $\mathrm{ev}_{\alpha,\beta}\circ\mathcal S$; ``is a $\C$-algebra homomorphism'' is \texttt{∃ ω : H →ₐ[ℂ] ℂ, ∀ f, ω f = laurentEval α β (satake F f)}, with the B-only evaluation \cref{I.satake.def:laurent-eval} (not a bare function, so that no statement mentions an unproved homomorphism); the values on $T_\unif$, $R_\unif$ are the other two conjuncts (\texttt{√q * (α + β)}, \texttt{α * β}, with $\alpha,\beta\in\C^\times$ as \texttt{ℂˣ} cast to $\C$). Part (b) quantifies over every \texttt{ω : H →ₐ[ℂ] ℂ}. Part (c) is the equivalence \texttt{(∀ f, ω\_{α,β} f = ω\_{α',β'} f) ↔ (α',β') = (α,β) ∨ (α',β') = (β,α)}; A's ``if and only if'' on the characters is phrased through the values on all $f$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) The algebra map is $\mathrm{ev}_{\alpha,\beta}\circ S$ (\texttt{laurentEval} composed with \texttt{satakeAlgHom}), and the two values follow from \cref{I.satake.thm:satake-generators} (\texttt{laurentEval\_single}). (b) Given $\omega$ put $e_1=\omega(T_\unif)/\sqrt q$, $e_2=\omega(R_\unif)$; $e_2$ is a unit as $\omega(R)\omega(R^{-1})=\omega(1)=1$ (\cref{I.satake.thm:hecke-central-shift}). Take $\alpha,\beta=(e_1\pm s)/2$ with $s^2=e_1^2-4e_2$ (a square root in $\C$, \texttt{Complex.cpow\_nat\_inv\_pow}); then $\alpha+\beta=e_1$, $\alpha\beta=e_2$, both $\ne0$. Two algebra maps agreeing on the generators $T,R,R^{-1}$ coincide (\texttt{AlgHom.ext\_of\_adjoin\_eq\_top} with \cref{I.satake.thm:hecke-polynomial}). (c) $\Leftarrow$ is symmetry of $\mathrm{ev}$ on Weyl-invariants. $\Rightarrow$: evaluating at $T$ and $R$ gives $\alpha+\beta=\alpha'+\beta'$ and $\alpha\beta=\alpha'\beta'$ (cancel $\sqrt q\ne0$), hence $(\alpha'-\alpha)(\alpha'-\beta)=0$ (\texttt{linear\_combination}), so $\alpha'\in\{\alpha,\beta\}$ and $\beta'$ is the other.
+\end{proof}
+
+% M5A-GENERATED
+\section{Plumbing of the Hecke algebra (B-only)}
+
+\noindent These items are the vendored definitions of the Hecke algebra $\mathcal H(G,U;R_0)$ (from \texttt{Vendor/AnthropicFLT}, Apache-2.0) that occur in the closure of the statements of this chapter. They appear in edition B only.
+
+\begin{definition}[Hecke function]
+\tfstmt{X.hpair.def:is-hecke-fun}
+\bonly
+\lean{HeckePair.IsHeckeFun}
+\end{definition}
+\begin{tfformal}{X.hpair.def:is-hecke-fun}
+\tfsem{X.hpair.def:is-hecke-fun}{fa72745656815c6a4e589a2695c2f10d566c8b8332034f9941691327f8afdc02}
+\tfhyps{X.hpair.def:is-hecke-fun}{}
+\tfbinder{X.hpair.def:is-hecke-fun}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:is-hecke-fun}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:is-hecke-fun}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:is-hecke-fun}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:is-hecke-fun}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\tfbinder{X.hpair.def:is-hecke-fun}{5}{5a0df95f}{the function $f\colon G\to R_0$}
+\begin{tffidelity}
+B-only plumbing, vendored from the Anthropic FLT project. \texttt{IsHeckeFun} is a structure in \texttt{Prop} with three fields: left invariance, right invariance (both for $u\in U$, all $x$) and the finiteness of the image of the support in \texttt{G ⧸ U}, which are the conditions (i), (ii) and (iii) of the snippet. The subgroup $U$ and the ring $R_0$ are implicit binders.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the submodule of Hecke functions]
+\tfstmt{X.hpair.def:hecke-submodule}
+\bonly
+\lean{HeckePair.heckeSubmodule}
+\uses{X.hpair.def:is-hecke-fun}
+\end{definition}
+\begin{tfformal}{X.hpair.def:hecke-submodule}
+\tfsem{X.hpair.def:hecke-submodule}{83923e6abf4c8b332ad459395dc74326028b58aced101a9941e0041b2ba83c3b}
+\tfhyps{X.hpair.def:hecke-submodule}{}
+\tfbinder{X.hpair.def:hecke-submodule}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:hecke-submodule}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:hecke-submodule}{2}{38b7cef2}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:hecke-submodule}{3}{9587907e}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:hecke-submodule}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. A \texttt{Submodule R₀ (G → R₀)} whose carrier is \texttt{\{f | IsHeckeFun f\}}, with closure under zero, addition and scalar multiplication proved in the vendored file, as in the snippet.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Closure of Hecke functions under zero, sum and scalar multiplication (\texttt{IsHeckeFun.zero/add/smul}): invariances are pointwise, and the support of a sum lies in the union of the supports.
+\end{proof}
+
+\begin{definition}[the Hecke algebra]
+\tfstmt{X.hpair.def:hecke-algebra}
+\bonly
+\lean{HeckePair.HeckeAlgebra}
+\uses{X.hpair.def:hecke-submodule}
+\end{definition}
+\begin{tfformal}{X.hpair.def:hecke-algebra}
+\tfsem{X.hpair.def:hecke-algebra}{88722b88990717be49e6426bc36cbba859f89179e69ef4e467604684078f737e}
+\tfhyps{X.hpair.def:hecke-algebra}{}
+\tfbinder{X.hpair.def:hecke-algebra}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:hecke-algebra}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:hecke-algebra}{2}{38b7cef2}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:hecke-algebra}{3}{9587907e}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:hecke-algebra}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. A reducible abbreviation for the coerced type of the submodule of \cref{X.hpair.def:hecke-submodule}; the statement-level type shown is the submodule itself.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[convolution term]
+\tfstmt{X.hpair.def:conv-term}
+\bonly
+\lean{HeckePair.convTerm}
+\uses{X.hpair.def:hecke-algebra}
+\end{definition}
+\begin{tfformal}{X.hpair.def:conv-term}
+\tfsem{X.hpair.def:conv-term}{3c4bde3d96edccaaced7cc9fd9a193aa2c16cff2a3417a1ecb9ec0774d1bdcce}
+\tfhyps{X.hpair.def:conv-term}{}
+\tfbinder{X.hpair.def:conv-term}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:conv-term}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:conv-term}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:conv-term}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:conv-term}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\tfbinder{X.hpair.def:conv-term}{5}{59ec9794}{the function $f_1\in\mathcal H(G,U;R_0)$}
+\tfbinder{X.hpair.def:conv-term}{6}{2b62f695}{the function $f_2\in\mathcal H(G,U;R_0)$}
+\tfbinder{X.hpair.def:conv-term}{7}{3967b605}{the point $x\in G$}
+\tfbinder{X.hpair.def:conv-term}{8}{c2aaf881}{the coset $yU\in G/U$}
+\begin{tffidelity}
+B-only plumbing. Defined with \texttt{Quotient.lift} of $y\mapsto f_1(y)f_2(y^{-1}x)$ on \texttt{G ⧸ U}; the well-definedness proof is the one of the snippet.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{Quotient.lift} of $y\mapsto f_1(y)f_2(y^{-1}x)$; for $y'=yu$, $u\in K$, right invariance of $f_1$ and left invariance of $f_2$ (applied to $u^{-1}$) show independence of the representative.
+\end{proof}
+
+\begin{definition}[convolution]
+\tfstmt{X.hpair.def:conv}
+\bonly
+\lean{HeckePair.conv}
+\uses{X.hpair.def:conv-term,X.hpair.def:hecke-algebra}
+\end{definition}
+\begin{tfformal}{X.hpair.def:conv}
+\tfsem{X.hpair.def:conv}{e2175aef0b5a856e1d54aed1ae97af03a83a307aad43f9e0913fe090df8ab479}
+\tfhyps{X.hpair.def:conv}{}
+\tfbinder{X.hpair.def:conv}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:conv}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:conv}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:conv}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:conv}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\tfbinder{X.hpair.def:conv}{5}{59ec9794}{the function $f_1\in\mathcal H(G,U;R_0)$}
+\tfbinder{X.hpair.def:conv}{6}{2b62f695}{the function $f_2\in\mathcal H(G,U;R_0)$}
+\tfbinder{X.hpair.def:conv}{7}{3967b605}{the point $x\in G$}
+\begin{tffidelity}
+B-only plumbing. Lean defines $(f_1*f_2)(x)$ as \texttt{∑ᶠ c : G ⧸ U, convTerm f₁ f₂ x c}, a finite sum in the sense of \texttt{finsum} (value $0$ if the support is infinite); the support is finite, because it lies in the image of the support of $f_1$, so the snippet's sum is meant. The shown type is the type of the function $G\to R_0$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the unit function]
+\tfstmt{X.hpair.def:hecke-one}
+\bonly
+\lean{HeckePair.heckeOne}
+\uses{X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun}
+\end{definition}
+\begin{tfformal}{X.hpair.def:hecke-one}
+\tfsem{X.hpair.def:hecke-one}{d6c3f3447bc165befad8b3182bd26d1d583eed463526652f7951c9a2efe83092}
+\tfhyps{X.hpair.def:hecke-one}{}
+\tfbinder{X.hpair.def:hecke-one}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:hecke-one}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:hecke-one}{2}{38b7cef2}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:hecke-one}{3}{9587907e}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:hecke-one}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. Defined as the subtype element given by \texttt{Set.indicator U 1} together with the proof that it is a Hecke function, as in the snippet.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The indicator of $U$: bi-invariance as for any subgroup; its support is $U$, lying in the single coset $1\cdot U$.
+\end{proof}
+
+\begin{definition}[multiplication]
+\tfstmt{X.hpair.def:mul-instance}
+\bonly
+\lean{HeckePair.instMulSubtypeForallMemSubmoduleHeckeAlgebra}
+\uses{X.hpair.def:conv,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun}
+\end{definition}
+\begin{tfformal}{X.hpair.def:mul-instance}
+\tfsem{X.hpair.def:mul-instance}{345769a784c00e32d4022cd547e83c6c3893a56fea5cb36eb61c57cb4685749b}
+\tfhyps{X.hpair.def:mul-instance}{}
+\tfbinder{X.hpair.def:mul-instance}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:mul-instance}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:mul-instance}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:mul-instance}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:mul-instance}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. The \texttt{Mul} instance \texttt{⟨fun f₁ f₂ => ⟨conv f₁ f₂, isHeckeFun\_conv f₁ f₂⟩⟩}; the snippet's remark that $f_1*f_2$ is again a Hecke function is the proof \texttt{isHeckeFun\_conv}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{isHeckeFun\_conv}: left invariance by reindexing the coset sum along $c\mapsto uc$ (\texttt{finsum\_comp\_equiv}), right invariance termwise, finiteness of the cosets of the support since $\operatorname{supp}(f_1*f_2)\subseteq\operatorname{supp}f_1\cdot\operatorname{supp}f_2$ (\texttt{support\_conv\_subset}, \texttt{finite\_image\_mk\_mul\_support}).
+\end{proof}
+
+\begin{definition}[unit]
+\tfstmt{X.hpair.def:one-instance}
+\bonly
+\lean{HeckePair.instOneSubtypeForallMemSubmoduleHeckeAlgebra}
+\uses{X.hpair.def:hecke-algebra,X.hpair.def:hecke-one}
+\end{definition}
+\begin{tfformal}{X.hpair.def:one-instance}
+\tfsem{X.hpair.def:one-instance}{d113419a6adc18dbc77806920a443703ef2ce9233c4294197fcfff19b5094582}
+\tfhyps{X.hpair.def:one-instance}{}
+\tfbinder{X.hpair.def:one-instance}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:one-instance}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:one-instance}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:one-instance}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:one-instance}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. The \texttt{One} instance given by \cref{X.hpair.def:hecke-one}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[ring structure]
+\tfstmt{X.hpair.def:ring-instance}
+\bonly
+\lean{HeckePair.instRingSubtypeForallMemSubmoduleHeckeAlgebra}
+\uses{X.hpair.def:hecke-algebra,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{definition}
+\begin{tfformal}{X.hpair.def:ring-instance}
+\tfsem{X.hpair.def:ring-instance}{1357c99c0ee2345c6eaded193a66439f1b42772b013a5e7241cef74605d020b4}
+\tfhyps{X.hpair.def:ring-instance}{}
+\tfbinder{X.hpair.def:ring-instance}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:ring-instance}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:ring-instance}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:ring-instance}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:ring-instance}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. The \texttt{Ring} instance has the additive structure of the submodule, multiplication and unit as above, and the ring axioms proved in the vendored file (associativity, distributivity, unit laws). The snippet records the same data.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Axioms from the vendored file: associativity by exchanging two finite coset sums (\texttt{swap\_eq}, using finite supports) and the identification of the inner sum; unit laws by \texttt{finsum\_eq\_single}; distributivity by \texttt{finsum\_add\_distrib}.
+\end{proof}
+
+\begin{definition}[algebra structure]
+\tfstmt{X.hpair.def:algebra-instance}
+\bonly
+\lean{HeckePair.instAlgebraSubtypeForallMemSubmoduleHeckeAlgebra}
+\uses{X.hpair.def:hecke-algebra,X.hpair.def:mul-instance,X.hpair.def:ring-instance}
+\end{definition}
+\begin{tfformal}{X.hpair.def:algebra-instance}
+\tfsem{X.hpair.def:algebra-instance}{3da0a5205762feed9f94f3151441d0c068e4cacec10b83607c8359d5a8862a85}
+\tfhyps{X.hpair.def:algebra-instance}{}
+\tfbinder{X.hpair.def:algebra-instance}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:algebra-instance}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:algebra-instance}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:algebra-instance}{3}{c37253cc}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:algebra-instance}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\begin{tffidelity}
+B-only plumbing. The vendored \texttt{Algebra R₀ (HeckeAlgebra U R₀)} instance, built by \texttt{Algebra.ofModule} from the module structure of \cref{X.hpair.def:hecke-submodule} and the two compatibilities of scalars with convolution; it is the snippet's statement that scalar multiplication commutes with convolution.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\texttt{Algebra.ofModule} from the two compatibilities $(rf_1)*f_2=r(f_1*f_2)$ and $f_1*(rf_2)=r(f_1*f_2)$ (\texttt{smul\_mul}, \texttt{mul\_smul\_comm}), each by pulling the scalar out of the finite sum (\texttt{mul\_finsum'}).
+\end{proof}
+
+\section{Plumbing of the Hecke basis and the Satake transform (B-only)}
+
+\noindent These items are the auxiliary definitions and lemmas of Sections 2--4 that have no counterpart in A, and the two vendored declarations \texttt{HeckePair.doubleCoset} and \texttt{HeckePair.heckeIndicator}. They appear in edition B only.
+
+\begin{definition}[the upper triangular coset representatives $h_{i,j}(x)$]
+\tfstmt{I.satake.def:upper-coset-matrix}
+\bonly
+\lean{GL2TF.Local.hmat}
+\uses{I.lf.def:nalf,I.lf.def:uniformizer}
+\end{definition}
+\begin{tfformal}{I.satake.def:upper-coset-matrix}
+\tfsem{I.satake.def:upper-coset-matrix}{3701d9fcadfde872bd1d7de73c871eb0ef8dc5994daa4efb095fc6a68c59a8e0}
+\tfhyps{I.satake.def:upper-coset-matrix}{}
+\tfbinder{I.satake.def:upper-coset-matrix}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:upper-coset-matrix}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:upper-coset-matrix}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.def:upper-coset-matrix}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.def:upper-coset-matrix}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.def:upper-coset-matrix}{5}{f55fcbc1}{the integer $i$}
+\tfbinder{I.satake.def:upper-coset-matrix}{6}{5e8c6863}{the integer $j$}
+\tfbinder{I.satake.def:upper-coset-matrix}{7}{3967b605}{the element $x\in F$}
+\begin{tffidelity}
+B-only. The matrix \texttt{hmat i j x : GL (Fin 2) F} of the Iwasawa chapter, now tagged; it is invertible with determinant $\unif^{i+j}\ne0$ (the inverse is written out in the Lean definition). It is the matrix denoted $h_{i,j}(x)$ in \cref{I.satake.lem:left-coset-representatives}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the double cosets of Cartan elements are finite unions of left cosets]
+\tfstmt{I.satake.lem:hecke-basis-mem}
+\bonly
+\lean{GL2TF.Local.finite_cosets_cartan}
+\uses{I.cartan.def:cartan-element,I.cartan.lem:unif-ne-zero,I.cartan.thm:double-coset-index,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.lf.def:nalf,I.lf.def:residue-cardinality,I.lf.def:uniformizer,X.hpair.def:double-coset}
+\end{lemma}
+\begin{tfformal}{I.satake.lem:hecke-basis-mem}
+\tfsem{I.satake.lem:hecke-basis-mem}{f3b4c24007fe05bd3bf08651560445ee01961aa0c104120d8f7cd447b13bcfa5}
+\tfhyps{I.satake.lem:hecke-basis-mem}{}
+\tfbinder{I.satake.lem:hecke-basis-mem}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.lem:hecke-basis-mem}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.lem:hecke-basis-mem}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.lem:hecke-basis-mem}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.lem:hecke-basis-mem}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.lem:hecke-basis-mem}{5}{f55fcbc1}{the integer $a$}
+\tfbinder{I.satake.lem:hecke-basis-mem}{6}{5e8c6863}{the integer $b$}
+\begin{tffidelity}
+B-only. The finiteness hypothesis of the indicator \cref{X.hpair.def:hecke-indicator}: for $a\ge b$ it is the finiteness part of the coset count \cref{I.cartan.thm:double-coset-index}; for $a<b$ the double coset equals that of $t_{b,a}$ (the Weyl swap lies in $K$). Stated as finiteness of the image of $K\cdot\{t_{a,b}\}$ in \texttt{G ⧸ 𝐊[F]}, the shape the vendored indicator requires. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the commutative ring structure on the spherical Hecke algebra]
+\tfstmt{I.satake.def:hecke-comm-ring}
+\bonly
+\lean{GL2TF.Local.sphericalHeckeAlgebra_commRing}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.satake.def:spherical-hecke-algebra,I.satake.thm:hecke-commutative,X.hpair.def:ring-instance}
+\end{definition}
+\begin{tfformal}{I.satake.def:hecke-comm-ring}
+\tfsem{I.satake.def:hecke-comm-ring}{5798474e96af00d057fa2c4f1157783e94e7c40466e6fdfb18ec9d330ca5230d}
+\tfhyps{I.satake.def:hecke-comm-ring}{}
+\tfbinder{I.satake.def:hecke-comm-ring}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:hecke-comm-ring}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:hecke-comm-ring}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.def:hecke-comm-ring}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.def:hecke-comm-ring}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only instance \texttt{CommRing (sphericalHeckeAlgebra F)}: the vendored \texttt{Ring} instance with \texttt{mul\_comm} taken from \cref{I.satake.thm:hecke-commutative}. It is needed to state algebraic independence in \cref{I.satake.thm:hecke-polynomial}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[$\GL_2(F)$ is totally disconnected]
+\tfstmt{I.satake.lem:gl2-local-totally-disconnected}
+\bonly
+\lean{GL2TF.Local.gl2_local_totallyDisconnectedSpace}
+\uses{I.lf.def:nalf,I.lf.lem:nalf-t2}
+\end{lemma}
+\begin{tfformal}{I.satake.lem:gl2-local-totally-disconnected}
+\tfsem{I.satake.lem:gl2-local-totally-disconnected}{00ae6656829793f668acb527b9ec8aebb4d21cb9a7007393b2b9adde6d589b36}
+\tfhyps{I.satake.lem:gl2-local-totally-disconnected}{}
+\tfbinder{I.satake.lem:gl2-local-totally-disconnected}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.satake.lem:gl2-local-totally-disconnected}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.lem:gl2-local-totally-disconnected}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.lem:gl2-local-totally-disconnected}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.lem:gl2-local-totally-disconnected}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only instance \texttt{TotallyDisconnectedSpace (GL (Fin 2) F)}, needed to form the space $C_c^\infty(\GL_2(F))$ of \texttt{I.satake.thm:spherical-convolution-haar}. Proved from the total disconnectedness of $F$ (its valuation topology is non-archimedean) and the embedding $\GL_2(F)\hookrightarrow M_2(F)$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Weyl swap of the Laurent polynomials]
+\tfstmt{I.satake.def:laurent-swap}
+\bonly
+\lean{GL2TF.Local.laurentSwap}
+\end{definition}
+\begin{tfformal}{I.satake.def:laurent-swap}
+\tfsem{I.satake.def:laurent-swap}{b5f7a797dd487cbb78bdc3ffb4b13e3545da95a72eb7103abcaccde8fceff53c}
+\tfhyps{I.satake.def:laurent-swap}{}
+\begin{tffidelity}
+B-only. \texttt{AddMonoidAlgebra.domCongr ℂ ℂ AddEquiv.prodComm}, a $\C$-algebra equivalence of \texttt{AddMonoidAlgebra ℂ (ℤ × ℤ)}; the identity $s(X^aY^b)=X^bY^a$ is the lemma \texttt{laurentSwap\_single}, and the involution property \texttt{laurentSwap\_involutive} (untagged).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the transform of a Hecke function with respect to a weight]
+\tfstmt{I.satake.def:coset-transform}
+\bonly
+\lean{GL2TF.Local.cosetTransform}
+\uses{X.hpair.def:hecke-algebra}
+\end{definition}
+\begin{tfformal}{I.satake.def:coset-transform}
+\tfsem{I.satake.def:coset-transform}{33267c4d459ae1fd85aad9cdab5c4caa9a6df33ffd859538ae3583709dbd451f}
+\tfhyps{I.satake.def:coset-transform}{}
+\tfbinder{I.satake.def:coset-transform}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{I.satake.def:coset-transform}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{I.satake.def:coset-transform}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{I.satake.def:coset-transform}{3}{c37253cc}{the underlying type of the $\C$-algebra $A$}
+\tfbinder{I.satake.def:coset-transform}{4}{8afd2269}{the commutative ring structure of $A$}
+\tfbinder{I.satake.def:coset-transform}{5}{0b8ecef4}{the $\C$-algebra structure of $A$}
+\tfbinder{I.satake.def:coset-transform}{6}{2a325fa0}{the weight function $\mu\colon G\to A$}
+\tfbinder{I.satake.def:coset-transform}{7}{3bfa1c49}{the Hecke function $f\in\mathcal H(G,U)$}
+\begin{tffidelity}
+B-only. Generic in $G$, $U$, $A$ and $\mu$: \texttt{∑ᶠ c : G ⧸ U, f c.out • μ c.out}, a \texttt{finsum} over cosets evaluated at the chosen representatives. It has the expected value only when the summand is independent of the representative (right $U$-invariant weight $\mu$), which every use in this chapter establishes; the finite support is the finiteness of the support of $f$ modulo $U$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[every left coset has an upper triangular representative]
+\tfstmt{I.satake.lem:iwasawa-exponent-exists}
+\bonly
+\lean{GL2TF.Local.exists_hmat_coset}
+\uses{I.cartan.lem:unif-ne-zero,I.conv.def:max-compact-local,I.conv.lem:max-compact-local-mem,I.decomp.thm:iwasawa-local,I.lf.def:nalf,I.lf.def:uniformizer,I.lf.thm:unit-uniformizer-decomposition,I.satake.def:upper-coset-matrix}
+\end{lemma}
+\begin{tfformal}{I.satake.lem:iwasawa-exponent-exists}
+\tfsem{I.satake.lem:iwasawa-exponent-exists}{d4378449bfb6944b50d78b70c27d7037021c205a7eac434c6ef592db7b720582}
+\tfhyps{I.satake.lem:iwasawa-exponent-exists}{}
+\tfbinder{I.satake.lem:iwasawa-exponent-exists}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.satake.lem:iwasawa-exponent-exists}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.lem:iwasawa-exponent-exists}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.lem:iwasawa-exponent-exists}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.lem:iwasawa-exponent-exists}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.lem:iwasawa-exponent-exists}{5}{33586782}{the left coset $c=gK\in G/K$}
+\begin{tffidelity}
+B-only. The Iwasawa decomposition (\texttt{exists\_hmat}) restated for an element of \texttt{G ⧸ 𝐊[F]}; it makes the choice in \cref{I.satake.def:iwasawa-exponent} possible. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Iwasawa exponent of a left coset]
+\tfstmt{I.satake.def:iwasawa-exponent}
+\bonly
+\lean{GL2TF.Local.iwasawaExponent}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.satake.def:upper-coset-matrix,I.satake.lem:iwasawa-exponent-exists}
+\end{definition}
+\begin{tfformal}{I.satake.def:iwasawa-exponent}
+\tfsem{I.satake.def:iwasawa-exponent}{d77b66a5e5852df14cc1853921b69d028eed13ac9d8d917547b7ec223f6125e0}
+\tfhyps{I.satake.def:iwasawa-exponent}{}
+\tfbinder{I.satake.def:iwasawa-exponent}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:iwasawa-exponent}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:iwasawa-exponent}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.def:iwasawa-exponent}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.def:iwasawa-exponent}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.def:iwasawa-exponent}{5}{33586782}{the left coset $c=gK\in G/K$}
+\begin{tffidelity}
+B-only. \texttt{Classical.choose} of \cref{I.satake.lem:iwasawa-exponent-exists}, a pair in \texttt{ℤ × ℤ}; its value on $h_{i,j}(x)K$ is $(i,j)$ (\texttt{iwasawaExponent\_hmat}, untagged, from uniqueness of the exponents of a coset). A's ``the pair $(i,j)$ depends only on $gK$'' is this well-definedness. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the Satake weight]
+\tfstmt{I.satake.def:satake-weight}
+\bonly
+\lean{GL2TF.Local.satakeWeight}
+\uses{I.conv.def:max-compact-local,I.lf.def:nalf,I.lf.def:residue-cardinality,I.satake.def:iwasawa-exponent}
+\end{definition}
+\begin{tfformal}{I.satake.def:satake-weight}
+\tfsem{I.satake.def:satake-weight}{170ad2cc9a6a72ebd0c29046c751797d50687811ac655bdeb596489c278ee12c}
+\tfhyps{I.satake.def:satake-weight}{}
+\tfbinder{I.satake.def:satake-weight}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.satake.def:satake-weight}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.satake.def:satake-weight}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.satake.def:satake-weight}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.satake.def:satake-weight}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.satake.def:satake-weight}{5}{50eac7bf}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+B-only. \texttt{single (iwasawaExponent ↑g) (√q \^{} (j - i))} with $q^{1/2}$ the positive root \texttt{√q} as a complex number and the integer power as a \texttt{zpow}; the unnormalized description by $\delta_B^{1/2}$ of the diagonal of an upper triangular representative is not used (it equals this weight, decision L14). Right $K$-invariant (\texttt{satakeWeight\_mul\_right}, untagged). $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[evaluation of Laurent polynomials]
+\tfstmt{I.satake.def:laurent-eval}
+\bonly
+\lean{GL2TF.Local.laurentEval}
+\end{definition}
+\begin{tfformal}{I.satake.def:laurent-eval}
+\tfsem{I.satake.def:laurent-eval}{af09b01e0f7dbc9e7e7bea8264baf517b0f21285754e19ba6392a6983765dd48}
+\tfhyps{I.satake.def:laurent-eval}{}
+\tfbinder{I.satake.def:laurent-eval}{0}{e1f1dc02}{the unit $\alpha\in\C^\times$}
+\tfbinder{I.satake.def:laurent-eval}{1}{f5ae330e}{the unit $\beta\in\C^\times$}
+\begin{tffidelity}
+B-only. \texttt{AddMonoidAlgebra.lift ℂ ℂ (ℤ × ℤ)} of the multiplicative character $(a,b)\mapsto\alpha^a\beta^b$, built from the units $\alpha,\beta\in\C^\times$ (zpow in \texttt{ℂˣ}); a bundled \texttt{→ₐ[ℂ]}, so it is a homomorphism by construction. It is the unit-based form of A's evaluation, with $\alpha,\beta\ne0$ built into the type.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the double coset $UgU$]
+\tfstmt{X.hpair.def:double-coset}
+\bonly
+\lean{HeckePair.doubleCoset}
+\end{definition}
+\begin{tfformal}{X.hpair.def:double-coset}
+\tfsem{X.hpair.def:double-coset}{232790a843e0f62c0910b24ecdcc0649fb996d86da347b08269e1237dfb9a82b}
+\tfhyps{X.hpair.def:double-coset}{}
+\tfbinder{X.hpair.def:double-coset}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:double-coset}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:double-coset}{2}{38b7cef2}{the subgroup $\Gamma\le G$}
+\tfbinder{X.hpair.def:double-coset}{3}{bc80b3dd}{the element $\gamma\in G$}
+\begin{tffidelity}
+B-only plumbing. The vendored \texttt{HeckePair.doubleCoset U g : Set G}; the project statements use Mathlib's \texttt{DoubleCoset.doubleCoset g U U}, which it unfolds to (the tag was added to the vendored declaration, the code is unchanged). The group and the subgroup are binders.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the indicator function of a double coset]
+\tfstmt{X.hpair.def:hecke-indicator}
+\bonly
+\lean{HeckePair.heckeIndicator}
+\uses{X.hpair.def:double-coset,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun}
+\end{definition}
+\begin{tfformal}{X.hpair.def:hecke-indicator}
+\tfsem{X.hpair.def:hecke-indicator}{0aeb9c676cb4134563b943686660c9f786dc7796a51db59ee1ad76e537acc130}
+\tfhyps{X.hpair.def:hecke-indicator}{}
+\tfbinder{X.hpair.def:hecke-indicator}{0}{fe5aea28}{the type of the group $G$}
+\tfbinder{X.hpair.def:hecke-indicator}{1}{371bbfe6}{the group structure of $G$}
+\tfbinder{X.hpair.def:hecke-indicator}{2}{20badcf5}{the subgroup $U\le G$}
+\tfbinder{X.hpair.def:hecke-indicator}{3}{9587907e}{the type of the coefficient ring $R_0$}
+\tfbinder{X.hpair.def:hecke-indicator}{4}{8afd2269}{the commutative ring structure of $R_0$}
+\tfbinder{X.hpair.def:hecke-indicator}{5}{a6a506ac}{the element $g\in G$}
+\tfbinder{X.hpair.def:hecke-indicator}{6}{a83a4817}{the assumption that the double coset $UgU$ meets only finitely many left cosets}
+\begin{tffidelity}
+B-only plumbing. The vendored \texttt{HeckePair.heckeIndicator R₀ g hfin}, an element of \texttt{HeckeAlgebra U R₀}; the finiteness hypothesis is the binder \texttt{hfin : (QuotientGroup.mk '' (↑U * \{g\})).Finite}, the image in $G/U$ of the set $U\cdot\{g\}$ (equivalent to finiteness for the double coset by left $U$-invariance). The tag was added to the vendored declaration, the code is unchanged.
+\end{tffidelity}
+\end{tfformal}

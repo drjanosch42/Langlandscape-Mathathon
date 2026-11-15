@@ -1,0 +1,89 @@
+\section{Eichler mass formula}
+
+\begin{theorem}[Eichler mass formula; \texttt{if:s01-mass}]\label{thm:s01-mass}
+\begin{enumerate}[label=(\alph*)]
+\item $\displaystyle\sum_{[x]\in\XB{\hat\cO^\times}}\frac1{|\Gamma_x|}=\frac{1}{24}\prod_{\ell\mid D}(\ell-1)$
+  (full-unit convention), equivalently $\sum 1/w_x=\varphi(D)/12$.
+\item (level change) For open $U'\le U\le\hat\cO^\times$: $\sum_{X_B(U')}1/|\Gamma_{x'}(U')|=[U:U']\sum_{X_B(U)}1/|\Gamma_x(U)|$.
+  With $w$ in place of $|\Gamma|$ the same holds iff $-1\in U'$ or $-1\notin U$; if $-1\in U\setminus U'$ then
+  $2\sum_{X_B(U')}1/w_{x'}=[U:U']\sum_{X_B(U)}1/w_x$ (\lean{Langlandscape.Quat.massW\_level\_change\_two}).
+\item $[\hat\cO^\times:\Uzero{N}]=\psi(N)=N\prod_{\ell\mid N}(1+\ell^{-1})$ and $[\hat\cO^\times:\Uone{N}]=\psi(N)\varphi(N)=N^2\prod_{\ell\mid N}(1-\ell^{-2})$.
+\item Hence $\sum_{\XB{\Uzero{N}}}1/w_x=\varphi(D)\psi(N)/12$, and for $p\ge5$, $p\nmid D$, $s\ge1$, $(M,pD)=1$:
+\[|S_s|=|\XB{\Uone{Mp^s}}|=\frac{\varphi(D)}{24}\,\psi(Mp^s)\,\varphi(Mp^s).\]
+\end{enumerate}
+Status: (a) \stcited{} \lit{voight\_2021\_quaternion-algebras}{Thm.~25.1.1, p.~415 (with $w_J=\#\cO_L(J)^\times/\{\pm1\}$,
+hence $1/12$)}; \lit{eichler\_1955\_zur-zahlentheorie-der-quaternionen-algebren}{\S4 ``Klassenzahl und Maß'', p.~136ff.};
+in Lean it is the registered hypothesis \pathtt{Hyp.EichlerMass} (\Tpath{Hyp/EichlerMass.lean}, $1/24$, full units), proved
+for $D=2,11$ in tests. (b) \stformal{} \Tpath{P2/Mass.lean} \pathtt{mass\_orbit\_count}; the $w$-variant \stformal{} \pathtt{Quat.massW\_level\_change},
+\pathtt{Quat.massW\_level\_change\_two} (orbit counting). (c) first half \stformal{} \pathtt{gl2\_borel\_index}, \pathtt{mass\_level\_change}; second half
+\stproved{} below (count $|\GL_2(\Z/N)|/(N\varphi(N))$). (d) first half \stpmc{} from (a)--(c) (proof below; cf.\ \lit{voight\_2021\_quaternion-algebras}{Thm.~25.3.18,
+p.~423}), \stpmc{} in Lean as \pathtt{eichlerOrder\_mass} (under \pathtt{Hyp.EichlerMass}); second half \stpmc{} from (a)--(c)
+and Lemma~\ref{lem:s01-stab}(b) (all $\Gamma_x=1$), and \stformal{} under \pathtt{Hyp.EichlerMass} as \pathtt{Quat.card\_XB\_Utower}.
+\end{theorem}
+
+\begin{proof}[Proof of (b)]
+Let $\pi:\XB{U'}\to\XB{U}$ be the natural surjection and fix $x\in\Bhat^\times$. Put $\Gamma=\Gamma_x(U)=B^\times\cap xUx^{-1}$;
+it is finite (Prop.~\ref{prop:s01-finite}), and $x^{-1}\Gamma x\subseteq U$. The group $\Gamma$ acts on the finite set $U/U'$
+(finite because $U$ is compact and $U'$ open) by $\gamma\cdot uU'=(x^{-1}\gamma x)\,uU'$.
+The map $uU'\mapsto[xu]$ induces a bijection $\Gamma\backslash(U/U')\xrightarrow{\ \sim\ }\pi^{-1}([x])$: indeed
+$[xu]=[xu']$ in $\XB{U'}$ iff $\gamma xu k=xu'$ for some $\gamma\in B^\times$, $k\in U'$; then $x^{-1}\gamma x=u'k^{-1}u^{-1}\in U$,
+so $\gamma\in\Gamma$ and $u'U'=\gamma\cdot uU'$; the converse is clear, and every element of $\pi^{-1}([x])$ is of the form $[xu]$.
+The stabiliser of $uU'$ in $\Gamma$ is $\{\gamma\in B^\times:x^{-1}\gamma x\in uU'u^{-1}\}=B^\times\cap(xu)U'(xu)^{-1}=\Gamma_{xu}(U')$
+(the condition $x^{-1}\gamma x\in U$ is automatic because $U'\le U$). By the orbit--stabiliser theorem the $\Gamma$-orbit of
+$uU'$ has $|\Gamma|/|\Gamma_{xu}(U')|$ elements. Summing over the orbits,
+\[\sum_{[x']\in\pi^{-1}([x])}\frac1{|\Gamma_{x'}(U')|}=\sum_{\text{orbits}}\frac{|\text{orbit}|}{|\Gamma|}=\frac{|U/U'|}{|\Gamma|}
+=\frac{[U:U']}{|\Gamma_x(U)|},\]
+and summing over $[x]\in\XB{U}$ gives the first assertion.
+
+\emph{The $w$-variant.} The element $-1\in B^\times$ is central, so $-1\in\Gamma_x(U)$ iff $-1\in U$. Write $\varepsilon(U)=2$ if
+$-1\in U$ and $\varepsilon(U)=1$ otherwise; then $w_x=|\Gamma_x|/\varepsilon(U)$ and hence
+\[\sum_{\XB{U'}}\frac1{w_{x'}}=\varepsilon(U')\sum_{\XB{U'}}\frac1{|\Gamma_{x'}|}=\frac{\varepsilon(U')}{\varepsilon(U)}\,[U:U']\sum_{\XB{U}}\frac1{w_x}.\]
+The ratio $\varepsilon(U')/\varepsilon(U)$ is $1$ if $-1\in U'$ (then $-1\in U$) and if $-1\notin U$ (then $-1\notin U'$),
+which are the two cases of the statement. If $-1\in U\setminus U'$ the ratio is $1/2$: the $w$-sum on $U'$ is half of
+$[U:U']$ times the $w$-sum on $U$ (the ``factor $2$''). Example: $D=2$, $U=\hat\cO^\times$, $U'=\Uone{5}$:
+$1/w=1/12$ on $U$, $1$ on $U'$, and $1=\tfrac12\cdot24\cdot\tfrac1{12}$.
+\end{proof}
+
+\begin{proof}[Proof of (c)]
+Both indices are multiplicative over the primes $\ell\mid N$, since $\Uzero{N}$ and $\Uone{N}$ are products of local groups,
+all equal to $\cO_\ell^\times$ for $\ell\nmid N$; so let $N=\ell^k$, $\cO_\ell^\times\cong\GL_2(\Z_\ell)$ (as $\ell\nmid D$).
+\emph{First half.} $\GL_2(\Z_\ell)$ acts transitively on $\mathbb P^1(\Z/\ell^k)$ (the set of lines, i.e.\ of
+primitive row vectors $(c,d)$ modulo units, with $g$ acting on the right by $v\mapsto vg$, $|\mathbb P^1(\Z/\ell^k)|=\ell^k+\ell^{k-1}$) and $U_{0,\ell}$ is the stabiliser of the line $(0:1)$; hence
+$[\GL_2(\Z_\ell):U_{0,\ell}]=\ell^k(1+\ell^{-1})$. (Formalized: \pathtt{gl2\_borel\_index}.)
+\emph{Second half.} For $g=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in U_{0,\ell}$ we have $c\equiv0$, so
+$ad\equiv\det g\in(\Z/\ell^k)^\times$ and $d\in(\Z/\ell^k)^\times$. The product of two matrices in $U_{0,\ell}$ has lower right
+entry $cb'+dd'\equiv dd'\pmod{\ell^k}$, so $\delta:U_{0,\ell}\to(\Z/\ell^k)^\times$, $g\mapsto d\bmod\ell^k$, is a group homomorphism.
+It is surjective ($\delta(\mathrm{diag}(1,d))=d$) and its kernel is $U_{1,\ell}$ by definition. Hence
+$[U_{0,\ell}:U_{1,\ell}]=\varphi(\ell^k)$, and globally $[\Uzero{N}:\Uone{N}]=\varphi(N)$. Therefore
+$[\hat\cO^\times:\Uone{N}]=\psi(N)\varphi(N)=N\prod_{\ell\mid N}(1+\ell^{-1})\cdot N\prod_{\ell\mid N}(1-\ell^{-1})=N^2\prod_{\ell\mid N}(1-\ell^{-2})$.
+(Equivalently, $|\GL_2(\Z/N)|/(N\varphi(N))$, as $|\GL_2(\Z/\ell^k)|=\ell^{4k}(1-\ell^{-1})(1-\ell^{-2})$.)
+\end{proof}
+
+\begin{proof}[Proof of (d)]
+Two hypotheses are implicit in the statement and are used here: the levels of Def.~\ref{def:s01-levels} require $(N,D)=1$,
+so in the second formula also $p\nmid D$ (which $(M,pD)=1$ alone does not give); and $\varphi(D)=\prod_{\ell\mid D}(\ell-1)$
+because $D$ is squarefree.
+Both $\Uzero{N}$ and $\hat\cO^\times$ contain $-1$, so by (b) ($w$-variant) and (c),
+$\sum_{\XB{\Uzero{N}}}1/w_x=\psi(N)\sum_{\XB{\hat\cO^\times}}1/w_x=\psi(N)\varphi(D)/12$, using (a). For the second formula let $U=\Uone{Mp^s}$ with
+$(M,pD)=1$, $p\ge5$, $s\ge1$. Its component at $p$ is $U_{1,p}(p^s)\subseteq\Uone{p}$ at $p$, so every $\Gamma_x$ is trivial by
+Lemma~\ref{lem:s01-stab}(b). Applying (b) to $U\le\hat\cO^\times$ and then (a) in the full-unit convention,
+\[|\XB{U}|=\sum_{\XB{U}}\frac1{|\Gamma_x|}=[\hat\cO^\times:U]\cdot\frac{\varphi(D)}{24}=\frac{\varphi(D)}{24}\psi(Mp^s)\varphi(Mp^s)\]
+by (c). Besides (b) and (c) (proved above), this uses (a), Lemma~\ref{lem:s01-stab}(b) and, through (b),
+Prop.~\ref{prop:s01-finite}; of these the only cited input is (a).
+\end{proof}
+
+\begin{example}[checks]\label{ex:s01-masschecks}
+By (a) the mass is $\frac{1}{24}\varphi(D)$, and by (d) $|S_s|=\frac{\varphi(D)}{24}\psi(5^s)\varphi(5^s)$ for $p=5$, $M=1$, where
+$\psi(5^s)\varphi(5^s)=6\cdot5^{s-1}\cdot4\cdot5^{s-1}=24\cdot25^{s-1}$.
+$D=2$: $\cO$ is the Hurwitz order and the mass is $\varphi(2)/24=1/24$ by (a). Each term $1/|\Gamma_x|$ is $\ge1/24$
+by Prop.~\ref{prop:s01-finite}, so there is exactly one term: the class number is $1$ and $|\cO^\times|=24$; $|\XB{\Uone{5}}|=\frac1{24}\cdot24=1$ (the $24$ nonzero vectors of $\F_5^2$
+form one free orbit of $\cO^\times$). $D=3$: $\varphi(3)=2$, mass $1/12$, $|S_s|=\frac{2}{24}\cdot24\cdot25^{s-1}=2\cdot25^{s-1}$ for
+$p=5$, $M=1$ --- this is the count used in seed test T3 (e.g.\ $|S_1|=2$, $|S_2|=50$). $D=11$: $\varphi(11)=10$, mass $\frac{10}{24}=\frac5{12}$. The class number is $h=2$
+(Eichler's class number formula for $D$ prime and level $1$, $h=\frac{D-1}{12}+\frac14\bigl(1-(\frac{-4}{D})\bigr)+\frac13\bigl(1-(\frac{-3}{D})\bigr)=\frac56+\frac12+\frac23=2$, \stcited{}
+\lit{voight\_2021\_quaternion-algebras}{Thm.~30.1.5, p.~543}; cf.\ \lit{eichler\_1955\_zur-zahlentheorie-der-quaternionen-algebren}{\S4 ``Klassenzahl und Maß'', p.~136ff.}). By
+Prop.~\ref{prop:s01-finite}, $|\Gamma_x|\in\{2,4,6,12,24\}$, and two terms $\frac1a+\frac1b=\frac5{12}$ with $a,b$ in this set force $\{a,b\}=\{4,6\}$
+(if $2\in\{a,b\}$ the sum is $>\frac12>\frac5{12}$, so $a,b\in\{4,6,12,24\}$; of the pairs $a\le b$ from this set only
+$(4,6)$ gives $\frac5{12}$, since $\frac14+\frac14=\frac12$, $\frac14+\frac1{12}=\frac13$, $\frac14+\frac1{24}=\frac7{24}$, $\frac16+\frac16=\frac13$ and all others are smaller). Thus $\frac14+\frac16=\frac{10}{24}$, as required.
+Status: \stpmc{} (the arithmetic is proved; (a) and $h=2$ are cited above). This deviates from the stage tex, which marks
+the example \stproved; the change is due to these two cited inputs.
+\end{example}

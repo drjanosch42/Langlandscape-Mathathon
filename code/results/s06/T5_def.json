@@ -1,0 +1,1502 @@
+{
+ "data": {
+  "all_ok": true,
+  "conventions": {
+   "eta_B": "v_p(eta^B) = v_p(det G_w|A_phi) for deg phi = 1 (if:s04-etaB, d = 1); for deg phi > 1 the number is the Z_p-length of the orbit's congruence module (Hsieh Rem. 7.3)",
+   "gram_Gamma": "G_Gamma = (+)_x |Gamma_x|^{-1} <,>_V (import's |Gamma_x|, S1)",
+   "gram_w": "G_w = (+)_x w_x^{-1} <,>_V, w_x = |Gamma_x|/2 (Hsieh's weight, S1)",
+   "m": "block = orbits with equal residual eigensystem of all T_l used; old_congruent = residual eigenvalues equal a_l(g) mod p, g the level-1 eigenform of weight k",
+   "module": "M = (+)_x Sym^{k-2}(Z_(p)[sqrt a]^2)^{phi, Gamma_x}, level O^x of B_q (maximal order), symn Gross form",
+   "orbit": "Q_p-irreducible factor phi of the char-poly of a generic T = sum c_l T_l; A_phi = ker phi(T) saturated",
+   "pairing_V": "<e_t,e_s> = delta_{s,n-t} (-1)^t / binom(n,t), e_t = X^{n-t} Y^t",
+   "status": "computed"
+  },
+  "triples": {
+   "13,12,31": {
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 14",
+         "2": "x + 24",
+         "3": "x + 27",
+         "5": "x + 6",
+         "7": "x + 4"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 1,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 14",
+       "2": "x + 24",
+       "3": "x + 27",
+       "5": "x + 6",
+       "7": "x + 4"
+      },
+      "residual_eigenvalues": {
+       "11": 17,
+       "2": 7,
+       "3": 4,
+       "5": 25,
+       "7": 27
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 4,
+        "residual": {
+         "11": "x^4 + 24*x^3 + 21*x^2 + 29*x + 13",
+         "2": "x^4 + 26*x^3 + 28*x^2 + 26*x + 4",
+         "3": "x^4 + 12*x^3 + 3*x^2 + 11*x + 11",
+         "5": "x^4 + 15*x^3 + 8*x^2 + 2*x + 2",
+         "7": "x^4 + 25*x^3 + 7*x^2 + 5*x + 6"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 4,
+      "residual": {
+       "11": "x^4 + 24*x^3 + 21*x^2 + 29*x + 13",
+       "2": "x^4 + 26*x^3 + 28*x^2 + 26*x + 4",
+       "3": "x^4 + 12*x^3 + 3*x^2 + 11*x + 11",
+       "5": "x^4 + 15*x^3 + 8*x^2 + 2*x + 2",
+       "7": "x^4 + 25*x^3 + 7*x^2 + 5*x + 6"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 4,
+        "residual": {
+         "11": "x^4 + 20*x^3 + 16*x^2 + 21*x + 20",
+         "2": "x^4 + 25*x^3 + 24*x^2 + 24",
+         "3": "x^4 + 16*x^3 + 19*x^2 + 12*x + 6",
+         "5": "x^4 + 3*x^3 + 7*x^2 + x + 9",
+         "7": "x^4 + 15*x^3 + 8*x^2 + 10*x + 23"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 4,
+      "residual": {
+       "11": "x^4 + 20*x^3 + 16*x^2 + 21*x + 20",
+       "2": "x^4 + 25*x^3 + 24*x^2 + 24",
+       "3": "x^4 + 16*x^3 + 19*x^2 + 12*x + 6",
+       "5": "x^4 + 3*x^3 + 7*x^2 + x + 9",
+       "7": "x^4 + 15*x^3 + 8*x^2 + 10*x + 23"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 4",
+         "2": "x + 16",
+         "3": "x + 15",
+         "5": "x + 28",
+         "7": "x + 11"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 1,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 4",
+       "2": "x + 16",
+       "3": "x + 15",
+       "5": "x + 28",
+       "7": "x + 11"
+      },
+      "residual_eigenvalues": {
+       "11": 27,
+       "2": 15,
+       "3": 16,
+       "5": 3,
+       "7": 20
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 27",
+         "2": "x + 19",
+         "3": "x + 12",
+         "5": "x + 15",
+         "7": "x + 24"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 27",
+       "2": "x + 19",
+       "3": "x + 12",
+       "5": "x + 15",
+       "7": "x + 24"
+      },
+      "residual_eigenvalues": {
+       "11": 4,
+       "2": 12,
+       "3": 19,
+       "5": 16,
+       "7": 7
+      }
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "3": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "-371293/69591550947596697600000000",
+     "ratio_w_over_Gamma": "2048/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "-371293/33980249486131200000000"
+    },
+    "dim_brandt": 11,
+    "dim_equal": true,
+    "dim_mf_new": 11,
+    "ells": [
+     2,
+     3,
+     5,
+     7,
+     11
+    ],
+    "gammas": [
+     2
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 17,
+      "2": 1,
+      "3": 3,
+      "5": 7,
+      "7": 13
+     }
+    },
+    "h": 1,
+    "k": 12,
+    "level_one_form": {
+     "a_l": {
+      "11": 534612,
+      "13": -577738,
+      "2": -24,
+      "3": 252,
+      "5": 4830,
+      "7": -16744
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 5,
+    "orbits_total_degree": 11,
+    "p": 31,
+    "prec": 60,
+    "q": 13,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     1
+    ]
+   },
+   "13,16,101": {
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 79",
+         "2": "x + 87",
+         "3": "x + 15",
+         "5": "x + 6",
+         "7": "x + 90"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 79",
+       "2": "x + 87",
+       "3": "x + 15",
+       "5": "x + 6",
+       "7": "x + 90"
+      },
+      "residual_eigenvalues": {
+       "11": 22,
+       "2": 14,
+       "3": 86,
+       "5": 95,
+       "7": 11
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 6,
+        "residual": {
+         "11": "x^6 + 96*x^5 + 68*x^4 + 62*x^3 + 28*x^2 + 42*x + 80",
+         "2": "x^6 + 74*x^5 + 52*x^4 + 12*x^3 + 96*x^2 + 11*x + 21",
+         "3": "x^6 + 2*x^5 + 31*x^4 + 35*x^3 + x^2 + 34*x + 94",
+         "5": "x^6 + 52*x^5 + 91*x^4 + 84*x^3 + 58*x^2 + 61*x + 44",
+         "7": "x^6 + 71*x^5 + 76*x^4 + 9*x^3 + 97*x^2 + 87*x + 25"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 6,
+      "residual": {
+       "11": "x^6 + 96*x^5 + 68*x^4 + 62*x^3 + 28*x^2 + 42*x + 80",
+       "2": "x^6 + 74*x^5 + 52*x^4 + 12*x^3 + 96*x^2 + 11*x + 21",
+       "3": "x^6 + 2*x^5 + 31*x^4 + 35*x^3 + x^2 + 34*x + 94",
+       "5": "x^6 + 52*x^5 + 91*x^4 + 84*x^3 + 58*x^2 + 61*x + 44",
+       "7": "x^6 + 71*x^5 + 76*x^4 + 9*x^3 + 97*x^2 + 87*x + 25"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 3,
+        "residual": {
+         "11": "x^3 + 64*x^2 + 24*x + 5",
+         "2": "x^3 + 16*x^2 + 13*x + 45",
+         "3": "x^3 + 8*x^2 + 53*x + 84",
+         "5": "x^3 + 42*x^2 + 89*x + 14",
+         "7": "x^3 + 60*x^2 + 63*x + 69"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 3,
+      "residual": {
+       "11": "x^3 + 64*x^2 + 24*x + 5",
+       "2": "x^3 + 16*x^2 + 13*x + 45",
+       "3": "x^3 + 8*x^2 + 53*x + 84",
+       "5": "x^3 + 42*x^2 + 89*x + 14",
+       "7": "x^3 + 60*x^2 + 63*x + 69"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 3,
+        "residual": {
+         "11": "x^3 + 90*x^2 + 83*x + 48",
+         "2": "x^3 + 53*x^2 + 32*x + 21",
+         "3": "x^3 + 7*x^2 + 66*x + 12",
+         "5": "x^3 + 72*x^2 + 99*x + 6",
+         "7": "x^3 + 85*x^2 + 76*x + 77"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 3,
+      "residual": {
+       "11": "x^3 + 90*x^2 + 83*x + 48",
+       "2": "x^3 + 53*x^2 + 32*x + 21",
+       "3": "x^3 + 7*x^2 + 66*x + 12",
+       "5": "x^3 + 72*x^2 + 99*x + 6",
+       "7": "x^3 + 85*x^2 + 76*x + 77"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 5",
+         "2": "x + 69",
+         "3": "x + 15",
+         "5": "x + 74",
+         "7": "x + 37"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 5",
+       "2": "x + 69",
+       "3": "x + 15",
+       "5": "x + 74",
+       "7": "x + 37"
+      },
+      "residual_eigenvalues": {
+       "11": 96,
+       "2": 32,
+       "3": 86,
+       "5": 27,
+       "7": 64
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 96",
+         "2": "x + 7",
+         "3": "x + 26",
+         "5": "x + 50",
+         "7": "x + 90"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 96",
+       "2": "x + 7",
+       "3": "x + 26",
+       "5": "x + 50",
+       "7": "x + 90"
+      },
+      "residual_eigenvalues": {
+       "11": 5,
+       "2": 94,
+       "3": 75,
+       "5": 51,
+       "7": 11
+      }
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "3": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "-1/61390639133990015978669552897631535258140672",
+     "ratio_w_over_Gamma": "32768/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "-1/1873493625915222655599046414112290504704"
+    },
+    "dim_brandt": 15,
+    "dim_equal": true,
+    "dim_mf_new": 15,
+    "ells": [
+     2,
+     3,
+     5,
+     7,
+     11
+    ],
+    "gammas": [
+     2
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 17,
+      "2": 1,
+      "3": 3,
+      "5": 7,
+      "7": 13
+     }
+    },
+    "h": 1,
+    "k": 16,
+    "level_one_form": {
+     "a_l": {
+      "11": 20586852,
+      "13": -190073338,
+      "2": 216,
+      "3": -3348,
+      "5": 52110,
+      "7": 2822456
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 6,
+    "orbits_total_degree": 15,
+    "p": 101,
+    "prec": 60,
+    "q": 13,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     1
+    ]
+   },
+   "13,18,19": {
+    "a": -13,
+    "all_ok": true,
+    "b": -2,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 5",
+         "2": "x + 15",
+         "3": "x + 9",
+         "5": "x + 2",
+         "7": "x + 18"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 5",
+       "2": "x + 15",
+       "3": "x + 9",
+       "5": "x + 2",
+       "7": "x + 18"
+      },
+      "residual_eigenvalues": {
+       "11": 14,
+       "2": 4,
+       "3": 10,
+       "5": 17,
+       "7": 1
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 7,
+        "residual": {
+         "11": "x^7 + 11*x^6 + 14*x^5 + 14*x^4 + 5*x^3 + 13*x^2 + 13*x + 11",
+         "2": "x^7 + 5*x^6 + 13*x^5 + 12*x^4 + x^3 + 16*x^2 + 6*x + 16",
+         "3": "x^7 + 8*x^6 + 4*x^5 + 4*x^4 + 15*x^3 + 17*x + 4",
+         "5": "x^7 + 11*x^6 + 15*x^5 + 2*x^3 + 4*x^2 + x + 9",
+         "7": "x^7 + 4*x^6 + 8*x^5 + 6*x^4 + 4*x^3 + 5*x^2 + 16*x + 17"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 7,
+      "residual": {
+       "11": "x^7 + 11*x^6 + 14*x^5 + 14*x^4 + 5*x^3 + 13*x^2 + 13*x + 11",
+       "2": "x^7 + 5*x^6 + 13*x^5 + 12*x^4 + x^3 + 16*x^2 + 6*x + 16",
+       "3": "x^7 + 8*x^6 + 4*x^5 + 4*x^4 + 15*x^3 + 17*x + 4",
+       "5": "x^7 + 11*x^6 + 15*x^5 + 2*x^3 + 4*x^2 + x + 9",
+       "7": "x^7 + 4*x^6 + 8*x^5 + 6*x^4 + 4*x^3 + 5*x^2 + 16*x + 17"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 4,
+        "residual": {
+         "11": "x^4 + 12*x^3 + 14*x^2 + 10",
+         "2": "x^4 + 15*x^3 + x^2 + 14*x + 17",
+         "3": "x^4 + 7*x^3 + 4*x^2 + 9*x + 3",
+         "5": "x^4 + 7*x^3 + 18*x^2 + 16*x + 10",
+         "7": "x^4 + 9*x^3 + 15*x^2 + 11*x + 15"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 4,
+      "residual": {
+       "11": "x^4 + 12*x^3 + 14*x^2 + 10",
+       "2": "x^4 + 15*x^3 + x^2 + 14*x + 17",
+       "3": "x^4 + 7*x^3 + 4*x^2 + 9*x + 3",
+       "5": "x^4 + 7*x^3 + 18*x^2 + 16*x + 10",
+       "7": "x^4 + 9*x^3 + 15*x^2 + 11*x + 15"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 3,
+        "residual": {
+         "11": "x^3 + 5*x^2 + 2*x + 9",
+         "2": "x^3 + 12*x^2 + 18*x + 8",
+         "3": "x^3 + 13*x^2 + 10*x + 6",
+         "5": "x^3 + 14*x^2 + x + 16",
+         "7": "x^3 + 10*x^2 + 12*x + 12"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 3,
+      "residual": {
+       "11": "x^3 + 5*x^2 + 2*x + 9",
+       "2": "x^3 + 12*x^2 + 18*x + 8",
+       "3": "x^3 + 13*x^2 + 10*x + 6",
+       "5": "x^3 + 14*x^2 + x + 16",
+       "7": "x^3 + 10*x^2 + 12*x + 12"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 2,
+        "residual": {
+         "11": "x + 15",
+         "2": "x^2 + 10*x + 12",
+         "3": "x^2 + 16*x + 8",
+         "5": "x + 13",
+         "7": "x^2 + 11*x + 4"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 2,
+      "residual": {
+       "11": "x + 15",
+       "2": "x^2 + 10*x + 12",
+       "3": "x^2 + 16*x + 8",
+       "5": "x + 13",
+       "7": "x^2 + 11*x + 4"
+      },
+      "residual_eigenvalues": null
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "3": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "1/91370949197940521009315112842734229808210964905984000000000",
+     "ratio_w_over_Gamma": "131072/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "1/697105020125888984751244452230333174195945472000000000"
+    },
+    "dim_brandt": 17,
+    "dim_equal": true,
+    "dim_mf_new": 17,
+    "ells": [
+     2,
+     3,
+     5,
+     7,
+     11
+    ],
+    "gammas": [
+     2
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 17,
+      "2": 1,
+      "3": 3,
+      "5": 7,
+      "7": 13
+     }
+    },
+    "h": 1,
+    "k": 18,
+    "level_one_form": {
+     "a_l": {
+      "11": -753618228,
+      "13": 2541064526,
+      "2": -528,
+      "3": -4284,
+      "5": -1025850,
+      "7": 3225992
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 5,
+    "orbits_total_degree": 17,
+    "p": 19,
+    "prec": 60,
+    "q": 13,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     1
+    ]
+   },
+   "3,18,53": {
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 45",
+         "2": "x + 51",
+         "5": "x + 35",
+         "7": "x + 12"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 45",
+       "2": "x + 51",
+       "5": "x + 35",
+       "7": "x + 12"
+      },
+      "residual_eigenvalues": {
+       "11": 8,
+       "2": 2,
+       "5": 18,
+       "7": 41
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 15",
+         "2": "x + 44",
+         "5": "x + 30",
+         "7": "x + 4"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 15",
+       "2": "x + 44",
+       "5": "x + 30",
+       "7": "x + 4"
+      },
+      "residual_eigenvalues": {
+       "11": 38,
+       "2": 9,
+       "5": 23,
+       "7": 49
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 4",
+         "2": "x + 8",
+         "5": "x + 49",
+         "7": "x + 17"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 4",
+       "2": "x + 8",
+       "5": "x + 49",
+       "7": "x + 17"
+      },
+      "residual_eigenvalues": {
+       "11": 49,
+       "2": 45,
+       "5": 4,
+       "7": 36
+      }
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "5": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "1/2914245734400",
+     "ratio_w_over_Gamma": "8/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "1/364280716800"
+    },
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_mf_new": 3,
+    "ells": [
+     2,
+     5,
+     7,
+     11
+    ],
+    "gammas": [
+     12
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 13,
+      "2": 1,
+      "5": 3,
+      "7": 7
+     }
+    },
+    "h": 1,
+    "k": 18,
+    "level_one_form": {
+     "a_l": {
+      "11": -753618228,
+      "2": -528,
+      "3": -4284,
+      "5": -1025850,
+      "7": 3225992
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 3,
+    "orbits_total_degree": 3,
+    "p": 53,
+    "prec": 60,
+    "q": 3,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     6
+    ]
+   },
+   "3,18,61": {
+    "a": -3,
+    "all_ok": true,
+    "b": -1,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 11",
+         "2": "x + 40",
+         "5": "x + 13",
+         "7": "x + 54"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 11",
+       "2": "x + 40",
+       "5": "x + 13",
+       "7": "x + 54"
+      },
+      "residual_eigenvalues": {
+       "11": 50,
+       "2": 21,
+       "5": 48,
+       "7": 7
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 2,
+        "residual": {
+         "11": "x^2 + 51*x + 8",
+         "2": "x^2 + 16*x + 32",
+         "5": "x^2 + 37*x + 24",
+         "7": "x^2 + 46*x + 3"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 2,
+      "residual": {
+       "11": "x^2 + 51*x + 8",
+       "2": "x^2 + 16*x + 32",
+       "5": "x^2 + 37*x + 24",
+       "7": "x^2 + 46*x + 3"
+      },
+      "residual_eigenvalues": null
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "5": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "1/2914245734400",
+     "ratio_w_over_Gamma": "8/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "1/364280716800"
+    },
+    "dim_brandt": 3,
+    "dim_equal": true,
+    "dim_mf_new": 3,
+    "ells": [
+     2,
+     5,
+     7,
+     11
+    ],
+    "gammas": [
+     12
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 13,
+      "2": 1,
+      "5": 3,
+      "7": 7
+     }
+    },
+    "h": 1,
+    "k": 18,
+    "level_one_form": {
+     "a_l": {
+      "11": -753618228,
+      "2": -528,
+      "3": -4284,
+      "5": -1025850,
+      "7": 3225992
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 2,
+    "orbits_total_degree": 3,
+    "p": 61,
+    "prec": 60,
+    "q": 3,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     6
+    ]
+   },
+   "5,16,31": {
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x",
+         "2": "x + 1",
+         "3": "x",
+         "7": "x + 1"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x",
+       "2": "x + 1",
+       "3": "x",
+       "7": "x + 1"
+      },
+      "residual_eigenvalues": {
+       "11": 0,
+       "2": 30,
+       "3": 0,
+       "7": 30
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 2,
+        "residual": {
+         "11": "x^2 + 5*x + 22",
+         "2": "x^2 + 11*x + 8",
+         "3": "x^2 + 2*x + 20",
+         "7": "x^2 + 30*x + 5"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 2,
+      "residual": {
+       "11": "x^2 + 5*x + 22",
+       "2": "x^2 + 11*x + 8",
+       "3": "x^2 + 2*x + 20",
+       "7": "x^2 + 30*x + 5"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 12",
+         "2": "x + 30",
+         "3": "x + 27",
+         "7": "x + 18"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 12",
+       "2": "x + 30",
+       "3": "x + 27",
+       "7": "x + 18"
+      },
+      "residual_eigenvalues": {
+       "11": 19,
+       "2": 1,
+       "3": 4,
+       "7": 13
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 14",
+         "2": "x + 16",
+         "3": "x + 14",
+         "7": "x + 7"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 14",
+       "2": "x + 16",
+       "3": "x + 14",
+       "7": "x + 7"
+      },
+      "residual_eigenvalues": {
+       "11": 17,
+       "2": 15,
+       "3": 17,
+       "7": 24
+      }
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "3": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "-54071875/177712095483350488681807872",
+     "ratio_w_over_Gamma": "32/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "-54071875/5553502983854702771306496"
+    },
+    "dim_brandt": 5,
+    "dim_equal": true,
+    "dim_mf_new": 5,
+    "ells": [
+     2,
+     3,
+     7,
+     11
+    ],
+    "gammas": [
+     6
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 13,
+      "2": 1,
+      "3": 3,
+      "7": 7
+     }
+    },
+    "h": 1,
+    "k": 16,
+    "level_one_form": {
+     "a_l": {
+      "11": 20586852,
+      "2": 216,
+      "3": -3348,
+      "5": 52110,
+      "7": 2822456
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 4,
+    "orbits_total_degree": 5,
+    "p": 31,
+    "prec": 60,
+    "q": 5,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     3
+    ]
+   },
+   "5,18,23": {
+    "a": -5,
+    "all_ok": true,
+    "b": -2,
+    "blocks": [
+     {
+      "old_congruent": true,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 21",
+         "2": "x + 22",
+         "3": "x + 6",
+         "7": "x + 11"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 21",
+       "2": "x + 22",
+       "3": "x + 6",
+       "7": "x + 11"
+      },
+      "residual_eigenvalues": {
+       "11": 2,
+       "2": 1,
+       "3": 17,
+       "7": 12
+      }
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "degree": 3,
+        "residual": {
+         "11": "x^3 + 14*x^2 + 18*x + 16",
+         "2": "x^3 + 20*x^2 + 18*x + 11",
+         "3": "x^3 + 18*x^2 + 12*x + 4",
+         "7": "x^3 + 14*x^2 + 8*x + 3"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 3,
+      "residual": {
+       "11": "x^3 + 14*x^2 + 18*x + 16",
+       "2": "x^3 + 20*x^2 + 18*x + 11",
+       "3": "x^3 + 18*x^2 + 12*x + 4",
+       "7": "x^3 + 14*x^2 + 8*x + 3"
+      },
+      "residual_eigenvalues": null
+     },
+     {
+      "old_congruent": false,
+      "orbits": [
+       {
+        "bound_ok": true,
+        "degree": 1,
+        "residual": {
+         "11": "x + 9",
+         "2": "x + 11",
+         "3": "x + 3",
+         "7": "x + 20"
+        },
+        "vp_det_gram_Gamma": 0,
+        "vp_det_gram_w": 0,
+        "vp_monogenic_bound": 0,
+        "vp_ratio": 0
+       }
+      ],
+      "rank": 1,
+      "residual": {
+       "11": "x + 9",
+       "2": "x + 11",
+       "3": "x + 3",
+       "7": "x + 20"
+      },
+      "residual_eigenvalues": {
+       "11": 14,
+       "2": 12,
+       "3": 20,
+       "7": 3
+      }
+     }
+    ],
+    "charpoly_vs_pari": {
+     "2": true,
+     "3": true
+    },
+    "commutative": true,
+    "det_gram": {
+     "Gamma": "53732303625/1267650600228229401496703205376",
+     "ratio_w_over_Gamma": "32/1",
+     "vp_Gamma": 0,
+     "vp_ratio": 0,
+     "vp_w": 0,
+     "w": "53732303625/39614081257132168796771975168"
+    },
+    "dim_brandt": 5,
+    "dim_equal": true,
+    "dim_mf_new": 5,
+    "ells": [
+     2,
+     3,
+     7,
+     11
+    ],
+    "gammas": [
+     6
+    ],
+    "generic_T": {
+     "charpoly_squarefree": true,
+     "coefficients": {
+      "11": 13,
+      "2": 1,
+      "3": 3,
+      "7": 7
+     }
+    },
+    "h": 1,
+    "k": 18,
+    "level_one_form": {
+     "a_l": {
+      "11": -753618228,
+      "2": -528,
+      "3": -4284,
+      "5": -1025850,
+      "7": 3225992
+     },
+     "vp_level_raising": 1
+    },
+    "m": {
+     "orbits": [
+      [
+       1,
+       0
+      ]
+     ],
+     "rank": 1,
+     "vp_etaB": [
+      0
+     ]
+    },
+    "n_blocks": 3,
+    "orbits_total_degree": 5,
+    "p": 23,
+    "prec": 60,
+    "q": 5,
+    "self_adjoint": {
+     "Gamma": true,
+     "w": true
+    },
+    "vp_ratio_all_zero": true,
+    "w": [
+     3
+    ]
+   }
+  }
+ },
+ "provenance": {
+  "commit": "99ae910fb0735e044e5f96b45d933b23124636bc",
+  "date": "2026-11-15T01:03:08+00:00",
+  "notes": "S06-C5: T5 definite side; Gram matrices with w_x and |Gamma_x|, eta^B from the Gram determinant",
+  "params": {
+   "ells": [
+    2,
+    3,
+    5,
+    7,
+    11
+   ],
+   "generic_T_coefficient_choices": [
+    [
+     1,
+     3,
+     7,
+     13,
+     17
+    ],
+    [
+     1,
+     5,
+     2,
+     11,
+     3
+    ],
+    [
+     2,
+     1,
+     9,
+     4,
+     19
+    ]
+   ],
+   "prec": 60,
+   "triples": [
+    [
+     13,
+     18,
+     19
+    ],
+    [
+     5,
+     18,
+     23
+    ],
+    [
+     5,
+     16,
+     31
+    ],
+    [
+     13,
+     12,
+     31
+    ],
+    [
+     3,
+     18,
+     53
+    ],
+    [
+     3,
+     18,
+     61
+    ],
+    [
+     13,
+     16,
+     101
+    ]
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 46.78498061199207,
+  "script": "code/python/langlandscape/defect/gram.py"
+ }
+}

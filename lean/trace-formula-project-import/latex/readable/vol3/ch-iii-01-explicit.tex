@@ -1,0 +1,919 @@
+% Document A (readable edition), Vol. III, Ch. 1. Lean counterpart: lean/GL2TF/VolIII/P1/{Arith,Normalization,CohenLocal,Boundary,JLFormula,JLFormulaGen}.lean
+% (namespace GL2TF.Explicit). Chapter files of A and B have identical names; owner per sprint: see the sprint note docs/sprints/Q1-plan.md (§7.1).
+% Q1 W1b (A1, MAIN session): plan docs/sprints/Q1-plan.md v1.0 §1.2 (item list, G0 IDs), §1.4 (\uses graph); proof sketches
+% docs/notes/Q1/A-outline-draft.md; G0 review docs/notes/Q1/review-G0-draft.md; lead log docs/sprints/Q1-lead-decisions.md (Q1-C: minimal
+% hypotheses in Thm III.ef.thm:jl-formula-identity, the meaningful range in a remark). B-only candidates (plan items 6, 18, 22) are not items of A:
+% their content is the facts (D0)--(D2), (D4) of §§2--3, the averaging step in the proof of III.ef.thm:cohen-mu-multiplicative, and fact (C) of §4.
+% Q1 W3 (A1): proofs aligned with the Lean proofs of lean/GL2TF/VolIII/P1/*.lean ((D2) = item 6 by the max/lcm route, (D1) = the decomposition
+% of item 43, Step 1 of item 19 = item 18, (C) = item 22). Issues and revisions: docs/notes/Q1/A1-issues.md, docs/notes/Q1/A-revisions.md.
+
+\chapter{Explicit formulas and local factors}\label{ch:ch-iii-01-explicit}
+
+\noindent\emph{Scope:} area \texttt{ef}; milestone Q1. \emph{Sources:} \cite[(62), p.~296]{Eic57}; \cite[Prop.~3.1, p.~181, and the sentence after (14), p.~178]{Shz};
+\cite[Def.~2.13, p.~353; Thm.~2.25, p.~359]{Piz}; \cite[Thm.~1 and Remarks~1--2, pp.~71--72]{CO}; \cite[Thm.~12.4.11, pp.~477--478]{CoSt};
+\cite[Thm.~4.9, p.~9]{Ass}. The statement forms of Cohen's terms are those of the project brief P04 (deliverable D1); they agree with \cite{CoSt} and
+\cite{Ass} where those sources state them (for $(n,N)=1$).
+
+\noindent\emph{Overview.} This chapter is the arithmetic layer of the Jacquet--Langlands trace identity of Vol.~III. It contains no quaternion
+algebra, no modular form, no trace and no analysis: every object is an \emph{expression}, a rational number given by a finite formula. Two
+expressions are compared.
+\begin{itemize}
+\item \emph{Eichler's expression} $\EichB(D,M,k,n;F)$ (\cref{III.ef.def:eichler-b-expression}): a central term carrying Eichler's mass and an elliptic
+  term, a sum over imaginary quadratic orders weighted by $h/\wnum$ and by local factors $1-\esym_p$ at the primes $p\mid D$. A later chapter of this
+  volume identifies it with the trace of a Hecke operator on quaternionic modular forms of level $M$ for the definite quaternion algebra of
+  discriminant $D$ (under the mass hypothesis).
+\item The \emph{Eichler--Selberg Lefschetz expression} $\LamES(N,k,n;F)$ (\cref{III.ef.def:lefschetz-es-expression}): Cohen's terms $A_1,\dots,A_4$
+  for the trace of $\Tcl_n$ on $\Sk kN$, with the elliptic term in Eichler's form, and an Eisenstein expression. Later chapters identify it,
+  conditionally, with the Lefschetz number $\Lef_{\Gamma_0(N)}(T_n;\Vk)$.
+\end{itemize}
+The main result is the \emph{formula-level identity} $(*_{\mathrm{EF}})$ (\cref{III.ef.thm:jl-formula-identity}):
+\[
+  \EichB(D,M,k,n;F)=-\frac12\sum_{d\mid D}(-2)^{\omega(D/d)}\,\LamES(dM,k,n;F_d),
+\]
+for $D$ squarefree with an odd number of prime factors, $\gcd(D,M)=1$, and an \emph{arbitrary} function $F$ (the local factor at the primes of $M$),
+with $F_d=F\cdot\prod_{p\mid d}\mone_p$. Its proof uses no property of the class numbers: they enter as opaque weights. It rests on three
+signed divisor sums (§1), on the multiplicativity of the boundary sum and its local value $2$ (§5), and on the local complement
+$\mone_p-2=-\mD_p$ (§3). For squarefree $M$ the local factors at all primes of $dM$ are explicit, which gives \cref{III.ef.cor:jl-formula-identity-squarefree}.
+
+The elliptic term exists in two forms: Cohen's, with root counts $\embmu_N(t,f,n)$ (§4), and Eichler's, with products of local factors. The
+termwise identification of the two, claimed in P04 (D2), is false (\cref{rem:ef-termwise-false}); only the sums over the orders agree, and only
+after weighting by a function $H$ that satisfies the class-number relation. This is \cref{III.ef.thm:d2-sum-form}, proved here for an abstract
+weight $H$; that $H=\hw$ is admissible is a statement about class groups of orders, proved in a later chapter. \cref{III.ef.ex:d2-weight-instance}
+gives an explicit admissible nonzero weight, so that the theorem is not vacuous meanwhile.
+
+\noindent\emph{Hypotheses.} No item of this chapter uses a hypothesis.
+
+\noindent\emph{Conventions.} $N,M,D,k,n$ are natural numbers, $t,\Delta,m$ integers, and all expressions take values in $\Q$. Products $\prod_{p\mid N}$
+run over the primes dividing $N$ (empty for $N=0$); sums $\sum_{d\mid D}$ run over the positive divisors. $\omega(m)$ is the number of distinct
+prime divisors of $m$, $\sigma_1(n)$ the sum of the positive divisors of $n$, $\varphi$ Euler's function, $v_p$ the $p$-adic valuation, $\delta_{k,2}$
+the Kronecker delta, and $[P]\in\{0,1\}$ the truth value of a statement $P$. A \emph{discriminant} is an integer $\Delta\equiv0$ or $1\pmod4$. Exponents
+such as $k-1$, $k-2$ of natural numbers are read as $\max(k-1,0)$, $\max(k-2,0)$; this matters only for $k\le1$. The printed symbols are those of
+the notation table (\hyperref[notation:q1]{Vol.~III block}; decision D6); the normalization of each object is a row of the conventions table
+(\texttt{docs/specs/quaternion-conventions.md}), cited as N3, N4, \dots{} below. The expressions are defined for all values of their arguments; the
+range in which they have a meaning as traces ($k\ge2$ even, $n$ prime to the level) is stated in remarks, never in the definitions.
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Arithmetic functions and signed divisor sums}\label{sec:ef-arith}
+
+\begin{definition}[Dedekind's function]
+\tfstmt{III.ef.def:dedekind-psi}
+\end{definition}
+\noindent For $N\ge1$, $\dedpsi(N)=[\SL_2(\Z):\Gamma_0(N)]$; this interpretation is not used. \emph{Source:} P04 (D1); \cite[Thm.~12.4.11]{CoSt}.
+
+\begin{lemma}
+\tfstmt{III.ef.lem:dedekind-psi-multiplicative}
+\uses{III.ef.def:dedekind-psi}
+\end{lemma}
+\begin{proof}
+\uses{III.ef.def:dedekind-psi}
+(a) Let $r=\prod_{p\mid N}p$ be the product of the distinct primes dividing $N$ ($r=1$ for $N=0$). Distinct primes dividing $N$ are pairwise
+coprime, so $r\mid N$, and
+\[
+  \dedpsi(N)=\frac Nr\prod_{p\mid N}p\Bigl(1+\frac1p\Bigr)=\frac Nr\prod_{p\mid N}(p+1),
+\]
+a product of natural numbers.
+(b) Let $N_1,N_2$ be coprime. A prime divides $N_1N_2$ if and only if it divides $N_1$ or $N_2$, and it cannot divide both. So the set of primes
+dividing $N_1N_2$ is the disjoint union of the sets of primes dividing $N_1$ and $N_2$ (this includes the case $N_1=0$, where $N_2=1$ and both sets
+are empty), and
+\[
+  \dedpsi(N_1N_2)=N_1N_2\prod_{p\mid N_1}\Bigl(1+\frac1p\Bigr)\prod_{p\mid N_2}\Bigl(1+\frac1p\Bigr)=\dedpsi(N_1)\,\dedpsi(N_2).
+\]
+(c) The only prime dividing $p$ is $p$, so $\dedpsi(p)=p(1+1/p)=p+1$.
+\end{proof}
+
+\begin{lemma}[signed divisor sums]
+\tfstmt{III.ef.lem:signed-divisor-sum}
+\end{lemma}
+\begin{proof}
+A squarefree natural number is positive. Let $P$ be the set of primes dividing $D$. Since $D$ is squarefree, $D=\prod_{p\in P}p$, and by unique
+factorization $d\mapsto S(d)=\{p\in P:p\mid d\}$ is a bijection from the positive divisors of $D$ onto the subsets of $P$, with inverse
+$S\mapsto\prod_{p\in S}p$; the primes dividing $D/d$ form $P\setminus S(d)$. Hence the left side equals
+$\sum_{S\subseteq P}\prod_{p\in P\setminus S}b(p)\prod_{p\in S}a(p)$, which is the expansion of $\prod_{p\in P}(a(p)+b(p))$ by distributivity (induction on
+$\abs P$: for $P=P'\sqcup\{q\}$ the subsets of $P$ are the $S'$ and $S'\cup\{q\}$ with $S'\subseteq P'$).
+\end{proof}
+
+\begin{corollary}[the three constants]
+\tfstmt{III.ef.cor:signed-divisor-sum-constants}
+\uses{III.ef.def:dedekind-psi}
+\end{corollary}
+\begin{proof}
+\uses{III.ef.lem:signed-divisor-sum, III.ef.lem:dedekind-psi-multiplicative, III.ef.def:dedekind-psi}
+For $d\mid D$ we have $s_d=\prod_{p\mid D/d}(-2)$, since $\omega(D/d)$ is the number of primes dividing $D/d$. Apply
+\cref{III.ef.lem:signed-divisor-sum} with $b\equiv-2$.
+(a) With $a\equiv1$: $\sum_ds_d=\prod_{p\mid D}(1-2)=(-1)^{\omega(D)}$.
+(b) With $a\equiv2$: $\prod_{p\mid d}2=2^{\omega(d)}$, so $\sum_ds_d2^{\omega(d)}=\prod_{p\mid D}(2-2)=0$, because $D>1$ has a prime divisor.
+(c) Let $d\mid D$. Then $d$ is squarefree, so $d=\prod_{p\mid d}p$ and, by \cref{III.ef.def:dedekind-psi}, $\dedpsi(d)=d\prod_{p\mid d}(1+1/p)
+=\prod_{p\mid d}(p+1)$. Also $\gcd(d,M)=1$, so $\dedpsi(dM)=\dedpsi(d)\dedpsi(M)$ by \cref{III.ef.lem:dedekind-psi-multiplicative}(b) (this
+includes $M=0$, where $D=d=1$). Hence $\sum_ds_d\dedpsi(dM)=\dedpsi(M)\sum_ds_d\prod_{p\mid d}(p+1)$, and the lemma with $a(p)=p+1$ in $R=\Q$
+gives $\sum_ds_d\prod_{p\mid d}(p+1)=\prod_{p\mid D}(p+1-2)=\prod_{p\mid D}(p-1)$.
+\end{proof}
+\begin{remark}
+Parts (b) and (c) are the two identities behind the cancellation of the boundary and Eisenstein terms and behind the central term of
+\cref{III.ef.thm:jl-formula-identity}; part (a) gives the sign $-1$ when $\omega(D)$ is odd.
+\end{remark}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Discriminants, class numbers of forms, and the polynomials \texorpdfstring{$P_k$}{P\_k}}\label{sec:ef-discr}
+
+Recall that a \emph{discriminant} is an integer $\Delta\equiv0,1\pmod4$. If $t\in\Z$ and $n\in\N$, then $t^2-4n\equiv t^2\equiv0$ or $1\pmod4$ is a
+discriminant; it is negative if and only if $t^2<4n$.
+
+\begin{definition}[the orders containing a root]
+\tfstmt{III.ef.def:order-index-set}
+\end{definition}
+\noindent For $f\in\Ford(t,n)$ we write $\Delta_f=(t^2-4n)/f^2$. If $t^2\ne4n$, the bound $f\le\abs{t^2-4n}$ follows from $f^2\mid t^2-4n$; if
+$t^2=4n$, then $\Ford(t,n)=\emptyset$. (Motivation, not used: $f\in\Ford(t,n)$ if and only if the order of discriminant $\Delta_f$ contains a root
+of $X^2-tX+n$; orders appear in a later chapter.)
+
+\phantomsection\label{par:ef-fundamental}A discriminant $\Delta$ is \emph{fundamental} if there is no prime $p$ such that $p^2\mid\Delta$ and
+$\Delta/p^2$ is a discriminant. (This is Mathlib's predicate \texttt{Int.IsFundamentalDiscr}, by the Mathlib lemma
+\texttt{Int.isFundamentalDiscr\_iff\_forall\_prime}; the statements of this chapter spell the condition out, with the sign separately.) The
+discriminant $0=p^2\cdot0$ is not fundamental; $1$ is fundamental (this is harmless: only negative discriminants occur below).
+
+The following facts are used in the proofs of \S\S3--4 and \S7. They are elementary and are not numbered items of A.
+
+\phantomsection\label{fact:ef-D0}(D0) \emph{Squares.} If $\Delta$ is a discriminant and $m\in\Z$, then $\Delta m^2$ is a discriminant. If $m$ is
+odd, then $m^2\equiv1\pmod8$, so $\Delta m^2\equiv\Delta\pmod8$ for every $\Delta\in\Z$. \emph{Proof.} Squares are $\equiv0$ or $1\pmod4$, and products
+of residues in $\{0,1\}$ lie in $\{0,1\}$. For odd $m$, $m^2-1=(m-1)(m+1)$ is a product of two consecutive even numbers. $\square$
+
+\phantomsection\label{fact:ef-D1}(D1) \emph{Decomposition.}
+(i) Every discriminant $\Delta<0$ can be written as $\Delta=\Delta_0m^2$ with $\Delta_0<0$ a fundamental discriminant and $m\ge1$.
+(ii) Let $\Delta_0$ be a discriminant, $\Delta_1$ a fundamental discriminant, and $a,b\ge1$ coprime integers with $\Delta_0a^2=\Delta_1b^2$. Then $a=1$.
+(iii) If $\Delta_0m^2=\Delta_1m'^2$ with $\Delta_0,\Delta_1$ fundamental and $m,m'\ge1$, then $\Delta_0=\Delta_1$ and $m=m'$.
+(iv) If $\Delta_0$ is fundamental, $m\ge1$ and $p$ is a prime, then $p^2\mid\Delta_0m^2$ and $\Delta_0m^2/p^2$ is a discriminant if and only if $p\mid m$.
+\emph{Proof.} (i) Strong induction on $\abs\Delta$. If $\Delta$ is fundamental, take $\Delta_0=\Delta$, $m=1$. Otherwise there is a prime $p$ with
+$\Delta=p^2E$ and $E$ a discriminant; $E<0$ and $\abs E\le\abs\Delta/4<\abs\Delta$, so $E=\Delta_0m'^2$ by induction, and $\Delta=\Delta_0(pm')^2$.
+(ii) Suppose a prime $p$ divides $a$; then $p\nmid b$. Write $a=pa'$. From $p^2\mid\Delta_0a^2=\Delta_1b^2$ and $\gcd(p^2,b^2)=1$ we get $\Delta_1=p^2E$
+with $E\in\Z$, and cancelling $p^2$ gives $\Delta_0a'^2=b^2E$. We show that $E$ is a discriminant, which contradicts the fundamentality of
+$\Delta_1$. If $p=2$, then $b$ is odd, $b^2\equiv1\pmod4$, and $E\equiv b^2E=\Delta_0a'^2\pmod4$, a discriminant by (D0). If $p$ is odd, then
+$p^2\equiv1\pmod4$ and $E\equiv p^2E=\Delta_1\pmod4$. (iii) Let $g=\gcd(m,m')$, $m=ga$, $m'=gb$ with $a,b\ge1$ coprime. Cancelling $g^2$ gives
+$\Delta_0a^2=\Delta_1b^2$, so $a=1$ by (ii), and $b=1$ by (ii) with the roles exchanged. Hence $m=m'=g$ and $\Delta_0=\Delta_1$.
+(iv) If $p\mid m$, then $\Delta_0m^2/p^2=\Delta_0(m/p)^2$ is a discriminant by (D0). If $p\nmid m$ and $\Delta_0m^2=p^2E$ with $E$ a discriminant,
+then (ii) applied to $Ep^2=\Delta_0m^2$ ($a=p$, $b=m$ coprime) gives $p=1$, which is absurd. $\square$
+
+\phantomsection\label{fact:ef-D2}(D2) \emph{The index set.} Let $t^2<4n$ and $\Delta=t^2-4n<0$. For $f\ge1$ we have $f\in\Ford(t,n)$ if and only if
+$f^2\mid\Delta$ and $\Delta/f^2$ is a discriminant (the bound $f\le\abs\Delta$ is then automatic). Then:
+(i) if $f\in\Ford(t,n)$ and $d\mid f$, $d\ge1$, then $d\in\Ford(t,n)$;
+(ii) if $f,g\in\Ford(t,n)$, then $\operatorname{lcm}(f,g)\in\Ford(t,n)$;
+(iii) if $f\in\Ford(t,n)$ and $p$ is a prime, then [$p^2\mid\Delta_f$ and $\Delta_f/p^2$ is a discriminant] if and only if $pf\in\Ford(t,n)$.
+Consequently, if $c$ is the largest element of $\Ford(t,n)$, then $\Ford(t,n)$ is the set of positive divisors of $c$; $\Delta_0=\Delta/c^2$ is a
+fundamental discriminant with $\Delta_0<0$; $\Delta_f=\Delta_0(c/f)^2$ for $f\mid c$; and for $f\mid c$ and every prime $p$,
+\[
+  \bigl[p^2\mid\Delta_f\text{ and }\Delta_f/p^2\text{ is a discriminant}\bigr]\iff p\mid c/f.
+\]
+\emph{Proof.} (i) $\Delta/d^2=(\Delta/f^2)(f/d)^2$ is a discriminant by (D0). (ii) Let $l=\operatorname{lcm}(f,g)$. Since $f^2,g^2\mid\Delta$ and
+$\operatorname{lcm}(f^2,g^2)=l^2$, $l^2\mid\Delta$. Put $u=f/\gcd(f,g)$ and $v=g/\gcd(f,g)$; they are coprime, so one of them is odd, say $v$ (otherwise
+exchange $f$ and $g$), and $l=fv$. Then $\Delta/f^2=v^2\cdot\Delta/l^2\equiv\Delta/l^2\pmod4$ by (D0), so $\Delta/l^2$ is a discriminant.
+(iii) $\Delta_f/p^2=\Delta/(pf)^2$, and $p^2\mid\Delta_f$ if and only if $(pf)^2\mid\Delta$. For the consequences: $1\in\Ford(t,n)$, because
+$\Delta$ is a discriminant (\S\ref{sec:ef-discr}, first paragraph), and $\Ford(t,n)$ is finite, so $c$ exists. If $f\in\Ford(t,n)$, then
+$\operatorname{lcm}(f,c)\in\Ford(t,n)$ by (ii) and $\operatorname{lcm}(f,c)\ge c$, so $\operatorname{lcm}(f,c)=c$ and $f\mid c$; conversely every
+positive divisor of $c$ lies in $\Ford(t,n)$ by (i). Since $c\in\Ford(t,n)$, $\Delta_0=\Delta/c^2$ is a discriminant, negative since $\Delta<0$, and
+$\Delta=\Delta_0c^2$ gives $\Delta_f=\Delta_0(c/f)^2$. If a prime $p$ had $p^2\mid\Delta_0$ with $\Delta_0/p^2$ a discriminant, then $pc\in\Ford(t,n)$
+by (iii), although $pc>c$; so $\Delta_0$ is fundamental. Finally, for $f\mid c$, by (iii) the bracket holds if and only if $pf\in\Ford(t,n)$, that is,
+$pf\mid c$, that is, $p\mid c/f$. $\square$
+
+\begin{definition}[class numbers of binary quadratic forms]
+\tfstmt{III.ef.def:class-number-forms}
+\end{definition}
+\noindent The triples are the reduced primitive positive definite forms $ax^2+bxy+cy^2$ of discriminant $\Delta$. The set is finite: $a\ge\abs b$
+and $c\ge a$ give $4a^2\le4ac=b^2-\Delta\le a^2+\abs\Delta$, so $a\le(\abs\Delta/3)^{1/2}$, then $\abs b\le a$, and $c$ is determined by $a,b$
+(note $a>0$, since $a=0$ would force $b=0$ and $\Delta=0$). It is empty unless $\Delta$ is a discriminant ($b^2\equiv0,1\pmod4$). For a negative
+discriminant, $h(\Delta)$ is the class number of the imaginary quadratic order of discriminant $\Delta$; this is proved in a later chapter and not
+used here. Values used below: $h(-3)=h(-4)=h(-7)=h(-8)=h(-11)=h(-12)=h(-27)=1$, $h(-15)=2$, $h(-23)=3$ (for $\Delta=-12$ the form $(2,2,2)$ is not
+primitive; for $\Delta=-27$ the form $(3,3,3)$ is not).
+
+\begin{definition}[unit numbers]
+\tfstmt{III.ef.def:unit-number}
+\end{definition}
+\noindent For a negative discriminant $\Delta$, $\wnum(\Delta)$ is the number of units of the order of discriminant $\Delta$ (remark only). The
+non-maximal orders of discriminant $-3f^2$, $-4f^2$ ($f>1$) have $\wnum=2$.
+
+\begin{definition}[weighted class numbers]
+\tfstmt{III.ef.def:weighted-class-number}
+\uses{III.ef.def:class-number-forms, III.ef.def:unit-number}
+\end{definition}
+\noindent Thus $\hw(-3)=\frac13$, $\hw(-4)=\frac12$ and $\hw(\Delta)=h(\Delta)$ for every other $\Delta$. \emph{Normalization (row N5).} The
+$\Gamma_0(N)$-side weights orders by $\hw=h/(\wnum/2)$ (Eichler divides by half the number of units, \cite[(62), p.~296]{Eic57}; Cohen's
+$A_2$, \cite[Thm.~12.4.11]{CoSt}); the quaternion side weights them by $h/\wnum=\hw/2$, with the full unit number (\cite[Def.~2.13, p.~353]{Piz};
+Shimizu's $\frac12h/w$ with $w$ half the number of units, \cite[Prop.~3.1, p.~181]{Shz}). The ratio $\frac12$ is where the factor $-\frac12$ of
+\cref{III.ef.thm:jl-formula-identity} meets the elliptic terms.
+
+\begin{definition}[the polynomials $P_k$]
+\tfstmt{III.ef.def:hecke-polynomial}
+\end{definition}
+\noindent The value $P_0(t,n)=0$ is a junk convention ($P_0$ does not occur for $k\ge1$; the recursion starts at $k=2$). For $k\ge2$ and $t^2\ne4n$,
+$P_k(t,n)=(\rho^{k-1}-\bar\rho^{k-1})/(\rho-\bar\rho)$ for the roots $\rho,\bar\rho$ of $X^2-tX+n$ (the form in P04), by the following lemma; it is the
+trace of $\diag(\rho,\bar\rho)$ on $\operatorname{Sym}^{k-2}$.
+
+\begin{lemma}
+\tfstmt{III.ef.lem:hecke-polynomial-roots}
+\uses{III.ef.def:hecke-polynomial}
+\end{lemma}
+\begin{proof}
+\uses{III.ef.def:hecke-polynomial}
+Put $u_k=\rho^{k-1}-\bar\rho^{k-1}$ for $k\ge1$. Then $u_1=0=(\rho-\bar\rho)P_1$ and $u_2=\rho-\bar\rho=(\rho-\bar\rho)P_2$. Since
+$\rho^2-t\rho+n=\rho^2-(\rho+\bar\rho)\rho+\rho\bar\rho=0$, we have $\rho^{k}=t\rho^{k-1}-n\rho^{k-2}$ for $k\ge2$, and likewise for $\bar\rho$; hence
+$u_{k+1}=tu_k-nu_{k-1}$ for $k\ge2$. The sequence $(\rho-\bar\rho)P_k(t,n)$ satisfies the same recursion by \cref{III.ef.def:hecke-polynomial}, so the
+two sequences agree for all $k\ge1$ by induction.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The Kronecker symbol, the Eichler symbol and the local factors}\label{sec:ef-local}
+
+\begin{definition}[the Kronecker symbol at a prime]
+\tfstmt{III.ef.def:kronecker-prime}
+\end{definition}
+\noindent This is the Kronecker symbol $(\Delta/p)$. For a discriminant $\Delta=\Delta_0m^2$ with $p\nmid m$, $\chi_\Delta(p)=1,0,-1$ according as $p$
+splits, ramifies or is inert in $\Q(\sqrt{\Delta_0})$ (remark only).
+
+\begin{definition}[primes dividing the conductor]
+\tfstmt{III.ef.def:conductor-prime}
+\end{definition}
+\noindent So a discriminant is fundamental (§\ref{sec:ef-discr}) if and only if no prime divides its conductor, and by (D1)(iv), for
+$\Delta=\Delta_0m^2$ with $\Delta_0$ fundamental and $m\ge1$, $p\mid\operatorname{cond}\Delta$ if and only if $p\mid m$: $m$ is the conductor of
+the order of discriminant $\Delta$.
+
+\phantomsection\label{fact:ef-D4}(D4) \emph{The symbol along the conductor.} Let $\Delta_0\in\Z$, $m\ge1$ and $p$ a prime. Then
+$\chi_{\Delta_0m^2}(p)=\chi_{\Delta_0}(p)$ if $p\nmid m$, and $\chi_{\Delta_0m^2}(p)=0$ if $p\mid m$. \emph{Proof.} If $p\mid m$, then $p\mid\Delta_0m^2$,
+and the symbol is $0$ (for $p=2$: $\Delta_0m^2$ is even). Let $p\nmid m$. For odd $p$ the Legendre symbol is multiplicative and $(m^2/p)=1$. For
+$p=2$, $m$ is odd, so $m^2\equiv1\pmod8$ and $\Delta_0m^2\equiv\Delta_0\pmod8$, with the same parity. $\square$
+
+\begin{definition}[the Eichler symbol]
+\tfstmt{III.ef.def:eichler-symbol}
+\uses{III.ef.def:kronecker-prime, III.ef.def:conductor-prime}
+\end{definition}
+\noindent \emph{Normalization (row N13).} For $\Delta=\Delta_0m^2$ ($\Delta_0$ fundamental) and $p\nmid m$, $\esym_p(\Delta)=\chi_{\Delta_0}(p)$ by (D4),
+P04's symbol. The value $1$ at the primes dividing the conductor is Shimizu's convention for the symbol $\{o/p\}$ of an order $o$: ``$\{o/p\}=1$ if $p$
+divides the conductor of $o$'' \cite[p.~178, after (14)]{Shz}. It is not the convention of \cite{Voi}. With it, both local factors below are $1\mp\esym_p$
+on all orders, exactly as in Shimizu's trace formula \cite[Prop.~3.1, pp.~181--182]{Shz}.
+
+\begin{definition}[the local factor at a ramified prime]
+\tfstmt{III.ef.def:local-factor-ramified}
+\uses{III.ef.def:eichler-symbol}
+\end{definition}
+\noindent \emph{Normalization (row N7).} $\mD_p(\Delta)=1-\chi_{\Delta_0}(p)\in\{0,1,2\}$ if $p$ does not divide the conductor, and $0$ if it does. This is
+the factor $1-\{o/p\}$ of \cite[Prop.~3.1]{Shz} at a prime $p$ of the discriminant of the quaternion algebra; it counts optimal embeddings of the order
+into the maximal order of the local division algebra (\cite[30.5.3(b)]{Voi}; identified in a later chapter).
+
+\begin{definition}[the local factor at a prime of level one]
+\tfstmt{III.ef.def:local-factor-eichler-prime}
+\uses{III.ef.def:eichler-symbol}
+\end{definition}
+\noindent \emph{Normalization (row N8, exponent $1$ only).} $\mone_p(\Delta)=1+\chi_{\Delta_0}(p)$ if $p$ does not divide the conductor, and $2$ if it
+does: the factor $1+\{o/p\}$ of \cite[Prop.~3.1]{Shz} at a prime $p$ exactly dividing the level, the number of optimal embeddings into an Eichler order
+of level $p$ (\cite[30.6.12, 30.6.17]{Voi}; the Q0 numerics confirm it by two brute-force methods). At $p^e\parallel M$ with $e\ge2$ the local factor is not
+of the form $1\pm\esym_p$; it is supplied in a later chapter, and \cref{III.ef.thm:jl-formula-identity} is stated with the $M$-part as a parameter for
+this reason.
+
+\begin{remark}[the local complement]\label{rem:ef-local-complement}
+$\mD_p(\Delta)+\mone_p(\Delta)=2$, that is, $\mone_p(\Delta)-2=-\mD_p(\Delta)$, for every $\Delta$ and $p$. This one-line identity is the local content of
+the Jacquet--Langlands identity at a ramified prime.
+\end{remark}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Cohen's root count and Eichler's sum form}\label{sec:ef-cohen}
+
+Throughout this section $t\in\Z$ and $n\in\N$, $\Delta=t^2-4n$ and $Q(x)=x^2-tx+n$, so that $4Q(x)=(2x-t)^2-\Delta$.
+
+\begin{definition}[Cohen's root count]
+\tfstmt{III.ef.def:cohen-mu}
+\uses{III.ef.def:dedekind-psi}
+\end{definition}
+\noindent \emph{Source and normalization (row N11).} This is P04 (D1) literally: $x$ runs over $\{0,\dots,N-1\}$ while the congruence is modulo
+$NN_f$. For $(n,N)=1$ it agrees with \cite[(4.7)--(4.8), Thm.~4.9]{Ass} and \cite[Thm.~12.4.11]{CoSt}; among eight variants it is the only one that
+reproduces the traces of the eta-newforms (Q0 numerics). The identity \cref{III.ef.thm:jl-formula-identity} does not involve $\embmu$.
+
+\begin{theorem}[multiplicativity of the root count]
+\tfstmt{III.ef.thm:cohen-mu-multiplicative}
+\uses{III.ef.def:cohen-mu, III.ef.def:order-index-set}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.lem:dedekind-psi-multiplicative}
+Let $N\ge1$, $N_f=\gcd(N,f)$, and let $R(N)$ be the number of $x\in\Z/NN_f\Z$ with $Q(x)\equiv0\pmod{NN_f}$.
+
+\emph{Step 1 (averaging).} We show $R(N)=N_f\cdot\#\{x\in\{0,\dots,N-1\}:NN_f\mid Q(x)\}$, so that
+\[
+  \embmu_N(t,f,n)=\frac{\dedpsi(N)}{\dedpsi(N/N_f)}\cdot\frac{R(N)}{N_f}.
+\]
+Only $f^2\mid\Delta$ is used here. Let $x\in\Z$ with $NN_f\mid Q(x)$. Since $N_f\mid N$, $N_f^2\mid NN_f\mid Q(x)$; since $N_f\mid f$,
+$N_f^2\mid f^2\mid\Delta$. Hence $N_f^2\mid\Delta+4Q(x)=(2x-t)^2$, and so $N_f\mid2x-t$. For $i\in\Z$,
+\[
+  Q(x+Ni)-Q(x)=Ni\,(2x-t+Ni),
+\]
+and $N_f$ divides $2x-t+Ni$ (as $N_f\mid N$), so $NN_f\mid Q(x+Ni)-Q(x)$. Hence the solution set of $Q(x)\equiv0\pmod{NN_f}$ in $\Z$ is invariant
+under $x\mapsto x+Ni$ for every $i\in\Z$. Every residue class modulo $NN_f$ is represented exactly once as $x_0+iN$ with $x_0\in\{0,\dots,N-1\}$ and
+$i\in\{0,\dots,N_f-1\}$, and $x_0+iN$ is a solution if and only if $x_0$ is. This gives the claim.
+
+\emph{Step 2.} Let $N=N_1N_2$ with $N_1,N_2\ge1$ coprime, and $N_{i,f}=\gcd(N_i,f)$. Then $N_f=N_{1,f}N_{2,f}$ (compare $p$-adic valuations), the
+factors $N_1N_{1,f}$ and $N_2N_{2,f}$ of $NN_f$ are coprime (their primes divide $N_1$, resp.\ $N_2$), and $N/N_f=(N_1/N_{1,f})(N_2/N_{2,f})$ with
+coprime factors. By the Chinese remainder theorem, $\Z/NN_f\Z\cong\Z/N_1N_{1,f}\Z\times\Z/N_2N_{2,f}\Z$, and $Q(x)\equiv0$ modulo $NN_f$ if and only if it
+holds modulo both factors; so $R(N)=R(N_1)R(N_2)$. By \cref{III.ef.lem:dedekind-psi-multiplicative}(b), $\dedpsi(N)=\dedpsi(N_1)\dedpsi(N_2)$ and
+$\dedpsi(N/N_f)=\dedpsi(N_1/N_{1,f})\dedpsi(N_2/N_{2,f})$. Multiplying, Step~1 gives
+$\embmu_N(t,f,n)=\embmu_{N_1}(t,f,n)\embmu_{N_2}(t,f,n)$ (all $\dedpsi$-values here are positive).
+\end{proof}
+
+\begin{proposition}[the root count at a prime]
+\tfstmt{III.ef.prop:cohen-mu-local-prime}
+\uses{III.ef.def:cohen-mu, III.ef.def:order-index-set, III.ef.def:kronecker-prime}
+\end{proposition}
+\begin{proof}
+\uses{III.ef.lem:dedekind-psi-multiplicative}
+\emph{Case $p\nmid f$.} Then $N_f=1$, the factor $\dedpsi(p)/\dedpsi(p)$ is $1$, and $\embmu_p(t,f,n)$ is the number of $x\in\{0,\dots,p-1\}$ with
+$p\mid Q(x)$. For odd $p$, $4$ is invertible modulo $p$ and $x\mapsto y=2x-t$ is a bijection of $\Z/p\Z$; so the count is the number of $y\in\Z/p\Z$ with
+$y^2\equiv\Delta$, which is $1+(\Delta/p)=1+\chi_\Delta(p)$. For $p=2$: if $t$ is odd, $Q(0)=n$ and $Q(1)=1-t+n\equiv n\pmod2$, so the count is $2$ if
+$n$ is even and $0$ if $n$ is odd, while $t^2\equiv1\pmod8$ gives $\Delta\equiv1-4n\equiv1$ resp.\ $5\pmod8$, so $1+\chi_\Delta(2)=2$ resp.\ $0$. If
+$t$ is even, $Q(x)\equiv x^2+n\pmod2$ has exactly one root modulo $2$, and $\Delta$ is even, so $1+\chi_\Delta(2)=1$.
+
+\emph{Case $p\mid f$.} Then $N_f=p$, $N/N_f=1$, the factor is $\dedpsi(p)/\dedpsi(1)=p+1$ (\cref{III.ef.lem:dedekind-psi-multiplicative}(c)), and
+it remains to show that exactly one $x\in\{0,\dots,p-1\}$ has $p^2\mid Q(x)$. Here $p^2\mid f^2\mid\Delta$. For odd $p$:
+$p^2\mid Q(x)\iff p^2\mid4Q(x)=(2x-t)^2-\Delta\iff p^2\mid(2x-t)^2\iff p\mid2x-t$, which has exactly one solution $x$ modulo $p$. For $p=2$: $4\mid\Delta$
+forces $t=2s$ even, and $\Delta/4=s^2-n=(f/2)^2\Delta_f$ is a discriminant by (D0), since $\Delta_f$ is one. Then $Q(x)=(x-s)^2-\Delta/4$, and
+$(x-s)^2\equiv0$ or $1\pmod4$ as $x\equiv s$ or $x\not\equiv s\pmod2$. If $\Delta/4\equiv0\pmod4$, exactly $x\equiv s$ works; if $\Delta/4\equiv1$, exactly
+$x\not\equiv s$ works. In both cases one $x\in\{0,1\}$.
+\end{proof}
+
+\begin{lemma}[the local identity]
+\tfstmt{III.ef.lem:d2-local-identity}
+\end{lemma}
+\begin{proof}
+If $\nu=0$, both sides equal $g(0)X(0)=g(0)Y(0)=1+\chi$. Let $\nu\ge1$ and $S_m=\sum_{j=0}^mg(j)$. Since $(p-1)\sum_{j=1}^mp^{j-1}=p^m-1$,
+\[
+  (p-1)S_m=p-1+(p-\chi)(p^m-1).
+\]
+The left side is $g(\nu)X(0)+\sum_{a=1}^{\nu}g(\nu-a)(p+1)=g(\nu)+(p+1)S_{\nu-1}$. The right side, with $j=\nu-a$, is
+$\sum_{j=0}^{\nu}g(j)Y(j)=1+\chi+2(S_\nu-1)=2S_{\nu-1}+2g(\nu)-1+\chi$. Their difference is
+\[
+  (p-1)S_{\nu-1}-g(\nu)+1-\chi=p-1+(p-\chi)(p^{\nu-1}-1)-(p-\chi)p^{\nu-1}+1-\chi=0. \qedhere
+\]
+\end{proof}
+\noindent The proof is a polynomial identity in $p$ and $\chi$: the primality of $p$ is not used, and the identity holds for every $p\in\N$.
+
+\phantomsection\label{fact:ef-C}(C) \emph{The class-number relation along the conductor.} Let $H\colon\Z\to\Q$ satisfy the hypothesis of
+\cref{III.ef.thm:d2-sum-form}, let $\Delta_0<0$ be a fundamental discriminant, and for a prime $p$ let $g_p$ be the function $g$ of
+\cref{III.ef.lem:d2-local-identity} with $\chi=\chi_{\Delta_0}(p)$. Then for every $m\ge1$
+\[
+  H(\Delta_0m^2)=G(m)\,H(\Delta_0),\qquad G(m)=\prod_{p\mid m}g_p\bigl(v_p(m)\bigr)=\prod_{p\mid m}p^{v_p(m)-1}\bigl(p-\chi_{\Delta_0}(p)\bigr).
+\]
+\emph{Proof.} Induction on $m$; $G(1)=1$. Let $m>1$, $p$ a prime divisor of $m$ and $m=pm'$. The integer $\Delta_0m'^2$ is a negative discriminant
+(D0), so the hypothesis gives $H(\Delta_0m^2)=(p-\chi_{\Delta_0m'^2}(p))H(\Delta_0m'^2)=(p-\chi_{\Delta_0m'^2}(p))G(m')H(\Delta_0)$. If $p\nmid m'$, then
+$\chi_{\Delta_0m'^2}(p)=\chi_{\Delta_0}(p)$ by (D4) and $G(m)=G(m')g_p(1)=G(m')(p-\chi_{\Delta_0}(p))$. If $j=v_p(m')\ge1$, then
+$\chi_{\Delta_0m'^2}(p)=0$ by (D4), the factor is $p$, and $G(m)=p\,G(m')$, since only the factor at $p$ changes and $g_p(j+1)=p\,g_p(j)$ for $j\ge1$. $\square$
+The fundamentality of $\Delta_0$ is not used in this proof: (C) holds for every negative discriminant $\Delta_0$. It is stated for fundamental
+$\Delta_0$ because that is the case needed in \cref{III.ef.thm:d2-sum-form}, where $\Delta_0$ comes from (D2).
+
+\noindent For $H=\hw$ the hypothesis is the classical formula $h(\Delta_0m^2)/[\Ocal^\times:\Ocal_m^\times]=h(\Delta_0)\,m\prod_{p\mid m}(1-\chi_{\Delta_0}(p)/p)$
+for the order $\Ocal_m$ of conductor $m$ in the ring of integers $\Ocal$ of $\Q(\sqrt{\Delta_0})$; it is proved in a later chapter (Q0/Q1 numerics:
+$7\,413$ cases). Example: $\hw(-27)=1=(3-\chi_{-3}(3))\,\hw(-3)=3\cdot\frac13$.
+
+\begin{theorem}[Eichler's sum form of the elliptic local factors]
+\tfstmt{III.ef.thm:d2-sum-form}
+\uses{III.ef.def:order-index-set, III.ef.def:cohen-mu, III.ef.def:local-factor-eichler-prime, III.ef.def:kronecker-prime}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.thm:cohen-mu-multiplicative, III.ef.prop:cohen-mu-local-prime, III.ef.lem:d2-local-identity, III.ef.def:eichler-symbol, III.ef.def:conductor-prime}
+\emph{Setup.} $\Delta=t^2-4n$ is a negative discriminant. Let $c\ge1$ be the largest element of $\Ford(t,n)$. By (D2), $\Ford(t,n)$ is the set of
+positive divisors of $c$, $\Delta_0=\Delta/c^2$ is a negative fundamental discriminant, $\Delta=\Delta_0c^2$, $\Delta_f=\Delta_0(c/f)^2$ for $f\mid c$,
+and $p\mid\operatorname{cond}\Delta_f$ if and only if $p\mid c/f$ (\cref{III.ef.def:conductor-prime}). Put $\nu_p=v_p(c)$. By fact (C) with
+$m=c/f$, $H(\Delta_f)=H(\Delta_0)\,G(c/f)$ for $f\mid c$. For a prime $p$ write $\chi_p=\chi_{\Delta_0}(p)$ and let $g_p$ be as in (C).
+
+\emph{The left side.} $N$ is squarefree, $N=p_1\cdots p_r$ with distinct primes. Since $\embmu_1(t,f,n)=\frac{\dedpsi(1)}{\dedpsi(1)}\cdot\#\{0\}=1$,
+\cref{III.ef.thm:cohen-mu-multiplicative} and induction on $r$ give $\embmu_N(t,f,n)=\prod_{p\mid N}\embmu_p(t,f,n)$. By
+\cref{III.ef.prop:cohen-mu-local-prime}, $\embmu_p(t,f,n)=X_p(v_p(f))$, where $X_p(0)=1+\chi_\Delta(p)$ and $X_p(a)=p+1$ for $a\ge1$; and by (D4),
+$\chi_\Delta(p)=\chi_p$ if $\nu_p=0$ and $\chi_\Delta(p)=0$ if $\nu_p\ge1$. So $X_p$ is the function $X$ of \cref{III.ef.lem:d2-local-identity} for
+$(p,\chi_p,\nu_p)$.
+
+\emph{The right side.} Let $f\mid c$ and $p\mid N$. If $p\mid c/f$, then $p\mid\operatorname{cond}\Delta_f$ by (D2), so $\esym_p(\Delta_f)=1$ and
+$\mone_p(\Delta_f)=2$. If $p\nmid c/f$, then $p$ does not divide the conductor of $\Delta_f$, and $\esym_p(\Delta_f)=\chi_{\Delta_f}(p)=\chi_p$ by (D4),
+so $\mone_p(\Delta_f)=1+\chi_p$. Thus $\mone_p(\Delta_f)=Y_p(v_p(c/f))$ with $Y_p$ the function $Y$ of \cref{III.ef.lem:d2-local-identity} for $\chi_p$.
+
+\emph{Factorization over primes.} Let $P$ be the set of primes dividing $c$ or $N$, and for $p\in P$, $p\nmid N$, put $X_p=Y_p\equiv1$. We use the
+following product formula, valid for any finite set $P$ of primes containing the primes of $c$ and any functions $\varphi_p\colon\N\to\Q$ ($p\in P$):
+\[
+  \sum_{f\mid c}\ \prod_{p\in P}\varphi_p\bigl(v_p(f)\bigr)=\prod_{p\in P}\ \sum_{a=0}^{\nu_p}\varphi_p(a).
+\]
+Indeed, $f\mapsto(v_p(f))_{p\in P}$ is a bijection from the positive divisors of $c$ onto $\prod_{p\in P}\{0,\dots,\nu_p\}$ (unique factorization;
+the primes of $f$ lie in $P$), and the right side expanded by distributivity is the sum over this product set. For $f\mid c$ we have
+$v_p(c/f)=\nu_p-v_p(f)$, and since $g_p(0)=1$, $G(c/f)=\prod_{p\in P}g_p(\nu_p-v_p(f))$. By the two preceding paragraphs, the summands of both
+sides are $H(\Delta_0)$ times a product over $P$ of a factor depending only on $v_p(f)$; the product formula, applied with
+$\varphi_p(a)=g_p(\nu_p-a)X_p(a)$ and with $\varphi_p(a)=g_p(\nu_p-a)Y_p(\nu_p-a)$, gives
+\[
+\begin{aligned}
+  \sum_{f\in\Ford(t,n)}H(\Delta_f)\embmu_N(t,f,n)&=H(\Delta_0)\prod_{p\in P}\ \sum_{a=0}^{\nu_p}g_p(\nu_p-a)X_p(a),\\
+  \sum_{f\in\Ford(t,n)}H(\Delta_f)\prod_{p\mid N}\mone_p(\Delta_f)&=H(\Delta_0)\prod_{p\in P}\ \sum_{a=0}^{\nu_p}g_p(\nu_p-a)Y_p(\nu_p-a).
+\end{aligned}
+\]
+\emph{Comparison of the local sums.} For $p\nmid N$ both are $\sum_ag_p(\nu_p-a)$. For $p\mid N$ they agree by \cref{III.ef.lem:d2-local-identity}
+for $(p,\chi_p,\nu_p)$. This proves the theorem.
+\end{proof}
+\begin{remark}[structure of the proof]
+The theorem is the conjunction of a \emph{global} step, ``both sides are $H(\Delta_0)$ times a product over $p$ of local sums built from per-prime
+data $(X_p,Y_p)$'', and a \emph{local} step, \cref{III.ef.lem:d2-local-identity}, which is the only place where the local factors at $p\mid N$ enter. A
+version for non-squarefree $N$ needs only a new local step at $p^e$, $e\ge2$ (with the local factors of Hijikata and Voight), and the same global
+step. The coprimality $(n,N)=1$ is not used.
+\end{remark}
+\begin{remark}[the termwise statement is false]\label{rem:ef-termwise-false}
+P04 (D2) asserts $\embmu_N(t,f,n)=\prod_{p\mid N}\mone_p(\Delta_f)$ for each $f$. This fails (Q0 numerics: $2\,596$ of $35\,606$ cases, from $N=2$ on).
+Smallest example: $N=3$, $t=-1$, $n=7$, $\Delta=-27=-3\cdot3^2$, $\Ford(-1,7)=\{1,3\}$. For $f=1$: $\embmu_3=1+\chi_{-27}(3)=1$, but $3\mid\operatorname{cond}(-27)$
+and $\mone_3(-27)=2$. For $f=3$: $\embmu_3=4$, but $\mone_3(-3)=1+\chi_{-3}(3)=1$. With $H=\hw$ both sums equal $1\cdot1+\frac13\cdot4=1\cdot2+\frac13\cdot1=\frac73$.
+\end{remark}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The boundary sum and the Eisenstein expression}\label{sec:ef-boundary}
+
+\begin{definition}[the boundary divisor sum]
+\tfstmt{III.ef.def:boundary-divisor-sum}
+\end{definition}
+\noindent \emph{Source and normalization (row N12).} This is the inner sum of P04's $A_3$, and of $A_3$ in \cite[Thm.~12.4.11]{CoSt},
+\cite[Thm.~4.9]{Ass} for $(n,N)=1$. $\cbd_N(0)=\ncusps(N)=\sum_{\tau\mid N}\varphi(\gcd(\tau,N/\tau))$ is the number of cusps of $\Gamma_0(N)$
+\cite[Remark~1, p.~72]{CO} (not used).
+
+\begin{theorem}[multiplicativity of the boundary sum]
+\tfstmt{III.ef.thm:boundary-multiplicative}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{theorem}
+\begin{proof}
+If $N_1=0$, then $N_2=1$; $\cbd_1(m)=\varphi(1)=1$ (the divisor $\tau=1$, with $\gcd(1,1)=1\mid m$), so both sides are $\cbd_0(m)$. Likewise if
+$N_2=0$. Let $N_1,N_2\ge1$ be coprime and $N=N_1N_2$. The map $(\tau_1,\tau_2)\mapsto\tau_1\tau_2$ is a bijection from pairs of positive divisors
+$\tau_i\mid N_i$ onto the positive divisors of $N$ (inverse $\tau\mapsto(\gcd(\tau,N_1),\gcd(\tau,N_2))$), and $N/\tau=(N_1/\tau_1)(N_2/\tau_2)$. If
+$u_1,v_1\mid N_1$ and $u_2,v_2\mid N_2$, then $\gcd(u_1u_2,v_1v_2)=\gcd(u_1,v_1)\gcd(u_2,v_2)$: at a prime $p\mid N_1$ the valuations of $u_2,v_2$ are
+$0$, and symmetrically. So $g=\gcd(\tau,N/\tau)=g_1g_2$ with $g_i=\gcd(\tau_i,N_i/\tau_i)\mid N_i$ coprime. Then $\varphi(g)=\varphi(g_1)\varphi(g_2)$
+and $g\mid m\iff g_1\mid m$ and $g_2\mid m$. Hence
+\[
+  \cbd_N(m)=\sum_{\tau_1\mid N_1}\sum_{\tau_2\mid N_2}[g_1\mid m]\varphi(g_1)\,[g_2\mid m]\varphi(g_2)=\cbd_{N_1}(m)\,\cbd_{N_2}(m). \qedhere
+\]
+\end{proof}
+
+\begin{theorem}[the local boundary factor]
+\tfstmt{III.ef.thm:boundary-local-factor}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.thm:boundary-multiplicative}
+(a) The positive divisors of $p^e$ are $\tau=p^j$, $0\le j\le e$, and $\gcd(p^j,p^{e-j})=p^{\min(j,e-j)}$. (b) For $e=1$ both $j=0,1$ give
+$\min(j,1-j)=0$ and the summand $[1\mid m]\varphi(1)=1$. (c) Write $N=p_1\cdots p_r$ with distinct primes; by \cref{III.ef.thm:boundary-multiplicative}
+and induction on $r$ (the prime $p_r$ is coprime to $p_1\cdots p_{r-1}$; $\cbd_1(m)=1$), $\cbd_N(m)=\prod_i\cbd_{p_i}(m)=2^r=2^{\omega(N)}$.
+\end{proof}
+\begin{remark}
+In the language of P04 (D3): for $(n,N)=1$ the inner sum of $A_3$ is multiplicative in $N$, with local factor $2$ at $p\parallel N$ and, at $p^e\parallel N$,
+the function of $v_p(d-d')$ displayed in (a). Only (b), (c) and \cref{III.ef.thm:boundary-multiplicative} are used in \cref{III.ef.thm:jl-formula-identity}.
+\end{remark}
+
+\begin{definition}[the corrected Eisenstein expression]
+\tfstmt{III.ef.def:eisenstein-expression-corrected}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{definition}
+
+\begin{definition}[the Eisenstein expression]
+\tfstmt{III.ef.def:eisenstein-expression}
+\uses{III.ef.def:eisenstein-expression-corrected}
+\end{definition}
+\noindent \emph{Meaning (row N10; not used).} For $k\ge2$ even and $(n,N)=1$, $\Eis(N,k,n)$ is the trace of $\Tcl_n$ on the Eisenstein part of
+weight $k$ and level $\Gamma_0(N)$; equivalently \[\Eist(N,k,n)=\sum_{r^2\mid N}\sigma_0(N/r^2)\sum_{\chi}\sum_{aa'=n}\chi(a)\bar\chi(a')a'^{k-1},\]
+the sum over
+primitive Dirichlet characters $\chi$ modulo $r$ (Q0 numerics: $28\,782$ cases); a later chapter proves this. The subtraction of
+$\delta_{k,2}\sigma_1(n)$ removes the non-holomorphic series $E_2$. For $n=1$, $\cbd_N(0)=\ncusps(N)$ recovers the difference
+$\dim M_k-\dim S_k$, which is $\ncusps(N)$ for $k\ge4$ and $\ncusps(N)-1$ for $k=2$ \cite[Thm.~1, pp.~71--72]{CO}.
+
+\begin{theorem}[doubling]
+\tfstmt{III.ef.thm:eisenstein-doubling}
+\uses{III.ef.def:eisenstein-expression-corrected, III.ef.def:eisenstein-expression}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.thm:boundary-multiplicative, III.ef.thm:boundary-local-factor}
+Since $p$ is prime and $p\nmid N$, $\gcd(p,N)=1$, so $\cbd_{pN}(m)=\cbd_p(m)\cbd_N(m)=2\cbd_N(m)$ for every $m$
+(\cref{III.ef.thm:boundary-multiplicative,III.ef.thm:boundary-local-factor}(b)). Summing over $aa'=n$ gives $\Eist(pN,k,n)=2\Eist(N,k,n)$. For $k=2$,
+$\Eis(pN,2,n)=2\Eist(N,2,n)-\sigma_1(n)=2(\Eis(N,2,n)+\sigma_1(n))-\sigma_1(n)$.
+\end{proof}
+\begin{remark}
+P04 (D4) states that each system of Eisenstein eigenvalues occurs at level $pN$ with twice the multiplicity. This holds for $\Eist$ (in which the
+trivial system is counted with multiplicity $\sigma_0(N)$), not for $\Eis$ at $k=2$, where the correction $\sigma_1(n)$ appears (row N10).
+\end{remark}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{Cohen's expression, Eichler's expressions and the Lefschetz expression}\label{sec:ef-expressions}
+
+\begin{definition}[Cohen's identity term]
+\tfstmt{III.ef.def:cohen-a1}
+\uses{III.ef.def:dedekind-psi}
+\end{definition}
+\noindent For $k\ge2$ even and $n=r^2$, $r^{k-2}=n^{k/2-1}$, and $A_1$ is Cohen's identity term \cite[Thm.~12.4.11]{CoSt} (row N3) for $(n,N)=1$; the definition extends it literally to all $n$ (in \cite{CoSt}, $A_1$ carries $\chi(\sqrt n)$, which vanishes when $\gcd(\sqrt n,N)>1$). For odd $k$ and for
+$k\le1$ the formula is a junk convention, the same in Lean and here: it is chosen so that a single definition serves all $k$, and
+\cref{III.ef.thm:jl-formula-identity} holds for all $k$ with it.
+
+\begin{definition}[Cohen's elliptic term]
+\tfstmt{III.ef.def:cohen-a2}
+\uses{III.ef.def:hecke-polynomial, III.ef.def:order-index-set, III.ef.def:weighted-class-number, III.ef.def:cohen-mu}
+\end{definition}
+\noindent \emph{Source (row N11).} P04 (D1); \cite[Thm.~12.4.11]{CoSt}; \cite[Thm.~4.9]{Ass}.
+
+\begin{definition}[Cohen's boundary term]
+\tfstmt{III.ef.def:cohen-a3}
+\uses{III.ef.def:boundary-divisor-sum}
+\end{definition}
+
+\begin{definition}[Cohen's term at weight two]
+\tfstmt{III.ef.def:cohen-a4}
+\end{definition}
+\noindent $A_3$ and $A_4$ are Cohen's terms only for $(n,N)=1$ (\cite[Thm.~12.4.11]{CoSt}); the definitions extend them literally to all $n$.
+
+\begin{definition}[Cohen's expression]
+\tfstmt{III.ef.def:cohen-trace-expression}
+\uses{III.ef.def:cohen-a1, III.ef.def:cohen-a2, III.ef.def:cohen-a3, III.ef.def:cohen-a4}
+\end{definition}
+\noindent $\TC(N,k,n)$ is the right side of P04 (D1), an \emph{expression}, not a trace. Its trace meaning, the Eichler--Selberg trace formula
+$\tr(\Tcl_n\mid\Sk kN)=\TC(N,k,n)$ for $k\ge2$ even and $(n,N)=1$ \cite[Thm.~12.4.11, pp.~477--478]{CoSt}, is the standing bridge hypothesis of
+Vol.~III (decision D26) and is not used here. \cref{III.ef.ex:cohen-golden-values} checks three values.
+
+\begin{definition}[Eichler's elliptic expression]
+\tfstmt{III.ef.def:eichler-elliptic-expression}
+\uses{III.ef.def:hecke-polynomial, III.ef.def:order-index-set, III.ef.def:weighted-class-number}
+\end{definition}
+\noindent The function $F$ is the local factor at the primes of the level. For squarefree $N$ and $F=F_N=\prod_{p\mid N}\mone_p$, $A_2^{\mathrm E}(k,n;F_N)$ is
+Eichler's form of the elliptic term at level $N$ \cite[Prop.~3.1]{Shz}; once $H=\hw$ is known to be admissible in \cref{III.ef.thm:d2-sum-form}
+(later chapter), that theorem gives $A_2^{\mathrm E}(k,n;F_N)=A_2(N,k,n)$ for squarefree $N$.
+
+\begin{definition}[the Eichler--Selberg Lefschetz expression]
+\tfstmt{III.ef.def:lefschetz-es-expression}
+\uses{III.ef.def:cohen-a1, III.ef.def:eichler-elliptic-expression, III.ef.def:cohen-a3, III.ef.def:cohen-a4, III.ef.def:eisenstein-expression}
+\end{definition}
+\noindent \emph{Meaning (rows N10, N14, N16; not used).} For $k\ge2$ even, $(n,N)=1$ and $N$ squarefree, $\LamES(N,k,n;F_N)$ is expected to equal the
+Lefschetz number $\Lef_{\Gamma_0(N)}(T_n;\Vk)=\tr(T_n\mid H^0)-\tr(T_n\mid H^1)$: by Eichler--Shimura, $H^1$ contributes $2\tr(\Tcl_n\mid\Sk kN)$ and the
+Eisenstein part, and $H^0$ contributes $\delta_{k,2}\sigma_1(n)$. This is proved, conditionally, in later chapters.
+
+\begin{definition}[Eichler's expression]
+\tfstmt{III.ef.def:eichler-b-expression}
+\uses{III.ef.def:dedekind-psi, III.ef.def:hecke-polynomial, III.ef.def:order-index-set, III.ef.def:class-number-forms, III.ef.def:unit-number, III.ef.def:local-factor-ramified}
+\end{definition}
+\noindent \emph{Meaning (rows N3, N4, N5, N7; not used).} The central term is $2(k-1)n^{k/2-1}\Mass(\Oord(M))$ with Eichler's mass
+$\frac1{24}\prod_{p\mid D}(p-1)\dedpsi(M)$ (row N4); the elliptic term weights each order by $h/\wnum$ with the full unit number (row N5) and by
+$\mD_p$ at the ramified primes (row N7) \cite[Prop.~3.1, pp.~181--182; (19)--(21), p.~180]{Shz}, \cite[Thm.~2.25, p.~359]{Piz}. A later chapter proves
+$\tr(\TB_n\mid\Mk kM)=\EichB(D,M,k,n;F_M)$ for squarefree $M$ under the mass hypothesis. There is no hyperbolic or boundary term, because $\Bq$ is
+a division algebra; the elements $\pm\sqrt n$ ($t^2=4n$) are central and sit in the first term.
+
+\begin{lemma}[the boundary split]
+\tfstmt{III.ef.lem:lefschetz-es-boundary-split}
+\uses{III.ef.def:lefschetz-es-expression, III.ef.def:eisenstein-expression-corrected}
+\end{lemma}
+\begin{proof}
+\uses{III.ef.def:cohen-a4, III.ef.def:eisenstein-expression}
+By \cref{III.ef.def:cohen-a4,III.ef.def:eisenstein-expression}, $A_4(k,n)=\delta_{k,2}\sigma_1(n)$ and $\Eis(N,k,n)=\Eist(N,k,n)-\delta_{k,2}\sigma_1(n)$. So
+$\delta_{k,2}\sigma_1(n)-2A_4(k,n)-\Eis(N,k,n)=\delta_{k,2}\sigma_1(n)(1-2+1)-\Eist(N,k,n)=-\Eist(N,k,n)$; substitute in
+\cref{III.ef.def:lefschetz-es-expression}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------------------------
+\section{The formula-level Jacquet--Langlands identity}\label{sec:ef-identity}
+
+\begin{theorem}[the formula-level identity $(*_{\mathrm{EF}})$]
+\tfstmt{III.ef.thm:jl-formula-identity}
+\uses{III.ef.def:eichler-b-expression, III.ef.def:lefschetz-es-expression, III.ef.def:local-factor-eichler-prime}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.lem:signed-divisor-sum, III.ef.cor:signed-divisor-sum-constants, III.ef.def:local-factor-ramified, III.ef.def:local-factor-eichler-prime, III.ef.thm:boundary-multiplicative, III.ef.thm:boundary-local-factor, III.ef.def:eichler-b-expression, III.ef.lem:lefschetz-es-boundary-split, III.ef.def:cohen-a1, III.ef.def:cohen-a3, III.ef.def:eichler-elliptic-expression, III.ef.def:eisenstein-expression-corrected, III.ef.def:weighted-class-number}
+Write $s_d=(-2)^{\omega(D/d)}$ and suppress the arguments $k,n$. Since $\omega(D)$ is odd, $\omega(D)\ge1$ and $D>1$. By
+\cref{III.ef.lem:lefschetz-es-boundary-split}, the right side is
+\[
+  -\frac12\sum_{d\mid D}s_d\,\LamES(dM;F_d)=\sum_{d\mid D}s_d\Bigl(A_1(dM)+A_2^{\mathrm E}(F_d)+A_3(dM)+\tfrac12\Eist(dM)\Bigr),
+\]
+and we treat the three kinds of terms separately.
+
+\emph{1. The central term.} By \cref{III.ef.def:cohen-a1}, $A_1(dM)=C(k,n)\,\dedpsi(dM)$ with $C(k,n)$ as in \cref{III.ef.def:eichler-b-expression}. By
+\cref{III.ef.cor:signed-divisor-sum-constants}(c), $\sum_ds_dA_1(dM)=C(k,n)\prod_{p\mid D}(p-1)\cdot\dedpsi(M)$, the first term of $\EichB(D,M,k,n;F)$.
+
+\emph{2. The boundary and Eisenstein terms.} Let $d\mid D$. Then $d$ is squarefree and $\gcd(d,M)=1$, so
+$\cbd_{dM}=\cbd_d\,\cbd_M=2^{\omega(d)}\cbd_M$ (\cref{III.ef.thm:boundary-multiplicative,III.ef.thm:boundary-local-factor}(c)). Since $\cbd_N$ enters
+$A_3(N)$ and $\Eist(N)$ linearly (\cref{III.ef.def:cohen-a3,III.ef.def:eisenstein-expression-corrected}), $A_3(dM)=2^{\omega(d)}A_3(M)$ and
+$\Eist(dM)=2^{\omega(d)}\Eist(M)$. By \cref{III.ef.cor:signed-divisor-sum-constants}(b) ($D>1$), $\sum_ds_d2^{\omega(d)}=0$, so these terms contribute $0$.
+
+\emph{3. The elliptic term.} By \cref{III.ef.def:eichler-elliptic-expression}, with $\Delta_f=(t^2-4n)/f^2$,
+\[
+\begin{aligned}
+  \sum_{d\mid D}s_dA_2^{\mathrm E}(F_d)&=-\frac12\sum_{t^2<4n}P_k(t,n)\sum_{f\in\Ford(t,n)}\hw(\Delta_f)F(\Delta_f)\\
+  &\qquad\cdot\sum_{d\mid D}s_d\prod_{p\mid d}\mone_p(\Delta_f).
+\end{aligned}
+\]
+By \cref{III.ef.lem:signed-divisor-sum} in $R=\Q$ with $a(p)=\mone_p(\Delta_f)$ and $b\equiv-2$, and by the local complement
+(\cref{rem:ef-local-complement}),
+\[
+\begin{aligned}
+  \sum_{d\mid D}s_d\prod_{p\mid d}\mone_p(\Delta_f)&=\prod_{p\mid D}\bigl(\mone_p(\Delta_f)-2\bigr)=(-1)^{\omega(D)}\prod_{p\mid D}\mD_p(\Delta_f)\\
+  &=-\prod_{p\mid D}\mD_p(\Delta_f),
+\end{aligned}
+\]
+because $\omega(D)$ is odd. Since $\frac12\hw=h/\wnum$ (\cref{III.ef.def:weighted-class-number}), the elliptic terms sum to
+\[
+  \sum_{t^2<4n}P_k(t,n)\sum_{f\in\Ford(t,n)}\frac{h(\Delta_f)}{\wnum(\Delta_f)}\prod_{p\mid D}\mD_p(\Delta_f)\,F(\Delta_f),
+\]
+the second term of $\EichB(D,M,k,n;F)$.
+
+Adding 1--3 gives $\EichB(D,M,k,n;F)$.
+\end{proof}
+
+\begin{remark}[range of the statement; decision Q1-C]\label{rem:ef-range}
+The theorem is stated with the hypotheses its proof needs, and A states it exactly as the Lean theorem does. Its \emph{meaningful range} is $k\ge2$
+even and $(n,DM)=1$: there, for squarefree $M$ and $F=F_M$, the left side is (conditionally on the mass hypothesis) the trace of $\TB_n$ on $\Mk kM$
+and the right side the corresponding combination of Lefschetz numbers of $\Gamma_0(dM)$ (conditionally on the Eichler--Selberg and Eichler--Shimura
+bridges), and the identity becomes the Jacquet--Langlands trace identity of P04. Outside this range both sides are expressions with the same junk
+conventions, and the identity still holds: the proof uses neither the parity of $k$ nor any coprimality of $n$. In particular the theorem has no
+condition on $n$ (no $\gcd(n,DM)=1$): the coprimality belongs to the trace meaning only. \S\ref{sec:ef-identity-general} states the identity with
+general parameters and a twisted form at indices sharing primes with $D$. The hypotheses $k,n\ge1$ are not used
+either. For odd $k$ the elliptic sums of both sides vanish identically for every $F$ (since $P_k(-t,n)=(-1)^kP_k(t,n)$ and the sums over $t$ cancel), so the content of the identity for arbitrary $F$ lies in even $k$. $M\ge1$ is not assumed, since it follows from $\gcd(D,M)=1$ and $D>1$.
+\end{remark}
+\begin{remark}[where the hypotheses enter]
+$\omega(D)$ odd enters only through the sign $(-1)^{\omega(D)}=-1$ and through $D>1$. For $\omega(D)$ even the same computation gives the elliptic term
+with the opposite sign (indefinite quaternion algebras; out of scope); the numerics detect this. Squarefreeness of $D$ is used in
+\cref{III.ef.lem:signed-divisor-sum} and for $\cbd_d=2^{\omega(d)}$; $\gcd(D,M)=1$ for $\dedpsi(dM)=\dedpsi(d)\dedpsi(M)$ and $\cbd_{dM}=\cbd_d\cbd_M$.
+\end{remark}
+\begin{remark}[robustness]
+The root count $\embmu$ (row N11) does not occur in the identity, and the boundary and Eisenstein terms (row N12) enter only through ``$\cbd_N$ is
+multiplicative with $\cbd_p=2$''. The identity holds for every $F$; since it is linear in $F$, its elliptic part is equivalent to the pointwise identity
+$\sum_{d\mid D}s_d\prod_{p\mid d}\mone_p(\Delta)=-\prod_{p\mid D}\mD_p(\Delta)$ at the discriminants that occur. For non-squarefree $M$, any local factor $F$
+at the primes of $M$ may be inserted; a later chapter supplies the factors at $p^e\parallel M$, $e\ge2$.
+\end{remark}
+
+\begin{corollary}[squarefree level]
+\tfstmt{III.ef.cor:jl-formula-identity-squarefree}
+\uses{III.ef.def:eichler-b-expression, III.ef.def:lefschetz-es-expression, III.ef.def:local-factor-eichler-prime}
+\end{corollary}
+\begin{proof}
+\uses{III.ef.thm:jl-formula-identity}
+Apply \cref{III.ef.thm:jl-formula-identity} with $F=F_M$. For $d\mid D$, $\gcd(d,M)=1$, so the set of primes dividing $dM$ is the disjoint union of
+those dividing $d$ and those dividing $M$, and $(F_M)_d=F_M\cdot\prod_{p\mid d}\mone_p=\prod_{p\mid dM}\mone_p=F_{dM}$.
+\end{proof}
+\noindent The proof does not use that $M$ is squarefree; the hypothesis marks the range in which $F_M$ is the correct local factor at every prime
+of $M$ (row N8).
+
+\begin{example}[the golden values at $D=11$]
+\tfstmt{III.ef.ex:jl-formula-golden-d11}
+\uses{III.ef.def:eichler-b-expression, III.ef.def:lefschetz-es-expression, III.ef.def:local-factor-eichler-prime}
+\end{example}
+\begin{proof}[Computation]
+\uses{III.ef.lem:lefschetz-es-boundary-split, III.ef.def:cohen-a1, III.ef.def:cohen-a3, III.ef.def:eichler-elliptic-expression, III.ef.def:eisenstein-expression-corrected, III.ef.thm:boundary-local-factor, III.ef.def:weighted-class-number, III.ef.def:local-factor-ramified}
+Here $k=2$, so $P_2=1$, $C(2,n)=\frac1{12}[n=\square]$, and $\cbd_1\equiv1$, $\cbd_{11}\equiv2$ (\cref{III.ef.thm:boundary-local-factor}). The
+squares modulo $11$ are $1,3,4,5,9$, so $\chi_\Delta(11)=-1$ for $\Delta=-3,-4,-12$, $\chi_\Delta(11)=1$ for $\Delta=-7,-8$, and $\chi_{-11}(11)=0$; no
+discriminant below is divisible by $11^2$, so $\esym_{11}=\chi_\cdot(11)$. The pairs $(t,f)$ with $f\in\Ford(t,n)$ and the weights are:
+\[
+\begin{array}{c|l}
+  n & (t;\ \Delta_f;\ \hw(\Delta_f);\ \esym_{11}(\Delta_f))\\\hline
+  1 & (0;-4;\tfrac12;-1),\quad(\pm1;-3;\tfrac13;-1)\\
+  2 & (0;-8;1;1),\quad(\pm1;-7;1;1),\quad(\pm2;-4;\tfrac12;-1)\\
+  3 & (0;-12;1;-1),\ (0,f{=}2;-3;\tfrac13;-1),\quad(\pm1;-11;1;0),\quad(\pm2;-8;1;1),\quad(\pm3;-3;\tfrac13;-1)
+\end{array}
+\]
+(for $t=0$, $n=3$: $\Ford(0,3)=\{1,2\}$; in all other rows $\Ford(t,n)=\{1\}$).
+
+\emph{$\EichB(11,1,2,n;\mathbf 1)$.} Central term $\frac1{12}\cdot10\cdot\dedpsi(1)=\frac56$ for $n=1$, else $0$; elliptic term
+$\sum\frac12\hw\cdot(1-\esym_{11})$. $n=1$: $\frac56+\frac14\cdot2+2\cdot\frac16\cdot2=2$. $n=2$: $0+0+2\cdot\frac14\cdot2=1$. $n=3$:
+$\frac12\cdot2+\frac16\cdot2+2\cdot\frac12\cdot1+0+2\cdot\frac16\cdot2=3$.
+
+\emph{$\LamES$.} By \cref{III.ef.lem:lefschetz-es-boundary-split}, $\LamES=-2A_1-2A_2^{\mathrm E}-2A_3-\Eist$ with $A_3(N,2,n)=-\frac12\cbd_N\cdot\sum_{aa'=n}\min(a,a')$
+and $\Eist(N,2,n)=\cbd_N\sigma_1(n)$; here $\sum_{aa'=n}\min(a,a')=1,2,2$ and $\sigma_1(n)=1,3,4$ for $n=1,2,3$. Write $\Sigma(F)=\sum_t\sum_f\hw(\Delta_f)F(\Delta_f)$, so
+$-2A_2^{\mathrm E}=\Sigma(F)$.
+For $N=1$, $F=\mathbf 1$: $\Sigma=\frac12+\frac23=\frac76$, $4$, $6$, and $-2A_1=-\frac16,0,0$; so $\LamES(1,2,n;\mathbf 1)=-\frac16+\frac76+1-1=1$, $0+4+2-3=3$,
+$0+6+2-4=4$.
+For $N=11$, $F=\mone_{11}=1+\esym_{11}$: $\Sigma=0$, $2+2\cdot2+0=6$, $0+0+2\cdot1+2\cdot2+0=6$, and $-2A_1=-2\cdot\frac1{12}\cdot12=-2,0,0$; so
+$\LamES(11,2,n;\mone_{11})=-2+0+2-2=-2$, $0+6+4-6=4$, $0+6+4-8=2$.
+\end{proof}
+\noindent These are the golden values of P04 (test 2), recomputed independently in the G0 review. $\EichB(11,1,2,1;\mathbf 1)=2$ is the class number of
+the maximal order of the quaternion algebra of discriminant $11$. The identity of \cref{III.ef.thm:jl-formula-identity} reads
+$-\frac12(-2\cdot1-2)=2$, $-\frac12(-2\cdot3+4)=1$, $-\frac12(-2\cdot4+2)=3$; and $\LamES(11,2,n;\mone_{11})=\sigma_1(n)-2a_n-\sigma_1(n)$ with
+$a_n=1,-2,-1$ the coefficients of the newform of level $11$.
+
+\begin{example}[Cohen's golden values]
+\tfstmt{III.ef.ex:cohen-golden-values}
+\uses{III.ef.def:cohen-trace-expression}
+\end{example}
+\begin{proof}[Computation]
+\uses{III.ef.def:cohen-a1, III.ef.def:cohen-a2, III.ef.def:cohen-a3, III.ef.def:cohen-a4, III.ef.prop:cohen-mu-local-prime, III.ef.thm:boundary-local-factor, III.ef.def:hecke-polynomial}
+$N=11$, $k=2$: $A_1=0$ ($n=2,3$ are not squares), $P_2=1$, and by \cref{III.ef.prop:cohen-mu-local-prime} $\embmu_{11}(t,f,n)=1+\chi_{t^2-4n}(11)$ (here
+$11\nmid f$). For $n=2$: the pairs are $(0;-8)$, $(\pm1;-7)$, $(\pm2;-4)$ with $\embmu_{11}=2,2,0$, so $A_2=-\frac12(2+2\cdot2+0)=-3$; $A_3=-\frac12(2+2)=-2$;
+$A_4=\sigma_1(2)=3$; $\TC(11,2,2)=-2$. For $n=3$: $(0,f{=}1;-12)$ and $(0,f{=}2)$ with $\chi_{-12}(11)=-1$, so $\embmu_{11}=0$; $(\pm1;-11)$:
+$\embmu_{11}=1$; $(\pm2;-8)$: $2$; $(\pm3;-3)$: $0$. So $A_2=-\frac12(2\cdot1+2\cdot2)=-3$, $A_3=-2$, $A_4=4$, $\TC(11,2,3)=-1$.
+
+$N=1$, $k=12$, $n=2$: $\embmu_1=1$, $A_1=0$, $A_4=0$, $A_3=-\frac12(1+1)=-1$. The recursion gives $P_{12}(0,2)=-32$, $P_{12}(\pm1,2)=23$,
+$P_{12}(\pm2,2)=32$ (for $t=1$: $P_3,\dots,P_{12}=1,-1,-3,-1,5,7,-3,-17,-11,23$; for $t=2$: $2,2,0,-4,-8,-8,0,16,32,32$; for $t=0$: $P_{2j}=(-2)^{j-1}$,
+$P_{2j+1}=0$; and $P_k(-t,n)=(-1)^kP_k(t,n)$). With $\hw(-8)=\hw(-7)=1$, $\hw(-4)=\frac12$:
+$A_2=-\frac12(-32+2\cdot23+2\cdot32\cdot\frac12)=-23$, so $\TC(1,12,2)=-24$.
+\end{proof}
+\noindent These are P04's test values (test 1): $a_2=-2$, $a_3=-1$ for the newform of level $11$ and $\tau(2)=-24$.
+
+\begin{example}[an admissible weight]
+\tfstmt{III.ef.ex:d2-weight-instance}
+\uses{III.ef.def:kronecker-prime, III.ef.def:conductor-prime, III.ef.thm:d2-sum-form}
+\end{example}
+\begin{proof}
+\uses{III.ef.def:kronecker-prime, III.ef.def:conductor-prime}
+The proof is self-contained: it uses the facts (D0), (D1), (D4), but neither (D2) nor (C) nor \cref{III.ef.thm:d2-sum-form}. The fundamental
+discriminants of the example are those of \S\ref{sec:ef-discr} (by \cref{III.ef.def:conductor-prime}). For $\Delta_0$ fundamental with
+$\Delta_0<0$ and $m\ge1$ put $G_{\Delta_0}(m)=\prod_{q\mid m}q^{v_q(m)-1}(q-\chi_{\Delta_0}(q))$.
+
+\emph{Well-definedness.} By (D1)(iii) a decomposition $\Delta=\Delta_0m^2$ as in the definition is unique if it exists, so $H_0$ is well defined
+and $H_0(\Delta_0m^2)=G_{\Delta_0}(m)$ for every fundamental $\Delta_0<0$ and every $m\ge1$. In particular $H_0(\Delta_0)=G_{\Delta_0}(1)=1$ (empty
+product), which is the second assertion.
+
+\emph{The step $m\mapsto pm$.} Let $\Delta_0<0$ be fundamental, $m\ge1$ and $p$ a prime. If $p\nmid m$, the primes of $pm$ are those of $m$ and
+$p$, with $v_p(pm)=1$ and $v_q(pm)=v_q(m)$ for $q\ne p$, so $G_{\Delta_0}(pm)=(p-\chi_{\Delta_0}(p))\,G_{\Delta_0}(m)$. If $p\mid m$, the primes of
+$pm$ and $m$ agree, only the exponent of $p$ grows, from $v=v_p(m)\ge1$ to $v+1$, and $p^{v}(p-\chi_{\Delta_0}(p))=p\cdot p^{v-1}(p-\chi_{\Delta_0}(p))$,
+so $G_{\Delta_0}(pm)=p\,G_{\Delta_0}(m)$.
+
+\emph{The relation.} Let $\Delta<0$ be a discriminant and $p$ a prime. By (D1)(i), $\Delta=\Delta_0m^2$ with $\Delta_0<0$ fundamental and $m\ge1$.
+Then $p^2\Delta=\Delta_0(pm)^2$ with $pm\ge1$, so $H_0(\Delta)=G_{\Delta_0}(m)$ and $H_0(p^2\Delta)=G_{\Delta_0}(pm)$. If $p\nmid m$, then
+$\chi_\Delta(p)=\chi_{\Delta_0}(p)$ by (D4), and if $p\mid m$, then $\chi_\Delta(p)=0$ by (D4). In both cases the step $m\mapsto pm$ gives
+$H_0(p^2\Delta)=(p-\chi_\Delta(p))H_0(\Delta)$.
+
+\emph{The value at $-3$.} $-3<0$ and $-3\equiv1\pmod4$. If a prime $p$ had $p^2\mid-3$, then $p\mid3$, so $p=3$, but $9\nmid3$. So $-3$ is a
+fundamental discriminant, and $H_0(-3)=1$ by the second assertion.
+\end{proof}
+\noindent So \cref{III.ef.thm:d2-sum-form} applies to the nonzero weight $H_0$; it is the non-vacuity witness of that theorem until $H=\hw$ is shown
+admissible. By (C) and the classical formula quoted after it, $H_0$ is $\hw$ divided by $\hw(\Delta_0)$ along each class $\{\Delta_0m^2\}$.
+
+%----------------------------------------------------------------------------------------------------------------------
+% Unit JLG (user approval 2026-11-13; plan docs/sprints/JLG-plan.md). Lean counterpart: lean/GL2TF/VolIII/P1/JLFormulaGen.lean. Purely
+% additive: no definition or statement of §§1--7 changes.
+\section{The identity with general parameters}\label{sec:ef-identity-general}
+
+The proof of \cref{III.ef.thm:jl-formula-identity} uses three properties of the level-$dM$ data only: the central coefficient is $\dedpsi(d)$ times
+a quantity independent of $d$, the boundary weight is $2^{\omega(d)}$ times a function independent of $d$, and the elliptic factor at $d$ is the
+level factor times $\prod_{p\mid d}\mone_p$. This section makes the three ingredients parameters: an elliptic factor $F(t,f,\Delta)$ that may
+depend on $t$ and $f$, a boundary function $\beta(a,a')$ on the divisor pairs of $n$, and a central coefficient. Then the identity holds with no
+condition linking $D$ to a level and no condition on $n$ (\cref{III.ef.thm:jl-formula-identity-general}), and a twisted form holds at indices
+sharing primes with $D$ (\cref{III.ef.thm:jl-formula-identity-ramified-index}). The expressions of \S\ref{sec:ef-expressions} are special values
+(\cref{III.ef.lem:eichler-b-eq-general,III.ef.lem:lefschetz-es-eq-general}), and \cref{III.ef.thm:jl-formula-identity} is recovered
+(\cref{III.ef.cor:jl-formula-identity-from-general}). The generalisation was requested for the study of a $p$-adic interpolation of the identity; see
+\cref{rem:ef-general-caveats} for what it does and does not give.
+
+\begin{definition}[general elliptic expression]
+\tfstmt{III.ef.def:eichler-elliptic-expression-general}
+\uses{III.ef.def:hecke-polynomial, III.ef.def:order-index-set, III.ef.def:weighted-class-number}
+\end{definition}
+
+\begin{definition}[general boundary term]
+\tfstmt{III.ef.def:cohen-a3-general}
+\end{definition}
+
+\begin{definition}[general Eisenstein expression]
+\tfstmt{III.ef.def:eisenstein-expression-corrected-general}
+\end{definition}
+
+\begin{definition}[general Lefschetz expression]
+\tfstmt{III.ef.def:lefschetz-es-expression-general}
+\uses{III.ef.def:eichler-elliptic-expression-general, III.ef.def:cohen-a3-general, III.ef.def:cohen-a4, III.ef.def:eisenstein-expression-corrected-general}
+\end{definition}
+\noindent The term $\Eist_{\mathrm{gen}}-\delta_{k,2}\sigma_1(n)$ plays the role of $\Eis(N,k,n)$ (\cref{III.ef.def:eisenstein-expression}), and $C(k,n)\kappa$
+that of $A_1(N,k,n)=C(k,n)\dedpsi(N)$ (\cref{III.ef.def:cohen-a1}).
+
+\begin{definition}[general Eichler expression]
+\tfstmt{III.ef.def:eichler-b-expression-general}
+\uses{III.ef.def:lefschetz-es-expression-general, III.ef.def:hecke-polynomial, III.ef.def:order-index-set, III.ef.def:class-number-forms, III.ef.def:unit-number, III.ef.def:local-factor-ramified}
+\end{definition}
+
+\begin{lemma}[the boundary split, general form]
+\tfstmt{III.ef.lem:lefschetz-es-general-boundary-split}
+\uses{III.ef.def:lefschetz-es-expression-general}
+\end{lemma}
+\begin{proof}
+\uses{III.ef.def:cohen-a4}
+By \cref{III.ef.def:cohen-a4}, $A_4(k,n)=\delta_{k,2}\sigma_1(n)$, so
+$\delta_{k,2}\sigma_1(n)-2A_4(k,n)+\delta_{k,2}\sigma_1(n)=0$; what remains of \cref{III.ef.def:lefschetz-es-expression-general} is the right side.
+\end{proof}
+
+\begin{lemma}[Eichler's expression as a special value]
+\tfstmt{III.ef.lem:eichler-b-eq-general}
+\uses{III.ef.def:eichler-b-expression, III.ef.def:eichler-b-expression-general, III.ef.def:dedekind-psi}
+\end{lemma}
+\begin{proof}
+The two definitions (\cref{III.ef.def:eichler-b-expression,III.ef.def:eichler-b-expression-general}) agree term by term when $c=\dedpsi(M)$ and
+$F'(t,f,\Delta_f)=F(\Delta_f)$.
+\end{proof}
+
+\begin{lemma}[the Lefschetz expression as a special value]
+\tfstmt{III.ef.lem:lefschetz-es-eq-general}
+\uses{III.ef.def:lefschetz-es-expression, III.ef.def:lefschetz-es-expression-general, III.ef.def:dedekind-psi, III.ef.def:boundary-divisor-sum}
+\end{lemma}
+\begin{proof}
+\uses{III.ef.def:cohen-a1, III.ef.def:eichler-elliptic-expression, III.ef.def:cohen-a3, III.ef.def:eisenstein-expression, III.ef.def:eisenstein-expression-corrected, III.ef.def:eichler-elliptic-expression-general, III.ef.def:cohen-a3-general, III.ef.def:eisenstein-expression-corrected-general}
+By \cref{III.ef.def:cohen-a1}, $A_1(N,k,n)=C(k,n)\dedpsi(N)$. With $F'(t,f,\Delta)=F(\Delta)$ and $\beta_N(a,a')=\cbd_N(a-a')$ the definitions give
+$A_{2,\mathrm{gen}}^{\mathrm E}(k,n;F')=A_2^{\mathrm E}(k,n;F)$, $A_{3,\mathrm{gen}}(k,n;\beta_N)=A_3(N,k,n)$ and $\Eist_{\mathrm{gen}}(k,n;\beta_N)=\Eist(N,k,n)$,
+hence $\Eist_{\mathrm{gen}}(k,n;\beta_N)-\delta_{k,2}\sigma_1(n)=\Eis(N,k,n)$ (\cref{III.ef.def:eisenstein-expression}). Substituting in
+\cref{III.ef.def:lefschetz-es-expression-general} gives \cref{III.ef.def:lefschetz-es-expression} term by term.
+\end{proof}
+
+\begin{theorem}[the identity with general parameters]
+\tfstmt{III.ef.thm:jl-formula-identity-general}
+\uses{III.ef.def:eichler-b-expression-general, III.ef.def:lefschetz-es-expression-general, III.ef.def:dedekind-psi, III.ef.def:local-factor-eichler-prime}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.lem:lefschetz-es-general-boundary-split, III.ef.lem:signed-divisor-sum, III.ef.cor:signed-divisor-sum-constants, III.ef.def:dedekind-psi, III.ef.def:local-factor-ramified, III.ef.def:local-factor-eichler-prime, III.ef.def:cohen-a3-general, III.ef.def:eisenstein-expression-corrected-general, III.ef.def:eichler-elliptic-expression-general, III.ef.def:weighted-class-number}
+Write $s_d=(-2)^{\omega(D/d)}$ and suppress the arguments $k,n$. Since $\omega(D)$ is odd, $\omega(D)\ge1$ and $D>1$. By
+\cref{III.ef.lem:lefschetz-es-general-boundary-split}, the right side is
+\[
+  \sum_{d\mid D}s_d\Bigl(C(k,n)\,\dedpsi(d)\,c+A_{2,\mathrm{gen}}^{\mathrm E}(F_d)+A_{3,\mathrm{gen}}(G_d)+\tfrac12\Eist_{\mathrm{gen}}(G_d)\Bigr).
+\]
+
+\emph{1. The central term.} By \cref{III.ef.cor:signed-divisor-sum-constants}(c) with $M=1$ and $\dedpsi(1)=1$ (\cref{III.ef.def:dedekind-psi}),
+$\sum_ds_d\dedpsi(d)=\prod_{p\mid D}(p-1)$. So the central terms sum to $C(k,n)\prod_{p\mid D}(p-1)\cdot c$, the first term of
+$\EichB_{\mathrm{gen}}(D,k,n;c,F)$.
+
+\emph{2. The boundary and Eisenstein terms.} $A_{3,\mathrm{gen}}$ and $\Eist_{\mathrm{gen}}$ are linear in the boundary function
+(\cref{III.ef.def:cohen-a3-general,III.ef.def:eisenstein-expression-corrected-general}), so $A_{3,\mathrm{gen}}(G_d)=2^{\omega(d)}A_{3,\mathrm{gen}}(G)$ and
+$\Eist_{\mathrm{gen}}(G_d)=2^{\omega(d)}\Eist_{\mathrm{gen}}(G)$. By \cref{III.ef.cor:signed-divisor-sum-constants}(b) ($D>1$), $\sum_ds_d2^{\omega(d)}=0$,
+so these terms contribute $0$.
+
+\emph{3. The elliptic term.} By \cref{III.ef.def:eichler-elliptic-expression-general}, with $\Delta_f=(t^2-4n)/f^2$,
+\[
+  \sum_{d\mid D}s_dA_{2,\mathrm{gen}}^{\mathrm E}(F_d)=-\frac12\sum_{t^2<4n}P_k(t,n)\sum_{f\in\Ford(t,n)}\hw(\Delta_f)F(t,f,\Delta_f)
+  \sum_{d\mid D}s_d\prod_{p\mid d}\mone_p(\Delta_f),
+\]
+since $F(t,f,\Delta_f)$ does not depend on $d$. As in the proof of \cref{III.ef.thm:jl-formula-identity}, \cref{III.ef.lem:signed-divisor-sum} with
+$a(p)=\mone_p(\Delta_f)$, $b\equiv-2$ and the local complement (\cref{rem:ef-local-complement}) give
+$\sum_ds_d\prod_{p\mid d}\mone_p(\Delta_f)=\prod_{p\mid D}(\mone_p(\Delta_f)-2)=(-1)^{\omega(D)}\prod_{p\mid D}\mD_p(\Delta_f)=-\prod_{p\mid D}\mD_p(\Delta_f)$.
+Since $\frac12\hw=h/\wnum$ (\cref{III.ef.def:weighted-class-number}), the elliptic terms sum to the second term of $\EichB_{\mathrm{gen}}(D,k,n;c,F)$.
+
+Adding 1--3 gives $\EichB_{\mathrm{gen}}(D,k,n;c,F)$.
+\end{proof}
+\noindent Compared with \cref{III.ef.thm:jl-formula-identity}, the multiplicativity of $\dedpsi$ and of $\cbd$ is not used: the factors
+$\dedpsi(d)$ and $2^{\omega(d)}$ are part of the parameters. Hence there is no hypothesis $\gcd(D,M)=1$; it is needed only to specialise
+(\cref{III.ef.cor:jl-formula-identity-from-general}).
+
+\begin{theorem}[the identity at an index sharing primes with $D$]
+\tfstmt{III.ef.thm:jl-formula-identity-ramified-index}
+\uses{III.ef.def:eichler-b-expression-general, III.ef.def:lefschetz-es-expression-general, III.ef.def:dedekind-psi, III.ef.def:eichler-symbol, III.ef.def:local-factor-eichler-prime}
+\end{theorem}
+\begin{proof}
+\uses{III.ef.lem:lefschetz-es-general-boundary-split, III.ef.lem:signed-divisor-sum, III.ef.def:local-factor-ramified, III.ef.def:local-factor-eichler-prime, III.ef.def:eichler-symbol, III.ef.def:lefschetz-es-expression-general, III.ef.def:cohen-a3-general, III.ef.def:eisenstein-expression-corrected-general, III.ef.def:eichler-elliptic-expression-general, III.ef.def:weighted-class-number}
+Suppress $k,n$. Since $\omega(D)$ is odd, $D>1$. For a prime $p$ put $b_p=-1$, $a'_p=1$ if $p\mid m$, and $b_p=-2$, $a'_p=2$ if $p\nmid m$. For
+$e\mid D$ the primes dividing $\gcd(e,m)$ are exactly the primes dividing $e$ that divide $m$, so
+\[
+  s_d(m)=\prod_{p\mid D/d}b_p,\qquad 2^{\omega(d)-\omega(\gcd(d,m))}=\prod_{p\mid d}a'_p\qquad(d\mid D).
+\]
+By \cref{III.ef.lem:lefschetz-es-general-boundary-split}, the right side is
+$\sum_ds_d(m)\bigl(C(k,n)\dedpsi(d)c+A_{2,\mathrm{gen}}^{\mathrm E}(F_d)+A_{3,\mathrm{gen}}(G_d)+\frac12\Eist_{\mathrm{gen}}(G_d)\bigr)$.
+
+\emph{1. The central terms.} By hypothesis $n$ is not a square, so $C(k,n)=0$ (\cref{III.ef.def:lefschetz-es-expression-general}), or $c=0$. In both cases
+$C(k,n)\,c=0$, so every central term on the right and the central term $C(k,n)\prod_{p\mid D}(p-1)\cdot c$ of $\EichB_{\mathrm{gen}}(D,k,n;c,F)$ vanish.
+
+\emph{2. The boundary and Eisenstein terms.} By linearity, as in \cref{III.ef.thm:jl-formula-identity-general}, they contribute
+$\bigl(\sum_ds_d(m)\prod_{p\mid d}a'_p\bigr)\bigl(A_{3,\mathrm{gen}}(G)+\frac12\Eist_{\mathrm{gen}}(G)\bigr)$. By \cref{III.ef.lem:signed-divisor-sum},
+$\sum_ds_d(m)\prod_{p\mid d}a'_p=\prod_{p\mid D}(a'_p+b_p)=0$, because $a'_p+b_p=0$ for every $p$ and $D>1$ has a prime divisor.
+
+\emph{3. The elliptic term.} For $\Delta\in\Z$ put $a_p(\Delta)=\esym_p(\Delta)$ if $p\mid m$ and $a_p(\Delta)=\mone_p(\Delta)$ if $p\nmid m$. As in
+\cref{III.ef.thm:jl-formula-identity-general}, the elliptic terms sum to
+$-\frac12\sum_{t^2<4n}P_k(t,n)\sum_{f\in\Ford(t,n)}\hw(\Delta_f)F(t,f,\Delta_f)\sum_ds_d(m)\prod_{p\mid d}a_p(\Delta_f)$. By \cref{III.ef.lem:signed-divisor-sum},
+\[
+  \sum_{d\mid D}s_d(m)\prod_{p\mid d}a_p(\Delta)=\prod_{p\mid D}\bigl(a_p(\Delta)+b_p\bigr)=\prod_{p\mid D}\bigl(-\mD_p(\Delta)\bigr)=-\prod_{p\mid D}\mD_p(\Delta),
+\]
+because $\esym_p-1=-\mD_p$ (\cref{III.ef.def:local-factor-ramified}) for $p\mid m$, $\mone_p-2=-\mD_p$ (\cref{rem:ef-local-complement}) for $p\nmid m$, and
+$\omega(D)$ is odd. With $\frac12\hw=h/\wnum$ the elliptic terms sum to the second term of $\EichB_{\mathrm{gen}}(D,k,n;c,F)$.
+
+Adding 1--3 gives $\EichB_{\mathrm{gen}}(D,k,n;c,F)$.
+\end{proof}
+
+\begin{corollary}[\cref{III.ef.thm:jl-formula-identity} from the general form]
+\tfstmt{III.ef.cor:jl-formula-identity-from-general}
+\uses{III.ef.def:eichler-b-expression, III.ef.def:lefschetz-es-expression, III.ef.def:local-factor-eichler-prime}
+\end{corollary}
+\begin{proof}
+\uses{III.ef.thm:jl-formula-identity-general, III.ef.lem:eichler-b-eq-general, III.ef.lem:lefschetz-es-eq-general, III.ef.lem:dedekind-psi-multiplicative, III.ef.thm:boundary-multiplicative, III.ef.thm:boundary-local-factor}
+Put $c=\dedpsi(M)$, $F'(t,f,\Delta)=F(\Delta)$ and $G(a,a')=\cbd_M(a-a')$. By \cref{III.ef.lem:eichler-b-eq-general}, the left side is
+$\EichB_{\mathrm{gen}}(D,k,n;c,F')$. Let $d\mid D$. Then $d$ is squarefree and $\gcd(d,M)=1$, so $\dedpsi(dM)=\dedpsi(d)\,c$
+(\cref{III.ef.lem:dedekind-psi-multiplicative}(b)) and $\cbd_{dM}(a-a')=\cbd_d(a-a')\,\cbd_M(a-a')=2^{\omega(d)}G(a,a')$
+(\cref{III.ef.thm:boundary-multiplicative,III.ef.thm:boundary-local-factor}(c)). Hence, by \cref{III.ef.lem:lefschetz-es-eq-general},
+$\LamES(dM,k,n;F_d)=\LamES_{\mathrm{gen}}(k,n;\dedpsi(d)c,F'_d,G_d)$ with $F'_d$, $G_d$ as in \cref{III.ef.thm:jl-formula-identity-general}. That theorem
+gives the claim.
+\end{proof}
+\noindent The statement is that of \cref{III.ef.thm:jl-formula-identity} without the unused hypotheses $k,n\ge1$; both items stay, and the corollary
+checks that the general form loses nothing.
+
+\begin{remark}[range and meaning of the general identities]\label{rem:ef-general-range}
+As in \cref{rem:ef-range}, the statements carry only the hypotheses their proofs use. The intended readings are the following.
+\begin{itemize}
+\item \cref{III.ef.thm:jl-formula-identity-general} at $c=\dedpsi(M)$, $G(a,a')=\cbd_M(a-a')$ and $F(t,f,\Delta)=F(\Delta)$ is
+  \cref{III.ef.thm:jl-formula-identity}. At level $M=Np$ with $U_p$ in place of $T_p$, the request had in mind a $p$-local elliptic factor depending
+  on $t$, a boundary factor at $p$ that is not Cohen's, and $c=0$.
+\item \cref{III.ef.thm:jl-formula-identity-ramified-index} is meant for $n=n'm$ with $m>1$ squarefree, $m\mid D$, $\gcd(n',m)=1$ and $n'$ prime to
+  $D$ and to the level; then $v_l(n)=1$ for $l\mid m$, so $n$ is not a square. The statement does not assume $m\mid n$: $m$ only marks the primes of
+  $D$ at which the modified coefficient and factors are used. Only the primes of $D$ that divide $m$ matter, so $m\mid D$ is not assumed either. The coefficient
+  is $-1$ at the primes $l\mid D/d$ with $l\mid m$ and $-2$ at the others, the elliptic factor at $l\mid\gcd(d,m)$ is $\esym_l$ instead of $\mone_l$,
+  and the boundary factor at $l\mid\gcd(d,m)$ is $1$ instead of $2$. For $m=1$ the coefficients and factors are those of
+  \cref{III.ef.thm:jl-formula-identity-general}, which needs no condition on $n$. The condition ``$n$ not a square or $c=0$'' cannot be dropped in general when
+  $m$ has a prime factor dividing $D$: then $\sum_ds_d(m)\dedpsi(d)=\prod_{p\mid D,\,p\nmid m}(p-1)\prod_{p\mid D,\,p\mid m}p\ne\prod_{p\mid D}(p-1)$, so the central terms differ unless $C(k,n)\,c=0$.
+\item Neither theorem uses the parity of $k$, $k,n\ge1$, or any property of the class numbers.
+\end{itemize}
+\end{remark}
+
+\begin{remark}[what the general identities do not give]\label{rem:ef-general-caveats}
+The two theorems are identities of expressions. For the $p$-adic application for which they were requested they are \emph{necessary but not
+sufficient}:
+\begin{itemize}
+\item The trace meaning at Iwahori level ($k\ge4$, $p\mid n$) needs a trace formula on the definite side for general $n$, which is not available
+  here (Hijikata--Pizer--Shemanske, Mem.\ AMS 418, was not at hand). On the $\GL_2$ side, Popa (arXiv:1706.02691, Thm.~3, p.~8) has, for $l\parallel N$
+  and $l\parallel n$, the factors $\Phi_l=1$ and $C_l=[l\nmid t]$; according to the request this matches
+  \cref{III.ef.thm:jl-formula-identity-ramified-index} term by term, and $[l\nmid t]=\esym_l(\Delta_f)$ was checked numerically for $l\le7$, $n<300$
+  (feasibility note of 2026-11-13; Popa's theorem itself was not checked). At $k=2$ the trace meaning also needs Popa's $\sigma_{1,N}(n)$ at levels with
+  $l\mid\gcd(d,n)$; in the expressions the terms $\delta_{k,2}\sigma_1(n)$ cancel identically (\cref{III.ef.lem:lefschetz-es-general-boundary-split}).
+  \cite[Main Thm.~41.5.2]{Voi} covers the definite side in weight $2$ only, and at Eichler level its $T(q)$ is $U_q+U_q^*+W_q$, not $U_q$.
+  So any bridge to traces at Iwahori level is an open hypothesis; no hypothesis of this volume covers it.
+\item A statement for the full Hecke algebra also needs the old forms and the relation $U_l^2=l^{k-2}$ on the $D$-new part. The identity
+  of \cref{III.ef.thm:jl-formula-identity-ramified-index} gives $U_l$ to the first power only.
+\end{itemize}
+\end{remark}

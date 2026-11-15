@@ -1,0 +1,39 @@
+\subsection{Remarks: torsion over $\Z$ and Čerednik--Drinfeld}\label{ss:s02-remarks}
+
+\begin{remark}[torsion in $H_1(\GU,\Z)$; deviation D1]\label{rem:s02-torsion}
+By Prop.~\ref{prop:s02-coh}(a) with $A=\Z$, the group $H_1(\GU,\Z)$ is an extension of
+$H_1(\BG,\Z)\subseteq\Z[E]$ (free) by
+$\coker\big(\bigoplus_eH_1(\Gamma_e,\Z)\to\bigoplus_vH_1(\Gamma_v,\Z)\big)$, which is finite and killed by $24$ (Prop.~\ref{prop:s01-finite}).
+This cokernel is non-zero in general. \stcomp{} Example: $D=2$, $\cO$ the Hurwitz order, $U=\hat\cO^\times$, $q=3$
+(result file \pathtt{code/results/s02/torsion.json}, script \pathtt{code/python/langlandscape/torsion\_s02.py}, task S02-C4,
+direct quaternion arithmetic with $\pi=1+i+j$; the key \texttt{matches\_tex} is true):
+\begin{itemize}
+\item there is one vertex orbit per type ($v_0,v_1$), and $\Gamma_{v}\cong\SL_2(\F_3)$ has order $24$ at both vertices, with
+$\Gamma_v^{\mathrm{ab}}\cong\Z/3$, so $\bigoplus_vH_1(\Gamma_v,\Z)\cong\Z/3\oplus\Z/3$;
+\item at $v_0$ all $4=q+1$ edges lie in the orbit of one edge $e$; hence there is exactly one edge orbit, with
+$\Gamma_e$ cyclic of order $6$ (containing $-1$; the element orders are $1,2,3,3,6,6$);
+\item the edge mass is $1/|\Gamma_e|=1/6=(q+1)/24$ (and $1/3$ modulo $\pm1$); the vertex mass is $1/24$ for each type;
+\item the image of a generator of $\Gamma_e^{\mathrm{ab}}=\Z/6$ in $\Z/3\oplus\Z/3$ is $(1,2)$, of order $3$ (up to the choice of generators and the signs of Prop.~\ref{prop:s02-coh}(a)).
+\end{itemize}
+Thus $\GU\cong\SL_2(\F_3)*_{C_6}\SL_2(\F_3)$, $\BG(U,3)$ is a single edge (so $H_1(\BG,\Z)=0$, matching the genus $0$ of the Shimura curve
+of discriminant $6$), and
+\[H_1(\GU,\Z)=\coker\big(\Gamma_e^{\mathrm{ab}}\to\Gamma_{v_0}^{\mathrm{ab}}\oplus\Gamma_{v_1}^{\mathrm{ab}}\big)=(\Z/3)^2/\langle(1,2)\rangle\cong\Z/3 .\]
+(The Mayer--Vietoris sequence of the amalgam has no further term because $H_1(\BG,\Z)=0$.)
+
+\emph{D1 (wording).} The indefinite stage is modelled over $\Z$ by the tree model, Def.~\ref{def:s02-indef}. Since
+$H_1(\GU,\Z)$ has torsion (here $\Z/3$ while $H_1(\BG,\Z)=0$), ranks alone do not determine it, and the seed's
+$H_1(\GU,V)$ with $V=\Z$ is \emph{not} torsion-free and is not a character group. One therefore works with the two-term complex
+$\bigoplus_e V_e\to\bigoplus_vV_v$ of Prop.~\ref{prop:s02-coh} (which sees the stabiliser terms) rather than with ranks
+only, and over $\Z$ takes $\cX^{(q)}_{Dq}(U):=H_1(\BG(U,q),\Z)=H_1(\GU,\Z)/\mathrm{torsion}$. This agrees with $H_1(\GU,\Z)$ after
+$\otimes\Zp$ for $p\ge5$, as the torsion is killed by $24$.
+\end{remark}
+
+\begin{remark}[\v{C}erednik--Drinfeld; cited, never used]\label{rem:s02-CD}
+Assume $\Nrd(U^{(q)})$ is maximal and $U^{(q)}$ contains \emph{rational} scalars ($\Q^\times\cap U^{(q)}$) of every $q$-adic valuation (so $\Gamma_0$-type levels qualify,
+but $\Uone{N}$-levels do not). Then the \v{C}erednik--Drinfeld uniformisation
+\cite[Ch.~III, Th\'eor\`eme~5.2, pp.~140--141]{BC} describes the Shimura curve of discriminant $Dq$ at $q$; it is twisted, the
+Frobenius acting through an element of odd valuation which swaps the two vertex types. The dual graph of the special fibre
+is $\BG(U,q)$ with edge lengths given by the stabiliser orders modulo the centre ($|\Gamma_x/\{\pm1\}|$)
+\cite[Ch.~III, 5.3.3, p.~143 (reduction), 5.4.3--5.4.4, pp.~145--146 (dual graph with lengths)]{BC}; the description of the character group
+$\cX^{(q)}_{Dq}(U)$ as $H_1$ of this graph is derived later in \cite{BC} (Ribet's chapter, p.~159, via SGA~7). \stcited{} The tree route never uses this remark.
+\end{remark}

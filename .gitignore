@@ -1,0 +1,38 @@
+# Lean
+.lake/
+# the symlink lean/trace-formula-project-import/lean/.lake made by lean/Langlandscape/tools/link_deps.sh (`.lake/` matches directories only)
+.lake
+lake-packages/
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+# LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+# agents
+agents/logs/
+# OS/editor
+.DS_Store
+*.swp
+*.bcf
+*.run.xml
+.texlock
+# literature: copyrighted, never commit (repo will become public incl. history)
+/literature/*
+!/literature/MISSING_LITERATURE.md
+# build directories at the repo root and under code/ (code/hacs has its own rules)
+/build*/
+/code/build*/
+/code/*/build*/

@@ -1,0 +1,34 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Literature correction (adapted from mathematics/final-report/sections/hsieh.tex; anonymised).
+\subsection{A sign in the literature: \texorpdfstring{$\JL(U_q)$}{JL(U\_q)} for \texorpdfstring{$q\mid N^-$}{q | N-}}\label{ss:hsieh}\rptnum{18.33}\label{rpt:rem:s05-hsieh}
+Our work relies throughout on Hsieh's paper \cite{Hs}, whose results on Gorenstein Hecke algebras and congruence ideals of
+definite quaternionic Hida families enter stages~04 and~06. While fixing normalisations we found one sentence where, as
+we read it, a sign should be corrected. We record it here briefly; the details are in our technical note \cite{LLhsieh}
+(\pathtt{mathematics/notes/hsieh-sign.pdf}, 4 pp.). The authors of this report intend to contact the author of \cite{Hs} after the event.
+
+\paragraph{The statement} \stcited. In \cite[\S4.5, p.~34]{Hs} (arXiv:1705.02717v5; page numbers of the published version
+not checked), the Jacquet--Langlands homomorphism $\JL:\T(N,\mathrm{I})\to\T^D(N,\mathrm{I})$ is stated to satisfy $\JL(U_q)=(-1)U_q$ for
+$q\mid N^-$.
+
+\paragraph{The correction.} With the normalisations of \cite{Hs}, as we read them, the relation is $\JL(U_q)=+U_q$; equivalently,
+the $\varpi^D_q$-eigenvalue of the primitive Jacquet--Langlands lift $f^D$ is $\lambda^D_f(U_q)=a(q,f)$. In our conventions:
+$U_q\mapsto+\Pi_q$. All other values of $\JL$ in \cite[p.~34]{Hs} are unchanged. Status: \stpmc{} (i.e.\ \stproved{} modulo
+\stcited{} inputs) for trivial central character at $q$; for an unramified non-trivial central character at $q$ the same argument
+is a proof \stsketch{} \cite[Prop.~2.1]{LLhsieh}. The argument is local: $\pi_q=(\mu\circ\det)\otimes\St$ corresponds to
+$\pi'_q=\mu\circ\Nrd$, and both eigenvalues equal $\mu(q)$ times the same positive factor. Read literally, the printed sign would
+make the module $e\mathbf{S}^D(N,\mathrm{I})[\lambda^D_f]$ of \cite[Thm~4.5]{Hs} zero \cite[Lemma~2.3]{LLhsieh}; with the corrected
+sign it is the intended line.
+
+\paragraph{Evidence} \stcomp. T05-1 (\res{s05/T05-1.json}): on all $144$ eigenlines of $S_k(\Gamma_0(q))^{\rm new}$,
+$q\in\{11,23,37,43\}$, $k\in\{2,4,6,8\}$, the Brandt eigenvalue of $\Pi_q$ equals $+a_q$; both signs of the eigenvalue occur
+(70 and 74 lines), so the test separates the two relations. Independent checks: the weight-2 geometric description in
+\cite{Ri90}, the level-11 case ($a_{11}(11a)=+1$, $\Pi_{11}$ the identity on the class set), and the convention of \cite{CH15}
+(as cited in the note).
+
+\paragraph{Consequences.} As far as we can see the correction concerns one normalisation sentence; we found no effect on the
+theorems of \cite{Hs} (Theorem~4.5 and its proof, the theta elements, the congruence ideals and the main theorems use the
+local representations directly or are intrinsic to $\T^D$) \cite[\S4]{LLhsieh}; this is our reading, not a complete audit of
+\cite{Hs}. In this project we use $U_q\mapsto+\Pi_q$ (decision FD2, a team decision of 15 November 2026), and no statement of
+\cite{Hs} involving $U_q$ for $q\mid N^-$ is used with the printed sign. A plausible origin is the Atkin--Lehner relation
+$w_q=-U_q$ on $q$-new forms of weight~2 or the sign in the local character relation (\stconj).

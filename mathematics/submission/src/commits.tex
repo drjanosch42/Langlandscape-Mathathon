@@ -1,0 +1,36 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 the Langlandscape team
+% Appendix section "Commit hashes of relevance". Report body: anonymised.
+% Every hash expanded with `git rev-parse <short>^{commit}`; dates are committer dates, converted to PST (UTC-8).
+\section{Provenance (internal development repository, private)}\label{sec:commits}
+
+\begin{sloppypar}
+The following commits are in the team's private development repository and cannot be verified from the public repository;
+the final Lean gate can be checked from its logs in \pathtt{supplementary/gate-logs/bsf-gate-1/} and by rebuilding the public
+tree. The Lean code in the public tree is identical to the gated tree \texttt{c70ef3a9} except for Markdown files. Full
+commit hashes; times are committer times in PST (UTC$-$8).
+\end{sloppypar}
+
+{\footnotesize
+\begin{longtable}{@{}p{0.44\linewidth}l@{}}
+\toprule
+What & Full commit hash \\
+\midrule
+\endfirsthead
+\toprule
+What & Full commit hash \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{2}{@{}l}{\emph{Final Lean gate}} \\
+gated Lean tree: head of the \pathtt{Hyp.BrandtStabFree} discharge (2026-11-15 07:43\,PST) & \texttt{c70ef3a96e959eea219efe32706761583c3c5097} \\
+gate logs: job \texttt{bsf-gate-1}, build machine A, from scratch in an unseeded worktree, 955/955 standard axiom lines
+(2026-11-15 07:51\,PST; verbatim in \pathtt{supplementary/gate-logs/bsf-gate-1/}) & \texttt{fa7550699fe526dbf4da7c6ac9d37c7b1ff55fef} \\
+\addlinespace
+\multicolumn{2}{@{}l}{\emph{Previous gates (history)}} \\
+submission-bundle gate commit (job \texttt{subl-gate-1}, 950/950; cross-check \pathtt{subl-gate-1x} on build machine B, PASS) & \texttt{dc61af50c832025ed778fd79d9c5163b0016d3c4} \\
+its Lean tree: merge of the submission bundle (2026-11-14 22:45\,PST) & \texttt{28d2b091132e1785b264542a54687b0021c280d6} \\
+gate after the \pathtt{Hyp.RamNrdSurj} discharge (job \pathtt{ramnrd-final-2}, build machine A, from scratch, 840/840; 2026-11-14 18:56\,PST) & \texttt{2323a252fa3a8d3a89343959151ae1f5d952381c} \\
+\end{longtable}
+}

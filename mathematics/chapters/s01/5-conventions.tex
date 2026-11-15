@@ -1,0 +1,325 @@
+\section{Conventions and dictionaries}
+
+This section fixes the pairing with $V_k$ coefficients, writes out the dictionary between the seed's conventions and those of
+the trace-formula import (which are Gross's), and translates the Hecke operators of the literature (Buzzard, Hida, Hsieh,
+Longo--Vigni) into the seed's normalisation, in particular $N_{U_p}$ (Def.~\ref{def:s01-NUp}).
+
+\emph{Notation used throughout this section.} $n:=k-2$. Every $x\in\Bhat^\times$ has $\Nrd x\in\hat\Q^\times=\Q_{>0}\times\Zhat^\times$
+(local norms are surjective, also at $\ell\mid D$), so $\Nrd x=r_x\,u_x$ with unique $r_x\in\Q_{>0}$, $u_x\in\Zhat^\times$; both
+$x\mapsto r_x$ and $x\mapsto u_x$ are multiplicative, $r_{\gamma xu}=\Nrd(\gamma)\,r_x$ and $u_{\gamma xu}=u_x\Nrd(u)$ for
+$\gamma\in B^\times$, $u\in\hat\cO^\times$, and $r_g$ is constant on $UgU$. We write $\rho(g)$ for the action \eqref{eq:s01-Vk}, which is
+defined by the same formula for every $g\in M_2(\Qp)$ on $V_k\otimes\Qp$; $\rho$ is multiplicative and $\rho(\lambda g)=\lambda^n\rho(g)$
+for $\lambda\in\Qp$. For $g\in\Bhat^\times$ arbitrary (not only $g_p\in M_2(\Zp)$) the formula of Def.~\ref{def:s01-hecke} defines
+$T_g=[UgU]$ on $\Brandt{U}{V_k\otimes\Qp}$, by the same well-definedness argument. Put $e_U:=|\Gamma_x\cap\{\pm1\}|$; it does not
+depend on $x$ ($-1$ is central, so $-1\in xUx^{-1}$ iff $-1\in U$), $e_U=2$ iff $-1\in U$, and $|\Gamma_x|=e_U\,w_x$.
+For $g\in B_p$ we write $\bar g=\Trd(g)-g$ for the canonical involution; under $\iota_p$ it is $\mathrm{adj}$, and
+$\bar g=\Nrd(g)g^{-1}$ for $g$ invertible.
+
+%----------------------------------------------------------------------
+\begin{definition}[pairing with $V_k$ coefficients]\label{def:s01-pairingV}
+Let $\beta_n$ be the bilinear form on $V_k\otimes\Qp$ with
+\[\beta_n\big(X^{n-i}Y^i,\;X^{j}Y^{n-j}\big)=\delta_{ij}\,(-1)^i\tbinom ni^{-1}\qquad(0\le i,j\le n)\]
+(import: \texttt{symPowerPairing K (k-2)}, \Tpath{Brandt/SymPower.lean}, whose basis vector $u_s$ is $X^{n-s}Y^s$). On
+$\Brandt{U}{V_k\otimes\Qp}$ put
+\[\langle f,h\rangle_k:=\sum_{[x]\in\XB{U}}w_x^{-1}\,u_{x,p}^{\,n}\,\beta_n\big(f(x),h(x)\big).\]
+Then:
+\begin{enumerate}[label=(\roman*)]
+\item $\beta_n(\rho(g)P,\rho(g)Q)=\det(g)^n\beta_n(P,Q)$ for all $g\in M_2(\Qp)$ (quasi-invariance), and
+  $\beta_n(Q,P)=(-1)^n\beta_n(P,Q)$.
+\item $\langle\,,\rangle_k$ is well defined (independent of the representatives $x$) and non-degenerate over $\Qp$.
+\item $\beta_n$ is $\Zp$-valued and perfect on $V_k$ iff $p\nmid\binom ni$ for all $0\le i\le n$, iff $n+1=c\,p^a$ with
+  $1\le c\le p-1$, $a\ge0$. In particular this holds if $p>k-2$.
+\item If $p\nmid|\Gamma_x|$ for all $x$ (e.g.\ $p\ge5$, Lemma~\ref{lem:s01-stab}(c)) and $\beta_n$ is perfect on $V_k$ (e.g.\
+  $p>k-2$), then $\langle\,,\rangle_k$ is $\Zp$-valued and perfect on $\Brandt{U}{V_k}$. Conversely, if $p\ge5$ and $U_p\subseteq\Uone{p}_p$, then
+  $\langle\,,\rangle_k$ is $\Zp$-valued and perfect on $\Brandt{U}{V_k}$ only if $\beta_n$ is perfect on $V_k$.
+\end{enumerate}
+If $\beta_n$ is not perfect, one pairs $\Brandt{U}{V_k}$ with $\Brandt{U}{\Hom(V_k,\Zp)}$ instead. Hecke adjoints with respect to
+$\langle\,,\rangle_k$ acquire Gross's factor $\mu_A(g)=r_g^{\,n}$ (Lemma~\ref{lem:s01-dictionary}(d)). Stage~04 owns the
+$\Lambda$-adic (Ohta-type) twist of this pairing; this stage only fixes the finite-level definition.
+\end{definition}
+\noindent\stproved{} (proof below). Lean: not planned (Hecke operators with coefficients are not formalized in stage~01).
+\emph{Correction.} The stage tex states perfectness ``only if $p>k-2$''. That is too strong: by (iii), $\beta_n$ is perfect
+for instance for $n=p-1$ (all $\binom{p-1}{i}\equiv(-1)^i\bmod p$), i.e.\ $k=p+1$. The range $p>k-2$ is sufficient, not necessary;
+the exact range is (iii).
+\begin{proof}
+(i) For $v=(a,b)$ put $L_v:=aX+bY$. Then $\rho(g)L_v=L_{gv}$ ($v$ as a column; $\rho(g)L_v=a(g_{11}X+g_{21}Y)+b(g_{12}X+g_{22}Y)$), so
+$\rho(g)L_v^n=L_{gv}^n$. The coefficient of $X^{n-i}Y^i$ in $L_v^n$ is $\binom ni a^{n-i}b^i$; hence for $w=(c,d)$
+\[\beta_n(L_v^n,L_w^n)=\sum_{i=0}^n(-1)^i\tbinom ni^{-1}\cdot\tbinom ni a^{n-i}b^i\cdot\tbinom n{n-i}c^{i}d^{n-i}=\sum_{i}(-1)^i\tbinom ni(ad)^{n-i}(bc)^i=\det(v,w)^n .\]
+Since $\det(gv,gw)=\det(g)\det(v,w)$, the identity holds on all pairs $(L_v^n,L_w^n)$, and these span $V_k\otimes\Qp$ ($\mathrm{char}\,\Qp=0$:
+the $L_{(1,t)}^n$, $t\in\Z$, span by a Vandermonde argument). Bilinearity gives (i); the symmetry follows from
+$\det(w,v)=-\det(v,w)$ on the same spanning set.
+
+(ii) Let $x'=\gamma xu$ ($\gamma\in B^\times$, $u\in U$). Then $\Gamma_{x'}=\gamma\Gamma_x\gamma^{-1}$, so $w_{x'}=w_x$; $u_{x',p}=u_{x,p}\det(u_p)$;
+$f(x')=\rho(u_p)^{-1}f(x)$, $h(x')=\rho(u_p)^{-1}h(x)$, so by (i) $\beta_n(f(x'),h(x'))=\det(u_p)^{-n}\beta_n(f(x),h(x))$. The factor
+$\det(u_p)^{n}$ from $u_{x',p}^n$ cancels it. Non-degeneracy: by Def.~\ref{def:s01-brandt}, $f\mapsto(f(x))_x$ identifies
+$\Brandt{U}{V_k\otimes\Qp}$ with $\bigoplus_xV^{G_x}$, $V:=V_k\otimes\Qp$, $G_x:=x_p^{-1}\Gamma_xx_p$ (acting through $\iota_p$), and the
+pairing is the orthogonal sum of the forms $w_x^{-1}u_{x,p}^n\beta_n$ on $V^{G_x}$. Each $\gamma\in\Gamma_x$ has $\Nrd\gamma\in\Q_{>0}\cap\Zhat^\times=1$,
+so $\det$ is $1$ on $G_x$ and $\beta_n$ is $G_x$-invariant by (i). The averaging operator $e_x=|G_x|^{-1}\sum_{g\in G_x}\rho(g)$ is then
+self-adjoint for $\beta_n$ (the adjoint of $\rho(g)$ is $\rho(g^{-1})$), so $V=V^{G_x}\oplus\ker e_x$ is a $\beta_n$-orthogonal decomposition and
+$\beta_n$, which is non-degenerate on $V$ (its Gram matrix is anti-diagonal with non-zero entries), is non-degenerate on $V^{G_x}$.
+
+(iii) In the basis $(X^{n-i}Y^i)_i$ of $V_k$ the Gram matrix of $\beta_n$ is anti-diagonal with entries $(-1)^i\binom ni^{-1}$, so
+$\beta_n$ is $\Zp$-valued and unimodular iff every $\binom ni$ is a $p$-adic unit. If $p>n$ then $p\nmid n!$, hence $p\nmid\binom ni$.
+By Lucas's theorem ($\binom ni\equiv\prod_j\binom{n_j}{i_j}\bmod p$ on base-$p$ digits; \stknown) all $\binom ni$, $i\le n$, are units iff
+every non-leading digit of $n$ equals $p-1$: if some digit $n_j<p-1$ lies below a non-zero digit $n_{j'}$ ($j'>j$), then
+$i=(n_j+1)p^j\le n$ has $i_j>n_j$. This is the condition $n+1=c\,p^a$, $1\le c\le p-1$.
+
+(iv) Over $\Zp$, $\Brandt{U}{V_k}\cong\bigoplus_xV_k^{G_x}$ (Def.~\ref{def:s01-brandt}). If $p\nmid|G_x|=|\Gamma_x|$, then $e_x$ is defined over
+$\Zp$ and $V_k=V_k^{G_x}\oplus\ker e_x$ is a $\beta_n$-orthogonal decomposition of $\Zp$-modules, as in (ii). A perfect form restricts to a
+perfect form on an orthogonal direct summand, and $w_x\mid|\Gamma_x|$ and $u_{x,p}$ are units; so $\langle\,,\rangle_k$ is perfect.
+Conversely, if $p\ge5$ and $U_p\subseteq\Uone p_p$, all $\Gamma_x$ are trivial (Lemma~\ref{lem:s01-stab}(b)), so
+$\Brandt{U}{V_k}\cong V_k^{\XB U}$ and $\langle\,,\rangle_k$ is the orthogonal sum of the forms $w_x^{-1}u_{x,p}^n\beta_n$ with unit factors;
+it is perfect iff $\beta_n$ is.
+\end{proof}
+
+%----------------------------------------------------------------------
+\begin{remark}[dictionary seed $\leftrightarrow$ import $\leftrightarrow$ Gross]\label{rem:s01-dictionary}
+The import's \texttt{quatForms O s k} (\Tpath{Brandt/Forms.lean}) is Gross's convention
+$\{f:f(\gamma xu)=\rho^s_k(\gamma)f(x)\}$ \lit{gross\_1999\_algebraic-modular-forms}{(4.1)--(4.2), pp.~68--69}, with a global
+splitting $s:B\to M_2(K)$, $\mathrm{char}\,K=0$, coefficients $V_{k-2}(K)$ (\texttt{symPowerModule}), and $U=\hat\cO^\times$ (for an
+order $\cO$; \texttt{orderCompletionUnits O}, \Tpath{P2/Adelic.lean}) acting \emph{trivially}. The seed's $\Brandt{U}{V_k}$ has $B^\times$
+acting trivially and $U$ acting through $u_p^{-1}$. For $K\supseteq\Qp$ and $s=\iota_p$ (import: \texttt{ellAdicSplitting O hD p},
+\Tpath{Brandt/Coefficients.lean}; the seed's $\iota_p$ is chosen to be this one, stage plan Q4) the two are matched by
+$F\mapsto f$, $f(x):=x_p\cdot F(x)$. This map carries the seed's $T_g$ (Def.~\ref{def:s01-hecke}) to Gross's and the import's
+$f\mapsto\sum_if(xg_i)$, the pairing $\langle\,,\rangle_k$ to $e_U$ times Gross's and the import's pairing, and it explains Gross's factor
+$\mu_A(g)$ in the adjoint formula. All of this is Lemma~\ref{lem:s01-dictionary} below. The map is \emph{not} integral
+($x_p\notin\GL_2(\Zp)$ in general), so integral statements (perfectness, integrality and adjoints of $U_p$, $\nu$) are made on the seed side;
+the import's Hecke and Brandt statements (level $\hat\cO(M)^\times$, $(n,DM)=1$) are used only after $\otimes\Qp$.
+\end{remark}
+
+\begin{lemma}[the dictionary map]\label{lem:s01-dictionary}
+Let $U\subseteq\hat\cO^\times$ be open, $K\supseteq\Qp$ a field, and
+$\cM^G(U;K):=\{f:\Bhat^\times\to V_k\otimes K:\ f(\gamma xu)=\rho(\iota_p(\gamma))f(x)\ (\gamma\in B^\times,u\in U)\}$ with Gross's operators
+$T^G(g)f(x):=\sum_if(xg_i)$ for $UgU=\coprod_ig_iU$ \lit{gross\_1999\_algebraic-modular-forms}{(6.6), p.~72}.
+\begin{enumerate}[label=(\alph*)]
+\item $\Phi:\Brandt{U}{V_k\otimes K}\to\cM^G(U;K)$, $\Phi(F)(x):=\rho(x_p)F(x)$, is a $K$-linear isomorphism with inverse
+  $f\mapsto(x\mapsto\rho(x_p)^{-1}f(x))$. For $U=\hat\cO(M)^\times=$ \texttt{orderCompletionUnits O} ($\cO(M)$ the Eichler order) and $K=\Qp$,
+  $\cM^G(U;\Qp)=$ \texttt{quatForms O (ellAdicSplitting O\textsubscript{max} hD p) k}. For $k=2$, $\Phi=\mathrm{id}$.
+\item $\Phi\circ T_g=T^G(g)\circ\Phi$ for every $g\in\Bhat^\times$. In particular, for $U=\hat\cO(M)^\times$ and every $m\ge1$,
+  $\Phi\circ\sum_{UgU\subseteq\hat\cO(M)_m}T_g=\texttt{heckeOperator O m}\circ\Phi$, where $\hat\cO(M)_m=\{y\in\hat\cO(M):\Nrd y\in m\Zhat^\times\}$
+  (\texttt{normNSet O m}, \Tpath{Brandt/Hecke.lean}). If $(m,DMp)=1$ the left-hand sum is the seed's $T_m$ (for $p\mid m$ it is an operator not named in the seed) (the sum of the double cosets of norm
+  $m$, Prop.~\ref{prop:s01-relations}(d)); for a prime $\ell\mid D$ it is $\Pi_\ell$ (one coset); for $\ell\mid M$ it is \emph{not} $U_\ell$.
+\item $\langle F,H\rangle_k=e_U\sum_{[x]}|\Gamma_x|^{-1}\,r_x^{-n}\,\beta_n\big(\Phi F(x),\Phi H(x)\big)$, i.e.\ $e_U$ times Gross's inner product
+  \lit{gross\_1999\_algebraic-modular-forms}{(6.2), p.~71} (with $\mu_A(x)=r_x^n$). For $U=\hat\cO(M)^\times$ this reads
+  $\langle F,H\rangle_k=2\cdot\texttt{weightedPairing O k}(\Phi F,\Phi H)$ (\Tpath{Brandt/Pairing.lean}; there
+  \texttt{normWeight x}$\,=r_x^{-1}$).
+\item (\emph{Gross's factor}) For every $g\in\Bhat^\times$ the $\langle\,,\rangle_k$-adjoint of $T_g$ on $\Brandt{U}{V_k\otimes K}$ is
+  \[T_g^*=\mu_A(g)\,T_{g^{-1}},\qquad\mu_A(g):=r_g^{\,n}.\]
+  Consequently, with the operators of Def.~\ref{def:s01-hecke} and $U^{(p)}=\Uone M$ (resp.\ $\Uzero M$, where the diamonds at the primes dividing $M$ are trivial):
+  $T_\ell^*=\ell^nS_\ell^{-1}T_\ell$, $S_\ell^*=\ell^{2n}S_\ell^{-1}$, $\langle d\rangle^*=\langle d\rangle^{-1}$, $\Pi_\ell^*=\ell^n\Pi_\ell^{-1}$, and
+  $U_p^*=\langle p\rangle_M\,U'_p$ in every weight (this extends Lemma~\ref{lem:s01-Up}(d) to $V_k$). With
+  Prop.~\ref{prop:s01-relations}(a), (b) this gives at level $\Uone{Mp^s}$: $T_\ell^*=\langle\ell\rangle T_\ell$, $\Pi_\ell^*=\langle\ell\rangle\Pi_\ell$,
+  $S_\ell^*=\ell^n\langle\ell\rangle$; at level $\Uzero M\cdot\GL_2(\Zp)$: $T_\ell$ and $\Pi_\ell$ are self-adjoint.
+\end{enumerate}
+\end{lemma}
+\noindent\stproved{} (proof below); (d) is Gross's Prop.~6.9 transported along $\Phi$:
+\stcited{} \lit{gross\_1999\_algebraic-modular-forms}{Prop.~6.9, p.~73 (adjoint of $T(g)$ is $\mu_A(g)T(g^{-1})$), with $\mu_A$ from (6.1), p.~71
+and (1.1), p.~62}. At $k=2$, level $\hat\cO^\times$: \lean{Langlandscape.Brandt.Tl\_eq\_heckeOperator},
+\lean{Langlandscape.Brandt.Tl\_matrix\_eq\_brandtMatrix}, \lean{Langlandscape.Brandt.brandtPairing\_eq\_import},
+\lean{Langlandscape.Brandt.Tl\_selfAdjoint\_units} \stformal{} (S01-L12, ext). All $k$ and level $\hat\cO(M)^\times$: not planned.
+\begin{proof}
+(a) For $\gamma\in B^\times$, $u\in U$: $\Phi F(\gamma xu)=\rho(\iota_p(\gamma)x_pu_p)\,\rho(u_p)^{-1}F(x)=\rho(\iota_p(\gamma))\Phi F(x)$; the inverse map is
+checked in the same way. For the import, \texttt{quatForms} is defined by $f(\iota(\gamma)xu)=\texttt{splitRep s k}\,\gamma\,(f(x))$ with
+$\texttt{splitRep s k}\,\gamma=\texttt{symPowerAction}(s\,\gamma)=\rho(s(\gamma))$, and \texttt{ellAdicSplitting} is $\iota_p$ composed with
+$B\to B_p$; so the conditions agree.
+
+(b) $\Phi(T_gF)(x)=\rho(x_p)\sum_i\rho(g_{i,p})F(xg_i)=\sum_i\rho((xg_i)_p)F(xg_i)=\sum_i\Phi F(xg_i)$. The set $\hat\cO(M)_m$ is bi-$U$-invariant
+and compact, hence a finite disjoint union of double cosets $UgU$, and \texttt{heckeOperator O m} is $f\mapsto\sum_{y\in\hat\cO(M)_m/U}f(xy)$ (its
+definition via \texttt{heckeAct} of the indicator of \texttt{normNSet O m}); this is $\sum_{UgU}T^G(g)$. Locally at $\ell\nmid DM$,
+$\{y\in M_2(\Z_\ell):v_\ell(\det y)=r\}=\coprod_{a+b=r,\,a\le b}\GL_2(\Z_\ell)\mathrm{diag}(\ell^a,\ell^b)\GL_2(\Z_\ell)$, which is the seed's
+$T_{\ell^r}$; at $\ell\nmid m$ the local factor is $U_\ell$. At $\ell\mid D$, $\{y\in\cO_\ell:v_\ell(\Nrd y)=1\}=\Pi_\ell\cO_\ell^\times$ is one coset. At
+$\ell\mid M$ the norm-$\ell$ elements of the local Eichler order contain both $\mathrm{diag}(\ell,1)$ and $\mathrm{diag}(1,\ell)$, which lie in
+different double cosets of $U_\ell$, so the sum is not $U_\ell=[U\varpi_\ell U]$.
+
+(c) By (i) of Def.~\ref{def:s01-pairingV}, $\beta_n(\rho(x_p)P,\rho(x_p)Q)=\det(x_p)^n\beta_n(P,Q)$ and $\det(x_p)=(\Nrd x)_p=r_x\,u_{x,p}$. Hence
+$|\Gamma_x|^{-1}r_x^{-n}\beta_n(\Phi F(x),\Phi H(x))=e_U^{-1}w_x^{-1}u_{x,p}^n\beta_n(F(x),H(x))$. For $U=\hat\cO(M)^\times$, $-1\in U$, so $e_U=2$;
+\texttt{weightedPairing O k} is $\sum_c|\Gamma_{x_c}|^{-1}\,\texttt{normWeight}(x_c)^{k-2}\,\beta_n(f(x_c),g(x_c))$ with
+$\texttt{normWeight}(x)=\prod_q q^{-v_q(\Nrd x)}=r_x^{-1}$. In Gross's (6.1), $\mu=\Nrd^n$ on $B^\times$ (the character with
+$\beta_n(\gamma v,\gamma v')=\Nrd(\gamma)^n\beta_n(v,v')$), and $N:\A^\times\to\Q^\times$ is the projection onto the first factor of
+$\A^\times=\Q^\times\times\R_{>0}\times\Zhat^\times$; for $x\in\Bhat^\times$ the idele $(1,\Nrd x)$ equals $r_x\cdot(r_x^{-1},u_x)$, so $\mu_A(x)=r_x^n$.
+
+(d) Give $\Bhat^\times$ the Haar measure with $\mathrm{vol}(U)=1$ (it is unimodular, being a restricted product of the unimodular groups
+$\GL_2(\Q_\ell)$ and $B_\ell^\times$), and $B^\times$, which is discrete in $\Bhat^\times$ ($B^\times\cap\hat\cO^\times=\cO^\times$ is finite), the counting
+measure. For $F,H\in\Brandt{U}{V_k\otimes K}$ the function $\varphi(x):=u_{x,p}^n\beta_n(F(x),H(x))$ is left $B^\times$- and right $U$-invariant (proof
+of (ii)), and $B^\times\backslash B^\times xU$ has volume $1/|\Gamma_x|$ ($x^{-1}\Gamma_xx$ acts freely on $U$). Hence
+\[\langle F,H\rangle_k=e_U\int_{B^\times\backslash\Bhat^\times}u_{x,p}^n\,\beta_n\big(F(x),H(x)\big)\,dx .\]
+Since $(T_gF)(x)=\int_{UgU}\rho(y_p)F(xy)\,dy$ (the integrand depends only on $yU$),
+\[\langle T_gF,H\rangle_k=e_U\int_{B^\times\backslash\Bhat^\times}\int_{UgU}u_{x,p}^n\,\beta_n\big(\rho(y_p)F(xy),H(x)\big)\,dy\,dx .\]
+Substitute $x\mapsto xy^{-1}$ (right translation preserves the invariant measure on the quotient): by
+Def.~\ref{def:s01-pairingV}(i) the integrand becomes
+\[u_{x,p}^nu_{y,p}^{-n}\,\beta_n\big(\rho(y_p)F(x),\rho(y_p)\rho(y_p^{-1})H(xy^{-1})\big)
+=u_{x,p}^n\,u_{y,p}^{-n}\det(y_p)^n\,\beta_n\big(F(x),\rho(y_p^{-1})H(xy^{-1})\big),\]
+and $u_{y,p}^{-n}\det(y_p)^n=r_y^n=r_g^n$. Finally $\int_{UgU}\rho(y_p^{-1})H(xy^{-1})\,dy=\int_{Ug^{-1}U}\rho(z_p)H(xz)\,dz=(T_{g^{-1}}H)(x)$
+(inversion preserves Haar measure). So $\langle T_gF,H\rangle_k=r_g^n\langle F,T_{g^{-1}}H\rangle_k$.
+
+Consequences. $g=\varpi_\ell$ ($\ell\ne p$): $r=\ell$, $\varpi_\ell^{-1}=z_\ell^{-1}\iota_\ell^{-1}\mathrm{diag}(1,\ell)$, and
+$[U\iota_\ell^{-1}\mathrm{diag}(1,\ell)U]=T_\ell$ (Def.~\ref{def:s01-hecke}); $z_\ell$ is central, so $T_{z_\ell^{-1}h}=S_\ell^{-1}T_h$. $g=z_\ell$: $r=\ell^2$.
+$g=\delta_d$: $r=1$, and $T_{\delta_d^{-1}}=\langle d\rangle^{-1}$. $g=\Pi_\ell$: $r=\ell$. $g=\varpi_p$: $r=p$ and
+$\varpi_p^{-1}=z_p^{-1}\iota_p^{-1}\mathrm{diag}(1,p)$; for central $z$ one has $T_{zh}=\rho(z_p)R(z)T_h$ with $R(z)F=F(\cdot z)$, and $\rho(z_p^{-1})=p^{-n}$, so
+$U_p^*=p^n\cdot p^{-n}R(z_p^{-1})U'_p$. Now $z_p^{-1}=p^{-1}\cdot y$ with $p^{-1}\in B^\times$ central and $y\in\hat\cO^\times$ central with $y_p=1$, $y_\ell=p$
+($\ell\ne p$); thus $R(z_p^{-1})F=F(\cdot\,y)=\langle p\rangle_MF$, the diamond of the class $\equiv p\bmod M$, $\equiv1\bmod p^s$ ($y\in U$ at $\ell\nmid M$, and
+$y_p=1$ acts trivially). The level-$\Uone{Mp^s}$ formulas follow from $S_\ell=\ell^n\langle\ell\rangle^{-1}$ and $\Pi_\ell^2=S_\ell$; at level
+$\Uzero M\GL_2(\Zp)$, $S_\ell=\ell^n$.
+\end{proof}
+
+\noindent\emph{Dictionary seed $\leftrightarrow$ import (table).} Import paths are relative to
+\Tpath{lean/trace-formula-project-import/lean/AlgJL/VolIII/}, namespace \texttt{GL2TF.Quat}. Level $U=\hat\cO(M)^\times=$
+\texttt{orderCompletionUnits O} unless stated, so $-1\in U$ and $e_U=2$. $\Phi$ is the map of Lemma~\ref{lem:s01-dictionary}(a).
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{6.4cm}}
+\toprule
+seed & import (declaration, file) & relation \\
+\midrule
+$\XB U$ & \texttt{classSet O} (\Tpath{P2/ClassSet.lean}) & equal for $U=\hat\cO(M)^\times$; Lean facade \texttt{XB}, \pathtt{XB\_units\_eq\_classSet} (S01-L1) \\
+$\Gamma_x=B^\times\cap xUx^{-1}$ & \texttt{classStabilizer U x} (\Tpath{P2/ClassSet.lean}) & equal for \emph{every} subgroup $U$; facade \texttt{Gam} \\
+$w_x=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$ & \texttt{Nat.card (classStabilizer U x)} $=|\Gamma_x|$ (as used in \texttt{mass}, \Tpath{P2/MassDefs.lean}, and \texttt{weightedPairing}) & $|\Gamma_x|=e_U\,w_x$; $=2w_x$ at $\hat\cO(M)^\times$; facade \texttt{wx} \\
+$\sum_x1/w_x$ & \texttt{mass O} $=\sum_c1/|\Gamma_{x_c}|$ & $\sum_x1/w_x=2\cdot\texttt{mass O}$ (factor F-w) \\
+$V_k$, action \eqref{eq:s01-Vk} & \texttt{symPowerModule K (k-2)}, \texttt{symPowerAction}, \texttt{splitRep} (\Tpath{Brandt/SymPower.lean}, \Tpath{Brandt/Coefficients.lean}) & same action over a field $K$; the seed's $V_k$ is the $\Zp$-lattice of $\Zp$-polynomials \\
+$\iota_p$ & \texttt{ellAdicSplitting O hD p} (\Tpath{Brandt/Coefficients.lean}) & same choice (\pathtt{Classical.choose} of \pathtt{maximalOrder\_local\_split}) \\
+$\Brandt{U}{V_k}$ & \texttt{quatForms O s k} (\Tpath{Brandt/Forms.lean}) & $\Phi:\Brandt U{V_k}\otimes\Qp\cong$ \texttt{quatForms}, $s=\iota_p$; only $U=\hat\cO(M)^\times$; $k=2$: equal \\
+$T_m$, $(m,DM)=1$ & \texttt{heckeOperator O m}, \texttt{normNSet O m} (\Tpath{Brandt/Hecke.lean}); \texttt{brandtMatrix O m} (\Tpath{Brandt/Brandt.lean}) & $\Phi\circ T_m=\texttt{heckeOperator O m}\circ\Phi$; for $k=2$, $(T_mf)(x_c)=\sum_{c'}B(m)_{cc'}f(x_{c'})$. Only for $(m,DMp)=1$ is it the seed's $T_m$ ($\ell\mid D$: $\Pi_\ell$; $\ell\mid M$: not $U_\ell$) \\
+$\beta_n$ & \texttt{symPowerPairing K (k-2)} (\Tpath{Brandt/SymPower.lean}) & equal \\
+$\langle\,,\rangle_k$ & \texttt{weightedPairing O k} (\Tpath{Brandt/Pairing.lean}) & $\langle F,H\rangle_k=2\cdot\texttt{weightedPairing}(\Phi F,\Phi H)$ \\
+$T_g^*=r_g^nT_{g^{-1}}$ & \pathtt{hecke\_self\_adjoint} (\Tpath{Brandt/Pairing.lean}), \pathtt{brandt\_weighted\_symmetry} (\Tpath{Brandt/Brandt.lean}) & import: $T_m$ self-adjoint for all $m\ge1$ at $\hat\cO(M)^\times$; seed: Lemma~\ref{lem:s01-dictionary}(d) \\
+\bottomrule
+\end{longtable}}
+
+%----------------------------------------------------------------------
+\begin{remark}[literature conventions for $U_p$]\label{rem:s01-Upconv}
+The literature uses at least three different conventions: (1) left cosets $g_iU$ and $f(xg_i)$ (the seed, Gross, Hsieh); (2) right cosets
+$U\eta_i$ and $f(x\eta_i^{-1})$ (Buzzard, Hida); (3) class sets $U\backslash\Bhat^\times/B^\times$ instead of $B^\times\backslash\Bhat^\times/U$ (Longo--Vigni).
+Independently, the Iwahori-type level at $p$ is either ``lower row $\equiv(0,1)$'' (the seed, Buzzard, Hsieh, Hida's $V_1(N)$) or ``upper left entry
+$\equiv1$'' (Hida's $U_1(N)$, Longo--Vigni). So the same symbol $\mathrm{diag}(p,1)$ denotes different operators in different papers, and any
+import of a $U_p$-statement from the literature (Hida, Hsieh, LV, Buzzard, Chenevier) must be translated. Lemma~\ref{lem:s01-Upconv} does
+this for Buzzard, Hida, Hsieh and LV. For Buzzard, the seed's earlier remark (``his $[U\eta_pU]$ is our $p^{n}[U\eta_p^{-1}U]=R(z_p)^{-1}U'_p$,
+essentially $U'_p$, not $N_{U_p}$'') is right as a statement about \emph{operators} under the integral identification $\Phi_{\rm Bz}$
+(Lemma~\ref{lem:s01-Upconv}(a); $R(z_p)^{-1}=\langle p\rangle_M$). \emph{Precision:} on Hecke \emph{algebras} and systems of eigenvalues,
+Buzzard's $U_p$ corresponds to $N_{U_p}$, because his operators are the $\langle\,,\rangle_k$-adjoints of the seed's operators with the
+same $\eta$. The identification of $N_{U_p}$ with the \emph{classical} $U_p$ ($a_m\mapsto a_{mp}$, which commutes with the inclusions
+$S_k(\Gamma_1(Mp^s))\subseteq S_k(\Gamma_1(Mp^{s+1}))$) under JL is what Hsieh's JL asserts (Lemma~\ref{lem:s01-Upconv}(c)); in this
+project it is \stexp{} in general and \stcomp{} for $B_3$, $p=5$, $s=1,2$, $k=2$ (S01-C6, \pathtt{code/results/s01/up\_mf.json}): the eigenvalues of $N_{U_p}$ on $\mathbb{Q}[S_s]$ equal the $a_5$-eigenvalues on $S_2(\Gamma_1(5^s)\cap\Gamma_0(3),\chi)^{3\text{-new}}$, plus $5$ on the $\mathrm{Nrd}$ line, for $s=1$ (level $15$, dimension $2=1+1$) and $s=2$ (level $75$, dimension $50=1+49$), with $N_{U_p}\leftrightarrow$ classical $U_5$, adelic $\langle d\rangle=$ classical $\langle d\rangle^{-1}$, and $U'_p$ the adjoint $U_5^*$. Chenevier's conventions are not translated here
+(Thm.~\ref{thm:s01-chenevier} is used only as a cited target).
+\end{remark}
+
+\begin{lemma}[translation of the literature's Hecke operators]\label{lem:s01-Upconv}
+Let $M\ge1$ with $(M,Dp)=1$, $s\ge1$, and $T^*$ the $\langle\,,\rangle_k$-adjoint (Lemma~\ref{lem:s01-dictionary}(d)). For a commutative
+subalgebra $A\subseteq\End\Brandt{U}{V_k\otimes\Qp}$, the map $T\mapsto T^*$ is an algebra isomorphism $A\to A^*:=\{T^*:T\in A\}$, and a
+character $\chi$ of $A$ occurs in $\Brandt U{V_k\otimes\Qp}$ iff $T^*\mapsto\chi(T)$ occurs for $A^*$ (the $A^*$-module is the $\Qp$-dual of the
+$A$-module). In this sense ``$[U\eta U]$ corresponds to $T_\eta$ on Hecke algebras'' below.
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{Buzzard.} Let $U=U^{(p)}U_p$ with $U^{(p)}$ tame and $U_p\subseteq M_\alpha$, $\alpha\ge1$ (his ``wild level $\ge p^\alpha$'', e.g.\
+  $U=\Uone{Mp^s}$). Identify his $L_k$ (polynomials $h(z)$ of degree $\le n$ with right action $(h|\gamma)(z)=(cz+d)^nh(\tfrac{az+b}{cz+d})$)
+  with $V_k$ by $h\mapsto Y^nh(X/Y)$; then $P|\gamma=\rho(\gamma^{\mathsf T})P$. Put $J:=\iota_p^{-1}\left(\begin{smallmatrix}0&1\\-1&0\end{smallmatrix}\right)$ and
+  \[\Phi_{\rm Bz}(f)(x):=u_{x,p}^{-n}\,\rho(J)\,f(x).\]
+  Then $\Phi_{\rm Bz}$ is an isomorphism $L(U,L_k\otimes R)\xrightarrow\sim\Brandt U{V_k\otimes R}$ for every $\Zp$-algebra $R$ (integral), and
+  $\Phi_{\rm Bz}\circ[U\eta U]_{\rm Bz}=T_\eta^*\circ\Phi_{\rm Bz}$ for every $\eta$ with $\eta_p\in M_\alpha$. Hence, as operators:
+  his $U_p=[U\eta_pU]$, $\eta_p=\mathrm{diag}(p,1)$, is $U_p^*=\langle p\rangle_MU'_p$; his $T_\ell$ is $T_\ell^*$; his $S_\ell$ is $S_\ell^*$; his $[U\delta_dU]$ is
+  $\langle d\rangle^{-1}$. On Hecke algebras (via $T\mapsto T^*$): his $U_p,T_\ell,S_\ell,[U\delta_dU]$ are $N_{U_p},T_\ell,S_\ell,\langle d\rangle$. His
+  $[U\delta_dU]$ acts on $S^D_k(\Uone M)(\varepsilon)$ by $\varepsilon(d)^{-1}$, while his $S_\ell$ acts by $\varepsilon(\ell)\ell^{k-2}$, as the classical
+  $S_\ell=\ell^{k-2}\langle\ell\rangle$ does on $S_k(\Gamma_1(M),\varepsilon)$. So, compatibly with his Thm.~2, \textbf{the seed's adelic $\langle d\rangle$ is the classical
+  $\langle d\rangle^{-1}$}.
+\item \textbf{Hida} ($F=\Q$, $k=2$, i.e.\ $n=0$). Hida's $S^*(N)$ is the space of level $V_1(N)$ (lower right entry $\equiv1$, $c\equiv0$; this is the
+  seed's $\Uone N$), and his abstract Hecke ring $R(N)$ (double cosets of $\Delta_1(N)$, upper left entry $\equiv1$) acts on it by
+  $U_1(N)xU_1(N)\mapsto[V_1(N)x^{-\iota}V_1(N)]$, where $x^\iota=\bar x=\Nrd(x)x^{-1}$ and $[UyU]f=\sum_if(\cdot\,y_i^{-1})$ for $UyU=\coprod_iUy_i$. Then
+  Hida's operator of $x$ on $S^*(N)$ is the seed's $T_{\bar x}$ on the same functions. Hence his $T(p)$ ($p\mid N$; $x=\mathrm{diag}(1,p)$) is
+  $N_{U_p}$; his $T(\ell)$ ($\ell\nmid N$) is $T_\ell$; his $T(\ell,\ell)$ is $S_\ell$. In particular his $\langle\ell\rangle:=T(\ell,\ell)$ (weight $2$) is the seed's
+  $S_\ell=\langle\ell\rangle^{-1}$ (Prop.~\ref{prop:s01-relations}(a) with $n=0$).
+\item \textbf{Hsieh.} His conventions agree with the seed's in the following points (his forms carry in addition the central-character condition $f(\alpha xuz)=\rho_\kappa(u_p^{-1})f(x)z_p^{-\kappa}\chi^{-1}(z)$, \S4.2, p.~30): $U_1(N)$ has lower row $\equiv(0,1)$, $\rho_\kappa(g)P=P((X,Y)g)$, forms satisfy
+  $f(\alpha xu)=\rho_\kappa(u_p^{-1})f(x)$. As operators: his $U_pf(x)=\sum_b\rho_\kappa\left(\begin{smallmatrix}p&b\\0&1\end{smallmatrix}\right)f\left(x\left(\begin{smallmatrix}p&b\\0&1\end{smallmatrix}\right)\right)$ is
+  $N_{U_p}$; his $T_q$ is $T_q$; his $U_q$ ($q\mid N^+$, $q\ne p$) is $U_q$; his $U_q$ ($q\mid N^-$), $f\mapsto f(x\varpi_{D_q})$, is $\Pi_q$; his $\sigma_d$
+  (right translation by a scalar idele $\tilde d$, Teichm\"uller at $p$) is the seed's $\omega(d)^{-n}\langle\tilde d\rangle$, $\omega$ the Teichm\"uller character, $n=k-2$ (so $=\langle\tilde d\rangle$ for $k=2$). His JL sends $U_q\mapsto-U_q$ ($q\mid N^-$)
+  and $\sigma_d\mapsto\sigma_d$. \textbf{Neither is imported}: we use $U_\ell\mapsto+\Pi_\ell$ (Ex.~\ref{ex:s01-Pi11}) and classical
+  $\langle d\rangle\mapsto$ seed $\langle d\rangle^{-1}$ ((a), (b)); note that his $\sigma_d$ acts on $S^D(N,\chi,\Lambda)$ by $\chi^{-1}(d)$, while the
+  classical $\sigma_d$ acts on the $\chi$-part by $\chi(d)$.
+\item \textbf{Longo--Vigni.} Their class sets are $\tilde X_m=U_m\backslash\Bhat^\times/B^\times$ with $U_m$ of tame Eichler level $N^+$ and
+  $x_p\equiv\left(\begin{smallmatrix}1&*\\0&*\end{smallmatrix}\right)\bmod p^m$ (Hida's upper-left convention), and they use Hida's $T(n)$, $T(n,n)$ acting on
+  divisors, normalised so that $\langle n\rangle=T(n,n)$. The map $b\mapsto\bar b$ is a bijection $\tilde X_m\xrightarrow\sim\XB{\bar U_m}$ with
+  $\bar U_m=\hat\cO(N^+)^\times\cap\Uone{p^m}$ (seed convention), and it carries the action $[U_mbB^\times]\mapsto\sum_i[U_mg_ibB^\times]$
+  ($U_mgU_m=\coprod U_mg_i$) to the seed's homological $T_{\bar g}$ on $\Z[\XB{\bar U_m}]$. Hence their $U_p=T(p)$ is the homological $N_{U_p}$
+  (which is what makes it compatible with their pushforwards $\tilde\alpha_{m,*}$, Lemma~\ref{lem:s01-Up}(b)); their $T(\ell)$ is $T_\ell$; their
+  $\langle n\rangle=T(n,n)$ is the homological $S_n$, i.e.\ the seed's $\langle n\rangle^{-1}$ ($k=2$). Their Prop.~6.1 is therefore compatible with the
+  convention ``adelic $\langle d\rangle=$ classical $\langle d\rangle^{-1}$''.
+\end{enumerate}
+\textbf{Summary.} $N_{U_p}$ is: Hsieh's $U_p$ (operator), Hida's $T(p)$ on $S^*(N)$ (operator), LV's $U_p$ after $b\mapsto\bar b$ (homological
+operator), and Buzzard's $U_p$ on Hecke algebras (as an operator via $\Phi_{\rm Bz}$, Buzzard's $U_p$ is $U_p^*=\langle p\rangle_MU'_p$). The seed's
+literal $U'_p$ occurs in the literature only through such adjoints. Diamonds: the adelic $\langle d\rangle$ is the classical $\langle d\rangle^{-1}$.
+Atkin--Lehner at $\ell\mid D$: $U_\ell\mapsto+\Pi_\ell$; Hsieh's $-$ is not imported.
+\end{lemma}
+\noindent\stpmc{} (the identifications are computations, proved below; the readings of the sources are cited). Sources:
+\stcited{} \lit{buzzard\_2004\_p-adic-families-of-automorphic-forms\_preprint}{\S4, p.~10 ($L(U,A)$, $f(dgu)=f(g)u_p$, $U_1(M)$),
+p.~11 ($L_k$, $\varepsilon$-parts), p.~12 ($f|\eta$, $[U\eta U]=\sum_if|\eta_i$ for $U\eta U=\coprod U\eta_i$), p.~13 ($T_l$, $S_l$, $S_lf=\varepsilon(l)l^{k-2}f$,
+Thm.~2); \S5, p.~16 ($U_p=[U\eta_pU]$)};
+\stcited{} \lit{hida\_1988\_p-adic-hecke-algebras-for-gl2-over-totally-real-fields}{(2.3a), p.~303; definition of $[UxU']$, p.~306; involution
+$\iota$ and Prop.~2.3, p.~307; $U_1(N)$, $V_1(N)$, $\Delta_1(N)$, p.~308; (2.9a)--(2.9e), p.~309 (scan with lossy OCR: formulas checked on the
+page image)};
+\stcited{} \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.1--4.2, pp.~29--30 ($U_1(N)$, $\rho_\kappa$, forms,
+$T_q$, $U_q$, $U_p$); \S4.4, p.~31 ($\sigma_d$, $S^D(N,\chi,\Lambda)$); \S3.3, p.~18 (classical $\sigma_d$); \S4.5, p.~34 (JL)};
+\stcited{} \lit{longo-vigni\_2009\_quaternion-algebras-heegner-points-and-the-arithmetic-of-hida-families\_arxiv}{\S2, p.~7 ($U_m$);
+\S2.1, p.~8 ($\tilde X_m$), \S6.1, p.~25 ($\mathrm{Pic}\,\tilde X_m=\Z[U_m\backslash\Bhat^\times/B^\times]$); \S5.1, p.~20 ($T(a,a)_k=a^{k-2}\langle a\rangle_k$); \S6, pp.~25--27 (Hida's $T(n)$, $T(n,n)$; $\langle n\rangle=T(n,n)$;
+Prop.~6.1, p.~27)}.
+Caveats: (b) is stated for $k=2$ only (Hida's weight sits at $\infty$; for $k>2$ one composes with the transfer between weights at $\infty$ and
+at $p$, which is not done here). In (d), LV define the Hecke action on divisors by reference (``via Brandt matrices''); the natural left action
+used above is the one compatible with their pushforwards, but it is not spelled out in their text. Lean: not planned (numeric check: S01-C6).
+\begin{proof}
+\emph{Preliminaries.} $T\mapsto T^*$ is an anti-automorphism of $\End$, hence an isomorphism $A\to A^*$ for commutative $A$.
+The map $F\mapsto\langle F,\cdot\rangle_k$ (non-degenerate, Def.~\ref{def:s01-pairingV}(ii)) identifies $\Brandt U{V_k\otimes\Qp}$, with
+$T\in A$ acting by $T^*$, with the dual space, with $T$ acting by the transpose $T^{\mathsf t}$ (since $\langle T^*F,H\rangle_k=\langle F,TH\rangle_k$); a
+finite-dimensional module and its dual have the same support over $A$, hence the same systems of eigenvalues.
+
+(a) $h\mapsto P_h:=Y^nh(X/Y)$ is an integral isomorphism, and $P_{h|\gamma}(X,Y)=(cX+dY)^nh\big(\tfrac{aX+bY}{cX+dY}\big)=P_h(aX+bY,cX+dY)=\rho(\gamma^{\mathsf T})P_h$.
+For a $2\times2$ matrix $u$ one checks $J u^{\mathsf T}J^{-1}=\mathrm{adj}(u)$, hence $u^{-1}J=\det(u)^{-1}Ju^{\mathsf T}$ and
+$\rho(u)^{-1}\rho(J)=\det(u)^{-n}\rho(J)\rho(u^{\mathsf T})$ for $u$ invertible. So for $u\in U$:
+$\Phi_{\rm Bz}f(xu)=u_{x,p}^{-n}\det(u_p)^{-n}\rho(J)\rho(u_p^{\mathsf T})f(x)=\rho(u_p)^{-1}\Phi_{\rm Bz}f(x)$, and $\Phi_{\rm Bz}f(\gamma x)=\Phi_{\rm Bz}f(x)$ since
+$u_{\gamma x}=u_x$. $J$ and $u_{x,p}$ are integral units, so $\Phi_{\rm Bz}$ is an isomorphism over every $R$. Hecke operators: with
+$U\eta U=\coprod_iU\eta_i$ and $h_i:=\eta_i^{-1}$ we have $U\eta^{-1}U=\coprod_ih_iU$ and
+\[\Phi_{\rm Bz}([U\eta U]f)(x)=u_{x,p}^{-n}\sum_i\rho(J)\rho(\eta_{i,p}^{\mathsf T})f(xh_i)=\sum_iu_{\eta_i,p}^{-n}\,\rho\big(\mathrm{adj}(\eta_{i,p})\big)\,\Phi_{\rm Bz}f(xh_i),\]
+using $f(y)=u_{y,p}^n\rho(J)^{-1}\Phi_{\rm Bz}f(y)$, $u_{xh_i}=u_xu_{\eta_i}^{-1}$ and $J\eta^{\mathsf T}J^{-1}=\mathrm{adj}(\eta)$. Since $\mathrm{adj}(\eta_{i,p})=\det(\eta_{i,p})h_{i,p}$
+and $\det(\eta_{i,p})=r_\eta u_{\eta_i,p}$, the right side is $r_\eta^n\sum_i\rho(h_{i,p})\Phi_{\rm Bz}f(xh_i)=r_\eta^nT_{\eta^{-1}}\Phi_{\rm Bz}f(x)=T_\eta^*\Phi_{\rm Bz}f(x)$
+by Lemma~\ref{lem:s01-dictionary}(d). The listed operators follow from Lemma~\ref{lem:s01-dictionary}(d), with $\eta=\varpi_p,\varpi_\ell,z_\ell,\delta_d$
+(for $\ell\nmid Mp$, $[U\varpi_\ell U]$ is the same double coset for $\iota_\ell^{-1}\mathrm{diag}(\ell,1)$ and Buzzard's $\eta_l$). On
+$S^D_k(\Uone M)(\varepsilon)$, $f(g\delta_d^{-1})=\varepsilon(d)^{-1}f(g)|\delta_{d,p}^{-1}$, so $[U\delta_dU]f=f|\delta_d=\varepsilon(d)^{-1}f$ ($\delta_d$ normalises
+$\Uone M$). Buzzard's Thm.~2 identifies his $S_\ell$ with the classical one, which acts on $S_k(\Gamma_1(M),\varepsilon)$ by $\ell^{k-2}\varepsilon(\ell)$
+(\stknown); so his $\varepsilon$ is the classical nebentypus, on which the classical $\langle d\rangle$ acts by $\varepsilon(d)$. His
+$[U\delta_dU]$, i.e.\ the seed's $\langle d\rangle$ on Hecke algebras, acts by $\varepsilon(d)^{-1}$.
+
+(b) For finite $y$, Hida's (2.3a) is $(f|y)(x)=f(xy^{-1})$ (with trivial weight). If $V_1yV_1=\coprod_iV_1y_i$, then $V_1y^{-1}V_1=\coprod_iy_i^{-1}V_1$, so
+$f|[V_1yV_1]=\sum_if(\cdot\,y_i^{-1})=T_{y^{-1}}f$. With $y=x^{-\iota}=(\bar x)^{-1}$ this is $T_{\bar x}$. Moreover $\overline{\mathrm{diag}(1,p)}=\mathrm{diag}(p,1)$, so Hida's $T(p)$ is
+$[V_1\varpi_pV_1]=N_{U_p}$; this uses that the norm-$p$ elements of $\Delta_1(N)_p$ ($p\mid N$) form the single double coset
+$U_1(N)_p\mathrm{diag}(1,p)U_1(N)_p$. Indeed, for $x=\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)$ with $a\equiv1$, $c\equiv0\bmod p^s$, $v_p(\det x)=1$, the
+elementary operations $\left(\begin{smallmatrix}1&0\\-c/a&1\end{smallmatrix}\right)x\left(\begin{smallmatrix}1&-b/a\\0&1\end{smallmatrix}\right)=\mathrm{diag}(a,\det x/a)$ and
+$\mathrm{diag}(a^{-1},1)$, $\mathrm{diag}(1,u)$ lie in $U_1(N)_p$. For $\ell\nmid N$, $\overline{\mathrm{diag}(1,\ell)}=\mathrm{diag}(\ell,1)$, which gives $T_\ell$. For $T(\ell,\ell)$
+the element $m$ is a scalar idele with $m_\ell=\ell$ and $m\equiv1\bmod N$, so $\bar m=m$ and $T_m=R(z_\ell)R(v)$ with a scalar $v\in V_1(N)$, i.e.\ $S_\ell$.
+
+(c) A direct comparison of the formulas cited above with Defs.~\ref{def:s01-brandt}, \ref{def:s01-hecke}, \ref{def:s01-NUp}. For $\sigma_d$: a scalar
+$\tilde d\in\Zhat^\times$ equals $\delta\cdot\mathrm{diag}(d,1)$ with $\delta$ of lower right entry $d$ and $\mathrm{diag}(d,1)\in\Uone N$, so $[x\tilde d]=[x\delta]$, which is the
+homological $\langle d\rangle$. With coefficients $\rho_\kappa$, $u=\mathrm{diag}(\tilde d,1)$ contributes $\rho(u_p)^{-1}\rho(\delta_p)^{-1}$, which gives $\sigma_d=\omega(d)^{-n}\langle\tilde d\rangle$; the plain identity holds for trivial coefficients.
+
+(d) The canonical involution is an anti-automorphism of $\Bhat$ that preserves $B^\times$. Hence $U_mbB^\times\mapsto B^\times\bar b\,\bar U_m$ is a bijection,
+and $U_mgU_m=\coprod U_mg_i$ implies $\bar U_m\bar g\bar U_m=\coprod\bar g_i\bar U_m$, so $\sum_i[U_mg_ibB^\times]\mapsto\sum_i[\bar b\bar g_i]=T_{\bar g}[\bar b]$. At $p$,
+$\mathrm{adj}\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)=\left(\begin{smallmatrix}d&-b\\-c&a\end{smallmatrix}\right)$ maps ``$a\equiv1$, $c\equiv0$'' to ``$c\equiv0$, $d\equiv1$''; at $\ell\ne p$ the local
+Eichler order is stable under $\bar{\ }$. Then $\overline{\mathrm{diag}(1,p)}=\varpi_p$, $\overline{\mathrm{diag}(1,\ell)}=\mathrm{diag}(\ell,1)$, and $\bar m=m$ for the scalar
+$m$ of $T(n,n)$; the homological $S_n$ is the transpose of $S_n$, and $S_n=\langle n\rangle^{-1}$ at $k=2$ (Prop.~\ref{prop:s01-relations}(a)).
+\end{proof}
+
+%----------------------------------------------------------------------
+\begin{example}[$\Pi_{11}$ on $B_{11}$; a sign data point for stage 05]\label{ex:s01-Pi11}
+$D=11$, $U=\hat\cO^\times$, $k=2$: $\XB{U}=\{[x_1],[x_2]\}$ with $|\Gamma_{x_1}|=4$, $|\Gamma_{x_2}|=6$ (Ex.~\ref{ex:s01-masschecks}:
+$\frac14+\frac16=\frac{10}{24}$). Then $\Pi_{11}=\mathrm{id}$ on $\Z^X$ and on $\Z[X]$. Under classical JL
+(Thm.~\ref{thm:s01-JLclassical}), $\Z^X\otimes\C=\C\mathbf 1\oplus\C f_{11}$ with $f_{11}$ corresponding to the newform of the curve $11a$, whose
+$a_{11}=+1$ ($11a$ has split multiplicative reduction at $11$; \stknown). Hence, in the seed's normalisation, $U_{11}\leftrightarrow+\Pi_{11}$
+here. Compare Hsieh, who writes $\mathrm{JL}(U_q)=(-1)U_q$ for $q\mid N^-$
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S4.5, p.~34}: his operator is our $\Pi_q$
+(Lemma~\ref{lem:s01-Upconv}(c)); the example contradicts his sign.
+\provisional{F6/D3: replaced ``his quaternionic $U_q$ is normalised differently'' by ``his operator is our $\Pi_q$; the example contradicts his sign''; before: the sign difference was attributed to a different normalisation of his quaternionic $U_q$.}
+Stage 05 owns $\varepsilon$; this example and S01-C7 (seed HACS test H5) pin it.
+\end{example}
+\noindent\stpmc{} ($\Pi_{11}=\mathrm{id}$ is proved below; the identification of the cuspidal line with $11a$ is
+Thm.~\ref{thm:s01-JLclassical}, cited). Lean: not planned (numeric: S01-C7).
+\begin{proof}[Proof that $\Pi_{11}=\mathrm{id}$]
+$\Pi:=\Pi_{11}\in B_{11}^\times$ normalises $\cO_{11}^\times$ (Prop.~\ref{prop:s01-relations}(b)), hence normalises $\hat\cO^\times$, so
+$\Gamma_{x\Pi}=B^\times\cap x\Pi\hat\cO^\times\Pi^{-1}x^{-1}=\Gamma_x$. Since $x\mapsto x\Pi$ permutes $\XB{\hat\cO^\times}$ (the class of $x\Pi$ depends only on
+$[x]$, again because $\Pi$ normalises $\hat\cO^\times$) and the two classes have stabilisers of different orders, $[x_i\Pi]=[x_i]$ for $i=1,2$. So
+$\Pi_{11}f=f(\cdot\,\Pi)=f$ on $\Z^X$, and its transpose $[x]\mapsto[x\Pi]$ is the identity on $\Z[X]$. In ideal language this is the standard
+fact that $[x]\mapsto[x\Pi]$ is $I\mapsto I\mathfrak P$, $\mathfrak P$ the two-sided prime above $11$, which preserves the left order; it is not needed for
+the argument.
+\end{proof}

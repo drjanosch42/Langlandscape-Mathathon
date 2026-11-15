@@ -1,0 +1,7 @@
+set coefficient_ring = "Z";
+for n in range(2, 61, 2) {
+    a = descent(1, n, [2, 3, 5, 7, 11, 13]);
+    print("@@L1 " + json([n, a.groups[1], a.charpoly_factored]));
+    b = descent(3, n, [2, 5, 7, 11, 13]);
+    print("@@L3 " + json([n, b.groups[1], b.charpoly_factored]));
+}

@@ -1,0 +1,793 @@
+{
+ "provenance": {
+  "script": "code/python/langlandscape/hacs_bridge/betti_t4.py",
+  "commit": "d46974d7c8e47f045d3565cffe9b28d7dece6770-dirty",
+  "dirty": true,
+  "params": {
+   "module_z_allowed": false,
+   "Q4": "default no (pending Fabian)",
+   "q": 3,
+   "p": 17,
+   "ell": 17,
+   "ks": [
+    12,
+    28,
+    44,
+    60,
+    124
+   ],
+   "E": 12,
+   "hacs_primes": [
+    2,
+    3,
+    17
+   ],
+   "N_max_hacs": 60,
+   "tau": {
+    "2": -24,
+    "3": 252,
+    "17": -6905934
+   },
+   "branch": "17-adic eigensystem of Delta-type (T_2 = -24, T_3 = 252 mod 17), k = 12 mod 16"
+  },
+  "date": "2026-11-15T01:18:23+00:00",
+  "runtime_s": 85.95,
+  "python": "3.10.12",
+  "pari_version": "2.15.4",
+  "notes": null,
+  "hacs_version": "hacs 0.2.1 (commit unknown; contract [C] 1.28.0, [E] 1.25.3, [U] 0.8.1)",
+  "hacs_sha256": "63129f5bc5b5da30287f78cc398cfe379c2c770f91e3dee6d4a4517bf98b7179",
+  "hacs_binary": "hacs-build/laneA/hacs"
+ },
+ "data": {
+  "module_z_allowed": false,
+  "Q4": "default no (pending Fabian)",
+  "conventions": {
+   "source": "code/hacs/docs/jl_exchange/hacs-answers/task1_v6/results.md section 0 (verbatim); amalgam prime p := q = 3",
+   "g": "g = diag(1, p)",
+   "kappa": "kappa(c)(x) = rho_n(g) c(g^{-1} x g)",
+   "alpha": "alpha(x, y) = dg_1 x - dg_p y",
+   "alpha_star": "alpha*(z) = (omega z, -omega' z), omega = cor^{SL_2(Z)}_{Gamma_0(p)}, omega' = kappa^{-1} o cor^{G_2}_{Gamma_0(p)}",
+   "alpha_star_alpha": "alpha*alpha = [[p+1, -T_p], [-p^{2-k} T_p, p+1]] on H^1(SL_2(Z), V)^2",
+   "T_q": "classical T_q (no p^{k/2-1} twist); HACS free block F in the column convention T b_j = sum_i F_ij b_i",
+   "s03_form": "s03 (code/results/s03/C3_rerun.json): [[q+1, -q^{2-k} T_q], [-T_q, q+1]] = J (alpha*alpha) J, J = [[0,1],[1,0]] (block swap); same determinant and isomorphic cokernel (both computed and compared per k)",
+   "rho_n": "column j of rho_n(A) holds the coefficients of (ax+cy)^{n-j}(bx+dy)^j in the basis x^{n-t}y^t"
+  },
+  "localisation": "m = (17, T_2 + 24, T_3 - 252, ...): the m-part of L (x) Z_17 is cut out by e_m = e_2(T_2) e_3(T_3), the primary idempotents for the residues tau(2), tau(3) mod 17 (lifted mod 17^E). At every k here e_m = e_{T_3} already (checked: e_T3_equals_e_m), so T_2 plays no role in the localisation; e_{T_2} alone would not suffice (at k = 60 the residue tau(2) has T_2-multiplicity 4 > 2 = rank e_m, see rank_e_T2), but multiplying by it does not change e_{T_3}. At level 1 the T_3-branch has degree 1, so it is one eigenform, of Delta-type by Deligne-Serre applied to Delta * E_16^{(k-12)/16} (E_16 = 1 mod 17). coker(M)_m = coker(M diag(e,e) + 1 - diag(e,e)).",
+  "ordinary_projector": "e = lim T_17^{N!}, computed as T_17^N mod 17^E and checked idempotent. T_17 = tau(17) = 10 mod 17 is a unit on the m-part (checked: T17_unit_on_m_part), so e e_m = e_m (checked): e acts as the identity on the m-part and e coker(Psi*Psi)_m = coker(Psi*Psi)_m.",
+  "routes": {
+   "betti_amalgam": "route B, GATING. task1_v6 amalgam.py (imported) + transfer block adapted from cell.py: all four blocks of alpha*alpha as actual composites from cocycles (diagonal checked = q+1); no HACS data",
+   "betti_hacs": "route A, NOT RUN (module_Z() off by default; Q4: default no, pending Fabian). HACS module_Z() integral T_q on H^1/tors, alpha*alpha in the task1_v6 convention",
+   "hecke": "HACS descent(...).charpoly only: exact char_Z(T_3) (cusp part), length Z_17[x]/(h, 16*3^{k-2} - x^2); status open if branch degree > 1",
+   "t_G_proxy": "PARI mf, stage-06 H1 proxy ord_17(a_3^2 - 16*3^{k-2})"
+  },
+  "hecke_structure": "not read: this WP uses descent / charpoly (and module_Z only if opted in), so no default_fp / hz_theta_order is involved (the binary's hecke_structure records are not consulted)",
+  "table": [
+   {
+    "k": 12,
+    "status": "computed",
+    "betti_hacs": null,
+    "betti_amalgam": [
+     1,
+     1
+    ],
+    "hecke_status": "computed",
+    "hecke_length": 1,
+    "interpretation": null,
+    "t_G_proxy": 1,
+    "expected_seed": 1,
+    "RN6": 1
+   },
+   {
+    "k": 28,
+    "status": "computed",
+    "betti_hacs": null,
+    "betti_amalgam": [
+     1,
+     1
+    ],
+    "hecke_status": "computed",
+    "hecke_length": 1,
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "t_G_proxy": 1,
+    "expected_seed": 1,
+    "RN6": 1
+   },
+   {
+    "k": 44,
+    "status": "computed",
+    "betti_hacs": null,
+    "betti_amalgam": [
+     1,
+     1
+    ],
+    "hecke_status": "computed",
+    "hecke_length": 1,
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "t_G_proxy": 1,
+    "expected_seed": 1,
+    "RN6": 1
+   },
+   {
+    "k": 60,
+    "status": "computed",
+    "betti_hacs": null,
+    "betti_amalgam": [
+     1,
+     1
+    ],
+    "hecke_status": "computed",
+    "hecke_length": 1,
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "t_G_proxy": 1,
+    "expected_seed": 1,
+    "RN6": 1
+   },
+   {
+    "k": 124,
+    "status": "not_reachable",
+    "betti_hacs": null,
+    "betti_amalgam": null,
+    "hecke_status": "not_reachable",
+    "hecke_length": null,
+    "interpretation": null,
+    "t_G_proxy": 2,
+    "expected_seed": 2,
+    "RN6": null
+   }
+  ],
+  "acceptance": {
+   "k12_task1c_(Z/17)^2": true,
+   "gating_route": "B (amalgam)",
+   "betti_iso_(T_m/delta)^2_all_reachable": true,
+   "RN6_agree_all_reachable": true,
+   "seed_prediction": {
+    "status": "expected",
+    "gating": false,
+    "values": {
+     "12": 1,
+     "28": 1,
+     "44": 1,
+     "60": 1,
+     "124": 2
+    }
+   },
+   "pending_crosscheck": "S06-C3",
+   "pass": true
+  },
+  "rows": [
+   {
+    "k": 12,
+    "n": 10,
+    "k_mod_16": 12,
+    "expected": {
+     "status": "expected",
+     "ord17_c3_seed": 1,
+     "Betti_expected_from_seed": [
+      1,
+      1
+     ]
+    },
+    "t_G_proxy": {
+     "status": "computed",
+     "value": 1,
+     "branch_degree": 1,
+     "charpoly_T3_cusp_PARI": [
+      1,
+      -252
+     ],
+     "wall_s": 0.03,
+     "method": "PARI mfinit/mfheckemat (q-expansion Hecke matrices; independent of HACS and of amalgam.py); proxy formula of stage-06 H1: ord_17(a_3(G_k)^2 - 3^{k-2} 16) on the old branch",
+     "caveat": "the identification of this proxy with the Kim-Ota / Pollack-Weston Tamagawa exponent t_f(3) of the 3-new form is not checked here (cor:s06-allweights, \\stpmc)"
+    },
+    "hecke": {
+     "status": "computed",
+     "branch_degree": 1,
+     "monogenic": "T(1)_m has Z_17-rank 1 (one 17-adic eigenform with a_3 = tau(3) mod 17), so T(1)_m = Z_17 = Z_17[T_3]",
+     "T_m_over_delta": {
+      "elementary_divisor_valuations": [
+       1
+      ],
+      "length": 1,
+      "unresolved_or_free": 0
+     },
+     "length": 1,
+     "a3_mod_17^E": 252,
+     "delta_integral": "3^{k-2} delta = 16*3^{k-2} - T_3^2 (3 a 17-adic unit)",
+     "source": "HACS descent(1, k-2, [2,3,17]).charpoly: exact char_Z(T_3 | H^1/tors), cusp part",
+     "charpoly_T3_cusp": [
+      "1",
+      "-252"
+     ],
+     "hacs_groups": [
+      "0",
+      "Z^3 + Z/2 + Z/2^2 + Z/3",
+      "Z/2",
+      "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/3"
+     ],
+     "hacs_wall_s": 0.36
+    },
+    "betti_amalgam": {
+     "rank_L": 3,
+     "rank_e_T3": 2,
+     "rank_e_T2": 2,
+     "rank_e_m": 2,
+     "e_m_idempotent": true,
+     "e_T3_equals_e_m": true,
+     "rank_e_ord": 3,
+     "e_ord_e_m_equals_e_m": true,
+     "T17_unit_on_m_part": true,
+     "check_X_equals_T3": true,
+     "check_Y_equals_q^(2-k)X": true,
+     "check_omega_dg_1_equals_q+1": true,
+     "check_omega'_dg_q_equals_q+1": true,
+     "blocks": "all four blocks actual composites: omega o dg_1, omega' o dg_q (diagonal, computed, = q+1 checked), omega o dg_q (X), omega' o dg_1 (Y)",
+     "alpha*alpha_commutes_with_e_m": true,
+     "coker_m": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "coker_m_s03_form": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "s03_form_same_coker": true,
+     "coker_unlocalised_17_part": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "precision": "17^12",
+     "status": "computed",
+     "gating": true,
+     "source": "task1_v6/scripts/amalgam.py (imported), no HACS data",
+     "lattice": "L = Z_(17)-span of the classes of e_c, c non-pivot (no 17 in any denominator of proj(e_j))",
+     "torsion_17_H1": [],
+     "rank_H1": 3,
+     "charpoly_T3_equals_HACS": true,
+     "amalgam_wall_s": 0.18
+    },
+    "betti_hacs": {
+     "status": "not_run",
+     "reason": "not run: HACS module_Z() is OFF by default (Q4: default no, pending Fabian); opt in with --allow-module-z / allow_module_z=True",
+     "gating": false,
+     "needs": "Q4"
+    },
+    "agreement": {
+     "betti_amalgam_iso_(T_m/delta)^2": true,
+     "t_G_proxy_equals_hecke_length": true,
+     "RN6_ord17_c3": 1,
+     "hecke_length_equals_RN6": true,
+     "seed_expected_matches": true,
+     "task1c_(Z/17)^2": true,
+     "task1c_cell_alpha*alpha_vals": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+     ]
+    },
+    "status": "computed",
+    "pending_crosscheck": "S06-C3",
+    "wall_s": 0.64
+   },
+   {
+    "k": 28,
+    "n": 26,
+    "k_mod_16": 12,
+    "expected": {
+     "status": "expected",
+     "ord17_c3_seed": 1,
+     "Betti_expected_from_seed": [
+      1,
+      1
+     ]
+    },
+    "t_G_proxy": {
+     "status": "computed",
+     "value": 1,
+     "branch_degree": 1,
+     "charpoly_T3_cusp_PARI": [
+      1,
+      1286280,
+      -7415907642864
+     ],
+     "wall_s": 0.0,
+     "method": "PARI mfinit/mfheckemat (q-expansion Hecke matrices; independent of HACS and of amalgam.py); proxy formula of stage-06 H1: ord_17(a_3(G_k)^2 - 3^{k-2} 16) on the old branch",
+     "caveat": "the identification of this proxy with the Kim-Ota / Pollack-Weston Tamagawa exponent t_f(3) of the 3-new form is not checked here (cor:s06-allweights, \\stpmc)"
+    },
+    "hecke": {
+     "status": "computed",
+     "branch_degree": 1,
+     "monogenic": "T(1)_m has Z_17-rank 1 (one 17-adic eigenform with a_3 = tau(3) mod 17), so T(1)_m = Z_17 = Z_17[T_3]",
+     "T_m_over_delta": {
+      "elementary_divisor_valuations": [
+       1
+      ],
+      "length": 1,
+      "unresolved_or_free": 0
+     },
+     "length": 1,
+     "a3_mod_17^E": 428178062208784,
+     "delta_integral": "3^{k-2} delta = 16*3^{k-2} - T_3^2 (3 a 17-adic unit)",
+     "source": "HACS descent(1, k-2, [2,3,17]).charpoly: exact char_Z(T_3 | H^1/tors), cusp part",
+     "charpoly_T3_cusp": [
+      "1",
+      "1286280",
+      "-7415907642864"
+     ],
+     "hacs_groups": [
+      "0",
+      "Z^5 + Z/2 + Z/2 + Z/2 + Z/2^2 + Z/2^2 + Z/3 + Z/3 + Z/5",
+      "Z/2 + Z/2 + Z/2 + Z/2",
+      "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2"
+     ],
+     "hacs_wall_s": 0.66
+    },
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "betti_amalgam": {
+     "rank_L": 5,
+     "rank_e_T3": 2,
+     "rank_e_T2": 2,
+     "rank_e_m": 2,
+     "e_m_idempotent": true,
+     "e_T3_equals_e_m": true,
+     "rank_e_ord": 3,
+     "e_ord_e_m_equals_e_m": true,
+     "T17_unit_on_m_part": true,
+     "check_X_equals_T3": true,
+     "check_Y_equals_q^(2-k)X": true,
+     "check_omega_dg_1_equals_q+1": true,
+     "check_omega'_dg_q_equals_q+1": true,
+     "blocks": "all four blocks actual composites: omega o dg_1, omega' o dg_q (diagonal, computed, = q+1 checked), omega o dg_q (X), omega' o dg_1 (Y)",
+     "alpha*alpha_commutes_with_e_m": true,
+     "coker_m": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "coker_m_s03_form": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "s03_form_same_coker": true,
+     "coker_unlocalised_17_part": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "precision": "17^12",
+     "status": "computed",
+     "gating": true,
+     "source": "task1_v6/scripts/amalgam.py (imported), no HACS data",
+     "lattice": "L saturated by HNF over Z (common denominator 14589861834240, 17-part 17)",
+     "torsion_17_H1": [],
+     "rank_H1": 5,
+     "charpoly_T3_equals_HACS": true,
+     "amalgam_wall_s": 0.7,
+     "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)"
+    },
+    "betti_hacs": {
+     "status": "not_run",
+     "reason": "not run: HACS module_Z() is OFF by default (Q4: default no, pending Fabian); opt in with --allow-module-z / allow_module_z=True",
+     "gating": false,
+     "needs": "Q4"
+    },
+    "agreement": {
+     "betti_amalgam_iso_(T_m/delta)^2": true,
+     "t_G_proxy_equals_hecke_length": true,
+     "RN6_ord17_c3": 1,
+     "hecke_length_equals_RN6": true,
+     "seed_expected_matches": true
+    },
+    "status": "computed",
+    "pending_crosscheck": "S06-C3",
+    "wall_s": 1.37
+   },
+   {
+    "k": 44,
+    "n": 42,
+    "k_mod_16": 12,
+    "expected": {
+     "status": "expected",
+     "ord17_c3_seed": 1,
+     "Betti_expected_from_seed": [
+      1,
+      1
+     ]
+    },
+    "t_G_proxy": {
+     "status": "computed",
+     "value": 1,
+     "branch_degree": 1,
+     "charpoly_T3_cusp_PARI": [
+      1,
+      -24401437812,
+      -433411430030887314384,
+      5866988517623967326564020435008
+     ],
+     "wall_s": 0.0,
+     "method": "PARI mfinit/mfheckemat (q-expansion Hecke matrices; independent of HACS and of amalgam.py); proxy formula of stage-06 H1: ord_17(a_3(G_k)^2 - 3^{k-2} 16) on the old branch",
+     "caveat": "the identification of this proxy with the Kim-Ota / Pollack-Weston Tamagawa exponent t_f(3) of the 3-new form is not checked here (cor:s06-allweights, \\stpmc)"
+    },
+    "hecke": {
+     "status": "computed",
+     "branch_degree": 1,
+     "monogenic": "T(1)_m has Z_17-rank 1 (one 17-adic eigenform with a_3 = tau(3) mod 17), so T(1)_m = Z_17 = Z_17[T_3]",
+     "T_m_over_delta": {
+      "elementary_divisor_valuations": [
+       1
+      ],
+      "length": 1,
+      "unresolved_or_free": 0
+     },
+     "length": 1,
+     "a3_mod_17^E": 539450021456216,
+     "delta_integral": "3^{k-2} delta = 16*3^{k-2} - T_3^2 (3 a 17-adic unit)",
+     "source": "HACS descent(1, k-2, [2,3,17]).charpoly: exact char_Z(T_3 | H^1/tors), cusp part",
+     "charpoly_T3_cusp": [
+      "1",
+      "-24401437812",
+      "-433411430030887314384",
+      "5866988517623967326564020435008"
+     ],
+     "hacs_groups": [
+      "0",
+      "Z^7 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2^2 + Z/2^2 + Z/2^2 + Z/2^2 + Z/3 + Z/3 + Z/3 + Z/3^2 + Z/5 + Z/7 + Z/13 + Z/41",
+      "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/3",
+      "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2"
+     ],
+     "hacs_wall_s": 1.27
+    },
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "betti_amalgam": {
+     "rank_L": 7,
+     "rank_e_T3": 2,
+     "rank_e_T2": 2,
+     "rank_e_m": 2,
+     "e_m_idempotent": true,
+     "e_T3_equals_e_m": true,
+     "rank_e_ord": 3,
+     "e_ord_e_m_equals_e_m": true,
+     "T17_unit_on_m_part": true,
+     "check_X_equals_T3": true,
+     "check_Y_equals_q^(2-k)X": true,
+     "check_omega_dg_1_equals_q+1": true,
+     "check_omega'_dg_q_equals_q+1": true,
+     "blocks": "all four blocks actual composites: omega o dg_1, omega' o dg_q (diagonal, computed, = q+1 checked), omega o dg_q (X), omega' o dg_1 (Y)",
+     "alpha*alpha_commutes_with_e_m": true,
+     "coker_m": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "coker_m_s03_form": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "s03_form_same_coker": true,
+     "coker_unlocalised_17_part": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "precision": "17^12",
+     "status": "computed",
+     "gating": true,
+     "source": "task1_v6/scripts/amalgam.py (imported), no HACS data",
+     "lattice": "L saturated by HNF over Z (common denominator 40484079648804809241366405120, 17-part 17)",
+     "torsion_17_H1": [],
+     "rank_H1": 7,
+     "charpoly_T3_equals_HACS": true,
+     "amalgam_wall_s": 2.07,
+     "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)"
+    },
+    "betti_hacs": {
+     "status": "not_run",
+     "reason": "not run: HACS module_Z() is OFF by default (Q4: default no, pending Fabian); opt in with --allow-module-z / allow_module_z=True",
+     "gating": false,
+     "needs": "Q4"
+    },
+    "agreement": {
+     "betti_amalgam_iso_(T_m/delta)^2": true,
+     "t_G_proxy_equals_hecke_length": true,
+     "RN6_ord17_c3": 1,
+     "hecke_length_equals_RN6": true,
+     "seed_expected_matches": true
+    },
+    "status": "computed",
+    "pending_crosscheck": "S06-C3",
+    "wall_s": 3.36
+   },
+   {
+    "k": 60,
+    "n": 58,
+    "k_mod_16": 12,
+    "expected": {
+     "status": "expected",
+     "ord17_c3_seed": 1,
+     "Betti_expected_from_seed": [
+      1,
+      1
+     ]
+    },
+    "t_G_proxy": {
+     "status": "computed",
+     "value": 1,
+     "branch_degree": 1,
+     "charpoly_T3_cusp_PARI": [
+      1,
+      -84016631749932,
+      -48122321338884847008549188448,
+      2043828233451849395600764022607299561425536,
+      561308988679981697997214317651183361505714718375326827776,
+      4464954114186561308564009112039849595712585439098492877487704724128768
+     ],
+     "wall_s": 0.01,
+     "method": "PARI mfinit/mfheckemat (q-expansion Hecke matrices; independent of HACS and of amalgam.py); proxy formula of stage-06 H1: ord_17(a_3(G_k)^2 - 3^{k-2} 16) on the old branch",
+     "caveat": "the identification of this proxy with the Kim-Ota / Pollack-Weston Tamagawa exponent t_f(3) of the 3-new form is not checked here (cor:s06-allweights, \\stpmc)"
+    },
+    "hecke": {
+     "status": "computed",
+     "branch_degree": 1,
+     "monogenic": "T(1)_m has Z_17-rank 1 (one 17-adic eigenform with a_3 = tau(3) mod 17), so T(1)_m = Z_17 = Z_17[T_3]",
+     "T_m_over_delta": {
+      "elementary_divisor_valuations": [
+       1
+      ],
+      "length": 1,
+      "unresolved_or_free": 0
+     },
+     "length": 1,
+     "a3_mod_17^E": 55485807820179,
+     "delta_integral": "3^{k-2} delta = 16*3^{k-2} - T_3^2 (3 a 17-adic unit)",
+     "source": "HACS descent(1, k-2, [2,3,17]).charpoly: exact char_Z(T_3 | H^1/tors), cusp part",
+     "charpoly_T3_cusp": [
+      "1",
+      "-84016631749932",
+      "-48122321338884847008549188448",
+      "2043828233451849395600764022607299561425536",
+      "561308988679981697997214317651183361505714718375326827776",
+      "4464954114186561308564009112039849595712585439098492877487704724128768"
+     ],
+     "hacs_groups": [
+      "0",
+      "Z^11 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2^2 + Z/2^2 + Z/2^2 + Z/2^2 + Z/2^2 + Z/3 + Z/3 + Z/3 + Z/3 + Z/3 + Z/5 + Z/7",
+      "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2",
+      "Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/2 + Z/3"
+     ],
+     "hacs_wall_s": 2.56
+    },
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "betti_amalgam": {
+     "rank_L": 11,
+     "rank_e_T3": 2,
+     "rank_e_T2": 4,
+     "rank_e_m": 2,
+     "e_m_idempotent": true,
+     "e_T3_equals_e_m": true,
+     "rank_e_ord": 3,
+     "e_ord_e_m_equals_e_m": true,
+     "T17_unit_on_m_part": true,
+     "check_X_equals_T3": true,
+     "check_Y_equals_q^(2-k)X": true,
+     "check_omega_dg_1_equals_q+1": true,
+     "check_omega'_dg_q_equals_q+1": true,
+     "blocks": "all four blocks actual composites: omega o dg_1, omega' o dg_q (diagonal, computed, = q+1 checked), omega o dg_q (X), omega' o dg_1 (Y)",
+     "alpha*alpha_commutes_with_e_m": true,
+     "coker_m": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "coker_m_s03_form": {
+      "elementary_divisor_valuations": [
+       1,
+       1
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "s03_form_same_coker": true,
+     "coker_unlocalised_17_part": {
+      "elementary_divisor_valuations": [
+       1,
+       1,
+       1,
+       1
+      ],
+      "length": 4,
+      "unresolved_or_free": 0
+     },
+     "precision": "17^12",
+     "status": "computed",
+     "gating": true,
+     "source": "task1_v6/scripts/amalgam.py (imported), no HACS data",
+     "lattice": "L saturated by HNF over Z (common denominator 32361563180414456787874275669190551310172160, 17-part 17)",
+     "torsion_17_H1": [],
+     "rank_H1": 11,
+     "charpoly_T3_equals_HACS": true,
+     "amalgam_wall_s": 6.24,
+     "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)"
+    },
+    "betti_hacs": {
+     "status": "not_run",
+     "reason": "not run: HACS module_Z() is OFF by default (Q4: default no, pending Fabian); opt in with --allow-module-z / allow_module_z=True",
+     "gating": false,
+     "needs": "Q4"
+    },
+    "agreement": {
+     "betti_amalgam_iso_(T_m/delta)^2": true,
+     "t_G_proxy_equals_hecke_length": true,
+     "RN6_ord17_c3": 1,
+     "hecke_length_equals_RN6": true,
+     "seed_expected_matches": true
+    },
+    "status": "computed",
+    "pending_crosscheck": "S06-C3",
+    "wall_s": 8.88
+   },
+   {
+    "k": 124,
+    "n": 122,
+    "k_mod_16": 12,
+    "expected": {
+     "status": "expected",
+     "ord17_c3_seed": 2,
+     "Betti_expected_from_seed": [
+      2,
+      2
+     ]
+    },
+    "t_G_proxy": {
+     "status": "computed",
+     "value": 2,
+     "branch_degree": 1,
+     "charpoly_T3_cusp_PARI": [
+      1,
+      -134125909579478648360089344600,
+      -288912520273308416448337340573582478644239772300791911343920,
+      32649622393900059804549828230924131640962828087353072945699415722531565070958826452057600,
+      28063687680179660547274800239668414527524102900859624940504541258837910714902540553068711150465990881777456478072885760,
+      -2103096707444849832294016145964774735171179919625986890810575334711370179565864806331771061880505844882202725885076665100250508523918007666844569600,
+      -1132871229489191900897545503874845339239181964016896157315051260689288720098972810379662063534827277137943147635205348148912130594416782081352738312390756308415348141010785853440,
+      32985178938618632848896270228863973289292862304487394685118905496306668246080572047228057959224798601599515536276499386825815577320275504228870516209823322322803245219961059554884062339000479114307328409600,
+      16163507557143354927513689498221676125478072754064192987386185793293168605707617976210765942095995999978880752500488351829882780613984794954522631465472323222964871712740791387105535852391394503291165543924651394407306491292462258913280,
+      298146577237509058613185328675271545539750864067201056588109290888494376132604005865959209550450537383570220411348873656414353333984662144320201336773854694003762546561864294741815470543464156207876705819481848256994109555421954556903632588729386778531440060006400,
+      -5632953282511040822054786570528422890993395555403529584796277110235268123658277835185797143987346310392859299280837007701736602565562027930952091771109322056816283921501951274970342368524876228505161697458567277082439782716165992832068002492526197856475014345342715818071573650232241342644224
+     ],
+     "wall_s": 0.02,
+     "method": "PARI mfinit/mfheckemat (q-expansion Hecke matrices; independent of HACS and of amalgam.py); proxy formula of stage-06 H1: ord_17(a_3(G_k)^2 - 3^{k-2} 16) on the old branch",
+     "caveat": "the identification of this proxy with the Kim-Ota / Pollack-Weston Tamagawa exponent t_f(3) of the 3-new form is not checked here (cor:s06-allweights, \\stpmc)"
+    },
+    "status": "not_reachable",
+    "betti_hacs": {
+     "status": "not_reachable",
+     "reason": "HACS descent caps Sym^n at n <= 60; k = 124 needs n = 122. Confirmed on the binary: 'type error: descent(N, n, primes): n must satisfy 0 <= n <= 60 (the cost bound of this verb)', exit 3",
+     "gating": false
+    },
+    "hecke": {
+     "status": "not_reachable",
+     "reason": "HACS descent caps Sym^n at n <= 60; k = 124 needs n = 122. Confirmed on the binary: 'type error: descent(N, n, primes): n must satisfy 0 <= n <= 60 (the cost bound of this verb)', exit 3"
+    },
+    "pending_crosscheck": "S06-C3"
+   }
+  ],
+  "supplementary_off_route": [
+   {
+    "k": 124,
+    "status": "computed",
+    "gating": false,
+    "interpretation": "expected (k >= ell: outside the if:s03-amalgam range l > k; S06-M7 \\stexp)",
+    "note": "supplementary, off the HACS route (HACS cap n <= 60): Betti from amalgam.py alone, Hecke side from PARI; amalgam beyond the if:s03-amalgam range l > k, so the reading as coker(Psi*Psi)_m of prop:s06-betti is \\stexp",
+    "betti_amalgam": {
+     "rank_L": 21,
+     "rank_e_T3": 2,
+     "rank_e_T2": 4,
+     "rank_e_m": 2,
+     "e_m_idempotent": true,
+     "e_T3_equals_e_m": true,
+     "rank_e_ord": 3,
+     "e_ord_e_m_equals_e_m": true,
+     "T17_unit_on_m_part": true,
+     "check_X_equals_T3": true,
+     "check_Y_equals_q^(2-k)X": true,
+     "check_omega_dg_1_equals_q+1": true,
+     "check_omega'_dg_q_equals_q+1": true,
+     "blocks": "all four blocks actual composites: omega o dg_1, omega' o dg_q (diagonal, computed, = q+1 checked), omega o dg_q (X), omega' o dg_1 (Y)",
+     "alpha*alpha_commutes_with_e_m": true,
+     "coker_m": {
+      "elementary_divisor_valuations": [
+       2,
+       2
+      ],
+      "length": 4,
+      "unresolved_or_free": 0
+     },
+     "coker_m_s03_form": {
+      "elementary_divisor_valuations": [
+       2,
+       2
+      ],
+      "length": 4,
+      "unresolved_or_free": 0
+     },
+     "s03_form_same_coker": true,
+     "coker_unlocalised_17_part": {
+      "elementary_divisor_valuations": [
+       1,
+       1,
+       2,
+       2,
+       2,
+       2
+      ],
+      "length": 10,
+      "unresolved_or_free": 0
+     },
+     "precision": "17^12",
+     "lattice": "L saturated by HNF over Z (common denominator 907365865002801832946302684820399870919262513877756423705764214731586084079257813087218063384843653339676475291826769763852997707917326790531360111995883809991488165642240, 17-part 17)",
+     "torsion_17_H1": [],
+     "rank_H1": 21
+    },
+    "hecke_pari": {
+     "status": "computed",
+     "branch_degree": 1,
+     "monogenic": "T(1)_m has Z_17-rank 1 (one 17-adic eigenform with a_3 = tau(3) mod 17), so T(1)_m = Z_17 = Z_17[T_3]",
+     "T_m_over_delta": {
+      "elementary_divisor_valuations": [
+       2
+      ],
+      "length": 2,
+      "unresolved_or_free": 0
+     },
+     "length": 2,
+     "a3_mod_17^E": 256207946990505,
+     "delta_integral": "3^{k-2} delta = 16*3^{k-2} - T_3^2 (3 a 17-adic unit)",
+     "source": "PARI mfheckemat charpoly of T_3 on S_k(1) (not HACS)"
+    },
+    "betti_iso_(T_m/delta)^2": true,
+    "seed_expected_matches": true,
+    "wall_s": 71.67
+   }
+  ],
+  "amalgam_licence": "amalgam.py: CC-BY-4.0 (HACS answer to the JL exchange, task1_v6), imported from its path, not copied. The omega/omega' block of amalgam_level1 is adapted from task1_v6/scripts/cell.py l. 33-61 (HACS project, (c) Fabian Januszewski, CC-BY-4.0), with attribution and SPDX snippet tags in betti_t4.py",
+  "rn6_source": "plan/hacs/checks-results-2026-11-14.md RN-6 (B14), b14_t4.oc / b14_post.py"
+ }
+}

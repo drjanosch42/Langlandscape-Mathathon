@@ -1,0 +1,856 @@
+% Document B (back-translation). Lean counterparts: lean/GL2TF/VolI/P1/{PrincipalSeries,SphericalEigen,Jacquet,Intertwining}.lean
+% Chapter files of A and B have identical names; owner per sprint: see the sprint note.
+% §§1-4 (M5a, W1): B1.
+
+\chapter{\texorpdfstring{Smooth representations of $\GL_2$ over a non-archimedean local field}{Smooth representations of GL₂ over a non-archimedean local field}}\label{ch:ch-1-02-smooth}
+
+\noindent\emph{Scope:} area \texttt{smooth}; the unramified principal series, the Jacquet module and the
+Gindikin--Karpelevich formula in M5a, irreducibility and the classification in M5b. \emph{Sources:} \cite[§§2--4]{JL};
+\cite[§§3--7, §9]{Cas-p}; \cite{Bern}; \cite{BZ}; \cite{A-SC}.
+
+\section{Quasi-characters and the principal series}
+
+\begin{definition}[quasi-characters]
+\tfstmt{I.smooth.def:quasi-character}
+\lean{GL2TF.Local.QuasiChar}
+\uses{I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.smooth.def:quasi-character}
+\tfsem{I.smooth.def:quasi-character}{18d1397ddfd6708032afa9afce373503b470afc3faad3ba0f5f6defb2f0448fa}
+\tfhyps{I.smooth.def:quasi-character}{}
+\tfbinder{I.smooth.def:quasi-character}{0}{081e958c}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:quasi-character}{1}{a507d942}{the field structure of $F$}
+\tfbinder{I.smooth.def:quasi-character}{2}{25312b32}{the topology of $F$}
+\begin{tffidelity}
+A quasi-character is the subtype \texttt{\{χ : Fˣ →* ℂˣ // Continuous χ\}} (continuity into $\C^\times$ with the subspace topology of $\C$); the coercion to a function $F^\times\to\C$ is the B-only instance \cref{I.smooth.def:quasi-character-coe}. The topology on $F^\times$ is Mathlib's topology on the units (the embedding into $F\times F^{\mathrm{op}}$), while A says ``subspace of $F$''; the two agree for the topological field $F$ (continuous inversion), so there is no change of content. Unramified is not part of this definition in Lean: the second sentence of A is the B-only predicate \cref{I.smooth.def:quasi-character-unramified}, which is therefore a Prop binder of the statements that need it (registered in \texttt{assumptions.yaml}). Only the field type, its field structure and its topology are binders (no valuation).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[unramified quasi-characters]
+\tfstmt{I.smooth.lem:unramified-character-param}
+\lean{GL2TF.Local.unramified_character_param}
+\uses{I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.smooth.def:quasi-character, I.smooth.def:quasi-character-unramified, I.smooth.def:uniformizer-unit}
+\end{lemma}
+\begin{tfformal}{I.smooth.lem:unramified-character-param}
+\tfsem{I.smooth.lem:unramified-character-param}{564bc2dd5e52346f07f3679c3caea33f2334ce124b93daebf241da13f6944d6c}
+\tfhyps{I.smooth.lem:unramified-character-param}{}
+\tfbinder{I.smooth.lem:unramified-character-param}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.lem:unramified-character-param}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.lem:unramified-character-param}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.lem:unramified-character-param}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.lem:unramified-character-param}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+A's $\chi(x)=\chi(\unif)^{\operatorname{ord}x}$ is stated without the constant $\operatorname{ord}$: $\chi(\unif^n u)=\chi(\unif)^n$ for all $u\in\Ocal_F^\times$ and $n\in\Z$ (every $x\in F^\times$ has this form with $n=\operatorname{ord}x$ by \cref{I.lf.thm:unit-uniformizer-decomposition}). The uniformizer as an element of $F^\times$ is the B-only \cref{I.smooth.def:uniformizer-unit}. The bijection $\chi\mapsto\chi(\unif)$ onto $\C^\times$, and its square on pairs, are \texttt{Function.Bijective} of the maps on the subtypes \texttt{\{χ // χ.IsUnramified\}} (resp. their product) to $\C$ and to $\C\times\C$ (the value $\chi(\unif)\in\C^\times$ is given as the underlying complex number). ``Unramified quasi-character'' is the subtype by the Prop \cref{I.smooth.def:quasi-character-unramified}. Unramified quasi-characters are thus compared to pairs $(\alpha,\beta)\in\C^\times\times\C^\times$ only through the maps $\chi\mapsto\chi(\unif)$; the Satake parameter is not a Lean notion.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) $x=\unif^n u$ (\texttt{eq\_unif\_zpow\_mul}) and $\chi$ is trivial on $\Ocal_F^\times$ by unramifiedness, so $\chi(x)=\chi(\unif)^n$ (\texttt{quasiChar\_apply\_unram}). (b) Injectivity: two unramified characters with the same value at $\unif$ agree on every $x=\unif^nu$ by (a). Surjectivity: for $\alpha\in\C^\times$ the character $x\mapsto\alpha^{\operatorname{ord}x}$ (\texttt{unramChar}) is continuous (locally constant, trivial on units by \texttt{ordU\_unit}) and takes value $\alpha$ at $\unif$ (\texttt{ordU\_unif}). (c) is (b) for both factors (\texttt{Function.Bijective.prodMap}).
+\end{proof}
+
+\begin{definition}[the principal series]
+\tfstmt{I.smooth.def:principal-series}
+\lean{GL2TF.Local.padicPrincipalSeries}
+\uses{I.conv.def:diag-element, I.conv.def:torus, I.conv.def:unipotent, I.lf.def:nalf, I.lf.def:normalized-abs, I.smooth.def:delta-half, I.smooth.def:quasi-character}
+\end{definition}
+\begin{tfformal}{I.smooth.def:principal-series}
+\tfsem{I.smooth.def:principal-series}{3fd584a886510c313ea509430591fbfbdfc5482562d4d10715e83c2af3758657}
+\tfhyps{I.smooth.def:principal-series}{}
+\tfbinder{I.smooth.def:principal-series}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:principal-series}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:principal-series}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:principal-series}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:principal-series}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:principal-series}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.def:principal-series}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+A submodule \texttt{Submodule ℂ (GL (Fin 2) F → ℂ)} whose carrier is the set of functions with (i) right invariance under some compact open subgroup (\texttt{∃ K' : Subgroup, IsCompact K' ∧ IsOpen K' ∧ ∀ g, ∀ k ∈ K', f (g * k) = f g}) and (ii) $f(n(x)\,\mathrm{diag}(t_1,t_2)\,g)=\chi_1(t_1)\chi_2(t_2)\,\delta_B^{1/2}(t_1,t_2)\,f(g)$, with $n(x)=$ \texttt{upperRightHom x}, $\mathrm{diag}(t_1,t_2)=$ \texttt{diagElt t₁ t₂}, and $|t_1/t_2|_F^{1/2}$ the B-only \cref{I.smooth.def:delta-half} (positive real square root, as a complex number). This is normalized induction: the factor $|t_1/t_2|^{1/2}$ is built into the definition, whereas a definition by unnormalized induction would carry no such factor. Closure under addition and scalars is the proof obligation of the \texttt{Submodule} structure, as in A's last sentence. The name \texttt{padicPrincipalSeries} differs from the archimedean \texttt{principalSeries} of M2.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[the principal series is a smooth representation]
+\tfstmt{I.smooth.thm:principal-series-smooth}
+\lean{GL2TF.Local.principal_series_smooth}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.decomp.thm:iwasawa-local, I.haar.lem:borel-diag-is-unit, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.thm:abs-multiplicative, I.rep.def:smooth-rep, I.smooth.def:delta-half, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:principal-series-smooth}
+\tfsem{I.smooth.thm:principal-series-smooth}{44ad6e2878e3370bc1a894d6ac62f2b6e6be33ba1bdb2544048ba83c96a827b5}
+\tfhyps{I.smooth.thm:principal-series-smooth}{}
+\tfbinder{I.smooth.thm:principal-series-smooth}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:principal-series-smooth}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:principal-series-smooth}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:principal-series-smooth}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:principal-series-smooth}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:principal-series-smooth}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:principal-series-smooth}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+``Right translation maps $I(\chi)$ to itself and defines a representation $\pi_\chi$'' is the construction \cref{I.smooth.def:right-translation-rep} (\texttt{psRep}: its proof obligations are that the translate lies in $I(\chi)$, that it is $\C$-linear, and that it is multiplicative); the statement proper has two conjuncts: \texttt{IsSmoothRep (psRep χ₁ χ₂)} (smoothness: the stabilizer of every vector is open) and injectivity of $f\mapsto f|_K$, i.e.\ of \texttt{fun f k ↦ f.1 k} on $K$ (Iwasawa decomposition, \cref{I.decomp.thm:iwasawa-local}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Smoothness: for $f$ in the space let $K'$ be a compact open subgroup fixing $f$ on the right (from the definition of the space). The stabiliser of $f$ contains $h K'$ for each $h$ in it; $hK'$ is open (left translation is a homeomorphism), so the stabiliser is open. Injectivity of restriction to $K$: by the Iwasawa decomposition $g=bk$ (\texttt{iwasawa\_borel}) and $f(bk)=\psi(b)f(k)$ (\texttt{ps\_iwasawa}) the function $f$ is determined by $f|_K$.
+\end{proof}
+
+\begin{theorem}[fixed vectors of the principal series]
+\tfstmt{I.smooth.thm:principal-series-fixed-dimension}
+\lean{GL2TF.Local.principal_series_fixed_dimension}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:iwasawa-local, I.haar.lem:borel-diag-is-unit, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.thm:abs-multiplicative, I.rep.def:fixed-vectors, I.smooth.def:delta-half, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep, I.smooth.thm:principal-series-smooth, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:principal-series-fixed-dimension}
+\tfsem{I.smooth.thm:principal-series-fixed-dimension}{221700be9d72f94b4e2b01f782e49e45bdff64dfe79e441508fff7aee516c952}
+\tfhyps{I.smooth.thm:principal-series-fixed-dimension}{}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{7}{e2b1c2d4}{the subgroup $K'\le\GL_2(F)$}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{8}{fa3d8a56}{the assumption that $K'$ is compact}
+\tfbinder{I.smooth.thm:principal-series-fixed-dimension}{9}{73329d32}{the assumption that $K'$ is open}
+\begin{tffidelity}
+For every subgroup $K'$ with the compactness and openness binders \texttt{hc}, \texttt{ho}. $B\backslash G/K'$ is Mathlib's \texttt{DoubleCoset.Quotient (borel F) K'}; fixed vectors are \texttt{fixedVectors (psRep χ₁ χ₂) K'}. The statement has four conjuncts: finiteness of the double coset space; \texttt{FiniteDimensional}; independence of the representative (the explicit clause: for $g,g'$ in the same double coset the condition ``$\psi(b)=1$ for all $b\in B\cap gK'g^{-1}$'' holds for $g$ iff for $g'$); and the dimension formula. The condition ``$\psi(b)=1$ for $b\in B\cap gK'g^{-1}$'' is written over $b=n(x)\,\mathrm{diag}(t_1,t_2)$ with $g^{-1}bg\in K'$, \texttt{∀ x t₁ t₂, g⁻¹ * (upperRightHom x * diagElt t₁ t₂) * g ∈ K' → χ₁ t₁ * χ₂ t₂ * deltaHalf t₁ t₂ = 1} (every $b\in B$ has this form). The number of double cosets satisfying it is \texttt{Nat.card} of the subtype of double cosets having a representative with this property. The formula holds for every compact open $K'$ (decision D-DIM); $\dim I(\chi)^K\in\{0,1\}$ is a corollary in A.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $\psi=\chi_1\otimes\chi_2\cdot\delta^{1/2}$ and $\mathrm{cond}(g)$ for the displayed condition on $g$. (i) Independence of the representative: if $g'=bgk$ with $b\in B$, $k\in K'$ then $\mathrm{cond}(g)\Leftrightarrow\mathrm{cond}(g')$ (\texttt{psCond\_of\_eq}, conjugating $B$-elements). (ii) $B\backslash G/K'$ is finite: it is the image of $K/(K\cap K')$ via Iwasawa, and that quotient is finite because $K$ is compact and $K'$ open. (iii) The map $\Phi\colon f\mapsto (f(r_D))_{D\in S}$ from the fixed space to $\C^S$, $S$ the set of double cosets satisfying $\mathrm{cond}$, is injective: $f$ is determined on $BgK'$ by $f(g)$ (\texttt{exists\_dc\_decomp}, \texttt{fixed\_mul\_mem}), and vanishes on double cosets not in $S$: if $\psi(b)\ne1$ for some $b$ with $r^{-1}br\in K'$, then $f(r)=f(r\cdot r^{-1}br)=\psi(b)f(r)$, so $f(r)=0$ (\texttt{fixed\_eq\_zero\_of\_not\_cond}). It is surjective: for $c\in\C^S$ the function $\sum_D\texttt{mackeyFun}_D(c_D)$ is supported on $BgK'$, lies in the space, is $K'$-fixed, and evaluates to $c_D$ at $r_D$ (\texttt{mackeyFun\_of\_ne} kills the other terms). So $\Phi$ is a linear equivalence (\texttt{LinearEquiv.ofBijective}); finite dimensionality and $\dim=|S|$ follow (\texttt{finrank\_fintype\_fun\_eq\_card}).
+\end{proof}
+
+\begin{corollary}[admissibility]
+\tfstmt{I.smooth.cor:principal-series-admissible}
+\lean{GL2TF.Local.principal_series_admissible}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.lf.def:nalf, I.rep.def:admissible-rep, I.rep.def:fixed-vectors, I.rep.def:smooth-rep, I.smooth.def:delta-half, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep, I.smooth.thm:principal-series-fixed-dimension, I.smooth.thm:principal-series-smooth}
+\end{corollary}
+\begin{tfformal}{I.smooth.cor:principal-series-admissible}
+\tfsem{I.smooth.cor:principal-series-admissible}{f7fce171e4de1251a1827a37866500802308ec7c8a10efc12597e7e67941e14e}
+\tfhyps{I.smooth.cor:principal-series-admissible}{}
+\tfbinder{I.smooth.cor:principal-series-admissible}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.cor:principal-series-admissible}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.cor:principal-series-admissible}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.cor:principal-series-admissible}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.cor:principal-series-admissible}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.cor:principal-series-admissible}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.cor:principal-series-admissible}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+``Admissible'' is the project predicate \texttt{IsAdmissibleRep} (smooth, and finite-dimensional $K'$-fixed vectors for every compact open $K'$), applied to \texttt{psRep χ₁ χ₂}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Smoothness is \cref{I.smooth.thm:principal-series-smooth}; finite-dimensionality of $K'$-fixed vectors for each compact open $K'$ is the second conjunct of \cref{I.smooth.thm:principal-series-fixed-dimension}.
+\end{proof}
+
+\section{Spherical vectors and the spherical Hecke algebra}
+
+\begin{definition}[the spherical vector]
+\tfstmt{I.smooth.def:spherical-vector}
+\lean{GL2TF.Local.sphericalVector}
+\uses{I.conv.def:borel, I.conv.def:max-compact-local, I.conv.def:torus, I.conv.def:unipotent, I.decomp.thm:iwasawa-local, I.lf.def:nalf, I.lf.def:normalized-abs, I.smooth.def:delta-half, I.smooth.def:quasi-character}
+\end{definition}
+\begin{tfformal}{I.smooth.def:spherical-vector}
+\tfsem{I.smooth.def:spherical-vector}{b652f313f8bb82ff1453600a7b58ef0a53cf875327ded8dfbddf79bfdc4049af}
+\tfhyps{I.smooth.def:spherical-vector}{}
+\tfbinder{I.smooth.def:spherical-vector}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:spherical-vector}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:spherical-vector}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:spherical-vector}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:spherical-vector}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:spherical-vector}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.def:spherical-vector}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.def:spherical-vector}{7}{2ceb35f8}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+Lean defines $f^\circ_\chi$ for \emph{all} pairs of quasi-characters, not only unramified ones, by evaluating the formula at a chosen Iwasawa decomposition $g=bk$ (\texttt{iwasawa\_local}, \texttt{Classical.choose}), $b$ upper triangular with diagonal $(t_1,t_2)$: the value is $\chi_1(t_1)\chi_2(t_2)\,\delta_B^{1/2}(t_1,t_2)$. For ramified characters this is an arbitrary junk value. A's last sentence (the value does not depend on the choices, so that $f^\circ_\chi$ is a well-defined function and satisfies the formula for \emph{every} decomposition) is the B-only \cref{I.smooth.lem:spherical-vector-spec}. The element of $I(\chi)$ is the B-only \cref{I.smooth.def:spherical-vector-element}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[spherical vectors of the principal series]
+\tfstmt{I.smooth.thm:principal-series-spherical}
+\lean{GL2TF.Local.principal_series_spherical}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.conv.lem:torus-normalizes-unipotent, I.decomp.thm:iwasawa-local, I.haar.def:borel-coordinates, I.haar.lem:borel-coordinates-mem, I.haar.lem:borel-diag-is-unit, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.rep.def:fixed-vectors, I.rep.def:smooth-rep, I.smooth.def:delta-half, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:quasi-character-unramified, I.smooth.def:right-translation-rep, I.smooth.def:spherical-vector, I.smooth.thm:principal-series-smooth, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:principal-series-spherical}
+\tfsem{I.smooth.thm:principal-series-spherical}{b1c3a8b86306192ba6ce5db7317871eedf84836a6f58985ae4f3331485f8996b}
+\tfhyps{I.smooth.thm:principal-series-spherical}{}
+\tfbinder{I.smooth.thm:principal-series-spherical}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:principal-series-spherical}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:principal-series-spherical}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:principal-series-spherical}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:principal-series-spherical}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:principal-series-spherical}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:principal-series-spherical}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+Both parts are implications. (a) For unramified $\chi_1,\chi_2$ (the Prop binders are not hypotheses of the theorem but premises of the implication \texttt{χ₁.IsUnramified → χ₂.IsUnramified → …}, so that (b) can speak of the other cases): $f^\circ\in I(\chi)$, right $K$-invariance, $f^\circ(1)=1$, every $K$-fixed $f$ is \texttt{c • sphericalVector} for some $c\in\C$, and \texttt{finrank = 1}. The sentence ``$I(\chi)^K=\C f^\circ$'' is thus spread over three conjuncts. (b) If not both are unramified, \texttt{fixedVectors … 𝐊[F] = ⊥}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Unramified case: $f^\circ(bk)=\psi(b)$ is well defined (\texttt{sphericalVector\_mul}: for unramified $\chi_i$, $\psi$ is trivial on $B\cap K$), so $f^\circ(gk)=f^\circ(g)$ using Iwasawa ($g=bk_0$, \texttt{iwasawa\_borel}); membership in the principal series space ($K$ fixes it, equivariance under $B$ by \texttt{psChar\_coord}); and $f^\circ(1)=1$. Uniqueness: every $K$-fixed $f$ satisfies $f(bk)=\psi(b)f(1)$ (\texttt{fixed\_apply}), i.e.\ $f=f(1)f^\circ$; so the fixed space is the line spanned by $f^\circ\ne0$ and has dimension~$1$. Ramified case: let $f$ be $K$-fixed and $u_1,u_2\in\Ocal^\times$. Then $\operatorname{diag}(u_1,u_2)\in K$ gives $f(1)=\chi_1(u_1)\chi_2(u_2)f(1)$ (\texttt{hd}, \texttt{deltaHalf\_units}); if $f(1)\ne0$ both $\chi_i$ would be unramified. So $f(1)=0$, and $f=0$ by \texttt{fixed\_apply} (this is part (b) of A); the fixed space is $0$.
+\end{proof}
+
+\begin{definition}[the action of the spherical Hecke algebra]
+\tfstmt{I.smooth.def:spherical-hecke-action}
+\lean{GL2TF.Local.sphericalHeckeAction}
+\uses{I.conv.def:max-compact-local, I.rep.def:smooth-rep, I.satake.def:spherical-hecke-algebra, X.hpair.def:hecke-algebra}
+\end{definition}
+\begin{tfformal}{I.smooth.def:spherical-hecke-action}
+\tfsem{I.smooth.def:spherical-hecke-action}{a56213dfe13416e74619874096d6b2e677be8095f5ac0d90e1516a01eaea0580}
+\tfhyps{I.smooth.def:spherical-hecke-action}{}
+\tfbinder{I.smooth.def:spherical-hecke-action}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:spherical-hecke-action}{3}{c37253cc}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{4}{53dcf958}{the additive group structure of $V$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{5}{253edab4}{the $\C$-vector space structure on $V$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{6}{2c02eec3}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{7}{325b4aeb}{the element $f\in\mathcal H(\GL_2(F),K_F)$}
+\tfbinder{I.smooth.def:spherical-hecke-action}{8}{da4aec81}{the vector $v\in V$}
+\begin{tffidelity}
+$\pi(f)v=\sum_{gK\in G/K}f(g)\pi(g)v$ is a function $V\to V$ for \emph{every} $v\in V$, evaluated at representatives \texttt{c.out} of the cosets (a \texttt{finsum} over \texttt{G ⧸ 𝐊[F]}); for $v\notin V^K$ the value is a junk value (it depends on the choice of representative and the support may be infinite, where a \texttt{finsum} is $0$). Every statement therefore restricts to $v\in V^K$. A's claims (the summand depends only on $gK$ for $v\in V^K$, finite support, $\pi(f)v\in V^K$, linearity in $f$ and in $v\in V^K$) are the B-only lemma \cref{I.smooth.lem:spherical-hecke-action-spec}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$V^K$ is a module over the spherical Hecke algebra]
+\tfstmt{I.smooth.thm:spherical-hecke-action-algebra}
+\lean{GL2TF.Local.spherical_hecke_action_algebra}
+\uses{I.conv.def:max-compact-local, I.haar.lem:gl2-local-borel-instance, I.haar.lem:gl2-local-locally-compact-instance, I.hecke.def:smooth-compact-functions, I.lf.def:nalf, I.lf.lem:nalf-t2, I.rep.def:finite-range-integral, I.rep.def:fixed-vectors, I.rep.def:measure-coeff, I.rep.def:smooth-hecke-action, I.rep.def:smooth-hecke-action-bilin, I.rep.def:smooth-rep, I.satake.def:spherical-hecke-algebra, I.satake.lem:gl2-local-totally-disconnected, I.satake.thm:spherical-convolution-haar, I.smooth.def:spherical-hecke-action, I.topgrp.thm:max-compact-local-compact-open, X.hpair.def:conv, X.hpair.def:conv-term, X.hpair.def:hecke-algebra, X.hpair.def:is-hecke-fun, X.hpair.def:mul-instance, X.hpair.def:one-instance, X.topgrp.def:matrix-measurable-space}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:spherical-hecke-action-algebra}
+\tfsem{I.smooth.thm:spherical-hecke-action-algebra}{373e859f0b4272f00c60b44c9a1df973ccdcbd0d5440eb4036c88f69044f6df4}
+\tfhyps{I.smooth.thm:spherical-hecke-action-algebra}{}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{5}{a343e7dc}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{6}{3ba7dca4}{the additive group structure of $V$}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{7}{54782dcb}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.thm:spherical-hecke-action-algebra}{8}{d430188d}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\begin{tffidelity}
+Part (a), for each $v\in V^K$ (\texttt{fixedVectors π 𝐊[F]}): $\pi(f_1*f_2)v=\pi(f_1)(\pi(f_2)v)$ and $\pi(1_K)v=v$. Part (b), the comparison with the Haar-integral action, is under the premises (binders inside the conjunct) \texttt{MeasurableSpace F}, \texttt{BorelSpace F}, \texttt{IsSmoothRep π} and a left Haar measure \texttt{μ}: \texttt{smoothHeckeAction μ π f v = μ(K) • sphericalHeckeAction π f v}, where \texttt{smoothHeckeAction} is the integral action of M2 (\cref{I.rep.def:smooth-hecke-action}) and $\mu(K)=$ \texttt{(μ K).toReal}. ``$V^K$ is a module over $\mathcal H(G,K)$'' is the content of (a). $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Multiplicativity and unit on $K$-fixed vectors are \texttt{sphericalHeckeAction\_mul} and \texttt{sphericalHeckeAction\_one} (the action is a finite sum over $K$-cosets, \texttt{finsum}, and $\mathcal H(G,K)$ multiplies by the same coset sum). The comparison with the smooth action of $\mu$-convolution: choose the finite set of cosets containing the support of $f$ (\texttt{HeckePair.finite\_cosets}); \texttt{smoothHeckeAction\_coset\_sum} writes $\int f(g)\pi(g)v\,d\mu$ as the sum over cosets $d$ of $\mu(K)f(d)\pi(d)v$ (since $v$ and $f$ are right $K$-invariant); the finsum reduces to a finite sum over the same set (\texttt{finsum\_eq\_sum\_of\_support\_subset}).
+\end{proof}
+
+\begin{theorem}[Hecke eigenvalues of the spherical vector]
+\tfstmt{I.smooth.thm:spherical-hecke-eigenvalue}
+\lean{GL2TF.Local.spherical_hecke_eigenvalue}
+\uses{I.cartan.lem:unif-ne-zero, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.rep.def:fixed-vectors, I.satake.def:coset-transform, I.satake.def:hecke-basis, I.satake.def:hecke-comm-ring, I.satake.def:iwasawa-exponent, I.satake.def:laurent-eval, I.satake.def:satake-transform, I.satake.def:satake-weight, I.satake.def:spherical-hecke-algebra, I.satake.def:upper-coset-matrix, I.satake.lem:iwasawa-exponent-exists, I.satake.thm:hecke-characters, I.satake.thm:satake-generators, I.smooth.def:delta-half, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:quasi-character-unramified, I.smooth.def:right-translation-rep, I.smooth.def:spherical-hecke-action, I.smooth.def:spherical-vector, I.smooth.def:spherical-vector-element, I.smooth.def:uniformizer-unit, I.smooth.lem:spherical-hecke-action-spec, I.smooth.lem:spherical-vector-spec, I.smooth.thm:principal-series-spherical, X.hpair.def:algebra-instance, X.hpair.def:hecke-algebra, X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:spherical-hecke-eigenvalue}
+\tfsem{I.smooth.thm:spherical-hecke-eigenvalue}{ae968b9df1304ee6256c98916168bb44b6d8311e8557e0fba74b2aac4ce63935}
+\tfhyps{I.smooth.thm:spherical-hecke-eigenvalue}{}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{7}{49b76e97}{the assumption that $\chi_1$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\tfbinder{I.smooth.thm:spherical-hecke-eigenvalue}{8}{57f56479}{the assumption that $\chi_2$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\begin{tffidelity}
+The Satake parameter $(\alpha,\beta)=(\chi_1(\unif),\chi_2(\unif))$ is not named in Lean: the values $\chi_i(\unif)\in\C^\times$ are written out (\texttt{χ₁.1 (unifUnit F)}) and fed to the B-only evaluation \cref{I.satake.def:laurent-eval}, so that $\omega_{\alpha,\beta}(f)=(\mathcal Sf)(\alpha,\beta)$ is \texttt{laurentEval α β (satake F f)}. $f^\circ_\chi$ is the element \cref{I.smooth.def:spherical-vector-element} of $I(\chi)$ (it needs the two unramified premises as binders \texttt{h₁}, \texttt{h₂}). The eigenvalues of $T_\unif$ and $R_\unif$ are the second and third conjuncts, \texttt{√q * (χ₁(ϖ) + χ₂(ϖ))} and \texttt{χ₁(ϖ) * χ₂(ϖ)}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $w=f\cdot f^\circ$ be the image under the Hecke action (\texttt{sphericalHeckeAction\_spec}: $K$-fixed). By \cref{I.smooth.thm:principal-series-spherical} $w=c\,f^\circ$ with $c=w(1)$. Compute $w(1)=\sum_C f(C)\,f^\circ(C)$ over cosets (\texttt{sphericalHeckeAction}, evaluation at $1$ is additive) and compare with $\mathrm{ev}_{\chi_1(\unif),\chi_2(\unif)}(S f)$, using the coset-sum formula for the Satake transform and \texttt{sphericalVector\_eq\_laurentEval} ($f^\circ(\mathrm{rep})$ is the corresponding monomial); the two other statements are the special cases $f=c_{1,0},c_{1,1}$, with the values $\omega(T_\unif),\omega(R_\unif)$ taken from \cref{I.satake.thm:hecke-characters}\,(a) (\texttt{(hecke\_characters F).1}), as in A.
+\end{proof}
+
+\section{The Jacquet module and Frobenius reciprocity}
+
+\begin{definition}[the Jacquet module]
+\tfstmt{I.smooth.def:jacquet-module}
+\lean{GL2TF.Local.jacquetModule}
+\uses{I.conv.def:torus, I.conv.def:unipotent}
+\end{definition}
+\begin{tfformal}{I.smooth.def:jacquet-module}
+\tfsem{I.smooth.def:jacquet-module}{7aaeb25cd6940af2909729bfa97fc069ebcbe54d203bc12225f5407eda457bae}
+\tfhyps{I.smooth.def:jacquet-module}{}
+\tfbinder{I.smooth.def:jacquet-module}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:jacquet-module}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:jacquet-module}{2}{1b25659a}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.def:jacquet-module}{3}{b77247b1}{the additive group structure of $V$}
+\tfbinder{I.smooth.def:jacquet-module}{4}{ed851ffc}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.def:jacquet-module}{5}{957bcd71}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\begin{tffidelity}
+Lean's \texttt{jacquetModule π} is the module of coinvariants \texttt{Representation.Coinvariants (π.comp (unipotent F).subtype)} of the restriction of $\pi$ to $N(F)$ (Mathlib), which is by definition $V/V(N)$ with $V(N)$ the span of $\pi(n)v-v$ (\texttt{Coinvariants.ker}); there is no project quotient construction. It is only the \emph{module}; the torus action $\pi_N(t)(v+V(N))=\pi(t)v+V(N)$ of the snippet is the B-only \cref{I.smooth.def:jacquet-torus-action} (\texttt{jacquetTorus}), so the pair ($V_N$ with the action of $T(F)$) of A is two Lean objects. This is the \emph{unnormalized} Jacquet module (no $\delta_B^{1/2}$ twist); the normalization appears only in the statements where it is needed. The torus is indexed by pairs $(t_1,t_2)$ through \texttt{diagElt} in the statements that follow.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[Jacquet's lemma]
+\tfstmt{I.smooth.lem:jacquet-kernel}
+\lean{GL2TF.Local.jacquet_kernel}
+\uses{I.conv.def:unipotent, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.rep.def:smooth-rep, I.smooth.def:jacquet-module}
+\end{lemma}
+\begin{tfformal}{I.smooth.lem:jacquet-kernel}
+\tfsem{I.smooth.lem:jacquet-kernel}{8eb9ee81d0a0d461f6bb48d85e3055c5efdbfe62fea81cbfcf4e35b613d3402d}
+\tfhyps{I.smooth.lem:jacquet-kernel}{}
+\tfbinder{I.smooth.lem:jacquet-kernel}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.lem:jacquet-kernel}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.lem:jacquet-kernel}{5}{677e83f5}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{6}{407c00db}{the additive group structure of $V$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{7}{2c77f084}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{8}{d50691c5}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.lem:jacquet-kernel}{9}{c9ba77b1}{the assumption that $\pi$ is smooth (\texttt{IsSmoothRep})}
+\tfbinder{I.smooth.lem:jacquet-kernel}{10}{5f516cf5}{the vector $v\in V$}
+\begin{tffidelity}
+For smooth $\pi$ (binder \texttt{hπ : IsSmoothRep π}) and $v\in V$: $v\in V(N)$ (\texttt{v ∈ Coinvariants.ker …}) iff there are subgroups $N_1\le N_0$ of $N(F)$, both compact and open (four hypotheses written out as conjuncts, the subgroups being subgroups of the type \texttt{unipotent F}, i.e.\ of the subspace $N(F)$, so compact and open there), with $\pi(n)v=v$ for $n\in N_1$ and $\sum_{nN_1\in N_0/N_1}\pi(n)v=0$. The sum over the finite quotient $N_0/N_1$ is a \texttt{finsum} over \texttt{N₀ ⧸ N₁.subgroupOf N₀} at the chosen representatives \texttt{Quotient.out}; the summand is independent of the representative because of the $N_1$-invariance of $v$ (the junk case is guarded by that clause).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\Rightarrow$: for $v\in V(N)$, \texttt{jacquet\_chain} (induction on the span defining $V(N)$) gives $a_0,b_0$ such that for $a\ge a_0$, $b\le\min(a,b_0)$ the subgroup $N_a$ fixes $v$ and the average of $v$ over $N_b/N_a$ vanishes; take $N_0=$ \texttt{unipBall}$(b_0)$ and $N_1=$ \texttt{unipBall}$(\max(a_0,b_0))$ (compact open, nested, \texttt{unipBall\_anti}). $\Leftarrow$: the quotient $N_0/N_1$ is finite (\texttt{finite\_unip\_quot}); then $v$ differs from the average by an element of $V(N)$ (\texttt{mem\_ker\_of\_unipAvg}) and the average vanishes.
+\end{proof}
+
+\begin{theorem}[functoriality of the Jacquet module]
+\tfstmt{I.smooth.thm:jacquet-functorial}
+\lean{GL2TF.Local.jacquet_functorial}
+\uses{I.conv.def:torus, I.conv.def:unipotent, I.lf.def:nalf, I.smooth.def:jacquet-induced-map, I.smooth.def:jacquet-module, I.smooth.def:jacquet-torus-action}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:jacquet-functorial}
+\tfsem{I.smooth.thm:jacquet-functorial}{3ea7d2770ab2fad9402b17218dda64603dd98cb50bd0f3861b35321914ebd109}
+\tfhyps{I.smooth.thm:jacquet-functorial}{}
+\tfbinder{I.smooth.thm:jacquet-functorial}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:jacquet-functorial}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:jacquet-functorial}{5}{677e83f5}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{6}{407c00db}{the additive group structure of $V$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{7}{2c77f084}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{8}{03f6d7ca}{the underlying type of the representation space $W$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{9}{902ea06a}{the additive group structure of $W$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{10}{abeab30e}{the $\C$-module structure of $W$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{11}{4b047ad6}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{12}{f31ed646}{the representation $\sigma$ of $\GL_2(F)$ on $W$}
+\tfbinder{I.smooth.thm:jacquet-functorial}{13}{b2e46b0b}{the $G$-map $\phi\colon\pi\to\sigma$}
+\begin{tffidelity}
+$G$-maps $V\to W$ are Mathlib's \texttt{Representation.IntertwiningMap π σ}. The five conjuncts: $\phi(V(N))\subseteq W(N)$ (as \texttt{ker ≤ (ker).comap φ}); the formula $\phi_N(v+V(N))=\phi(v)+W(N)$; $T(F)$-equivariance (with the B-only torus action \cref{I.smooth.def:jacquet-torus-action}, the torus element given as a subtype element of \texttt{torus F}); $(\mathrm{id}_V)_N=\mathrm{id}$; and compatibility with composition $(\psi\circ\phi)_N=\psi_N\circ\phi_N$, quantifying over a third representation $W'$ and $\psi$. The induced map $\phi_N$ is the B-only \cref{I.smooth.def:jacquet-induced-map} (\texttt{jacquetMap}, Mathlib's \texttt{Coinvariants.map}). The universes of $V,W,W'$ are independent.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The kernel of $\pi\to\pi_N$ is spanned by $\pi(n)v-v$; $\phi$ is intertwining, so $\phi(\pi(n)v-v)=\sigma(n)\phi v-\phi v$ lies in $V_\sigma(N)$ (\texttt{Coinvariants.mem\_ker\_of\_eq}, \texttt{isIntertwining}), giving the inclusion. The remaining statements (compatibility with $\mathrm{mk}$, with the torus action, identity, composition) are checked on classes $\mathrm{mk}\,v$ (\texttt{Coinvariants.induction\_on} / \texttt{hom\_ext}) and hold by \texttt{rfl} or by $\phi$ intertwining.
+\end{proof}
+
+\begin{theorem}[exactness of the Jacquet functor]
+\tfstmt{I.smooth.thm:jacquet-exact}
+\lean{GL2TF.Local.jacquet_exact}
+\uses{I.conv.def:unipotent, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.rep.def:smooth-rep, I.smooth.def:jacquet-induced-map, I.smooth.def:jacquet-module, I.smooth.lem:jacquet-kernel, I.smooth.thm:jacquet-functorial}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:jacquet-exact}
+\tfsem{I.smooth.thm:jacquet-exact}{03839aa12fa3f9b42f9ce0d31fce2c4395ab6d3e34e08b1e74f49a0b55e75280}
+\tfhyps{I.smooth.thm:jacquet-exact}{}
+\tfbinder{I.smooth.thm:jacquet-exact}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:jacquet-exact}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:jacquet-exact}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:jacquet-exact}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:jacquet-exact}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:jacquet-exact}{5}{677e83f5}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.thm:jacquet-exact}{6}{407c00db}{the additive group structure of $V$}
+\tfbinder{I.smooth.thm:jacquet-exact}{7}{2c77f084}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.thm:jacquet-exact}{8}{1b1e89ed}{the underlying type of the representation space $U$}
+\tfbinder{I.smooth.thm:jacquet-exact}{9}{d7914a96}{the underlying type of the representation space $W$}
+\tfbinder{I.smooth.thm:jacquet-exact}{10}{a2dd7c15}{the additive group structure of $U$}
+\tfbinder{I.smooth.thm:jacquet-exact}{11}{f6cd474c}{the $\C$-module structure of $U$}
+\tfbinder{I.smooth.thm:jacquet-exact}{12}{5c8e6cbf}{the additive group structure of $W$}
+\tfbinder{I.smooth.thm:jacquet-exact}{13}{37250977}{the $\C$-module structure of $W$}
+\tfbinder{I.smooth.thm:jacquet-exact}{14}{3264967d}{the representation $\rho$ of $\GL_2(F)$ on $U$}
+\tfbinder{I.smooth.thm:jacquet-exact}{15}{3bdfdd4b}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.thm:jacquet-exact}{16}{97dc7003}{the representation $\sigma$ of $\GL_2(F)$ on $W$}
+\tfbinder{I.smooth.thm:jacquet-exact}{17}{b13efd35}{the assumption that $\rho$ is smooth (\texttt{IsSmoothRep})}
+\tfbinder{I.smooth.thm:jacquet-exact}{18}{6cc482ba}{the assumption that $\pi$ is smooth (\texttt{IsSmoothRep})}
+\tfbinder{I.smooth.thm:jacquet-exact}{19}{d85d8647}{the assumption that $\sigma$ is smooth (\texttt{IsSmoothRep})}
+\tfbinder{I.smooth.thm:jacquet-exact}{20}{1ad21f74}{the $G$-map $\alpha\colon\rho\to\pi$}
+\tfbinder{I.smooth.thm:jacquet-exact}{21}{2c359838}{the $G$-map $\beta\colon\pi\to\sigma$}
+\tfbinder{I.smooth.thm:jacquet-exact}{22}{bdc14b73}{the assumption $\operatorname{im}\alpha=\ker\beta$}
+\begin{tffidelity}
+Exactness at the middle, \texttt{range (jacquetMap α) = ker (jacquetMap β)}, preservation of injectivity and of surjectivity are the three conjuncts. The hypothesis $\operatorname{im}\alpha=\ker\beta$ is the binder \texttt{hαβ}; $\rho,\pi,\sigma$ are smooth (three Prop binders \texttt{IsSmoothRep}, registered project predicates). In A: ``exact'' for a short exact sequence; Lean states the three consequences separately, which is the same content. Core-late item (D-LATE): may move to M5b.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Write $\mathrm{mk}$ for the quotient maps to the Jacquet modules; every class is $\mathrm{mk}\,v$ (\texttt{Coinvariants.induction\_on}). From $\operatorname{range}\alpha=\ker\beta$ one has $\beta\alpha=0$. ($\operatorname{range}\subseteq\ker$) $J(\beta)J(\alpha)\,\mathrm{mk}\,u=\mathrm{mk}(\beta\alpha u)=0$. ($\ker\subseteq\operatorname{range}$) Let $J(\beta)\,\mathrm{mk}\,v=0$, i.e.\ $\beta v\in V_\sigma(N)$. \texttt{jacquet\_chain} for $\sigma$ gives $a_0,b_0$ with the average of $\beta v$ over $N_{b}/N_{a_0}$ equal to $0$ for $b=\min(a_0,b_0)$ (the quotient is finite, \texttt{finite\_unip\_quot}, as both groups are compact open balls). Since $\beta$ is intertwining the average commutes with it (\texttt{unipAvg\_map}), so the average $A$ of $v$ over $N_b/N_{a_0}$ lies in $\ker\beta=\operatorname{range}\alpha$, say $A=\alpha u$. With $n=|N_b/N_{a_0}|$ one gets $\alpha(n^{-1}u)=n^{-1}A$ and $v-n^{-1}A\in\ker(\pi\to\pi_N)$ (\texttt{sub\_unipAvg\_mem\_ker}), hence $\mathrm{mk}\,v=J(\alpha)\,\mathrm{mk}(n^{-1}u)$. (Injectivity) If $J(\alpha)\,\mathrm{mk}\,u=0$, then $\alpha u\in\pi(N)$, so \texttt{jacquet\_chain} for $\pi$ gives the same kind of $a_0,b$ with the average of $\alpha u$ equal to $0$; the average of $\alpha u$ is $\alpha$ of the average of $u$ (\texttt{unipAvg\_map}), so injectivity of $\alpha$ gives $\mathrm{avg}\,u=0$ and \texttt{mem\_ker\_of\_unipAvg} puts $u$ in $\rho(N)$. (Surjectivity) For $\xi=\mathrm{mk}\,w$ choose $v$ with $\beta v=w$ and take $\mathrm{mk}\,v$ (\texttt{jacquetMap\_mk}); no smoothness of $\rho$ is needed beyond the hypotheses of the statement.
+\end{proof}
+
+\begin{theorem}[Frobenius reciprocity]
+\tfstmt{I.smooth.thm:frobenius-reciprocity}
+\lean{GL2TF.Local.frobenius_reciprocity}
+\uses{I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:torus, I.conv.def:unipotent, I.decomp.thm:iwasawa-local, I.haar.lem:diag-elt-mem-torus, I.lf.def:nalf, I.rep.def:smooth-rep, I.smooth.def:delta-half, I.smooth.def:frobenius-map, I.smooth.def:jacquet-induced-map, I.smooth.def:jacquet-module, I.smooth.def:jacquet-torus-action, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep, I.smooth.thm:jacquet-functorial, I.smooth.thm:principal-series-smooth, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:frobenius-reciprocity}
+\tfsem{I.smooth.thm:frobenius-reciprocity}{1d40fc05f6dd2b2e74a826ffb231d65f886d3fe5e742aa8de69f4ff81b837b46}
+\tfhyps{I.smooth.thm:frobenius-reciprocity}{}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{5}{677e83f5}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{6}{407c00db}{the additive group structure of $V$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{7}{2c77f084}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{8}{d50691c5}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{9}{c9ba77b1}{the assumption that $\pi$ is smooth (\texttt{IsSmoothRep})}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{10}{138763cb}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:frobenius-reciprocity}{11}{ce8b9a00}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+$\mathrm{Hom}_G(V,I(\chi))$ is \texttt{Representation.IntertwiningMap π (psRep χ₁ χ₂)}. $\mathrm{Hom}_{T(F)}(V_N,\psi)$ is not a Lean type: part (b) says that $\Phi\mapsto\Phi^\flat$ (the linear map \cref{I.smooth.def:frobenius-map}) is injective and that every $T(F)$-equivariant linear form on $V_N$ is some $\Phi^\flat$; together with the equivariance of (a) this is the bijection of A. The character $\psi(\mathrm{diag}(t_1,t_2))=\chi_1(t_1)\chi_2(t_2)|t_1/t_2|^{1/2}$ is written out (with \cref{I.smooth.def:delta-half}), and the torus acts through the B-only \cref{I.smooth.def:jacquet-torus-action} at the subtype element \texttt{⟨diagElt t₁ t₂, diagElt\_mem\_torus t₁ t₂⟩}. Part (c) (naturality in $V$) quantifies over a smooth $V'$ in the universe of $V$ and a $G$-map $u\colon V'\to V$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$\Phi\mapsto$ \texttt{frobeniusFlat}$(\Phi)$ is the map induced on the Jacquet module by $v\mapsto(\Phi v)(1)$: it kills $\pi(n)v-v$ since $\Phi$ intertwines and $(\mathrm{ps}(n)f)(1)=f(1)$ (left $N$-invariance, \texttt{psRep\_apply}); torus equivariance is the transformation property of $f\in I(\chi_1,\chi_2)$ at $1$ (\texttt{(Φ v).2.2}). Injectivity: $\Phi$ is recovered from $\Phi(v)(g)=\Phi(\pi(g)v)(1)$ (\texttt{frobenius\_eval}). Surjectivity: for $\ell$ torus-equivariant define $\Phi_\ell(v)(g)=\ell[\pi(g)v]$ (\texttt{frobeniusInv}); it lies in the principal series by equivariance. Naturality in $\pi$ is checked on classes (\texttt{hom\_ext}).
+\end{proof}
+
+\begin{theorem}[the Jacquet module of the principal series]
+\tfstmt{I.smooth.thm:principal-series-jacquet}
+\lean{GL2TF.Local.principal_series_jacquet}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:opposite-unipotent-elt, I.conv.def:opposite-unipotent-hom, I.conv.def:torus, I.conv.def:unipotent, I.conv.def:weyl-element, I.conv.lem:diag-elt-hom, I.conv.lem:max-compact-local-mem, I.conv.lem:opposite-unipotent-elt-hom, I.conv.lem:opposite-unipotent-elt-inv, I.conv.lem:torus-normalizes-unipotent, I.haar.lem:borel-diag-is-unit, I.haar.lem:diag-elt-mem-torus, I.haar.lem:gl2-local-locally-compact-instance, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:haar-scaling, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.lf.thm:vol-ideal-power, I.rep.def:smooth-rep, I.smooth.def:delta-half, I.smooth.def:frobenius-map, I.smooth.def:intertwining-operator, I.smooth.def:jacquet-induced-map, I.smooth.def:jacquet-module, I.smooth.def:jacquet-torus-action, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep, I.smooth.def:weyl-iwasawa-k, I.smooth.lem:jacquet-kernel, I.smooth.lem:weyl-unipotent-iwasawa, I.smooth.thm:frobenius-reciprocity, I.smooth.thm:principal-series-fixed-dimension, I.smooth.thm:principal-series-smooth}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:principal-series-jacquet}
+\tfsem{I.smooth.thm:principal-series-jacquet}{dd70538fddde044016a1254cf895b660aa36aaa93a93366532ea04f6917e029b}
+\tfhyps{I.smooth.thm:principal-series-jacquet}{}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:principal-series-jacquet}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+Only the exact sequence is stated (decision L16); that it splits when $\chi_1\neq\chi_2$ is deferred to M5b. $\dim=2$ is \texttt{Module.finrank ℂ … = 2}. The exact sequence of $T(F)$-modules is $\iota\colon\C\to I(\chi)_N$ injective, $p\colon I(\chi)_N\to\C$ surjective, \texttt{range ι = ker p}, and the two torus-equivariance equations: $\mathrm{diag}(t_1,t_2)$ acts on $\operatorname{im}\iota$ by $\chi_2(t_1)\chi_1(t_2)|t_1/t_2|^{1/2}$ and compatibly with $p$ by $\chi_1(t_1)\chi_2(t_2)|t_1/t_2|^{1/2}$, where the action is the B-only \cref{I.smooth.def:jacquet-torus-action}. The one-dimensional $T(F)$-modules $(w\chi)\delta_B^{1/2}$ and $\chi\delta_B^{1/2}$ of A are not Lean objects; they enter through the scalars. Core-late (D-LATE).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Let $p=\texttt{frobeniusFlat}(\mathrm{id})$ be the map $\mathrm{mk}\,f\mapsto f(1)$ and $\Lambda f=\int f(w\,n(x))\,dx$ (\texttt{padicIntertwiningOp f 1}), defined on the functions with $f(1)=0$, which are supported in the open cell (\texttt{integrable\_S}). The torus equivariance of $p$ is \cref{I.smooth.thm:frobenius-reciprocity}. Choose $f_0$ with $f_0(1)\ne0$ (\texttt{exists\_ps\_one\_ne\_zero}) and $f_1$ with $f_1(1)=0$, $c:=\Lambda f_1\ne0$ (\texttt{exists\_lambda\_ne\_zero}); put $v_1=\mathrm{mk}(c^{-1}f_1)$, $s_0=\mathrm{mk}(f_0(1)^{-1}f_0)$, $\iota(z)=zv_1$. Then $p(s_0)=1$, hence $p$ is surjective ($z\mapsto z s_0$), and $p(\iota z)=0$. The key step ($\dagger$) is: for $f(1)=0$, $\mathrm{mk}\,f=\iota(\Lambda f)$, because $f-(\Lambda f)c^{-1}f_1$ has $f(1)=0$ and $\Lambda=0$ (\texttt{lambda\_sub}, \texttt{lambda\_smul}), hence lies in $V(N)$ (\texttt{mem\_ker\_of\_lambda\_eq\_zero}, an averaging argument: $f$ is right $K''$-invariant for some compact open $K''$ and, as $f(1)=0$, $\varphi(y)=f(w\,n(y))$ vanishes for $|y|>q^{M}$ (\texttt{ps\_weyl\_support}); choose $r\ge-M$ with $N_r\subseteq K''$, so $\varphi$ is constant on cosets of $\unif^r\Ocal_F$ (\texttt{hconst}). Put $N_0=N_{-M}$, $N_1=N_r$, with representatives $e_c$ of the finite quotient $N_0/N_1$. For every $z$ one has $\sum_c\varphi(z+e_c)=0$: if $|z|\le q^M$ then $\int\varphi=\mathrm{vol}(\unif^r\Ocal_F)\sum_c\varphi(z+e_c)$ (the balls $-(z+e_c)+\unif^r\Ocal_F$ tile the support, \texttt{hpt}, \texttt{hint}), the volume is nonzero, and $\int\varphi=\Lambda f=0$; if $|z|>q^M$ every term vanishes since $|z+e_c|\ge|z|$ (\texttt{normAbs\_add\_ge}). Let $g=\sum_c\pi(n_c)f$ be the average (\texttt{unipAvg}), so $g(h)=\sum_c f(h\,n(e_c))$. By the Bruhat decomposition $g=0$: on $h\in B$, $g(h)=\psi(h)g(1)$ and $g(1)=\sum_cf(n(e_c))=0$ since $f(n(e_c))=f(1)=0$ (\texttt{ps\_eval\_unipotent}); on $h=b\,w\,n(z)$, $g(h)=\psi(b)\sum_c\varphi(z+e_c)=0$. Hence $f=f-\mathrm{avg}\,f\in V(N)$ by \texttt{sub\_unipAvg\_mem\_ker}). This gives $\ker p\subseteq\operatorname{range}\iota$; the other inclusion is $p\iota=0$. Injectivity of $\iota$: if $\iota z=0$ then $(zc^{-1})f_1\in V(N)$, so $\Lambda=0$ there (\texttt{lambda\_eq\_zero\_of\_mem\_ker}), i.e.\ $z=0$. The dimension is $2$ by the splitting $\C^2\cong$ Jacquet module, $(a,b)\mapsto\iota a+b s_0$ (\texttt{finrank\_eq\_two\_of\_exact}). Torus action on $\operatorname{range}\iota$: $\mathrm{diag}(t_1,t_2)$ maps $v_1$ to a class with $f(1)=0$ (the transformation law of $f_1$ at the identity), so by ($\dagger$) it equals $\iota(\Lambda(\ldots))$, and \texttt{lambda\_torus} computes $\Lambda$ of the translate as $c\cdot\chi_2(t_1)\chi_1(t_2)\delta^{1/2}(t_1,t_2)$ (change of variables in the integral, as in \cref{I.smooth.thm:intertwining-converges}); linearity is \texttt{toSpanSingleton\_comm}. On the quotient the action is the transformation law of $p$ already used above.
+\end{proof}
+
+\section{The intertwining operator and the Gindikin--Karpelevich formula}
+
+\begin{definition}[the local $L$-factor of an unramified quasi-character]
+\tfstmt{I.smooth.def:local-l-factor}
+\lean{GL2TF.Local.localL}
+\uses{I.lf.def:nalf, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.smooth.def:quasi-character, I.smooth.def:uniformizer-unit}
+\end{definition}
+\begin{tfformal}{I.smooth.def:local-l-factor}
+\tfsem{I.smooth.def:local-l-factor}{4d877ed1f698239456a751fbaec8d0e4e35269fd965397885c4e5fd814243e23}
+\tfhyps{I.smooth.def:local-l-factor}{}
+\tfbinder{I.smooth.def:local-l-factor}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:local-l-factor}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:local-l-factor}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:local-l-factor}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:local-l-factor}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:local-l-factor}{5}{25ff2fe4}{the complex number $s$}
+\tfbinder{I.smooth.def:local-l-factor}{6}{3f80a695}{the quasi-character $\mu$ of $F^\times$}
+\begin{tffidelity}
+A defines $L(s,\mu)$ for \emph{unramified} $\mu$ and puts $L(s,\mu)=0$ at the pole by hand. Lean takes \emph{every} quasi-character $\mu$ (only $\mu(\unif)$ enters, via \cref{I.smooth.def:uniformizer-unit}, so the unramified restriction of A is not needed to type the definition) and writes \texttt{(1 - μ (unifUnit F) * (q F : ℂ) \^{} (-s))⁻¹}, with $q^{-s}$ the complex power \texttt{Complex.cpow} (which is $e^{-s\log q}$ for the principal branch); at the pole $\mu(\unif)q^{-s}=1$ the value is $0$ because Lean's \texttt{0⁻¹ = 0}, matching A's convention but by the junk value of inversion, not by a case distinction.  The field enters through the four standard binders (type, field structure, valuation, topology) and \cref{I.lf.def:nalf}; $q$ is the residue cardinality \texttt{q F} (\cref{I.lf.def:residue-cardinality}) and $\unif$ the chosen uniformizer \texttt{unif F}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the Iwasawa decomposition of $w\,n(x)$]
+\tfstmt{I.smooth.lem:weyl-unipotent-iwasawa}
+\lean{GL2TF.Local.weyl_unipotent_iwasawa}
+\uses{I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:unipotent, I.conv.def:weyl-element, I.conv.lem:max-compact-local-mem, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.smooth.def:weyl-iwasawa-k}
+\end{lemma}
+\begin{tfformal}{I.smooth.lem:weyl-unipotent-iwasawa}
+\tfsem{I.smooth.lem:weyl-unipotent-iwasawa}{5e61958396c1f528efafb883d1988a82e7ce6564e1530e2c3191059d1c0a458f}
+\tfhyps{I.smooth.lem:weyl-unipotent-iwasawa}{}
+\tfbinder{I.smooth.lem:weyl-unipotent-iwasawa}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.lem:weyl-unipotent-iwasawa}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.lem:weyl-unipotent-iwasawa}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.lem:weyl-unipotent-iwasawa}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.lem:weyl-unipotent-iwasawa}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+Two conjuncts. For $|x|\le1$, $w\,n(x)\in K$ (with $|x|=$ \texttt{normAbs F x}). For $|x|>1$, the quantifier ranges over $x\in F^\times$ (\texttt{x : Fˣ}; $|x|>1$ forces $x\ne0$) and the decomposition is $w\,n(x)=n(-x^{-1})\,\mathrm{diag}(x^{-1},x)\,k_x$ with $k_x=$ \texttt{kOf x} (B-only \cref{I.smooth.def:weyl-iwasawa-k}) and $k_x\in K$; $w=$ \texttt{weylElement F}, $\mathrm{diag}(x^{-1},x)=$ \texttt{diagElt x⁻¹ x}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(1) For $|x|\le1$ the matrix $w\,n(x)$ has entries in $\Ocal_F$ (\texttt{fin\_cases} on entries, using $v(x)\le1$ from \texttt{normAbs\_uniformizer}) and determinant a unit, so it lies in $K$ (\texttt{mem\_K\_iff}). (2) For $|x|>1$ the identity $w\,n(x)=n(-x^{-1})\operatorname{diag}(x^{-1},x)\,k(x)$ is checked entrywise (\texttt{ext}, \texttt{fin\_cases}, \texttt{simp}), and $k(x)\in K$ because $|x^{-1}|\le1$ (\texttt{normAbs\_multiplicative}: $|x||x^{-1}|=1$) and $\det k(x)=1$.
+\end{proof}
+
+\begin{definition}[the intertwining operator]
+\tfstmt{I.smooth.def:intertwining-operator}
+\lean{GL2TF.Local.padicIntertwiningOp}
+\uses{I.conv.def:unipotent, I.conv.def:weyl-element, I.lf.def:additive-haar, I.lf.def:nalf}
+\end{definition}
+\begin{tfformal}{I.smooth.def:intertwining-operator}
+\tfsem{I.smooth.def:intertwining-operator}{fe23e3564c3e2aed963ba0707621e061480996b6dae88e2ae3b31fc198cbfa78}
+\tfhyps{I.smooth.def:intertwining-operator}{}
+\tfbinder{I.smooth.def:intertwining-operator}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:intertwining-operator}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:intertwining-operator}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:intertwining-operator}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:intertwining-operator}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:intertwining-operator}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.def:intertwining-operator}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.def:intertwining-operator}{7}{95f88e46}{the function $f\colon\GL_2(F)\to\C$}
+\tfbinder{I.smooth.def:intertwining-operator}{8}{85f6cb8e}{the element $g\in\GL_2(F)$}
+\begin{tffidelity}
+$M(w)$ is defined on every function $f\colon G\to\C$, as in the (revised) snippet of A; the statements that use it (\cref{I.smooth.thm:intertwining-converges} and following) apply it only to elements of $I(\chi)$, always in the convergence region $|\chi_1(\unif)\chi_2(\unif)^{-1}|<1$. The integral is the Bochner integral against the normalized additive Haar measure \texttt{normAddHaar F}, which is $0$ when the integrand is not integrable, as stated in A; hence the binders \texttt{MeasurableSpace F}, \texttt{BorelSpace F}. The Weyl element is \texttt{weylElement F}, $n(x)=$ \texttt{upperRightHom x}. The Lean name is \texttt{padicIntertwiningOp} (A writes $M(w)$), to avoid the archimedean \texttt{intertwiningOp} of M2.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[convergence of the intertwining integral]
+\tfstmt{I.smooth.thm:intertwining-converges}
+\lean{GL2TF.Local.intertwining_converges}
+\uses{I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:weyl-element, I.conv.lem:torus-normalizes-unipotent, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:haar-scaling, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.lf.thm:vol-ideal-power, I.smooth.def:delta-half, I.smooth.def:intertwining-operator, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:uniformizer-unit, I.smooth.def:weyl-iwasawa-k, I.smooth.lem:weyl-unipotent-iwasawa, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:intertwining-converges}
+\tfsem{I.smooth.thm:intertwining-converges}{8814e13a6ccb9cf40c9610918dd9af24636157b1c8ba5e15386a5a7f8eb68733}
+\tfhyps{I.smooth.thm:intertwining-converges}{}
+\tfbinder{I.smooth.thm:intertwining-converges}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:intertwining-converges}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:intertwining-converges}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:intertwining-converges}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:intertwining-converges}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:intertwining-converges}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.thm:intertwining-converges}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.thm:intertwining-converges}{7}{bf7d3550}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:intertwining-converges}{8}{9c77ad9b}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.thm:intertwining-converges}{9}{f382a07b}{the assumption $|\gamma|<1$ for $\gamma=\chi_1(\unif)\chi_2(\unif)^{-1}$ (the convergence region, decision D-GKDOM)}
+\tfbinder{I.smooth.thm:intertwining-converges}{10}{698f0310}{the function $f\colon\GL_2(F)\to\C$}
+\tfbinder{I.smooth.thm:intertwining-converges}{11}{3b43ea5e}{the assumption $f\in I(\chi_1,\chi_2)$}
+\begin{tffidelity}
+Only on the convergence region $|\chi_1(\unif)\chi_2(\unif)^{-1}|<1$ (decision D-GKDOM; the continuation in $s$ is not in M5a): the hypothesis is the explicit binder \texttt{hγ : ‖χ₁ (unifUnit F) * (χ₂ (unifUnit F))⁻¹‖ < 1}, a real inequality (not a project predicate). The statement is, for every $f\in I(\chi_1,\chi_2)$ (the pair of binders $f$ and the membership), the conjunction of integrability of $x\mapsto f(w\,n(x)\,g)$ for every $g$ and the membership $M(w)f\in I(\chi_2,\chi_1)$ (\texttt{padicIntertwiningOp f ∈ padicPrincipalSeries χ₂ χ₁}).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Integrability for $\|\gamma\|<1$ is \texttt{integrable\_weyl} (decompose $F$ into $\{|x|\le1\}$ and the shells $S_m=\{|x|=q^m\}$, $m\ge1$): on $S_m$ one has $|f(wn(x)g)|\le C\,|\gamma|^mq^{-m}$ (\texttt{ps\_weyl\_shell}, \texttt{norm\_char\_shell}, \texttt{deltaHalf\_inv\_self}, with $C=\sup_{Kg}|f|<\infty$ by \texttt{exists\_bound\_of\_continuousOn}, using \cref{I.smooth.lem:weyl-unipotent-iwasawa}), and $S_m$ has volume $q^m(1-q^{-1})$ (\texttt{integrable\_of\_piece\_bound}), so the bounds sum to $C\sum_m|\gamma|^m<\infty$. The result lies in $I(\chi_2,\chi_1)$: right $K'$-invariance passes under the integral (\texttt{integral\_congr\_ae}, $f$ is right $K'$-invariant); left $B$-equivariance: translation $x\mapsto y+x$ (\texttt{integral\_add\_left\_eq\_self}) gives $N$-invariance, and for the torus the identity $w\,n(x)\operatorname{diag}(t_1,t_2)=\operatorname{diag}(t_2,t_1)\,w\,n(t_1^{-1}t_2x)$ (\texttt{weyl\_unip\_diag}), the transformation of $f$, and the change of variables $x\mapsto t_1^{-1}t_2x$ (\texttt{haar\_scaling}, Haar scaling by $|t_1^{-1}t_2|$) produce $\chi_2(t_1)\chi_1(t_2)\delta^{1/2}$ (\texttt{deltaHalf\_swap}); \texttt{ring} closes.
+\end{proof}
+
+\begin{theorem}[the intertwining property]
+\tfstmt{I.smooth.thm:intertwining-equivariant}
+\lean{GL2TF.Local.intertwining_equivariant}
+\uses{I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:weyl-element, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.lf.thm:vol-ideal-power, I.smooth.def:delta-half, I.smooth.def:intertwining-operator, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep, I.smooth.def:uniformizer-unit, I.smooth.def:weyl-iwasawa-k, I.smooth.lem:weyl-unipotent-iwasawa, I.smooth.thm:intertwining-converges, I.smooth.thm:principal-series-smooth, I.topgrp.thm:max-compact-local-compact-open}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:intertwining-equivariant}
+\tfsem{I.smooth.thm:intertwining-equivariant}{87723f9a9124edf86d8dbc9fb3f57441da864d808fed3213499d43b5ab7d84e2}
+\tfhyps{I.smooth.thm:intertwining-equivariant}{}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{7}{bf7d3550}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{8}{9c77ad9b}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.thm:intertwining-equivariant}{9}{f382a07b}{the assumption $|\gamma|<1$ for $\gamma=\chi_1(\unif)\chi_2(\unif)^{-1}$ (the convergence region, decision D-GKDOM)}
+\begin{tffidelity}
+On the convergence region (binder \texttt{hγ}). Three conjuncts: additivity, homogeneity, and equivariance, for $f,f_1,f_2$ ranging over the subtype $I(\chi_1,\chi_2)$. ``$M(w)\pi_\chi(h)f=\pi_{w\chi}(h)M(w)f$'' is written with right translation: \texttt{padicIntertwiningOp (psRep χ₁ χ₂ h f).1 = fun g ↦ padicIntertwiningOp f.1 (g * h)}, since $M(w)f\in I(\chi_2,\chi_1)$ is only shown in \cref{I.smooth.thm:intertwining-converges} and right translation is $\pi_{w\chi}(h)$. Linearity is stated on the operator (additivity and homogeneity), not as a bundled \texttt{LinearMap}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Additivity and homogeneity are \texttt{integral\_add} (with the integrability of both summands from \cref{I.smooth.thm:intertwining-converges}) and \texttt{integral\_smul}. Equivariance for $h$: $(\pi(h)f)(wn(x)g)=f(wn(x)gh)$ (\texttt{psRep\_apply}), i.e.\ the integral of the right translate is the right translate of the integral (\texttt{mul\_assoc}).
+\end{proof}
+
+\begin{theorem}[the Gindikin--Karpelevich formula]
+\tfstmt{I.smooth.thm:gindikin-karpelevich}
+\lean{GL2TF.Local.gindikin_karpelevich}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.def:weyl-element, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.haar.def:borel-coordinates, I.haar.lem:borel-coordinates-mem, I.haar.lem:borel-diag-is-unit, I.lf.def:additive-haar, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.lem:additive-haar-spec, I.lf.lem:nalf-t2, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.lf.thm:nalf-second-countable, I.lf.thm:unit-uniformizer-decomposition, I.lf.thm:vol-ideal-power, I.rep.def:fixed-vectors, I.smooth.def:delta-half, I.smooth.def:intertwining-operator, I.smooth.def:local-l-factor, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:quasi-character-div, I.smooth.def:quasi-character-unramified, I.smooth.def:right-translation-rep, I.smooth.def:spherical-vector, I.smooth.def:uniformizer-unit, I.smooth.def:weyl-iwasawa-k, I.smooth.lem:spherical-vector-spec, I.smooth.lem:unramified-character-param, I.smooth.lem:weyl-unipotent-iwasawa, I.smooth.thm:intertwining-converges, I.smooth.thm:principal-series-spherical}
+\end{theorem}
+\begin{tfformal}{I.smooth.thm:gindikin-karpelevich}
+\tfsem{I.smooth.thm:gindikin-karpelevich}{403e7b6a68099a20af84f8848998c3bb38c628471b84a0f3e7e0cc118d580567}
+\tfhyps{I.smooth.thm:gindikin-karpelevich}{}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{5}{97e840a2}{the $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{6}{5a052f6f}{the assumption that this is the Borel $\sigma$-algebra of $F$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{7}{bf7d3550}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{8}{9c77ad9b}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{9}{7e712a62}{the assumption that $\chi_1$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{10}{ed55edfd}{the assumption that $\chi_2$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\tfbinder{I.smooth.thm:gindikin-karpelevich}{11}{e553c9c6}{the assumption $|\gamma|<1$ for $\gamma=\chi_1(\unif)\chi_2(\unif)^{-1}$ (the convergence region, decision D-GKDOM)}
+\begin{tffidelity}
+Exit item of M5a (decision L20: the witness is closed at $F=\Q_3$, $\chi=(|\cdot|,1)$, $\gamma=1/3$, value $4/3$). Convergence region $|\gamma|<1$ only (D-GKDOM): binder \texttt{hγ}. $\gamma=\chi_1(\unif)\chi_2(\unif)^{-1}$ is written out in each occurrence; the unramified premises are the Prop binders \texttt{h₁}, \texttt{h₂} of \cref{I.smooth.def:quasi-character-unramified} (registered in \texttt{assumptions.yaml}). Both forms of the factor are conjuncts: $\frac{1-q^{-1}\gamma}{1-\gamma}$, and $L(0,\chi_1\chi_2^{-1})/L(1,\chi_1\chi_2^{-1})$ (A's $L(s,\mu)$ at $s=0,1$, so the Lean arguments are $0,1$ and the \emph{unnormalized} parameter, not $L(2s)/L(2s+1)$ of the plan's variable $s$); $\chi_1\chi_2^{-1}$ is the B-only \cref{I.smooth.def:quasi-character-div}. $f^\circ_{(\chi_1,\chi_2)}$ is the \emph{function} \texttt{sphericalVector χ₁ χ₂} (not the element of $I(\chi)$), and $M(w)f^\circ$ is \texttt{padicIntertwiningOp (sphericalVector χ₁ χ₂)}; the equalities are equalities of functions $G\to\C$ with scalar multiplication by a complex number. The $L$-factor quotient is the quotient of the Lean values: at a pole of $L(1,\cdot)$ the junk value $0$ would make the second form $0$, but $|\gamma|<1$ excludes it.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Put $\gamma=\chi_1(\unif)\chi_2(\unif)^{-1}$. By the spherical theory \cref{I.smooth.thm:principal-series-spherical} $M(f^\circ_{\chi})$ lies in $I(\chi_2,\chi_1)$ (\cref{I.smooth.thm:intertwining-converges}) and is right $K$-invariant directly (\texttt{integral\_congr\_ae}, since $f^\circ$ is right $K$-invariant, as in A); so by part (a) for $w\chi$ it is a multiple $c\,f^\circ_{w\chi}$ with $c=M(f^\circ)(1)$. To compute it, split $F=\Ocal\sqcup\bigsqcup_{m\ge1}S_m$ with $S_m=\{|x|=q^m\}$ (pieces \texttt{gkPiece}: $\{|x|\le1\}$ for $m=0$, $\{|x|=q^m\}$ for $m\ge1$); on $m=0$ the integrand is $1$ by \cref{I.smooth.lem:weyl-unipotent-iwasawa}(1) ($wn(x)\in K$) and the piece has volume $1$; on $m\ge1$ the Iwasawa form of \cref{I.smooth.lem:weyl-unipotent-iwasawa}(2) gives the constant $\gamma^m q^{-m}$ and the piece has volume $(1-q^{-1})q^m$ (\texttt{volReal\_gkPiece}, \texttt{gkVol}). Hence $c=1+(1-q^{-1})\sum_{m\ge1}\gamma^m$ (\texttt{hasSum\_integral\_iUnion}, \texttt{gk\_hasSum}) $=(1-q^{-1}\gamma)/(1-\gamma)$ by the geometric series for $\|\gamma\|<1$. The second form is the rewriting by the definition of the local $L$-factor $L(s,\chi)=(1-\chi(\unif)q^{-s})^{-1}$ at the unramified quasi-character $\chi_1/\chi_2$.
+\end{proof}
+
+% M5A-GENERATED
+\section{Plumbing of the principal series and the Jacquet module (B-only)}
+
+\noindent These items are the auxiliary definitions and lemmas of this chapter that have no counterpart in A. They appear in edition B only.
+
+\begin{definition}[a quasi-character as a function]
+\tfstmt{I.smooth.def:quasi-character-coe}
+\bonly
+\lean{GL2TF.Local.QuasiChar.instCoeFun}
+\uses{I.smooth.def:quasi-character}
+\end{definition}
+\begin{tfformal}{I.smooth.def:quasi-character-coe}
+\tfsem{I.smooth.def:quasi-character-coe}{6576cf3122cb3aff088522453add85c211f4adec8c0536534cf68a74a6b0955e}
+\tfhyps{I.smooth.def:quasi-character-coe}{}
+\tfbinder{I.smooth.def:quasi-character-coe}{0}{081e958c}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:quasi-character-coe}{1}{a507d942}{the field structure of $F$}
+\tfbinder{I.smooth.def:quasi-character-coe}{2}{25312b32}{the topology of $F$}
+\begin{tffidelity}
+B-only. The \texttt{CoeFun (QuasiChar F)} instance with $\chi(t)=((\chi.1\ t:\C^{\times}):\C)$; it makes every formula of the form $\chi_1(t_1)\chi_2(t_2)$ typecheck in $\C$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[unramified quasi-characters]
+\tfstmt{I.smooth.def:quasi-character-unramified}
+\bonly
+\lean{GL2TF.Local.QuasiChar.IsUnramified}
+\uses{I.smooth.def:quasi-character}
+\end{definition}
+\begin{tfformal}{I.smooth.def:quasi-character-unramified}
+\tfsem{I.smooth.def:quasi-character-unramified}{c3052e435ae3928eba44f904a6ff124bb5b70d57f6718de8b5e6ac0be17b65f5}
+\tfhyps{I.smooth.def:quasi-character-unramified}{}
+\tfbinder{I.smooth.def:quasi-character-unramified}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:quasi-character-unramified}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:quasi-character-unramified}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:quasi-character-unramified}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:quasi-character-unramified}{4}{f3b9f75b}{the quasi-character $\chi$ of $F^\times$}
+\begin{tffidelity}
+B-only. The Prop \texttt{QuasiChar.IsUnramified χ := ∀ u : 𝒪[F]ˣ, χ (Units.map 𝒪[F].subtype u) = 1}; the second sentence of \cref{I.smooth.def:quasi-character} in A. A project-defined Prop that is a binder of statements; it is structural (a predicate on a quasi-character, not a hypothesis about deep theorems), registered in \texttt{registry/assumptions.yaml}.  The field enters through the four standard binders (type, field structure, valuation, topology) and \cref{I.lf.def:nalf}; $q$ is the residue cardinality \texttt{q F} (\cref{I.lf.def:residue-cardinality}) and $\unif$ the chosen uniformizer \texttt{unif F}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the uniformizer as a unit of $F$]
+\tfstmt{I.smooth.def:uniformizer-unit}
+\bonly
+\lean{GL2TF.Local.unifUnit}
+\uses{I.lf.def:nalf, I.lf.def:uniformizer}
+\end{definition}
+\begin{tfformal}{I.smooth.def:uniformizer-unit}
+\tfsem{I.smooth.def:uniformizer-unit}{dfb6ceaf80f3e1c1e439b499b45b5ba041f52a90054b6b5ff445a8a18ec68603}
+\tfhyps{I.smooth.def:uniformizer-unit}{}
+\tfbinder{I.smooth.def:uniformizer-unit}{0}{6b8b0c0f}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:uniformizer-unit}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:uniformizer-unit}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:uniformizer-unit}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:uniformizer-unit}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\begin{tffidelity}
+B-only. \texttt{Units.mk0 (unif F : F) …}, using that the uniformizer is irreducible, hence nonzero.  The field enters through the four standard binders (type, field structure, valuation, topology) and \cref{I.lf.def:nalf}; $q$ is the residue cardinality \texttt{q F} (\cref{I.lf.def:residue-cardinality}) and $\unif$ the chosen uniformizer \texttt{unif F}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the quotient of two quasi-characters]
+\tfstmt{I.smooth.def:quasi-character-div}
+\bonly
+\lean{GL2TF.Local.QuasiChar.div}
+\uses{I.smooth.def:quasi-character}
+\end{definition}
+\begin{tfformal}{I.smooth.def:quasi-character-div}
+\tfsem{I.smooth.def:quasi-character-div}{21190a5bd79f368c47a1aed85470be53ab6b46594d1c532f438c68229fb22c2e}
+\tfhyps{I.smooth.def:quasi-character-div}{}
+\tfbinder{I.smooth.def:quasi-character-div}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:quasi-character-div}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:quasi-character-div}{2}{041b9d8e}{the topology of $F$}
+\tfbinder{I.smooth.def:quasi-character-div}{3}{a8837c41}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.def:quasi-character-div}{4}{781b7886}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+B-only. \texttt{QuasiChar.div χ₁ χ₂ = ⟨χ₁.1 / χ₂.1, …⟩}; continuity of the quotient is the proof component.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the square root of the modulus character on the torus]
+\tfstmt{I.smooth.def:delta-half}
+\bonly
+\lean{GL2TF.Local.deltaHalf}
+\uses{I.lf.def:nalf, I.lf.def:normalized-abs}
+\end{definition}
+\begin{tfformal}{I.smooth.def:delta-half}
+\tfsem{I.smooth.def:delta-half}{9e40232d55fdcbd793ee0cc2b7fb44931d2305660925dbabcf7c7dd71d2dccb9}
+\tfhyps{I.smooth.def:delta-half}{}
+\tfbinder{I.smooth.def:delta-half}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:delta-half}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:delta-half}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:delta-half}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:delta-half}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:delta-half}{5}{3b827725}{the element $t_₁\in F^\times$}
+\tfbinder{I.smooth.def:delta-half}{6}{175432ec}{the element $t_₂\in F^\times$}
+\begin{tffidelity}
+B-only. \texttt{((normAbs F (t₁ / t₂) \^{} (1 / 2 : ℝ) : ℝ) : ℂ)}, the real power $x^{1/2}$ with the Mathlib convention for nonnegative $x$ (here positive), cast to $\C$. It is the factor $\abs{t_1/t_2}^{1/2}_F$ of A, named $\deltaB^{1/2}$ on the diagonal.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the right translation representation on the principal series]
+\tfstmt{I.smooth.def:right-translation-rep}
+\bonly
+\lean{GL2TF.Local.psRep}
+\uses{I.conv.def:diag-element, I.lf.def:nalf, I.smooth.def:delta-half, I.smooth.def:principal-series, I.smooth.def:quasi-character}
+\end{definition}
+\begin{tfformal}{I.smooth.def:right-translation-rep}
+\tfsem{I.smooth.def:right-translation-rep}{9ab96d749b29e757e25675d83c9ec5484af15908669b12f7a4a36d4f39a9de36}
+\tfhyps{I.smooth.def:right-translation-rep}{}
+\tfbinder{I.smooth.def:right-translation-rep}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:right-translation-rep}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:right-translation-rep}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:right-translation-rep}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:right-translation-rep}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:right-translation-rep}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.def:right-translation-rep}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+B-only. The \texttt{Representation ℂ (GL (Fin 2) F) (padicPrincipalSeries χ₁ χ₂)} \texttt{psRep}. The proof obligations are exactly A's: the right translate lies in $I(\chi)$ (right-invariant under the conjugate $h^{-1}K'h$ of the compact open subgroup, and the same transformation law), it is linear, and $\pi(1)=\mathrm{id}$, $\pi(ab)=\pi(a)\pi(b)$. Smoothness is a statement, not part of the structure (\cref{I.smooth.thm:principal-series-smooth}).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the spherical vector on an Iwasawa decomposition]
+\tfstmt{I.smooth.lem:spherical-vector-spec}
+\bonly
+\lean{GL2TF.Local.sphericalVector_spec}
+\uses{I.conv.def:borel, I.conv.def:diag-element, I.conv.def:max-compact-local, I.conv.lem:max-compact-local-mem, I.decomp.thm:iwasawa-local, I.haar.def:borel-coordinates, I.haar.lem:borel-coordinates-mem, I.haar.lem:borel-diag-is-unit, I.lf.def:nalf, I.lf.def:normalized-abs, I.lf.def:residue-cardinality, I.lf.def:uniformizer, I.lf.thm:abs-multiplicative, I.lf.thm:abs-uniformizer, I.smooth.def:delta-half, I.smooth.def:quasi-character, I.smooth.def:quasi-character-unramified, I.smooth.def:spherical-vector}
+\end{lemma}
+\begin{tfformal}{I.smooth.lem:spherical-vector-spec}
+\tfsem{I.smooth.lem:spherical-vector-spec}{1b7aa470d73af4f596861d25cd67ae8bc2951af1acc55416fba50e9cb504f9b9}
+\tfhyps{I.smooth.lem:spherical-vector-spec}{}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{7}{49b76e97}{the assumption that $\chi_1$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{8}{57f56479}{the assumption that $\chi_2$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{9}{a39c44fb}{the element $a\in F$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{10}{97333394}{the element $t_₁\in F^\times$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{11}{9809f172}{the element $t_₂\in F^\times$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{12}{075d71c3}{the element $k\in\GL_2(F)$}
+\tfbinder{I.smooth.lem:spherical-vector-spec}{13}{70d97be0}{the assumption $k\in K$}
+\begin{tffidelity}
+B-only: A's well-definedness claim of \cref{I.smooth.def:spherical-vector}. In Lean the function is defined by a \emph{chosen} decomposition, so this equation is a theorem for \emph{every} decomposition; the unramified premises are the Prop binders \texttt{h₁}, \texttt{h₂} and the membership $k\in K$ the binder \texttt{hk}. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the spherical vector as an element of the principal series]
+\tfstmt{I.smooth.def:spherical-vector-element}
+\bonly
+\lean{GL2TF.Local.sphericalVectorPS}
+\uses{I.lf.def:nalf, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:quasi-character-unramified, I.smooth.def:spherical-vector}
+\end{definition}
+\begin{tfformal}{I.smooth.def:spherical-vector-element}
+\tfsem{I.smooth.def:spherical-vector-element}{1f6fba929ce64ce2a4f93a851337fb5bd32be30c26c9e0caccf251849b9c57b5}
+\tfhyps{I.smooth.def:spherical-vector-element}{}
+\tfbinder{I.smooth.def:spherical-vector-element}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:spherical-vector-element}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:spherical-vector-element}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:spherical-vector-element}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:spherical-vector-element}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:spherical-vector-element}{5}{ad7cda57}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.def:spherical-vector-element}{6}{3f80a695}{the quasi-character $\chi_2$ of $F^\times$}
+\tfbinder{I.smooth.def:spherical-vector-element}{7}{49b76e97}{the assumption that $\chi_1$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\tfbinder{I.smooth.def:spherical-vector-element}{8}{57f56479}{the assumption that $\chi_2$ is unramified (\cref{I.smooth.def:quasi-character-unramified})}
+\begin{tffidelity}
+B-only. \texttt{⟨sphericalVector χ₁ χ₂, …⟩} in the subtype \texttt{padicPrincipalSeries χ₁ χ₂}, the membership proof coming from \cref{I.smooth.thm:principal-series-spherical}\,(a) (hence the two unramified Prop binders). It is the element used in \cref{I.smooth.thm:spherical-hecke-eigenvalue}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the spherical Hecke action is well defined]
+\tfstmt{I.smooth.lem:spherical-hecke-action-spec}
+\bonly
+\lean{GL2TF.Local.sphericalHeckeAction_spec}
+\uses{I.conv.def:max-compact-local, I.lf.def:nalf, I.rep.def:fixed-vectors, I.satake.def:spherical-hecke-algebra, I.smooth.def:spherical-hecke-action, X.hpair.def:hecke-algebra, X.hpair.def:is-hecke-fun}
+\end{lemma}
+\begin{tfformal}{I.smooth.lem:spherical-hecke-action-spec}
+\tfsem{I.smooth.lem:spherical-hecke-action-spec}{11d412146007541dfc38a4ab1f9f48ab75255f07960e0c3bf42283c372fcfd5b}
+\tfhyps{I.smooth.lem:spherical-hecke-action-spec}{}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{5}{a343e7dc}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{6}{3ba7dca4}{the additive group structure of $V$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{7}{54782dcb}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{8}{d430188d}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{9}{68fa91fd}{the vector $v\in V$}
+\tfbinder{I.smooth.lem:spherical-hecke-action-spec}{10}{11687ed9}{the assumption $v\in V^K$}
+\begin{tffidelity}
+B-only: the claims of A's \cref{I.smooth.def:spherical-hecke-action}, which in Lean is a function $V\to V$ defined for all $v$ (junk outside $V^K$). The binder \texttt{a✝} is the hypothesis $v\in V^K$ (an anonymous membership assumption in \texttt{fixedVectors π 𝐊[F]}). The five conjuncts: independence of the summand from the representative, finite support, $\pi(f)v\in V^K$, linearity in $f$, and linearity in $v\in V^K$. $K_F=K(\Ocal_F)$ is notation in A, not a definition (as in the Lean file, where it is the scoped notation \texttt{𝐊[F]}); the displayed Lean statement shows it expanded as \texttt{maxCompact (ValuativeRel.valuation F).integer.subtype}, the group $K$ of \cref{I.conv.def:max-compact-local} for the inclusion $\Ocal_F\hookrightarrow F$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the action of the torus on the Jacquet module]
+\tfstmt{I.smooth.def:jacquet-torus-action}
+\bonly
+\lean{GL2TF.Local.jacquetTorus}
+\uses{I.conv.def:torus, I.conv.def:unipotent, I.smooth.def:jacquet-module}
+\end{definition}
+\begin{tfformal}{I.smooth.def:jacquet-torus-action}
+\tfsem{I.smooth.def:jacquet-torus-action}{9bb8d427d6436680caa0e0662f412691f0257303ae67955e5cecb1b7fe22d7d4}
+\tfhyps{I.smooth.def:jacquet-torus-action}{}
+\tfbinder{I.smooth.def:jacquet-torus-action}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:jacquet-torus-action}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:jacquet-torus-action}{2}{1b25659a}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.def:jacquet-torus-action}{3}{b77247b1}{the additive group structure of $V$}
+\tfbinder{I.smooth.def:jacquet-torus-action}{4}{ed851ffc}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.def:jacquet-torus-action}{5}{957bcd71}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\begin{tffidelity}
+B-only: the second half of A's \cref{I.smooth.def:jacquet-module}. \texttt{Representation ℂ (torus F) (jacquetModule π)}, built with Mathlib's \texttt{Representation.quotient} of $\pi|_{T(F)}$ and the stability lemma (that $\pi(t)$ preserves $V(N)$, proved in the definition). Unnormalized: no $\delta_B^{1/2}$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the map induced on Jacquet modules]
+\tfstmt{I.smooth.def:jacquet-induced-map}
+\bonly
+\lean{GL2TF.Local.jacquetMap}
+\uses{I.conv.def:unipotent, I.smooth.def:jacquet-module}
+\end{definition}
+\begin{tfformal}{I.smooth.def:jacquet-induced-map}
+\tfsem{I.smooth.def:jacquet-induced-map}{2e262f1436875a107da18eb3815ecb5d2023ce05de3e5a7644bce2c55610eff8}
+\tfhyps{I.smooth.def:jacquet-induced-map}{}
+\tfbinder{I.smooth.def:jacquet-induced-map}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{2}{1b25659a}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{3}{b77247b1}{the additive group structure of $V$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{4}{ed851ffc}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{5}{2027a651}{the underlying type of the representation space $W$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{6}{88226069}{the additive group structure of $W$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{7}{7c5da6ae}{the $\C$-module structure of $W$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{8}{20d12b99}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{9}{84f7412e}{the representation $\sigma$ of $\GL_2(F)$ on $W$}
+\tfbinder{I.smooth.def:jacquet-induced-map}{10}{53a2e88f}{the $G$-map $\phi\colon\pi\to\sigma$}
+\begin{tffidelity}
+B-only. Mathlib's \texttt{Representation.Coinvariants.map} of the restriction of $\phi$ to an $N(F)$-map; the compatibility with $N(F)$ is the hypothesis built into the \texttt{IntertwiningMap} $\phi$. Two universe parameters (for $V$ and $W$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the map $\Phi\mapsto\Phi^\flat$]
+\tfstmt{I.smooth.def:frobenius-map}
+\bonly
+\lean{GL2TF.Local.frobeniusFlat}
+\uses{I.conv.def:unipotent, I.lf.def:nalf, I.smooth.def:jacquet-module, I.smooth.def:principal-series, I.smooth.def:quasi-character, I.smooth.def:right-translation-rep}
+\end{definition}
+\begin{tfformal}{I.smooth.def:frobenius-map}
+\tfsem{I.smooth.def:frobenius-map}{7b3802adbeb019ff8f24a55219d6b7333a8329b73de07f9ac351b560b5374396}
+\tfhyps{I.smooth.def:frobenius-map}{}
+\tfbinder{I.smooth.def:frobenius-map}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:frobenius-map}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:frobenius-map}{2}{809c50c9}{the valuation of $F$, up to equivalence (Mathlib's valuative relation)}
+\tfbinder{I.smooth.def:frobenius-map}{3}{ccb181dd}{the topology of $F$}
+\tfbinder{I.smooth.def:frobenius-map}{4}{48103cb8}{the assumption that $F$ is a non-archimedean local field (\cref{I.lf.def:nalf})}
+\tfbinder{I.smooth.def:frobenius-map}{5}{677e83f5}{the underlying type of the representation space $V$}
+\tfbinder{I.smooth.def:frobenius-map}{6}{407c00db}{the additive group structure of $V$}
+\tfbinder{I.smooth.def:frobenius-map}{7}{2c77f084}{the $\C$-module structure of $V$}
+\tfbinder{I.smooth.def:frobenius-map}{8}{d50691c5}{the representation $\pi$ of $\GL_2(F)$ on $V$}
+\tfbinder{I.smooth.def:frobenius-map}{9}{128a7b47}{the quasi-character $\chi_1$ of $F^\times$}
+\tfbinder{I.smooth.def:frobenius-map}{10}{138763cb}{the quasi-character $\chi_2$ of $F^\times$}
+\begin{tffidelity}
+B-only. A $\C$-linear map \texttt{Hom\_G(V, I(χ)) →ₗ[ℂ] (V\_N →ₗ[ℂ] ℂ)} defined with \texttt{Coinvariants.lift}; well definedness is the equation $\Phi(\pi(n)v)(1)=\Phi(v)(n)=\Phi(v)(1)$ for $n\in N(F)$ (the proof obligation, using that $f(n(x))=f(1)$ on $I(\chi)$).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the matrix $k_x$ in the Iwasawa decomposition of $w\,n(x)$]
+\tfstmt{I.smooth.def:weyl-iwasawa-k}
+\bonly
+\lean{GL2TF.Local.kOf}
+\end{definition}
+\begin{tfformal}{I.smooth.def:weyl-iwasawa-k}
+\tfsem{I.smooth.def:weyl-iwasawa-k}{ced5275937e33846c32120180a9bcbbc6517a944746d9d69ff206d42fae704fb}
+\tfhyps{I.smooth.def:weyl-iwasawa-k}{}
+\tfbinder{I.smooth.def:weyl-iwasawa-k}{0}{fe5aea28}{the underlying type of the field $F$}
+\tfbinder{I.smooth.def:weyl-iwasawa-k}{1}{de6d288d}{the field structure of $F$}
+\tfbinder{I.smooth.def:weyl-iwasawa-k}{2}{3bf910e8}{the element $x\in F$}
+\begin{tffidelity}
+B-only. \texttt{kOf x} with the inverse $\bigl(\begin{smallmatrix}-1&0\\x^{-1}&-1\end{smallmatrix}\bigr)$ written out in the definition; for $x=0$ it is a junk matrix (\texttt{0⁻¹ = 0}), harmless since it is used for $x\ne0$ only.
+\end{tffidelity}
+\end{tfformal}

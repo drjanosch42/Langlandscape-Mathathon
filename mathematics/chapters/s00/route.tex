@@ -1,0 +1,42 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 00 (introduction), part 5: why the Bruhat--Tits tree route. No \input; reusable in the report.
+\section{The route: Bruhat--Tits trees instead of bad reduction}\label{ss:s00-route}
+
+\paragraph{The geometric route.} Ribet obtains his sequence (\S\ref{ss:s00-ribet}) from bad reduction: the semistable model of
+$X_0(qM)$ at $q$ (two copies of $X_0(M)_{\F_q}$ crossing at the supersingular points; Thm.~\ref{thm:s05-G}(i), \stcited, \cite{DR}),
+Deuring's correspondence, Grothendieck's description of the N\'eron model and its monodromy pairing \cite{SGA7}, and, for the
+Shimura-curve term, the \v{C}erednik--Drinfeld uniformisation (Remark~\ref{rem:s02-CD}, \stcited). Each step needs arithmetic
+geometry, and at $\Gamma_1(Mp^s)$-level with $U_p$ we found no reference that states the comparison with all normalisations
+(\S\ref{ss:s05-status}). As it stands it is not a computation.
+
+\paragraph{The tree route.} For a prime $q\nmid D$ at which $B$ splits, the norm-one $\{q\}$-arithmetic group $\GU=\cO_U[\frac1q]^1$
+acts on the Bruhat--Tits tree $\cT_q$ with finite stabilisers, and (given the connectivity condition (iii), a finite check) the
+quotient is the finite bipartite Brandt graph: $\GU\backslash\cT_q\cong\BG(U,q)$ (Prop.~\ref{prop:s02-BG}, \stproved). This is the
+viewpoint of Ihara and Serre: a group acting on a tree with a segment as fundamental domain is the amalgam of the two vertex
+stabilisers over the edge stabiliser, and Ihara's theorem and the amalgam decomposition of $\SL_2(\Z[1/q])$ follow
+\cite[Ch.~II, \S1.4, Thm.~3, Cor.~1, p.~79--81]{Se} (\stcited). Its advantages for our question:
+\begin{itemize}
+\item \emph{Combinatorial.} All objects are finite graphs with Hecke correspondences and weights; the (co)homology of $\GU$ is a
+  two-term complex of Brandt modules (Prop.~\ref{prop:s02-coh}, \stpmc{} given (iii)), and $H_1$ of the quotient is the $q$-new part
+  (harmonic cochains, Prop.~\ref{prop:s02-harm}).
+\item \emph{Integral.} Everything is defined over $\Z$; for $p\ge5$ the passage to $\Zp$ loses nothing
+  (Remark~\ref{rem:s02-torsion}). The definite Ribet sequence is an exact sequence over $\Z$ and over every commutative ring
+  (Thm.~\ref{thm:s03-ribet}(a), \stproved{} given (iii)); the Ihara lemma is the connectivity of a graph
+  (Cor.~\ref{cor:s03-ihara}, \stproved{} given (iii)), the proof recorded by Ribet \cite[Rem.~3.18]{Ri90} and attributed there to
+  Livn\'e and Edixhoven.
+\item \emph{Computable.} Class sets, Brandt matrices, $\BG(U,q)$ and $\Phicomb$ are computed directly (Python/PARI and HACS;
+  \S\ref{ss:s00-outline}).
+\item \emph{Formalizable.} The graph statements are within reach of Lean; the formalized parts are recorded next to each result
+  (e.g.\ \lean{Langlandscape.Ribet.ribet\_exact}, under the connectivity argument).
+\end{itemize}
+
+\paragraph{What the tree route does and does not give.} The tree quotient $H_1(\BG(U,q))$ for $B=\Bd$ is the stand-in for the
+character group at $q$ of the Jacobian of the Shimura curve of discriminant $Dq$ (Remark~\ref{rem:s02-CD}, \stcited, never used).
+So Ribet's character-group comparison is realised combinatorially in stages~02--03, given connectivity: the Ribet sequence as a
+vertex collapse, the Ihara lemma including the Hecke action on $H_0$ (Thm.~\ref{thm:s03-iharaH0}, \stpmc), and the Mazur check
+(Prop.~\ref{prop:s03-mazur}, \stpmc). What the tree cannot do is pass between different algebras: for $q\mid D$ there is no tree,
+and every object built from tree quotients of one algebra $B'$ is a subquotient of Brandt modules of the same $B'$
+(Prop.~\ref{prop:s05-nochain}, \stproved). The identification of the DR graph of $B_q$ with the dual graph of the special fibre of
+the modular curve at $\Gamma_1(Mp^s)$-level is therefore a genuinely geometric input. We isolate it as the single hypothesis
+$\HypX$ (stage~05), prove its formal consequences, and arrange that the main theorem of stage~06 does not use it.

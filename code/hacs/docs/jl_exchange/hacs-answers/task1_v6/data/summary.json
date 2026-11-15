@@ -1,0 +1,7355 @@
+[
+ {
+  "p": 3,
+  "k": 4,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 0,
+  "dim_S_k_new": 0,
+  "rank_H1_Gamma0p": 2,
+  "rank_H2": 0,
+  "expected_rank_H2=2dimS_new": 0,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   5
+  ],
+  "ells": {
+   "5": {
+    "coker_alpha_torsion": [
+     "Z/5"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      4
+     ],
+     "5": [
+      1
+     ],
+     "7": [
+      4
+     ],
+     "11": [
+      2
+     ],
+     "13": [
+      3
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "5^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      4
+     ],
+     "5": [
+      1
+     ],
+     "7": [
+      4
+     ],
+     "11": [
+      2
+     ],
+     "13": [
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 4,
+     "5": 1,
+     "7": 4,
+     "11": 2,
+     "13": 3
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 2,
+    "modulus": "5^10",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 28",
+  "det_alpha*alpha": "-640/9"
+ },
+ {
+  "p": 3,
+  "k": 6,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 1,
+  "dim_S_k_new": 1,
+  "rank_H1_Gamma0p": 4,
+  "rank_H2": 2,
+  "expected_rank_H2=2dimS_new": 2,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   7,
+   13
+  ],
+  "ells": {
+   "7": {
+    "coker_alpha_torsion": [
+     "Z/7"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      5
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      1
+     ],
+     "11": [
+      3
+     ],
+     "13": [
+      0
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "7^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      1
+     ],
+     "11": [
+      3
+     ],
+     "13": [
+      0
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 5,
+     "5": 4,
+     "7": 1,
+     "11": 3,
+     "13": 0
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "7^8",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "13": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "5": [
+      6
+     ],
+     "7": [
+      12
+     ],
+     "11": [
+      8
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "5": 6,
+     "7": 12,
+     "11": 8,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 244",
+  "det_alpha*alpha": "-58240/81"
+ },
+ {
+  "p": 3,
+  "k": 8,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 1,
+  "dim_S_k_new": 1,
+  "rank_H1_Gamma0p": 4,
+  "rank_H2": 2,
+  "expected_rank_H2=2dimS_new": 2,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13,
+   41
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      12
+     ],
+     "5": [
+      9
+     ],
+     "7": [
+      7
+     ],
+     "11": [
+      3
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 12,
+     "5": 9,
+     "7": 7,
+     "11": 3,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "41": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "41^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      6
+     ],
+     "5": [
+      21
+     ],
+     "7": [
+      18
+     ],
+     "11": [
+      36
+     ],
+     "13": [
+      27
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 6,
+     "5": 21,
+     "7": 18,
+     "11": 36,
+     "13": 27
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "41^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 2188",
+  "det_alpha*alpha": "-4775680/729"
+ },
+ {
+  "p": 3,
+  "k": 10,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 2,
+  "dim_S_k_new": 2,
+  "rank_H1_Gamma0p": 6,
+  "rank_H2": 4,
+  "expected_rank_H2=2dimS_new": 4,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   11,
+   41,
+   61
+  ],
+  "ells": {
+   "11": {
+    "coker_alpha_torsion": [
+     "Z/11"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      7
+     ],
+     "5": [
+      10
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      1
+     ],
+     "13": [
+      7
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "11^2"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "5": [
+      10
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      1
+     ],
+     "13": [
+      7
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "5": 10,
+     "7": 9,
+     "11": 1,
+     "13": 7
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 2,
+    "rank_H1_Gamma0p": 6,
+    "modulus": "11^7",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "41": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "41^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      21
+     ],
+     "5": [
+      9
+     ],
+     "7": [
+      14
+     ],
+     "11": [
+      13
+     ],
+     "13": [
+      8
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 21,
+     "5": 9,
+     "7": 14,
+     "11": 13,
+     "13": 8
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 6,
+    "modulus": "41^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      25
+     ],
+     "5": [
+      28
+     ],
+     "7": [
+      34
+     ],
+     "11": [
+      12
+     ],
+     "13": [
+      2
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 25,
+     "5": 28,
+     "7": 34,
+     "11": 12,
+     "13": 2
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 6,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 19684",
+  "det_alpha*alpha": "-387354880/6561"
+ },
+ {
+  "p": 3,
+  "k": 12,
+  "rank_H1_SL2Z": 3,
+  "dim_S_k(1)": 1,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 1,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 2,
+  "expected_rank_H2=2dimS_new": 2,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13,
+   17,
+   61,
+   73
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [
+     "Z/13"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      8
+     ],
+     "5": [
+      9
+     ],
+     "7": [
+      3
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      1
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8
+     ],
+     "5": [
+      9
+     ],
+     "7": [
+      3
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8,
+     "5": 9,
+     "7": 3,
+     "11": 7,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1",
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      10,
+      10
+     ],
+     "5": [
+      2,
+      2
+     ],
+     "7": [
+      1,
+      1
+     ],
+     "11": [
+      13,
+      13
+     ],
+     "13": [
+      7,
+      7
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 9,
+     "5": 12,
+     "7": 15,
+     "11": 13,
+     "13": 5
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      36
+     ],
+     "5": [
+      5
+     ],
+     "7": [
+      32
+     ],
+     "11": [
+      51
+     ],
+     "13": [
+      48
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 36,
+     "5": 5,
+     "7": 32,
+     "11": 51,
+     "13": 48
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "73": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "73^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5
+     ],
+     "5": [
+      32
+     ],
+     "7": [
+      53
+     ],
+     "11": [
+      35
+     ],
+     "13": [
+      6
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 5,
+     "5": 32,
+     "7": 53,
+     "11": 35,
+     "13": 6
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "73^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "(x - 177148)*(x - 252)**2",
+  "det_alpha*alpha": "-3714644203798528000/31381059609"
+ },
+ {
+  "p": 3,
+  "k": 14,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   73,
+   547,
+   1093
+  ],
+  "ells": {
+   "73": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "73^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      17
+     ],
+     "5": [
+      46
+     ],
+     "7": [
+      67
+     ],
+     "11": [
+      27
+     ],
+     "13": [
+      43
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 17,
+     "5": 46,
+     "7": 67,
+     "11": 27,
+     "13": 43
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "73^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "547": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "547^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      535
+     ],
+     "5": [
+      422
+     ],
+     "7": [
+      425
+     ],
+     "11": [
+      507
+     ],
+     "13": [
+      509
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 535,
+     "5": 422,
+     "7": 425,
+     "11": 507,
+     "13": 509
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "547^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1093": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "5": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1093^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      542
+     ],
+     "5": [
+      285
+     ],
+     "7": [
+      269
+     ],
+     "11": [
+      2
+     ],
+     "13": [
+      152
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 542,
+     "5": 285,
+     "7": 269,
+     "11": 2,
+     "13": 152
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "1093^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "5": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 1594324",
+  "det_alpha*alpha": "-2541860513920/531441"
+ },
+ {
+  "p": 5,
+  "k": 4,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 1,
+  "dim_S_k_new": 1,
+  "rank_H1_Gamma0p": 4,
+  "rank_H2": 2,
+  "expected_rank_H2=2dimS_new": 2,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      9
+     ],
+     "3": [
+      2
+     ],
+     "7": [
+      6
+     ],
+     "11": [
+      6
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 9,
+     "3": 2,
+     "7": 6,
+     "11": 6,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 126",
+  "det_alpha*alpha": "-14976/25"
+ },
+ {
+  "p": 5,
+  "k": 6,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 1,
+  "dim_S_k_new": 1,
+  "rank_H1_Gamma0p": 4,
+  "rank_H2": 2,
+  "expected_rank_H2=2dimS_new": 2,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   7,
+   13,
+   31
+  ],
+  "ells": {
+   "7": {
+    "coker_alpha_torsion": [
+     "Z/7"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      5
+     ],
+     "3": [
+      6
+     ],
+     "7": [
+      1
+     ],
+     "11": [
+      3
+     ],
+     "13": [
+      0
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "7^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5
+     ],
+     "3": [
+      6
+     ],
+     "7": [
+      1
+     ],
+     "11": [
+      3
+     ],
+     "13": [
+      0
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 5,
+     "3": 6,
+     "7": 1,
+     "11": 3,
+     "13": 0
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "7^8",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "13": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      10
+     ],
+     "7": [
+      12
+     ],
+     "11": [
+      8
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "3": 10,
+     "7": 12,
+     "11": 8,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "31": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "31^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2
+     ],
+     "3": [
+      27
+     ],
+     "7": [
+      6
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      7
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2,
+     "3": 27,
+     "7": 6,
+     "11": 7,
+     "13": 7
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "31^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 3126",
+  "det_alpha*alpha": "-9749376/625"
+ },
+ {
+  "p": 5,
+  "k": 8,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13,
+   31,
+   313
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      12
+     ],
+     "3": [
+      4
+     ],
+     "7": [
+      7
+     ],
+     "11": [
+      3
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 12,
+     "3": 4,
+     "7": 7,
+     "11": 3,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "31": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "31^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5
+     ],
+     "3": [
+      18
+     ],
+     "7": [
+      29
+     ],
+     "11": [
+      14
+     ],
+     "13": [
+      23
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 5,
+     "3": 18,
+     "7": 29,
+     "11": 14,
+     "13": 23
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "31^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "313": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "313^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      129
+     ],
+     "3": [
+      310
+     ],
+     "7": [
+      41
+     ],
+     "11": [
+      105
+     ],
+     "13": [
+      156
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 129,
+     "3": 310,
+     "7": 41,
+     "11": 105,
+     "13": 156
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "313^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 78126",
+  "det_alpha*alpha": "-6103109376/15625"
+ },
+ {
+  "p": 5,
+  "k": 10,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   11,
+   13,
+   71,
+   313,
+   521
+  ],
+  "ells": {
+   "11": {
+    "coker_alpha_torsion": [
+     "Z/11"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      5
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      1
+     ],
+     "13": [
+      7
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "11^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      5
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      1
+     ],
+     "13": [
+      7
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "3": 5,
+     "7": 9,
+     "11": 1,
+     "13": 7
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "11^7",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "13": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      6
+     ],
+     "3": [
+      2
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      9
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 6,
+     "3": 2,
+     "7": 9,
+     "11": 9,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "71": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "71^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      16
+     ],
+     "3": [
+      17
+     ],
+     "7": [
+      48
+     ],
+     "11": [
+      62
+     ],
+     "13": [
+      8
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 16,
+     "3": 17,
+     "7": 48,
+     "11": 62,
+     "13": 8
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "71^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "313": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "313^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      200
+     ],
+     "3": [
+      278
+     ],
+     "7": [
+      83
+     ],
+     "11": [
+      65
+     ],
+     "13": [
+      217
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 200,
+     "3": 278,
+     "7": 83,
+     "11": 65,
+     "13": 217
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "313^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "521": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "521^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      407
+     ],
+     "7": [
+      74
+     ],
+     "11": [
+      161
+     ],
+     "13": [
+      249
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 407,
+     "7": 74,
+     "11": 161,
+     "13": 249
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "521^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 1953126",
+  "det_alpha*alpha": "-3814687109376/390625"
+ },
+ {
+  "p": 5,
+  "k": 12,
+  "rank_H1_SL2Z": 3,
+  "dim_S_k(1)": 1,
+  "dim_S_k(Gamma0(p))": 5,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 12,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13,
+   29,
+   31,
+   71,
+   131,
+   521,
+   601
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [
+     "Z/13"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      10
+     ],
+     "7": [
+      3
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      1
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      10
+     ],
+     "7": [
+      3
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8,
+     "3": 10,
+     "7": 3,
+     "11": 7,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "29": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "29^1",
+     "29^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5,
+      5
+     ],
+     "3": [
+      20,
+      20
+     ],
+     "7": [
+      18,
+      18
+     ],
+     "11": [
+      26,
+      26
+     ],
+     "13": [
+      0,
+      0
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 19,
+     "3": 16,
+     "7": 24,
+     "11": 11,
+     "13": 5
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "29^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "31": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "31^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      3
+     ],
+     "3": [
+      14
+     ],
+     "7": [
+      21
+     ],
+     "11": [
+      25
+     ],
+     "13": [
+      4
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 3,
+     "3": 14,
+     "7": 21,
+     "11": 25,
+     "13": 4
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "31^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "71": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "71^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      61
+     ],
+     "3": [
+      3
+     ],
+     "7": [
+      32
+     ],
+     "11": [
+      69
+     ],
+     "13": [
+      48
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 61,
+     "3": 3,
+     "7": 32,
+     "11": 69,
+     "13": 48
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "71^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "131": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "131^1",
+     "131^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      107,
+      107
+     ],
+     "3": [
+      121,
+      121
+     ],
+     "7": [
+      24,
+      24
+     ],
+     "11": [
+      1,
+      1
+     ],
+     "13": [
+      103,
+      103
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 84,
+     "3": 36,
+     "7": 37,
+     "11": 8,
+     "13": 124
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "131^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "521": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "521^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      486
+     ],
+     "3": [
+      8
+     ],
+     "7": [
+      452
+     ],
+     "11": [
+      84
+     ],
+     "13": [
+      233
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 486,
+     "3": 8,
+     "7": 452,
+     "11": 84,
+     "13": 233
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "521^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "601": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "601^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      246
+     ],
+     "3": [
+      454
+     ],
+     "7": [
+      83
+     ],
+     "11": [
+      175
+     ],
+     "13": [
+      589
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 246,
+     "3": 454,
+     "7": 83,
+     "11": 175,
+     "13": 589
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "601^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "(x - 48828126)*(x - 4830)**2",
+  "det_alpha*alpha": "-410985125333286103739673870336/1490116119384765625"
+ },
+ {
+  "p": 5,
+  "k": 14,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 5,
+  "dim_S_k_new": 5,
+  "rank_H1_Gamma0p": 12,
+  "rank_H2": 10,
+  "expected_rank_H2=2dimS_new": 10,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   29,
+   31,
+   449,
+   601,
+   19531
+  ],
+  "ells": {
+   "29": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "29^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      15
+     ],
+     "3": [
+      20
+     ],
+     "7": [
+      26
+     ],
+     "11": [
+      22
+     ],
+     "13": [
+      10
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 15,
+     "3": 20,
+     "7": 26,
+     "11": 22,
+     "13": 10
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "29^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "31": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "31^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      9
+     ],
+     "3": [
+      25
+     ],
+     "7": [
+      20
+     ],
+     "11": [
+      22
+     ],
+     "13": [
+      12
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 9,
+     "3": 25,
+     "7": 20,
+     "11": 22,
+     "13": 12
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "31^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "449": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "449^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      111
+     ],
+     "3": [
+      374
+     ],
+     "7": [
+      399
+     ],
+     "11": [
+      252
+     ],
+     "13": [
+      354
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 111,
+     "3": 374,
+     "7": 399,
+     "11": 252,
+     "13": 354
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "449^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "601": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "601^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      380
+     ],
+     "3": [
+      472
+     ],
+     "7": [
+      413
+     ],
+     "11": [
+      20
+     ],
+     "13": [
+      208
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 380,
+     "3": 472,
+     "7": 413,
+     "11": 20,
+     "13": 208
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "601^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "7": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "19531": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "7": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19531^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8193
+     ],
+     "3": [
+      12313
+     ],
+     "7": [
+      16228
+     ],
+     "11": [
+      16866
+     ],
+     "13": [
+      5742
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8193,
+     "3": 12313,
+     "7": 16228,
+     "11": 16866,
+     "13": 5742
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "19531^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 1220703126",
+  "det_alpha*alpha": "-1490116113037109376/244140625"
+ },
+ {
+  "p": 7,
+  "k": 4,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 1,
+  "dim_S_k_new": 1,
+  "rank_H1_Gamma0p": 4,
+  "rank_H2": 2,
+  "expected_rank_H2=2dimS_new": 2,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   5
+  ],
+  "ells": {
+   "5": {
+    "coker_alpha_torsion": [
+     "Z/5"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      1
+     ],
+     "11": [
+      2
+     ],
+     "13": [
+      3
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "5^2"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      1
+     ],
+     "11": [
+      2
+     ],
+     "13": [
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 4,
+     "3": 3,
+     "5": 1,
+     "11": 2,
+     "13": 3
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 2,
+    "rank_H1_Gamma0p": 4,
+    "modulus": "5^10",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 344",
+  "det_alpha*alpha": "-115200/49"
+ },
+ {
+  "p": 7,
+  "k": 6,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   19,
+   43
+  ],
+  "ells": {
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      14
+     ],
+     "3": [
+      16
+     ],
+     "5": [
+      10
+     ],
+     "11": [
+      8
+     ],
+     "13": [
+      15
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 14,
+     "3": 16,
+     "5": 10,
+     "11": 8,
+     "13": 15
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "43": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "43^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      33
+     ],
+     "3": [
+      29
+     ],
+     "5": [
+      30
+     ],
+     "11": [
+      17
+     ],
+     "13": [
+      32
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 33,
+     "3": 29,
+     "5": 30,
+     "11": 17,
+     "13": 32
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "43^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 16808",
+  "det_alpha*alpha": "-282355200/2401"
+ },
+ {
+  "p": 7,
+  "k": 8,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   19,
+   43,
+   1201
+  ],
+  "ells": {
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      15
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      17
+     ],
+     "11": [
+      12
+     ],
+     "13": [
+      11
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 15,
+     "3": 3,
+     "5": 17,
+     "11": 12,
+     "13": 11
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "43": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "43^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      0
+     ],
+     "3": [
+      38
+     ],
+     "5": [
+      38
+     ],
+     "11": [
+      2
+     ],
+     "13": [
+      37
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 0,
+     "3": 38,
+     "5": 38,
+     "11": 2,
+     "13": 37
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "43^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1201": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1201^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      129
+     ],
+     "3": [
+      987
+     ],
+     "5": [
+      61
+     ],
+     "11": [
+      947
+     ],
+     "13": [
+      1072
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 129,
+     "3": 987,
+     "5": 61,
+     "11": 947,
+     "13": 1072
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "1201^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 823544",
+  "det_alpha*alpha": "-678217190400/117649"
+ },
+ {
+  "p": 7,
+  "k": 10,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 5,
+  "dim_S_k_new": 5,
+  "rank_H1_Gamma0p": 12,
+  "rank_H2": 10,
+  "expected_rank_H2=2dimS_new": 10,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   11,
+   191,
+   1201,
+   2801
+  ],
+  "ells": {
+   "11": {
+    "coker_alpha_torsion": [
+     "Z/11"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      5
+     ],
+     "5": [
+      10
+     ],
+     "11": [
+      1
+     ],
+     "13": [
+      7
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "11^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      5
+     ],
+     "5": [
+      10
+     ],
+     "11": [
+      1
+     ],
+     "13": [
+      7
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "3": 5,
+     "5": 10,
+     "11": 1,
+     "13": 7
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "11^7",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "191": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "191^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      131
+     ],
+     "3": [
+      11
+     ],
+     "5": [
+      151
+     ],
+     "11": [
+      167
+     ],
+     "13": [
+      25
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 131,
+     "3": 11,
+     "5": 151,
+     "11": 167,
+     "13": 25
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "191^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1201": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1201^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      468
+     ],
+     "5": [
+      300
+     ],
+     "11": [
+      372
+     ],
+     "13": [
+      850
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 468,
+     "5": 300,
+     "11": 372,
+     "13": 850
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "1201^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "2801": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "2801^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      77
+     ],
+     "5": [
+      829
+     ],
+     "11": [
+      1469
+     ],
+     "13": [
+      205
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 77,
+     "5": 829,
+     "11": 1469,
+     "13": 205
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "2801^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 40353608",
+  "det_alpha*alpha": "-1628413309670400/5764801"
+ },
+ {
+  "p": 7,
+  "k": 12,
+  "rank_H1_SL2Z": 3,
+  "dim_S_k(1)": 1,
+  "dim_S_k(Gamma0(p))": 7,
+  "dim_S_k_new": 5,
+  "rank_H1_Gamma0p": 16,
+  "rank_H2": 10,
+  "expected_rank_H2=2dimS_new": 10,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13,
+   19,
+   43,
+   181,
+   191,
+   1051,
+   2801
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [
+     "Z/13"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      10
+     ],
+     "5": [
+      9
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      1
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      10
+     ],
+     "5": [
+      9
+     ],
+     "11": [
+      7
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8,
+     "3": 10,
+     "5": 9,
+     "11": 7,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      16
+     ],
+     "3": [
+      11
+     ],
+     "5": [
+      7
+     ],
+     "11": [
+      8
+     ],
+     "13": [
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 16,
+     "3": 11,
+     "5": 7,
+     "11": 8,
+     "13": 3
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "43": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "43^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      28
+     ],
+     "3": [
+      31
+     ],
+     "5": [
+      35
+     ],
+     "11": [
+      22
+     ],
+     "13": [
+      24
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 28,
+     "3": 31,
+     "5": 35,
+     "11": 22,
+     "13": 24
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "43^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "181": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "181^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      58
+     ],
+     "3": [
+      130
+     ],
+     "5": [
+      118
+     ],
+     "11": [
+      80
+     ],
+     "13": [
+      17
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 58,
+     "3": 130,
+     "5": 118,
+     "11": 80,
+     "13": 17
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "181^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "191": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "191^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      139
+     ],
+     "3": [
+      91
+     ],
+     "5": [
+      122
+     ],
+     "11": [
+      32
+     ],
+     "13": [
+      46
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 139,
+     "3": 91,
+     "5": 122,
+     "11": 32,
+     "13": 46
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "191^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1051": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1051^1",
+     "1051^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      1027,
+      1027
+     ],
+     "3": [
+      252,
+      252
+     ],
+     "5": [
+      626,
+      626
+     ],
+     "11": [
+      704,
+      704
+     ],
+     "13": [
+      312,
+      312
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 998,
+     "3": 580,
+     "5": 768,
+     "11": 752,
+     "13": 261
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "1051^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "2801": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "2801^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2049
+     ],
+     "3": [
+      685
+     ],
+     "5": [
+      1094
+     ],
+     "11": [
+      1166
+     ],
+     "13": [
+      865
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 685,
+     "5": 1094,
+     "11": 1166,
+     "13": 865
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "2801^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "(x - 1977326744)*(x + 16744)**2",
+  "det_alpha*alpha": "-515833779265428307401523593216000000/9387480337647754305649"
+ },
+ {
+  "p": 7,
+  "k": 14,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 7,
+  "dim_S_k_new": 7,
+  "rank_H1_Gamma0p": 16,
+  "rank_H2": 14,
+  "expected_rank_H2=2dimS_new": 14,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   19,
+   29,
+   43,
+   113,
+   181,
+   911,
+   4733
+  ],
+  "ells": {
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      15
+     ],
+     "5": [
+      18
+     ],
+     "11": [
+      12
+     ],
+     "13": [
+      16
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 4,
+     "3": 15,
+     "5": 18,
+     "11": 12,
+     "13": 16
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "29": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "29^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      15
+     ],
+     "3": [
+      20
+     ],
+     "5": [
+      7
+     ],
+     "11": [
+      22
+     ],
+     "13": [
+      10
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 15,
+     "3": 20,
+     "5": 7,
+     "11": 22,
+     "13": 10
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "29^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "43": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "43^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      23
+     ],
+     "3": [
+      13
+     ],
+     "5": [
+      34
+     ],
+     "11": [
+      5
+     ],
+     "13": [
+      18
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 23,
+     "3": 13,
+     "5": 34,
+     "11": 5,
+     "13": 18
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "43^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "113": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "113^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      57
+     ],
+     "3": [
+      7
+     ],
+     "5": [
+      60
+     ],
+     "11": [
+      51
+     ],
+     "13": [
+      63
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 57,
+     "3": 7,
+     "5": 60,
+     "11": 51,
+     "13": 63
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "113^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "181": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "181^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      48
+     ],
+     "3": [
+      76
+     ],
+     "5": [
+      30
+     ],
+     "11": [
+      148
+     ],
+     "13": [
+      171
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 48,
+     "3": 76,
+     "5": 30,
+     "11": 148,
+     "13": 171
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "181^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "911": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "911^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      905
+     ],
+     "3": [
+      74
+     ],
+     "5": [
+      477
+     ],
+     "11": [
+      0
+     ],
+     "13": [
+      401
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 905,
+     "3": 74,
+     "5": 477,
+     "11": 0,
+     "13": 401
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "911^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "4733": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "11": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "4733^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      3460
+     ],
+     "3": [
+      4036
+     ],
+     "5": [
+      897
+     ],
+     "11": [
+      3465
+     ],
+     "13": [
+      677
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 3460,
+     "3": 4036,
+     "5": 897,
+     "11": 3465,
+     "13": 677
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "4733^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "11": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 96889010408",
+  "det_alpha*alpha": "-9387480336955689945600/13841287201"
+ },
+ {
+  "p": 11,
+  "k": 4,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 2,
+  "dim_S_k_new": 2,
+  "rank_H1_Gamma0p": 6,
+  "rank_H2": 4,
+  "expected_rank_H2=2dimS_new": 4,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   5,
+   61
+  ],
+  "ells": {
+   "5": {
+    "coker_alpha_torsion": [
+     "Z/5"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      1
+     ],
+     "7": [
+      4
+     ],
+     "13": [
+      3
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "5^2"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      1
+     ],
+     "7": [
+      4
+     ],
+     "13": [
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 4,
+     "3": 3,
+     "5": 1,
+     "7": 4,
+     "13": 3
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 2,
+    "rank_H1_Gamma0p": 6,
+    "modulus": "5^10",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      9
+     ],
+     "3": [
+      28
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      39
+     ],
+     "13": [
+      2
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 9,
+     "3": 28,
+     "5": 4,
+     "7": 39,
+     "13": 2
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 6,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 1332",
+  "det_alpha*alpha": "-1756800/121"
+ },
+ {
+  "p": 11,
+  "k": 6,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 4,
+  "dim_S_k_new": 4,
+  "rank_H1_Gamma0p": 10,
+  "rank_H2": 8,
+  "expected_rank_H2=2dimS_new": 8,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   7,
+   19,
+   37,
+   61
+  ],
+  "ells": {
+   "7": {
+    "coker_alpha_torsion": [
+     "Z/7"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      5
+     ],
+     "3": [
+      6
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      1
+     ],
+     "13": [
+      0
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "7^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5
+     ],
+     "3": [
+      6
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      1
+     ],
+     "13": [
+      0
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 5,
+     "3": 6,
+     "5": 4,
+     "7": 1,
+     "13": 0
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 10,
+    "modulus": "7^8",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      14
+     ],
+     "3": [
+      16
+     ],
+     "5": [
+      10
+     ],
+     "7": [
+      12
+     ],
+     "13": [
+      15
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 14,
+     "3": 16,
+     "5": 10,
+     "7": 12,
+     "13": 15
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 10,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "37": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "37^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      33
+     ],
+     "3": [
+      22
+     ],
+     "5": [
+      18
+     ],
+     "7": [
+      10
+     ],
+     "13": [
+      36
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 33,
+     "3": 22,
+     "5": 18,
+     "7": 10,
+     "13": 36
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 10,
+    "modulus": "37^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      33
+     ],
+     "3": [
+      0
+     ],
+     "5": [
+      15
+     ],
+     "7": [
+      33
+     ],
+     "13": [
+      48
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 33,
+     "3": 0,
+     "5": 15,
+     "7": 33,
+     "13": 48
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 10,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 161052",
+  "det_alpha*alpha": "-25935638400/14641"
+ },
+ {
+  "p": 11,
+  "k": 8,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 6,
+  "dim_S_k_new": 6,
+  "rank_H1_Gamma0p": 14,
+  "rank_H2": 12,
+  "expected_rank_H2=2dimS_new": 12,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   19,
+   37,
+   61,
+   7321
+  ],
+  "ells": {
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      15
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      17
+     ],
+     "7": [
+      8
+     ],
+     "13": [
+      11
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 15,
+     "3": 3,
+     "5": 17,
+     "7": 8,
+     "13": 11
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 14,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "37": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "37^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      18
+     ],
+     "3": [
+      5
+     ],
+     "5": [
+      19
+     ],
+     "7": [
+      35
+     ],
+     "13": [
+      33
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 18,
+     "3": 5,
+     "5": 19,
+     "7": 35,
+     "13": 33
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 14,
+    "modulus": "37^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      53
+     ],
+     "5": [
+      46
+     ],
+     "7": [
+      44
+     ],
+     "13": [
+      14
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "3": 53,
+     "5": 46,
+     "7": 44,
+     "13": 14
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 14,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "7321": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "7321^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      129
+     ],
+     "3": [
+      2188
+     ],
+     "5": [
+      4916
+     ],
+     "7": [
+      3592
+     ],
+     "13": [
+      227
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 129,
+     "3": 2188,
+     "5": 4916,
+     "7": 3592,
+     "13": 227
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 14,
+    "modulus": "7321^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 19487172",
+  "det_alpha*alpha": "-379749617452800/1771561"
+ },
+ {
+  "p": 11,
+  "k": 10,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 8,
+  "dim_S_k_new": 8,
+  "rank_H1_Gamma0p": 18,
+  "rank_H2": 16,
+  "expected_rank_H2=2dimS_new": 16,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   61,
+   3221,
+   7321,
+   13421
+  ],
+  "ells": {
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      25
+     ],
+     "3": [
+      42
+     ],
+     "5": [
+      28
+     ],
+     "7": [
+      34
+     ],
+     "13": [
+      2
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 25,
+     "3": 42,
+     "5": 28,
+     "7": 34,
+     "13": 2
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 18,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "3221": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "3221^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      358
+     ],
+     "5": [
+      1200
+     ],
+     "7": [
+      920
+     ],
+     "13": [
+      1074
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 358,
+     "5": 1200,
+     "7": 920,
+     "13": 1074
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 18,
+    "modulus": "3221^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "7321": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "7321^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      5042
+     ],
+     "5": [
+      5740
+     ],
+     "7": [
+      256
+     ],
+     "13": [
+      1590
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 5042,
+     "5": 5740,
+     "7": 256,
+     "13": 1590
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 18,
+    "modulus": "7321^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "13421": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13421^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      6263
+     ],
+     "5": [
+      7081
+     ],
+     "7": [
+      10082
+     ],
+     "13": [
+      3592
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 6263,
+     "5": 7081,
+     "7": 10082,
+     "13": 3592
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 18,
+    "modulus": "13421^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 2357947692",
+  "det_alpha*alpha": "-5559917287340448000/214358881"
+ },
+ {
+  "p": 11,
+  "k": 12,
+  "rank_H1_SL2Z": 3,
+  "dim_S_k(1)": 1,
+  "dim_S_k(Gamma0(p))": 10,
+  "dim_S_k_new": 8,
+  "rank_H1_Gamma0p": 22,
+  "rank_H2": 16,
+  "expected_rank_H2=2dimS_new": 16,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   13,
+   19,
+   37,
+   61,
+   233,
+   1117,
+   3221,
+   13421,
+   34267
+  ],
+  "ells": {
+   "13": {
+    "coker_alpha_torsion": [
+     "Z/13"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      10
+     ],
+     "5": [
+      9
+     ],
+     "7": [
+      3
+     ],
+     "13": [
+      1
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "13^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      10
+     ],
+     "5": [
+      9
+     ],
+     "7": [
+      3
+     ],
+     "13": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8,
+     "3": 10,
+     "5": 9,
+     "7": 3,
+     "13": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "13^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      16
+     ],
+     "3": [
+      11
+     ],
+     "5": [
+      7
+     ],
+     "7": [
+      12
+     ],
+     "13": [
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 16,
+     "3": 11,
+     "5": 7,
+     "7": 12,
+     "13": 3
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "37": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "37^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      14
+     ],
+     "3": [
+      29
+     ],
+     "5": [
+      3
+     ],
+     "7": [
+      13
+     ],
+     "13": [
+      16
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 14,
+     "3": 29,
+     "5": 3,
+     "7": 13,
+     "13": 16
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "37^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      36
+     ],
+     "3": [
+      4
+     ],
+     "5": [
+      5
+     ],
+     "7": [
+      32
+     ],
+     "13": [
+      48
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 36,
+     "3": 4,
+     "5": 5,
+     "7": 32,
+     "13": 48
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "233": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "233^1",
+     "233^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      209,
+      209
+     ],
+     "3": [
+      19,
+      19
+     ],
+     "5": [
+      170,
+      170
+     ],
+     "7": [
+      32,
+      32
+     ],
+     "13": [
+      102,
+      102
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 185,
+     "3": 68,
+     "5": 180,
+     "7": 204,
+     "13": 208
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "233^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1117": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1117^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      932
+     ],
+     "3": [
+      662
+     ],
+     "5": [
+      705
+     ],
+     "7": [
+      1057
+     ],
+     "13": [
+      332
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 932,
+     "3": 662,
+     "5": 705,
+     "7": 1057,
+     "13": 332
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "1117^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "3221": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "3221^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2049
+     ],
+     "3": [
+      3214
+     ],
+     "5": [
+      987
+     ],
+     "7": [
+      3159
+     ],
+     "13": [
+      962
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 3214,
+     "5": 987,
+     "7": 3159,
+     "13": 962
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "3221^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "13421": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "13421^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2049
+     ],
+     "3": [
+      2675
+     ],
+     "5": [
+      2528
+     ],
+     "7": [
+      10814
+     ],
+     "13": [
+      2935
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 2675,
+     "5": 2528,
+     "7": 10814,
+     "13": 2935
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "13421^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "34267": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "34267^1",
+     "34267^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      34243,
+      34243
+     ],
+     "3": [
+      252,
+      252
+     ],
+     "5": [
+      4830,
+      4830
+     ],
+     "7": [
+      17523,
+      17523
+     ],
+     "13": [
+      4801,
+      4801
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 5813,
+     "5": 31918,
+     "7": 18043,
+     "13": 29141
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 22,
+    "modulus": "34267^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "(x - 285311670612)*(x - 534612)**2",
+  "det_alpha*alpha": "-968435226327892017801825306494175080448000000000/17449402268886407318558803753801"
+ },
+ {
+  "p": 11,
+  "k": 14,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 12,
+  "dim_S_k_new": 12,
+  "rank_H1_Gamma0p": 26,
+  "rank_H2": 24,
+  "expected_rank_H2=2dimS_new": 24,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   19,
+   37,
+   43,
+   61,
+   1117,
+   45319,
+   1623931
+  ],
+  "ells": {
+   "19": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "19^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      15
+     ],
+     "5": [
+      18
+     ],
+     "7": [
+      8
+     ],
+     "13": [
+      16
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 4,
+     "3": 15,
+     "5": 18,
+     "7": 8,
+     "13": 16
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "19^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "37": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "37^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      16
+     ],
+     "3": [
+      31
+     ],
+     "5": [
+      14
+     ],
+     "7": [
+      34
+     ],
+     "13": [
+      20
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 16,
+     "3": 31,
+     "5": 14,
+     "7": 34,
+     "13": 20
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "37^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "43": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "43^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      23
+     ],
+     "3": [
+      13
+     ],
+     "5": [
+      34
+     ],
+     "7": [
+      8
+     ],
+     "13": [
+      18
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 23,
+     "3": 13,
+     "5": 34,
+     "7": 8,
+     "13": 18
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "43^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      19
+     ],
+     "3": [
+      28
+     ],
+     "5": [
+      40
+     ],
+     "7": [
+      56
+     ],
+     "13": [
+      14
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 19,
+     "3": 28,
+     "5": 40,
+     "7": 56,
+     "13": 14
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1117": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1117^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      374
+     ],
+     "3": [
+      365
+     ],
+     "5": [
+      846
+     ],
+     "7": [
+      363
+     ],
+     "13": [
+      90
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 374,
+     "3": 365,
+     "5": 846,
+     "7": 363,
+     "13": 90
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "1117^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "13": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "45319": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "45319^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8193
+     ],
+     "3": [
+      8159
+     ],
+     "5": [
+      35861
+     ],
+     "7": [
+      24781
+     ],
+     "13": [
+      24406
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8193,
+     "3": 8159,
+     "5": 35861,
+     "7": 24781,
+     "13": 24406
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "45319^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "1623931": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "13": []
+    },
+    "alpha*alpha_divisors": [
+     "1623931^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8193
+     ],
+     "3": [
+      1594324
+     ],
+     "5": [
+      1130945
+     ],
+     "7": [
+      415155
+     ],
+     "13": [
+      225060
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8193,
+     "3": 1594324,
+     "5": 1130945,
+     "7": 415155,
+     "13": 225060
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 26,
+    "modulus": "1623931^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "13": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 34522712143932",
+  "det_alpha*alpha": "-1191817653772338054198172800/3138428376721"
+ },
+ {
+  "p": 13,
+  "k": 4,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 3,
+  "dim_S_k_new": 3,
+  "rank_H1_Gamma0p": 8,
+  "rank_H2": 6,
+  "expected_rank_H2=2dimS_new": 6,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   5,
+   7,
+   17
+  ],
+  "ells": {
+   "5": {
+    "coker_alpha_torsion": [
+     "Z/5"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      1
+     ],
+     "7": [
+      4
+     ],
+     "11": [
+      2
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "5^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      4
+     ],
+     "3": [
+      3
+     ],
+     "5": [
+      1
+     ],
+     "7": [
+      4
+     ],
+     "11": [
+      2
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 4,
+     "3": 3,
+     "5": 1,
+     "7": 4,
+     "11": 2
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "5^10",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "7": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "7^1",
+     "7^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2,
+      2
+     ],
+     "3": [
+      0,
+      0
+     ],
+     "5": [
+      0,
+      0
+     ],
+     "7": [
+      1,
+      1
+     ],
+     "11": [
+      2,
+      2
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2,
+     "3": 0,
+     "5": 0,
+     "7": 1,
+     "11": 2
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 2,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "7^8",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      9
+     ],
+     "3": [
+      11
+     ],
+     "5": [
+      7
+     ],
+     "7": [
+      4
+     ],
+     "11": [
+      6
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 9,
+     "3": 11,
+     "5": 7,
+     "7": 4,
+     "11": 6
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 8,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 2198",
+  "det_alpha*alpha": "-4798080/169"
+ },
+ {
+  "p": 13,
+  "k": 6,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 5,
+  "dim_S_k_new": 5,
+  "rank_H1_Gamma0p": 12,
+  "rank_H2": 10,
+  "expected_rank_H2=2dimS_new": 10,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   7,
+   17,
+   61,
+   157
+  ],
+  "ells": {
+   "7": {
+    "coker_alpha_torsion": [
+     "Z/7"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      5
+     ],
+     "3": [
+      6
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      1
+     ],
+     "11": [
+      3
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "7^1",
+     "7^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5,
+      5
+     ],
+     "3": [
+      6,
+      6
+     ],
+     "5": [
+      4,
+      4
+     ],
+     "7": [
+      1,
+      1
+     ],
+     "11": [
+      3,
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 5,
+     "3": 6,
+     "5": 4,
+     "7": 1,
+     "11": 3
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 2,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "7^8",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      16
+     ],
+     "3": [
+      6
+     ],
+     "5": [
+      15
+     ],
+     "7": [
+      12
+     ],
+     "11": [
+      11
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 16,
+     "3": 6,
+     "5": 15,
+     "7": 12,
+     "11": 11
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      33
+     ],
+     "3": [
+      0
+     ],
+     "5": [
+      15
+     ],
+     "7": [
+      33
+     ],
+     "11": [
+      12
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 33,
+     "3": 0,
+     "5": 15,
+     "7": 33,
+     "11": 12
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "157": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "157^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      33
+     ],
+     "3": [
+      87
+     ],
+     "5": [
+      143
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      127
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 33,
+     "3": 87,
+     "5": 143,
+     "7": 9,
+     "11": 127
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 12,
+    "modulus": "157^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 371294",
+  "det_alpha*alpha": "-137853636480/28561"
+ },
+ {
+  "p": 13,
+  "k": 8,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 7,
+  "dim_S_k_new": 7,
+  "rank_H1_Gamma0p": 16,
+  "rank_H2": 14,
+  "expected_rank_H2=2dimS_new": 14,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   17,
+   61,
+   157,
+   14281
+  ],
+  "ells": {
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      10
+     ],
+     "3": [
+      12
+     ],
+     "5": [
+      11
+     ],
+     "7": [
+      13
+     ],
+     "11": [
+      4
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 10,
+     "3": 12,
+     "5": 11,
+     "7": 13,
+     "11": 4
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      53
+     ],
+     "5": [
+      46
+     ],
+     "7": [
+      44
+     ],
+     "11": [
+      51
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "3": 53,
+     "5": 46,
+     "7": 44,
+     "11": 51
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "157": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "157^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      129
+     ],
+     "3": [
+      147
+     ],
+     "5": [
+      97
+     ],
+     "7": [
+      79
+     ],
+     "11": [
+      18
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 129,
+     "3": 147,
+     "5": 97,
+     "7": 79,
+     "11": 18
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "157^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "14281": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "14281^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      129
+     ],
+     "3": [
+      2188
+     ],
+     "5": [
+      6721
+     ],
+     "7": [
+      9527
+     ],
+     "11": [
+      7888
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 129,
+     "3": 2188,
+     "5": 6721,
+     "7": 9527,
+     "11": 7888
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 16,
+    "modulus": "14281^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 62748518",
+  "det_alpha*alpha": "-3937375565141760/4826809"
+ },
+ {
+  "p": 13,
+  "k": 10,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 9,
+  "dim_S_k_new": 9,
+  "rank_H1_Gamma0p": 20,
+  "rank_H2": 18,
+  "expected_rank_H2=2dimS_new": 18,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   11,
+   17,
+   2411,
+   14281,
+   30941
+  ],
+  "ells": {
+   "11": {
+    "coker_alpha_torsion": [
+     "Z/11"
+    ],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      5
+     ],
+     "5": [
+      10
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      1
+     ]
+    },
+    "alpha*alpha_divisors": [
+     "11^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7
+     ],
+     "3": [
+      5
+     ],
+     "5": [
+      10
+     ],
+     "7": [
+      9
+     ],
+     "11": [
+      1
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 7,
+     "3": 5,
+     "5": 10,
+     "7": 9,
+     "11": 1
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 20,
+    "modulus": "11^7",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      3
+     ],
+     "3": [
+      15
+     ],
+     "5": [
+      13
+     ],
+     "7": [
+      11
+     ],
+     "11": [
+      7
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 3,
+     "3": 15,
+     "5": 13,
+     "7": 11,
+     "11": 7
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 20,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "2411": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "2411^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      396
+     ],
+     "5": [
+      216
+     ],
+     "7": [
+      701
+     ],
+     "11": [
+      1747
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 396,
+     "5": 216,
+     "7": 701,
+     "11": 1747
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 20,
+    "modulus": "2411^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "14281": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "14281^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      5403
+     ],
+     "5": [
+      10910
+     ],
+     "7": [
+      9783
+     ],
+     "11": [
+      11782
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 5403,
+     "5": 10910,
+     "7": 9783,
+     "11": 11782
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 20,
+    "modulus": "14281^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "30941": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "30941^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      513
+     ],
+     "3": [
+      19684
+     ],
+     "5": [
+      3843
+     ],
+     "7": [
+      6544
+     ],
+     "11": [
+      26905
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 513,
+     "3": 19684,
+     "5": 3843,
+     "7": 6544,
+     "11": 26905
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 20,
+    "modulus": "30941^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 10604499374",
+  "det_alpha*alpha": "-112455406813283170560/815730721"
+ },
+ {
+  "p": 13,
+  "k": 12,
+  "rank_H1_SL2Z": 3,
+  "dim_S_k(1)": 1,
+  "dim_S_k(Gamma0(p))": 13,
+  "dim_S_k_new": 11,
+  "rank_H1_Gamma0p": 28,
+  "rank_H2": 22,
+  "expected_rank_H2=2dimS_new": 22,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   17,
+   31,
+   61,
+   157,
+   191,
+   2411,
+   5323,
+   28393,
+   30941
+  ],
+  "ells": {
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      9
+     ],
+     "3": [
+      8
+     ],
+     "5": [
+      12
+     ],
+     "7": [
+      15
+     ],
+     "11": [
+      13
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 9,
+     "3": 8,
+     "5": 12,
+     "7": 15,
+     "11": 13
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "31": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "31^1",
+     "31^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      7,
+      7
+     ],
+     "3": [
+      4,
+      4
+     ],
+     "5": [
+      25,
+      25
+     ],
+     "7": [
+      27,
+      27
+     ],
+     "11": [
+      17,
+      17
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 3,
+     "3": 14,
+     "5": 26,
+     "7": 21,
+     "11": 25
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "31^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      36
+     ],
+     "3": [
+      4
+     ],
+     "5": [
+      5
+     ],
+     "7": [
+      32
+     ],
+     "11": [
+      51
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 36,
+     "3": 4,
+     "5": 5,
+     "7": 32,
+     "11": 51
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "157": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "157^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8
+     ],
+     "3": [
+      52
+     ],
+     "5": [
+      27
+     ],
+     "7": [
+      135
+     ],
+     "11": [
+      53
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8,
+     "3": 52,
+     "5": 27,
+     "7": 135,
+     "11": 53
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "157^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "191": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "191^1",
+     "191^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      167,
+      167
+     ],
+     "3": [
+      61,
+      61
+     ],
+     "5": [
+      55,
+      55
+     ],
+     "7": [
+      64,
+      64
+     ],
+     "11": [
+      3,
+      3
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 139,
+     "3": 91,
+     "5": 122,
+     "7": 8,
+     "11": 32
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "191^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "2411": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "2411^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2049
+     ],
+     "3": [
+      1145
+     ],
+     "5": [
+      554
+     ],
+     "7": [
+      547
+     ],
+     "11": [
+      1510
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 1145,
+     "5": 554,
+     "7": 547,
+     "11": 1510
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "2411^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "5323": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "5323^1",
+     "5323^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      5299,
+      5299
+     ],
+     "3": [
+      252,
+      252
+     ],
+     "5": [
+      4830,
+      4830
+     ],
+     "7": [
+      4548,
+      4548
+     ],
+     "11": [
+      2312,
+      2312
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 1489,
+     "5": 247,
+     "7": 2580,
+     "11": 4411
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 1,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 0,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "5323^2",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "28393": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "28393^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2049
+     ],
+     "3": [
+      6790
+     ],
+     "5": [
+      20559
+     ],
+     "7": [
+      9831
+     ],
+     "11": [
+      10446
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 6790,
+     "5": 20559,
+     "7": 9831,
+     "11": 10446
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "28393^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "30941": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "30941^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      2049
+     ],
+     "3": [
+      22443
+     ],
+     "5": [
+      3228
+     ],
+     "7": [
+      11198
+     ],
+     "11": [
+      6580
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 2049,
+     "3": 22443,
+     "5": 3228,
+     "7": 11198,
+     "11": 6580
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": 0,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "30941^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "(x - 1792160394038)*(x + 577738)**2",
+  "det_alpha*alpha": "-2287370109439376726347318254508441897369020923904000/2619995643649944960380551432833049"
+ },
+ {
+  "p": 13,
+  "k": 14,
+  "rank_H1_SL2Z": 1,
+  "dim_S_k(1)": 0,
+  "dim_S_k(Gamma0(p))": 13,
+  "dim_S_k_new": 13,
+  "rank_H1_Gamma0p": 28,
+  "rank_H2": 26,
+  "expected_rank_H2=2dimS_new": 26,
+  "H1_SL2Z[1/p]": "0",
+  "candidate_ells": [
+   17,
+   29,
+   61,
+   157,
+   22079,
+   28393,
+   5229043
+  ],
+  "ells": {
+   "17": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "17^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      16
+     ],
+     "3": [
+      13
+     ],
+     "5": [
+      4
+     ],
+     "7": [
+      7
+     ],
+     "11": [
+      8
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 16,
+     "3": 13,
+     "5": 4,
+     "7": 7,
+     "11": 8
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "17^6",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "29": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "29^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      15
+     ],
+     "3": [
+      20
+     ],
+     "5": [
+      7
+     ],
+     "7": [
+      26
+     ],
+     "11": [
+      22
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 15,
+     "3": 20,
+     "5": 7,
+     "7": 26,
+     "11": 22
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "29^5",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "61": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "61^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      19
+     ],
+     "3": [
+      28
+     ],
+     "5": [
+      40
+     ],
+     "7": [
+      56
+     ],
+     "11": [
+      12
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 19,
+     "3": 28,
+     "5": 40,
+     "7": 56,
+     "11": 12
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "61^4",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "157": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "157^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      29
+     ],
+     "3": [
+      146
+     ],
+     "5": [
+      23
+     ],
+     "7": [
+      130
+     ],
+     "11": [
+      13
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 29,
+     "3": 146,
+     "5": 23,
+     "7": 130,
+     "11": 13
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "157^3",
+    "equivariance_T_alpha": {
+     "2": true,
+     "3": true,
+     "5": true,
+     "7": true,
+     "11": true
+    },
+    "sum_vals_matches_formula": true
+   },
+   "22079": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "22079^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8193
+     ],
+     "3": [
+      4636
+     ],
+     "5": [
+      21453
+     ],
+     "7": [
+      21735
+     ],
+     "11": [
+      19856
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8193,
+     "3": 4636,
+     "5": 21453,
+     "7": 21735,
+     "11": 19856
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "22079^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "28393": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "28393^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8193
+     ],
+     "3": [
+      4316
+     ],
+     "5": [
+      2877
+     ],
+     "7": [
+      27383
+     ],
+     "11": [
+      14554
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8193,
+     "3": 4316,
+     "5": 2877,
+     "7": 27383,
+     "11": 14554
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "28393^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   },
+   "5229043": {
+    "coker_alpha_torsion": [],
+    "alpha_injective": true,
+    "torsion_Tq_eigenvalues_mod_l": {
+     "2": [],
+     "3": [],
+     "5": [],
+     "7": [],
+     "11": []
+    },
+    "alpha*alpha_divisors": [
+     "5229043^1"
+    ],
+    "alpha*alpha_kernel_Tq_mod_l": {
+     "2": [
+      8193
+     ],
+     "3": [
+      1594324
+     ],
+     "5": [
+      2336107
+     ],
+     "7": [
+      72661
+     ],
+     "11": [
+      292245
+     ]
+    },
+    "eisenstein_1+q^(k-1)_mod_l": {
+     "2": 8193,
+     "3": 1594324,
+     "5": 2336107,
+     "7": 72661,
+     "11": 292245
+    },
+    "v_l(cusp: prod_f a_p(f)^2-(p+1)^2p^(k-2))": null,
+    "v_l(eis: (1-p^(k-2))(1-p^k))": 1,
+    "rank_H1_Gamma0p": 28,
+    "modulus": "5229043^2",
+    "equivariance_T_alpha": {
+     "2": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "3": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "5": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "7": "skipped (l^E >= 2^25: level-p Hecke not run)",
+     "11": "skipped (l^E >= 2^25: level-p Hecke not run)"
+    },
+    "sum_vals_matches_formula": true
+   }
+  },
+  "checks": {
+   "check_X_equals_Tp_level1": true,
+   "check_Y_equals_p^-n_X": true,
+   "check_omega'_dg_p_equals_p+1": true,
+   "check_omega_dg_1_equals_p+1": true
+  },
+  "level1_charpoly_T_p": "x - 302875106592254",
+  "det_alpha*alpha": "-91733330193264655983928794240/23298085122481"
+ }
+]

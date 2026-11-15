@@ -1,0 +1,3064 @@
+{
+ "data": {
+  "s1": {
+   "D": 3,
+   "P_s": [
+    1,
+    -6,
+    5
+   ],
+   "P_s_factored": "(x - 5)*(x - 1)",
+   "P_s_factors": [
+    {
+     "factor": [
+      1,
+      -5
+     ],
+     "factor_str": "x - 5",
+     "mult": 1
+    },
+    {
+     "factor": [
+      1,
+      -1
+     ],
+     "factor_str": "x - 1",
+     "mult": 1
+    }
+   ],
+   "P_s_inverse_equal": true,
+   "a5_multiset": [
+    [
+     1.0,
+     0.0
+    ],
+    [
+     5.0,
+     0.0
+    ]
+   ],
+   "brandt_comparison": {
+    "R1_ok": true,
+    "convention_meaning": {
+     "inverse": "... <-> classical chi = psi^{-1} (adelic <d> = classical <d>^{-1})",
+     "same": "Brandt <2>-eigenvalue psi(2) (homological, adelic <d>) <-> classical character chi = psi"
+    },
+    "details": {
+     "N_Up": {
+      "consistent": "both",
+      "consistent_T2": "both",
+      "consistent_joint": "both",
+      "per_psi": [
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-44",
+         "228"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2",
+         "-3"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-6",
+         "5"
+        ],
+        "chi2": "0/1",
+        "conrey": 1,
+        "eigenspace_dim": 2,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1"
+        ],
+        "brandt_charpoly_common": [
+         "1"
+        ],
+        "chi2": "1/2",
+        "conrey": 4,
+        "eigenspace_dim": 0,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       }
+      ],
+      "s": 1,
+      "total_charpoly_factored": "(x - 5)*(x - 1)",
+      "total_charpoly_matches_P_s": true
+     },
+     "Up_prime": {
+      "consistent": "both",
+      "consistent_T2": "both",
+      "consistent_joint": "both",
+      "per_psi": [
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-44",
+         "228"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2",
+         "-3"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-6",
+         "5"
+        ],
+        "chi2": "0/1",
+        "conrey": 1,
+        "eigenspace_dim": 2,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1"
+        ],
+        "brandt_charpoly_common": [
+         "1"
+        ],
+        "chi2": "1/2",
+        "conrey": 4,
+        "eigenspace_dim": 0,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       }
+      ],
+      "s": 1,
+      "total_charpoly_factored": "(x - 5)*(x - 1)",
+      "total_charpoly_matches_P_s": true
+     }
+    },
+    "expected_convention": "inverse",
+    "s": 1,
+    "table": {
+     "1": {
+      "N_Up": [
+       "same",
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "T2": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "chi2": "0",
+      "dim": 2
+     },
+     "4": {
+      "N_Up": [
+       "same",
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "T2": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "chi2": "1/2",
+      "dim": 0
+     }
+    }
+   },
+   "common_field": {
+    "n": 2,
+    "poly_z": "z + 1",
+    "z": "exp(2*pi*i/2)"
+   },
+   "dimensions": {
+    "brandt_dim_predicted": 2,
+    "nrd_line": 1,
+    "per_char": [
+     {
+      "conrey": 1,
+      "conrey_level": 1,
+      "dim_3new": 1,
+      "dim_5power": 0,
+      "dim_level": 1,
+      "orbit": "o1"
+     },
+     {
+      "conrey": 4,
+      "conrey_level": 4,
+      "dim_3new": 0,
+      "dim_5power": 0,
+      "dim_level": 0,
+      "orbit": "o2"
+     }
+    ],
+    "per_orbit": {
+     "o1": {
+      "dim_3new": 1,
+      "dim_5power": 0,
+      "dim_level": 1,
+      "n_chars": 1
+     },
+     "o2": {
+      "dim_3new": 0,
+      "dim_5power": 0,
+      "dim_level": 0,
+      "n_chars": 1
+     }
+    },
+    "sum_3new": 1
+   },
+   "level": 15,
+   "p": 5,
+   "per_char": [
+    {
+     "U5_matrix_level_K": "Mat(1)",
+     "a5_3new": [
+      [
+       1.0,
+       0.0
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "-1"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "-1"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "-1"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "1"
+      ],
+      "T2+7U5": [
+       "1",
+       "-6"
+      ],
+      "U5": [
+       "1",
+       "-1"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "-1"
+     ],
+     "chi2": "0/1",
+     "chi2_common": "1",
+     "conductor": 1,
+     "conrey": 1,
+     "conrey_level": 1,
+     "dim_3new": 1,
+     "dim_5power": 0,
+     "dim_level": 1,
+     "field_poly_t": "t - 1",
+     "inverse": 1,
+     "level": 15,
+     "modulus": 5,
+     "orbit": "o1",
+     "orbit_rep": 1,
+     "order": 1
+    },
+    {
+     "U5_matrix_level_K": null,
+     "a5_3new": [],
+     "charpoly_3new_K": [
+      "1"
+     ],
+     "charpoly_3new_common": [
+      "1"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1"
+      ],
+      "T2+7U5": [
+       "1"
+      ],
+      "U5": [
+       "1"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1"
+     ],
+     "charpoly_level_K": [
+      "1"
+     ],
+     "chi2": "1/2",
+     "chi2_common": "-1",
+     "conductor": 5,
+     "conrey": 4,
+     "conrey_level": 4,
+     "dim_3new": 0,
+     "dim_5power": 0,
+     "dim_level": 0,
+     "field_poly_t": "t + 1",
+     "inverse": 4,
+     "level": 15,
+     "modulus": 5,
+     "orbit": "o2",
+     "orbit_rep": 4,
+     "order": 2
+    }
+   ],
+   "per_orbit": {
+    "o1": {
+     "charpoly_3new_Q": [
+      1,
+      -1
+     ],
+     "charpoly_3new_Q_factored": "(x - 1)",
+     "conductor": 1,
+     "dim_3new": 1,
+     "members": [
+      1
+     ],
+     "orbit_rep": 1,
+     "order": 1,
+     "with_nrd": [
+      1,
+      -6,
+      5
+     ],
+     "with_nrd_factored": "(x - 5)*(x - 1)"
+    },
+    "o2": {
+     "charpoly_3new_Q": [
+      1
+     ],
+     "charpoly_3new_Q_factored": "1",
+     "conductor": 5,
+     "dim_3new": 0,
+     "members": [
+      4
+     ],
+     "orbit_rep": 4,
+     "order": 2
+    }
+   },
+   "s": 1,
+   "trace_powers": [
+    6,
+    26,
+    126,
+    626,
+    3126,
+    15626
+   ],
+   "weight": 2
+  },
+  "s2": {
+   "D": 3,
+   "P_s": [
+    1,
+    0,
+    0,
+    -20,
+    -185,
+    -746,
+    -2430,
+    -7280,
+    -16050,
+    -29890,
+    -29225,
+    23900,
+    252125,
+    938300,
+    2142125,
+    3984500,
+    6358125,
+    2546750,
+    -10562500,
+    -57735000,
+    -181578125,
+    -409081250,
+    -907890625,
+    -1443375000,
+    -1320312500,
+    1591718750,
+    19869140625,
+    62257812500,
+    167353515625,
+    366523437500,
+    492431640625,
+    233398437500,
+    -1427001953125,
+    -7297363281250,
+    -19592285156250,
+    -44433593750000,
+    -74157714843750,
+    -113830566406250,
+    -141143798828125,
+    -76293945312500,
+    0,
+    0,
+    476837158203125,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "P_s_factored": "(x - 5)*(x - 1)*x^8*(x^4 - 5*x^3 + 15*x^2 - 25*x + 25)*(x^8 + 5*x^7 + 20*x^6 + 65*x^5 + 155*x^4 + 325*x^3 + 500*x^2 + 625*x + 625)*(x^12 + 6*x^11 + 16*x^10 + 21*x^9 - 4*x^8 - 100*x^7 - 285*x^6 - 500*x^5 - 100*x^4 + 2625*x^3 + 10000*x^2 + 18750*x + 15625)*(x^16 + 5*x^14 + 10*x^13 + 10*x^12 - 50*x^11 + 25*x^10 - 450*x^9 - 725*x^8 - 2250*x^7 + 625*x^6 - 6250*x^5 + 6250*x^4 + 31250*x^3 + 78125*x^2 + 390625)",
+   "P_s_factors": [
+    {
+     "factor": [
+      1,
+      -5
+     ],
+     "factor_str": "x - 5",
+     "mult": 1
+    },
+    {
+     "factor": [
+      1,
+      -1
+     ],
+     "factor_str": "x - 1",
+     "mult": 1
+    },
+    {
+     "factor": [
+      1,
+      0
+     ],
+     "factor_str": "x",
+     "mult": 8
+    },
+    {
+     "factor": [
+      1,
+      -5,
+      15,
+      -25,
+      25
+     ],
+     "factor_str": "x^4 - 5*x^3 + 15*x^2 - 25*x + 25",
+     "mult": 1
+    },
+    {
+     "factor": [
+      1,
+      5,
+      20,
+      65,
+      155,
+      325,
+      500,
+      625,
+      625
+     ],
+     "factor_str": "x^8 + 5*x^7 + 20*x^6 + 65*x^5 + 155*x^4 + 325*x^3 + 500*x^2 + 625*x + 625",
+     "mult": 1
+    },
+    {
+     "factor": [
+      1,
+      6,
+      16,
+      21,
+      -4,
+      -100,
+      -285,
+      -500,
+      -100,
+      2625,
+      10000,
+      18750,
+      15625
+     ],
+     "factor_str": "x^12 + 6*x^11 + 16*x^10 + 21*x^9 - 4*x^8 - 100*x^7 - 285*x^6 - 500*x^5 - 100*x^4 + 2625*x^3 + 10000*x^2 + 18750*x + 15625",
+     "mult": 1
+    },
+    {
+     "factor": [
+      1,
+      0,
+      5,
+      10,
+      10,
+      -50,
+      25,
+      -450,
+      -725,
+      -2250,
+      625,
+      -6250,
+      6250,
+      31250,
+      78125,
+      0,
+      390625
+     ],
+     "factor_str": "x^16 + 5*x^14 + 10*x^13 + 10*x^12 - 50*x^11 + 25*x^10 - 450*x^9 - 725*x^8 - 2250*x^7 + 625*x^6 - 6250*x^5 + 6250*x^4 + 31250*x^3 + 78125*x^2 + 390625",
+     "mult": 1
+    }
+   ],
+   "P_s_inverse_equal": true,
+   "a5_multiset": [
+    [
+     -2.2170038757,
+     -0.2913654321
+    ],
+    [
+     -2.2170038757,
+     0.2913654321
+    ],
+    [
+     -2.0938724623,
+     -0.7846643307
+    ],
+    [
+     -2.0938724623,
+     0.7846643307
+    ],
+    [
+     -2.0707889001,
+     -0.8437021579
+    ],
+    [
+     -2.0707889001,
+     0.8437021579
+    ],
+    [
+     -2.0612206321,
+     -0.8668157278
+    ],
+    [
+     -2.0612206321,
+     0.8668157278
+    ],
+    [
+     -1.9333833854,
+     -1.1234005008
+    ],
+    [
+     -1.9333833854,
+     1.1234005008
+    ],
+    [
+     -1.3484258903,
+     -1.7837453906
+    ],
+    [
+     -1.3484258903,
+     1.7837453906
+    ],
+    [
+     -1.2712497114,
+     -1.8395445554
+    ],
+    [
+     -1.2712497114,
+     1.8395445554
+    ],
+    [
+     -1.0272949065,
+     -1.9861181171
+    ],
+    [
+     -1.0272949065,
+     1.9861181171
+    ],
+    [
+     -0.4601585891,
+     -2.1882079592
+    ],
+    [
+     -0.4601585891,
+     2.1882079592
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.2275641443,
+     -2.2244582622
+    ],
+    [
+     0.2275641443,
+     2.2244582622
+    ],
+    [
+     0.3363119009,
+     -2.2106321054
+    ],
+    [
+     0.3363119009,
+     2.2106321054
+    ],
+    [
+     0.4079868813,
+     -2.1985328528
+    ],
+    [
+     0.4079868813,
+     2.1985328528
+    ],
+    [
+     0.6909830056,
+     -2.1266270209
+    ],
+    [
+     0.6909830056,
+     2.1266270209
+    ],
+    [
+     0.7254983906,
+     -2.1151009634
+    ],
+    [
+     0.7254983906,
+     2.1151009634
+    ],
+    [
+     0.7410009749,
+     -2.1097197812
+    ],
+    [
+     0.7410009749,
+     2.1097197812
+    ],
+    [
+     0.8242643638,
+     -2.0786024773
+    ],
+    [
+     0.8242643638,
+     2.0786024773
+    ],
+    [
+     1.0,
+     0.0
+    ],
+    [
+     1.3435921144,
+     -1.7873892217
+    ],
+    [
+     1.3435921144,
+     1.7873892217
+    ],
+    [
+     1.8090169944,
+     -1.3143277803
+    ],
+    [
+     1.8090169944,
+     1.3143277803
+    ],
+    [
+     2.148981478,
+     -0.6179632734
+    ],
+    [
+     2.148981478,
+     0.6179632734
+    ],
+    [
+     2.2281981045,
+     -0.1874385419
+    ],
+    [
+     2.2281981045,
+     0.1874385419
+    ],
+    [
+     5.0,
+     0.0
+    ]
+   ],
+   "brandt_comparison": {
+    "R1_ok": true,
+    "convention_meaning": {
+     "inverse": "... <-> classical chi = psi^{-1} (adelic <d> = classical <d>^{-1})",
+     "same": "Brandt <2>-eigenvalue psi(2) (homological, adelic <d>) <-> classical character chi = psi"
+    },
+    "details": {
+     "N_Up": {
+      "consistent": "inverse",
+      "consistent_T2": "inverse",
+      "consistent_joint": "inverse",
+      "per_psi": [
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-44",
+         "223",
+         "220",
+         "-1136",
+         "-176",
+         "912"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2",
+         "-8",
+         "10",
+         "19",
+         "-8",
+         "-12"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-6",
+         "5",
+         "0",
+         "0",
+         "0",
+         "0"
+        ],
+        "chi2": "0/1",
+        "conrey": 1,
+        "eigenspace_dim": 6,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^3 - 14*z",
+         "-58*z^3 + 51*z^2 - 79*z + 107",
+         "3486*z^3 - 156*z^2 + 2172",
+         "-16480*z^3 + 6832*z^2 - 62049*z + 6868"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "5*z^3 - 5*z^2 + 5*z - 5",
+         "-2*z^2 + 2",
+         "-2*z^3 - z + 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 - 2*z",
+         "-z^3 - 2*z + 2",
+         "10*z^3 + 10",
+         "-25*z"
+        ],
+        "chi2": "1/10",
+        "conrey": 4,
+        "eigenspace_dim": 4,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-26*z^3 + 14*z^2 - 28*z + 28",
+         "-133*z^3 - 175*z^2 - 202*z - 42",
+         "2928*z^3 - 126*z^2 + 2016*z - 2270",
+         "-36937*z^3 + 36799*z^2 + 32524*z + 95417",
+         "-1525664*z^3 - 49770*z^2 - 149520*z + 952990",
+         "-1504316*z^3 - 13868869*z^2 - 1036570*z - 616305"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "2*z^3",
+         "8*z",
+         "16*z^3 - 14*z^2 + 14*z - 16",
+         "-5*z^3 + 14*z^2 - 5*z",
+         "-18",
+         "-2*z^3 - 3*z + 3"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-4*z^3 + 2*z^2 - 4*z + 4",
+         "-3*z^3 - 5*z^2 - 4*z - 2",
+         "12*z^3 - 4*z^2 + 6*z - 8",
+         "-15*z^3 + 25*z^2 + 5*z + 40",
+         "-100*z^3 + 50",
+         "-125*z^2"
+        ],
+        "chi2": "2/5",
+        "conrey": 6,
+        "eigenspace_dim": 6,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^2 + 14*z",
+         "51*z^3 + 28*z^2 - 7*z + 56",
+         "-156*z^3 + 156*z^2 + 3330*z + 2328",
+         "6832*z^3 + 55217*z^2 - 9648*z + 36"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "-5*z^3",
+         "-2*z^3 + 2*z^2 - 2*z + 4",
+         "z^2 - 2*z + 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^2 + 2*z",
+         "2*z^2 - z + 2",
+         "10*z + 10",
+         "25*z^2"
+        ],
+        "chi2": "7/10",
+        "conrey": 9,
+        "eigenspace_dim": 4,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^3 + 14*z^2 - 12*z + 14",
+         "-175*z^3 + 377*z^2 - 308*z + 133",
+         "-126*z^3 - 1890*z^2 + 2802*z - 2144",
+         "36799*z^3 - 69323*z^2 - 138*z + 58618",
+         "-49770*z^3 + 199290*z^2 - 1575434*z + 1002760",
+         "-13868869*z^3 + 14905439*z^2 - 15373185*z + 13252564"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "2*z",
+         "-8*z^2",
+         "-14*z^3 + 2*z - 2",
+         "14*z^3 - 9*z^2 + 9*z - 14",
+         "-18",
+         "3*z^2 - 2*z + 3"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 + 2*z^2 - 2*z + 2",
+         "-5*z^3 + 9*z^2 - 8*z + 3",
+         "-4*z^3 - 2*z^2 + 8*z - 4",
+         "25*z^3 - 30*z^2 + 10*z + 15",
+         "-100*z + 50",
+         "-125*z^3 + 125*z^2 - 125*z + 125"
+        ],
+        "chi2": "4/5",
+        "conrey": 11,
+        "eigenspace_dim": 6,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-28*z^3 + 14*z^2 - 14*z + 14",
+         "-21*z^3 - 58*z^2 + 7*z + 49",
+         "-3486*z^3 + 3486*z^2 - 3330*z + 5658",
+         "-45569*z^3 - 16480*z^2 + 9648*z - 9612"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "5*z^2",
+         "2*z + 2",
+         "z^3 - 2*z^2 + 2*z - 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-4*z^3 + 2*z^2 - 2*z + 2",
+         "-z^3 - z^2 + z + 1",
+         "-10*z^3 + 10*z^2 - 10*z + 20",
+         "-25*z^3"
+        ],
+        "chi2": "3/10",
+        "conrey": 14,
+        "eigenspace_dim": 4,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-2*z^3 - 26*z^2 + 12*z + 2",
+         "-69*z^3 - 133*z^2 + 308*z - 175",
+         "-912*z^3 + 2928*z^2 - 2802*z + 658",
+         "69461*z^3 - 36937*z^2 + 138*z + 58480",
+         "1376144*z^3 - 1525664*z^2 + 1575434*z - 572674",
+         "467746*z^3 - 1504316*z^2 + 15373185*z - 2120621"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2*z^3 + 2*z^2 - 2*z + 2",
+         "8*z^3",
+         "-2*z^3 + 16*z^2 - 2*z",
+         "-5*z^2 - 9*z - 5",
+         "-18",
+         "-z^3 - 2*z^2 + 2*z + 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-4*z^2 + 2*z",
+         "-z^3 - 3*z^2 + 8*z - 5",
+         "-6*z^3 + 12*z^2 - 8*z + 4",
+         "20*z^3 - 15*z^2 - 10*z + 25",
+         "100*z^3 - 100*z^2 + 100*z - 50",
+         "125*z"
+        ],
+        "chi2": "1/5",
+        "conrey": 16,
+        "eigenspace_dim": 6,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^3 - 28*z^2 + 14*z - 14",
+         "28*z^3 - 21*z^2 + 79*z + 28",
+         "156*z^3 - 3486*z^2 + 2172",
+         "55217*z^3 - 45569*z^2 + 62049*z - 55181"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "-5*z",
+         "2*z^3 + 2",
+         "z^3 + z^2 + z"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 - 4*z^2 + 2*z - 2",
+         "2*z^3 - z^2 + 2*z",
+         "-10*z^2 + 10",
+         "25*z^3 - 25*z^2 + 25*z - 25"
+        ],
+        "chi2": "9/10",
+        "conrey": 19,
+        "eigenspace_dim": 4,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^3 - 2*z^2 + 28*z",
+         "377*z^3 - 69*z^2 + 202*z - 244",
+         "-1890*z^3 - 912*z^2 - 2016*z - 254",
+         "-69323*z^3 + 69461*z^2 - 32524*z + 127941",
+         "199290*z^3 + 1376144*z^2 + 149520*z + 803470",
+         "14905439*z^3 + 467746*z^2 + 1036570*z - 1652875"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2*z^2",
+         "-8*z^3 + 8*z^2 - 8*z + 8",
+         "-2*z^2 - 14*z - 2",
+         "-9*z^3 + 5*z - 5",
+         "-18",
+         "3*z^3 - z^2 + 3*z"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 + 4*z",
+         "9*z^3 - z^2 + 4*z - 6",
+         "-2*z^3 - 6*z^2 - 6*z - 2",
+         "-30*z^3 + 20*z^2 - 5*z + 45",
+         "100*z^2 + 50",
+         "125*z^3"
+        ],
+        "chi2": "3/5",
+        "conrey": 21,
+        "eigenspace_dim": 6,
+        "matches": [
+         "inverse"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "0",
+         "5",
+         "0",
+         "4"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "5",
+         "0",
+         "4"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "0",
+         "0",
+         "0",
+         "0"
+        ],
+        "chi2": "1/2",
+        "conrey": 24,
+        "eigenspace_dim": 4,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       }
+      ],
+      "s": 2,
+      "total_charpoly_factored": "(x - 5)*(x - 1)*x^8*(x^4 - 5*x^3 + 15*x^2 - 25*x + 25)*(x^8 + 5*x^7 + 20*x^6 + 65*x^5 + 155*x^4 + 325*x^3 + 500*x^2 + 625*x + 625)*(x^12 + 6*x^11 + 16*x^10 + 21*x^9 - 4*x^8 - 100*x^7 - 285*x^6 - 500*x^5 - 100*x^4 + 2625*x^3 + 10000*x^2 + 18750*x + 15625)*(x^16 + 5*x^14 + 10*x^13 + 10*x^12 - 50*x^11 + 25*x^10 - 450*x^9 - 725*x^8 - 2250*x^7 + 625*x^6 - 6250*x^5 + 6250*x^4 + 31250*x^3 + 78125*x^2 + 390625)",
+      "total_charpoly_matches_P_s": true
+     },
+     "Up_prime": {
+      "consistent": "same",
+      "consistent_T2": "inverse",
+      "consistent_joint": null,
+      "per_psi": [
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-44",
+         "223",
+         "220",
+         "-1136",
+         "-176",
+         "912"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2",
+         "-8",
+         "10",
+         "19",
+         "-8",
+         "-12"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-6",
+         "5",
+         "0",
+         "0",
+         "0",
+         "0"
+        ],
+        "chi2": "0/1",
+        "conrey": 1,
+        "eigenspace_dim": 6,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^3 - 28*z^2 + 14*z - 14",
+         "75*z^3 - 96*z^2 + 103*z + 9",
+         "1260*z^3 - 4608*z^2 + 1232*z + 2200",
+         "56628*z^3 - 61488*z^2 + 70412*z - 53808"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "5*z^3 - 5*z^2 + 5*z - 5",
+         "-2*z^2 + 2",
+         "-2*z^3 - z + 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 - 4*z^2 + 2*z - 2",
+         "2*z^3 - z^2 + 2*z",
+         "-10*z^2 + 10",
+         "25*z^3 - 25*z^2 + 25*z - 25"
+        ],
+        "chi2": "1/10",
+        "conrey": 4,
+        "eigenspace_dim": 4,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "16*z^3 + 28*z",
+         "525*z^3 - 119*z^2 + 218*z - 350",
+         "-740*z^3 - 3178*z^2 - 1288*z - 1920",
+         "-98362*z^3 + 73570*z^2 - 38505*z + 114352",
+         "61824*z^3 + 1686440*z^2 - 163408*z + 1084100",
+         "13753444*z^3 - 453600*z^2 + 1345460*z + 195996"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "2*z^3",
+         "8*z",
+         "16*z^3 - 14*z^2 + 14*z - 16",
+         "-5*z^3 + 14*z^2 - 5*z",
+         "-18",
+         "-2*z^3 - 3*z + 3"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 + 4*z",
+         "9*z^3 - z^2 + 4*z - 6",
+         "-2*z^3 - 6*z^2 - 6*z - 2",
+         "-30*z^3 + 20*z^2 - 5*z + 45",
+         "100*z^2 + 50",
+         "125*z^3"
+        ],
+        "chi2": "2/5",
+        "conrey": 6,
+        "eigenspace_dim": 6,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-28*z^3 + 14*z^2 - 14*z + 14",
+         "-96*z^3 - 7*z^2 - 21*z + 105",
+         "-4608*z^3 + 3376*z^2 - 3348*z + 6808",
+         "-61488*z^3 - 8924*z^2 - 4860*z + 7680"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "-5*z^3",
+         "-2*z^3 + 2*z^2 - 2*z + 4",
+         "z^2 - 2*z + 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-4*z^3 + 2*z^2 - 2*z + 2",
+         "-z^3 - z^2 + z + 1",
+         "-10*z^3 + 10*z^2 - 10*z + 20",
+         "-25*z^3"
+        ],
+        "chi2": "7/10",
+        "conrey": 9,
+        "eigenspace_dim": 4,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-28*z^2 + 16*z",
+         "-119*z^3 - 99*z^2 + 406*z - 231",
+         "-3178*z^3 + 4466*z^2 - 3918*z + 1258",
+         "73570*z^3 - 35065*z^2 - 24792*z + 40782",
+         "1686440*z^3 - 1523032*z^2 + 1748264*z - 602340",
+         "-453600*z^3 - 891860*z^2 + 13299844*z + 649596"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "2*z",
+         "-8*z^2",
+         "-14*z^3 + 2*z - 2",
+         "14*z^3 - 9*z^2 + 9*z - 14",
+         "-18",
+         "3*z^2 - 2*z + 3"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-4*z^2 + 2*z",
+         "-z^3 - 3*z^2 + 8*z - 5",
+         "-6*z^3 + 12*z^2 - 8*z + 4",
+         "20*z^3 - 15*z^2 - 10*z + 25",
+         "100*z^3 - 100*z^2 + 100*z - 50",
+         "125*z"
+        ],
+        "chi2": "4/5",
+        "conrey": 11,
+        "eigenspace_dim": 6,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^2 + 14*z",
+         "28*z^3 + 75*z^2 + 21*z + 84",
+         "-28*z^3 + 1260*z^2 + 3348*z + 3460",
+         "13784*z^3 + 56628*z^2 + 4860*z + 2820"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "5*z^2",
+         "2*z + 2",
+         "z^3 - 2*z^2 + 2*z - 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^2 + 2*z",
+         "2*z^2 - z + 2",
+         "10*z + 10",
+         "25*z^2"
+        ],
+        "chi2": "3/10",
+        "conrey": 14,
+        "eigenspace_dim": 4,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "12*z^3 + 16*z^2 - 16*z + 16",
+         "-307*z^3 + 525*z^2 - 406*z + 175",
+         "-548*z^3 - 740*z^2 + 3918*z - 2660",
+         "59857*z^3 - 98362*z^2 + 24792*z + 15990",
+         "-225232*z^3 + 61824*z^2 - 1748264*z + 1145924",
+         "-12407984*z^3 + 13753444*z^2 - 13299844*z + 13949440"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2*z^3 + 2*z^2 - 2*z + 2",
+         "8*z^3",
+         "-2*z^3 + 16*z^2 - 2*z",
+         "-5*z^2 - 9*z - 5",
+         "-18",
+         "-z^3 - 2*z^2 + 2*z + 1"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 + 2*z^2 - 2*z + 2",
+         "-5*z^3 + 9*z^2 - 8*z + 3",
+         "-4*z^3 - 2*z^2 + 8*z - 4",
+         "25*z^3 - 30*z^2 + 10*z + 15",
+         "-100*z + 50",
+         "-125*z^3 + 125*z^2 - 125*z + 125"
+        ],
+        "chi2": "1/5",
+        "conrey": 16,
+        "eigenspace_dim": 6,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "14*z^3 - 14*z",
+         "-7*z^3 + 28*z^2 - 103*z + 112",
+         "3376*z^3 - 28*z^2 - 1232*z + 3432",
+         "-8924*z^3 + 13784*z^2 - 70412*z + 16604"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "-5*z",
+         "2*z^3 + 2",
+         "z^3 + z^2 + z"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "2*z^3 - 2*z",
+         "-z^3 - 2*z + 2",
+         "10*z^3 + 10",
+         "-25*z"
+        ],
+        "chi2": "9/10",
+        "conrey": 19,
+        "eigenspace_dim": 4,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "-28*z^3 + 12*z^2 - 28*z + 28",
+         "-99*z^3 - 307*z^2 - 218*z - 132",
+         "4466*z^3 - 548*z^2 + 1288*z - 3208",
+         "-35065*z^3 + 59857*z^2 + 38505*z + 75847",
+         "-1523032*z^3 - 225232*z^2 + 163408*z + 920692",
+         "-891860*z^3 - 12407984*z^2 - 1345460*z + 1541456"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "-2*z^2",
+         "-8*z^3 + 8*z^2 - 8*z + 8",
+         "-2*z^2 - 14*z - 2",
+         "-9*z^3 + 5*z - 5",
+         "-18",
+         "3*z^3 - z^2 + 3*z"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "-4*z^3 + 2*z^2 - 4*z + 4",
+         "-3*z^3 - 5*z^2 - 4*z - 2",
+         "12*z^3 - 4*z^2 + 6*z - 8",
+         "-15*z^3 + 25*z^2 + 5*z + 40",
+         "-100*z^3 + 50",
+         "-125*z^2"
+        ],
+        "chi2": "3/5",
+        "conrey": 21,
+        "eigenspace_dim": 6,
+        "matches": [
+         "same"
+        ],
+        "matches_T2": [
+         "inverse"
+        ],
+        "matches_T2+7U5": []
+       },
+       {
+        "brandt_charpoly_T2+7U5_common": [
+         "1",
+         "0",
+         "5",
+         "0",
+         "4"
+        ],
+        "brandt_charpoly_T2_common": [
+         "1",
+         "0",
+         "5",
+         "0",
+         "4"
+        ],
+        "brandt_charpoly_common": [
+         "1",
+         "0",
+         "0",
+         "0",
+         "0"
+        ],
+        "chi2": "1/2",
+        "conrey": 24,
+        "eigenspace_dim": 4,
+        "matches": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2": [
+         "same",
+         "inverse"
+        ],
+        "matches_T2+7U5": [
+         "same",
+         "inverse"
+        ]
+       }
+      ],
+      "s": 2,
+      "total_charpoly_factored": "(x - 5)*(x - 1)*x^8*(x^4 - 5*x^3 + 15*x^2 - 25*x + 25)*(x^8 + 5*x^7 + 20*x^6 + 65*x^5 + 155*x^4 + 325*x^3 + 500*x^2 + 625*x + 625)*(x^12 + 6*x^11 + 16*x^10 + 21*x^9 - 4*x^8 - 100*x^7 - 285*x^6 - 500*x^5 - 100*x^4 + 2625*x^3 + 10000*x^2 + 18750*x + 15625)*(x^16 + 5*x^14 + 10*x^13 + 10*x^12 - 50*x^11 + 25*x^10 - 450*x^9 - 725*x^8 - 2250*x^7 + 625*x^6 - 6250*x^5 + 6250*x^4 + 31250*x^3 + 78125*x^2 + 390625)",
+      "total_charpoly_matches_P_s": true
+     }
+    },
+    "expected_convention": "inverse",
+    "s": 2,
+    "table": {
+     "1": {
+      "N_Up": [
+       "same",
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "T2": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "chi2": "0",
+      "dim": 6
+     },
+     "11": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "4/5",
+      "dim": 6
+     },
+     "14": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "3/10",
+      "dim": 4
+     },
+     "16": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "1/5",
+      "dim": 6
+     },
+     "19": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "9/10",
+      "dim": 4
+     },
+     "21": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "3/5",
+      "dim": 6
+     },
+     "24": {
+      "N_Up": [
+       "same",
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "T2": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime": [
+       "same",
+       "inverse"
+      ],
+      "Up_prime_joint_T2": [
+       "same",
+       "inverse"
+      ],
+      "chi2": "1/2",
+      "dim": 4
+     },
+     "4": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "1/10",
+      "dim": 4
+     },
+     "6": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "2/5",
+      "dim": 6
+     },
+     "9": {
+      "N_Up": [
+       "inverse"
+      ],
+      "N_Up_joint_T2": [
+       "inverse"
+      ],
+      "T2": [
+       "inverse"
+      ],
+      "Up_prime": [
+       "same"
+      ],
+      "Up_prime_joint_T2": [],
+      "chi2": "7/10",
+      "dim": 4
+     }
+    }
+   },
+   "common_field": {
+    "n": 10,
+    "poly_z": "z^4 - z^3 + z^2 - z + 1",
+    "z": "exp(2*pi*i/10)"
+   },
+   "dimensions": {
+    "brandt_dim_predicted": 50,
+    "nrd_line": 1,
+    "per_char": [
+     {
+      "conrey": 1,
+      "conrey_level": 1,
+      "dim_3new": 5,
+      "dim_5power": 0,
+      "dim_level": 5,
+      "orbit": "o1"
+     },
+     {
+      "conrey": 4,
+      "conrey_level": 4,
+      "dim_3new": 4,
+      "dim_5power": 2,
+      "dim_level": 8,
+      "orbit": "o10"
+     },
+     {
+      "conrey": 6,
+      "conrey_level": 31,
+      "dim_3new": 6,
+      "dim_5power": 1,
+      "dim_level": 8,
+      "orbit": "o5"
+     },
+     {
+      "conrey": 9,
+      "conrey_level": 34,
+      "dim_3new": 4,
+      "dim_5power": 2,
+      "dim_level": 8,
+      "orbit": "o10"
+     },
+     {
+      "conrey": 11,
+      "conrey_level": 61,
+      "dim_3new": 6,
+      "dim_5power": 1,
+      "dim_level": 8,
+      "orbit": "o5"
+     },
+     {
+      "conrey": 14,
+      "conrey_level": 64,
+      "dim_3new": 4,
+      "dim_5power": 2,
+      "dim_level": 8,
+      "orbit": "o10"
+     },
+     {
+      "conrey": 16,
+      "conrey_level": 16,
+      "dim_3new": 6,
+      "dim_5power": 1,
+      "dim_level": 8,
+      "orbit": "o5"
+     },
+     {
+      "conrey": 19,
+      "conrey_level": 19,
+      "dim_3new": 4,
+      "dim_5power": 2,
+      "dim_level": 8,
+      "orbit": "o10"
+     },
+     {
+      "conrey": 21,
+      "conrey_level": 46,
+      "dim_3new": 6,
+      "dim_5power": 1,
+      "dim_level": 8,
+      "orbit": "o5"
+     },
+     {
+      "conrey": 24,
+      "conrey_level": 49,
+      "dim_3new": 4,
+      "dim_5power": 0,
+      "dim_level": 4,
+      "orbit": "o2"
+     }
+    ],
+    "per_orbit": {
+     "o1": {
+      "dim_3new": 5,
+      "dim_5power": 0,
+      "dim_level": 5,
+      "n_chars": 1
+     },
+     "o10": {
+      "dim_3new": 16,
+      "dim_5power": 8,
+      "dim_level": 32,
+      "n_chars": 4
+     },
+     "o2": {
+      "dim_3new": 4,
+      "dim_5power": 0,
+      "dim_level": 4,
+      "n_chars": 1
+     },
+     "o5": {
+      "dim_3new": 24,
+      "dim_5power": 4,
+      "dim_level": 32,
+      "n_chars": 4
+     }
+    },
+    "sum_3new": 49
+   },
+   "level": 75,
+   "p": 5,
+   "per_char": [
+    {
+     "U5_matrix_level_K": "[1, 1, 0, 0, 0; 0, 0, 0, 0, 0; 0, 0, 0, 0, 0; 0, 0, 0, 0, 0; 0, 0, 0, 0, 0]",
+     "a5_3new": [
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0
+      ],
+      [
+       1.0,
+       0.0
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "1",
+       "-5",
+       "-5",
+       "4",
+       "4"
+      ],
+      "T2+7U5": [
+       "1",
+       "-6",
+       "-5",
+       "30",
+       "4",
+       "-24"
+      ],
+      "U5": [
+       "1",
+       "-1",
+       "0",
+       "0",
+       "0",
+       "0"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "chi2": "0/1",
+     "chi2_common": "1",
+     "conductor": 1,
+     "conrey": 1,
+     "conrey_level": 1,
+     "dim_3new": 5,
+     "dim_5power": 0,
+     "dim_level": 5,
+     "field_poly_t": "t - 1",
+     "inverse": 1,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o1",
+     "orbit_rep": 1,
+     "order": 1
+    },
+    {
+     "U5_matrix_level_K": "[Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 + 2*t^2 - t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 + 2*t^2 - t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + 2*t^2 - t + 1, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^2 - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^2 - 1, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - 3*t^2 + t, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 + 2*t^2 - 4*t + 2, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 - t + 1, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t, t^4 - t^3 + t^2 - t + 1), Mod(t^2 - 1, t^4 - t^3 + t^2 - t + 1), Mod(t^3 + 1, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 + 3*t^2 - 3*t + 2, t^4 - t^3 + t^2 - t + 1)]",
+     "a5_3new": [
+      [
+       -2.0612206321,
+       0.8668157278
+      ],
+      [
+       0.7254983906,
+       -2.1151009634
+      ],
+      [
+       1.3435921144,
+       1.7873892217
+      ],
+      [
+       2.2281981045,
+       0.1874385419
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "2*t^3 - 4*t^2 + 2*t - 2",
+      "2*t^3 - t^2 + 2*t",
+      "-10*t^2 + 10",
+      "25*t^3 - 25*t^2 + 25*t - 25"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "2*z^3 - 4*z^2 + 2*z - 2",
+      "2*z^3 - z^2 + 2*z",
+      "-10*z^2 + 10",
+      "25*z^3 - 25*z^2 + 25*z - 25"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "2*z^3 - 2*z",
+      "-z^3 - 2*z + 2",
+      "10*z^3 + 10",
+      "-25*z"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "0",
+       "-5*z",
+       "2*z^3 + 2",
+       "z^3 + z^2 + z"
+      ],
+      "T2+7U5": [
+       "1",
+       "14*z^3 - 28*z^2 + 14*z - 14",
+       "28*z^3 - 21*z^2 + 79*z + 28",
+       "156*z^3 - 3486*z^2 + 2172",
+       "55217*z^3 - 45569*z^2 + 62049*z - 55181"
+      ],
+      "U5": [
+       "1",
+       "2*z^3 - 4*z^2 + 2*z - 2",
+       "2*z^3 - z^2 + 2*z",
+       "-10*z^2 + 10",
+       "25*z^3 - 25*z^2 + 25*z - 25"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "-t^3 + 2*t^2 - t + 1",
+      "5*t"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "0",
+      "2*t^3 + 2*t^2 + 3*t + 3",
+      "-14*t^3 - 2*t^2 - 2*t - 4",
+      "15*t^3 + 10*t - 10",
+      "-80*t^3 + 10*t^2 + 10*t + 20",
+      "100*t^3 - 50*t^2 - 25*t - 125",
+      "0",
+      "-625*t"
+     ],
+     "chi2": "1/10",
+     "chi2_common": "z",
+     "conductor": 25,
+     "conrey": 4,
+     "conrey_level": 4,
+     "dim_3new": 4,
+     "dim_5power": 2,
+     "dim_level": 8,
+     "field_poly_t": "t^4 - t^3 + t^2 - t + 1",
+     "inverse": 19,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o10",
+     "orbit_rep": 4,
+     "order": 10
+    },
+    {
+     "U5_matrix_level_K": "[Mod(-t^3 + t^2 + t - 1, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 + t^2 + t - 1, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 2*t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 + t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 3*t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^3 - t - 2, t^4 + t^3 + t^2 + t + 1), Mod(-t + 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^2 - t - 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - t^2 - t + 1, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 3*t + 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - 1, t^4 + t^3 + t^2 + t + 1), Mod(3*t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^3 + t^2 + 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - 1, t^4 + t^3 + t^2 + t + 1), Mod(t^2, t^4 + t^3 + t^2 + t + 1), Mod(-t, t^4 + t^3 + t^2 + t + 1), Mod(t + 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 2*t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-1, t^4 + t^3 + t^2 + t + 1), Mod(-t^3, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 2*t^2 + t + 2, t^4 + t^3 + t^2 + t + 1), Mod(t^3, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t - 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t^2 + 2*t, t^4 + t^3 + t^2 + t + 1), Mod(3*t^3 + 3*t^2 + 1, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^2 - t - 1, t^4 + t^3 + t^2 + t + 1)]",
+     "a5_3new": [
+      [
+       -2.2170038757,
+       -0.2913654321
+      ],
+      [
+       -2.0938724623,
+       0.7846643307
+      ],
+      [
+       -1.3484258903,
+       -1.7837453906
+      ],
+      [
+       0.4079868813,
+       -2.1985328528
+      ],
+      [
+       0.8242643638,
+       -2.0786024773
+      ],
+      [
+       1.8090169944,
+       1.3143277803
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "-2*t^3 + 2*t^2 + 2*t + 2",
+      "5*t^3 + 9*t^2 + 8*t + 3",
+      "4*t^3 - 2*t^2 - 8*t - 4",
+      "-25*t^3 - 30*t^2 - 10*t + 15",
+      "100*t + 50",
+      "125*t^3 + 125*t^2 + 125*t + 125"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "2*z^3 + 4*z",
+      "9*z^3 - z^2 + 4*z - 6",
+      "-2*z^3 - 6*z^2 - 6*z - 2",
+      "-30*z^3 + 20*z^2 - 5*z + 45",
+      "100*z^2 + 50",
+      "125*z^3"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "-4*z^3 + 2*z^2 - 4*z + 4",
+      "-3*z^3 - 5*z^2 - 4*z - 2",
+      "12*z^3 - 4*z^2 + 6*z - 8",
+      "-15*z^3 + 25*z^2 + 5*z + 40",
+      "-100*z^3 + 50",
+      "-125*z^2"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "-2*z^2",
+       "-8*z^3 + 8*z^2 - 8*z + 8",
+       "-2*z^2 - 14*z - 2",
+       "-9*z^3 + 5*z - 5",
+       "-18",
+       "3*z^3 - z^2 + 3*z"
+      ],
+      "T2+7U5": [
+       "1",
+       "14*z^3 - 2*z^2 + 28*z",
+       "377*z^3 - 69*z^2 + 202*z - 244",
+       "-1890*z^3 - 912*z^2 - 2016*z - 254",
+       "-69323*z^3 + 69461*z^2 - 32524*z + 127941",
+       "199290*z^3 + 1376144*z^2 + 149520*z + 803470",
+       "14905439*z^3 + 467746*z^2 + 1036570*z - 1652875"
+      ],
+      "U5": [
+       "1",
+       "2*z^3 + 4*z",
+       "9*z^3 - z^2 + 4*z - 6",
+       "-2*z^3 - 6*z^2 - 6*z - 2",
+       "-30*z^3 + 20*z^2 - 5*z + 45",
+       "100*z^2 + 50",
+       "125*z^3"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "t^3 - t^2 - t + 1"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "4",
+      "-2*t^3 + t^2 + 11",
+      "-2*t^3 - 4*t^2 + 4*t + 22",
+      "-10*t^3 - 30*t^2 - 5*t + 20",
+      "-10*t^3 - 120*t^2 - 30*t + 10",
+      "-50*t^3 - 325*t^2 - 50*t - 75",
+      "-500*t^2",
+      "-625*t^2"
+     ],
+     "chi2": "2/5",
+     "chi2_common": "z^3 - z^2 + z - 1",
+     "conductor": 25,
+     "conrey": 6,
+     "conrey_level": 31,
+     "dim_3new": 6,
+     "dim_5power": 1,
+     "dim_level": 8,
+     "field_poly_t": "t^4 + t^3 + t^2 + t + 1",
+     "inverse": 21,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o5",
+     "orbit_rep": 6,
+     "order": 5
+    },
+    {
+     "U5_matrix_level_K": "[Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t^2 - 2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t^2 - 2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + t - 2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + t - 2, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-3*t^3 + 2*t^2 - 2*t + 3, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 + 2*t^2, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - t^2, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + 2*t^2 + 2, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^2 + t, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + t - 2, t^4 - t^3 + t^2 - t + 1), Mod(t + 1, t^4 - t^3 + t^2 - t + 1), Mod(3*t^3 + t - 1, t^4 - t^3 + t^2 - t + 1)]",
+     "a5_3new": [
+      [
+       -1.9333833854,
+       1.1234005008
+      ],
+      [
+       -1.2712497114,
+       1.8395445554
+      ],
+      [
+       0.2275641443,
+       2.2244582622
+      ],
+      [
+       0.7410009749,
+       -2.1097197812
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "-4*t^3 + 2*t^2 - 2*t + 2",
+      "-t^3 - t^2 + t + 1",
+      "-10*t^3 + 10*t^2 - 10*t + 20",
+      "-25*t^3"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "-4*z^3 + 2*z^2 - 2*z + 2",
+      "-z^3 - z^2 + z + 1",
+      "-10*z^3 + 10*z^2 - 10*z + 20",
+      "-25*z^3"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "2*z^2 + 2*z",
+      "2*z^2 - z + 2",
+      "10*z + 10",
+      "25*z^2"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "0",
+       "5*z^2",
+       "2*z + 2",
+       "z^3 - 2*z^2 + 2*z - 1"
+      ],
+      "T2+7U5": [
+       "1",
+       "-28*z^3 + 14*z^2 - 14*z + 14",
+       "-21*z^3 - 58*z^2 + 7*z + 49",
+       "-3486*z^3 + 3486*z^2 - 3330*z + 5658",
+       "-45569*z^3 - 16480*z^2 + 9648*z - 9612"
+      ],
+      "U5": [
+       "1",
+       "-4*z^3 + 2*z^2 - 2*z + 2",
+       "-z^3 - z^2 + z + 1",
+       "-10*z^3 + 10*z^2 - 10*z + 20",
+       "-25*z^3"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "2*t^3 - t^2 + t - 1",
+      "-5*t^2"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "0",
+      "2*t^3 - 5*t^2 + 4*t + 1",
+      "-2*t^3 + 4*t^2 - 16*t - 2",
+      "-10*t^2 + 15*t - 10",
+      "10*t^3 - 20*t^2 - 70*t + 10",
+      "-50*t^3 + 75*t^2 + 50*t - 75",
+      "0",
+      "625*t^2"
+     ],
+     "chi2": "7/10",
+     "chi2_common": "-z^2",
+     "conductor": 25,
+     "conrey": 9,
+     "conrey_level": 34,
+     "dim_3new": 4,
+     "dim_5power": 2,
+     "dim_level": 8,
+     "field_poly_t": "t^4 - t^3 + t^2 - t + 1",
+     "inverse": 14,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o10",
+     "orbit_rep": 4,
+     "order": 10
+    },
+    {
+     "U5_matrix_level_K": "[Mod(-t^3 - 2*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - 2*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^3 - t^2 - t - 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 + t, t^4 + t^3 + t^2 + t + 1), Mod(3*t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^2 - 2*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(-t^2 + 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 + t^2 + 2*t, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 2*t + 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(3*t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(t - 1, t^4 + t^3 + t^2 + t + 1), Mod(-3*t^3 - 2*t^2 - 3*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - 3*t, t^4 + t^3 + t^2 + t + 1), Mod(t - 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t^2, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t - 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^2, t^4 + t^3 + t^2 + t + 1), Mod(t^2 + 1, t^4 + t^3 + t^2 + t + 1), Mod(t, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(1, t^4 + t^3 + t^2 + t + 1), Mod(2*t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-1, t^4 + t^3 + t^2 + t + 1), Mod(-t, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^3 - t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(t, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^2 + t, t^4 + t^3 + t^2 + t + 1), Mod(t^3, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 + t^2 - 1, t^4 + t^3 + t^2 + t + 1), Mod(-3*t^3 - 3*t^2 - 2, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 + t^2 + 2*t + 1, t^4 + t^3 + t^2 + t + 1)]",
+     "a5_3new": [
+      [
+       -2.0707889001,
+       -0.8437021579
+      ],
+      [
+       -1.0272949065,
+       1.9861181171
+      ],
+      [
+       -0.4601585891,
+       2.1882079592
+      ],
+      [
+       0.3363119009,
+       -2.2106321054
+      ],
+      [
+       0.6909830056,
+       2.1266270209
+      ],
+      [
+       2.148981478,
+       -0.6179632734
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "-2*t^3 - 4*t",
+      "-9*t^3 - t^2 - 4*t - 6",
+      "2*t^3 - 6*t^2 + 6*t - 2",
+      "30*t^3 + 20*t^2 + 5*t + 45",
+      "100*t^2 + 50",
+      "-125*t^3"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "-4*z^2 + 2*z",
+      "-z^3 - 3*z^2 + 8*z - 5",
+      "-6*z^3 + 12*z^2 - 8*z + 4",
+      "20*z^3 - 15*z^2 - 10*z + 25",
+      "100*z^3 - 100*z^2 + 100*z - 50",
+      "125*z"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "2*z^3 + 2*z^2 - 2*z + 2",
+      "-5*z^3 + 9*z^2 - 8*z + 3",
+      "-4*z^3 - 2*z^2 + 8*z - 4",
+      "25*z^3 - 30*z^2 + 10*z + 15",
+      "-100*z + 50",
+      "-125*z^3 + 125*z^2 - 125*z + 125"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "-2*z^3 + 2*z^2 - 2*z + 2",
+       "8*z^3",
+       "-2*z^3 + 16*z^2 - 2*z",
+       "-5*z^2 - 9*z - 5",
+       "-18",
+       "-z^3 - 2*z^2 + 2*z + 1"
+      ],
+      "T2+7U5": [
+       "1",
+       "-2*z^3 - 26*z^2 + 12*z + 2",
+       "-69*z^3 - 133*z^2 + 308*z - 175",
+       "-912*z^3 + 2928*z^2 - 2802*z + 658",
+       "69461*z^3 - 36937*z^2 + 138*z + 58480",
+       "1376144*z^3 - 1525664*z^2 + 1575434*z - 572674",
+       "467746*z^3 - 1504316*z^2 + 15373185*z - 2120621"
+      ],
+      "U5": [
+       "1",
+       "-4*z^2 + 2*z",
+       "-z^3 - 3*z^2 + 8*z - 5",
+       "-6*z^3 + 12*z^2 - 8*z + 4",
+       "20*z^3 - 15*z^2 - 10*z + 25",
+       "100*z^3 - 100*z^2 + 100*z - 50",
+       "125*z"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "t^3 + 2*t + 2"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "4",
+      "-t^3 - t^2 - 3*t + 10",
+      "4*t^3 + 8*t^2 + 2*t + 26",
+      "30*t^3 + 25*t^2 + 20*t + 50",
+      "120*t^3 + 90*t^2 + 110*t + 130",
+      "325*t^3 + 275*t^2 + 275*t + 250",
+      "500*t^3 + 500*t^2 + 500*t + 500",
+      "625*t^3 + 625*t^2 + 625*t + 625"
+     ],
+     "chi2": "4/5",
+     "chi2_common": "-z^3",
+     "conductor": 25,
+     "conrey": 11,
+     "conrey_level": 61,
+     "dim_3new": 6,
+     "dim_5power": 1,
+     "dim_level": 8,
+     "field_poly_t": "t^4 + t^3 + t^2 + t + 1",
+     "inverse": 16,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o5",
+     "orbit_rep": 6,
+     "order": 5
+    },
+    {
+     "U5_matrix_level_K": "[Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - 2*t^2 - 2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - 2*t^2 - 2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + 2*t^2 - t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + 2*t^2 - t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^2 - t, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + 2*t^2 - t + 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - t^2 + 2*t - 1, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t - 1, t^4 - t^3 + t^2 - t + 1), Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^2 + 2*t + 1, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 - 2*t^2, t^4 - t^3 + t^2 - t + 1), Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 + t^2 + 2, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-2*t^3 + t^2 - t + 1, t^4 - t^3 + t^2 - t + 1), Mod(-t - 1, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 - t + 2, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - 2*t^2 - t, t^4 - t^3 + t^2 - t + 1)]",
+     "a5_3new": [
+      [
+       -1.9333833854,
+       -1.1234005008
+      ],
+      [
+       -1.2712497114,
+       -1.8395445554
+      ],
+      [
+       0.2275641443,
+       -2.2244582622
+      ],
+      [
+       0.7410009749,
+       2.1097197812
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "2*t^2 + 2*t",
+      "2*t^2 - t + 2",
+      "10*t + 10",
+      "25*t^2"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "2*z^2 + 2*z",
+      "2*z^2 - z + 2",
+      "10*z + 10",
+      "25*z^2"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "-4*z^3 + 2*z^2 - 2*z + 2",
+      "-z^3 - z^2 + z + 1",
+      "-10*z^3 + 10*z^2 - 10*z + 20",
+      "-25*z^3"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "0",
+       "-5*z^3",
+       "-2*z^3 + 2*z^2 - 2*z + 4",
+       "z^2 - 2*z + 1"
+      ],
+      "T2+7U5": [
+       "1",
+       "14*z^2 + 14*z",
+       "51*z^3 + 28*z^2 - 7*z + 56",
+       "-156*z^3 + 156*z^2 + 3330*z + 2328",
+       "6832*z^3 + 55217*z^2 - 9648*z + 36"
+      ],
+      "U5": [
+       "1",
+       "2*z^2 + 2*z",
+       "2*z^2 - z + 2",
+       "10*z + 10",
+       "25*z^2"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "-t^2 - t",
+      "5*t^3"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "0",
+      "t^3 + 2*t^2 - 4*t + 5",
+      "12*t^3 - 14*t^2 + 16*t - 18",
+      "-5*t^3 + 15*t^2 - 15*t + 5",
+      "90*t^3 - 80*t^2 + 70*t - 60",
+      "-125*t^3 + 100*t^2 - 50*t - 25",
+      "0",
+      "-625*t^3"
+     ],
+     "chi2": "3/10",
+     "chi2_common": "z^3",
+     "conductor": 25,
+     "conrey": 14,
+     "conrey_level": 64,
+     "dim_3new": 4,
+     "dim_5power": 2,
+     "dim_level": 8,
+     "field_poly_t": "t^4 - t^3 + t^2 - t + 1",
+     "inverse": 9,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o10",
+     "orbit_rep": 4,
+     "order": 10
+    },
+    {
+     "U5_matrix_level_K": "[Mod(2*t^3 + t^2 + 2*t, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 + t^2 + 2*t, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^2 + t, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - 2*t^2 - t - 1, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 - t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 2*t^2 + 2*t, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 + 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - 2*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^3 - t^2 - 2*t, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 - t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t - 2, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 3*t + 1, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 + 2*t^2 + 3*t + 3, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t - 2, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t^2, t^4 + t^3 + t^2 + t + 1), Mod(t, t^4 + t^3 + t^2 + t + 1), Mod(-t^3, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t - 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(-1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t - 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^2 - t - 1, t^4 + t^3 + t^2 + t + 1), Mod(t^2, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - t^2 - 1, t^4 + t^3 + t^2 + t + 1), Mod(-3*t^3 - 3*t^2 - 2, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - 2*t - 1, t^4 + t^3 + t^2 + t + 1)]",
+     "a5_3new": [
+      [
+       -2.0707889001,
+       0.8437021579
+      ],
+      [
+       -1.0272949065,
+       -1.9861181171
+      ],
+      [
+       -0.4601585891,
+       -2.1882079592
+      ],
+      [
+       0.3363119009,
+       2.2106321054
+      ],
+      [
+       0.6909830056,
+       -2.1266270209
+      ],
+      [
+       2.148981478,
+       0.6179632734
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "4*t^3 + 2*t^2 + 4*t + 4",
+      "3*t^3 - 5*t^2 + 4*t - 2",
+      "-12*t^3 - 4*t^2 - 6*t - 8",
+      "15*t^3 + 25*t^2 - 5*t + 40",
+      "100*t^3 + 50",
+      "-125*t^2"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "2*z^3 + 2*z^2 - 2*z + 2",
+      "-5*z^3 + 9*z^2 - 8*z + 3",
+      "-4*z^3 - 2*z^2 + 8*z - 4",
+      "25*z^3 - 30*z^2 + 10*z + 15",
+      "-100*z + 50",
+      "-125*z^3 + 125*z^2 - 125*z + 125"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "-4*z^2 + 2*z",
+      "-z^3 - 3*z^2 + 8*z - 5",
+      "-6*z^3 + 12*z^2 - 8*z + 4",
+      "20*z^3 - 15*z^2 - 10*z + 25",
+      "100*z^3 - 100*z^2 + 100*z - 50",
+      "125*z"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "2*z",
+       "-8*z^2",
+       "-14*z^3 + 2*z - 2",
+       "14*z^3 - 9*z^2 + 9*z - 14",
+       "-18",
+       "3*z^2 - 2*z + 3"
+      ],
+      "T2+7U5": [
+       "1",
+       "14*z^3 + 14*z^2 - 12*z + 14",
+       "-175*z^3 + 377*z^2 - 308*z + 133",
+       "-126*z^3 - 1890*z^2 + 2802*z - 2144",
+       "36799*z^3 - 69323*z^2 - 138*z + 58618",
+       "-49770*z^3 + 199290*z^2 - 1575434*z + 1002760",
+       "-13868869*z^3 + 14905439*z^2 - 15373185*z + 13252564"
+      ],
+      "U5": [
+       "1",
+       "2*z^3 + 2*z^2 - 2*z + 2",
+       "-5*z^3 + 9*z^2 - 8*z + 3",
+       "-4*z^3 - 2*z^2 + 8*z - 4",
+       "25*z^3 - 30*z^2 + 10*z + 15",
+       "-100*z + 50",
+       "-125*z^3 + 125*z^2 - 125*z + 125"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "-2*t^3 - t^2 - 2*t"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "4",
+      "2*t^3 + 2*t^2 + 3*t + 13",
+      "6*t^3 + 2*t^2 - 2*t + 24",
+      "5*t^3 + 10*t^2 - 20*t + 30",
+      "-20*t^3 + 10*t^2 - 110*t + 20",
+      "50*t^2 - 275*t - 25",
+      "-500*t",
+      "-625*t"
+     ],
+     "chi2": "1/5",
+     "chi2_common": "z^2",
+     "conductor": 25,
+     "conrey": 16,
+     "conrey_level": 16,
+     "dim_3new": 6,
+     "dim_5power": 1,
+     "dim_level": 8,
+     "field_poly_t": "t^4 + t^3 + t^2 + t + 1",
+     "inverse": 11,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o5",
+     "orbit_rep": 6,
+     "order": 5
+    },
+    {
+     "U5_matrix_level_K": "[Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^2 - t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^2 - t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t, t^4 - t^3 + t^2 - t + 1), Mod(-t^2 - t, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 + t^2, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - 1, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - 1, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - t + 1, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - 2*t^2 + 4*t - 2, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 + t^2 - 2*t + 1, t^4 - t^3 + t^2 - t + 1), Mod(2*t^3 - 2*t^2 + t, t^4 - t^3 + t^2 - t + 1); Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(0, t^4 - t^3 + t^2 - t + 1), Mod(t^3 - 2*t^2 + t - 1, t^4 - t^3 + t^2 - t + 1), Mod(-t^3 - 1, t^4 - t^3 + t^2 - t + 1), Mod(-t^2 + 1, t^4 - t^3 + t^2 - t + 1), Mod(-t^2 + 3*t - 1, t^4 - t^3 + t^2 - t + 1)]",
+     "a5_3new": [
+      [
+       -2.0612206321,
+       -0.8668157278
+      ],
+      [
+       0.7254983906,
+       2.1151009634
+      ],
+      [
+       1.3435921144,
+       -1.7873892217
+      ],
+      [
+       2.2281981045,
+       -0.1874385419
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "2*t^3 - 2*t",
+      "-t^3 - 2*t + 2",
+      "10*t^3 + 10",
+      "-25*t"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "2*z^3 - 2*z",
+      "-z^3 - 2*z + 2",
+      "10*z^3 + 10",
+      "-25*z"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "2*z^3 - 4*z^2 + 2*z - 2",
+      "2*z^3 - z^2 + 2*z",
+      "-10*z^2 + 10",
+      "25*z^3 - 25*z^2 + 25*z - 25"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "0",
+       "5*z^3 - 5*z^2 + 5*z - 5",
+       "-2*z^2 + 2",
+       "-2*z^3 - z + 1"
+      ],
+      "T2+7U5": [
+       "1",
+       "14*z^3 - 14*z",
+       "-58*z^3 + 51*z^2 - 79*z + 107",
+       "3486*z^3 - 156*z^2 + 2172",
+       "-16480*z^3 + 6832*z^2 - 62049*z + 6868"
+      ],
+      "U5": [
+       "1",
+       "2*z^3 - 2*z",
+       "-z^3 - 2*z + 2",
+       "10*z^3 + 10",
+       "-25*z"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "-t^3 + t",
+      "-5*t^3 + 5*t^2 - 5*t + 5"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "0",
+      "-5*t^3 + t^2 - 3*t + 6",
+      "4*t^3 + 12*t^2 + 2*t - 6",
+      "-10*t^3 - 5*t^2 - 10*t",
+      "-20*t^3 + 90*t^2 - 10*t + 30",
+      "75*t^3 - 125*t^2 + 25*t - 150",
+      "0",
+      "625*t^3 - 625*t^2 + 625*t - 625"
+     ],
+     "chi2": "9/10",
+     "chi2_common": "-z^3 + z^2 - z + 1",
+     "conductor": 25,
+     "conrey": 19,
+     "conrey_level": 19,
+     "dim_3new": 4,
+     "dim_5power": 2,
+     "dim_level": 8,
+     "field_poly_t": "t^4 - t^3 + t^2 - t + 1",
+     "inverse": 4,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o10",
+     "orbit_rep": 4,
+     "order": 10
+    },
+    {
+     "U5_matrix_level_K": "[Mod(-2*t^2 - t - 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^2 - t - 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - t, t^4 + t^3 + t^2 + t + 1), Mod(t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(-3*t^3 - 2*t^2 - 3*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - t^2 + t - 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t^2 + t + 2, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 + t^2 + t - 1, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(2*t^2 + t + 2, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-3*t^3 - 2*t^2 - 3*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(t^2 - 1, t^4 + t^3 + t^2 + t + 1), Mod(2*t^3 - t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - 2*t^2 + 1, t^4 + t^3 + t^2 + t + 1), Mod(t^2 - 1, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - 1, t^4 + t^3 + t^2 + t + 1), Mod(t^3, t^4 + t^3 + t^2 + t + 1), Mod(t^3 + t^2 + t + 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - t, t^4 + t^3 + t^2 + t + 1), Mod(t^2, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(1, t^4 + t^3 + t^2 + t + 1), Mod(-2*t^3 - t^2 - 2*t - 1, t^4 + t^3 + t^2 + t + 1), Mod(-1, t^4 + t^3 + t^2 + t + 1), Mod(-t^2, t^4 + t^3 + t^2 + t + 1), Mod(t^3 - t + 1, t^4 + t^3 + t^2 + t + 1), Mod(t^2, t^4 + t^3 + t^2 + t + 1); Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(0, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t - 1, t^4 + t^3 + t^2 + t + 1), Mod(t, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 - t^2 - 2*t - 2, t^4 + t^3 + t^2 + t + 1), Mod(3*t^3 + 3*t^2 + 1, t^4 + t^3 + t^2 + t + 1), Mod(-t^3 + t^2 + t, t^4 + t^3 + t^2 + t + 1)]",
+     "a5_3new": [
+      [
+       -2.2170038757,
+       0.2913654321
+      ],
+      [
+       -2.0938724623,
+       -0.7846643307
+      ],
+      [
+       -1.3484258903,
+       1.7837453906
+      ],
+      [
+       0.4079868813,
+       2.1985328528
+      ],
+      [
+       0.8242643638,
+       2.0786024773
+      ],
+      [
+       1.8090169944,
+       -1.3143277803
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "-4*t^2 - 2*t",
+      "t^3 - 3*t^2 - 8*t - 5",
+      "6*t^3 + 12*t^2 + 8*t + 4",
+      "-20*t^3 - 15*t^2 + 10*t + 25",
+      "-100*t^3 - 100*t^2 - 100*t - 50",
+      "-125*t"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "-4*z^3 + 2*z^2 - 4*z + 4",
+      "-3*z^3 - 5*z^2 - 4*z - 2",
+      "12*z^3 - 4*z^2 + 6*z - 8",
+      "-15*z^3 + 25*z^2 + 5*z + 40",
+      "-100*z^3 + 50",
+      "-125*z^2"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "2*z^3 + 4*z",
+      "9*z^3 - z^2 + 4*z - 6",
+      "-2*z^3 - 6*z^2 - 6*z - 2",
+      "-30*z^3 + 20*z^2 - 5*z + 45",
+      "100*z^2 + 50",
+      "125*z^3"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "2*z^3",
+       "8*z",
+       "16*z^3 - 14*z^2 + 14*z - 16",
+       "-5*z^3 + 14*z^2 - 5*z",
+       "-18",
+       "-2*z^3 - 3*z + 3"
+      ],
+      "T2+7U5": [
+       "1",
+       "-26*z^3 + 14*z^2 - 28*z + 28",
+       "-133*z^3 - 175*z^2 - 202*z - 42",
+       "2928*z^3 - 126*z^2 + 2016*z - 2270",
+       "-36937*z^3 + 36799*z^2 + 32524*z + 95417",
+       "-1525664*z^3 - 49770*z^2 - 149520*z + 952990",
+       "-1504316*z^3 - 13868869*z^2 - 1036570*z - 616305"
+      ],
+      "U5": [
+       "1",
+       "-4*z^3 + 2*z^2 - 4*z + 4",
+       "-3*z^3 - 5*z^2 - 4*z - 2",
+       "12*z^3 - 4*z^2 + 6*z - 8",
+       "-15*z^3 + 25*z^2 + 5*z + 40",
+       "-100*z^3 + 50",
+       "-125*z^2"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1",
+      "2*t^2 + t + 2"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "4",
+      "t^3 - 2*t^2 + 11",
+      "-8*t^3 - 6*t^2 - 4*t + 18",
+      "-25*t^3 - 5*t^2 + 5*t + 25",
+      "-90*t^3 + 20*t^2 + 30*t + 40",
+      "-275*t^3 + 50*t - 25",
+      "-500*t^3",
+      "-625*t^3"
+     ],
+     "chi2": "3/5",
+     "chi2_common": "-z",
+     "conductor": 25,
+     "conrey": 21,
+     "conrey_level": 46,
+     "dim_3new": 6,
+     "dim_5power": 1,
+     "dim_level": 8,
+     "field_poly_t": "t^4 + t^3 + t^2 + t + 1",
+     "inverse": 6,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o5",
+     "orbit_rep": 6,
+     "order": 5
+    },
+    {
+     "U5_matrix_level_K": "[0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0; 0, 0, 0, 0]",
+     "a5_3new": [
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0
+      ]
+     ],
+     "charpoly_3new_K": [
+      "1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "charpoly_3new_common": [
+      "1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "charpoly_3new_inverse_common": [
+      "1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "charpoly_3new_ops_common": {
+      "T2": [
+       "1",
+       "0",
+       "5",
+       "0",
+       "4"
+      ],
+      "T2+7U5": [
+       "1",
+       "0",
+       "5",
+       "0",
+       "4"
+      ],
+      "U5": [
+       "1",
+       "0",
+       "0",
+       "0",
+       "0"
+      ]
+     },
+     "charpoly_5power_K": [
+      "1"
+     ],
+     "charpoly_level_K": [
+      "1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "chi2": "1/2",
+     "chi2_common": "-1",
+     "conductor": 5,
+     "conrey": 24,
+     "conrey_level": 49,
+     "dim_3new": 4,
+     "dim_5power": 0,
+     "dim_level": 4,
+     "field_poly_t": "t + 1",
+     "inverse": 24,
+     "level": 75,
+     "modulus": 25,
+     "orbit": "o2",
+     "orbit_rep": 24,
+     "order": 2
+    }
+   ],
+   "per_orbit": {
+    "o1": {
+     "charpoly_3new_Q": [
+      1,
+      -1,
+      0,
+      0,
+      0,
+      0
+     ],
+     "charpoly_3new_Q_factored": "(x - 1)*x^4",
+     "conductor": 1,
+     "dim_3new": 5,
+     "members": [
+      1
+     ],
+     "orbit_rep": 1,
+     "order": 1,
+     "with_nrd": [
+      1,
+      -6,
+      5,
+      0,
+      0,
+      0,
+      0
+     ],
+     "with_nrd_factored": "(x - 5)*(x - 1)*x^4"
+    },
+    "o10": {
+     "charpoly_3new_Q": [
+      1,
+      0,
+      5,
+      10,
+      10,
+      -50,
+      25,
+      -450,
+      -725,
+      -2250,
+      625,
+      -6250,
+      6250,
+      31250,
+      78125,
+      0,
+      390625
+     ],
+     "charpoly_3new_Q_factored": "(x^16 + 5*x^14 + 10*x^13 + 10*x^12 - 50*x^11 + 25*x^10 - 450*x^9 - 725*x^8 - 2250*x^7 + 625*x^6 - 6250*x^5 + 6250*x^4 + 31250*x^3 + 78125*x^2 + 390625)",
+     "conductor": 25,
+     "dim_3new": 16,
+     "members": [
+      4,
+      9,
+      14,
+      19
+     ],
+     "orbit_rep": 4,
+     "order": 10
+    },
+    "o2": {
+     "charpoly_3new_Q": [
+      1,
+      0,
+      0,
+      0,
+      0
+     ],
+     "charpoly_3new_Q_factored": "x^4",
+     "conductor": 5,
+     "dim_3new": 4,
+     "members": [
+      24
+     ],
+     "orbit_rep": 24,
+     "order": 2
+    },
+    "o5": {
+     "charpoly_3new_Q": [
+      1,
+      6,
+      26,
+      96,
+      276,
+      680,
+      1445,
+      2670,
+      5030,
+      9700,
+      22900,
+      58500,
+      132625,
+      292500,
+      572500,
+      1212500,
+      3143750,
+      8343750,
+      22578125,
+      53125000,
+      107812500,
+      187500000,
+      253906250,
+      292968750,
+      244140625
+     ],
+     "charpoly_3new_Q_factored": "(x^4 - 5*x^3 + 15*x^2 - 25*x + 25)*(x^8 + 5*x^7 + 20*x^6 + 65*x^5 + 155*x^4 + 325*x^3 + 500*x^2 + 625*x + 625)*(x^12 + 6*x^11 + 16*x^10 + 21*x^9 - 4*x^8 - 100*x^7 - 285*x^6 - 500*x^5 - 100*x^4 + 2625*x^3 + 10000*x^2 + 18750*x + 15625)",
+     "conductor": 25,
+     "dim_3new": 24,
+     "members": [
+      6,
+      11,
+      16,
+      21
+     ],
+     "orbit_rep": 6,
+     "order": 5
+    }
+   },
+   "s": 2,
+   "trace_powers": [
+    0,
+    0,
+    60,
+    740,
+    3730,
+    15780
+   ],
+   "weight": 2
+  }
+ },
+ "provenance": {
+  "commit": "665b9956f717e1e950864668e7290b8a84a3b99a-dirty",
+  "date": "2026-11-14T17:07:04+00:00",
+  "notes": "S01-C6: modular-forms side (U_5 on the 3-new part of S_2(3*5^s, chi), chi even mod 5^s) and its comparison with the S01-C5 Brandt matrices (key brandt_comparison). PARI t = exp(2 pi i/ord chi); common field z = exp(2 pi i/n). Coefficients descending.",
+  "params": {
+   "D": 3,
+   "mfinit_flag": 1,
+   "p": 5,
+   "s": [
+    1,
+    2
+   ],
+   "weight": 2
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 0.291,
+  "script": "code/python/langlandscape/up_mf.py"
+ }
+}

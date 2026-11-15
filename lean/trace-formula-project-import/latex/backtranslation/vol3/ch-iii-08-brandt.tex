@@ -1,0 +1,1217 @@
+% Document B (back-translation), algebraic_jl fork. Filtered copy of parent chapter ch-iii-08-brandt (parent commit 84818d0); kept items only.
+\chapter{Quaternionic forms, Hecke operators and Brandt matrices}\label{ch:ch-iii-08-brandt}
+
+\noindent\emph{Scope:} areas \texttt{qform}, \texttt{brandt}, \texttt{hmod}. \emph{Sources:} \cite[§§1--2, pp.~169--173]{Shz};
+\cite[Def.~2.13, p.~353; Lemma~2.18, p.~356; Prop.~2.22, p.~358]{Piz}; \cite[Ch.~41]{Voi}.
+
+\noindent The items of A appear here in the order of A with the same \texttt{\textbackslash label}. The B-only items (\texttt{[B-only]} flag) are the plumbing that A states inline: the linear substitution
+defining $\rho_m$, the monomial exponent used for coefficients, the quaternion basis of the standard splitting and the class map $x\mapsto[x]$. The area \texttt{hmod} (\texttt{GL2TF.HeckeModule}) is stated for
+arbitrary groups $G,\Gamma$ and used here with $G=\Bhat^\times$. \emph{Conventions of the Lean code} (the same in all items): $a,b$ are integers, $\Bq(a,b)$ is \texttt{QuatAlg ℚ a b}; $\Bhat^\times$ is \texttt{(BHat a b)ˣ}
+and $\Ohat^\times$ is \texttt{orderCompletionUnits O}; $V_m(K)$ is \texttt{symPowerModule K m} and the weight-$k$ coefficient module is \texttt{symPowerModule K (k - 2)}; $M_k(\Oord;s)$ is \texttt{quatForms O s k};
+class representatives are \texttt{Quotient.out c} unless a family \texttt{r} is a binder; $\abs{\Gamma}$ is \texttt{Nat.card} and sums over $X(\Oord)$ are \texttt{finsum}s (junk value $0$ for infinite supports; no \texttt{Fintype}
+instance on the class set is used); ``Eichler data'' means the binders \texttt{O₀ : MaxOrder a b}, \texttt{hD : RamifiedExactly a b D}, \texttt{φ : LevelStructure O₀.1 M} with \texttt{[NeZero M]} and $\Oord=$ \texttt{eichlerOrder φ};
+$a,b<0$ are the explicit binders \texttt{ha}, \texttt{hb} where the statement needs them; $n\ge1$ is an explicit hypothesis \texttt{hn : 0 < n}; $\sigma_1$ is \texttt{ArithmeticFunction.sigma 1}; and $T_n$ is
+\texttt{heckeOperator O n}, defined on all functions $\Bhat^\times\to V$.
+
+%----------------------------------------------------------------------------------------------------
+\section{Coefficient modules}\label{sec:qform-coefficients}
+
+\begin{definition}[Hecke polynomials over a ring]
+\tfstmt{III.qform.def:hecke-polynomial-ring}
+\lean{GL2TF.Quat.heckePolyRing}
+\uses{III.ef.def:hecke-polynomial}
+\end{definition}
+\begin{tfformal}{III.qform.def:hecke-polynomial-ring}
+\tfsem{III.qform.def:hecke-polynomial-ring}{e9fe98f54b3ccbd8587d3a06c3867a75d6fe12cbfb9e69047376de04a7f079df}
+\tfhyps{III.qform.def:hecke-polynomial-ring}{}
+\tfbinder{III.qform.def:hecke-polynomial-ring}{0}{fe5aea28}{the type \texttt{R} (implicit)}
+\tfbinder{III.qform.def:hecke-polynomial-ring}{1}{63738b18}{the commutative ring structure on $R$ (instance)}
+\tfbinder{III.qform.def:hecke-polynomial-ring}{2}{18782426}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.qform.def:hecke-polynomial-ring}{3}{bc80b3dd}{\texttt{t} : \texttt{R} (explicit)}
+\tfbinder{III.qform.def:hecke-polynomial-ring}{4}{4fcf3e1c}{\texttt{n} : \texttt{R} (explicit)}
+\begin{tffidelity}
+Recursion on the degree over an arbitrary commutative ring $R$ with the pattern match $P_0=P_1=0$, $P_2=1$, $P_{k+3}(t,n)=tP_{k+2}(t,n)-nP_{k+1}(t,n)$; this is A's recursion of \cref{III.ef.def:hecke-polynomial} read over $R$ instead of $\Z$. The compatibility with the integer-valued \texttt{GL2TF.Explicit.heckePoly} is the second part of \cref{III.qform.thm:sym-power-trace}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the module $V_m$]
+\tfstmt{III.qform.def:sym-power-module}
+\lean{GL2TF.Quat.symPowerModule}
+\end{definition}
+\begin{tfformal}{III.qform.def:sym-power-module}
+\tfsem{III.qform.def:sym-power-module}{f714deb134e2a84e2de86dab33ae238fcbdcac811f887a623165758b13da58a7}
+\tfhyps{III.qform.def:sym-power-module}{}
+\tfbinder{III.qform.def:sym-power-module}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.def:sym-power-module}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:sym-power-module}{2}{18782426}{a natural number \texttt{m} (explicit)}
+\begin{tffidelity}
+An \texttt{abbrev} for \texttt{MvPolynomial.homogeneousSubmodule (Fin 2) K m}, a \texttt{Submodule K (MvPolynomial (Fin 2) K)}, with $x=X_0$, $y=X_1$ and $K[x,y]=$ \texttt{MvPolynomial (Fin 2) K}. $K$ is any field (no characteristic assumption).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the substitution action]
+\tfstmt{III.qform.def:sym-power-action}
+\lean{GL2TF.Quat.symPowerAction}
+\uses{III.qform.def:linear-substitution,III.qform.def:sym-power-module}
+\end{definition}
+\begin{tfformal}{III.qform.def:sym-power-action}
+\tfsem{III.qform.def:sym-power-action}{0e7e2dd01b2006f247111f2ea60ac577079d71efe0c931878fe870642e2de269}
+\tfhyps{III.qform.def:sym-power-action}{}
+\tfbinder{III.qform.def:sym-power-action}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.def:sym-power-action}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:sym-power-action}{2}{18782426}{a natural number \texttt{m} (explicit)}
+\tfbinder{III.qform.def:sym-power-action}{3}{33c12e79}{\texttt{A} : \texttt{Matrix (Fin 2) (Fin 2) K} (explicit)}
+\begin{tffidelity}
+A $K$-linear endomorphism of the submodule \texttt{symPowerModule K m}, obtained by restricting the substitution homomorphism \texttt{aeval (linSubst A)} (the B-only \cref{III.qform.def:linear-substitution}) to $V_m(K)$; the proof that degrees are preserved sits inside the definition. Matrix entries are \texttt{A i j}: $A_{11}=$ \texttt{A 0 0}, $A_{21}=$ \texttt{A 1 0}, $A_{12}=$ \texttt{A 0 1}, $A_{22}=$ \texttt{A 1 1}, so the substitution is $x\mapsto A_{11}x+A_{21}y$, $y\mapsto A_{12}x+A_{22}y$ (column convention, no determinant twist).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{III.qform.def:linear-substitution}
+\bonly
+\lean{GL2TF.Quat.linSubst}
+\uses{III.qform.def:sym-power-module}
+\end{definition}
+\begin{tfformal}{III.qform.def:linear-substitution}
+\tfsem{III.qform.def:linear-substitution}{3eb7f26afeef285c561db440c659cbbb078bdcc8eee35f7e907e20a453764ce9}
+\tfhyps{III.qform.def:linear-substitution}{}
+\tfbinder{III.qform.def:linear-substitution}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.def:linear-substitution}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:linear-substitution}{2}{5dd267ac}{\texttt{A} : \texttt{Matrix (Fin 2) (Fin 2) K} (explicit)}
+\tfbinder{III.qform.def:linear-substitution}{3}{27502d9a}{\texttt{i} : \texttt{Fin 2} (explicit)}
+\begin{tffidelity}
+B-only plumbing: the function \texttt{Fin 2 → MvPolynomial (Fin 2) K}, \texttt{i} $\mapsto$ \texttt{C (A 0 i) * X 0 + C (A 1 i) * X 1}. The homogeneity statements that make the restriction to $V_m(K)$ well defined are the auxiliary theorems \texttt{linSubst\_isHomogeneous} and \texttt{aeval\_linSubst\_mem} in the Lean file; they carry no tag.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[basic properties of $\rho_m$]
+\tfstmt{III.qform.lem:sym-power-basic}
+\lean{GL2TF.Quat.symPower_basic}
+\uses{III.qform.def:linear-substitution,III.qform.def:sym-power-action,III.qform.def:sym-power-exponent,III.qform.def:sym-power-module}
+\end{lemma}
+\begin{tfformal}{III.qform.lem:sym-power-basic}
+\tfsem{III.qform.lem:sym-power-basic}{9d31f4529b1cfff10bb2f009520ea2a4383c6724aa45374afb926d8a2b511f7c}
+\tfhyps{III.qform.lem:sym-power-basic}{}
+\tfbinder{III.qform.lem:sym-power-basic}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.lem:sym-power-basic}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.lem:sym-power-basic}{2}{18782426}{a natural number \texttt{m} (explicit)}
+\begin{tffidelity}
+One conjunction of six clauses, in the order of A: (a) the basis exists as \texttt{∃ e : Module.Basis (Fin (m+1)) K (symPowerModule K m)} with \texttt{e t = X 0 \^{}(m - t) * X 1 \^{} t}; (b) \texttt{Module.finrank K (symPowerModule K m) = m + 1}; (c) multiplicativity \texttt{symPowerAction K m (A * B) = symPowerAction K m A * symPowerAction K m B}; (d) \texttt{symPowerAction K m 1 = 1}; (e) \texttt{symPowerAction K m (Matrix.scalar (Fin 2) c) = c \^{} m • 1}; (f) \texttt{Even m → symPowerAction K m (-1) = 1}. The exponent $m-t$ is truncated subtraction (harmless for $t\le m$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) \texttt{Basis.mk} on the monomials $u_t$ (linearly independent; a homogeneous polynomial is the sum of its $u_t$-coefficients), packaged as the public \texttt{symPower\_basis\_exists}. The multiplicativity (b) is \texttt{aeval\_linSubst\_mul}; the scalar clause (snippet (c)) is checked on this basis. As in A.
+\end{proof}
+
+\begin{theorem}[the trace of $\rho_m$]
+\tfstmt{III.qform.thm:sym-power-trace}
+\lean{GL2TF.Quat.symPower_trace}
+\uses{III.qform.lem:sym-power-basic,III.qform.def:hecke-polynomial-ring,III.ef.def:hecke-polynomial,III.qform.def:sym-power-action,III.qform.def:sym-power-module,III.qform.def:linear-substitution,III.qform.def:sym-power-exponent}
+\end{theorem}
+\begin{tfformal}{III.qform.thm:sym-power-trace}
+\tfsem{III.qform.thm:sym-power-trace}{2a6857b23672bbcbdf7bbb7b20618d67042a46bc6270b60edb15585afc43893c}
+\tfhyps{III.qform.thm:sym-power-trace}{}
+\tfbinder{III.qform.thm:sym-power-trace}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.thm:sym-power-trace}{1}{de6d288d}{the field structure on $K$ (instance)}
+\begin{tffidelity}
+Two clauses. The first, $\operatorname{tr}\rho_m(A)=P_{m+2}(\operatorname{tr}A,\det A)$, is \texttt{LinearMap.trace K (symPowerModule K m) (symPowerAction K m A) = heckePolyRing (m+2) A.trace A.det}. The second, ``$P_k$ over $K$ is the image of the integer $P_k$'', is stated for all $k\in\N$, $t\in\Z$, $n\in\N$ as \texttt{((heckePoly k t n : ℤ) : K) = heckePolyRing k (t : K) (n : K)}, where $n\in\N$ is cast into $K$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A, in three steps. (1) The trace of $\rho_m(A)$ is the diagonal sum $\sum_t\mathrm{coeff}_{u_t}(\rho_m(A)u_t)$ (\texttt{symPower\_trace\_eq\_sum}), which commutes with the extension $K\to L=\overline K$ (\texttt{symPower\_trace\_sum\_map}). (2) Over $L$ (\texttt{symPower\_trace\_algClosed}): an eigenvector gives $g$ with $T=g^{-1}Ag$ upper triangular ($T_{21}=0$), a triangular coefficient computation (\texttt{coeff\_aeval\_upper}), and the identification of the result with $h_m=P_{m+2}$ (\texttt{sum\_pow\_mul\_pow\_eq\_heckePolyRing}). (3) The recursion uses $h_{m+1}=\alpha h_m+\delta^{m+1}$ (\emph{divergence}: not the ``expand'' step of A).
+\end{proof}
+
+\begin{definition}[the pairing $\beta_m$]
+\tfstmt{III.qform.def:sym-power-pairing}
+\lean{GL2TF.Quat.symPowerPairing}
+\uses{III.qform.def:sym-power-exponent,III.qform.def:sym-power-module}
+\end{definition}
+\begin{tfformal}{III.qform.def:sym-power-pairing}
+\tfsem{III.qform.def:sym-power-pairing}{d0fc4aefbfa733128c9c82b957672f1d7606fe4973b17b7a9ae3e7b3270091ed}
+\tfhyps{III.qform.def:sym-power-pairing}{}
+\tfbinder{III.qform.def:sym-power-pairing}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.def:sym-power-pairing}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:sym-power-pairing}{2}{18782426}{a natural number \texttt{m} (explicit)}
+\begin{tffidelity}
+A bilinear map \texttt{symPowerModule K m →ₗ[K] symPowerModule K m →ₗ[K] K}, the sum over \texttt{s ∈ Finset.range (m+1)} of $(-1)^s/\binom ms$ times the product of the coefficient functionals of $u_s$ and $u_{m-s}$; the coefficient $v_s$ of A is the B-only \cref{III.qform.def:sym-power-exponent} fed into \texttt{MvPolynomial.lcoeff}. For a field $K$ of positive characteristic $\binom ms$ may vanish in $K$ and the division is Lean's junk value; all theorems about $\beta_m$ assume \texttt{CharZero K}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{III.qform.def:sym-power-exponent}
+\bonly
+\lean{GL2TF.Quat.symExp}
+\uses{III.qform.def:sym-power-module}
+\end{definition}
+\begin{tfformal}{III.qform.def:sym-power-exponent}
+\tfsem{III.qform.def:sym-power-exponent}{9e44406ee99206459f4fa69555ace97c31a84b9ec5f84a00f88e8fd64666264d}
+\tfhyps{III.qform.def:sym-power-exponent}{}
+\tfbinder{III.qform.def:sym-power-exponent}{0}{52ee410f}{a natural number \texttt{m} (explicit)}
+\tfbinder{III.qform.def:sym-power-exponent}{1}{818304fd}{a natural number \texttt{t} (explicit)}
+\begin{tffidelity}
+B-only plumbing: the exponent \texttt{Finsupp.single 0 (m - t) + Finsupp.single 1 t} of $u_t=x^{m-t}y^t$ in \texttt{Fin 2 →₀ ℕ}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[adjointness of $\beta_m$]
+\tfstmt{III.qform.lem:sym-power-pairing-adjoint}
+\lean{GL2TF.Quat.symPowerPairing_adjoint}
+\uses{III.qform.def:sym-power-pairing,III.qform.def:sym-power-action,III.qform.def:sym-power-module,III.qform.def:linear-substitution,III.qform.def:sym-power-exponent}
+\end{lemma}
+\begin{tfformal}{III.qform.lem:sym-power-pairing-adjoint}
+\tfsem{III.qform.lem:sym-power-pairing-adjoint}{d38b566c1ff0ee31e499e496bdf10e95bae24dca1d5ab98527cb38a23bb19463}
+\tfhyps{III.qform.lem:sym-power-pairing-adjoint}{}
+\tfbinder{III.qform.lem:sym-power-pairing-adjoint}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.lem:sym-power-pairing-adjoint}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.lem:sym-power-pairing-adjoint}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.lem:sym-power-pairing-adjoint}{3}{f7bc01e4}{a natural number \texttt{m} (explicit)}
+\begin{tffidelity}
+Four clauses with \texttt{CharZero K}: (a) $\beta_m(\rho_m(A)v,w)=\beta_m(v,\rho_m(\operatorname{adj}A)w)$ with \texttt{A.adjugate}; (b) nondegeneracy is \texttt{(symPowerPairing K m).SeparatingLeft}; (c) symmetry for even $m$ (\texttt{Even m → ∀ v w, ... v w = ... w v}); (d) $\beta_m(\rho_m(A)v,\rho_m(A)w)=\det(A)^m\beta_m(v,w)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A's route (not the transvection reduction first planned). Helpers: \texttt{linPow\_expand} and \texttt{symPowerPairing\_linPow} give $\beta_m(\ell_1^m,\ell_2^m)=[\ell_1,\ell_2]^m$ (binomial theorem); \texttt{symPowerAction\_linPow} gives $\rho_m(A)\ell^m=(A\ell)^m$. Spanning (\texttt{linPow\_span}) \emph{diverges from A}: instead of a Vandermonde argument, a functional vanishing on every $(x+ty)^m$ yields a polynomial in $t$ with infinitely many roots, hence zero (\texttt{Polynomial.funext}). Then (a), (c), (d) follow from $2\times2$ determinant identities through a bilinear \texttt{ext} on the spanning set (\texttt{symPowerPairing\_ext}); (b) is checked directly on the basis, $\beta(v,u_{m-t})=\pm\mathrm{coeff}_t(v)/\binom mt$.
+\end{proof}
+
+\begin{definition}[splittings]
+\tfstmt{III.qform.def:splitting}
+\lean{GL2TF.Quat.Splitting}
+\uses{III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qform.def:splitting}
+\tfsem{III.qform.def:splitting}{ddd0e7755703a507113771d8fad24f01f5ff109bd198a02019a18d1194617b5a}
+\tfhyps{III.qform.def:splitting}{}
+\tfbinder{III.qform.def:splitting}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.def:splitting}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:splitting}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.def:splitting}{3}{d4710ca0}{an integer \texttt{a} (explicit)}
+\tfbinder{III.qform.def:splitting}{4}{c62e7f3f}{an integer \texttt{b} (explicit)}
+\begin{tffidelity}
+An \texttt{abbrev} for the type of $\Q$-algebra homomorphisms \texttt{QuatAlg ℚ a b →ₐ[ℚ] Matrix (Fin 2) (Fin 2) K}, with $K$ a field of characteristic $0$ (\texttt{[CharZero K]}). It is data (no Prop field); A's $s\colon\Bq\to\Mat_2(K)$ is one element of this type.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the coefficient representation]
+\tfstmt{III.qform.def:splitting-representation}
+\lean{GL2TF.Quat.splitRep}
+\uses{III.qalg.def:quaternion-algebra,III.qform.def:splitting,III.qform.def:sym-power-action,III.qform.def:sym-power-module}
+\end{definition}
+\begin{tfformal}{III.qform.def:splitting-representation}
+\tfsem{III.qform.def:splitting-representation}{3ff1ba8da2991024c3a8e8233dae48bded02266c21b9ae987772583027cd143b}
+\tfhyps{III.qform.def:splitting-representation}{}
+\tfbinder{III.qform.def:splitting-representation}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.def:splitting-representation}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:splitting-representation}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.def:splitting-representation}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:splitting-representation}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:splitting-representation}{5}{4e9de0df}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.qform.def:splitting-representation}{6}{8188b1fb}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.qform.def:splitting-representation}{7}{9d33d07b}{\texttt{γ} : \texttt{QuatAlg ℚ a b} (explicit)}
+\begin{tffidelity}
+\texttt{symPowerAction K (k - 2) (s γ)} on $V_{k-2}(K)$; $k-2$ is truncated subtraction, so for $k<2$ the module is $V_0(K)$. The theorems that need $k\ge2$ say so.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[norm and trace under a splitting]
+\tfstmt{III.qform.lem:splitting-norm-trace}
+\lean{GL2TF.Quat.splitting_norm_trace}
+\uses{III.qform.def:splitting,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.def:quaternion-algebra}
+\end{lemma}
+\begin{tfformal}{III.qform.lem:splitting-norm-trace}
+\tfsem{III.qform.lem:splitting-norm-trace}{658a1b6e444a6b9495488e05da9779525ac89a5f89fab0e2664cd933f26e7b18}
+\tfhyps{III.qform.lem:splitting-norm-trace}{}
+\tfbinder{III.qform.lem:splitting-norm-trace}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{5}{b01363a1}{the hypothesis \texttt{a ≠ 0} (explicit)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{6}{06e27989}{the hypothesis \texttt{b ≠ 0} (explicit)}
+\tfbinder{III.qform.lem:splitting-norm-trace}{7}{78555287}{the splitting \texttt{s} (explicit)}
+\begin{tffidelity}
+$a,b\neq0$ are explicit hypotheses \texttt{ha}, \texttt{hb}. Four clauses: \texttt{(s x).det = ((nrd x : ℚ) : K)}, \texttt{(s x).trace = ((trd x : ℚ) : K)}, \texttt{s (star x) = (s x).adjugate} (conjugation is \texttt{star}), and \texttt{Function.Injective s}; $\nrd,\operatorname{trd}$ are the $\Q$-valued functions of \texttt{GL2TF.Common.QuaternionNorm}, cast to $K$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence from A: no theory of central simple algebras.} Helpers \texttt{splitting\_trace\_aux}, \texttt{det\_fin\_two\_eq\_trace}. Since $s(u)s(v)^2=c\,s(u)$ with $c\ne0$ for $u,v\in\{i,j,k\}$ distinct and $\mathrm{tr}(s(u)s(v)^2)=\mathrm{tr}(s(v)s(u)s(v))=-\mathrm{tr}(s(u)s(v)^2)$, one gets $\mathrm{tr}\,s(i)=\mathrm{tr}\,s(j)=\mathrm{tr}\,s(k)=0$, hence $\mathrm{tr}\,s(x)=\mathrm{trd}\,x$. The $2\times2$ identity $\det M=(\mathrm{tr}^2M-\mathrm{tr}M^2)/2$ then gives $\det s(x)=\mathrm{nrd}\,x$, and $\mathrm{adj}\,M=\mathrm{tr}M-M$ gives the adjugate clause. Injectivity: $s(x)=0$ forces $\mathrm{trd}(xy)=0$ for $y=1,i,j,k$, so $x=0$ (uses $a,b\ne0$).
+\end{proof}
+
+\begin{definition}[the standard splitting]
+\tfstmt{III.qform.def:standard-splitting}
+\lean{GL2TF.Quat.standardSplitting}
+\uses{III.qform.def:splitting,III.qform.def:standard-splitting-basis}
+\end{definition}
+\begin{tfformal}{III.qform.def:standard-splitting}
+\tfsem{III.qform.def:standard-splitting}{dda816a972a6a3737edc93efd2447b49402137ab515ff86261058a38a5b70506}
+\tfhyps{III.qform.def:standard-splitting}{}
+\tfbinder{III.qform.def:standard-splitting}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.def:standard-splitting}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:standard-splitting}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.def:standard-splitting}{3}{d4710ca0}{an integer \texttt{a} (explicit)}
+\tfbinder{III.qform.def:standard-splitting}{4}{c62e7f3f}{an integer \texttt{b} (explicit)}
+\tfbinder{III.qform.def:standard-splitting}{5}{a6a506ac}{\texttt{s₀} : \texttt{K} (explicit)}
+\tfbinder{III.qform.def:standard-splitting}{6}{7fdfb39c}{the hypothesis \texttt{s₀ \textbackslash{}\^{}\{\} 2 = ↑a} (explicit)}
+\begin{tffidelity}
+Explicit binders \texttt{s₀ : K} and \texttt{hs₀ : s₀ \^{} 2 = (a : K)} (the root $s_0$ of $a$ in $K$). The homomorphism is \texttt{(standardSplittingBasis K a b s₀ hs₀).liftHom}, i.e.\ the algebra homomorphism induced by the quaternion basis of the B-only \cref{III.qform.def:standard-splitting-basis}; $1\mapsto I$, $i\mapsto\operatorname{diag}(s_0,-s_0)$, $j\mapsto\begin{psmallmatrix}0&b\\1&0\end{psmallmatrix}$, $k\mapsto\begin{psmallmatrix}0&bs_0\\-s_0&0\end{psmallmatrix}$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{III.qform.def:standard-splitting-basis}
+\bonly
+\lean{GL2TF.Quat.standardSplittingBasis}
+\uses{III.qform.def:splitting,III.qalg.def:quaternion-algebra}
+\end{definition}
+\begin{tfformal}{III.qform.def:standard-splitting-basis}
+\tfsem{III.qform.def:standard-splitting-basis}{8527ed902efaebd1dae8b03dc26b49a1d549cdbdcf47c3e105a9fdc2c4ffee17}
+\tfhyps{III.qform.def:standard-splitting-basis}{}
+\tfbinder{III.qform.def:standard-splitting-basis}{0}{6b8b0c0f}{the type \texttt{K} (explicit)}
+\tfbinder{III.qform.def:standard-splitting-basis}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:standard-splitting-basis}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.def:standard-splitting-basis}{3}{d4710ca0}{an integer \texttt{a} (explicit)}
+\tfbinder{III.qform.def:standard-splitting-basis}{4}{c62e7f3f}{an integer \texttt{b} (explicit)}
+\tfbinder{III.qform.def:standard-splitting-basis}{5}{a6a506ac}{\texttt{s₀} : \texttt{K} (explicit)}
+\tfbinder{III.qform.def:standard-splitting-basis}{6}{7fdfb39c}{the hypothesis \texttt{s₀ \textbackslash{}\^{}\{\} 2 = ↑a} (explicit)}
+\begin{tffidelity}
+B-only plumbing: a \texttt{QuaternionAlgebra.Basis (Matrix (Fin 2) (Fin 2) K) (a : ℚ) 0 (b : ℚ)} with fields \texttt{i := !![s₀, 0; 0, -s₀]}, \texttt{j := !![0, b; 1, 0]}, \texttt{k := !![0, b * s₀; -s₀, 0]}; the four relations (\texttt{i\_mul\_i}, \texttt{j\_mul\_j}, \texttt{i\_mul\_j}, \texttt{j\_mul\_i}) are proved inside the definition. The parameters $a,b\in\Z$ are cast to $\Q$ for the quaternion algebra $(a,0,b)$ of Mathlib, i.e.\ \texttt{QuatAlg ℚ a b}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the $\ell$-adic splitting]
+\tfstmt{III.qform.def:ell-adic-splitting}
+\lean{GL2TF.Quat.ellAdicSplitting}
+\uses{III.qform.def:splitting,III.qalg.thm:maximal-order-local-split,III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qform.def:ell-adic-splitting}
+\tfsem{III.qform.def:ell-adic-splitting}{a4d383128c9e34e833b368f82b5a0fc1e26c28e95e718a6a4730fe8dcf603496}
+\tfhyps{III.qform.def:ell-adic-splitting}{}
+\tfbinder{III.qform.def:ell-adic-splitting}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:ell-adic-splitting}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:ell-adic-splitting}{2}{48b1c944}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.qform.def:ell-adic-splitting}{3}{22450252}{the maximal order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.def:ell-adic-splitting}{4}{fa8883b8}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.qform.def:ell-adic-splitting}{5}{50bbf40e}{a natural number \texttt{ℓ} (explicit)}
+\tfbinder{III.qform.def:ell-adic-splitting}{6}{847ebe55}{the hypothesis \texttt{Fact (Nat.Prime ℓ)} (instance)}
+\tfbinder{III.qform.def:ell-adic-splitting}{7}{7d6fae1b}{the hypothesis \texttt{¬ℓ ∣ D} (explicit)}
+\begin{tffidelity}
+Binders: a maximal order \texttt{O : MaxOrder a b}, \texttt{hD : RamifiedExactly a b D}, a prime \texttt{ℓ} (\texttt{[Fact ℓ.Prime]}) and \texttt{hℓD : ¬ ℓ ∣ D}. The isomorphism $\iota_\ell\colon\Bq_\ell\simeq\Mat_2(\Q_\ell)$ is not an argument but \texttt{Classical.choose} of \texttt{maximalOrder\_local\_split}; the splitting is its composite with the base change $\Bq\to\Bq_\ell$ (\texttt{baseChange a b (algebraMap ℚ ℚ\_[ℓ])}), turned into a $\Q$-algebra homomorphism by \texttt{RingHom.toRatAlgHom}. Since the choice is not canonical, only properties independent of it are meaningful downstream.
+\end{tffidelity}
+\end{tfformal}
+
+%----------------------------------------------------------------------------------------------------
+\section{Quaternionic forms and the weighted pairing}\label{sec:qform-forms}
+
+\begin{definition}[equivariant functions]
+\tfstmt{X.hmod.def:equivariant-functions}
+\lean{GL2TF.HeckeModule.equivariantFunctions}
+\end{definition}
+\begin{tfformal}{X.hmod.def:equivariant-functions}
+\tfsem{X.hmod.def:equivariant-functions}{4ceee40297e7c22804a6de1b35734ded2db2e429c9f21bf7c5fa914c9dc311ec}
+\tfhyps{X.hmod.def:equivariant-functions}{}
+\tfbinder{X.hmod.def:equivariant-functions}{0}{fe5aea28}{the type \texttt{G} (implicit)}
+\tfbinder{X.hmod.def:equivariant-functions}{1}{371bbfe6}{the group structure on $G$ (instance)}
+\tfbinder{X.hmod.def:equivariant-functions}{2}{d0c93987}{the type \texttt{Γ} (implicit)}
+\tfbinder{X.hmod.def:equivariant-functions}{3}{7bda134c}{the group structure on $Γ$ (instance)}
+\tfbinder{X.hmod.def:equivariant-functions}{4}{01185fdb}{the type \texttt{R} (explicit)}
+\tfbinder{X.hmod.def:equivariant-functions}{5}{76ca8f33}{the commutative ring structure on $R$ (instance)}
+\tfbinder{X.hmod.def:equivariant-functions}{6}{367bd492}{the type \texttt{V} (implicit)}
+\tfbinder{X.hmod.def:equivariant-functions}{7}{8a66a435}{the additive group structure on $V$ (instance)}
+\tfbinder{X.hmod.def:equivariant-functions}{8}{9df617db}{the $R$-module structure on $V$ (instance)}
+\tfbinder{X.hmod.def:equivariant-functions}{9}{96adf6c7}{\texttt{ι} : \texttt{Γ →* G} (explicit)}
+\tfbinder{X.hmod.def:equivariant-functions}{10}{1d0de839}{\texttt{U} : \texttt{Subgroup G} (explicit)}
+\tfbinder{X.hmod.def:equivariant-functions}{11}{c6260ecc}{\texttt{ρ} : \texttt{Γ → Module.End R V} (explicit)}
+\begin{tffidelity}
+Generic in the data $(G,\Gamma,\iota,U,\rho)$: groups $G,\Gamma$, \texttt{ι : Γ →* G}, \texttt{U : Subgroup G}, \texttt{ρ : Γ → Module.End R V} for a commutative ring $R$ and an $R$-module $V$. A \texttt{Submodule R (G → V)} whose carrier is \texttt{∀ γ x u, u ∈ U → f (ι γ * x * u) = ρ γ (f x)}; closure under $0$, $+$ and scalars is proved inside the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[quaternionic forms]
+\tfstmt{III.qform.def:quaternionic-forms}
+\lean{GL2TF.Quat.quatForms}
+\uses{X.hmod.def:equivariant-functions,III.qform.def:splitting-representation,III.qcls.def:order-completion,III.qcls.def:finite-adelic-algebra,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qform.def:splitting,III.qform.def:sym-power-module,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qform.def:quaternionic-forms}
+\tfsem{III.qform.def:quaternionic-forms}{a0750d14c6572468627fef0122c7b67d320977335058af4a10ecefde77cc691f}
+\tfhyps{III.qform.def:quaternionic-forms}{}
+\tfbinder{III.qform.def:quaternionic-forms}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.def:quaternionic-forms}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:quaternionic-forms}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.def:quaternionic-forms}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:quaternionic-forms}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:quaternionic-forms}{5}{9ca4c7bb}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.def:quaternionic-forms}{6}{6a25e8a0}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.qform.def:quaternionic-forms}{7}{c8a3045d}{a natural number \texttt{k} (explicit)}
+\begin{tffidelity}
+Instance of \cref{X.hmod.def:equivariant-functions} with $G=\Bhat^\times$ (\texttt{(BHat a b)ˣ}), $\Gamma=\Bq^\times$ (\texttt{(QuatAlg ℚ a b)ˣ}), \texttt{ι = Units.map (finEmbed a b).toMonoidHom}, $U=\Ohat^\times$ (\texttt{orderCompletionUnits O}) and \texttt{ρ γ = splitRep s k γ}. The ambient module is the function space \texttt{(BHat a b)ˣ → symPowerModule K (k - 2)}; for $k<2$ the coefficients are $V_0(K)$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}
+\tfstmt{III.qform.def:class-of}
+\bonly
+\lean{GL2TF.Quat.classOf}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qform.def:class-of}
+\tfsem{III.qform.def:class-of}{1397195e6a4f6e2b0f94d7a9aebb03e60eca8c073bfc7d27e41d2f432685db00}
+\tfhyps{III.qform.def:class-of}{}
+\tfbinder{III.qform.def:class-of}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:class-of}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:class-of}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.def:class-of}{3}{bc973937}{\texttt{x} : \texttt{(BHat a b)ˣ} (explicit)}
+\begin{tffidelity}
+B-only plumbing: \texttt{DoubleCoset.mk} of the image of \texttt{Units.map (finEmbed a b)} and \texttt{orderCompletionUnits O} at $x$, an element of \texttt{classSet O} (Ch.~III.7).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[decomposition over the class set]
+\tfstmt{III.qform.thm:forms-class-decomposition}
+\lean{GL2TF.Quat.forms_class_decomposition}
+\uses{III.qform.def:quaternionic-forms,III.qcls.def:class-set,III.qcls.def:stabilizer,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion-units,III.qform.def:class-of,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-module,III.qord.def:order,III.qcls.def:finite-adelic-embedding,III.qform.def:sym-power-action,III.qform.lem:sym-power-basic}
+\end{theorem}
+\begin{tfformal}{III.qform.thm:forms-class-decomposition}
+\tfsem{III.qform.thm:forms-class-decomposition}{1e08b770d04f3e26210d6138d3c159984aafdbdbaf8641221ce17b59b04c6544}
+\tfhyps{III.qform.thm:forms-class-decomposition}{}
+\tfbinder{III.qform.thm:forms-class-decomposition}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{5}{9ca4c7bb}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{6}{6a25e8a0}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{7}{c8a3045d}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{8}{e2239d33}{\texttt{r} : \texttt{classSet O → (BHat a b)ˣ} (explicit)}
+\tfbinder{III.qform.thm:forms-class-decomposition}{9}{fccc2052}{the hypothesis \texttt{∀ (c : classSet O), classOf O (r c) = c} (explicit)}
+\begin{tffidelity}
+The family of representatives is the pair \texttt{r : classSet O → (BHat a b)ˣ}, \texttt{hr : ∀ c, classOf O (r c) = c} (with the B-only \cref{III.qform.def:class-of}). Statement: \texttt{∃ e : quatForms O s k ≃ₗ[K] ((c : classSet O) → ↥(⨅ γ : classStabilizer (orderCompletionUnits O) (r c), ker (splitRep s k γ - 1)))} with \texttt{e f c = f (r c)}. The invariants $V^{\rho(\Gamma_{x_c})}$ are the intersection of the kernels of $\rho_k^s(\gamma)-1$ over the stabilizer subgroup of Ch.~III.7; the product over $X(\Oord)$ is a dependent function type (no finiteness is assumed for the isomorphism).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A. Helpers \texttt{splitRep\_mul}, \texttt{splitRep\_one}, \texttt{classOf\_mul}, \texttt{symPowerAction\_of\_eq\_zero}. The map in one direction is evaluation at the representatives $x_c$. The inverse sends $(v_c)_c$ to $y=\iota(\gamma)x_cu\mapsto\rho(\gamma)v_c$, with the decomposition of $y$ chosen by \texttt{Classical.choice}; it is well defined by the $\Gamma_{x_c}$-invariance of $v_c$. The two composites are the identity by the equivariance of the forms.
+\end{proof}
+
+\begin{corollary}[dimensions]
+\tfstmt{III.qform.cor:forms-dimension}
+\lean{GL2TF.Quat.forms_dimension}
+\uses{III.qform.thm:forms-class-decomposition,III.qform.thm:sym-power-trace,III.qform.lem:splitting-norm-trace,III.qcls.thm:class-set-finite,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qform.def:hecke-polynomial-ring,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-module,III.qord.def:order,III.ef.def:hecke-polynomial,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qform.def:class-of,III.qform.def:linear-substitution,III.qform.def:sym-power-action,III.qform.lem:sym-power-basic}
+\end{corollary}
+\begin{tfformal}{III.qform.cor:forms-dimension}
+\tfsem{III.qform.cor:forms-dimension}{69992fe7801b0359000c389dc8f2d5eb95bdca654fe4441407945fbe628c8ed4}
+\tfhyps{III.qform.cor:forms-dimension}{}
+\tfbinder{III.qform.cor:forms-dimension}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.cor:forms-dimension}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.cor:forms-dimension}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.cor:forms-dimension}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.cor:forms-dimension}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.cor:forms-dimension}{5}{956a4b60}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.qform.cor:forms-dimension}{6}{dcdc2c70}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.qform.cor:forms-dimension}{7}{13d2f841}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.cor:forms-dimension}{8}{903d915f}{the splitting \texttt{s} (explicit)}
+\begin{tffidelity}
+$a<0$, $b<0$ are explicit hypotheses \texttt{ha}, \texttt{hb}. Three clauses: (a) \texttt{∀ k, FiniteDimensional K (quatForms O s k)}; (b) for $k\ge2$ and every finite subgroup $\Gamma\le\Bq^\times$ all of whose elements have reduced norm $1$ (\texttt{Finite Γ}, \texttt{nrd γ = 1}), \texttt{(Nat.card Γ : K) * (finrank K ↥(⨅ γ : Γ, ker (splitRep s k γ - 1)) : K) = ∑ᶠ γ : Γ, heckePolyRing k (trd γ) 1}; (c) \texttt{finrank K (quatForms O s 2) = Nat.card (classSet O)}. $\abs{\Gamma}$ is \texttt{Nat.card} and $\sum$ is \texttt{finsum}; both junk values ($0$) occur only for infinite sets, excluded by the hypotheses and by finiteness of $X(\Oord)$ (Ch.~III.7). The dimensions are cast to $K$ in (b).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) and (c) from \texttt{forms\_class\_decomposition} and finiteness of the class set. (b) \emph{does not use Mathlib's \texttt{Representation} API}: the averaging operator $\pi=|\Gamma|^{-1}\sum_\gamma\rho(\gamma)$ is shown to be a projection onto $V^\Gamma$ (\texttt{LinearMap.IsProj}), then \texttt{IsProj.trace} gives $\dim V^\Gamma=|\Gamma|^{-1}\sum_\gamma\mathrm{tr}\,\rho(\gamma)$, and $\mathrm{tr}\,\rho(\gamma)=P_k(\mathrm{trd}\,\gamma,1)$ comes from \texttt{symPower\_trace} and \texttt{splitting\_norm\_trace}.
+\end{proof}
+
+\begin{definition}[the constant form]
+\tfstmt{III.qform.def:constant-form}
+\lean{GL2TF.Quat.constantForm}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion-units,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-module,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qform.def:constant-form}
+\tfsem{III.qform.def:constant-form}{f3d902fb2c2700debfca4629733b051997fdbd1f9f64e873ee99c545345cee97}
+\tfhyps{III.qform.def:constant-form}{}
+\tfbinder{III.qform.def:constant-form}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.def:constant-form}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:constant-form}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.def:constant-form}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:constant-form}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:constant-form}{5}{9ca4c7bb}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.def:constant-form}{6}{6a25e8a0}{the splitting \texttt{s} (explicit)}
+\begin{tffidelity}
+An element of \texttt{quatForms O s 2}, the function \texttt{fun \_ => ⟨1, isHomogeneous\_one⟩} with values in $V_{2-2}(K)=V_0(K)$; the equivariance proof sits inside the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{definition}[the norm weight]
+\tfstmt{III.qform.def:norm-weight}
+\lean{GL2TF.Quat.normWeight}
+\uses{III.qcls.def:finite-adelic-algebra,III.qalg.def:reduced-norm,I.adele.def:idele-norm,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra-ring}
+\end{definition}
+\begin{tfformal}{III.qform.def:norm-weight}
+\tfsem{III.qform.def:norm-weight}{9ac9c7bdef34acc5a3c14261359e536222ea9838715f9085672c09451403fec4}
+\tfhyps{III.qform.def:norm-weight}{}
+\tfbinder{III.qform.def:norm-weight}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:norm-weight}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:norm-weight}{2}{0c284a0e}{\texttt{x} : \texttt{(BHat a b)ˣ} (explicit)}
+\begin{tffidelity}
+$\mathbb Q$-valued: \texttt{∏ᶠ p : Nat.Primes, (p : ℚ) \^{} (-(Padic.valuation (nrd (x\_p))))} (a \texttt{finprod}, junk value $1$ never reached for units since almost all $\nrd(x)_p$ are $p$-adic units), where $x_p$ is the $p$-component of $x$ (\texttt{RestrictedProduct.evalRingHom}) and \texttt{Padic.valuation} gives $v_p$. This is A's $\|\nrd x\|_{\A_f}=\prod_p|\nrd(x)_p|_p$ with $|y|_p=p^{-v_p(y)}$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[transformation of the norm weight]
+\tfstmt{III.qform.lem:norm-weight-transform}
+\lean{GL2TF.Quat.normWeight_transform}
+\uses{III.qform.def:norm-weight,III.qcls.def:order-completion,III.qalg.lem:reduced-norm-definite,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qord.def:order,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-inf-fin,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.adele.lem:zhat-units-explicit,I.adele.thm:product-formula,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra-algebra,III.qord.lem:order-integral}
+\end{lemma}
+\begin{tfformal}{III.qform.lem:norm-weight-transform}
+\tfsem{III.qform.lem:norm-weight-transform}{97068496dad59a511a046e10fb51286de57a67fbb56f7f52d257e759b43ee0d8}
+\tfhyps{III.qform.lem:norm-weight-transform}{}
+\tfbinder{III.qform.lem:norm-weight-transform}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.lem:norm-weight-transform}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.lem:norm-weight-transform}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\begin{tffidelity}
+Four clauses with the order $\Oord$ as the only binder: positivity, multiplicativity, \texttt{∀ u ∈ orderCompletionUnits O, normWeight u = 1}, and the transformation law \texttt{a < 0 → b < 0 → ∀ γ x u, u ∈ orderCompletionUnits O → normWeight (ι γ * x * u) = (nrd γ)⁻¹ * normWeight x}; here $a<0$, $b<0$ are implications inside the conjunction, not binders of the theorem (the first three clauses hold for all $a,b$), and $\nrd(\gamma)^{-1}$ is in $\Q$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A, packaged through Vol~I. Helper \texttt{normWeight\_eq\_ideleNorm}: $(\nu(x):\R)=\mathrm{ideleNorm}(1,\mathrm{nrd}\,x)$ (\texttt{Padic.norm\_eq\_zpow\_neg\_valuation}; the cast commutes with \texttt{finprod} by injectivity), so multiplicativity is that of \texttt{ideleNorm}. For $\nu(u)=1$ one shows $\mathrm{nrd}\,u,\mathrm{nrd}\,u^{-1}\in\widehat{\mathbb Z}$ (A's argument: $\hat O$ is closed under conjugation by span induction from \texttt{star\_mem\_order}, $\mathrm{trd}(\hat O)\subseteq\widehat{\mathbb Z}$, and $\mathrm{nrd}(x+y)=\mathrm{nrd}\,x+\mathrm{nrd}\,y+\mathrm{trd}(x\bar y)$; helpers \texttt{nrd\_mem\_zhat\_of\_mem\_completion}, \texttt{star\_mem\_completion}), then \texttt{ideleNorm\_ideleInfFin}. Finally $\nu(\iota(\gamma))=\mathrm{nrd}(\gamma)^{-1}$ from \texttt{product\_formula} via $(q,q)=(q,1)(1,q)$ and $\mathrm{nrd}\,\gamma>0$.
+\end{proof}
+
+\begin{definition}[the norm-weighted pairing]
+\tfstmt{III.qform.def:weighted-pairing}
+\lean{GL2TF.Quat.weightedPairing}
+\uses{III.qform.def:norm-weight,III.qform.def:sym-power-pairing,III.qcls.def:class-set,III.qcls.def:stabilizer,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qform.def:sym-power-module,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.qform.def:weighted-pairing}
+\tfsem{III.qform.def:weighted-pairing}{b120a1963fb56965872a0472e79722aebe2a23f4c221cad670ac3176682afdcc}
+\tfhyps{III.qform.def:weighted-pairing}{}
+\tfbinder{III.qform.def:weighted-pairing}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.def:weighted-pairing}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.def:weighted-pairing}{2}{399ffcae}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.def:weighted-pairing}{3}{e9199ffe}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.def:weighted-pairing}{4}{be202997}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.def:weighted-pairing}{5}{50bbf40e}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.qform.def:weighted-pairing}{6}{01bbedc3}{\texttt{f} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\tfbinder{III.qform.def:weighted-pairing}{7}{07ef7413}{\texttt{g} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\begin{tffidelity}
+Defined for \emph{all} functions $f,g\colon\Bhat^\times\to V_{k-2}(K)$ (not only forms), over any field $K$: \texttt{∑ᶠ c : classSet O, (Nat.card (classStabilizer ...(out c)) : K)⁻¹ * ((normWeight (out c) : ℚ) : K) \^{} (k - 2) * symPowerPairing K (k - 2) (f (out c)) (g (out c))}, with the representatives $x_c=$ \texttt{Quotient.out c} (fixed choice, as in \texttt{mass}); independence of the representatives is the first clause of \cref{III.qform.lem:weighted-pairing-well-defined}.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[the pairing is well defined]
+\tfstmt{III.qform.lem:weighted-pairing-well-defined}
+\lean{GL2TF.Quat.weightedPairing_well_defined}
+\uses{III.qform.def:weighted-pairing,III.qform.def:quaternionic-forms,III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qform.def:class-of,III.qform.def:norm-weight,III.qform.def:splitting,III.qform.def:sym-power-module,III.qform.def:sym-power-pairing,III.qord.def:order,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-definite,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.lem:stabilizer-units,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.lem:norm-weight-transform,III.qform.lem:splitting-norm-trace,III.qform.lem:sym-power-basic,III.qform.lem:sym-power-pairing-adjoint,III.qform.thm:forms-class-decomposition,III.qord.def:unit-group}
+\end{lemma}
+\begin{tfformal}{III.qform.lem:weighted-pairing-well-defined}
+\tfsem{III.qform.lem:weighted-pairing-well-defined}{16fb500c59c15b85505be8e1b4e3b29bce0ef50b97d904252908c491f8dab71a}
+\tfhyps{III.qform.lem:weighted-pairing-well-defined}{}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{5}{956a4b60}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{6}{dcdc2c70}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{7}{13d2f841}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{8}{903d915f}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.qform.lem:weighted-pairing-well-defined}{9}{1693a918}{a natural number \texttt{k} (explicit)}
+\begin{tffidelity}
+$a<0$, $b<0$ are explicit hypotheses. Three clauses, each for $f,g\in M_k(\Oord;s)$ (\texttt{∈ quatForms O s k}): (a) for every \texttt{r} with \texttt{classOf O (r c) = c}, \texttt{weightedPairing O k f g} equals the same finsum with \texttt{r c} in place of \texttt{Quotient.out c}; (b) symmetry for \texttt{Even k}; (c) nondegeneracy: \texttt{(∀ g, weightedPairing O k f g = 0) → f = 0}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) and (b) as A. (c) \emph{small divergence}: with the unnormalised sum $\Pi w=\sum_{\gamma\in\Gamma}\rho(\gamma)w$ one has $\beta(v,\rho(\gamma)w)=\mathrm{nrd}(\gamma)^{k-2}\beta(v,w)$ for $\Gamma$-invariant $v$ (because $\mathrm{adj}\,s(\gamma)=\mathrm{nrd}(\gamma)s(\gamma^{-1})$; helper \texttt{weightedPairing\_term\_eq}), so $\beta(v,\Pi w)=\bigl(\sum_\gamma\mathrm{nrd}(\gamma)^{k-2}\bigr)\beta(v,w)$ with a positive rational factor. This needs only $\mathrm{nrd}\,\gamma>0$ (\texttt{nrd\_definite}), not $\mathrm{nrd}\,\gamma=1$ (\texttt{III.qord.thm:units-finite}) as in A. Non-degeneracy on invariants is \texttt{pairing\_invariant\_nondeg}. The test form is \texttt{e.symm (Pi.single c ⟨w,\_⟩)} for $\Gamma$-invariant $w$, from \texttt{forms\_class\_decomposition} with $r=$ \texttt{Quotient.out}.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{Hecke operators}\label{sec:brandt-hecke}
+
+\begin{definition}[the action of the Hecke algebra]
+\tfstmt{X.hmod.def:hecke-module-action}
+\lean{GL2TF.HeckeModule.heckeAct}
+\end{definition}
+\begin{tfformal}{X.hmod.def:hecke-module-action}
+\tfsem{X.hmod.def:hecke-module-action}{1c1d87dfb97ec5a5c865e604bac04c6c5a23935e47f280c7f7b06c9ebeb4241e}
+\tfhyps{X.hmod.def:hecke-module-action}{}
+\tfbinder{X.hmod.def:hecke-module-action}{0}{fe5aea28}{the type \texttt{G} (implicit)}
+\tfbinder{X.hmod.def:hecke-module-action}{1}{371bbfe6}{the group structure on $G$ (instance)}
+\tfbinder{X.hmod.def:hecke-module-action}{2}{20badcf5}{\texttt{U} : \texttt{Subgroup G} (implicit)}
+\tfbinder{X.hmod.def:hecke-module-action}{3}{505c82fd}{the type \texttt{R₀} (implicit)}
+\tfbinder{X.hmod.def:hecke-module-action}{4}{246027a0}{the commutative ring structure on $R₀$ (instance)}
+\tfbinder{X.hmod.def:hecke-module-action}{5}{5c226720}{the type \texttt{V} (implicit)}
+\tfbinder{X.hmod.def:hecke-module-action}{6}{d7af2bde}{the additive group structure on $V$ (instance)}
+\tfbinder{X.hmod.def:hecke-module-action}{7}{6281eef1}{the $R₀$-module structure on $V$ (instance)}
+\tfbinder{X.hmod.def:hecke-module-action}{8}{52f91fbf}{\texttt{φ} : \texttt{G → R₀} (explicit)}
+\tfbinder{X.hmod.def:hecke-module-action}{9}{b63d3c4c}{\texttt{f} : \texttt{G → V} (explicit)}
+\tfbinder{X.hmod.def:hecke-module-action}{10}{9ce69020}{\texttt{x} : \texttt{G} (explicit)}
+\begin{tffidelity}
+Generic: $U$ is the implicit subgroup \texttt{U : Subgroup G}, $\varphi$ a function \texttt{G → R₀} (not necessarily a Hecke function) and $f$ a function \texttt{G → V}; the value at $x$ is \texttt{∑ᶠ c : G ⧸ U, φ (Quotient.out c) • f (x * Quotient.out c)}, a \texttt{finsum} over the coset space with the representatives \texttt{Quotient.out}. For a Hecke function this sum is finite and independent of the representatives; for a general $\varphi$ the \texttt{finsum} takes junk value $0$ if its support is infinite.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[module laws]
+\tfstmt{X.hmod.thm:hecke-module-action}
+\lean{GL2TF.HeckeModule.heckeAct_module}
+\uses{X.hmod.def:hecke-module-action,X.hmod.def:equivariant-functions,X.hpair.def:hecke-algebra,X.hpair.def:mul-instance,X.hpair.def:one-instance,X.hpair.def:conv,X.hpair.def:conv-term,X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{X.hmod.thm:hecke-module-action}
+\tfsem{X.hmod.thm:hecke-module-action}{2d07a85ad02ded93002f68318224bd3b2b5c79c2f10fe164287d21afcc15aa69}
+\tfhyps{X.hmod.thm:hecke-module-action}{}
+\tfbinder{X.hmod.thm:hecke-module-action}{0}{fe5aea28}{the type \texttt{G} (implicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{1}{371bbfe6}{the group structure on $G$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{2}{d0c93987}{the type \texttt{Γ} (implicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{3}{7bda134c}{the group structure on $Γ$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{4}{01185fdb}{the type \texttt{R} (explicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{5}{76ca8f33}{the commutative ring structure on $R$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{6}{367bd492}{the type \texttt{R₀} (implicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{7}{baa381dd}{the commutative ring structure on $R₀$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{8}{3942ec14}{the type \texttt{V} (implicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{9}{28d1b382}{the additive group structure on $V$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{10}{a06ff8f7}{the $R$-module structure on $V$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{11}{b260f3a8}{the $R₀$-module structure on $V$ (instance)}
+\tfbinder{X.hmod.thm:hecke-module-action}{12}{970683f4}{\texttt{ι} : \texttt{Γ →* G} (explicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{13}{89ef295f}{\texttt{U} : \texttt{Subgroup G} (explicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{14}{e9cc0743}{\texttt{ρ} : \texttt{Γ → Module.End R V} (explicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{15}{60b1ffc7}{the hypothesis \texttt{ρ 1 = 1} (explicit)}
+\tfbinder{X.hmod.thm:hecke-module-action}{16}{e5549c82}{the hypothesis \texttt{∀ (γ : Γ) (r : R₀) (v : V), (ρ γ) (r • v) = r • (ρ γ) v} (explicit)}
+\begin{tffidelity}
+Binders: $\iota$, $U$, $\rho$ and the two hypotheses \texttt{hρ1 : ρ 1 = 1} and \texttt{hρ : ∀ γ r v, ρ γ (r • v) = r • ρ γ v} (A: ``$\rho(1)=1$ and $\rho(\gamma)$ commutes with $R_0$''). Five clauses for Hecke functions \texttt{φ : HeckePair.HeckeAlgebra U R₀} (the vendored Hecke algebra, coerced to \texttt{G → R₀}) and \texttt{f ∈ equivariantFunctions R ι U ρ}: (a) stability of the equivariant functions; (b) $1\cdot f=f$; (c) $(\varphi_1*\varphi_2)\cdot f=\varphi_1\cdot(\varphi_2\cdot f)$; (d) additivity and $R_0$-homogeneity in $\varphi$; (e) additivity in $f$ (for equivariant $f,g$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A; the coset sums follow the Vol~I proofs for \texttt{sphericalHeckeAction}. Helpers \texttt{coset\_apply\_out\_eq\_of\_mul\_right}, \texttt{coset\_finsum\_translate}, \texttt{heckeAct\_support\_finite}, \texttt{heckeAct\_mul\_right}, \texttt{heckeAct\_one'}, \texttt{heckeAct\_mul'}. Right $U$-invariance of $f$ comes from equivariance at $\gamma=1$ with $\rho(1)=1$.
+\end{proof}
+
+\begin{definition}[elements of norm $n$]
+\tfstmt{III.brandt.def:norm-n-set}
+\lean{GL2TF.Quat.normNSet}
+\uses{III.qcls.def:order-completion,III.qalg.def:reduced-norm,I.adele.def:zhat,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.brandt.def:norm-n-set}
+\tfsem{III.brandt.def:norm-n-set}{11b47172ef7c005440aa277e33270880cd0fe095f9ab6cf3a3a28847f7a62e4c}
+\tfhyps{III.brandt.def:norm-n-set}{}
+\tfbinder{III.brandt.def:norm-n-set}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.def:norm-n-set}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.def:norm-n-set}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.def:norm-n-set}{3}{f7bc01e4}{a natural number \texttt{n} (explicit)}
+\begin{tffidelity}
+A \texttt{Set (BHat a b)ˣ}: units $y$ whose image in $\Bhat$ lies in the completion of the order (\texttt{latticeCompletion (Subalgebra.toSubmodule O.toSubalgebra)}) and for which \texttt{∃ u : Zhatˣ, nrd y = n * u} with $n$ and $u$ cast into \texttt{FinAdele}; defined for every order and every $n\in\N$ ($n=0$ gives the empty set).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[basic properties of $\Ohat_n$]
+\tfstmt{III.brandt.lem:norm-n-set-basic}
+\lean{GL2TF.Quat.normNSet_basic}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:norm-n-set,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qord.def:order,III.qord.lem:order-integral,X.hpair.def:is-hecke-fun}
+\end{lemma}
+\begin{tfformal}{III.brandt.lem:norm-n-set-basic}
+\tfsem{III.brandt.lem:norm-n-set-basic}{f5904a5a5862306bf232e381eed96676af20aa55549935fddd4d2b2246261efd}
+\tfhyps{III.brandt.lem:norm-n-set-basic}{}
+\tfbinder{III.brandt.lem:norm-n-set-basic}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.lem:norm-n-set-basic}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.lem:norm-n-set-basic}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-basic}{3}{f7bc01e4}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-basic}{4}{9c0e3cfb}{the hypothesis \texttt{0 < n} (explicit)}
+\begin{tffidelity}
+$n\ge1$ is an explicit hypothesis. Five clauses: (a) \texttt{u * y * v ∈ normNSet O n} for $u,v\in\Ohat^\times$; (b) the conjugate: \texttt{∃ y' ∈ normNSet O n, (y' : QuatAlg FinAdele a b) = star y}; (c) \texttt{normNSet O 1 = orderCompletionUnits O}; (d) the image in \texttt{(BHat a b)ˣ ⧸ orderCompletionUnits O} is finite; (e) for every commutative ring $R_0$ (\texttt{R₀ : Type}) the indicator of $\Ohat_n$ is \texttt{HeckePair.IsHeckeFun}, i.e.\ $\mathbf1_{\Ohat_n}\in\mathcal H(\Bhat^\times,\Ohat^\times;R_0)$ in the sense of the vendored Hecke algebra.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a)--(c) as A. (d) \emph{by an elementary route, no compactness}: for $y,y'\in\hat O_n$ with $n^{-1}(y'-y)\in\hat O$ one has $y\hat O^\times=y'\hat O^\times$, since $y^{-1}y'=1+(ny^{-1})\,n^{-1}(y'-y)$ and $ny^{-1}=\bar y u^{-1}\in\hat O$. The residues modulo $n\hat O$ are covered by the finitely many $\sum m_iF_i$, $m\in(\mathrm{Fin}\,n)^4$, $F$ a $\widehat{\mathbb Z}$-basis of $\hat O$, using $\widehat{\mathbb Z}=\mathbb Z+n\widehat{\mathbb Z}$ (\texttt{nn\_zhat\_residue}, \texttt{nn\_coset\_eq}).
+\end{proof}
+
+\begin{definition}[Hecke operators]
+\tfstmt{III.brandt.def:hecke-operator}
+\lean{GL2TF.Quat.heckeOperator}
+\uses{III.brandt.def:norm-n-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion-units,III.qord.def:order,X.hmod.def:hecke-module-action}
+\end{definition}
+\begin{tfformal}{III.brandt.def:hecke-operator}
+\tfsem{III.brandt.def:hecke-operator}{36f7620134927184fa0db17d97bf6477f0db6dc7e9f69cf252e8eff6d65403a4}
+\tfhyps{III.brandt.def:hecke-operator}{}
+\tfbinder{III.brandt.def:hecke-operator}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.def:hecke-operator}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.def:hecke-operator}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.def:hecke-operator}{3}{f7bc01e4}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.def:hecke-operator}{4}{499ca431}{the type \texttt{V} (implicit)}
+\tfbinder{III.brandt.def:hecke-operator}{5}{57c39d6d}{the additive group structure on $V$ (instance)}
+\tfbinder{III.brandt.def:hecke-operator}{6}{de8b6061}{\texttt{f} : \texttt{(BHat a b)ˣ → V} (explicit)}
+\tfbinder{III.brandt.def:hecke-operator}{7}{6332aeae}{\texttt{x} : \texttt{(BHat a b)ˣ} (explicit)}
+\begin{tffidelity}
+Defined on all functions $f\colon\Bhat^\times\to V$ for any abelian group $V$ (no splitting, no form condition): \texttt{heckeAct (U := orderCompletionUnits O) ((normNSet O n).indicator (1 : (BHat a b)ˣ → ℤ)) f}, the action of \cref{X.hmod.def:hecke-module-action} with the $\Z$-valued indicator of $\Ohat_n$. That $T_n$ preserves $M_k(\Oord;s)$ is part of the theorems, not of the definition.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{lemma}[matrix formula]
+\tfstmt{III.brandt.lem:hecke-matrix-formula}
+\lean{GL2TF.Quat.hecke_matrix_formula}
+\uses{III.brandt.def:hecke-operator,III.qform.def:quaternionic-forms,III.qcls.def:stabilizer,III.brandt.def:norm-n-set,III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qform.def:class-of,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-module,III.qord.def:order,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.lem:norm-n-set-basic,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:order-completion,III.qcls.lem:stabilizer-units,III.qord.def:unit-group,X.hmod.def:hecke-module-action,X.hpair.def:is-hecke-fun}
+\end{lemma}
+\begin{tfformal}{III.brandt.lem:hecke-matrix-formula}
+\tfsem{III.brandt.lem:hecke-matrix-formula}{f0e97eb6940231ed69677f6d38adffd942c5355590db60be7e8072fefd6b5a54}
+\tfhyps{III.brandt.lem:hecke-matrix-formula}{}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{5}{956a4b60}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{6}{dcdc2c70}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{7}{13d2f841}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{8}{903d915f}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{9}{1693a918}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{10}{92f2edd4}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{11}{290f6a46}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{12}{45d18667}{\texttt{r} : \texttt{classSet O → (BHat a b)ˣ} (explicit)}
+\tfbinder{III.brandt.lem:hecke-matrix-formula}{13}{5bf1389d}{the hypothesis \texttt{∀ (c : classSet O), classOf O (r c) = c} (explicit)}
+\begin{tffidelity}
+$a,b<0$, $n\ge1$ and the representatives \texttt{r}, \texttt{hr} are binders. The set $S_{cc'}(n)$ is written inline as \texttt{\{γ | (r c)⁻¹ * ι γ * r c' ∈ normNSet O n\}} (units of $\Bq$). Clause 1: finiteness of this set and stability under right multiplication by \texttt{classStabilizer ... (r c')}; clause 2: for every form \texttt{f} and class \texttt{c}, \texttt{heckeOperator O n f (r c) = ∑ᶠ c', (Nat.card (classStabilizer ...(r c')) : K)⁻¹ • ∑ᶠ γ (\_ : γ ∈ S(n)), splitRep s k γ (f (r c'))}. Nested \texttt{finsum}s, with junk value $0$ if a support is infinite (excluded by clause 1 and by finiteness of $X(\Oord)$).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The map $\gamma\mapsto(x_c^{-1}\iota(\gamma)x_{c'})\hat O^\times$ sends $S_{cc'}(n)$ onto the cosets of $\hat O_n$ lying in the class $c'$, and each fibre is a coset $\gamma_0\Gamma_{x_{c'}}$. \emph{Divergence from A:} the finiteness of $S_{cc'}(n)$ is read off from this fibre structure, not from a norm bound.
+\end{proof}
+
+\begin{lemma}[factorisation of $\Ohat_{mn}$]
+\tfstmt{III.brandt.lem:norm-n-set-product}
+\lean{GL2TF.Quat.normNSet_product}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qord.def:order,III.qord.lem:order-integral,X.hpair.def:is-hecke-fun}
+\end{lemma}
+\begin{tfformal}{III.brandt.lem:norm-n-set-product}
+\tfsem{III.brandt.lem:norm-n-set-product}{6e38d6e56f097ae37208bf0e3778037c69b50c7da9a835e41c43d361fa43e36d}
+\tfhyps{III.brandt.lem:norm-n-set-product}{}
+\tfbinder{III.brandt.lem:norm-n-set-product}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{3}{f7bc01e4}{a natural number \texttt{m} (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{4}{d38ae446}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{5}{de617859}{the hypothesis \texttt{0 < m} (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{6}{23fda4e8}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.lem:norm-n-set-product}{7}{a1096915}{\texttt{hmn} : \texttt{m.Coprime n} (explicit)}
+\begin{tffidelity}
+Coprimality and $m,n\ge1$ are explicit hypotheses \texttt{hmn : Nat.Coprime m n}. Four clauses: (a) $\Ohat_m\Ohat_n\subseteq\Ohat_{mn}$; (b) every $w\in\Ohat_{mn}$ is a product $yz$ with $y\in\Ohat_m$, $z\in\Ohat_n$; (c) if $yz$ and $y'z'$ define the same coset in \texttt{(BHat a b)ˣ ⧸ orderCompletionUnits O}, so do $y$ and $y'$ (nothing is claimed about $z,z'$); (d) \texttt{Nat.card (QuotientGroup.mk '' normNSet O (m * n)) = Nat.card (QuotientGroup.mk '' normNSet O m) * Nat.card (QuotientGroup.mk '' normNSet O n)}, the images being subsets of \texttt{(BHat a b)ˣ ⧸ orderCompletionUnits O}: A's $\abs{\Ohat_n/\Ohat^\times}$ is the number of cosets $y\Ohat^\times$ contained in $\Ohat_n$, which is the cardinality of the image of $\Ohat_n$ in the quotient (as $\Ohat_n$ is right $\Ohat^\times$-stable). \texttt{Nat.card} has junk value $0$ on infinite sets; all three sets are finite (\cref{III.brandt.lem:norm-n-set-basic}), and (d) holds even without that. Lean states no map between the coset sets.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A's $w^{(S)}$ argument in idempotent form. The idempotent $e=1_{p\mid m}\in\widehat{\mathbb Z}$ (\texttt{nn\_idem}) splits $\hat B$. (b) $w=(ew+1-e)(e+(1-e)w)$ (helpers \texttt{nn\_mixs}, \texttt{nn\_mix\_mul}, \texttt{nn\_mix\_smul}, \texttt{nn\_mixU}, \texttt{nn\_mix\_mem}). (c) $ez'^{-1}\in\hat O$ and $(1-e)y^{-1}\in\hat O$. (d) is the bijection $w\hat O^\times\mapsto\bigl((ew+1-e)\hat O^\times,(e+(1-e)w)\hat O^\times\bigr)$ with inverse $(y,z)\mapsto ey+(1-e)z$.
+\end{proof}
+
+\begin{theorem}[multiplicativity]
+\tfstmt{III.brandt.thm:hecke-multiplicative}
+\lean{GL2TF.Quat.hecke_multiplicative}
+\uses{III.brandt.lem:norm-n-set-product,III.brandt.def:hecke-operator,X.hmod.thm:hecke-module-action,III.brandt.def:norm-n-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:order-completion-units,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:sym-power-module,III.qord.def:order,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.brandt.lem:norm-n-set-basic,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-embedding,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.lem:sym-power-basic,X.hmod.def:equivariant-functions,X.hmod.def:hecke-module-action,X.hpair.def:conv-term,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-multiplicative}
+\tfsem{III.brandt.thm:hecke-multiplicative}{009dad91897b64387700fa1086ffafd4803a16fd8a60ebd79a48c1d5408d6009}
+\tfhyps{III.brandt.thm:hecke-multiplicative}{}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{5}{9ca4c7bb}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{6}{6a25e8a0}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{7}{c8a3045d}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{8}{d71f0cc6}{a natural number \texttt{m} (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{9}{1693a918}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{10}{bc4dc5d2}{the hypothesis \texttt{0 < m} (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{11}{f6222e67}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-multiplicative}{12}{7840c02f}{\texttt{hmn} : \texttt{m.Coprime n} (explicit)}
+\begin{tffidelity}
+For every order, field $K$ and splitting; $m,n\ge1$ and coprimality are explicit. Clause 1: there exist proofs \texttt{h₁ h₂ h₃} that the three indicators are \texttt{IsHeckeFun} such that the product of the elements of the vendored \texttt{HeckePair.HeckeAlgebra (orderCompletionUnits O) ℤ} is $\mathbf1_{\Ohat_{mn}}$ (A: $\mathbf 1_{\Ohat_m}*\mathbf 1_{\Ohat_n}=\mathbf 1_{\Ohat_{mn}}$ in $\mathcal H(\Bhat^\times,\Ohat^\times;\Z)$); clause 2: $T_mT_n=T_{mn}=T_nT_m$ on every form $f\in M_k(\Oord;s)$, with \texttt{heckeOperator} on the ambient function space.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The convolution $c_{\hat O_m}*c_{\hat O_n}$ has exactly one nonzero term by \texttt{normNSet\_product} (b), (c), and no terms off $\hat O_{mn}$ by (a). The operator identity then follows from \texttt{heckeAct\_module}.
+\end{proof}
+
+\begin{definition}[the one-place embedding]
+\tfstmt{III.brandt.def:local-hecke-embedding}
+\lean{GL2TF.Quat.localHeckeEmbedding}
+\uses{III.qalg.thm:maximal-order-local-split,III.qord.def:eichler-order,III.qalg.def:local-order,I.satake.def:spherical-hecke-algebra,I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.brandt.def:local-hecke-embedding}
+\tfsem{III.brandt.def:local-hecke-embedding}{900bcfadb38326f99692f1ddc75219ca5d16ed9e0aa33a9852c808c486fce807}
+\tfhyps{III.brandt.def:local-hecke-embedding}{}
+\tfbinder{III.brandt.def:local-hecke-embedding}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{2}{48b1c944}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{3}{97b94027}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{4}{7d8a64c1}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{5}{576b3644}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{6}{0c477b4f}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{7}{fc5db746}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{8}{23d38fc0}{the prime \texttt{p} (\texttt{Nat.Primes}) (explicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{9}{ee70776a}{the hypothesis \texttt{¬↑p ∣ D} (explicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{10}{ed9bf967}{\texttt{Φ} : \texttt{GL (Fin 2) ℚ\_[↑p] → ℂ} (explicit)}
+\tfbinder{III.brandt.def:local-hecke-embedding}{11}{2b360b28}{\texttt{x} : \texttt{(BHat a b)ˣ} (explicit)}
+\begin{tffidelity}
+Eichler data are binders: \texttt{O₀ : MaxOrder a b}, \texttt{hD : RamifiedExactly a b D}, \texttt{φ : LevelStructure O₀.1 M} with \texttt{[NeZero M]}, a prime \texttt{p : Nat.Primes} and \texttt{hpD : ¬ p ∣ D}. The argument is an \emph{arbitrary} function \texttt{Φ : GL (Fin 2) ℚ\_[p] → ℂ}, and the value at \texttt{x : (BHat a b)ˣ} is \texttt{Φ (ι\_p (x\_p)) * indicator} where $\iota_p$ is \texttt{Classical.choose} of \texttt{maximalOrder\_local\_split O₀ hD p hpD} composed with the base change at the $p$-component (\texttt{RestrictedProduct.evalRingHom}) and the indicator is that of $\{x:\forall q\ne p,\ x_q,x_q^{-1}\in\Oord_q\}$ (both $x_q$ and $x_q^{-1}$ in the local lattice of the Eichler order, i.e.\ $x_q\in\Oord_q^\times$). The choice of $\iota_p$ is not canonical; the embedding is meant for $p\nmid DM$ (see \cref{III.brandt.thm:local-hecke-embedding-hom}), where $\Oord_p=\Oord_{0,p}$.
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[$\Theta_p$ is a homomorphism]
+\tfstmt{III.brandt.thm:local-hecke-embedding-hom}
+\lean{GL2TF.Quat.localHeckeEmbedding_hom}
+\uses{III.brandt.def:local-hecke-embedding,I.satake.def:spherical-hecke-algebra,I.satake.def:hecke-basis,III.brandt.def:norm-n-set,I.adele.lem:primes-fact-instance,I.conv.def:max-compact-local,I.lf.def:padic-nalf-instance,III.qalg.def:quaternion-algebra,III.qalg.def:ramified-exactly,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:zhat-units-explicit,I.cartan.def:cartan-element,I.cartan.lem:unif-ne-zero,I.cartan.thm:cartan-decomposition,I.conv.lem:max-compact-local-mem,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:residue-cardinality,I.lf.def:uniformizer,I.lf.lem:nalf-t2,I.lf.thm:abs-multiplicative,I.lf.thm:abs-padic-eq,I.lf.thm:abs-uniformizer,I.lf.thm:nalf-second-countable,I.lf.thm:unit-uniformizer-decomposition,I.satake.lem:hecke-basis-mem,III.qalg.def:hilbert-symbol,III.qalg.def:local-order,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:local-order-basic,III.qalg.lem:reduced-norm-basic,III.qalg.thm:maximal-order-local-split,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:order-completion,III.qord.def:discriminant,III.qord.def:eichler-order-subalgebra,III.qord.lem:eichler-order-index,III.qord.lem:order-integral,X.hpair.def:conv-term,X.hpair.def:double-coset,X.hpair.def:hecke-indicator}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:local-hecke-embedding-hom}
+\tfsem{III.brandt.thm:local-hecke-embedding-hom}{41f1eeb63b794e49a33c39b1006508acd3ea0702e35ed4740021231fc04e9491}
+\tfhyps{III.brandt.thm:local-hecke-embedding-hom}{}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{2}{48b1c944}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{3}{97b94027}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{4}{7d8a64c1}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{5}{576b3644}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{6}{0c477b4f}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{7}{fc5db746}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{8}{23d38fc0}{the prime \texttt{p} (\texttt{Nat.Primes}) (explicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{9}{ee70776a}{the hypothesis \texttt{¬↑p ∣ D} (explicit)}
+\tfbinder{III.brandt.thm:local-hecke-embedding-hom}{10}{dab867cc}{the hypothesis \texttt{¬↑p ∣ M} (explicit)}
+\begin{tffidelity}
+Eichler data, a prime $p$ with \texttt{hpD : ¬ p ∣ D} and \texttt{hpM : ¬ p ∣ M}. $H(\GL_2(\Q_p),K_p)$ is Vol I's \texttt{Local.sphericalHeckeAlgebra ℚ\_[p]}; its elements are coerced to functions on \texttt{GL (Fin 2) ℚ\_[p]}. Five clauses: (a) $\Theta_p\Phi$ is \texttt{IsHeckeFun} for every $\Phi$; (b) $\Theta_p(1)$ is \texttt{IsHeckeFun} and equals $1$ in \texttt{HeckePair.HeckeAlgebra (orderCompletionUnits (eichlerOrder φ)) ℂ}; (c) multiplicativity, stated by existence of the three \texttt{IsHeckeFun} proofs with the product in the Hecke algebra equal to $\Theta_p(\Phi_1\Phi_2)$; (d) for $r\ge0$, $\Theta_p(\sum_{j\le r/2}c_{r-j,j})=\mathbf1_{\Ohat_{p^r}}$ (the sum over \texttt{Finset.range (r/2 + 1)} of \texttt{Local.heckeBasis ℚ\_[p] (r - j) j}, natural-number subtraction cast to $\Z$); (e) $\Theta_p(c_{1,1})$ is the indicator of $\iota(p)\Ohat^\times$, written as the set of $x$ with $x=\iota(p)u$, $u\in\Ohat^\times$. Statements (b), (c) assert the unital ring homomorphism property of A together with (a).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A, with $\Theta_p$ written as the private \texttt{hl\_theta O p ι Φ}$\,(x)=\Phi(\pi x)\cdot\mathbf 1_R(x)$, where $\pi x=\iota(x_p)$ (\texttt{hl\_pi}) and $R=\{x:x_q,(x^{-1})_q\in\Oord_q\ \forall q\neq p\}$ (\texttt{hl\_R}, a group by \texttt{hl\_R\_mul}, \texttt{hl\_R\_inv}). \emph{Step 0}: \texttt{hl\_choose\_split} ($\iota_p$ maps the Eichler order at $p\nmid DM$ onto $\Mat_2(\Z_p)$, from \texttt{localLattice\_basic} and \texttt{eichlerOrder\_index}). \emph{Step 1}: $U=R\cap\pi^{-1}(K_p)$ (\texttt{hl\_U\_iff}), $\pi(R)=\GL_2(\Q_p)$ (\texttt{hl\_pi\_surj}, via the unit that is $z$ at $p$ and $1$ elsewhere), and for $x,y\in R$: $xU=yU\iff\pi(x)K_p=\pi(y)K_p$ (\texttt{hl\_coset\_iff}). The five conjuncts are \texttt{hl\_theta\_hecke} (Hecke function), \texttt{hl\_theta\_one} ($\Theta(1)=\mathbf 1_U$), \texttt{hl\_theta\_mul} (convolution, as in A), \texttt{hl\_theta\_sum} and \texttt{hl\_theta\_c11}. For the sum clause, \texttt{hl\_sum\_cartan\_apply} (from \texttt{Local.cartan\_decomposition} of Vol~I and \texttt{hl\_Pr\_cartan}) shows $(\sum_{j}c_{r-j,j})(g)=1$ iff $g$ has entries in $\Z_p$ and $\|\det g\|=p^{-r}$, and \texttt{hl\_normNSet\_iff} identifies $\Ohat_{p^r}$ with $R\cap\pi^{-1}\{g:P_r(g)\}$. For $c_{1,1}$, \texttt{hl\_unif\_scalar}: $\varpi_p\cdot1\in\iota(p)K_p$. The binder \texttt{hpM : ¬ p ∣ M} is used only in Step~0.
+\end{proof}
+
+\begin{lemma}[the central translation]
+\tfstmt{III.brandt.lem:central-translation}
+\lean{GL2TF.Quat.central_translation}
+\uses{III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.def:sym-power-module,III.qform.lem:sym-power-basic,III.qord.def:order,X.hmod.def:hecke-module-action}
+\end{lemma}
+\begin{tfformal}{III.brandt.lem:central-translation}
+\tfsem{III.brandt.lem:central-translation}{6dd090f28773c957486ad32128fe22e17f0d420760bf2502396e0cd76414b3b5}
+\tfhyps{III.brandt.lem:central-translation}{}
+\tfbinder{III.brandt.lem:central-translation}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.lem:central-translation}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.lem:central-translation}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.lem:central-translation}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.lem:central-translation}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.lem:central-translation}{5}{9ca4c7bb}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.lem:central-translation}{6}{6a25e8a0}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.lem:central-translation}{7}{c8a3045d}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.lem:central-translation}{8}{04d057c0}{the hypothesis \texttt{2 ≤ k} (explicit)}
+\tfbinder{III.brandt.lem:central-translation}{9}{84f2e7e0}{the prime \texttt{p} (\texttt{Nat.Primes}) (explicit)}
+\tfbinder{III.brandt.lem:central-translation}{10}{651824f6}{\texttt{f} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\tfbinder{III.brandt.lem:central-translation}{11}{5ccd2b50}{the hypothesis \texttt{f ∈ quatForms O s k} (explicit)}
+\begin{tffidelity}
+For every order, field $K$ and splitting; $k\ge2$ (\texttt{hk}) and a prime \texttt{p : Nat.Primes}. The translation operator $\mathbf1_{\iota(p)\Ohat^\times}$ is written inline as \texttt{heckeAct ... (indicator of \{x | ∃ u ∈ orderCompletionUnits O, x = ι (algebraMap p) * u\} (1 : ... → ℤ)) f}; the claim is that it equals \texttt{(p : K) \^{} (k - 2) • f} on every form $f\in M_k(\Oord;s)$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A, on $\hat B^\times$ (no local group occurs). The indicator is supported on the single coset $\iota(p)U$ (\texttt{finsum\_eq\_single} at that coset); $f(x\iota(p)u)=f(x\iota(p))$ by right $U$-invariance and $=f(\iota(p)x)$ since $\iota(p)$ is central; $s(p)=p\cdot1$ gives $\rho_k^s(p)=p^{k-2}$ by \cref{III.qform.lem:sym-power-basic}(c). The binder \texttt{hk : 2 ≤ k} is not used (truncated subtraction; Lean warns); the statement is unchanged.
+\end{proof}
+
+\begin{theorem}[the coset count]
+\tfstmt{III.brandt.thm:hecke-coset-count}
+\lean{GL2TF.Quat.hecke_coset_count}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.adele.lem:zhat-units-explicit,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.brandt.lem:norm-n-set-product,III.qalg.def:hilbert-symbol,III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:local-order-basic,III.qalg.lem:reduced-norm-basic,III.qalg.thm:maximal-order-local-split,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qord.def:discriminant,III.qord.def:eichler-order,III.qord.def:eichler-order-subalgebra,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qord.lem:eichler-order-index,III.qord.lem:order-integral,X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-coset-count}
+\tfsem{III.brandt.thm:hecke-coset-count}{5bb8d65bebb28d96edfa917bc54fe4ce8523af129c869a3e0ae6c3980a356987}
+\tfhyps{III.brandt.thm:hecke-coset-count}{}
+\tfbinder{III.brandt.thm:hecke-coset-count}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{2}{48b1c944}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{3}{97b94027}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{4}{7d8a64c1}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{5}{576b3644}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{6}{0c477b4f}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{7}{fc5db746}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{8}{d71f0cc6}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{9}{3ee5cc51}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-coset-count}{10}{11e80fea}{\texttt{hnDM} : \texttt{n.Coprime (D * M)} (explicit)}
+\begin{tffidelity}
+Eichler data, $n\ge1$ and \texttt{hnDM : Nat.Coprime n (D * M)}. The coset count is \texttt{Nat.card} of the image of \texttt{normNSet (eichlerOrder φ) n} in \texttt{(BHat a b)ˣ ⧸ orderCompletionUnits (eichlerOrder φ)} and the right side is \texttt{ArithmeticFunction.sigma 1 n} (natural-number valued).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Same reduction as A, but the prime-power case does not go through $\Theta_p$ or the Vol~I coset representatives. Induction by \texttt{Nat.recOnPosPrimePosCoprime}: for coprime $a',b'$ use \cref{III.brandt.lem:norm-n-set-product}(d) (public \texttt{normNSet\_product}) and multiplicativity of $\sigma_1$; $n=1$ since $\Ohat_1=U$ is one coset; for $n=p^r$ with $p\nmid DM$ the private \texttt{hl\_count\_prime\_pow}. Its input is \texttt{hl\_eichler\_split} ($\iota_p(\Oord_p)=\Mat_2(\Z_p)$, as Step~0 above) and \texttt{hl\_reps}: the elements $Y_t$ equal to the Hermite normal form $\begin{psmallmatrix}p^i&x\\0&p^{r-i}\end{psmallmatrix}$ at $p$ and $1$ elsewhere ($0\le i\le r$, $x<p^i$; \texttt{hl\_hnf\_exists}, \texttt{hl\_hnf\_unique}) lie in $\Ohat_{p^r}$, represent distinct cosets and exhaust $\Ohat_{p^r}/U$. Hence the count is $\sum_{i\le r}p^i=\sigma_1(p^r)$. \emph{Divergence}: A cites \texttt{I.satake.lem:left-coset-representatives}; Lean proves the Hermite form directly over $\Z_p$.
+\end{proof}
+
+\begin{theorem}[the Hecke recursion]
+\tfstmt{III.brandt.thm:hecke-recursion}
+\lean{GL2TF.Quat.hecke_recursion}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.adele.lem:zhat-units-explicit,III.brandt.def:hecke-operator,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.qalg.def:hilbert-symbol,III.qalg.def:local-order,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:local-order-basic,III.qalg.lem:reduced-norm-basic,III.qalg.thm:maximal-order-local-split,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.def:sym-power-module,III.qform.lem:sym-power-basic,III.qord.def:discriminant,III.qord.def:eichler-order,III.qord.def:eichler-order-subalgebra,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qord.lem:eichler-order-index,III.qord.lem:order-integral,X.hmod.def:equivariant-functions,X.hmod.def:hecke-module-action,X.hmod.thm:hecke-module-action,X.hpair.def:conv-term,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-recursion}
+\tfsem{III.brandt.thm:hecke-recursion}{1bbc17c2434ccb54855ed9eac65e356a4ab14bace443470039a6825e7b53b310}
+\tfhyps{III.brandt.thm:hecke-recursion}{}
+\tfbinder{III.brandt.thm:hecke-recursion}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:hecke-recursion}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:hecke-recursion}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{5}{7c9e60af}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{6}{6f93b58a}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{7}{67b7b9e9}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.thm:hecke-recursion}{8}{125b10d6}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{9}{4020b544}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{10}{d042977c}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{11}{f37c7f25}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{12}{17cb9326}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{13}{02582e7f}{the hypothesis \texttt{2 ≤ k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{14}{0bd120ad}{a natural number \texttt{p} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{15}{90ef937e}{the hypothesis \texttt{Nat.Prime p} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{16}{2996d677}{the hypothesis \texttt{¬p ∣ D * M} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{17}{b3f39cf1}{a natural number \texttt{r} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{18}{cedc51b7}{the hypothesis \texttt{1 ≤ r} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{19}{57404684}{\texttt{f} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\tfbinder{III.brandt.thm:hecke-recursion}{20}{12d6a747}{the hypothesis \texttt{f ∈ quatForms (eichlerOrder φ) s k} (explicit)}
+\begin{tffidelity}
+Eichler data, $k\ge2$, a prime \texttt{p : ℕ} (\texttt{hp : p.Prime}) with \texttt{hpDM : ¬ p ∣ D * M}, and $r\ge1$; for every form $f\in M_k(\Oord;s)$ with $\Oord=$ \texttt{eichlerOrder φ}: \texttt{T p (T (p\^{}r) f) = T (p\^{}(r+1)) f + ((p : K) \^{} (k - 1)) • T (p\^{}(r-1)) f} (\texttt{heckeOperator}, natural-number subtraction $r-1$ is exact since $r\ge1$). The prime is a natural number with a primality hypothesis, not \texttt{Nat.Primes}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence}: proved directly, without $\Theta_p$ and without the Vol~I recursion and central shift. Put $P=\iota(p)$ (central, $P\in\Ohat_{p^2}$ by \texttt{hl\_P\_mem}), $N=\Ohat_{p^{r-1}}$ and $g(x)=\mathbf 1_N(P^{-1}x)$, a Hecke function (translate of one by the central $P$, finitely many cosets). \emph{Key identity} in $\mathcal H(\hat B^\times,U;\Z)$: $\mathbf 1_{\Ohat_p}*\mathbf 1_{\Ohat_{p^r}}=\mathbf 1_{\Ohat_{p^{r+1}}}+p\,g$, shown by evaluating at $x$ with the $p+1$ Hermite representatives $Y_t$ of $\Ohat_p/U$ (\texttt{hl\_reps}, $r=1$). For $x\in\Ohat_{p^{r+1}}$ write $X=\iota(x_p)\in\Mat_2(\Z_p)$, $p\mid\det X$: $Y_t^{-1}x\in\Ohat_{p^r}$ iff $X\in H_t\Mat_2(\Z_p)$ (\texttt{hdiv}, with \texttt{hl\_div\_mem}), and $g(x)=1$ iff $X\in p\Mat_2(\Z_p)$ (at $q\neq p$ the scalar $p$ is a unit, \texttt{hl\_isUnit\_p}); the private count \texttt{hl\_mat\_count} gives $\#\{t:X\in H_t\Mat_2(\Z_p)\}=1+p\,[X\in p\Mat_2(\Z_p)]$. For $x\notin\Ohat_{p^{r+1}}$ both sides vanish (\texttt{hl\_mul\_mem}). Then act on $f$ with the module structure of \cref{X.hmod.thm:hecke-module-action} (\texttt{heckeAct\_module}: multiplicativity and additivity); $g$ acts as $p^{k-2}T_{p^{r-1}}$ because $f(Pz)=p^{k-2}f(z)$ (\texttt{hPf}, the argument of \cref{III.brandt.lem:central-translation}, reproved inline); the factor is $p\cdot p^{k-2}=p^{k-1}$; the last step $(k-2)+1=k-1$ uses the binder \texttt{hk : 2 ≤ k} (\texttt{omega}). Without it the statement would fail for $k<2$ ($M_k=M_2$, but $p^{k-1}=1$).
+\end{proof}
+
+\begin{theorem}[commutativity]
+\tfstmt{III.brandt.thm:hecke-commutative}
+\lean{GL2TF.Quat.hecke_commutative}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:hecke-operator,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.brandt.thm:hecke-multiplicative,III.brandt.thm:hecke-recursion,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.def:sym-power-module,III.qform.lem:sym-power-basic,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,X.hmod.def:equivariant-functions,X.hmod.def:hecke-module-action,X.hmod.thm:hecke-module-action,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-commutative}
+\tfsem{III.brandt.thm:hecke-commutative}{ce3c8050a783bf45f1d48fad63237b122e62d5d7a5972cfe729c70ecc1762b84}
+\tfhyps{III.brandt.thm:hecke-commutative}{}
+\tfbinder{III.brandt.thm:hecke-commutative}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:hecke-commutative}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:hecke-commutative}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{5}{7c9e60af}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{6}{6f93b58a}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{7}{67b7b9e9}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.thm:hecke-commutative}{8}{125b10d6}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{9}{4020b544}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{10}{d042977c}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{11}{f37c7f25}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{12}{17cb9326}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{13}{31e83066}{a natural number \texttt{m} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{14}{0bd120ad}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{15}{6f5ceb14}{\texttt{hm} : \texttt{m.Coprime (D * M)} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{16}{1c9aeb75}{\texttt{hn} : \texttt{n.Coprime (D * M)} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{17}{ceca1abe}{\texttt{f} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\tfbinder{III.brandt.thm:hecke-commutative}{18}{b0f5cb80}{the hypothesis \texttt{f ∈ quatForms (eichlerOrder φ) s k} (explicit)}
+\begin{tffidelity}
+\textbf{Exit.} Eichler data, any field $K$ of characteristic $0$, any splitting and any $k\in\N$ (no $k\ge2$ needed), $m,n$ with \texttt{Nat.Coprime m (D * M)} and \texttt{Nat.Coprime n (D * M)} (no coprimality of $m,n$ with each other); for every form $f\in M_k(\Oord;s)$, \texttt{heckeOperator O m (heckeOperator O n f) = heckeOperator O n (heckeOperator O m f)} with $\Oord=$ \texttt{eichlerOrder φ}. The operators are those of \cref{III.brandt.def:hecke-operator} on the ambient function space; the identity is asserted on forms.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Reduction}: for $k<2$ the module is that of weight $2$ ($k-2$ is truncated), so only $k\ge2$ is treated (A does not mention this; the statement has no hypothesis on $k$). Local facts (all from \texttt{heckeAct\_module} and \cref{III.brandt.lem:norm-n-set-basic}): $T_0=0$ since $\Ohat_0=\emptyset$ ($\mathrm{nrd}$ of a unit is non-zero), $T_1=\mathrm{id}$ on $M_k$, each $T_j$ preserves $M_k$ and is $K$-linear. Prime powers of one prime $p\nmid DM$ (private step \texttt{hpp}): from \cref{III.brandt.thm:hecke-recursion} one gets $T_{p^{t+2}}=T_pT_{p^{t+1}}-p^{k-1}T_{p^t}$ (\texttt{hrec}); by induction on $r$ the operator $T_p$ commutes with every $T_{p^r}$ (\texttt{step1}), and by induction on $t$ every $T_{p^t}$ commutes with every $T_{p^r}$ (\texttt{step2}). \emph{Divergence}: A phrases this as ``$T_{p^r}$ is an integer polynomial in $T_p$''; Lean does the two inductions on the commutation statement. Then \texttt{hA} ($T_{p^r}$ commutes with $T_n$ for $n$ prime to $DM$) by \texttt{Nat.recOnPosPrimePosCoprime} on $n$ (same prime: \texttt{hpp}; different primes: \cref{III.brandt.thm:hecke-multiplicative} both ways; coprime product: multiplicativity), and the final claim by the same induction on $m$. The case $m=0$ or $n=0$ is covered by $T_0=0$, not by $DM=1$.
+\end{proof}
+
+\begin{theorem}[fixed-point trace formula]
+\tfstmt{III.brandt.thm:hecke-trace-fixed-point}
+\lean{GL2TF.Quat.hecke_trace_fixed_point}
+\uses{III.brandt.def:hecke-operator,III.qform.def:quaternionic-forms,III.qform.def:hecke-polynomial-ring,III.qcls.lem:stabilizer-units,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qform.def:splitting,III.qform.def:sym-power-module,III.qord.def:order,I.adele.def:rat-embedding,III.brandt.def:norm-n-set,III.brandt.lem:hecke-matrix-formula,III.brandt.lem:norm-n-set-basic,III.ef.def:hecke-polynomial,III.qalg.def:quaternion-base-change,III.qalg.lem:reduced-norm-basic,III.qalg.lem:reduced-norm-definite,III.qcls.thm:class-set-finite,III.qform.def:class-of,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.lem:splitting-norm-trace,III.qform.lem:sym-power-basic,III.qform.thm:forms-class-decomposition,III.qform.thm:sym-power-trace,III.qord.def:unit-group,X.hmod.def:equivariant-functions,X.hmod.def:hecke-module-action,X.hmod.thm:hecke-module-action,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-trace-fixed-point}
+\tfsem{III.brandt.thm:hecke-trace-fixed-point}{3909387b29c463b8b7e757ae882ea17bb7f975cfd7ef551b911e4a75db8b1406}
+\tfhyps{III.brandt.thm:hecke-trace-fixed-point}{}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{5}{956a4b60}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{6}{dcdc2c70}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{7}{13d2f841}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{8}{903d915f}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{9}{1693a918}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{10}{92f2edd4}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{11}{50f17025}{the hypothesis \texttt{2 ≤ k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-trace-fixed-point}{12}{c4791e77}{the hypothesis \texttt{0 < n} (explicit)}
+\begin{tffidelity}
+$a,b<0$, any order, $n\ge1$, $k\ge2$. The statement asserts the existence of \texttt{T : Module.End K (quatForms O s k)} whose underlying function is \texttt{heckeOperator O n} (this encodes that $T_n$ preserves $M_k(\Oord;s)$ and is $K$-linear there), and then \texttt{LinearMap.trace K (quatForms O s k) T = ∑ᶠ c, (Nat.card (classStabilizer ...(out c)) : K)⁻¹ * ∑ᶠ γ (\_ : ι γ ∈ conjugate of the lattice completion ∧ nrd γ = n), heckePolyRing k (trd γ) n}. The left order $\Oord_{x_c}=\iota^{-1}(x_c\Ohat x_c^{-1})$ is written inline as the preimage condition on $\iota(\gamma)$ (image of \texttt{latticeCompletion} under conjugation by \texttt{Quotient.out c}), and $\gamma$ ranges over $\Bq$ (not $\Bq^\times$; $\nrd\gamma=n\ne0$ forces invertibility).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+$T$ is built from \texttt{heckeAct\_module}. The trace is transported along \texttt{forms\_class\_decomposition} and split into diagonal blocks ($\sum\mathrm{single}\circ\mathrm{proj}=\mathrm{id}$, \texttt{trace\_comp\_comm'}). The block at $c$ is $A_c=|\Gamma_c|^{-1}\sum_{S_{cc}}\rho(\gamma)$ restricted to $V^\Gamma$; $\mathrm{tr}(A_c|V^\Gamma)=\mathrm{tr}_V(A_c)$ by the averaging projector and right $\Gamma$-invariance of $S_{cc}(n)$. Finally $\mathrm{tr}\,\rho(\gamma)=P_k(\mathrm{trd}\,\gamma,\mathrm{nrd}\,\gamma)$ and $\mathrm{nrd}\,\gamma=n$ (since $\Q_{>0}\cap n\widehat{\mathbb Z}^\times=\{n\}$). That $\{\gamma\in O_x:\mathrm{nrd}\,\gamma=n\}$ is the image of $S_{cc}(n)$ is the private lemma \texttt{tr\_set\_eq}, kept separate for heartbeats.
+\end{proof}
+
+\begin{theorem}[self-adjointness]
+\tfstmt{III.brandt.thm:hecke-self-adjoint}
+\lean{GL2TF.Quat.hecke_self_adjoint}
+\uses{III.brandt.def:hecke-operator,III.qform.def:weighted-pairing,III.qform.def:quaternionic-forms,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qform.def:splitting,III.qform.def:sym-power-module,III.qord.def:order,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-inf-fin,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.adele.lem:zhat-units-explicit,I.adele.thm:product-formula,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-nalf-instance,I.lf.thm:abs-padic-eq,III.brandt.def:norm-n-set,III.brandt.lem:hecke-matrix-formula,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.thm:class-set-finite,III.qform.def:norm-weight,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.def:sym-power-pairing,III.qform.lem:norm-weight-transform,III.qform.lem:splitting-norm-trace,III.qform.lem:sym-power-basic,III.qform.lem:sym-power-pairing-adjoint,III.qord.lem:order-integral}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-self-adjoint}
+\tfsem{III.brandt.thm:hecke-self-adjoint}{6b895fba01eb1c26b4ef7d6fb36d3d261fc043406e48e48ef5438d5e8a1cd6bf}
+\tfhyps{III.brandt.thm:hecke-self-adjoint}{}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{5}{956a4b60}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{6}{dcdc2c70}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{7}{13d2f841}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{8}{903d915f}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{9}{1693a918}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{10}{92f2edd4}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{11}{290f6a46}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{12}{3d0d6909}{\texttt{f} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{13}{0ab08f9d}{the hypothesis \texttt{f ∈ quatForms O s k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{14}{c10c43ce}{\texttt{g} : \texttt{(BHat a b)ˣ → ↥(symPowerModule K (k - 2))} (explicit)}
+\tfbinder{III.brandt.thm:hecke-self-adjoint}{15}{6f801958}{the hypothesis \texttt{g ∈ quatForms O s k} (explicit)}
+\begin{tffidelity}
+$a,b<0$ are explicit hypotheses, the order is arbitrary (no Eichler data), $n\ge1$; for $f,g\in M_k(\Oord;s)$: \texttt{weightedPairing O k (heckeOperator O n f) g = weightedPairing O k f (heckeOperator O n g)}. Here $T_nf$ is formed on the ambient function space and $\langle\cdot,\cdot\rangle$ is \cref{III.qform.def:weighted-pairing}, which is defined on all functions.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+A's route (no \texttt{units-finite}). The matrix formula on both sides; the involution $\gamma\mapsto n\gamma^{-1}$ gives $S_{cc'}\simeq S_{c'c}$; $\beta(\rho(\gamma)v,w)=\beta(v,\rho(\bar\gamma)w)$; $\bar\gamma=(\mathrm{nrd}\,\gamma/n)\,n\gamma^{-1}$ and $\nu(x_c)\,\mathrm{nrd}\,\gamma/n=\nu(x_{c'})$. The last step uses $\nu(y)=1/n$ for $y\in\hat O_n$, proved by $(1,\mathrm{nrd}\,y)=(n,n)(1/n,u)$ and the product formula (helpers \texttt{sa\_*}, among them $ny^{-1}\in\hat O_n$).
+\end{proof}
+
+\begin{theorem}[the Eisenstein line]
+\tfstmt{III.brandt.thm:eisenstein-line}
+\lean{GL2TF.Quat.eisenstein_line}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:hecke-operator,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.brandt.thm:hecke-coset-count,III.brandt.thm:hecke-self-adjoint,III.qalg.def:hilbert-symbol,III.qalg.def:quaternion-algebra,III.qalg.def:ramified-exactly,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.lem:stabilizer-units,III.qcls.thm:class-set-finite,III.qform.def:class-of,III.qform.def:constant-form,III.qform.def:norm-weight,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:sym-power-exponent,III.qform.def:sym-power-module,III.qform.def:sym-power-pairing,III.qform.def:weighted-pairing,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qord.def:unit-group,X.hmod.def:hecke-module-action,X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:eisenstein-line}
+\tfsem{III.brandt.thm:eisenstein-line}{fa550b86ef740453e0c8550c0f72ce051ba22fb0f7547193b68e6197ba4698ab}
+\tfhyps{III.brandt.thm:eisenstein-line}{}
+\tfbinder{III.brandt.thm:eisenstein-line}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:eisenstein-line}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:eisenstein-line}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{5}{7c9e60af}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{6}{6f93b58a}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{7}{67b7b9e9}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.thm:eisenstein-line}{8}{125b10d6}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{9}{4020b544}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{10}{d042977c}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{11}{f37c7f25}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{12}{17cb9326}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{13}{feda4981}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:eisenstein-line}{14}{f59a992e}{\texttt{hnDM} : \texttt{n.Coprime (D * M)} (explicit)}
+\begin{tffidelity}
+Eichler data, $n\ge1$ and \texttt{Nat.Coprime n (D * M)}; weight $2$ is built in via \texttt{quatForms ... 2}, \texttt{constantForm}, \texttt{weightedPairing ... 2}. Three clauses: (a) $T_n\mathbf 1=\sigma_1(n)\mathbf 1$ as functions $\Bhat^\times\to V_{2-2}(K)$ (the form coerced to its underlying function; $\sigma_1(n)$ cast into $K$); (b) $\langle f,\mathbf1\rangle=0\Rightarrow\langle T_nf,\mathbf1\rangle=0$ for all $f\in M_2$, i.e.\ $S_2(\Oord;s)=\mathbf1^\perp$ is $T_n$-stable (the space $S_2$ itself is not a Lean object; it is written as the orthogonality condition inline); (c) \texttt{∃! c : K}, $\langle f-c\mathbf1,\mathbf1\rangle=0$, which is the decomposition $f=c\mathbf 1+f_0$ with a unique $c$ and $f_0\in S_2$.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A, with $V_{2-2}=V_0$ (so $\rho=1$, $\beta(\mathbf 1,\mathbf 1)=1$, norm-weight exponent $0$). (a) \texttt{hT1}: $(T_n\mathbf 1)(x)$ is the finite sum over the cosets in the image of $\Ohat_n$ (finite by \cref{III.brandt.lem:norm-n-set-basic}), each term equal to $\mathbf 1(x)$ (the set $\Ohat_n$ is right $U$-stable), so the value is the number of cosets, $\sigma_1(n)$ by \cref{III.brandt.thm:hecke-coset-count}. (b) \cref{III.brandt.thm:hecke-self-adjoint}, (a) and $K$-linearity of the pairing in the second slot. (c) $\langle\mathbf 1,\mathbf 1\rangle=\sum_c|\Gamma_{x_c}|^{-1}\neq0$ in $K$ (a positive rational, characteristic $0$; \texttt{classSet\_finite}, \texttt{stabilizer\_units}), so $c=\langle f,\mathbf 1\rangle/\langle\mathbf 1,\mathbf 1\rangle$ solves the equation, and uniqueness follows from linearity in the first slot. A's identification of $\langle\mathbf1,\mathbf1\rangle$ with $\mathrm{Mass}(\Oord)$ is not used.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{Brandt matrices}\label{sec:brandt-brandt}
+
+\begin{theorem}[the neighbour form]
+\tfstmt{III.brandt.thm:hecke-neighbour-form}
+\lean{GL2TF.Quat.hecke_neighbour_form}
+\uses{III.brandt.def:norm-n-set,III.qcls.thm:class-set-right-ideals,III.qform.def:quaternionic-forms,III.qalg.def:local-order,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion-units,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:sym-power-module,III.qord.def:order,I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:zhat-units-explicit,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:local-order-basic,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:hecke-neighbour-form}
+\tfsem{III.brandt.thm:hecke-neighbour-form}{5c9b8513ef80dd69fa5ca3ff74b2717e067ff92bea26382cea688078bc0a3a04}
+\tfhyps{III.brandt.thm:hecke-neighbour-form}{}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{5}{9ca4c7bb}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{6}{6a25e8a0}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{7}{c8a3045d}{a natural number \texttt{k} (explicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{8}{d71f0cc6}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{9}{3ee5cc51}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:hecke-neighbour-form}{10}{8b01a842}{\texttt{x} : \texttt{(BHat a b)ˣ} (explicit)}
+\begin{tffidelity}
+Any order, any $n\ge1$ and any $x\in\Bhat^\times$ (\texttt{x : (BHat a b)ˣ}). Four clauses. (a) For $y\in\Ohat_n$: \texttt{finiteIdeleLattice O (x * y) ≤ finiteIdeleLattice O x} and \texttt{relIndex = n \^{} 2}, the index being \texttt{AddSubgroup.relIndex} of the underlying additive groups ($L_x$ is the lattice of Ch.~III.7). (b) \texttt{L (x*y) = L (x*y') ↔ y Ô$^\times$ = y' Ô$^\times$}. (c) For every $\Z$-submodule $J\le L_x$ that is a right $\Oord$-module (stable under right multiplication by \texttt{O.toSubalgebra}) and locally principal --- written inline as \texttt{∀ p : Nat.Primes, ∃ β : (QuatAlg ℚ\_[p] a b)ˣ, localLattice p J = (localLattice p O).map (mulLeft β)} --- with index $n^2$, there is $y\in\Ohat_n$ with $J=L_{xy}$. (d) If $L_z=\gamma L_{x'}$ (the image under \texttt{LinearMap.mulLeft ℤ γ}), then $f(z)=\rho_k^s(\gamma)f(x')$ for every form $f$. The formula $(T_nf)(x_c)=\sum_J\rho_k^s(\gamma_J)f(x_{c(J)})$ is part of neither A's statement nor the Lean statement; A derives it in the proof from (a)--(d).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Four clauses, proved with private helpers \texttt{nf\_*}. (a) $L_{xy}\subseteq L_x$ directly; the index: \texttt{nf\_index} computes $[L_x:L_{xy}]$ as $|\det|$ of a change of $\Z$-bases, which over $\mathbb A_f$ equals $\mathrm{nrd}(y)^2$ times a unit of $\hat{\Z}$ (left multiplication has determinant $\mathrm{nrd}^2$, \texttt{nf\_det\_mulLeft}); for $y\in\Ohat_n$ this is $n^2$ (\texttt{nf\_index\_eq}, \texttt{nf\_nat\_eq}). \emph{Divergence}: A multiplies local indices $\prod_p[\Oord_p:y_p\Oord_p]$; Lean works with one adelic determinant. (b) \texttt{nf\_lattice\_eq\_iff}: $L_a=L_b\iff a\Ohat^\times=b\Ohat^\times$. (c) \texttt{nf\_neighbour}: outside the finite set $S$ of primes dividing the index (\texttt{nf\_mem\_iff\_local}, \texttt{localLattice\_basic}) $J_p=(L_x)_p$; put $y=x^{-1}w$ with $w_p=\beta_p$ on $S$ and $1$ elsewhere (\texttt{nf\_liftSUnit}); then $J=L_{xy}$ by local--global for lattices, $y\in\Ohat$, and the index $n^2$ with $\mathrm{nrd}\,y=Nu$ forces $N=n\cdot(\text{unit})$ (\texttt{nf\_sqrt\_unit}), i.e.\ $y\in\Ohat_n$. Right-stability of $O$ under $J$ (the hypothesis on $J$) is not used. (d) \texttt{nf\_lattice\_map}: $\gamma L_{x'}=L_{\iota(\gamma)x'}$, so $z=\iota(\gamma)x'u$ with $u\in U$ and $f(z)=\rho(\gamma)f(x')$ by the invariance defining $M_k$. The closing paragraph of A (the neighbour sum) is not a Lean statement.
+\end{proof}
+
+\begin{definition}[Brandt matrices]
+\tfstmt{III.brandt.def:brandt-matrix}
+\lean{GL2TF.Quat.brandtMatrix}
+\uses{III.brandt.def:norm-n-set,III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qform.def:class-of,III.qord.def:order}
+\end{definition}
+\begin{tfformal}{III.brandt.def:brandt-matrix}
+\tfsem{III.brandt.def:brandt-matrix}{22bc363442a990e6a7892c5802c785b27d386c6aa0e3a98f9665bc9564b5831c}
+\tfhyps{III.brandt.def:brandt-matrix}{}
+\tfbinder{III.brandt.def:brandt-matrix}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.def:brandt-matrix}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.def:brandt-matrix}{2}{40134c82}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.def:brandt-matrix}{3}{f7bc01e4}{a natural number \texttt{n} (explicit)}
+\begin{tffidelity}
+A matrix \texttt{Matrix (classSet O) (classSet O) ℕ} (no \texttt{Fintype} instance on the class set is needed for the type), with entry \texttt{Nat.card} of the subtype of cosets $q\in\Bhat^\times/\Ohat^\times$ such that \texttt{∃ y ∈ normNSet O n, ↑y = q ∧ classOf O (Quotient.out c * y) = c'}; the representatives are $x_c=$ \texttt{Quotient.out c}. Entries are natural numbers, the junk value $0$ would occur for an infinite set (excluded by \cref{III.brandt.lem:norm-n-set-basic}(d)).
+\end{tffidelity}
+\end{tfformal}
+
+\begin{theorem}[Brandt matrices are Hecke operators]
+\tfstmt{III.brandt.thm:brandt-eq-hecke}
+\lean{GL2TF.Quat.brandt_eq_hecke}
+\uses{III.brandt.def:brandt-matrix,III.brandt.def:hecke-operator,III.qform.def:quaternionic-forms,III.qform.def:norm-weight,III.qcls.thm:class-set-right-ideals,III.brandt.def:norm-n-set,III.qalg.def:quaternion-algebra,III.qalg.def:reduced-norm,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qform.def:class-of,III.qform.def:splitting,III.qform.def:sym-power-module,III.qord.def:order,I.adele.def:adele-ring,I.adele.def:finite-adeles-model,I.adele.def:idele-inf-fin,I.adele.def:idele-norm,I.adele.def:idele-norm-fun,I.adele.def:ideles,I.adele.def:rat-embedding,I.adele.def:rat-ideles-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,I.adele.lem:zhat-units-explicit,I.adele.thm:product-formula,I.lf.def:nalf,I.lf.def:normalized-abs,I.lf.def:padic-measurable-space,I.lf.def:padic-nalf-instance,I.lf.lem:padic-borel-space,I.lf.thm:abs-padic-eq,III.brandt.lem:hecke-matrix-formula,III.brandt.lem:norm-n-set-basic,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:order-completion,III.qcls.lem:stabilizer-units,III.qform.def:linear-substitution,III.qform.def:splitting-representation,III.qform.lem:norm-weight-transform,III.qord.def:unit-group,X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:brandt-eq-hecke}
+\tfsem{III.brandt.thm:brandt-eq-hecke}{557e67661903e731a0b45173e8aaae4701cbe9957293c362f8d09154d3b1978c}
+\tfhyps{III.brandt.thm:brandt-eq-hecke}{}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{3}{e9199ffe}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{4}{b94dfb71}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{5}{956a4b60}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{6}{dcdc2c70}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{7}{13d2f841}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{8}{903d915f}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{9}{1693a918}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:brandt-eq-hecke}{10}{9b9ae60c}{the hypothesis \texttt{0 < n} (explicit)}
+\begin{tffidelity}
+\textbf{Exit.} $a,b<0$, any order, field $K$, splitting $s$, $n\ge1$. Three clauses: (a) for $f\in M_2(\Oord;s)$ and every class $c$: \texttt{heckeOperator O n f (out c) = ∑ᶠ c', (brandtMatrix O n c c' : K) • f (out c')}; (b) \texttt{Nat.card (classStabilizer ...(out c')) * brandtMatrix O n c c' = Nat.card \{γ : (QuatAlg ℚ a b)ˣ // L(out c') mapped by mulLeft γ ≤ L(out c) ∧ nrd γ = n * normWeight (out c') / normWeight (out c)\}}, where the colon condition $\gamma L_{c'}\subseteq L_c$ is the lattice inclusion after \texttt{LinearMap.mulLeft ℤ γ} and $N(L_x)=\nu(x)^{-1}$ is encoded in the $\Q$-valued norm condition (the right side is a rational number equated with $\nrd\gamma$); (c) independence of the representative: for every $x$ with \texttt{classOf O x = c}, \texttt{brandtMatrix O n c c'} equals the \texttt{Nat.card} of the same subtype with \texttt{x} in place of \texttt{out c}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+(a) The matrix formula at $k=2$ ($\rho$ is trivial on $V_0$) plus the fibre count $|\Gamma_{c'}|B_{cc'}=\#S_{cc'}$ (private \texttt{be\_fiber\_count}). (b) $\gamma L_{c'}\subseteq L_c\iff x_c^{-1}\iota(\gamma)x_{c'}\in\hat O$ (via \texttt{finiteIdeleLattice\_props}), and $\mathrm{nrd}(y)\in n\widehat{\mathbb Z}^\times\iff\nu(y)=1/n$ (\texttt{be\_nu\_iff}, by the idele decomposition \texttt{exists\_ratIdele\_mul\_ideleInfFin}). (c) left translation by $u\in\hat O^\times$ on $\hat O_n/\hat O^\times$. Helpers \texttt{be\_*}, \texttt{bw\_*}.
+\end{proof}
+
+\begin{theorem}[row sums]
+\tfstmt{III.brandt.thm:brandt-row-sums}
+\lean{GL2TF.Quat.brandt_row_sums}
+\uses{I.adele.def:finite-adeles-model,I.adele.lem:primes-fact-instance,III.brandt.def:brandt-matrix,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.brandt.thm:hecke-coset-count,III.qalg.def:quaternion-algebra,III.qalg.def:ramified-exactly,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qform.def:class-of,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:brandt-row-sums}
+\tfsem{III.brandt.thm:brandt-row-sums}{c3f2ac0befaf7837ba87372fccaaa76f95a342b4df651d6ba776fa871a9af9ef}
+\tfhyps{III.brandt.thm:brandt-row-sums}{}
+\tfbinder{III.brandt.thm:brandt-row-sums}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{2}{48b1c944}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{3}{97b94027}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{4}{7d8a64c1}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{5}{576b3644}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{6}{0c477b4f}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{7}{fc5db746}{the Eichler level structure \texttt{φ} (explicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{8}{d71f0cc6}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{9}{3ee5cc51}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{10}{11e80fea}{\texttt{hnDM} : \texttt{n.Coprime (D * M)} (explicit)}
+\tfbinder{III.brandt.thm:brandt-row-sums}{11}{6e8a4a5f}{\texttt{c} : \texttt{classSet (eichlerOrder φ)} (explicit)}
+\begin{tffidelity}
+Eichler data, $n\ge1$, \texttt{Nat.Coprime n (D * M)}; for every class $c$ of \texttt{eichlerOrder φ}: \texttt{∑ᶠ c', brandtMatrix ... n c c' = ArithmeticFunction.sigma 1 n} (natural numbers).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+As A. The map $g\colon yU\mapsto[x_c\,\mathrm{out}(yU)]\in X(\Oord)$ on the finite set of cosets $yU\subseteq\Ohat_n$ satisfies $g(y)=[x_cy]$ for every representative (the class is unchanged by a right $U$-factor); so $B(n)_{cc'}$ is the cardinality of the fibre $g^{-1}(c')$ (\texttt{hB}). Summing the fibre cardinalities over $c'$ (\texttt{Finset.card\_eq\_sum\_card\_fiberwise}; the $\texttt{finsum}$ is reduced to the finite image of $g$) gives the number of cosets, which is $\sigma_1(n)$ by \cref{III.brandt.thm:hecke-coset-count}.
+\end{proof}
+
+\begin{theorem}[weighted symmetry]
+\tfstmt{III.brandt.thm:brandt-weighted-symmetry}
+\lean{GL2TF.Quat.brandt_weighted_symmetry}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:brandt-matrix,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.lem:stabilizer-units,III.qform.def:class-of,III.qord.def:order,III.qord.def:unit-group,III.qord.lem:order-integral,X.hpair.def:is-hecke-fun}
+\end{theorem}
+\begin{tfformal}{III.brandt.thm:brandt-weighted-symmetry}
+\tfsem{III.brandt.thm:brandt-weighted-symmetry}{3550160a8866afbf0d913fcf199e0147c320a0fe1f3b503c8f1d656558f3d092}
+\tfhyps{III.brandt.thm:brandt-weighted-symmetry}{}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{2}{611cd948}{the hypothesis \texttt{a < 0} (explicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{3}{19d1f9ce}{the hypothesis \texttt{b < 0} (explicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{4}{d75f8c76}{the order \texttt{O} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{5}{50bbf40e}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{6}{1af3619a}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{7}{27cf81e8}{\texttt{c} : \texttt{classSet O} (explicit)}
+\tfbinder{III.brandt.thm:brandt-weighted-symmetry}{8}{6206d9e7}{\texttt{c'} : \texttt{classSet O} (explicit)}
+\begin{tffidelity}
+$a,b<0$, any order, $n\ge1$: \texttt{Nat.card (classStabilizer ...(out c')) * brandtMatrix O n c c' = Nat.card (classStabilizer ...(out c)) * brandtMatrix O n c' c} for all classes $c,c'$ (natural numbers).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The fibre count (\texttt{be\_fiber\_count}) together with the involution $\gamma\mapsto n\gamma^{-1}$, $S_{cc'}\simeq S_{c'c}$ (helpers \texttt{bw\_*}).
+\end{proof}
+
+\begin{corollary}[relations]
+\tfstmt{III.brandt.cor:brandt-relations}
+\lean{GL2TF.Quat.brandt_relations}
+\uses{I.adele.def:finite-adeles-model,I.adele.def:rat-embedding,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:brandt-matrix,III.brandt.def:hecke-operator,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.brandt.thm:brandt-eq-hecke,III.brandt.thm:hecke-commutative,III.brandt.thm:hecke-multiplicative,III.brandt.thm:hecke-recursion,III.qalg.def:hilbert-symbol,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qalg.lem:reduced-norm-definite,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.lem:stabilizer-units,III.qcls.thm:class-set-finite,III.qform.def:class-of,III.qform.def:linear-substitution,III.qform.def:norm-weight,III.qform.def:quaternionic-forms,III.qform.def:splitting,III.qform.def:splitting-representation,III.qform.def:standard-splitting,III.qform.def:sym-power-action,III.qform.def:sym-power-module,III.qform.lem:sym-power-basic,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qord.def:unit-group,X.hmod.def:equivariant-functions,X.hmod.def:hecke-module-action,X.hmod.thm:hecke-module-action,X.hpair.def:hecke-algebra,X.hpair.def:is-hecke-fun,X.hpair.def:mul-instance,X.hpair.def:one-instance}
+\end{corollary}
+\begin{tfformal}{III.brandt.cor:brandt-relations}
+\tfsem{III.brandt.cor:brandt-relations}{f58cc0a8c74948720df9aacee8baeb2811d916a0678398823035a4a7c44f1f7e}
+\tfhyps{III.brandt.cor:brandt-relations}{}
+\tfbinder{III.brandt.cor:brandt-relations}{0}{9f2c4084}{an integer \texttt{a} (implicit)}
+\tfbinder{III.brandt.cor:brandt-relations}{1}{dafe0b68}{an integer \texttt{b} (implicit)}
+\tfbinder{III.brandt.cor:brandt-relations}{2}{48b1c944}{a natural number \texttt{D} (implicit)}
+\tfbinder{III.brandt.cor:brandt-relations}{3}{97b94027}{a natural number \texttt{M} (implicit)}
+\tfbinder{III.brandt.cor:brandt-relations}{4}{7d8a64c1}{the instance $M\ge1$ (instance)}
+\tfbinder{III.brandt.cor:brandt-relations}{5}{576b3644}{the maximal order \texttt{O₀} of $\Bq(a,b)$ (explicit)}
+\tfbinder{III.brandt.cor:brandt-relations}{6}{0c477b4f}{$\Bq$ is ramified exactly at the primes dividing $D$ (explicit)}
+\tfbinder{III.brandt.cor:brandt-relations}{7}{fc5db746}{the Eichler level structure \texttt{φ} (explicit)}
+\begin{tffidelity}
+Eichler data are the only binders ($n\ge1$, primality etc.\ are inside the clauses). Four clauses with matrix products written as \texttt{finsum}s over \texttt{classSet (eichlerOrder φ)} of entries: (a) $\Brandt m\Brandt n=\Brandt{mn}$ for coprime $m,n\ge1$; (b) for a prime \texttt{p : ℕ} with \texttt{¬ p ∣ D * M} and $r\ge1$, $\Brandt p\Brandt{p^r}=\Brandt{p^{r+1}}+p\Brandt{p^{r-1}}$ (natural-number matrices); (c) commutativity for $m,n$ prime to $DM$; (d) the trace relation, stated in $\Q$: \texttt{∑ᶠ c, (brandtMatrix O n c c : ℚ) = ∑ᶠ c, (Nat.card (classStabilizer ...(out c)) : ℚ)⁻¹ * (Nat.card \{γ : QuatAlg ℚ a b // ι γ ∈ conjugated lattice completion ∧ nrd γ = n\} : ℚ)} for $n\ge1$, with the left order $\Oord_{x_c}$ written inline as in \cref{III.brandt.thm:hecke-trace-fixed-point}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence} (from A's $\mathcal F_0$ over $\Q$): the weight-$2$ forms over $K=\overline{\Q}$ with a standard splitting (square root of $a$ in $\overline{\Q}$) are used. For $d\in X(\Oord)$ let $F_d(x)=e_1$ if $[x]=d$ and $0$ otherwise, $e_1=1\in V_0$; $\rho$ is trivial in weight $2$ (\texttt{hρ2}), so $F_d\in M_2(\Oord;s)$ (\texttt{hFform}). By \cref{III.brandt.thm:brandt-eq-hecke}(a), $(T_jF_d)(x_c)=B(j)_{cd}\,e_1$ (\texttt{hTFd}), and so $(T_iT_jF_d)(x_c)=(\sum_{c''}B(i)_{cc''}B(j)_{c''d})\,e_1$ (\texttt{hTTF}). Applying \cref{III.brandt.thm:hecke-multiplicative} (a), \cref{III.brandt.thm:hecke-recursion} with $k=2$ (b) and \cref{III.brandt.thm:hecke-commutative} (c) to $F_{c'}$, evaluating at $x_c$ and cancelling $e_1$ ($t\mapsto t\,e_1$ is injective, \texttt{hinj}; the integer identity follows by \texttt{exact\_mod\_cast}) gives the three matrix identities. Commutativity with $m=0$ or $n=0$ uses $B(0)=0$ (\texttt{hB0}: $\Ohat_0=\emptyset$). (d): \texttt{be\_fiber\_count} gives $|\Gamma_{x_c}|B(n)_{cc}=\#S_{cc}(n)$, and $S_{cc}(n)$ is in bijection with $\{\gamma\in B:\iota(\gamma)\in x_c\hat{\Oord}x_c^{-1},\ \mathrm{nrd}\,\gamma=n\}$: for $\gamma$ in $S_{cc}(n)$, $q=\mathrm{nrd}\gamma/n$ is a positive rational that is a unit of $\hat\Z$, hence $q=1$ (\texttt{hfwd}); conversely $\gamma^{-1}=n^{-1}\bar\gamma$ makes $\gamma$ a unit of $B$ (\texttt{hmk}, \texttt{hbwd}). The field is $\overline{\Q}$ internally; the statement itself has no field.
+\end{proof}
+
+%----------------------------------------------------------------------------------------------------
+\section{Instances}\label{sec:brandt-instances}
+
+\begin{example}[splittings and dimensions]
+\tfstmt{III.qform.ex:splitting-instances}
+\lean{GL2TF.Quat.splitting_instances}
+\uses{III.qform.def:standard-splitting,III.qform.def:quaternionic-forms,III.qcls.ex:hurwitz-order-mass,III.qcls.ex:eichler-mass-instance-d11,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:hurwitz-order,III.qcls.def:pizer-order-minus-one,III.qform.def:splitting,III.qform.def:sym-power-module,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:mass,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.hyp:eichler-mass,III.qcls.lem:stabilizer-units,III.qcls.thm:class-set-right-ideals,III.qcls.thm:lattice-local-global,III.qcls.thm:minkowski-bound,III.qform.cor:forms-dimension,III.qform.def:class-of,III.qform.def:hecke-polynomial-ring,III.qform.def:splitting-representation,III.qform.thm:forms-class-decomposition,III.qord.def:discriminant,III.qord.def:maximal-order,III.qord.def:order,III.qord.def:unit-group,III.qord.lem:discriminant-basic,III.qord.thm:units-finite}
+\end{example}
+\begin{tfformal}{III.qform.ex:splitting-instances}
+\tfsem{III.qform.ex:splitting-instances}{8d0d31c73a7ce13278c88eeedef35f0fe63a4a5eda0a321582a791ec381582af}
+\tfhyps{III.qform.ex:splitting-instances}{}
+\begin{tffidelity}
+A closed statement without binders (a theorem, with \texttt{let} for the two splittings): model (c) over $\mathbb C$ with $s_0=i$ (\texttt{Complex.I}, \texttt{Complex.I\_sq}) for $(a,b)=(-1,-1)$ and $(-1,-11)$, and seven \texttt{Module.finrank ℂ} equalities: dimensions $1,0,0,1,1,0$ of $M_k(\Oord_H;s)$ for $k=2,4,6,8,10,12$ with \texttt{hurwitzOrder}, and $\dim M_2(\Oord_{11};s)=2$ with \texttt{pizerOrderI (-11) \_}. The two orders are those of Ch.~III.7.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+The first six conjuncts follow from the private \texttt{si\_hurwitz\_dim}: $24\dim M_k(\Oord_H;s)=\sum_{u\in\Oord_H^\times}P_k(\mathrm{trd}\,u,1)$, obtained from \cref{III.qform.cor:forms-dimension}(b) with the single class (\texttt{classSet\_hurwitz\_eq}) and $|\Gamma|=24$ (\texttt{units\_hurwitz}). The unit group is the set of norm-$1$ elements of $\Oord_H$ (\texttt{unitGroup\_eq\_nrd\_one\_finite}), enumerated as the image of the coordinate map \texttt{fH} on the box $\{-2,\dots,2\}^4$ cut out by $c_0^2+(c_0+2c_1)^2+(c_0+2c_2)^2+(c_0+2c_3)^2=4$ (\texttt{si\_units\_set}), where $\mathrm{trd}=c_0$ and $P_k$ is cast from $\Z$ (\texttt{heckePolyRing\_map}). For $k=2,4,\dots,12$ the finite sums equal $24\cdot(1,0,0,1,1,0)$ by \texttt{decide} (\texttt{maxRecDepth 2000}), and $24$ is cancelled in $\mathbb C$. \emph{Divergence}: A evaluates $P_k(\pm2,1)$, $P_k(0,1)$, $P_k(\pm1,1)$ by closed formulas; Lean lets the kernel evaluate the sum. The last conjunct: \cref{III.qform.cor:forms-dimension}(c) gives $\dim M_2(\Oord_{11};s)=|X(\Oord_{11})|$, which is $2$ by \texttt{eichler\_mass\_instance\_d11}.
+\end{proof}
+
+\begin{example}[the Hurwitz order in weight $2$]
+\tfstmt{III.brandt.ex:hurwitz-eisenstein}
+\lean{GL2TF.Quat.hurwitz_eisenstein}
+\uses{III.brandt.def:hecke-operator,III.qform.def:quaternionic-forms,III.qcls.ex:hurwitz-order-mass,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:hurwitz-order,III.qform.def:splitting,III.qform.def:sym-power-module,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:norm-n-set,III.brandt.lem:norm-n-set-basic,III.brandt.thm:hecke-coset-count,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.thm:pizer-algebras,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:finite-idele-lattice,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.thm:class-set-right-ideals,III.qcls.thm:lattice-local-global,III.qcls.thm:minkowski-bound,III.qform.def:linear-substitution,III.qform.def:splitting-representation,III.qord.def:discriminant,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qord.lem:discriminant-basic,III.qord.lem:maximal-criterion,X.hpair.def:is-hecke-fun}
+\end{example}
+\begin{tfformal}{III.brandt.ex:hurwitz-eisenstein}
+\tfsem{III.brandt.ex:hurwitz-eisenstein}{aaee907d1e623af0aadb6096774bf13979891a416e2121f43355038f8ceb5417}
+\tfhyps{III.brandt.ex:hurwitz-eisenstein}{}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{0}{fe5aea28}{the type \texttt{K} (implicit)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{1}{de6d288d}{the field structure on $K$ (instance)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{2}{81aa81f1}{$K$ has characteristic $0$ (instance)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{3}{d879fd61}{the splitting \texttt{s} (explicit)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{4}{d38ae446}{a natural number \texttt{n} (explicit)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{5}{1369cbd2}{the hypothesis \texttt{0 < n} (explicit)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{6}{c611a4c6}{the hypothesis \texttt{Odd n} (explicit)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{7}{e7c11076}{\texttt{f} : \texttt{(BHat (-1) (-1))ˣ → ↥(symPowerModule K (2 - 2))} (explicit)}
+\tfbinder{III.brandt.ex:hurwitz-eisenstein}{8}{4cdb485d}{the hypothesis \texttt{f ∈ quatForms hurwitzOrder s 2} (explicit)}
+\begin{tffidelity}
+Binders: any field $K$ of characteristic $0$, any splitting \texttt{s : Splitting K (-1) (-1)} (so $(a,b)=(-1,-1)$ is fixed), $n\ge1$ and \texttt{hodd : Odd n}; for every form $f\in M_2(\Oord_H;s)$: \texttt{heckeOperator hurwitzOrder n f = (σ₁ n : K) • f}.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence}: no Brandt matrix. $\Oord_H$ is the Eichler order of level $1$ of itself (trivial level structure, \texttt{bi\_qorder\_ext}), and $n$ odd is prime to $2\cdot1$, so \texttt{hecke\_coset\_count} gives $\sigma_1(n)$ cosets in $\Ohat_n/U$. Weight-$2$ forms are constant: $\rho$ is trivial on $V_0$ (\texttt{hρ2}) and there is one class, so $f(x)=f(1)$ (\texttt{hconst}). Then $(T_nf)(x)$ is the sum over the finite image of $\Ohat_n$ in the coset space of $f(x\,\mathrm{out}(c))=f(1)$, i.e.\ $\sigma_1(n)f(x)$ (\texttt{hterm}, \texttt{Finset.sum\_const}). A's detour through \cref{III.brandt.thm:brandt-eq-hecke}(a) and \cref{III.brandt.thm:brandt-row-sums} is not taken.
+\end{proof}
+
+\begin{example}[Brandt matrices for $D=11$]
+\tfstmt{III.brandt.ex:brandt-d11}
+\lean{GL2TF.Quat.brandt_d11}
+\uses{III.brandt.def:brandt-matrix,III.qcls.ex:eichler-mass-instance-d11,III.qcls.def:stabilizer,III.qalg.def:quaternion-algebra,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:finite-adelic-embedding,III.qcls.def:order-completion-units,III.qcls.def:pizer-order-minus-one,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.brandt.def:hecke-operator,III.brandt.def:norm-n-set,III.brandt.thm:brandt-eq-hecke,III.brandt.thm:brandt-row-sums,III.brandt.thm:brandt-weighted-symmetry,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-idele-lattice,III.qcls.def:mass,III.qcls.def:order-completion,III.qcls.hyp:eichler-mass,III.qcls.lem:stabilizer-units,III.qcls.thm:lattice-local-global,III.qform.def:class-of,III.qform.def:norm-weight,III.qform.def:quaternionic-forms,III.qform.def:standard-splitting,III.qform.def:sym-power-module,III.qform.lem:norm-weight-transform,III.qord.def:discriminant,III.qord.def:eichler-order,III.qord.def:level-structure,III.qord.def:maximal-order,III.qord.def:maximal-order-subtype,III.qord.def:order,III.qord.def:unit-group}
+\end{example}
+\begin{tfformal}{III.brandt.ex:brandt-d11}
+\tfsem{III.brandt.ex:brandt-d11}{a6afd6c435683f39d0baea7b73f733893654c968b47fe324bd2f3ee88a57d161}
+\tfhyps{III.brandt.ex:brandt-d11}{}
+\begin{tffidelity}
+A closed existential statement for \texttt{pizerOrderI (-11) \_}: classes $c_1\neq c_2$ exhausting the class set, with \texttt{Nat.card (classStabilizer ...(out c₁)) = 4} and $=6$ for $c_2$ (the two classes are named by their stabilizer orders, since the class set carries no canonical ordering), $B(1)=I$ entrywise, $B(2)=\begin{psmallmatrix}1&2\\3&0\end{psmallmatrix}$ entrywise in this order, and for $B(3)$ the trace $3$ and determinant $-4$ in $\Z$ (the characteristic polynomial $X^2-3X-4=(X-4)(X+1)$ of A is stated through trace and determinant of the $2\times 2$ matrix).
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+\emph{Divergence}: no neighbour lattices and no external certificates. The classes $c_1=[1]$, $c_2=[x]$ and the orders $4,6$ come from \texttt{eichler\_mass\_instance\_d11} (two classes, so every class is $c_1$ or $c_2$). $\Oord_{11}$ is the Eichler order of level $1$ of itself, and $2,3\nmid11$, so \cref{III.brandt.thm:brandt-row-sums} gives $B(n)_{cc_1}+B(n)_{cc_2}=\sigma_1(n)=1,3,4$ for $n=1,2,3$ (\texttt{hrow}); \cref{III.brandt.thm:brandt-weighted-symmetry} gives $6B(n)_{c_1c_2}=4B(n)_{c_2c_1}$ (\texttt{hsym}). The diagonal entry at $c_1$ comes from the private \texttt{bi\_B11}: $4B(n)_{c_1c_1}=\#\{\gamma\in\Oord_{11}:\mathrm{nrd}\gamma=n\}$ (\cref{III.brandt.thm:brandt-eq-hecke}(b) at $c=c'=c_1$, transported by conjugation by $\delta$ with $x_{c_1}=\iota(\delta)u$). In the coordinates \texttt{f11} one has $4\,\mathrm{nrd}=c_0^2+c_1^2+11(c_0+2c_2)^2+11(c_1+2c_3)^2$, so for $n\le3$ only a finite box occurs (\texttt{bi\_norm\_set}, \texttt{bi\_card\_norm}), and the box counts $4,4,8$ for $n=1,2,3$ are \texttt{decide}. The remaining entries, including $B(1)=I$ (not read off from $\Ohat_1=U$), follow from these linear relations by \texttt{omega}; $B(3)=\begin{psmallmatrix}2&2\\3&1\end{psmallmatrix}$ has trace $3$ and determinant $-4$.
+\end{proof}
+
+\begin{example}[weight $4$ for $D=11$ (stretch)]
+\tfstmt{III.brandt.ex:hecke-d11-weight4}
+\lean{GL2TF.Quat.hecke_d11_weight4}
+\uses{III.brandt.def:hecke-operator,III.qform.def:quaternionic-forms,III.qform.def:standard-splitting,III.qcls.ex:eichler-mass-instance-d11,III.qcls.def:finite-adelic-algebra,III.qcls.def:finite-adelic-algebra-ring,III.qcls.def:pizer-order-minus-one,III.qform.def:splitting,III.qform.def:sym-power-module,I.adele.def:finite-adeles-model,I.adele.def:zhat,I.adele.lem:primes-fact-instance,III.qalg.def:quaternion-algebra,III.qalg.def:quaternion-base-change,III.qalg.def:ramified-exactly,III.qalg.def:reduced-norm,III.qalg.def:reduced-trace,III.qalg.lem:reduced-norm-basic,III.qcls.def:class-set,III.qcls.def:finite-adelic-algebra-algebra,III.qcls.def:finite-adelic-embedding,III.qcls.def:mass,III.qcls.def:order-completion,III.qcls.def:order-completion-units,III.qcls.def:stabilizer,III.qcls.hyp:eichler-mass,III.qcls.lem:stabilizer-units,III.qform.cor:forms-dimension,III.qform.def:class-of,III.qform.def:hecke-polynomial-ring,III.qform.def:splitting-representation,III.qform.def:sym-power-action,III.qform.lem:sym-power-basic,III.qform.thm:forms-class-decomposition,III.qord.def:discriminant,III.qord.def:maximal-order,III.qord.def:order,III.qord.def:unit-group,III.qord.lem:order-integral,III.qord.thm:units-finite}
+\end{example}
+\begin{tfformal}{III.brandt.ex:hecke-d11-weight4}
+\tfsem{III.brandt.ex:hecke-d11-weight4}{f57ae7352a3d61a03c75e4fb8e7d70f671a38fd5a72293d167b04cffb7952fdb}
+\tfhyps{III.brandt.ex:hecke-d11-weight4}{}
+\begin{tffidelity}
+(Stretch.) A closed statement without binders: with the model-(c) splitting $s_{11}$ over $\mathbb C$, \texttt{finrank ℂ (quatForms (pizerOrderI (-11) \_) s11 4) = 2}, and the existence of \texttt{T : Module.End ℂ (quatForms ...)} whose underlying function is \texttt{heckeOperator ... 2} with \texttt{LinearMap.trace ℂ \_ T = 2} and \texttt{LinearMap.det T = -2}; the characteristic polynomial $X^2-2X-2$ of A is stated through trace and determinant.
+\end{tffidelity}
+\end{tfformal}
+\begin{proof}[Lean proof]
+Proof pending.
+\end{proof}

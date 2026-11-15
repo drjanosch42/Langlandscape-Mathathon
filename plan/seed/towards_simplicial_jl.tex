@@ -1,0 +1,672 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!50!black]{hyperref}
+\setlist{itemsep=2pt,topsep=3pt}
+\setlength{\emergencystretch}{3em}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% status tags
+\newcommand{\status}[1]{\textup{\textsf{[#1]}}}
+\newcommand{\stproved}{\status{proved}}
+\newcommand{\stpmc}{\status{proved modulo cited theorems}}
+\newcommand{\stcited}{\status{cited}}
+\newcommand{\stsketch}{\status{sketched}}
+\newcommand{\stexp}{\status{expected}}
+\newcommand{\stconj}{\status{conjectural}}
+\newcommand{\sthyp}{\status{hypothesis}}
+\newcommand{\stopen}{\status{open}}
+\newcommand{\stcomp}{\status{computed}}
+
+\newcommand{\Q}{\mathbb{Q}}\newcommand{\Z}{\mathbb{Z}}\newcommand{\R}{\mathbb{R}}\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}\newcommand{\A}{\mathbb{A}}\newcommand{\cO}{\mathcal{O}}
+\newcommand{\GL}{\mathrm{GL}}\newcommand{\SL}{\mathrm{SL}}\newcommand{\PGL}{\mathrm{PGL}}
+\newcommand{\Nrd}{\mathrm{Nrd}}\newcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\JL}{\mathrm{JL}}\newcommand{\ord}{\mathrm{ord}}
+\newcommand{\T}{\mathbb{T}}\newcommand{\m}{\mathfrak{m}}\newcommand{\cT}{\mathcal{T}}\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cM}{\mathcal{M}}\newcommand{\Frac}{\mathrm{Frac}}\newcommand{\tq}{\mathfrak{t}}\newcommand{\cc}{\mathfrak{c}}
+\newcommand{\G}{\mathbb{G}}\newcommand{\Iw}{\mathrm{Iw}}\newcommand{\Hb}{\mathfrak{H}}
+\newcommand{\fa}{\mathfrak{a}}\newcommand{\fb}{\mathfrak{b}}
+\DeclareMathOperator{\Hom}{Hom}\DeclareMathOperator{\coker}{coker}\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Ann}{Ann}\DeclareMathOperator{\rk}{rk}\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\tr}{tr}\DeclareMathOperator{\Jac}{Jac}
+
+\title{Towards a simplicial approach to the Jacquet--Langlands correspondence over $\Q$}
+\date{14 November 2026}
+
+\begin{document}
+
+\begin{abstract}
+We describe a route towards a Jacquet--Langlands (JL) correspondence between a definite quaternion algebra $B$ over $\Q$ and $\GL_2$ over $\Q$ that is explicit, simplicial and integral.
+Its intermediate objects are Bruhat--Tits trees at an auxiliary prime $q$ and the $S$-arithmetic groups acting on them.
+All statements about the definite algebra and the ``indefinite'' stages are then finite combinatorics over class sets of $B$: quotient graphs of trees, a definite Ribet sequence obtained as a vertex collapse, a definite Ihara lemma, a weighted monodromy pairing and component group, and their ordinary $\Lambda$-adic limits.
+These are proved from strong approximation and the connectivity of the tree.
+The arithmetic geometry (Deligne--Rapoport models, Néron models, Grothendieck's monodromy, Čerednik--Drinfeld) that the classical arithmetic-geometric approach uses throughout is concentrated in a single, explicitly stated comparison hypothesis at the $\GL_2$ end.
+As a first arithmetic output we record a $\Lambda$-adic integral JL \emph{defect formula} for $D=q$: the ratio of the congruence ideals of a Hida family and of its quaternionic transfer equals an old/new congruence ideal, which is computable from trees and amalgams, and also equals a Galois-theoretic Tamagawa ideal at $q$.
+The document fixes notation, states what is proved, cited, sketched or conjectural, explains why the tree route is cheaper than the geometric route (for a Lean formalisation and for the readers of a final human-readable implementation), lists computations already carried out with the software HACS, and lists test cases for an implementation.
+It is a seed for the detailed planning, implementation and formalisation of the route; it does not contain that plan.
+\end{abstract}
+
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+%======================================================================
+\section{Introduction}\label{sec:intro}
+%======================================================================
+
+\subsection{Aim}
+The Jacquet--Langlands correspondence [JL] relates automorphic forms on the multiplicative group of a quaternion algebra to automorphic forms on $\GL_2$.
+For a \emph{definite} quaternion algebra $B$ over $\Q$ of discriminant $D$, in its cohomological form it says: the Hecke eigensystems in degree-$0$ cohomology of the (finite) arithmetic quotients of $B^\times$, i.e.\ in Brandt modules, are the $D$-new Hecke eigensystems in degree-$1$ cohomology of modular curves.
+Over $\C$ this is an equality of Hecke modules up to isomorphism; it is \emph{not} induced by a map of spaces, because the spaces involved have different dimensions (points versus Riemann surfaces).
+
+The intention behind the programme seeded by this document is to find a \emph{homotopical} and \emph{explicitly simplicially realisable} approach to JL over $\Q$ in the definite case, with the following properties:
+\begin{enumerate}[label=(\roman*)]
+\item it is realised by Hecke-equivariant maps in \emph{both} directions (definite $\to\GL_2$ and $\GL_2\to$ definite), built from a zig-zag of spaces, simplicial orbifolds (in the sense of Moerdijk--Pronk [MP]) or chain complexes;
+\item it is integral, at least over $\Z_{(p)}$ or $\Z_p$;
+\item it specialises to the classical (semisimple) JL over $\C$;
+\item mod $p^k$, in the limit over $p$-power levels, it specialises to Chenevier's $p$-adic JL [Ch];
+\item it admits a (nearly) ordinary $\Lambda$-adic version that preserves congruences.
+\end{enumerate}
+Ichino and Prasanna [IP] show that integral and $p$-adic comparisons of this kind are delicate: they involve periods and $L$-values.
+Any integral version must therefore produce, rather than ignore, a defect.
+In the route described here the defect appears as a ratio of congruence ideals, and \S\ref{sec:defect} identifies it in the simplest case.
+
+\subsection{The idea of the tree route}
+Inverting an auxiliary prime $q$ replaces the arithmetic groups by $S$-arithmetic groups, which act on a product of a symmetric space and the Bruhat--Tits tree $\cT_q$ of $\PGL_2(\Q_q)$.
+On the definite side the symmetric space is a point, so the norm-one $S$-arithmetic group of a maximal order of $B$ (for $q\nmid D$) acts on $\cT_q$ alone, with finite stabilisers.
+Its quotient is a finite graph of finite groups whose vertices and edges are class sets of $B$ at two levels.
+Thus a one-dimensional simplicial orbifold is built from zero-dimensional ones, and its first homology is the object that the arithmetic-geometric approach calls the character group of a Shimura curve (or modular curve) at a prime of bad reduction.
+
+The route has three layers:
+\begin{enumerate}[label=(\alph*)]
+\item a \emph{combinatorial core} (\S\S\ref{sec:tree}--\ref{sec:lambda}): definite class sets, tree quotients, Ribet and Ihara statements, monodromy pairings, ordinary $\Lambda$-adic limits. Everything here is proved from strong approximation;
+\item a \emph{comparison hypothesis} (\S\ref{sec:hypx}), $\mathrm{Hyp.X}$, which identifies the degree-zero Brandt module with the character group of the modular Jacobian at $q$, Hecke-equivariantly, with pairings and (optionally) Galois action. This is the only geometric input, and it is used only to \emph{interpret} definite objects as $\GL_2$ objects and to produce maps;
+\item an \emph{arithmetic layer} (\S\ref{sec:defect}): congruence ideals, the old/new congruence module at $q$ and the integral JL defect, proved with Hida theory, a Gorenstein theorem of Hsieh and level lowering, independently of $\mathrm{Hyp.X}$.
+\end{enumerate}
+
+\subsection{What this document is}
+It is a self-contained account of the mathematics of the route, as far as it has been developed, intended as the starting point for an independent exploration, implementation and formalisation.
+We take the feasibility of the route for granted. We do not give a detailed work plan.
+Every statement carries a status tag:
+\stproved{} (a complete proof is given or is elementary and standard);
+\stpmc{} (the proof is complete given the cited inputs, which are listed);
+\stcited{} (taken from the literature);
+\stsketch{} (an argument is indicated but not written out);
+\stexp{} (a prediction, for instance of a computation);
+\stconj{};
+\sthyp{} (an explicit hypothesis of the route);
+\stcomp{} (an exact computation that has been carried out).
+
+\subsection{Structure}
+\S\ref{sec:notation} fixes notation. \S\ref{sec:targets} recalls the classical, $p$-adic and $\Lambda$-adic targets.
+\S\ref{sec:geom} recalls the arithmetic-geometric route and explains its cost.
+\S\S\ref{sec:tree}--\ref{sec:lambda} develop the combinatorial core.
+\S\ref{sec:hypx} states the comparison hypothesis and what it yields.
+\S\ref{sec:defect} treats the integral defect.
+\S\ref{sec:general} discusses several ramified primes.
+\S\ref{sec:simplicial} describes the simplicial shape of the route.
+\S\ref{sec:hacs} introduces HACS, lists the computations already done, and lists test cases.
+\S\ref{sec:lean} discusses formalisation, and \S\ref{sec:open} collects open points.
+
+%======================================================================
+\section{Notation and conventions}\label{sec:notation}
+%======================================================================
+
+\subsection{Primes}
+Throughout:
+\begin{itemize}
+\item $p\ge5$ is the \emph{coefficient} (or Hida) prime; $p$-power level towers are taken at $p$;
+\item $q\ne p$ is the \emph{tree} prime: the auxiliary prime that is inverted, and at which the Bruhat--Tits tree lives;
+\item $D$ is the discriminant of the definite quaternion algebra (a squarefree product of an odd number $\omega(D)$ of primes), with $p\nmid D$;
+\item $M\ge1$ is a tame level with $(M,pqD)=1$ unless stated otherwise;
+\item $\ell$ denotes an arbitrary prime (used for Hecke operators $T_\ell$), and $\omega(n)$ the number of prime factors of $n$.
+\end{itemize}
+
+\subsection{Adeles and quaternion algebras}
+$\hat\Z=\prod_\ell\Z_\ell$, $\hat\Q=\hat\Z\otimes\Q$ (finite adeles). For a $\Q$-algebra $A$, $\hat A=A\otimes\hat\Q$ and $A_\ell=A\otimes\Q_\ell$.
+$B=B_D$ is the definite quaternion algebra over $\Q$ ramified exactly at the primes dividing $D$ and at $\infty$; $\Nrd$ is the reduced norm, $B^1=\ker\Nrd$.
+$\cO\subset B$ is a maximal order; for $\ell\nmid D$ we fix isomorphisms $\iota_\ell:\cO_\ell\xrightarrow{\sim}M_2(\Z_\ell)$.
+For $\ell\mid D$, $B_\ell$ is a division algebra with maximal order $\cO_\ell$ and uniformiser $\Pi_\ell$.
+
+\subsection{Levels and class sets}
+For a compact open subgroup $U\subset\hat B^\times$,
+\[X_B(U):=B^\times\backslash\hat B^\times/U\quad\text{(a finite set)},\qquad \Gamma_x:=B^\times\cap xUx^{-1}\quad(x\in\hat B^\times,\ \text{a finite group}).\]
+Levels used (for $(N,D)=1$; matrices read through $\iota$):
+\begin{itemize}
+\item $U_0(N)$, $U_1(N)\subset\hat\cO^\times$: elements congruent to $\left(\begin{smallmatrix}*&*\\0&*\end{smallmatrix}\right)$, resp.\ $\left(\begin{smallmatrix}*&*\\0&1\end{smallmatrix}\right)$, modulo $N$;
+\item the $p$-tower $U_s:=U_1(Mp^s)$ ($s\ge0$), $S_s:=X_B(U_s)$, and $\Delta_s:=(1+p\Z_p)/(1+p^s\Z_p)$ acting by diamond operators;
+\item for $q\nmid D$ and $U$ with $U_q=\GL_2(\Z_q)$: $U_0(q)U:=U\cap U_0(q)$, i.e.\ $U_q$ replaced by the Iwahori subgroup $\Iw_q=\{\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\in\GL_2(\Z_q):q\mid c\}$.
+\end{itemize}
+All these satisfy $\Nrd(U)=\hat\Z^\times$ \stproved{} (determinant is surjective on each local factor).
+
+\subsection{Coefficients and Brandt modules}
+$V_k:=\Sym^{k-2}(\Z_p^2)$ ($k\ge2$ even) with $\GL_2(\Z_p)$ acting on homogeneous polynomials of degree $k-2$; we write $n=k-2$ when the symmetric power degree is meant.
+For a finitely generated $\Z_p$-module $V$ with continuous action of $U_p\subseteq\GL_2(\Z_p)$, the \emph{Brandt module} is
+\[M(U;V):=\{f:\hat B^\times\to V:\ f(\gamma xu)=u_p^{-1}f(x)\ (\gamma\in B^\times,\ u\in U)\}\ \cong\ \bigoplus_{[x]\in X_B(U)}V^{\,x_p^{-1}\Gamma_xx_p}.\]
+For $V=\Z$ (or $\Z_p$) we write $\Z[X]$ for the free module on a finite set $X$ (homological, pushforward) and $\Z^X$ for functions (cohomological, pullback); $\Z[X]^0$ is the degree-zero submodule.
+When $p\nmid|\Gamma_x|$ the two are identified over $\Z_p$ by the norm map.
+The weights $w_x:=|\Gamma_x/(\Gamma_x\cap\{\pm1\})|$ define the Brandt (mass) pairing $\langle[x],[y]\rangle=w_x\delta_{xy}$; whether one uses $|\Gamma_x|$ or $|\Gamma_x/\pm1|$ changes it by a factor $2$, and every computation must say which.
+
+\subsection{Hecke operators}
+For $\ell\nmid Dpq$ and $g\in\hat B^\times$ supported at $\ell$, write $[UgU]=\coprod_ig_iU$ and $(T_gf)(x)=\sum_if(xg_i)$.
+This gives $T_\ell$ ($g=\mathrm{diag}(\ell,1)$), $S_\ell$ ($g=\mathrm{diag}(\ell,\ell)$), $U_\ell$ for $\ell\mid M$, diamond operators $\langle d\rangle$ (right translation by $\mathrm{diag}(1,d)$ at the primes dividing $Mp$), and $U_p=[U\,\mathrm{diag}(1,p)\,U]$ with the semigroup action on $V$.
+Of the two natural normalisations of $U_p$ only one commutes with pushforward along $S_{s+1}\to S_s$; computations must fix it.
+For $\ell\mid D$, $\Pi_\ell$ acts by right translation (the quaternionic $U_\ell$).
+All operators supported away from $q$ commute with right translation by $B_q^\times$.
+
+On the $\GL_2$ side, $\Gamma_0(N),\Gamma_1(N)\subset\SL_2(\Z)$ are the usual congruence subgroups, $X_0(N)$, $X_1(N)$ the modular curves over $\Q$, $J_0(N)$, $J_1(N)$ their Jacobians, $S_k(\Gamma)$ cusp forms, and $H^1_{\rm par}(\Gamma,V)$ parabolic cohomology. Hecke operators are normalised classically: $T_\ell$, $U_\ell$ act on a normalised eigenform by its $\ell$-th Fourier coefficient.
+
+\subsection{Hida theory}
+$\Lambda:=\cO_E[[1+p\Z_p]]$ for the ring of integers $\cO_E$ of a finite extension $E/\Q_p$ (large enough), with uniformiser $\varpi$; $P_k\subset\Lambda$ is the kernel of $[u]\mapsto u^{k-2}$ (weight $k$, trivial character).
+$e=\lim_nU_p^{n!}$ is Hida's ordinary projector; it exists and is exact on finite $\Z/p^m$-modules and on profinite $\Z_p[[U_p]]$-modules with continuous $U_p$-action.
+For a $\Lambda$-algebra $S$ and an algebra map $\mu:S\to A$ to a domain $A$, the \emph{congruence ideal} is $\eta(S,\mu):=\mu(\Ann_S\ker\mu)\subseteq A$.
+
+\subsection{Weighted graphs}
+A weighted graph $\G$ is a finite graph (multiple edges allowed) with edge weights $w_e\in\Z_{\ge1}$. Its chain complex is $\Z[E]\xrightarrow{\partial}\Z[V]$; put $X(\G):=H_1(\G)=\ker\partial$,
+\[\langle e,e'\rangle_w:=w_e\delta_{ee'},\qquad \Phi^{\rm comb}(\G):=\coker\big(X(\G)\to\Hom(X(\G),\Z),\ x\mapsto\langle x,\cdot\rangle_w\big).\]
+We call $\langle,\rangle_w$ the \emph{combinatorial monodromy pairing} and $\Phi^{\rm comb}$ the \emph{combinatorial component group}.
+
+%======================================================================
+\section{The targets}\label{sec:targets}
+%======================================================================
+
+\subsection{Classical JL over $\C$}
+\begin{theorem}[{[JL], Eichler, Shimizu; cohomological form}]\label{thm:JLclassical}
+Let $k\ge2$ be even and $(M,D)=1$. There is an isomorphism of modules over the Hecke algebra generated by the $T_\ell$, $\ell\nmid DM$,
+\[M(U_0(M);V_k\otimes\C)\ \cong\ S_k(\Gamma_0(DM))^{D\text{-new}}\ \oplus\ \begin{cases}\C\ (\text{Eisenstein, the constants})&k=2,\\0&k>2,\end{cases}\]
+and by Eichler--Shimura $H^1_{\rm par}(\Gamma_0(DM),V_k\otimes\C)\cong S_k\oplus\overline{S_k}$. \stcited
+\end{theorem}
+So over $\C$ a Hecke-equivariant map $H^0(\text{definite})\to H^1(\text{modular curve})$ exists, but it is only defined up to the choice of an isomorphism on each eigenspace and of a sign $\pm$; nothing canonical or integral is asserted.
+
+\subsection{Integral and $p$-adic targets}
+\emph{Integrally}, the Hecke algebras agree (for instance, the $\Lambda$-adic ordinary Hecke algebra of $\GL_2$, quotiented to its $D$-new part, is isomorphic to the definite one [LV], [Hs]), but the lattices do not: the congruence ideals on the two sides differ (\S\ref{sec:defect}), and their ratio is governed by local Tamagawa factors and periods [PW], [KO], [IP].
+\emph{$p$-adically}, Chenevier [Ch] constructs a closed immersion of the eigencurve of the definite algebra into the eigencurve of $\GL_2$ (of matching tame level), with image the $D$-new part, interpolating classical JL \stcited. Its proof works with $p$-adic families of automorphic forms (overconvergent forms, Fredholm theory); it does not produce maps of integral cohomology or of spaces.
+The aim (iv) of \S\ref{sec:intro} is a version that comes from the integral simplicial objects of this document by reduction mod $p^k$ and passage to the limit.
+
+\subsection{$\Lambda$-adic target}
+On the ordinary locus Hida theory replaces the eigencurve by finite free $\Lambda$-algebras and modules. The route of this document produces, on the definite side, $\Lambda$-adic modules and exact sequences (\S\ref{sec:lambda}), and, under the comparison hypothesis, $\Lambda$-adic maps to and from Hida's ordinary Tate module (\S\ref{sec:hypx}).
+Over $\Q$ the nearly ordinary theory is the ordinary theory tensored with cyclotomic twists, so nothing beyond the ordinary case is needed \stsketch.
+
+%======================================================================
+\section{Context: the arithmetic-geometric route and its cost}\label{sec:geom}
+%======================================================================
+
+\subsection{The geometric route}\label{ss:geomroute}
+The classical integral link between Brandt modules and modular forms is Deligne--Rapoport (DR) and Ribet [DR], [Ri90], [RS].
+Let $D=q$, $N=qM'$ with $(q,M')=1$, and $J=J(\Gamma_1(M')\cap\Gamma_0(q))$.
+\begin{enumerate}[label=(G\arabic*)]
+\item $X(\Gamma_1(M')\cap\Gamma_0(q))$ has semistable reduction at $q$. Its special fibre consists of two copies of $X_1(M')_{\F_q}$ crossing transversally at the supersingular points, and the supersingular points are in bijection with a class set of $B_q$ (Deuring, Serre). \stcited{} [DR], [RS, \S3]
+\item The toric part of the Néron model of $J$ at $q$ has character group $X_q(J)\cong\Z[X_{B_q}(U)]^0$, Hecke-equivariantly; Frobenius acts on the torus as $qU_q$. \stcited{} [RS, (3.1), Lemma~3.17], [PW, Prop.~6.5] (at $\Gamma_0$-level)
+\item Grothendieck's monodromy pairing on $X_q(J)$ is the weighted pairing $w_e\delta_{ee'}$ (node thicknesses), and its cokernel is the component group $\Phi_q(J)$. \stcited{} [SGA7, IX], [Ill]
+\item The inertia filtration $T_t\subset T_pJ^{I_q}\subset T_pJ$ has graded pieces $\Hom(X_q(J),\Z_p(1))$, $T_pJ_1(M')^{\oplus2}$, $X_q(J)\otimes\Z_p$. Hence there are Hecke-equivariant maps $\Hom(X_q,\Z_p(1))\hookrightarrow T_pJ$ and $T_pJ\twoheadrightarrow X_q\otimes\Z_p$: an \emph{integral cohomological JL in both directions}, depending on a choice of embedding $\iota:\bar\Q\hookrightarrow\bar\Q_q$. \stcited{} [SGA7, IX]
+\item For $\omega(D)\ge3$ one passes through Shimura curves: Čerednik--Drinfeld $q$-adic uniformisation [Če], [Dr], [BC] describes their reduction at $q\mid D$ by tree quotients for a definite algebra, and Ribet's exact sequence of character groups [Ri90] links character groups at two primes. \stcited
+\end{enumerate}
+At $p$-power level and in Hida's limit, (G1)--(G4) give a $\Lambda$-adic monodromy filtration of Hida's ordinary Tate module with $\Lambda$-adic definite pieces \stsketch.
+
+\subsection{Why the geometric route is expensive}\label{ss:cost}
+\emph{Prerequisites for a reader.}
+(G1)--(G5) use moduli of elliptic curves over $\Z_{(q)}$ and their regular models, supersingular reduction and Deuring's correspondence, Néron models and their component groups, semistable reduction of Jacobians, Grothendieck's monodromy theorem with its pairing (SGA~7), $\ell$-adic or étale cohomology (or at least Tate modules with Galois action), and, for several ramified primes, Shimura curves and $q$-adic uniformisation by Drinfeld's upper half-plane.
+A human-readable final account of an implementation along the geometric route would therefore assume a full graduate course in arithmetic geometry.
+The tree route needs: quaternion algebras over $\Q$ (orders, class sets, strong approximation), Bruhat--Tits trees, cohomology of groups acting on trees, elementary commutative algebra, and Hida theory; Galois representations enter only in \S\ref{sec:defect}, as cited black boxes.
+
+\emph{Formalisation.}
+In Lean~4 with Mathlib, none of the geometric objects above (moduli of elliptic curves over $\Z_{(q)}$, Néron models, Grothendieck's monodromy pairing, Shimura curves, $q$-adic uniformisation) is available in a form that can be reused for this purpose.
+Large existing formalisations around Fermat's Last Theorem contain fragments: a Deligne--Rapoport-type model of $X_0(N_0q)$ with its special fibre, the Deuring bijection with Hecke compatibility at $\Gamma_0$-type level, the toric part of $J_0$ as $\Hom(X,\bar\F_q^\times)$, as well as the tree, the amalgam $\SL_2(\Z[1/q])$ and strong approximation in the shape needed here.
+The geometric results sit in import closures of the order of $10^5$--$10^6$ lines, on other Mathlib versions, and they do not cover node thicknesses, $\Gamma_1(Mp^s)$-level, the $p$-tower or Čerednik--Drinfeld.
+The pure, combinatorial pieces (tree, amalgam, strong approximation, coset graphs) are small.
+A formalisation along the geometric route would therefore either import a very large, moving dependency or carry many deep geometric statements as hypotheses at every level.
+The tree route carries \emph{one} such hypothesis, needed only for interpretation and for maps (\S\ref{sec:hypx}).
+
+\emph{Canonicity.}
+The geometric maps of (G4) depend on $\iota$ and are not induced by maps of Betti cohomology. The tree route does not recover this canonicity, but it loses nothing that the geometric route had in Betti terms.
+
+%======================================================================
+\section{Trees, $S$-arithmetic quaternion groups and quotient graphs}\label{sec:tree}
+%======================================================================
+
+\subsection{The Bruhat--Tits tree}
+$\cT_q$ has as vertices the homothety classes $[L]$ of $\Z_q$-lattices $L\subset\Q_q^2$; $[L]$ and $[L']$ are adjacent iff they have representatives with $qL\subsetneq L'\subsetneq L$. It is a $(q+1)$-regular tree [Se, II.1.1] \stcited; a Lean formalisation exists [LM].
+The type $\tau[g\Z_q^2]:=\ord_q\det g\bmod2$ is well defined; $g\in\GL_2(\Q_q)$ preserves types iff $\ord_q\det g$ is even. Put $v_0=[\Z_q^2]$, $\alpha=\mathrm{diag}(1,q)$, $v_1=\alpha v_0$, $e_0=\{v_0,v_1\}$.
+
+\begin{lemma}\label{lem:tree}
+$\SL_2(\Q_q)$ acts transitively on type-$0$ vertices, on type-$1$ vertices and on edges, with stabilisers $\SL_2(\Z_q)$, $\SL_2(\Q_q)\cap\alpha\GL_2(\Z_q)\alpha^{-1}$ and $\SL_2(\Q_q)\cap\Iw_q$. Moreover $\GL_2(\Z_q)\cap\alpha\GL_2(\Z_q)\alpha^{-1}=\Iw_q$. \stproved
+\end{lemma}
+\begin{proof}
+If $\ord\det g=2m$ and $\det g=q^{2m}u$, then $g'=q^{-m}g\,\mathrm{diag}(u^{-1},1)\in\SL_2(\Q_q)$ and $g'v_0=gv_0$; likewise for type $1$ with $v_1$. Every edge has one vertex of each type, and $\SL_2(\Z_q)$ acts on the $q+1$ neighbours of $v_0$ through $\SL_2(\F_q)$ on $\mathbb P^1(\F_q)$, transitively. An element of $\SL_2$ stabilising $e_0$ fixes both vertices. Finally $\alpha^{-1}\left(\begin{smallmatrix}a&b\\c&d\end{smallmatrix}\right)\alpha=\left(\begin{smallmatrix}a&qb\\c/q&d\end{smallmatrix}\right)$ is integral iff $q\mid c$.
+\end{proof}
+
+\subsection{The $S$-arithmetic group}
+Assume $q\nmid D$, $U_q=\iota_q^{-1}\GL_2(\Z_q)$ and $\Nrd(U)=\hat\Z^\times$. Put
+\[\Gamma_U:=\{\gamma\in B^\times:\ \Nrd\gamma=1,\ \gamma\in U_\ell\text{ for all }\ell\ne q\}=\cO_U[\tfrac1q]^1,\]
+acting on $\cT_q$ through $\iota_q$, type-preservingly.
+
+\begin{lemma}[stabilisers]\label{lem:stab}
+(a) $\Nrd(\Gamma_x)=1$ for every $x$. (b) If $U\subseteq U_1(p^s)$ with $s\ge1$, $p\ge5$, then all $\Gamma_x$ are trivial and $\Delta_s$ acts freely on $X_B(U)$. (c) For the levels of \S\ref{sec:notation} and $p\ge5$, $p\nmid|\Gamma_x|$. \stproved
+\end{lemma}
+\begin{proof}
+(a) $\Nrd\gamma\in\Q_{>0}\cap\hat\Z^\times=\{1\}$. (b) A non-trivial $\gamma\in\Gamma_x$ has finite order and characteristic polynomial $X^2-tX+1$, $t\in\{-2,-1,0,1\}$. At $p$ it is conjugate into $U_1(p)$, so $1$ is an eigenvalue mod $p$ and $p\mid2-t\in\{4,3,2,1\}$, impossible. If $\gamma xk=x\,\mathrm{diag}(1,d)$ then $\gamma=1$ and $d\in1+p^s\Z_p$. (c) Element orders in a quaternion order over $\Z$ lie in $\{1,2,3,4,6\}$.
+\end{proof}
+
+\begin{proposition}[quotient graph]\label{prop:quot}
+\begin{enumerate}[label=(\alph*)]
+\item There are bijections $\Gamma_U\backslash\{\text{type-}j\text{ vertices}\}\cong X_B(U)$ ($j=0,1$) and $\Gamma_U\backslash\{\text{edges}\}\cong X_B(U_0(q)U)$, under which the endpoint maps are the two degeneracies
+\[s_0[x]=[x],\qquad s_1[x]=[x\alpha]\qquad(\alpha=\iota_q^{-1}\mathrm{diag}(1,q)).\]
+\item The stabiliser in $\Gamma_U$ of the cell corresponding to $[x]$ is $\Gamma_x$ (at the relevant level).
+\item The bijections are equivariant for all Hecke operators supported away from $q$, and $s_0,s_1$ commute with them.
+\end{enumerate}
+\stpmc: strong approximation for $B^1$ with respect to $S=\{\infty,q\}$ ($B_q$ is split, so $B^1$ is dense in $\hat B^{1,(q)}$) [Vo, Ch.~28].
+\end{proposition}
+\begin{proof}
+Let $U'\in\{U,U_0(q)U,\alpha U\alpha^{-1}\}$; all have $U'^{(q)}=U^{(q)}$ and $\Nrd U'=\hat\Z^\times$.
+Since $\Nrd(B^\times)=\Q_{>0}$ and $\Q_{>0}\hat\Z^\times=\hat\Q^\times$, every class of $X_B(U')$ has a representative of norm in $\hat\Z^\times$, and two such differ by $\gamma$ of norm $1$; hence $X_B(U')=B^1\backslash\hat B^1/U'^1$.
+Strong approximation gives $\hat B^1=B^1(B^1_q\times U'^{1,(q)})$, so $X_B(U')=\Gamma_U\backslash B^1_q/U'^1_q$ (injectivity: if $\beta gu=g'$ then $\beta\in\Gamma_U$).
+By Lemma~\ref{lem:tree}, $B^1_q/U'^1_q$ is the set of type-$0$ vertices, type-$1$ vertices or edges. The edge $ge_0$ has endpoints $gv_0$, $g\alpha v_0$, which gives $s_0,s_1$; $s_1$ is well defined because $\alpha^{-1}\Iw_q\alpha\subseteq\GL_2(\Z_q)$.
+(b) is the computation of stabilisers in $B^1_q$; (c) holds because Hecke operators away from $q$ act by right translation at places $\ne q$.
+\end{proof}
+
+\begin{remark}[why norm one]\label{rem:normone}
+With the full group $\cO_U[\frac1q]^\times$ the central element $q$ acts trivially on $\cT_q$, and at $U_1(p^s)$-level the central idele $q^{(q)}$ acts on $X_B(U)$ as a diamond operator, so that vertex orbits become $X_B(U)/\langle q\rangle$. The norm-one group gives two copies of $X_B(U)$, which is what the Ribet sequence needs.
+\end{remark}
+
+\subsection{Cohomology with coefficients}
+\begin{proposition}\label{prop:coh}
+Let $p\ge5$ and let $V$ be a finitely generated $\Z_p$-module with continuous $U_p$-action, $\Gamma_U$ acting through $\Gamma_U\subset U_p$. Then $H^*(\Gamma_U,V)$ is the cohomology of the two-term complex
+\[0\to M(U;V)^{\oplus2}\xrightarrow{(f_0,f_1)\mapsto s_1^*f_1-s_0^*f_0}M(U_0(q)U;V)\to0,\]
+and $H_*(\Gamma_U,V)$ the homology of the transpose $\partial=(-s_{0*},s_{1*})$. In particular $H^i=H_i=0$ for $i\ge2$, and $H_0(\Gamma_U,V)=V_{U^1_p}$ (coinvariants under the closure $U_p^1$ of $\Gamma_U$). For $V=V_k$, $k>2$, $V^{\Gamma_U}=0$ and $H_0$ is finite. \stpmc: the equivariant spectral sequence for a group acting on a tree without inversions [Br, VII.7], [Se].
+\end{proposition}
+\begin{proof}
+$\cT_q$ is contractible, the action has no inversions and the stabilisers have order prime to $p$ (Lemma~\ref{lem:stab}), so the spectral sequence degenerates to invariants of stabilisers, which Prop.~\ref{prop:quot} identifies with Brandt modules. $H_0$: coinvariants are stable under the closure, which is $U_p^1$ by strong approximation. For $k>2$, $V_k\otimes\Q_p$ is an irreducible non-trivial representation of a Zariski-dense subgroup of $\SL_2$.
+\end{proof}
+
+\begin{proposition}[harmonic cochains]\label{prop:harm}
+The $\Gamma_U$-invariant $V$-valued harmonic cochains on $\cT_q$ (functions $c$ on oriented edges with $c(\bar e)=-c(e)$ and $\sum_{s(e)=v}c(e)=0$) are $\ker\big(M(U_0(q)U;V)\xrightarrow{(s_{0*},s_{1*})}M(U;V)^2\big)\cong H_1(\Gamma_U,V)$, the $q$-new part of the Brandt module of level $U_0(q)U$. \stproved
+\end{proposition}
+Here $V_k$ is an \emph{integral} coefficient system for the $S$-arithmetic group because the tree lives at $q\ne p$: elements of $\cO[\frac1q]^\times$ are $p$-integral. (This differs from the Teitelbaum--Darmon setting, where the tree is at $p$.)
+
+\subsection{Indefinite stages as tree quotients}
+\begin{definition}\label{def:indef}
+For $q\nmid D$ put $\cX^{(q)}_{Dq}(U;V):=H_1(\Gamma_U,V)$, the \emph{tree model at $q$} of the indefinite discriminant $Dq$.
+\end{definition}
+By Čerednik--Drinfeld, for $V=\Z$ and $\Gamma_0$-type $U$ this is the character group at $q$ of the Jacobian of the Shimura curve of discriminant $Dq$ \stcited{} [Če], [Dr], [BC]. The tree route never uses this identification. An indefinite discriminant $d$ has $\omega(d)$ tree models (one for each $q\mid d$, with definite algebra $B_{d/q}$), and nothing combinatorial relates them (\S\ref{sec:general}).
+
+%======================================================================
+\section{Graph models, the Ribet sequence and the Ihara lemma}\label{sec:graph}
+%======================================================================
+
+\subsection{Weighted graphs}
+For a semistable curve with dual graph $\G$ and node thicknesses $w_e$, Grothendieck identifies $X(\G)$ with the character group of the toric part of the Néron model, $\langle,\rangle_w$ with the monodromy pairing and $\Phi^{\rm comb}$ with the component group [SGA7, IX], [Ill] \stcited. In the tree route this dictionary is \emph{not} used: $X$, $\langle,\rangle_w$ and $\Phi^{\rm comb}$ are definitions.
+
+\begin{proposition}[two-vertex graphs]\label{prop:phi}
+If $\G$ has two vertices and all edges $E$ join them, then $X(\G)=\Z[E]^0$ and
+\[|\Phi^{\rm comb}(\G)|=\Big(\prod_ew_e\Big)\sum_e\frac1{w_e}.\]
+If all $w_e=1$, $\Phi^{\rm comb}\cong\Z/|E|$; in general it need not be cyclic ($w=(2,2,2)$ gives $\Z/2\times\Z/6$). \stproved
+\end{proposition}
+\begin{proof}
+$\Hom(\Z[E]^0,\Z)=\Z^E/\Z\mathbf 1$ and the map is $x\mapsto(w_ex_e)\bmod\mathbf1$, so $\Phi^{\rm comb}=\Z^E/(W\Z[E]^0+\Z\mathbf1)$. Its order is the weighted spanning-tree count $\sum_e\prod_{e'\ne e}w_{e'}$.
+\end{proof}
+
+\begin{definition}[DR graph]\label{def:DR}
+For $B=B_q$ and $U=U_1(Mp^s)$ or $U_0(M)$, $\G^{\rm DR}_q(U)$ is the two-vertex weighted graph with edge set $X_{B_q}(U)$ and $w_e=|\Gamma_e/(\Gamma_e\cap\{\pm1\})|$. Put $X^{\rm comb}_q(U):=\Z[X_{B_q}(U)]^0$, and for $k>2$, $X^{\rm comb}_q(U;V_k):=M(U;V_k)$.
+\end{definition}
+For $s\ge1$ all $w_e=1$ (Lemma~\ref{lem:stab}) and $\Phi^{\rm comb}\cong\Z/|S_s|$.
+At level $1$ and $q\ge5$, Eichler's mass formula $\sum_e|\cO_e^\times|^{-1}=\frac{q-1}{24}$ and the classes with extra units (one with $w=2$ iff $q\equiv3\bmod4$, one with $w=3$ iff $q\equiv2\bmod3$) give $|\Phi^{\rm comb}|=\mathrm{num}\frac{q-1}{12}$, the order of Mazur's component group of $J_0(q)$ [Mz] \stpmc.
+
+\begin{example}\label{ex:mazur}
+$q=11$: $w=(3,2)$, $\Phi^{\rm comb}=\Z/5$. $q=23$: $w=(1,2,3)$, $|\Phi^{\rm comb}|=11$. $q=37$: $w=(1,1,1)$, $\Phi^{\rm comb}=\Z/3$. All equal $\mathrm{num}\frac{q-1}{12}$. This is a purely definite check of the pairing part of the comparison hypothesis at an \emph{Eisenstein} maximal ideal.
+\end{example}
+
+\subsection{The definite Ribet sequence}
+\begin{theorem}[definite Ribet sequence as a vertex collapse]\label{thm:ribet}
+Let $q\nmid D$, $U$ as in Prop.~\ref{prop:quot}, and $\G:=\Gamma_U\backslash\backslash\cT_q$ the quotient graph of groups, $|\G|$ its underlying graph.
+\begin{enumerate}[label=(\alph*)]
+\item There is an exact sequence over $\Z$, equivariant for all Hecke operators away from $q$:
+\[0\to H_1(|\G|,\Z)\to\Z[X_B(U_0(q)U)]^0\xrightarrow{\ \alpha=(-s_{0*},\,s_{1*})\ }\big(\Z[X_B(U)]^0\big)^{2}\to0.\]
+It is the long exact sequence of the collapse $|\G|\to\G^{\rm DR}$ onto the graph with the same edges and two vertices.
+\item For $p\ge5$ and any $V$ as in Prop.~\ref{prop:coh}:
+\[0\to H_1(\Gamma_U,V)\to M(U_0(q)U;V)\xrightarrow{\alpha}M(U;V)^{2}\to H_0(\Gamma_U,V)\to0.\]
+\end{enumerate}
+\stproved{} (given Prop.~\ref{prop:quot}).
+\end{theorem}
+\begin{proof}
+(a) The collapse $c$ is the identity on edges and sends type-$j$ vertices to $j$. Its kernel complex is $\Z[V_0]^0\oplus\Z[V_1]^0$ in degree $0$. Since $|\G|$ is connected (a quotient of the tree) and $\G^{\rm DR}$ is connected, the long exact sequence reads $0\to H_1(|\G|)\to\Z[E]^0\to\Z[V_0]^0\oplus\Z[V_1]^0\to0$; identify $E$, $V_j$ by Prop.~\ref{prop:quot}. (b) is the homology of the complex of Prop.~\ref{prop:coh}.
+\end{proof}
+
+\begin{corollary}[definite Ihara lemma]\label{cor:ihara}
+(i) $\alpha$ in (a) is surjective over $\Z$. (ii) For every prime $\ell$, the kernel of $\alpha^*=(-s_0^*,s_1^*)\bmod\ell$ on $(\F_\ell^{X_B(U)})^2$ is the line of constants $(\mathbf1,\mathbf1)$. (iii) With coefficients, $\coker\alpha=H_0(\Gamma_U,V)=V_{U^1_p}$; a Hecke operator $T$ supported at $\ell\nmid Dpq$ acts on it as $\deg(T)$ times the class of an element of $U_p$ of determinant $\ell^{\pm1}$. Hence $H_0(\Gamma_U,V)$ is Eisenstein and vanishes after localisation at a non-Eisenstein maximal ideal.
+(i), (ii) \stproved{} (connectivity of $\cT_q$); (iii) identification \stproved, Hecke action \stsketch.
+\end{corollary}
+The definite Ihara lemma via strong approximation is classical [DT]; what is new here is only the integral form at $U_1(Mp^s)$-level with the complete proof above, and its use as the definition of the indefinite stage.
+
+\begin{remark}
+Ribet's sequence for $\GL_2$ character groups [Ri90] is Thm.~\ref{thm:ribet} plus two identifications that the tree route does not prove: $H_1(|\G|)=X_q(J^{Dq})$ (Čerednik--Drinfeld) and $\Z[X_{B}(U_0(q)U)]^0=X_r(J)$ at another prime $r$ (the comparison hypothesis of \S\ref{sec:hypx}).
+\end{remark}
+
+\subsection{The $\GL_2$ side: the amalgam}\label{ss:amalgam}
+$\Gamma_0(M)[\frac1q]=\Gamma_0(M)*_{\Gamma_0(Mq)}\alpha'^{-1}\Gamma_0(M)\alpha'$ with $\alpha'=\mathrm{diag}(q,1)$ [Se, II.1.4] \stcited. It acts on $\Hb\times\cT_q$; its quotient is a graph of \emph{spaces} $[Y_0(M)\sqcup Y_0(M)\leftleftarrows Y_0(Mq)]$. Mayer--Vietoris gives
+\[0\to H^1(\Gamma_0(M)[\tfrac1q],V)\to H^1(\Gamma_0(M),V)^2\xrightarrow{\Psi}H^1(\Gamma_0(Mq),V)\to H^2(\Gamma_0(M)[\tfrac1q],V)\to0\]
+for $V=\Sym^{k-2}$ over $\Z_{(l)}$, $l>k$, $l\ne q$. The $q$-new part moves up one degree, into $H^2$, so the amalgam alone does not see $B_q$. Its use in the route is as the \emph{Betti computation of the $\GL_2$ old/new congruence module at $q$}: the torsion of $\coker\Psi$ (an Ihara lemma for $\GL_2$, Eisenstein only \stexp) and the Ribet level-raising module $\coker(\Psi^*\Psi)$ [Ri84], whose localisation at a cuspidal maximal ideal computes the fixed-weight old/new congruence module $\cc_q$ of \S\ref{sec:defect} \stsketch. Both have been computed (\S\ref{sec:hacs}).
+
+%======================================================================
+\section{Ordinary and $\Lambda$-adic passage}\label{sec:lambda}
+%======================================================================
+
+\begin{lemma}[$e$ kills degree, vertex and component terms]\label{lem:ekills}
+Let $s\ge1$, $V=\Z_p$. (a) $e$ kills $\Z_p$ with $U_p$ acting through its degree $p$; hence $e\Z_p[S_s]^0=e\Z_p[S_s]$ and $e$ kills $H_0(\Gamma_U,\Z_p)$. (b) $e$ kills the vertex term of $\G^{\rm DR}$, so $eX^{\rm comb}_q=e\Z_p[S_s]$. (c) $e\big(\Phi^{\rm comb}\otimes\Z_p\big)=0$, and the pairing restricts to a perfect pairing $e\Z_p[S_s]\times e^*\Z_p[S_s]\to\Z_p$. \stproved
+\end{lemma}
+\begin{proof}
+The degree intertwines $U_p$ with multiplication by $p$, which is topologically nilpotent; $e$ is exact. For (c), $\Phi^{\rm comb}\cong\Z/|S_s|$ via the degree, and $e,e^*$ are adjoint idempotents for the perfect pairing $\delta_{ee'}$.
+\end{proof}
+Thus the integral subtleties at finite level (Eisenstein cokernels, Mazur's $\mathrm{num}\frac{q-1}{12}$) are non-ordinary and disappear in Hida's limit.
+
+Put $\cM^{\rm ord}_B(U):=\varprojlim_se\,\Z_p[X_B(UU_s)]$ (pushforward) for $U$ of level prime to $p$.
+\begin{proposition}\label{prop:free}
+(a) $e\Z_p[X_B(UU_s)]$ is free over $\Z_p[\Delta_s]$ \stproved{} (free action, $e$ a polynomial in $U_p$, $\Z_p[\Delta_s]$ local).
+(b) $\cM^{\rm ord}_B(U)$ is $\Lambda$-free of finite rank with control $\cM^{\rm ord}_B\otimes_\Lambda\Z_p[\Delta_s]\cong e\Z_p[X_B(UU_s)]$ \stcited{} (Hida's argument; [LV], [Hs]).
+\end{proposition}
+(b) is not formal: fibres of $S_{s+1}\to S_s$ have size $p^2$ while $\ker(\Delta_{s+1}\to\Delta_s)$ has order $p$.
+
+\begin{theorem}[$\Lambda$-adic definite Ribet sequence]\label{thm:lambdaribet}
+Let $q\nmid Dp$ and $U$ of level prime to $pq$ with $U_q=\GL_2(\Z_q)$. Put $\cX^{\rm ord}_{Dq}(U):=\varprojlim_se\,H_1(\Gamma_{UU_s},\Z_p)$. Then
+\[0\to\cX^{\rm ord}_{Dq}(U)\to\cM^{\rm ord}_B(U_0(q)U)\xrightarrow{\alpha}\cM^{\rm ord}_B(U)^{\oplus2}\to0\]
+is an exact sequence of $\Lambda$-modules, equivariant for the Hecke operators away from $q$. Exactness \stproved{} (Thm.~\ref{thm:ribet}, Lemma~\ref{lem:ekills}, exactness of $e$ and of $\varprojlim$ on compact modules, given a $U_p$-normalisation commuting with pushforward); $\Lambda$-freeness of the three terms \stpmc{} (Prop.~\ref{prop:free}(b)); with $V_k$ after localisation at a non-Eisenstein $\m$ \stsketch.
+\end{theorem}
+\noindent Rank check \stproved: at $s\ge1$, $\rk H_1(\Gamma_{UU_s})=|E|-|V|+1=(q-1)|S_s|+1$.
+
+\emph{Pairing.} The combinatorial pairing of Lemma~\ref{lem:ekills}(c), twisted along the tower (Hida/Ohta twist by $U_p^{-s}w_{p^s}$), gives a perfect $\Lambda$-pairing on $\cM^{\rm ord}_B$ \stsketch. For a primitive branch $F$ and non-Eisenstein $\m$ satisfying Hsieh's residual condition, $\cM^{\rm ord}_{B,\m}$ is free of rank one over the Gorenstein ring $\T^{\rm ord}_{B,\m}$, and the self-pairing of a generator of its $F$-eigenline generates the congruence ideal $\eta^B_F$ of $F$ in $\T^{\rm ord}_{B,\m}$ [Hs, Thm.~4.5, Def.~4.12, Rem.~7.8] \stcited. This is a statement about the definite algebra alone.
+
+%======================================================================
+\section{The comparison hypothesis}\label{sec:hypx}
+%======================================================================
+
+\subsection{Statement}
+\begin{hypothesis}[$\mathrm{Hyp.X}(M;q)$]\label{hyp:X}
+Data: $p\ge5$, $q\ne p$, $(M,pq)=1$, $B=B_q$; for $s\ge0$ put $\Gamma_s=\Gamma_1(Mp^s)\cap\Gamma_0(q)$, $X_s$ its modular curve, $J_s=\Jac X_s$, $S_s=X_{B_q}(U_1(Mp^s))$, and let $\mathcal H_s$ be the abstract Hecke algebra generated by $T_\ell$ ($\ell\nmid Mpq$), $U_\ell$ ($\ell\mid Mp$), $\langle d\rangle$ and $U_q$. There exist, for all $s$:
+\begin{enumerate}[label=(X\arabic*)]
+\item an isomorphism of $\mathcal H_s$-modules $\varphi_s:X_q(J_s)\xrightarrow{\sim}\Z[S_s]^0$ (Picard functoriality on the left, \S\ref{sec:notation} on the right, $U_q\mapsto\epsilon[\Pi_q^{\pm1}]$ with a universal sign $\epsilon$ and exponent to be fixed);
+\item compatibility of pairings: $\varphi_s$ carries Grothendieck's monodromy pairing to $\langle e,e'\rangle=w_e\delta_{ee'}$;
+\item naturality: for $s'\ge s$, $\varphi$ intertwines the map induced by $J_s\to J_{s'}$ with pushforward $\Z[S_{s'}]^0\to\Z[S_s]^0$;
+\item (Galois part) a $\mathcal H_s$-stable filtration $T_t\subset T^{I_q}\subset T_pJ_s$, stable under a decomposition group at $q$, with graded pieces $\Hom(X_q(J_s),\Z_p(1))$, $T_pJ(\Gamma_1(Mp^s))^{\oplus2}$, $X_q(J_s)\otimes\Z_p$, monodromy given by (X2), transported to $H^1_{\rm par}(\Gamma_s,\Z_p)(1)$ by the comparison of Tate modules with Betti cohomology.
+\end{enumerate}
+$\mathrm{Hyp.X.char}:=$(X1)--(X3); $\mathrm{Hyp.X.gal}:=$(X4); $\mathrm{Hyp.X}:=$ all four. \sthyp
+\end{hypothesis}
+At $\Gamma_0$-type level (X1)--(X4) are the classical statements (G1)--(G4) of \S\ref{ss:geomroute} \stcited; at $\Gamma_1(Mp^s)$-level with $U_p$, diamonds and naturality in $s$ they are expected by the same proofs \stsketch. (X1)--(X3) can be phrased with Jacobians and character groups only; étale cohomology (or Tate modules with Galois action) is needed only for (X4).
+In Lean the hypothesis is a single \texttt{def Hyp.X.char : Prop} (and one for the Galois part), taken as an explicit hypothesis of the theorems that use it, never as an axiom.
+
+\begin{proposition}[$\Lambda$-adic version]\label{prop:Xlambda}
+$\mathrm{Hyp.X.char}$, Lemma~\ref{lem:ekills} and Prop.~\ref{prop:free} give a $\Lambda[\T]$-isomorphism $\varprojlim_se(X_q(J_s)\otimes\Z_p)\cong\cM^{\rm ord}_B(M)$, carrying the $\Lambda$-adic monodromy pairing to the twisted Brandt pairing. With Hida's freeness of $\cT:=\varprojlim eT_pJ_s$ [Hi86a], $\mathrm{Hyp.X.gal}$ gives a $\Lambda$-adic monodromy filtration with graded pieces $\Hom_\Lambda(\cM^{\rm ord,*}_B,\Lambda)(1)$, $\cT(M)^{\oplus2}$, $\cM^{\rm ord,\dagger}_B$. Formal passage \stproved; twist \stsketch.
+\end{proposition}
+In particular, under $\mathrm{Hyp.X}$ there are $\Lambda$-adic Hecke-equivariant maps in both directions,
+\[\Hom_\Lambda(\cM^{\rm ord,*}_B,\Lambda)(1)\hookrightarrow\cT\qquad\text{and}\qquad\cT\twoheadrightarrow\cM^{\rm ord,\dagger}_B,\]
+whose composite is the (ordinary, perfect) monodromy map: an integral, non-semisimplified, cohomological analogue of Chenevier's $\JL_p$ on the ordinary locus for $D=q$ \stsketch. (Chenevier's statement about forms is not addressed.)
+
+\subsection{What the tree route has without the hypothesis, and what is lost}
+\begin{center}\small
+\begin{longtable}{@{}p{5.6cm}p{4.2cm}p{4.6cm}@{}}
+\toprule
+statement & without $\mathrm{Hyp.X}$ & with $\mathrm{Hyp.X}$\\\midrule
+$\Lambda$-adic Hecke algebras $\T^{D\text{-new}}\cong\T_B$ & \stcited{} [LV], [Hs] & same\\
+$\Lambda$-adic character group, faithful action & definite side only & $D=q$ \stsketch\\
+$\Lambda$-adic monodromy filtration; maps both ways & lost (Galois) & from (X4)\\
+$e$ kills degree, vertex, $\Phi$; perfect pairing & \stproved{} (combinatorial) & $\Phi^{\rm comb}=\Phi_q(J)$ via (X2)\\
+$\Lambda$-adic Ribet sequence & \stproved{} (definite form) & $\GL_2$ form needs (X) at a second prime and Čerednik--Drinfeld\\
+$\eta^B_F$ as a self-pairing & \stcited{} (definite) & equals monodromy pairing via (X2)\\
+$\Lambda$-adic defect formula (\S\ref{sec:defect}) & \stpmc{} for $D=q$ & not needed\\
+\bottomrule
+\end{longtable}
+\end{center}
+Without geometry one loses: (L1) the Galois action at $q$ (inertia filtration, $\mathrm{Frob}_q=qU_q$ on the torus), hence the maps above; (L2) a geometric proof of the reverse Tamagawa inclusion (it is recovered by level lowering, \S\ref{sec:defect}); (L3) the statement that a tree quotient \emph{is} a Shimura curve; (L4) $\Phi^{\rm comb}=\Phi_q(J)$; (L5) the dependence on $\iota$ (which was never Betti-canonical).
+
+\subsection{A substitute at good maximal ideals}
+Let $\m$ be non-Eisenstein, satisfying Hsieh's residual condition, $s\ge1$, ordinary parts. $\mathrm{Hyp.X}^{\rm iso}(s)$: $e\Z_p[S_s]_\m\cong eH^1_{\rm par}(\Gamma_s,\Z_p)^{\pm}_\m[\fa]$ as modules over the $q$-new Hecke algebra $\T'$ (the $q$-new \emph{sub}module), compatibly in $s$. Both sides are free of rank one over $\T'$ (multiplicity one for $eH^1_\m$ and Gorensteinness of $\T'$; [Hs, Thm.~4.5]), so $\mathrm{Hyp.X}^{\rm iso}$ holds, non-canonically \stsketch. It is a \emph{substitute} for (X1), not a consequence of JL: (X1) concerns the quotient lattice $X_q(J_s)\otimes\Z_p=T_pJ_s/T^{I_q}$. The two lattices differ exactly by the old/new congruence module:
+
+\begin{proposition}[$q$-new sub- versus quotient lattice]\label{prop:subquot}
+Let $H$ be free of rank $r$ over $\T$, with $\T$ $\Lambda$-Gorenstein and $\T''$ $\Lambda$-free (notation of \S\ref{sec:defect}). Then $H[\fa]=\fb H\cong\fb^r$, $H/\fa H\cong\T'^{\,r}$, and $H[\fa]\to H/\fa H$ is injective with cokernel $(\T'/\cc_{\T'})^r$, $\cc_{\T'}=(\fa+\fb)/\fa$. \stproved
+\end{proposition}
+So $\mathrm{Hyp.X}^{\rm iso}$ suffices for congruence- and Fitting-ideal statements at good $\m$, but not for Eisenstein or non-Gorenstein $\m$, for pairings beyond $\eta^B$, or for anything Galois. A Betti-canonical \emph{map} replacing $\mathrm{Hyp.X}$ is not expected: after inverting $q$, the cuspidal cohomology of $\GL_2$ sits in degree $2$ and that of the definite group in degree $1$ (or $0$ when $q\mid D$), and the gap never closes \stsketch.
+
+%======================================================================
+\section{The integral JL defect}\label{sec:defect}
+%======================================================================
+
+\subsection{Setting}
+Standing hypotheses:
+\begin{itemize}
+\item[(H0)] $p\ge5$, $q\ne p$, $(M,pq)=1$, $N:=qM$, $p\nmid\varphi(N)$ (so $q\not\equiv1\bmod p$).
+\item[(H1)] $\T$ is Hida's full ordinary cuspidal Hecke algebra of tame level $\Gamma_0(N)$ over $\Lambda$ (all $T(n)$, so it contains $U_q$), in a weight component $k_0\bmod(p-1)$, localised at a non-Eisenstein maximal ideal $\m$. $F$ is a primitive ordinary $q$-new branch, $\lambda_F:\T\to I_F$, with $I_F$ a normal domain finite over $\Lambda$ (hence $\Lambda$-free).
+\item[(H2)] $\bar\rho=\bar\rho_\m$ is absolutely irreducible on $G_{\Q(\sqrt{p^*})}$ and $p$-distinguished.
+\item[(Im)] $p$ divides $\#\bar\rho(G_\Q)$.
+\item[(P)] Either $k_0\not\equiv2\bmod(p-1)$ (then $F$ has an arithmetic point of weight $k_P\in[3,p-1]$, a \emph{Kim--Ota point}), or $k_0\equiv2$ and $F$ has a weight-two point which is the ordinary $p$-stabilisation of a newform of level $N$.
+\end{itemize}
+Let $\T'$, $\T''$ be the images of $\T$ on $q$-new and $q$-old ordinary $\Lambda$-adic cusp forms, $\fa=\ker(\T\to\T')$, $\fb=\ker(\T\to\T'')$; $R=\T\otimes_\Lambda I_F$, $R'$, $R''$ similarly; $\lambda:R\to I_F$, $\lambda':R'\to I_F$ induced by $\lambda_F$. Put
+\[\eta_F:=\eta(R,\lambda),\qquad\eta^B_F:=\eta(R',\lambda'),\qquad h_F:=\eta_F/\eta^B_F.\]
+Via $\T'\cong\T_B$ ($\Lambda$-adic JL of Hecke algebras), $\eta^B_F$ is the congruence ideal of $F$ on the definite side; $h_F$ measures the failure of an integral JL isomorphism of lattices. This is the defect that [IP] predicts must exist.
+
+\begin{definition}[combinatorial Tamagawa ideal]\label{def:ctam}
+$\cc:=\mathrm{im}(\fb R\to R')$, so $R'/\cc\cong R/(\fa R+\fb R)$ is the $\Lambda$-adic old/new congruence module at $q$; $\cc_q(F):=\lambda'(\cc)$.
+\end{definition}
+The module $R/(\fa R+\fb R)$ is Diamond's $\Lambda$-adic old/new congruence module [Dia89], who computes it on the \emph{old} branch. On the $\GL_2$ side its fixed-weight version is computed by $\coker(\Psi^*\Psi)$ of \S\ref{ss:amalgam}; on the definite side the analogue for $B_r$ with tree at $q$ is $\coker(\alpha\alpha^*)$ of Thm.~\ref{thm:ribet} \stsketch.
+
+\begin{definition}[Tamagawa ideal]
+$\tq_q(F)\subseteq I_F$ is the ideal generated by the entries of $\rho_F(\sigma)-1$, $\sigma\in I_q$, for the Galois representation $\rho_F$ on $\cT_F:=H\otimes_{\T,\lambda_F}I_F$, $H$ the ordinary $\Lambda$-adic étale cohomology localised at $\m$ (free of rank two over $\T$ under (H2) [Wi95], [Hs]). $\rho_F|_{I_q}$ is unipotent and factors through $\Z_p(1)$, so $\tq_q(F)$ is generated by the entries of $\rho_F(\tau)-1$ for a generator $\tau$ \stproved. At a $q$-new arithmetic point $P$, $P(\tq_q(F))=(\varpi^{t_{F_P}(q)})$ with $t_f(q)$ the largest $t$ such that $\rho_f\bmod\varpi^t$ is unramified at $q$ (Kim--Ota's Tamagawa exponent [KO]) \stproved.
+\end{definition}
+
+\subsection{Commutative algebra}
+\begin{lemma}[base change of congruence ideals]\label{lem:S}
+Let $S$ be a finite free $A$-algebra with $\Hom_A(S,A)$ free of rank one over $S$ ($S$ is $A$-Gorenstein), $\mu:S\to A$ an $A$-algebra map, $\varphi:A\to A'$. Then $\Ann_S\ker\mu=A\theta$ with $\ell(\theta x)=\mu(x)$ for a generator $\ell$, $\eta(S,\mu)=(\mu(\theta))$ is principal, and $\eta(S\otimes A',\mu\otimes A')=\varphi(\eta(S,\mu))A'$. \stproved
+\end{lemma}
+\begin{lemma}[Gorenstein from one fibre]\label{lem:G}
+If $A$ is Noetherian local, $S$ local and finite free over $A$, $\mathfrak p\subseteq\m_A$, and $S/\mathfrak pS$ is $A/\mathfrak p$-Gorenstein, then $S$ is $A$-Gorenstein. \stproved{} (Nakayama.)
+\end{lemma}
+\begin{lemma}[new/old duality]\label{lem:D}
+Let $A$ be a Noetherian local domain, $S$ local, finite free and $A$-Gorenstein, $\fa,\fb\subseteq S$ with $S/\fa$, $S/\fb$ torsion-free, $\fa\cap\fb=0$ and $S_K=(S/\fa)_K\times(S/\fb)_K$. Then $\Ann(\fa)=\fb$, $\Ann(\fb)=\fa$; if $S/\fb$ is $A$-free then $S/\fa\cong\fb^\vee$ is $A$-free, and these statements commute with base change. \stproved
+\end{lemma}
+
+\begin{theorem}[the combinatorial half]\label{thm:E}
+In the setting of Lemma~\ref{lem:D} with $S=R$, $S'=R'$, let $\lambda$ factor through $\lambda'$. If $R'$ is $I_F$-Gorenstein, then
+\[\eta_F=\cc_q(F)\cdot\eta^B_F,\qquad\text{i.e. }(h_F)=\cc_q(F).\]
+Without the Gorenstein property of $R'$ the equality holds after localisation at every height-one prime of $I_F$; and in general $\cc\cong\Hom_{I_F}(R',I_F)$, so $\cc$ is principal iff $R'$ is Gorenstein. \stproved
+\end{theorem}
+\begin{proof}[Proof sketch]
+Let $\theta\in R$ generate $\Ann_R\ker\lambda$ (Lemma~\ref{lem:S}). Since $\fa\subseteq\ker\lambda$, $\theta\in\Ann(\fa)=\fb$; its image $x\in R'$ kills $\ker\lambda'$. The isomorphism $\fb\cong R'^\vee$, $\beta\mapsto\ell(\beta\,\cdot)$, gives $\lambda'(\cc)=\{\psi(x):\psi\in R'^\vee\}$. If $R'$ is Gorenstein, $\Ann_{R'}\ker\lambda'=I_F\theta'$ is a direct summand, $x=h\theta'$, and the content of $x$ is $(h)$.
+\end{proof}
+
+\begin{proposition}[Galois comparison]\label{prop:galois}
+Under (H1) and absolute irreducibility of $\bar\rho$, with $\cT_F$ free of rank two: $\tq_q(F)\subseteq\cc_q(F)$. \stpmc{} (Galois representation of tame level $M$, unramified at $q$; Chebotarev).
+\end{proposition}
+\begin{proof}[Proof sketch]
+Put $A=I_F/\cc_q(F)$. Modulo $\cc$, $\lambda$ factors through the $q$-old quotient, whose $T_\ell$ come from tame level $M$; so $\tr\rho_F\otimes A$ is the trace of a representation unramified at $q$, i.e.\ $\tr\bar\rho_A(g\sigma)=\tr\bar\rho_A(g)$ for $\sigma\in I_q$. Since $A[G_\Q]\to M_2(A)$ is surjective (Burnside and Nakayama) and the trace form on $M_2(A)$ is perfect, $\bar\rho_A(\sigma)=1$. No pseudo-representation theorem is needed.
+\end{proof}
+
+\subsection{The defect formula for $D=q$}
+\begin{theorem}[$\Lambda$-adic defect formula]\label{thm:defect}
+Assume (H0), (H1), (H2), (Im) and (P). Then
+\[(h_F)\;=\;\cc_q(F)\;=\;\tq_q(F)\qquad\text{as principal ideals of }I_F.\]
+\stpmc. Cited inputs: Hida's freeness and control [Hi86b, Thm.~3.1, Cor.~3.2, Cor.~3.3]; Hsieh's theorem that $\T$ and the $q$-new quotient $\T'\cong\T^{B}$ are $\Lambda$-Gorenstein [Hs, \S3.3, Thm.~4.5, Rem.~7.8], resting on [Wi95], [MW], [Hel]; freeness of ordinary cohomology [Hs], [Wi95]; and, at the point of (P), level lowering modulo $\varpi^t$ (below), resting on an $R=\T$ theorem for new-at-$\Sigma$ deformation rings [Dim09, Thm.~6.6], [DFG], [KO, \S\S2--3] and Böckle's presentation.
+\end{theorem}
+\begin{proof}[Proof outline]
+(1) $\T$ and $R'$ are Gorenstein (Hsieh; $R'=\T'\otimes I_F$, Lemma~\ref{lem:S}), so $(h_F)=\cc_q(F)$ by Thm.~\ref{thm:E}.
+(2) $\tq_q(F)\subseteq\cc_q(F)$ by Prop.~\ref{prop:galois}; write $\tq_q(F)=h_F\mathfrak d$.
+(3) At the point $P$ of (P), with $f$ the newform of level $N$: $\T'$ is $\Lambda$-free with $\T'/P\T'$ the $q$-new quotient at weight $k_P$ (Lemma~\ref{lem:D} against the $\Lambda$-free old quotient $\T''\cong\T(M)[X]/(X^2-T_qX+c_q)$, localised), so $P(\cc_q(F))\cO\subseteq\cc_q(f)$, the fixed-weight old/new congruence ideal.
+(4) \emph{Level lowering modulo $\varpi^t$}: $\cc_q(f)\subseteq(\varpi^{t_f(q)})$ for ordinary $f$ of weight $2\le k\le p-1$, any tame level $M$ with $p\nmid\varphi(qM)$, including $q\equiv-1\bmod p$, under (H2), (Im) \stpmc. It is proved by passing to the quotient that is new at the primes $\ell\,\|\,M$ where $\bar\rho$ is unramified and applying the $R=\T$ theorem there.
+(5) Hence $P(\mathfrak d)$ is a unit, so $\mathfrak d=I_F$ ($I_F$ local), and the three ideals coincide.
+\end{proof}
+
+\begin{corollary}[all weights of the branch]\label{cor:allweights}
+On a branch as in Thm.~\ref{thm:defect}, at every arithmetic point of weight $k'\ge3$ with trivial character (including $k'\ge p$), the fixed-weight old/new congruence ideal equals $(\varpi^{t_{f'}(q)})$ and $\ord_\varpi\eta_{f'}(N)-\ord_\varpi\eta_{f'}(M,q)=t_{f'}(q)$ (ring-theoretic congruence ideals of the full and the $q$-new Hecke algebras at weight $k'$). \stpmc{} (base change, Lemmas~\ref{lem:S}, \ref{lem:D}).
+\end{corollary}
+At fixed weight $2\le k\le p-1$ the identity $\ord\eta_f(N)-\ord\eta_f(M,q)=t_f(q)$ is due to Kim--Ota [KO] (Pollack--Weston [PW] at weight two). What the tree route adds is the $\Lambda$-adic statement on the $q$-\emph{new} branch, the identification of the defect with the combinatorially computable $\cc_q$, and the extension to all weights of the branch.
+
+\begin{remark}[open cases]
+Branches with only $p$-new weight-two points ((Comb) holds; the Galois half needs $R=\T$ at level $Mp$); trivial primes ($q\equiv1\bmod p$ with $\bar\rho(\mathrm{Frob}_q)$ scalar), where $\T'$ fails to be Gorenstein [BKM] and $\cc$ is not principal (Thm.~\ref{thm:E}); dropping (Im), which requires [DFG]; several primes in $D$ (\S\ref{sec:general}).
+\end{remark}
+
+%======================================================================
+\section{Several ramified primes}\label{sec:general}
+%======================================================================
+
+\begin{proposition}[no tree-only chain of module maps]\label{prop:noChain}
+Let $\mathcal C$ be the class of Hecke-equivariant module maps generated by the identifications of Prop.~\ref{prop:quot} for a fixed definite algebra, the maps of Thm.~\ref{thm:ribet}, compositions, kernels and cokernels. (a) For definite $B'$ and $q\nmid\mathrm{disc}B'$ the cells of tree quotients are class sets of $B'$; for $q\mid\mathrm{disc}B'$ there is no tree ($\cO'_q[\frac1q]^1=\cO'^1_q$ is compact). (b) For $\omega(D)\ge3$, no sequence of operations in $\mathcal C$ applied to definite algebras of smaller discriminant produces the Brandt module of $B_D$. \stproved{} (the operations never change the algebra).
+\end{proposition}
+So for $\omega(D)\ge3$ each change of definite algebra needs either a Shimura-curve comparison (a version of $\mathrm{Hyp.X}$ for Shimura curves, i.e.\ Deligne--Rapoport-type models of Shimura curves) or JL as an input. The geometric chain for $D=q_1q_2q_3$ is:
+\begin{center}\small
+\begin{tabular}{@{}p{5.6cm}p{3.6cm}p{4.6cm}@{}}
+\toprule
+link & tree-only & geometric input\\\midrule
+$X_{q_1}(J_0(MD))\cong\Z[X_{B_{q_1}}(U_0(q_2q_3M))]^0$ & definition & $\mathrm{Hyp.X}$ at $q_1$\\
+Ribet collapse for $B_{q_1}$, tree at $q_2$ & Thm.~\ref{thm:ribet} & none\\
+tree $H_1$ $=X_{q_2}(J^{q_1q_2}(q_3M))$ & lost & Čerednik--Drinfeld\\
+$X_{q_2}(J^{q_1q_2})\leftrightarrow X_{q_3}(J^{q_1q_2})$ & no substitute & only through $T_\ell J$ (Galois)\\
+$X_{q_3}(J^{q_1q_2}(q_3M))\cong\Z[X_{B_D}(M)]^0$ & definition & Shimura-curve version of $\mathrm{Hyp.X}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+This concerns maps of modules. At the level of Hecke algebras and ideals the $\Lambda$-adic isomorphism $\T^{D\text{-new}}\cong\T_{B_D}$ holds for all $D$, and a defect formula $(h_F)=\prod_{q\mid D}\tq_q(F)=\prod_i\cc^{(i)}_{q_i}(F)$, via a filtration by $q_1\cdots q_i$-new quotients, is \stsketch{}/\stconj; whether the intermediate quotients need to be Gorenstein is open.
+
+%======================================================================
+\section{Simplicial shape of the route}\label{sec:simplicial}
+%======================================================================
+All objects of \S\S\ref{sec:tree}--\ref{sec:lambda} are finite simplicial orbifolds or their cohomology:
+\begin{itemize}
+\item \emph{Definite level $U$}: the $0$-dimensional orbifold $\coprod_{[x]\in X_B(U)}B\Gamma_x$; its cohomology with coefficients $V$ is $M(U;V)$.
+\item \emph{Definite $S$-arithmetic stage}: the graph of finite groups $\Gamma_U\backslash\backslash\cT_q$, with vertex groups at two copies of $X_B(U)$, edge groups at $X_B(U_0(q)U)$, and the degeneracies $s_0,s_1$ as structure maps. Since $\cT_q$ is contractible, it is a $1$-dimensional orbifold model of $B\Gamma_U$ (a Moerdijk--Pronk-type simplicial orbifold after barycentric subdivision), and its cohomology with local coefficients is $H^*(\Gamma_U,V)$ (Prop.~\ref{prop:coh}). At $U_1(p^s)$-level ($s\ge1$) all stabilisers are trivial, $\Gamma_U$ is free, and the quotient is an honest graph.
+\item \emph{$\GL_2$ arithmetic stage}: $\Gamma_0(N)\backslash\Hb$, realised simplicially (e.g.\ by a finite triangulation of a fundamental domain of $\SL_2(\Z)$ with Shapiro induction, as in HACS).
+\item \emph{$\GL_2$ $S$-arithmetic stage}: the amalgam of \S\ref{ss:amalgam}, a graph of spaces over the same two-vertex graph shape $[\,\bullet\ \bullet\leftleftarrows\text{edge}\,]$ as the definite stage.
+\end{itemize}
+The two $S$-arithmetic stages have the same combinatorial shape (two vertex objects, one edge object, two degeneracies), with definite class sets in place of modular curves. The zig-zag
+\[\underbrace{X_B(U)\rightleftarrows X_B(U_0(q)U)}_{\text{0-dim}}\ \leadsto\ \underbrace{\Gamma_U\backslash\backslash\cT_q}_{\text{1-dim}}\ \overset{\mathrm{Hyp.X}}{\longleftrightarrow}\ \underbrace{J(\Gamma_0(q)\cap\Gamma_1(M))\text{ at }q}_{\GL_2}\]
+consists of explicit simplicial maps in its first part; the comparison in its last part is $\mathrm{Hyp.X}$, i.e.\ the Deligne--Rapoport graph of the modular curve, which is the DR graph $\G^{\rm DR}_q$ of Def.~\ref{def:DR}. Making the last arrow a map of explicit simplicial objects (rather than a hypothesis on character groups) is the main open structural question of the route.
+
+%======================================================================
+\section{HACS: computations and test cases}\label{sec:hacs}
+%======================================================================
+
+\subsection{What HACS is}
+HACS [HACS] is a C++ program (with optional CUDA) for the cohomology of $\SL_2(\Z)$, its congruence subgroups and $\GL_2$, with coefficients $\Sym^n$ of the standard representation over $\F_p$, $\Z/\ell^k$ and $\Z$, together with the Hecke action, in exact modular arithmetic. Its features relevant here:
+\begin{itemize}
+\item an explicit simplicial model of $\SL_2(\Z)\backslash\Hb$ (a $7$-vertex triangulation of a truncated fundamental domain with gluing and stabiliser relations), and a Moerdijk--Pronk simplicial set computing group cohomology in all degrees and over all rings, with a Borel--Serre-type boundary and the long exact sequence of the pair;
+\item level $\Gamma_0(N)$, $\Gamma_1(N)$ and nebentypus by Shapiro induction on that model;
+\item Hecke operators $T_\ell$, $U_\ell$ in all degrees (chain-level and Manin--Merel--Heilbronn), the ordinary projector and Hida theory at small levels;
+\item integral structure: torsion, integral Hecke algebras, saturation, congruence modules $C_\T(A,B)=\T/(J_A+J_B)$ with certified bounds, recorded in signed data records.
+\end{itemize}
+HACS has no quaternion algebras, no $S$-arithmetic groups beyond what can be assembled from $\SL_2(\Z)$-data, and no JL.
+
+\subsection{Computations already carried out}\label{ss:done}
+All with $V=\Sym^{k-2}$, classical Hecke normalisation. Here $q$ denotes the level prime (written $D$ in the first item, where $D=q$).
+\begin{enumerate}[label=(C\arabic*)]
+\item \emph{Old/new congruence modules at level $q$, weight $12$} \stcomp. For $\Gamma_0(3)$, $k=12$: $H^1(\Gamma_0(3);\Sym^{10}\Z^2)=\Z^8\oplus\Z/2\oplus\Z/4\oplus(\Z/3)^4$; the congruence module between the $3$-old ($\Delta$) and $3$-new forms of the full Hecke algebra is $\Z/17$ at $17$ (certified), matching $\tau(2)-a_2(g)=-102=-2\cdot3\cdot17$ for the $3$-new form $g$. For $q=5$: primes $29$ and $131$, both with exponent $1$. For $q\in\{3,5,7,11,13\}$, $k=12$, the primes $l>12$ of the anemic old/new congruence module are $\{17\}$, $\{29,131\}$, $\{1051\}$, $\{233,34267\}$, $\{31,191,5323\}$, exactly the primes $l$ with $l\mid a_q(\Delta)^2-q^{10}(q+1)^2$ (level raising). A table of predicted level-raising primes for $q\le13$, $k\le26$ is available.
+\item \emph{Ordinary ranks} at level $3$ for $k\le62$, $p\in\{5,7,11,13\}$, constant on weight classes mod $p-1$ \stcomp, and a mod-$17$ persistence test along $k=12+16j$ (certified ``no'' at $k=16,\dots,22$, not on the $17$-adic family) \stcomp.
+\item \emph{The amalgam $\SL_2(\Z[1/q])=\SL_2(\Z)*_{\Gamma_0(q)}\SL_2(\Z)$}, Mayer--Vietoris with $\Sym^{k-2}$ over $\Z_{(l)}$, $l>k$, $l\ne q$, for $q\in\{3,5,7,11,13\}$, $k=4,\dots,24$ \stcomp:
+\begin{itemize}
+\item $H^0=H^1(\SL_2(\Z[1/q]),V)=0$, $H^{\ge3}=0$, and $H^2=\coker\Psi$ is free of rank $2\dim S_k(\Gamma_0(q))^{q\text{-new}}$ plus torsion;
+\item the torsion of $H^2$ is $0$ or a single $\Z/l$ with $l=k+1$, Eisenstein, in every cell; there is no torsion at the cuspidal congruence primes ($17$ for $q=3$; $29$, $131$ for $q=5$, $k=12$): consistent with an Ihara lemma for $\GL_2$;
+\item with the transfer $\Psi^*$, $\Psi^*\Psi=\left(\begin{smallmatrix}q+1&-T_q\\-q^{2-k}T_q&q+1\end{smallmatrix}\right)$ on $H^1(\SL_2(\Z),V)^2$, and $\coker(\Psi^*\Psi)$ at $\m_\Delta$ is $(\Z/l^v)^2$ (one copy per sign) with $v=v_l(\tau(q)^2-(q+1)^2q^{10})$: $(\Z/17)^2$ at $q=3$, $(\Z/29)^2$ and $(\Z/131)^2$ at $q=5$; the Eisenstein part has length $v_l((1-q^{k-2})(1-q^k))$;
+\item $T_\ell$ ($\ell\ne q$, $\ell\le13$) on all terms; independent cross-checks against HACS: $2447$ comparisons, no mismatch.
+\end{itemize}
+This is the $\GL_2$ end of the $S$-arithmetic stage: $\coker(\Psi^*\Psi)_\m$ is the Betti incarnation of the old/new congruence module $\cc_q$.
+\item \emph{Independent computations (PARI/GP, not HACS)} \stcomp. (i) For $q\in\{2,3,5,7,11,13\}$, $qM\le70$, even $4\le k\le26$ (resp.\ $30$), all $p\le10^6$: $\eta_F$, $\eta^B$ (ring-theoretic, on the $q$-new quotient) and $\cc_q$ at maximal ideals with at least two $q$-new eigenforms. In all $15$ cases with old support inside the range $p>k$, $p\nmid\varphi(N)$, $q\not\equiv\pm1$, non-Eisenstein, $v(h)=v(\cc_q)$; failures occur only at Eisenstein or twisted-Eisenstein (reducible $\bar\rho$) maximal ideals, consistent with $(h)\supseteq\cc_q$. By Thm.~\ref{thm:E} this tests the Gorenstein property of the full Hecke algebra at fixed weight, not the Galois side. (ii) Weight-two Brandt matrices from supersingular isogeny graphs for $q\in\{11,17,19,23,37,53\}$ agree with $T_\ell$ on $S_2(\Gamma_0(q))$ and satisfy the mass formula.
+\end{enumerate}
+
+\subsection{What the route hopes to add to HACS}
+\begin{itemize}
+\item a \emph{definite module}: class sets of maximal and Eichler orders of $B_D$ with stabilisers, Brandt modules with $\Sym^n$ coefficients, Hecke operators including $U_p$ at Iwahori level and $W_\ell$ ($\ell\mid D$), the Brandt (Gram) pairing and its congruence modules $\eta^B$; validated by mass formulas and JL trace comparisons against HACS level-$D$ new spaces;
+\item the \emph{definite $S$-arithmetic stage}: the tree quotient $\Gamma_U\backslash\backslash\cT_q$ as incidence matrices $s_0,s_1$, its Mayer--Vietoris (Ribet/Ihara) sequence, $\coker(\alpha\alpha^*)$; this is the same shape of computation as (C3), with finite vertex groups;
+\item $p$-power towers on both sides with $U_p$ at level $qp^s$ (missing in HACS on the $\GL_2$ side), the ordinary projector and $\Lambda$-adic control;
+\item comparison data for $\mathrm{Hyp.X}$ beyond isomorphism classes: Gram matrices versus $\GL_2$ pairings at Eisenstein and non-Gorenstein maximal ideals.
+\end{itemize}
+The existing integral machinery of HACS (sparse elimination mod $\ell^K$, saturation, congruence-module records) applies unchanged to these finite free modules with commuting integral operators.
+
+\subsection{Test cases}\label{ss:tests}
+Validation items check code against a theorem; ``new'' items have no theorem predicting the result.
+\begin{enumerate}[label=\textbf{T\arabic*}]
+\item \textbf{[validation] DR graph and $\Phi^{\rm comb}$, level $1$.} $q\in\{11,23,37,101,131\}$: compute $X_{B_q}(1)$, the weights, and the Smith form of the weighted pairing on $\Z[E]^0$. Prediction: $\Phi^{\rm comb}\cong\Z/\mathrm{num}\frac{q-1}{12}$ ($5,11,3,25,65$).
+\item \textbf{[validation] Ribet collapse, trivial coefficients.} (a) $B_2$, $q=7$: $\rk H_1=1=g(X^{14})$. (b) $B_2$, $q=13$: $\rk H_1=2=g(X^{26})=\dim S_2(\Gamma_0(26))^{\rm new}$. (c) $B_{11}$, $q=2$: two vertices per type, $\rk H_1=0=g(X^{22})$, so $\alpha$ is an isomorphism over $\Z$; compute $\coker(\alpha\alpha^*)$ with both the weighted and the unweighted adjoint. Expectation: order $|a_2(11a)^2-9|=5$ up to factors $2,3$.
+\item \textbf{[validation] $\Lambda$-adic Ribet at deep level.} $B_3$, tree at $q=2$, $p=5$, $U_s=U_1(5^s)$, $s=1,2,3$: $|S_s|=2\cdot25^{s-1}$, $|E_s|=3|S_s|$, $\rk H_1=|S_s|+1$ ($s=1$: $3$, matching the genus of the corresponding Shimura curve of discriminant $6$ at $\Gamma_1(5)$-level). Apply $e$ mod $5^3$; predict exactness, $\Z/5^3[\Delta_s]$-freeness of $s$-independent rank, degree $\equiv0$ on the ordinary part.
+\item \textbf{[validation/prediction] $\cc_q$ along a branch.} $q=3$, $p=17$, the branch through $g\in S_{12}^{\rm new}(\Gamma_0(3))$, $g\equiv\Delta\bmod17$: compute $\coker(\Psi^*\Psi)_\m$ at $k=12,28,44,60,124$. Prediction: $\ord_{17}\cc_3=1,1,1,1,2$. The $q$-new quotient has rank one here, so $(h)=\cc$ is automatic; this tests the Betti computation of $\cc_q$ and, where $t_{G_k}(3)$ is computed independently, Cor.~\ref{cor:allweights} for $k\ge p$.
+\item \textbf{[new] Combinatorial half with $\rk_\Lambda\T'_\m\ge2$.} Level-raising triples $(q,k,p)$ with $3\le k\le p-1$, $p\nmid\varphi(q)$, $q\not\equiv\pm1\bmod p$, e.g.\ $(13,18,19)$, $(5,18,23)$, $(5,16,31)$, $(13,12,31)$, $(3,18,53)$, $(3,18,61)$, $(13,16,101)$: compute the mod-$p$ dimension of the $q$-new Brandt module of $B_q$ with $\Sym^{k-2}$ at $\m$, and where it is $\ge2$ compare $\eta_f(q)/\eta_f(1,q)$ with $\cc_q(f)$ \emph{on the definite side} (Gram matrix of the Brandt module). Repeat at $k+(p-1)$.
+\item \textbf{[new] Higher-weight cokernel.} $H_0(\Gamma_U,V_k)=V_{k,U^1_p}$ for $B_3$, tree at $2$, $p\in\{5,7\}$, $k\le2p$: order and Hecke action; expectation: $T_\ell$ acts by $(1+\ell)\chi(\ell)^{\pm1}$ on $\det$-eigenpieces (Eisenstein). Pins the sign convention of Cor.~\ref{cor:ihara}(iii).
+\item \textbf{[later] $\mathrm{Hyp.X}$ beyond isomorphism class.} With $U_p$ at level $qp$ on the $\GL_2$ side: compare the Brandt Gram matrix on $e\Z_p[S_s]^0_\m$ with the (Ohta-twisted) $\GL_2$ pairing on $eH^1_{\rm par}(\Gamma_s)^{\pm}_\m$ at Eisenstein or non-Gorenstein $\m$.
+\end{enumerate}
+T1--T3 and T6 are small; T4 needs the amalgam at weights up to $124$; T5 needs the definite module with $\Sym^n$.
+
+%======================================================================
+\section{Formalisation}\label{sec:lean}
+%======================================================================
+Target: Lean~4 with Mathlib, no \texttt{axiom}; deep inputs enter as explicit hypotheses \texttt{def Hyp.X : Prop}, registered and documented.
+\begin{itemize}
+\item \emph{Lean-friendly now}: Lemmas~\ref{lem:tree}, \ref{lem:stab}; Prop.~\ref{prop:phi} (finite linear algebra); Thm.~\ref{thm:ribet}(a) as a statement about two-vertex collapses of finite multigraphs (Mathlib's simple graphs are too weak; use quivers or incidence matrices); Cor.~\ref{cor:ihara}(ii); Lemma~\ref{lem:ekills}; the commutative algebra of \S\ref{sec:defect} (Lemmas~\ref{lem:S}--\ref{lem:D}, Thm.~\ref{thm:E}, Prop.~\ref{prop:subquot}) and the final squeeze of Thm.~\ref{thm:defect}.
+\item \emph{One deep input for the combinatorial core}: strong approximation for $B^1$ at a split place, in the form $y=\beta gu$ (needed for Prop.~\ref{prop:quot}); existing Lean developments contain it in this shape. The tree itself is formalised [LM], including the Laplacian surjectivity on the full tree; the $\Gamma$-equivariant version with coefficients is not.
+\item \emph{Avoidable input}: the equivariant spectral sequence (Prop.~\ref{prop:coh}) is not needed at $U_1(p^s)$-level, where $\Gamma_U$ is free and acts freely, so $H_1(\Gamma_U)=H_1$ of the quotient graph.
+\item \emph{Mathlib gaps}: quaternion orders, reduced norm, class sets, mass formula; Brandt modules with Hecke operators; graphs of groups; Hida control; congruence ideals (elementary).
+\item \emph{Registered hypotheses}: $\mathrm{Hyp.X.char}$ and $\mathrm{Hyp.X.gal}$ (\S\ref{sec:hypx}); Hida's control theorems; Hsieh's Gorenstein theorem; Galois representations of Hida families with their freeness; the $R=\T$ input of level lowering. None of these is geometric except $\mathrm{Hyp.X}$, and $\mathrm{Hyp.X}$ is not used for the defect formula.
+\end{itemize}
+By contrast (\S\ref{ss:cost}), the geometric route would need Deligne--Rapoport models, Néron models, Grothendieck's monodromy and Čerednik--Drinfeld uniformisation as hypotheses at every level, or a very large imported library.
+
+%======================================================================
+\section{Open points}\label{sec:open}
+%======================================================================
+\begin{enumerate}[label=O\arabic*.]
+\item $\mathrm{Hyp.X}$ at $\Gamma_1(Mp^s)$-level with $U_p$, diamonds and naturality; the sign $\epsilon$ and exponent of $U_q\mapsto\epsilon\Pi_q^{\pm1}$; the $U_p$ normalisation; the Ohta twist of the pairing.
+\item A map of explicit simplicial objects realising the last arrow of the zig-zag of \S\ref{sec:simplicial} (or a proof that only $\mathrm{Hyp.X}$-type statements are possible).
+\item Higher weight: Hecke and $U_p$ action on $H_0(\Gamma_U,V_k)$; whether $e$ kills it.
+\item Several primes in $D$: the defect formula as ideals (\S\ref{sec:general}), and Shimura-curve versions of $\mathrm{Hyp.X}$ if module maps are wanted.
+\item The open cases of the defect formula (branches without (P), trivial primes, without (Im)).
+\item Eisenstein and non-Gorenstein maximal ideals, where $\mathrm{Hyp.X}$ carries information that $\mathrm{Hyp.X}^{\rm iso}$ does not (Example~\ref{ex:mazur}, T1, T7).
+\item The relation of the $\Lambda$-adic maps of \S\ref{sec:hypx} with Chenevier's eigencurve immersion away from the ordinary locus.
+\end{enumerate}
+
+%======================================================================
+\begin{thebibliography}{HACS}\small
+\bibitem[BC]{BC} J.-F.~Boutot, H.~Carayol, Uniformisation $p$-adique des courbes de Shimura: les théorèmes de Čerednik et de Drinfeld, Astérisque 196--197 (1991), 45--158.
+\bibitem[BKM]{BKM} G.~Böckle, C.~Khare, J.~Manning, Wiles defect for Hecke algebras that are not complete intersections, Compositio Math.\ 157 (2021).
+\bibitem[Br]{Br} K.~S.~Brown, \emph{Cohomology of groups}, GTM 87, Springer.
+\bibitem[Če]{Ce} I.~V.~Čerednik, Uniformization of algebraic curves by discrete arithmetic subgroups of $\PGL_2(k_w)$ with compact quotient spaces, Mat.\ Sb.\ 100 (1976).
+\bibitem[Ch]{Ch} G.~Chenevier, Une correspondance de Jacquet--Langlands $p$-adique, Duke Math.\ J.\ 126 (2005), 161--194.
+\bibitem[DFG]{DFG} F.~Diamond, M.~Flach, L.~Guo, The Tamagawa number conjecture of adjoint motives of modular forms, Ann.\ Sci.\ ÉNS 37 (2004).
+\bibitem[Dia89]{Dia89} F.~Diamond, On congruence modules associated to $\Lambda$-adic forms, Compositio Math.\ 71 (1989), 49--83.
+\bibitem[Dim09]{Dim09} M.~Dimitrov, On Ihara's lemma for Hilbert modular varieties, Compositio Math.\ 145 (2009).
+\bibitem[DR]{DR} P.~Deligne, M.~Rapoport, Les schémas de modules de courbes elliptiques, LNM 349, Springer 1973.
+\bibitem[Dr]{Dr} V.~G.~Drinfeld, Coverings of $p$-adic symmetric regions, Funct.\ Anal.\ Appl.\ 10 (1976).
+\bibitem[DT]{DT} F.~Diamond, R.~Taylor, Non-optimal levels of mod $l$ modular representations, Invent.\ Math.\ 115 (1994).
+\bibitem[HACS]{HACS} HACS: cohomology of $\SL_2(\Z)$, $\GL_2$ and congruence subgroups with Hecke action, software, \url{https://github.com/drjanosch42/hacs}, Zenodo DOI 10.5281/zenodo.24118841; data: DOI 10.5281/zenodo.24118877.
+\bibitem[Hel]{Hel} D.~Helm, On maps between modular Jacobians and Jacobians of Shimura curves, Israel J.\ Math.\ 160 (2007).
+\bibitem[Hi86a]{Hi86a} H.~Hida, Galois representations into $\GL_2(\Z_p[[X]])$ attached to ordinary cusp forms, Invent.\ Math.\ 85 (1986).
+\bibitem[Hi86b]{Hi86b} H.~Hida, Iwasawa modules attached to congruences of cusp forms, Ann.\ Sci.\ ÉNS 19 (1986), 231--273.
+\bibitem[Hs]{Hs} M.-L.~Hsieh, Hida families and $p$-adic triple product $L$-functions, Amer.\ J.\ Math.\ (2021); arXiv:1705.02717.
+\bibitem[Ill]{Ill} L.~Illusie, Réalisation $\ell$-adique de l'accouplement de monodromie d'après A.~Grothendieck, Astérisque 196--197 (1991), 27--44.
+\bibitem[IP]{IP} A.~Ichino, K.~Prasanna, Periods of quaternionic Shimura varieties.~I.
+\bibitem[JL]{JL} H.~Jacquet, R.~P.~Langlands, \emph{Automorphic forms on $\GL(2)$}, LNM 114, Springer 1970.
+\bibitem[KO]{KO} C.-H.~Kim, K.~Ota, On the quantitative variation of congruence ideals and integral periods of modular forms, Res.\ Math.\ Sci.\ 10 (2023); arXiv:1905.02926.
+\bibitem[LM]{LM} J.~Ludwig, C.~Merten, Formalising the Bruhat--Tits tree, Ann.\ Formalized Math.\ 2 (2026), 55--81.
+\bibitem[LV]{LV} M.~Longo, S.~Vigni, arXiv:0903.2797 ($\Lambda$-adic JL for Hida families on definite quaternion algebras).
+\bibitem[MP]{MP} I.~Moerdijk, D.~A.~Pronk, Simplicial cohomology of orbifolds, Indag.\ Math.\ 10 (1999).
+\bibitem[MW]{MW} B.~Mazur, A.~Wiles, On $p$-adic analytic families of Galois representations, Compositio Math.\ 59 (1986).
+\bibitem[Mz]{Mz} B.~Mazur, Modular curves and the Eisenstein ideal, Publ.\ Math.\ IHÉS 47 (1977).
+\bibitem[PW]{PW} R.~Pollack, T.~Weston, On anticyclotomic $\mu$-invariants of modular forms, Compositio Math.\ 147 (2011); arXiv:math/0610694.
+\bibitem[Ri84]{Ri84} K.~Ribet, Congruence relations between modular forms, Proc.\ ICM Warszawa 1983 (1984), 503--514.
+\bibitem[Ri90]{Ri90} K.~Ribet, On modular representations of $\mathrm{Gal}(\bar\Q/\Q)$ arising from modular forms, Invent.\ Math.\ 100 (1990).
+\bibitem[RS]{RS} K.~Ribet, W.~Stein, Lectures on Serre's conjectures.
+\bibitem[Se]{Se} J.-P.~Serre, \emph{Trees}, Springer.
+\bibitem[SGA7]{SGA7} A.~Grothendieck, Modèles de Néron et monodromie, SGA~7~I, exposé IX, LNM 288.
+\bibitem[Vo]{Vo} J.~Voight, \emph{Quaternion algebras}, GTM 288, Springer 2021.
+\bibitem[Wi95]{Wi95} A.~Wiles, Modular elliptic curves and Fermat's Last Theorem, Ann.\ of Math.\ 141 (1995).
+\end{thebibliography}
+\end{document}

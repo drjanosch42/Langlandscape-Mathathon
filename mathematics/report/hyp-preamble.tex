@@ -1,0 +1,75 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Extra preamble for report/hypotheses.tex (loaded after mathematics/preamble.tex).
+\makeatletter
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,calc,backgrounds}
+\usepackage[most]{tcolorbox}
+\usepackage{colortbl}
+
+%------------------------------------------------ Okabe--Ito palette (colour-blind safe)
+% Each status also has a distinct line style / shape, so the figures survive greyscale printing.
+\definecolor{oiBlue}{HTML}{0072B2}     % literature result (cited)
+\definecolor{oiGreen}{HTML}{009E73}    % discharged in Lean
+\definecolor{oiOrange}{HTML}{E69F00}   % proved on paper, formalization needs infrastructure
+\definecolor{oiVerm}{HTML}{D55E00}     % target statement, formalization out of scope
+\definecolor{oiPurple}{HTML}{CC79A7}   % condition (not a theorem)
+\definecolor{oiSky}{HTML}{56B4E9}      % planned (stages 5--6)
+\definecolor{oiGrey}{HTML}{6E6E6E}
+
+% Kind markers used in tables and in the entries.
+\newcommand{\kindbox}[2]{\tikz[baseline=-0.6ex]\node[draw=#1,fill=#1!25,line width=0.8pt,inner sep=1.6pt,
+  rounded corners=1pt,font=\scriptsize\sffamily]{#2};}
+\newcommand{\kindlit}{\kindbox{oiBlue}{LIT}}
+\newcommand{\kinddis}{\kindbox{oiGreen}{DIS}}
+\newcommand{\kindinfra}{\kindbox{oiOrange}{INF}}
+\newcommand{\kindoos}{\kindbox{oiVerm}{OOS}}
+\newcommand{\kindcond}{\kindbox{oiPurple}{CON}}
+\newcommand{\kindplan}{\tikz[baseline=-0.6ex]\node[draw=oiSky!70!black,dashed,fill=oiSky!15,line width=0.8pt,
+  inner sep=1.6pt,rounded corners=1pt,font=\scriptsize\sffamily]{PLN};}
+
+\usepackage[section]{placeins}% figures stay in their section
+% Lean names and paths: typewriter, breakable after '/' and '.' (when \lname is not inside another argument).
+\begingroup
+  \catcode`\/=\active \catcode`\.=\active
+  \gdef\lname@slash{\char`\/\penalty\exhyphenpenalty\hskip0pt\relax}
+  \gdef\lname@dot{\char`\.\penalty\exhyphenpenalty\hskip0pt\relax}
+  \gdef\lname@activate{\catcode`\/=\active \catcode`\.=\active \let/\lname@slash \let.\lname@dot
+    \def\_{\textunderscore\penalty500\hskip0pt\relax}}
+\endgroup
+\DeclareRobustCommand{\lname}{\begingroup\ttfamily\lname@activate\lname@aux}
+\newcommand{\lname@aux}[1]{#1\endgroup}
+\newcommand{\brk}{\penalty0\hskip0pt\relax}
+
+% One entry per hypothesis: \begin{hypentry}{ShortName}{\kindlit}{S02-L4a} ... \end{hypentry}
+\newtcolorbox{hypbox}[3]{enhanced,breakable,colback=white,colframe=oiGrey,boxrule=0.5pt,arc=1pt,
+  left=4pt,right=4pt,top=3pt,bottom=3pt,before skip=8pt,after skip=8pt,
+  title={\texttt{#1}\hfill #2\ \ \textsf{\small introduced #3}},
+  coltitle=black,colbacktitle=oiGrey!12,fonttitle=\normalsize}
+\newenvironment{hypentry}[3]
+  {\begin{hypbox}{#1}{#2}{#3}\small\rightskip=0pt plus 4em\relax
+   \begin{description}[leftmargin=0pt,labelsep=0.4em,itemsep=1.5pt,topsep=0pt,font=\normalfont\bfseries]}
+  {\end{description}\end{hypbox}}
+
+\newtcolorbox{readbox}[1][]{enhanced,breakable,colback=oiSky!8,colframe=oiBlue,boxrule=0.8pt,arc=2pt,
+  fonttitle=\bfseries,title={#1}}
+
+% Unicode in quoted Lean source (pdflatex).
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{03C1}{\ensuremath{\rho}}
+\DeclareUnicodeCharacter{03C6}{\ensuremath{\varphi}}
+\DeclareUnicodeCharacter{211A}{\ensuremath{\mathbb{Q}}}
+\DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma}}
+\DeclareUnicodeCharacter{03C0}{\ensuremath{\pi}}
+\DeclareUnicodeCharacter{039B}{\ensuremath{\Lambda}}
+\DeclareUnicodeCharacter{2203}{\ensuremath{\exists}}
+\DeclareUnicodeCharacter{02E3}{\ensuremath{^{\times}}}
+\DeclareUnicodeCharacter{2227}{\ensuremath{\wedge}}
+\DeclareUnicodeCharacter{2113}{\ensuremath{\ell}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+\DeclareUnicodeCharacter{2261}{\ensuremath{\equiv}}
+
+% Generated table rows, read with the primitive \input (expandable, so it works inside tabular).
+\makeatletter\newcommand{\hyptablerows}{\@@input report/generated/hyp-table.tex }\makeatother
+\makeatother

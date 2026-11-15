@@ -1,0 +1,490 @@
+diff --git a/lean/Langlandscape/Langlandscape/Local/UpCosets.lean b/lean/Langlandscape/Langlandscape/Local/UpCosets.lean
+new file mode 100644
+index 0000000..c215ee3
+--- /dev/null
++++ b/lean/Langlandscape/Langlandscape/Local/UpCosets.lean
+@@ -0,0 +1,484 @@
++import Langlandscape.Local.GL2Levels
++import Mathlib.NumberTheory.Padics.RingHoms
++
++/-!
++# The `N_{U_p}` coset decompositions (S01-L9)
++
++Tex labels `def:s01-NUp` and `lem:s01-Up` (a), (c).  For `s ≥ 1` we prove
++`K_s diag(p,1) K_s = ⊔_{j<p} ϖ_j K_s` with `ϖ_j = !![p, j; 0, 1]` independent of `s` (for `K1` and
++`K0`), and the dependence on `s` of the representatives of `K_s diag(1,p) K_s`, together with
++`[K1 (s+1) : K1 s]`-index `p^2`.
++-/
++
++open Matrix
++open scoped Pointwise
++
++namespace Langlandscape.Local
++
++variable {p : ℕ} [Fact p.Prime]
++
++lemma natCast_ne_zero_padic : (p : ℚ_[p]) ≠ 0 :=
++  Nat.cast_ne_zero.2 (Fact.out : p.Prime).ne_zero
++
++/-- The unit `p` of `ℚ_[p]`. -/
++noncomputable def pUnit (p : ℕ) [Fact p.Prime] : ℚ_[p]ˣ := Units.mk0 (p : ℚ_[p]) natCast_ne_zero_padic
++
++/-- The representative `ϖ_j = !![p, j; 0, 1]` of `def:s01-NUp`. -/
++noncomputable def varpi (p : ℕ) [Fact p.Prime] (j : Fin p) : GL (Fin 2) ℚ_[p] :=
++  matGL (p : ℚ_[p]) ((j : ℕ) : ℚ_[p]) 0 1 (by simpa using natCast_ne_zero_padic)
++
++/-- `diag(p, 1)`, the element of `def:s01-NUp`. -/
++noncomputable def varpiDiag (p : ℕ) [Fact p.Prime] : GL (Fin 2) ℚ_[p] := diagGL (pUnit p) 1
++
++/-- `diag(1, p)`, the element of `lem:s01-Up` (c). -/
++noncomputable def diag1p (p : ℕ) [Fact p.Prime] : GL (Fin 2) ℚ_[p] := diagGL 1 (pUnit p)
++
++/-- The representative `!![1, 0; p^s j, p]` of `lem:s01-Up` (c) (it depends on `s`). -/
++noncomputable def lowerRep (p : ℕ) [Fact p.Prime] (s : ℕ) (j : Fin p) : GL (Fin 2) ℚ_[p] :=
++  matGL 1 0 ((p : ℚ_[p]) ^ s * ((j : ℕ) : ℚ_[p])) (p : ℚ_[p]) (by simpa using natCast_ne_zero_padic)
++
++@[simp] lemma varpi_val (j : Fin p) :
++    Units.val (varpi p j) = !![(p : ℚ_[p]), ((j : ℕ) : ℚ_[p]); 0, 1] := rfl
++
++@[simp] lemma varpiDiag_val : Units.val (varpiDiag p) = !![(p : ℚ_[p]), 0; 0, 1] := rfl
++
++@[simp] lemma diag1p_val : Units.val (diag1p p) = !![1, 0; 0, (p : ℚ_[p])] := rfl
++
++@[simp] lemma lowerRep_val (s : ℕ) (j : Fin p) :
++    Units.val (lowerRep p s j) = !![1, 0; (p : ℚ_[p]) ^ s * ((j : ℕ) : ℚ_[p]), (p : ℚ_[p])] := rfl
++
++/-- Element of `GL₂(ℚ_[p])` from a `ℤ_[p]`-matrix with unit determinant. -/
++noncomputable def ofInt (a b c d : ℤ_[p]) (h : IsUnit (a * d - b * c)) : GL (Fin 2) ℚ_[p] :=
++  matGL (a : ℚ_[p]) b c d (by
++    have h0 : ((a * d - b * c : ℤ_[p]) : ℚ_[p]) ≠ 0 := fun h0 =>
++      h.ne_zero (PadicInt.coe_eq_zero.1 h0)
++    simpa using h0)
++
++@[simp] lemma ofInt_val (a b c d : ℤ_[p]) (h : IsUnit (a * d - b * c)) :
++    Units.val (ofInt a b c d h) = !![(a : ℚ_[p]), b; c, d] := rfl
++
++lemma ofInt_mem_K1 (s : ℕ) (a b c d : ℤ_[p]) (h : IsUnit (a * d - b * c))
++    (hc : (p : ℤ_[p]) ^ s ∣ c) (hd : (p : ℤ_[p]) ^ s ∣ d - 1) : ofInt a b c d h ∈ K1 p s :=
++  mem_K1_of_entries a b c d rfl h hc hd
++
++lemma ofInt_mem_K0 (s : ℕ) (a b c d : ℤ_[p]) (h : IsUnit (a * d - b * c))
++    (hc : (p : ℤ_[p]) ^ s ∣ c) : ofInt a b c d h ∈ K0 p s :=
++  mem_K0_of_entries a b c d rfl h hc
++
++lemma isUnit_one_add_mul_p (z : ℤ_[p]) : IsUnit (1 + (p : ℤ_[p]) * z) := by
++  have : (1 : ℤ_[p]) + p * z = 1 - (-(p * z)) := by ring
++  rw [this]
++  refine IsLocalRing.isUnit_one_sub_self_of_mem_nonunits _ ?_
++  rw [PadicInt.mem_nonunits, PadicInt.norm_lt_one_iff_dvd]
++  exact (dvd_mul_right _ _).neg_right
++
++/-- Solving `x ≡ j u mod p`. -/
++lemma exists_sub_mul_dvd (x u : ℤ_[p]) (hu : IsUnit u) :
++    ∃ j : ℕ, j < p ∧ ∃ e : ℤ_[p], x = (j : ℤ_[p]) * u + p * e := by
++  obtain ⟨v, rfl⟩ := hu
++  set w : ℤ_[p] := ↑v⁻¹ with hw
++  have hvw : (v : ℤ_[p]) * w = 1 := v.mul_inv
++  have hlt := PadicInt.appr_lt (x * w) 1
++  have h := PadicInt.appr_spec 1 (x * w)
++  generalize (x * w).appr 1 = j at hlt h
++  rw [Ideal.mem_span_singleton, pow_one] at h
++  obtain ⟨e, he⟩ := h
++  refine ⟨j, by simpa using hlt, e * v, ?_⟩
++  have h2 : x * w = (j : ℤ_[p]) + p * e := by rw [← he]; ring
++  calc x = (x * w) * v := by linear_combination (-x) * hvw
++    _ = _ := by rw [h2]; ring
++
++lemma isUnit_of_mem_K0 {a b c d : ℤ_[p]} (hu : IsUnit (a * d - b * c)) (hc : (p : ℤ_[p]) ∣ c) :
++    IsUnit a ∧ IsUnit d := by
++  have key : ∀ x y : ℤ_[p], IsUnit (x * y - b * c) → IsUnit y := by
++    intro x y h
++    by_contra hy
++    rw [PadicInt.not_isUnit_iff, PadicInt.norm_lt_one_iff_dvd] at hy
++    have : (p : ℤ_[p]) ∣ x * y - b * c :=
++      dvd_sub (dvd_mul_of_dvd_right hy _) (dvd_mul_of_dvd_right hc _)
++    exact PadicInt.p_nonunit (isUnit_of_dvd_unit this h)
++  exact ⟨key d a (by rwa [mul_comm d a]), key a d hu⟩
++
++
++lemma entries_unique {a b c d a' b' c' d' : ℤ_[p]}
++    (h : (!![(a : ℚ_[p]), b; c, d] : Matrix (Fin 2) (Fin 2) ℚ_[p]) = !![(a' : ℚ_[p]), b'; c', d']) :
++    a = a' ∧ b = b' ∧ c = c' ∧ d = d' := by
++  have h00 : (a : ℚ_[p]) = a' := by
++    simpa using congrArg (fun M : Matrix (Fin 2) (Fin 2) ℚ_[p] => M 0 0) h
++  have h01 : (b : ℚ_[p]) = b' := by
++    simpa using congrArg (fun M : Matrix (Fin 2) (Fin 2) ℚ_[p] => M 0 1) h
++  have h10 : (c : ℚ_[p]) = c' := by
++    simpa using congrArg (fun M : Matrix (Fin 2) (Fin 2) ℚ_[p] => M 1 0) h
++  have h11 : (d : ℚ_[p]) = d' := by
++    simpa using congrArg (fun M : Matrix (Fin 2) (Fin 2) ℚ_[p] => M 1 1) h
++  exact ⟨Subtype.ext h00, Subtype.ext h01, Subtype.ext h10, Subtype.ext h11⟩
++
++/-- Product of two elements given by `ℤ_[p]`-entries. -/
++lemma mul_entries {g h : GL (Fin 2) ℚ_[p]} {a b c d a' b' c' d' : ℤ_[p]}
++    (hg : Units.val g = !![(a : ℚ_[p]), b; c, d]) (hh : Units.val h = !![(a' : ℚ_[p]), b'; c', d']) :
++    Units.val (g * h) = !![((a * a' + b * c' : ℤ_[p]) : ℚ_[p]), ((a * b' + b * d' : ℤ_[p]) : ℚ_[p]);
++      ((c * a' + d * c' : ℤ_[p]) : ℚ_[p]), ((c * b' + d * d' : ℤ_[p]) : ℚ_[p])] := by
++  rw [Units.val_mul, hg, hh]
++  ext r q
++  fin_cases r <;> fin_cases q <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
++
++/-! ### The generic coset decomposition -/
++
++/-- Generic form of the decomposition `K g K = ⊔_j r_j K`. -/
++lemma mul_singleton_mul_eq {G : Type*} [Group G] {ι : Type*} (K : Subgroup G) (g : G) (r : ι → G)
++    (h1 : ∀ k ∈ K, ∃ j, ∃ k' ∈ K, k * g = r j * k')
++    (h2 : ∀ j, ∃ k ∈ K, r j = k * g) :
++    (K : Set G) * {g} * (K : Set G) = ⋃ j, r j • (K : Set G) := by
++  ext x
++  constructor
++  · intro hx
++    obtain ⟨y, hy, k2, hk2, rfl⟩ := Set.mem_mul.1 hx
++    obtain ⟨k1, hk1, z, hz, rfl⟩ := Set.mem_mul.1 hy
++    rw [Set.mem_singleton_iff] at hz
++    subst hz
++    obtain ⟨j, k', hk', e⟩ := h1 k1 hk1
++    refine Set.mem_iUnion.2 ⟨j, ?_⟩
++    rw [e, mul_assoc]
++    exact Set.mem_smul_set.2 ⟨k' * k2, K.mul_mem hk' hk2, rfl⟩
++  · intro hx
++    obtain ⟨j, hj⟩ := Set.mem_iUnion.1 hx
++    obtain ⟨m, hm, rfl⟩ := Set.mem_smul_set.1 hj
++    obtain ⟨k, hk, e⟩ := h2 j
++    refine Set.mem_mul.2 ⟨k * g, Set.mem_mul.2 ⟨k, hk, g, rfl, rfl⟩, m, hm, ?_⟩
++    rw [e, smul_eq_mul, mul_assoc]
++
++/-! ### `diag(p, 1)` and the representatives `ϖ_j` -/
++
++lemma varpi_step {s : ℕ} (hs : 1 ≤ s) {k : GL (Fin 2) ℚ_[p]} (hk : k ∈ K0 p s) :
++    ∃ (j : Fin p) (k' : GL (Fin 2) ℚ_[p]), k' ∈ K0 p s ∧ (k ∈ K1 p s → k' ∈ K1 p s) ∧
++      k * varpiDiag p = varpi p j * k' := by
++  obtain ⟨a, b, c, d, hM, hu, hc⟩ := mem_K0_iff_exists.1 hk
++  have hpc : (p : ℤ_[p]) ∣ c := (dvd_pow_self _ (by omega)).trans hc
++  obtain ⟨-, hd⟩ := isUnit_of_mem_K0 hu hpc
++  obtain ⟨j, hj, e, he⟩ := exists_sub_mul_dvd b d hd
++  have hdet : (a - (j : ℤ_[p]) * c) * d - e * ((p : ℤ_[p]) * c) = a * d - b * c := by
++    linear_combination c * he
++  have hu' : IsUnit ((a - (j : ℤ_[p]) * c) * d - e * ((p : ℤ_[p]) * c)) := by
++    rw [hdet]; exact hu
++  have heQ : (b : ℚ_[p]) = (j : ℚ_[p]) * d + (p : ℚ_[p]) * e := by
++    first
++      | exact_mod_cast he
++      | simpa using congrArg (fun x : ℤ_[p] => (x : ℚ_[p])) he
++  refine ⟨⟨j, hj⟩, ofInt (a - (j : ℤ_[p]) * c) e ((p : ℤ_[p]) * c) d hu', ?_, ?_, ?_⟩
++  · exact ofInt_mem_K0 s _ _ _ _ _ (hc.mul_left _)
++  · intro hk1
++    obtain ⟨a', b', c', d', hM', hu'', hc', hd'⟩ := mem_K1_iff_exists.1 hk1
++    have hdd : d = d' := (entries_unique (hM.symm.trans hM')).2.2.2
++    exact ofInt_mem_K1 s _ _ _ _ _ (hc.mul_left _) (by rw [hdd]; exact hd')
++  · apply Units.ext
++    rw [Units.val_mul, Units.val_mul, hM, varpiDiag_val, varpi_val, ofInt_val]
++    ext r q
++    fin_cases r <;> fin_cases q <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> push_cast <;>
++      (first | ring1 | linear_combination heQ | linear_combination (-1 : ℚ_[p]) * heQ)
++
++lemma varpi_eq_mul (s : ℕ) (j : Fin p) : ∃ k ∈ K1 p s, varpi p j = k * varpiDiag p := by
++  refine ⟨ofInt 1 ((j : ℕ) : ℤ_[p]) 0 1 (by simp),
++    ofInt_mem_K1 s _ _ _ _ _ (dvd_zero _) (by simp), ?_⟩
++  apply Units.ext
++  rw [Units.val_mul, ofInt_val, varpiDiag_val, varpi_val]
++  ext r q
++  fin_cases r <;> fin_cases q <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
++
++/-- `lem:s01-Up`(a), `def:s01-NUp`: `K0_s diag(p,1) K0_s = ⊔_j ϖ_j K0_s`, for `s ≥ 1`. -/
++theorem K0_mul_varpi_mul_K0 {s : ℕ} (hs : 1 ≤ s) :
++    (K0 p s : Set (GL (Fin 2) ℚ_[p])) * {varpiDiag p} * (K0 p s : Set (GL (Fin 2) ℚ_[p])) =
++      ⋃ j : Fin p, varpi p j • (K0 p s : Set (GL (Fin 2) ℚ_[p])) := by
++  refine mul_singleton_mul_eq _ _ _ ?_ ?_
++  · intro k hk
++    obtain ⟨j, k', hk', -, e⟩ := varpi_step hs hk
++    exact ⟨j, k', hk', e⟩
++  · intro j
++    obtain ⟨k, hk, e⟩ := varpi_eq_mul s j
++    exact ⟨k, K1_le_K0 s hk, e⟩
++
++/-- `lem:s01-Up`(a), `def:s01-NUp`: `K1_s diag(p,1) K1_s = ⊔_j ϖ_j K1_s`, for `s ≥ 1`. -/
++theorem K1_mul_varpi_mul_K1 {s : ℕ} (hs : 1 ≤ s) :
++    (K1 p s : Set (GL (Fin 2) ℚ_[p])) * {varpiDiag p} * (K1 p s : Set (GL (Fin 2) ℚ_[p])) =
++      ⋃ j : Fin p, varpi p j • (K1 p s : Set (GL (Fin 2) ℚ_[p])) := by
++  refine mul_singleton_mul_eq _ _ _ ?_ ?_
++  · intro k hk
++    obtain ⟨j, k', hk', hk'', e⟩ := varpi_step hs (K1_le_K0 s hk)
++    exact ⟨j, k', hk'' hk, e⟩
++  · intro j
++    exact varpi_eq_mul s j
++
++/-- `lem:s01-Up`(a): the `ϖ_j` are pairwise distinct modulo `K1`. -/
++theorem varpi_inv_mul_not_mem {s : ℕ} {j j' : Fin p} (hjj' : j ≠ j') :
++    (varpi p j)⁻¹ * varpi p j' ∉ K1 p s := by
++  intro h
++  have h1 := (mem_GL2Zl_iff.1 (K1_le_GL2Zl s h)).1 0 1
++  have hp0 : (p : ℚ_[p]) ≠ 0 := natCast_ne_zero_padic
++  have hent : (Units.val ((varpi p j)⁻¹ * varpi p j')) 0 1 =
++      ((((j' : ℕ) : ℤ) - ((j : ℕ) : ℤ) : ℤ) : ℚ_[p]) / (p : ℚ_[p]) := by
++    rw [mul_val_apply, inv_val_apply_00, inv_val_apply_01]
++    simp [Matrix.det_fin_two]
++    field_simp
++    ring
++  rw [hent, norm_div, Padic.norm_p, div_inv_eq_mul] at h1
++  have hz : (((j' : ℕ) : ℤ) - ((j : ℕ) : ℤ) : ℤ) ≠ 0 := by
++    intro h0
++    apply hjj'
++    apply Fin.ext
++    omega
++  have hndvd : ¬ (p : ℤ) ∣ (((j' : ℕ) : ℤ) - ((j : ℕ) : ℤ) : ℤ) := by
++    intro hdvd
++    have := j.isLt
++    have := j'.isLt
++    exact hz (Int.eq_zero_of_abs_lt_dvd hdvd (abs_lt.2 ⟨by omega, by omega⟩))
++  have hge : 1 ≤ ‖((((j' : ℕ) : ℤ) - ((j : ℕ) : ℤ) : ℤ) : ℚ_[p])‖ := by
++    by_contra hlt
++    exact hndvd (Padic.norm_intCast_lt_one_iff.1 (not_le.1 hlt))
++  have hp2 : (2 : ℝ) ≤ p := by exact_mod_cast (Fact.out : p.Prime).two_le
++  have := mul_le_mul hge hp2 (by norm_num) (norm_nonneg _)
++  linarith
++
++/-- `lem:s01-Up`(a): the representatives `ϖ_j` do not depend on `s ≥ 1`: they represent the
++double coset at level `s` and at level `s + 1`. -/
++theorem reps_indep {s : ℕ} (hs : 1 ≤ s) :
++    ((K1 p s : Set (GL (Fin 2) ℚ_[p])) * {varpiDiag p} * (K1 p s : Set (GL (Fin 2) ℚ_[p])) =
++      ⋃ j : Fin p, varpi p j • (K1 p s : Set (GL (Fin 2) ℚ_[p]))) ∧
++    ((K1 p (s + 1) : Set (GL (Fin 2) ℚ_[p])) * {varpiDiag p} *
++        (K1 p (s + 1) : Set (GL (Fin 2) ℚ_[p])) =
++      ⋃ j : Fin p, varpi p j • (K1 p (s + 1) : Set (GL (Fin 2) ℚ_[p]))) :=
++  ⟨K1_mul_varpi_mul_K1 hs, K1_mul_varpi_mul_K1 (hs.trans (Nat.le_succ s))⟩
++
++/-! ### `diag(1, p)`: the representatives depend on `s` -/
++
++lemma isUnit_one_add_pow_succ (t : ℕ) (z : ℤ_[p]) : IsUnit (1 + (p : ℤ_[p]) ^ (t + 1) * z) := by
++  have := isUnit_one_add_mul_p ((p : ℤ_[p]) ^ t * z)
++  rwa [show (p : ℤ_[p]) * ((p : ℤ_[p]) ^ t * z) = (p : ℤ_[p]) ^ (t + 1) * z by ring] at this
++
++lemma diag1p_step {t : ℕ} {k : GL (Fin 2) ℚ_[p]} (hk : k ∈ K1 p (t + 1)) :
++    ∃ j : Fin p, ∃ k' ∈ K1 p (t + 1), k * diag1p p = lowerRep p (t + 1) j * k' := by
++  obtain ⟨a, b, c, d, hM, hu, hc, hd⟩ := mem_K1_iff_exists.1 hk
++  obtain ⟨c', hc'⟩ := hc
++  have hpc : (p : ℤ_[p]) ∣ c := ⟨(p : ℤ_[p]) ^ t * c', by rw [hc']; ring⟩
++  obtain ⟨ha, -⟩ := isUnit_of_mem_K0 hu hpc
++  obtain ⟨j, hj, e, he⟩ := exists_sub_mul_dvd c' a ha
++  have hdet : a * (d - (p : ℤ_[p]) ^ (t + 1) * j * b) - ((p : ℤ_[p]) * b) * ((p : ℤ_[p]) ^ (t + 1) * e)
++      = a * d - b * c := by
++    linear_combination b * hc' + b * (p : ℤ_[p]) ^ (t + 1) * he
++  have hu' : IsUnit (a * (d - (p : ℤ_[p]) ^ (t + 1) * j * b) -
++      ((p : ℤ_[p]) * b) * ((p : ℤ_[p]) ^ (t + 1) * e)) := by
++    rw [hdet]; exact hu
++  have hcQ : (c : ℚ_[p]) = (p : ℚ_[p]) ^ (t + 1) * c' := by
++    first
++      | exact_mod_cast hc'
++      | simpa using congrArg (fun x : ℤ_[p] => (x : ℚ_[p])) hc'
++  have heQ : (c' : ℚ_[p]) = (j : ℚ_[p]) * a + (p : ℚ_[p]) * e := by
++    first
++      | exact_mod_cast he
++      | simpa using congrArg (fun x : ℤ_[p] => (x : ℚ_[p])) he
++  refine ⟨⟨j, hj⟩, ofInt a ((p : ℤ_[p]) * b) ((p : ℤ_[p]) ^ (t + 1) * e)
++    (d - (p : ℤ_[p]) ^ (t + 1) * j * b) hu', ofInt_mem_K1 _ _ _ _ _ _ (dvd_mul_right _ _) ?_, ?_⟩
++  · have : d - (p : ℤ_[p]) ^ (t + 1) * j * b - 1 = (d - 1) - (p : ℤ_[p]) ^ (t + 1) * (j * b) := by
++      ring
++    rw [this]
++    exact dvd_sub hd (dvd_mul_right _ _)
++  · apply Units.ext
++    rw [Units.val_mul, Units.val_mul, hM, diag1p_val, lowerRep_val, ofInt_val]
++    ext r q
++    fin_cases r <;> fin_cases q <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> push_cast <;>
++      (first | ring1 | linear_combination hcQ + (p : ℚ_[p]) ^ (t + 1) * heQ)
++
++/-- `lem:s01-Up`(c): `K1_s diag(1,p) K1_s = ⊔_j !![1,0; p^s j, p] K1_s`; the representatives depend
++on `s`. -/
++theorem diag1p_reps {s : ℕ} (hs : 1 ≤ s) :
++    (K1 p s : Set (GL (Fin 2) ℚ_[p])) * {diag1p p} * (K1 p s : Set (GL (Fin 2) ℚ_[p])) =
++      ⋃ j : Fin p, lowerRep p s j • (K1 p s : Set (GL (Fin 2) ℚ_[p])) := by
++  obtain ⟨t, rfl⟩ := Nat.exists_eq_add_of_le' hs
++  refine mul_singleton_mul_eq _ _ _ ?_ ?_
++  · intro k hk
++    obtain ⟨j, k', hk', e⟩ := diag1p_step hk
++    exact ⟨j, k', hk', e⟩
++  · intro j
++    refine ⟨ofInt 1 0 ((p : ℤ_[p]) ^ (t + 1) * ((j : ℕ) : ℤ_[p])) 1 (by simp),
++      ofInt_mem_K1 _ _ _ _ _ _ (dvd_mul_right _ _) (by simp), ?_⟩
++    apply Units.ext
++    rw [Units.val_mul, ofInt_val, diag1p_val, lowerRep_val]
++    ext r q
++    fin_cases r <;> fin_cases q <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
++
++/-! ### The index `[K1 (s) : K1 (s+1)] = p^2` -/
++
++lemma norm_coe_le_one (z : ℤ_[p]) : ‖(z : ℚ_[p])‖ ≤ 1 := by
++  simpa using PadicInt.norm_le_one z
++
++/-- Truncation to `ℤ_[p]` of an integral element (junk value `0` otherwise). -/
++noncomputable def toZp (x : ℚ_[p]) : ℤ_[p] := if h : ‖x‖ ≤ 1 then ⟨x, h⟩ else 0
++
++lemma toZp_coe (z : ℤ_[p]) : toZp (z : ℚ_[p]) = z := by
++  have h := norm_coe_le_one z
++  first
++    | exact (dif_pos h).trans rfl
++    | (unfold toZp; rw [dif_pos h]; rfl)
++    | (simp only [toZp, dif_pos h]; rfl)
++    | (unfold toZp; simp [h])
++
++/-- The invariant of a coset: the lower row `(c/p^s, (d-1)/p^s)` modulo `p`. -/
++noncomputable def Theta (s : ℕ) (k : GL (Fin 2) ℚ_[p]) : ZMod p × ZMod p :=
++  (PadicInt.toZMod (toZp ((Units.val k) 1 0 / (p : ℚ_[p]) ^ s)),
++   PadicInt.toZMod (toZp (((Units.val k) 1 1 - 1) / (p : ℚ_[p]) ^ s)))
++
++lemma Theta_eq (s : ℕ) {k : GL (Fin 2) ℚ_[p]} {a b c d γ δ : ℤ_[p]}
++    (hM : Units.val k = !![(a : ℚ_[p]), b; c, d]) (hc : c = (p : ℤ_[p]) ^ s * γ)
++    (hd : d = 1 + (p : ℤ_[p]) ^ s * δ) :
++    Theta s k = (PadicInt.toZMod γ, PadicInt.toZMod δ) := by
++  have hp : ((p : ℚ_[p]) ^ s) ≠ 0 := pow_ne_zero _ natCast_ne_zero_padic
++  have e10 : (Units.val k) 1 0 = (c : ℚ_[p]) := by simp [hM]
++  have e11 : (Units.val k) 1 1 = (d : ℚ_[p]) := by simp [hM]
++  have h1 : (c : ℚ_[p]) / (p : ℚ_[p]) ^ s = (γ : ℚ_[p]) := by
++    rw [hc]; push_cast
++    exact mul_div_cancel_left₀ _ hp
++  have h2 : ((d : ℚ_[p]) - 1) / (p : ℚ_[p]) ^ s = (δ : ℚ_[p]) := by
++    rw [hd]; push_cast
++    rw [add_sub_cancel_left]
++    exact mul_div_cancel_left₀ _ hp
++  unfold Theta
++  rw [e10, e11, h1, h2, toZp_coe, toZp_coe]
++
++lemma entries_K1 {s : ℕ} {k : GL (Fin 2) ℚ_[p]} (hk : k ∈ K1 p s) :
++    ∃ a b c d γ δ : ℤ_[p], Units.val k = !![(a : ℚ_[p]), b; c, d] ∧ IsUnit (a * d - b * c) ∧
++      c = (p : ℤ_[p]) ^ s * γ ∧ d = 1 + (p : ℤ_[p]) ^ s * δ := by
++  obtain ⟨a, b, c, d, hM, hu, ⟨γ, hγ⟩, ⟨δ, hδ⟩⟩ := mem_K1_iff_exists.1 hk
++  exact ⟨a, b, c, d, γ, δ, hM, hu, hγ, by linear_combination hδ⟩
++
++lemma toZMod_add_p_mul (x y : ℤ_[p]) :
++    PadicInt.toZMod (x + (p : ℤ_[p]) * y) = PadicInt.toZMod x := by
++  have hp : PadicInt.toZMod (p : ℤ_[p]) = 0 := by
++    rw [map_natCast, ZMod.natCast_self]
++  rw [map_add, map_mul, hp, zero_mul, add_zero]
++
++lemma exists_of_toZMod_eq {x y : ℤ_[p]} (h : PadicInt.toZMod x = PadicInt.toZMod y) :
++    ∃ ε : ℤ_[p], y = x + (p : ℤ_[p]) * ε := by
++  have hmem : y - x ∈ RingHom.ker (PadicInt.toZMod : ℤ_[p] →+* ZMod p) := by
++    rw [RingHom.mem_ker, map_sub, h, sub_self]
++  rw [PadicInt.ker_toZMod] at hmem
++  obtain ⟨ε, hε⟩ := (PadicInt.norm_lt_one_iff_dvd _).1
++    (PadicInt.mem_nonunits.1 ((IsLocalRing.mem_maximalIdeal _).1 hmem))
++  exact ⟨ε, by linear_combination hε⟩
++
++lemma Theta_mul_left {t : ℕ} {h k : GL (Fin 2) ℚ_[p]} (hh : h ∈ K1 p (t + 1 + 1))
++    (hk : k ∈ K1 p (t + 1)) : Theta (t + 1) (h * k) = Theta (t + 1) k := by
++  obtain ⟨a', b', c', d', γ', δ', hM', hu', hc', hd'⟩ := entries_K1 hh
++  obtain ⟨a, b, c, d, γ, δ, hM, hu, hc, hd⟩ := entries_K1 hk
++  have hMk := mul_entries hM' hM
++  rw [Theta_eq (t + 1) hMk
++    (γ := γ + (p : ℤ_[p]) * (γ' * a + (p : ℤ_[p]) ^ (t + 1) * δ' * γ))
++    (δ := δ + (p : ℤ_[p]) * (γ' * b + δ' * d))
++    (by rw [hc', hd', hc]; ring) (by rw [hc', hd', hd]; ring),
++    Theta_eq (t + 1) hM hc hd]
++  rw [toZMod_add_p_mul, toZMod_add_p_mul]
++
++lemma mul_inv_eq_ofInt {k k₂ : GL (Fin 2) ℚ_[p]} {a b c d a₂ b₂ c₂ d₂ : ℤ_[p]}
++    (hM : Units.val k = !![(a : ℚ_[p]), b; c, d]) (hu : IsUnit (a * d - b * c))
++    (hM₂ : Units.val k₂ = !![(a₂ : ℚ_[p]), b₂; c₂, d₂]) (hu₂ : IsUnit (a₂ * d₂ - b₂ * c₂)) :
++    ∃ u : ℤ_[p], (a * d - b * c) * u = 1 ∧
++      ∃ hm : IsUnit ((u * (a₂ * d - b₂ * c)) * (u * (d₂ * a - c₂ * b)) -
++          (u * (b₂ * a - a₂ * b)) * (u * (c₂ * d - d₂ * c))),
++        k₂ * k⁻¹ = ofInt (u * (a₂ * d - b₂ * c)) (u * (b₂ * a - a₂ * b)) (u * (c₂ * d - d₂ * c))
++          (u * (d₂ * a - c₂ * b)) hm := by
++  obtain ⟨U, hU⟩ := hu
++  obtain ⟨u, hu1, huU⟩ : ∃ u : ℤ_[p], (a * d - b * c) * u = 1 ∧ IsUnit u :=
++    ⟨↑U⁻¹, by rw [← hU]; exact U.mul_inv, U⁻¹.isUnit⟩
++  have hm : IsUnit ((u * (a₂ * d - b₂ * c)) * (u * (d₂ * a - c₂ * b)) -
++      (u * (b₂ * a - a₂ * b)) * (u * (c₂ * d - d₂ * c))) := by
++    have : (u * (a₂ * d - b₂ * c)) * (u * (d₂ * a - c₂ * b)) -
++        (u * (b₂ * a - a₂ * b)) * (u * (c₂ * d - d₂ * c)) = u * (a₂ * d₂ - b₂ * c₂) := by
++      linear_combination (u * (a₂ * d₂ - b₂ * c₂)) * hu1
++    rw [this]
++    exact huU.mul hu₂
++  refine ⟨u, hu1, hm, ?_⟩
++  rw [mul_inv_eq_iff_eq_mul]
++  apply Units.ext
++  rw [mul_entries (ofInt_val _ _ _ _ hm) hM, hM₂]
++  have e1 : u * (a₂ * d - b₂ * c) * a + u * (b₂ * a - a₂ * b) * c = a₂ := by
++    linear_combination a₂ * hu1
++  have e2 : u * (a₂ * d - b₂ * c) * b + u * (b₂ * a - a₂ * b) * d = b₂ := by
++    linear_combination b₂ * hu1
++  have e3 : u * (c₂ * d - d₂ * c) * a + u * (d₂ * a - c₂ * b) * c = c₂ := by
++    linear_combination c₂ * hu1
++  have e4 : u * (c₂ * d - d₂ * c) * b + u * (d₂ * a - c₂ * b) * d = d₂ := by
++    linear_combination d₂ * hu1
++  rw [e1, e2, e3, e4]
++
++lemma mul_inv_mem_K1_succ {t : ℕ} {k k₂ : GL (Fin 2) ℚ_[p]} (hk : k ∈ K1 p (t + 1))
++    (hk₂ : k₂ ∈ K1 p (t + 1)) (h : Theta (t + 1) k = Theta (t + 1) k₂) :
++    k₂ * k⁻¹ ∈ K1 p (t + 1 + 1) := by
++  obtain ⟨a, b, c, d, γ, δ, hM, hu, hc, hd⟩ := entries_K1 hk
++  obtain ⟨a₂, b₂, c₂, d₂, γ₂, δ₂, hM₂, hu₂, hc₂, hd₂⟩ := entries_K1 hk₂
++  have T := Theta_eq (t + 1) hM hc hd
++  have T₂ := Theta_eq (t + 1) hM₂ hc₂ hd₂
++  rw [T, T₂, Prod.mk.injEq] at h
++  obtain ⟨ε, hε⟩ := exists_of_toZMod_eq h.1
++  obtain ⟨ε', hε'⟩ := exists_of_toZMod_eq h.2
++  obtain ⟨u, hu1, hm, he⟩ := mul_inv_eq_ofInt hM hu hM₂ hu₂
++  rw [he]
++  refine ofInt_mem_K1 _ _ _ _ _ _ ?_ ?_
++  · refine ⟨u * (ε + (p : ℤ_[p]) ^ t * (γ₂ * δ - δ₂ * γ)), ?_⟩
++    subst hc hd hc₂ hd₂ hε hε'
++    ring
++  · refine ⟨u * (a * ε' - b * ε), ?_⟩
++    subst hc hd hc₂ hd₂ hε hε'
++    linear_combination hu1
++
++lemma Theta_surj (t : ℕ) (z : ZMod p × ZMod p) : ∃ k ∈ K1 p (t + 1), Theta (t + 1) k = z := by
++  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
++  have hunit : IsUnit ((1 : ℤ_[p]) * (1 + (p : ℤ_[p]) ^ (t + 1) * ((z.2.val : ℕ) : ℤ_[p])) -
++      0 * ((p : ℤ_[p]) ^ (t + 1) * ((z.1.val : ℕ) : ℤ_[p]))) := by
++    rw [one_mul, zero_mul, sub_zero]
++    exact isUnit_one_add_pow_succ t _
++  refine ⟨ofInt 1 0 ((p : ℤ_[p]) ^ (t + 1) * ((z.1.val : ℕ) : ℤ_[p]))
++    (1 + (p : ℤ_[p]) ^ (t + 1) * ((z.2.val : ℕ) : ℤ_[p])) hunit,
++    ofInt_mem_K1 _ _ _ _ _ _ (dvd_mul_right _ _) ⟨((z.2.val : ℕ) : ℤ_[p]), by ring⟩, ?_⟩
++  rw [Theta_eq (t + 1) (ofInt_val _ _ _ _ hunit) rfl rfl]
++  refine Prod.ext ?_ ?_
++  · show PadicInt.toZMod ((z.1.val : ℕ) : ℤ_[p]) = z.1
++    rw [map_natCast, ZMod.natCast_zmod_val]
++  · show PadicInt.toZMod ((z.2.val : ℕ) : ℤ_[p]) = z.2
++    rw [map_natCast, ZMod.natCast_zmod_val]
++
++/-- The coset invariant as a function on the coset space. -/
++noncomputable def ThetaQ (t : ℕ) :
++    Quotient (QuotientGroup.rightRel ((K1 p (t + 1 + 1)).subgroupOf (K1 p (t + 1)))) →
++      ZMod p × ZMod p :=
++  Quotient.lift (fun k : K1 p (t + 1) => Theta (t + 1) (k : GL (Fin 2) ℚ_[p])) (by
++    intro k₁ k₂ hrel
++    have h : k₂ * k₁⁻¹ ∈ (K1 p (t + 1 + 1)).subgroupOf (K1 p (t + 1)) :=
++      QuotientGroup.rightRel_apply.1 hrel
++    have h' : ((k₂ * k₁⁻¹ : K1 p (t + 1)) : GL (Fin 2) ℚ_[p]) ∈ K1 p (t + 1 + 1) :=
++      Subgroup.mem_subgroupOf.1 h
++    have e : (k₂ : GL (Fin 2) ℚ_[p]) = ((k₂ * k₁⁻¹ : K1 p (t + 1)) : GL (Fin 2) ℚ_[p]) * k₁ := by
++      simp
++    show Theta (t + 1) (k₁ : GL (Fin 2) ℚ_[p]) = Theta (t + 1) (k₂ : GL (Fin 2) ℚ_[p])
++    rw [e, Theta_mul_left h' k₁.2])
++
++/-- `lem:s01-Up`: `[K1 (s) : K1 (s+1)] = p^2` for `s ≥ 1` (false for `s = 0`, where it is
++`p^2 - 1`). -/
++theorem relIndex_K1_succ {s : ℕ} (hs : 1 ≤ s) :
++    (K1 p (s + 1)).relIndex (K1 p s) = p ^ 2 := by
++  obtain ⟨t, rfl⟩ := Nat.exists_eq_add_of_le' hs
++  have hbij : Function.Bijective (ThetaQ (p := p) t) := by
++    constructor
++    · intro q₁ q₂ h
++      rcases q₁ with ⟨k₁⟩
++      rcases q₂ with ⟨k₂⟩
++      have h' : Theta (t + 1) (k₁ : GL (Fin 2) ℚ_[p]) = Theta (t + 1) (k₂ : GL (Fin 2) ℚ_[p]) := h
++      apply Quotient.sound
++      refine QuotientGroup.rightRel_apply.2 (Subgroup.mem_subgroupOf.2 ?_)
++      exact mul_inv_mem_K1_succ k₁.2 k₂.2 h'
++    · intro z
++      obtain ⟨k, hk, hz⟩ := Theta_surj (p := p) t z
++      exact ⟨Quotient.mk _ ⟨k, hk⟩, hz⟩
++  rw [Subgroup.relIndex, Subgroup.index_eq_card,
++    ← Nat.card_congr (QuotientGroup.quotientRightRelEquivQuotientLeftRel
++      ((K1 p (t + 1 + 1)).subgroupOf (K1 p (t + 1)))),
++    Nat.card_congr (Equiv.ofBijective _ hbij), Nat.card_prod, Nat.card_zmod]
++  ring
++
++end Langlandscape.Local

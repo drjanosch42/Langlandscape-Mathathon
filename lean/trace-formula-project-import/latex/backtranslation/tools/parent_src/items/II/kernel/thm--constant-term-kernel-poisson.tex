@@ -1,0 +1,8 @@
+Let $f\in C_c^\infty(G(\A)^1)$ (\texttt{I.hecke.def:smooth-adelic}), $x,y\in G(\A)^1$, and for $t\in T(\Q)$ let
+$\Phi_t\colon\A\to\C$, $\Phi_t(u)=f\bigl(x^{-1}t\,n(u)\,y\bigr)$, with Fourier transform $\hat\Phi_t$ with respect to the standard measure
+$\dd x$ on $\A$ (\texttt{I.adele.def:fourier-transform}). Then for every $t\in T(\Q)$ the families $(\Phi_t(\nu))_{\nu\in\Q}$ and
+$(\hat\Phi_t(\xi))_{\xi\in\Q}$ are absolutely summable,
+\[
+  \sum_{\nu\in\Q}\Phi_t(\nu)=\sum_{\xi\in\Q}\hat\Phi_t(\xi),\qquad\hat\Phi_t(0)=\int_\A\Phi_t(u)\,\dd u,
+\]
+and $\sum_{t\in T(\Q)}\hat\Phi_t(0)=K_B(x,y)$, the constant-term kernel of \cref{II.kernel.def:constant-term-kernel} formed with $\dd u=\dd x$.

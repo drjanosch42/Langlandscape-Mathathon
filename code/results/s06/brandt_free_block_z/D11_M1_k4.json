@@ -1,0 +1,220 @@
+{
+ "data": {
+  "checks": {
+   "charpoly": true,
+   "commute": true,
+   "fnv": true,
+   "row_sums": null,
+   "square": true,
+   "symmetry": null,
+   "symn_charpoly": true
+  },
+  "free_block_z": {
+   "D": 11,
+   "F": [
+    [
+     [
+      "2",
+      "2"
+     ],
+     [
+      "1",
+      "0"
+     ]
+    ],
+    [
+     [
+      "-5",
+      "-8"
+     ],
+     [
+      "-4",
+      "3"
+     ]
+    ],
+    [
+     [
+      "9",
+      "16"
+     ],
+     [
+      "8",
+      "-7"
+     ]
+    ],
+    [
+     [
+      "6",
+      "-8"
+     ],
+     [
+      "-4",
+      "14"
+     ]
+    ],
+    [
+     [
+      "20",
+      "-40"
+     ],
+     [
+      "-20",
+      "60"
+     ]
+    ],
+    [
+     [
+      "-50",
+      "24"
+     ],
+     [
+      "12",
+      "-74"
+     ]
+    ],
+    [
+     [
+      "96",
+      "120"
+     ],
+     [
+      "60",
+      "-24"
+     ]
+    ]
+   ],
+   "F_fnv": [
+    "0xeced1a1e8ecd1507",
+    "0x21a74340187d0ba9",
+    "0xf6b7a8428221e0b8",
+    "0x4a12cd58bdcd7227",
+    "0x004b280bf3595050",
+    "0x5edb707f40740fad",
+    "0x3e2704a3e8e42223"
+   ],
+   "M": 1,
+   "N": 11,
+   "basis_in_Q_coords": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "1/4"
+    ]
+   ],
+   "basis_rule": "brandt_symn_int_canonical/v2: Lambda = Z[T_p : p in ops] . Z^d (the Hecke-stable hull: the smallest Hecke-stable lattice containing Z^d), Z^d = the Q-coordinates of symn.SymBrandt's rational model (+)_c V_Q^{Gamma_c} (V_Q = V^phi, Q-basis and Gamma_c-invariant bases as in symn.py) with the class blocks in the k = 2 canonical order (classes sorted ascending by (|Gamma_c|, (r_c(1),...,r_c(20))), r_c(m) = #{x in O_r(I_c) : nrd x = m} (x, -x both counted); ties listed in order_ties, order within a tie unspecified); basis = the columns of the lower-triangular HNF of Lambda; depends on the ops list and on symn.py's class representatives (canonical: false)",
+   "bits_F": [
+    2,
+    4,
+    5,
+    4,
+    6,
+    7,
+    7
+   ],
+   "bound_basis": "-",
+   "canonical": false,
+   "charpoly_Z": [
+    [
+     "-2",
+     "-2",
+     "1"
+    ],
+    [
+     "-47",
+     "2",
+     "1"
+    ],
+    [
+     "-191",
+     "-2",
+     "1"
+    ],
+    [
+     "52",
+     "-20",
+     "1"
+    ],
+    [
+     "400",
+     "-80",
+     "1"
+    ],
+    [
+     "3412",
+     "124",
+     "1"
+    ],
+    [
+     "-9504",
+     "-72",
+     "1"
+    ]
+   ],
+   "convention": "column: T_p b_j = sum_i F[i][j] b_i; b_j = the j-th column of basis_in_Q_coords (a basis of the Hecke-stable hull Lambda); no row-sum identity (no Eisenstein system at k > 2)",
+   "d_algebra": 2,
+   "e_eis": 0,
+   "gammas": [
+    4,
+    6
+   ],
+   "k": 4,
+   "lattice": "functions",
+   "n": 2,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    13,
+    17,
+    19
+   ],
+   "order_ties": [],
+   "origin": "jl:symn.py+integral_basis",
+   "phi_fnv": "-",
+   "proof": [
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model",
+    "exact_rational_model"
+   ],
+   "q0_key": "-",
+   "rank": 2,
+   "saturation": "exact_basis",
+   "schema": "langlandscape_brandt/v2",
+   "status": "ok",
+   "tag": "computed"
+  },
+  "schema": "langlandscape_brandt/v2",
+  "writer": "python:brandt_export@b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty"
+ },
+ "provenance": {
+  "commit": "b65aa2c33e47a98eece24cdfd794341e2b2e58e7-dirty",
+  "date": "2026-11-15T01:28:48+00:00",
+  "notes": "HJ-B0; format plan/hacs/freeblockz-export-format.md (v2); computed",
+  "params": {
+   "D": 11,
+   "M": 1,
+   "k": 4,
+   "ops": [
+    2,
+    3,
+    5,
+    7,
+    13,
+    17,
+    19
+   ]
+  },
+  "pari_version": "2.15.4",
+  "python": "3.10.12",
+  "runtime_s": 8.177373069993337,
+  "script": "code/python/langlandscape/hacs_bridge/brandt_export.py"
+ }
+}

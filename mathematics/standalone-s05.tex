@@ -1,0 +1,27 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+\documentclass[11pt]{amsart}
+% Standalone build of stages 01, 02 (03, 04 if present) and 05. Build from this directory:
+%   latexmk -pdf -interaction=nonstopmode standalone-s05.tex
+% Package abhijit/s05-math (drivers; S05-M1, M3, M4, M7) and abhijit/s05-lit (S05-M2, M5, M6).
+% Stages 03 and 04 are guarded: on a branch without them, \ref's to if:s03-*/if:s04-* labels are undefined (expected).
+\input{preamble}
+\IfFileExists{bib/s05-m1.bib}{\addbibresource{bib/s05-m1.bib}}{}
+\IfFileExists{bib/s05-m2.bib}{\addbibresource{bib/s05-m2.bib}}{}
+\IfFileExists{bib/s05-m3.bib}{\addbibresource{bib/s05-m3.bib}}{}
+\IfFileExists{bib/s05-m4.bib}{\addbibresource{bib/s05-m4.bib}}{}
+\IfFileExists{bib/s05-m5.bib}{\addbibresource{bib/s05-m5.bib}}{}
+\IfFileExists{bib/s05-m6.bib}{\addbibresource{bib/s05-m6.bib}}{}
+\IfFileExists{bib/s05-m7.bib}{\addbibresource{bib/s05-m7.bib}}{}
+\title{Jacquet--Langlands: stage 05 (standalone)}
+\author{Langlandscape project}
+\date{\today}
+\begin{document}
+\maketitle
+\input{chapters/s01}
+\input{chapters/s02}
+\IfFileExists{chapters/s03.tex}{\input{chapters/s03}}{}
+\IfFileExists{chapters/s04.tex}{\input{chapters/s04}}{}
+\input{chapters/s05}
+\printbibliography
+\end{document}

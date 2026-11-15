@@ -1,0 +1,60 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Section 10: work during the event vs prior work. Facts marked "git" are read from the repository history;
+% Facts of the event window and of prepared work as stated by the team.
+\paragraph{The event window.} The event ran for 40 hours, from Friday 13 November 2026, 20:00 PST, to
+Sunday 15 November 2026, 12:00 PST (submission at about 11:45 PST). The first commit of this repository is f7d8fd70, at 2026-11-13 21:52 PST,
+inside the window; \emph{everything done in this repository is event work}, except for the prepared and imported material
+listed next, which we acknowledge as such.
+
+\paragraph{Prepared or imported work (not an event achievement).}
+\begin{enumerate}[label=(\alph*)]
+\item \emph{The seed note} \pathtt{plan/seed/} (\pathtt{towards\_simplicial\_jl.tex}, 672 lines; frozen in the repository),
+  prepared before the event: a sketch of the route of this report. The chapters refer to it as ``seed'' and correct it in
+  several places (e.g.\ ``seed Thm~defect, corrected'').
+\item \emph{The GL(2) trace-formula Lean project} of the team (about 170\,000 lines of Lean, prior work). The extraction of
+  about 30\,000 lines of it (GL(2)/$\Q$ and quaternion-algebra material, with its LaTeX and LaTeX back-translation; 36\,353
+  lines in \texttt{.lean} files including vendored modules, by \texttt{wc -l}) into \pathtt{lean/trace-formula-project-import/}
+  (library \texttt{AlgJL}) was carried out during the event, but counts as prepared, imported work.
+\item \emph{HACS} v0.2.1 \cite{HACS021} (released during the event, finalized internally before it) and the census data
+  hacs-data v0.2.0 \cite{HACSdata020}: preparation, imported as the snapshot \pathtt{code/hacs/}.
+\end{enumerate}
+Mathlib and the vendored third-party Lean modules (\S\ref{sec:sources}) are external dependencies.
+
+\paragraph{Event work.} Everything written on top of this: the six chapters and the introductory
+chapter (\mainpdf, 190 pp.), the Lean library \pathtt{lean/Langlandscape/} (about 38\,000 lines in about 200 non-vendored files), the Python/PARI code and
+all result files under \pathtt{code/results/}, our Jacquet--Langlands module for HACS in \pathtt{code/hacs/} and the two HACS lanes
+A and B, the hypotheses report, the note on Hsieh's sign, the talk and this report.
+
+\paragraph{Human contributions (summary of \S\ref{ss:human}).} The requirements list for an integral approach (seed document
+\pathtt{plan/seed/towards\_simplicial\_jl.tex}, items (i)--(v), with the Ichino--Prasanna defect caveat; the question (a)--(e)
+is its refined form) and the idea of replacing the arithmetic geometry of modular curves in Ribet's route by
+Bruhat--Tits-tree combinatorics (same file, ``The idea of the tree route'') are the two team members' own (prior work). They designed the orchestration setup, steered in real time and took the critical
+decisions (licence, frozen toolchain, FD1/FD2, $q\equiv-1\bmod p$, HACS protocol, disclosures, narrative and structure); the
+agents drafted, implemented, audited and orchestrated within that frame. Responsibility and final review rest with the team members.
+
+\paragraph{Timeline (from the git history and the process log; PST, 13--14 November 2026).}
+These times are \emph{facts read from the team's development repository} (private; Appendix~\ref{sec:commits}; commit times of \texttt{git log} and the process log
+\pathtt{docs/agentic-process/timeline.md}), not estimates; the process logs cover the work in this repository only; the event window opened at 20:00 PST on 13 November. All times PST (UTC$-$8). Source logs: all machines on Berlin time (CET, UTC+1), report sources in UTC; converted.
+\begin{center}\small
+\begin{tabular}{@{}>{\raggedright}p{0.58\linewidth}>{\raggedright}p{0.24\linewidth}>{\raggedright\arraybackslash}p{0.12\linewidth}@{}}\toprule
+phase & time (PST) & wall time\\\midrule
+repository initialised (first commit) & 13 Nov, 21:52 & --\\
+seed note and trace-formula import committed & 14 Nov, 00:08 & --\\
+agent run starts; planning (staged plan, audits, implementation plans) & 14 Nov, 01:20--07:20 & 6.0 h\\
+stage 01 (quaternionic foundations), to final Lean gate & 07:32--09:47 & 2.2 h\\
+re-plan of stages 02--06 & 09:49--10:50 & 1.0 h\\
+stage 02 (tree quotients) & 10:51--12:10 & 1.3 h\\
+stage 03 (Ribet--Ihara) & 12:17--13:25 & 1.1 h\\
+HACS snapshot v0.2.1 committed; HACS planning & 11:50; 12:53--13:54 & 1.0 h\\
+stage 04 ($\Lambda$-adic) & 13:24--15:36 & 2.2 h\\
+stage 05 (comparison hypothesis) & 15:40--16:48 & 1.1 h\\
+HACS lanes A and B & 16:31--18:03 & about 1 h each\\
+stage 06 (integral defect) & 16:49--17:58 & 1.2 h\\
+discharge of \pathtt{Hyp.RamNrdSurj}; Lean gate 840/840 at 2323a252 & 14 Nov (after stage 06) & --\\
+Lean submission bundle; Lean gate 950/950 at 28d2b091 & 14 Nov & --\\
+discharge of \pathtt{Hyp.BrandtStabFree}; final Lean gate 955/955 at c70ef3a9 & 15 Nov, 07:51 & --\\
+final integration (reports, talk, this report) & from 18:01 & --\\\bottomrule
+\end{tabular}
+\end{center}
+The history of the submission branch has about 2251 commits at the time of writing.

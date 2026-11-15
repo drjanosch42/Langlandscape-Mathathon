@@ -1,0 +1,104 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team)
+% Stage 05, WP S05-M2 (package abhijit/s05-lit): Prop. sign (e), the sign of Pi_q in higher weight, with a local-JL reference.
+% Labels of other WPs of this stage (prop:s05-sign, owned by S05-M1) are referenced through \sfref, which prints the label
+% name as text when sign.tex is not on the branch.
+\makeatletter
+\providecommand{\sfref}[1]{\@ifundefined{r@#1}{\texttt{#1}}{\ref{#1}}}
+\makeatother
+
+\subsection{The sign of \texorpdfstring{$\Pi_q$}{Pi\_q} in higher weight}\label{ss:s05-higherweight}
+
+This subsection writes out part (e) of Prop.~\sfref{prop:s05-sign} (seed open point O1 at higher weight). Parts (a)--(d)
+are weight $2$; here the weight is any even $k\ge2$, the character is trivial, and the level is $\Gamma_0$-type.
+
+\emph{Setting.} $p\ge5$, $q\ne p$ prime, $M'\ge1$ with $q\nmid M'$ and $p\nmid qM'$; $B=B_q$, $U=\Uzero{M'}\subset\hat\cO^\times$
+(so $U_q=\cO_q^\times$). $\Brandt{U}{\Vk}$ is the Brandt module of weight $k$ of stage 01, with $\Vk=\Sym^{k-2}(\Zp^2)$ and $U$
+acting on $\Vk$ through its $p$-component. $\Pi_q\in B_q^\times$ is a uniformiser ($\Nrd\Pi_q\in q\Zq^\times$), acting by pure right
+translation (no action on $\Vk$, since $q\ne p$). On the $\GL_2$ side, $a_q(f)$ is the $U_q$-eigenvalue of a normalised newform
+$f\in S_k(\Gamma_0(qM'))$ that is new at $q$ ($U_q=$ the classical $U_q$, $\sum a_nx^n\mapsto\sum a_{nq}x^n$). We fix
+$\iota_p:\bar\Q_p\simeq\C$; all eigenvalues below are algebraic, and $q^{(k-2)/2}\in\Z_{>0}$ because $k$ is even.
+
+\begin{proposition}[Prop.~sign (e): higher weight]\label{prop:s05-signe}
+Let $k\ge2$ be even. Let $\phi\in\Brandt{U}{\Vk}\otimes\bar\Q_p$ be an eigenvector of all $T_\ell$ ($\ell\nmid pqM'$) that does not
+come from a one-dimensional automorphic representation of $B^\times$ (for $k>2$ this is automatic; for $k=2$ it means that
+$\phi$ lies in the degree-zero part), and let $f$ be the newform of level $qM'$ attached to $\phi$ by the Jacquet--Langlands
+correspondence. Then
+\begin{enumerate}[label=(\roman*)]
+\item $\Pi_q^2$ acts on $\Brandt{U}{\Vk}$ as $q^{k-2}$, and $a_q(f)^2=q^{k-2}$;
+\item $\phi$ is a $\Pi_q$-eigenvector, with eigenvalue $\lambda_\phi(\Pi_q)=\chi_0(q)\,q^{(k-2)/2}$, where $\chi_0$ is the unramified
+  character of $\Qq^\times$ with $\chi_0(q)=\pm1$ such that $\pi_q\cong(\chi_0\circ\det)\otimes\St$ for the $q$-component $\pi_q$
+  of the unitary cuspidal representation $\pi$ of $f$;
+\item $a_q(f)=\chi_0(q)\,q^{(k-2)/2}$. Hence $a_q(f)=+\lambda_\phi(\Pi_q)$: the dictionary $U_q\mapsto\varepsilon\,\Pi_q$ has
+  $\varepsilon=+1$ in every even weight, with the \emph{positive} square root $q^{(k-2)/2}$ on both sides.
+\end{enumerate}
+\stpmc{} (local Jacquet--Langlands for the special representations, the global correspondence and the adelic normalisation of
+$U_q$ are cited below; the comparison of the normalising factors is proved here). Before this WP the status was \stexp.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1 (global).} The eigenvector $\phi$ spans (after $\iota_p$ and the usual passage from $\Vk$-valued functions to
+automorphic forms) a line in an automorphic representation $\pi'$ of $B^\times(\A)$ with $\pi'_\infty$ of dimension $k-1$ and
+$\pi'_\ell$ unramified for $\ell\nmid qM'$. By hypothesis $\pi'$ is not one-dimensional. Then $\pi'_\ell$ is infinite-dimensional at every finite place $\ell\nmid q$:
+if $\pi'_\ell$ were one-dimensional, its vectors would be invariant under $B_\ell^1$, hence (strong approximation for $B^1$ at
+$\{\infty,\ell\}$, Thm.~\ref{thm:s02-SA} with $\ell$ in place of $q$) under $B^1(\A_f)$, and $\pi'$ would factor through $\Nrd$.
+So the global correspondence gives a cuspidal $\pi=\otimes_v\pi(\pi'_v)$ on $\GL_2(\A)$
+\stcited{} \lit{jacquet-langlands\_1970\_automorphic-forms-on-gl2}{Ch.~III, \S14, Thm.~14.4, p.~470 (printed pagination; PDF p.~479)}. Strong multiplicity one identifies $\pi$
+with the representation of the newform $f$ that has the same $T_\ell$-eigenvalues (stage 01, \pathtt{if:s01-targets}).
+At $q$, $\pi'_q$ is a representation of $B_q^\times$ trivial on $\cO_q^\times$, hence a character $\chi\circ\Nrd$ with $\chi$
+unramified (in the unitary normalisation; the algebraic normalisation differs by a positive twist, Step 4).
+
+\emph{Step 2 (local JL for the special representations).} For $\chi$ a quasi-character of $\Qq^\times$, the representation of
+$\GL_2(\Qq)$ attached to the one-dimensional $\chi\circ\Nrd$ is the special representation $\sigma(\chi|\cdot|^{1/2},\chi|\cdot|^{-1/2})
+=(\chi\circ\det)\otimes\St$ \stcited{} \lit{jacquet-langlands\_1970\_automorphic-forms-on-gl2}{Ch.~III, \S15, Thm.~15.1, p.~471 (printed pagination; PDF p.~480) (the
+local map is injective with image the special and absolutely cuspidal representations), and the paragraph after Lemma~15.4,
+p.~484 (the one-dimensional $g\mapsto\chi(\nu(g))$ goes to $\sigma(\chi\alpha^{1/2},\chi\alpha^{-1/2})$, with the character
+relation of Prop.~15.5)}. A modern account:
+\lit{taibi\_2022\_jacquet-langlands-correspondence-for-gl2-qp\_preprint}{Thm.~1.1, p.~3 (correspondence characterised by
+$\operatorname{tr}\sigma(g)=-\Theta_\pi(g')$); Cor.~3.25 and the sentence after it, p.~56 ($\St$ corresponds to the trivial
+representation of $D^\times$)}; the twisted case follows from the character relation, because $\Theta_{(\chi\circ\det)\otimes\pi}
+(g')=\chi(\det g')\Theta_\pi(g')$ and $\det g'=\Nrd g$. So $\pi_q=(\chi_0\circ\det)\otimes\St$ with $\chi_0:=\chi$ unramified;
+the central character of $\pi$ is trivial, so $\chi_0^2=1$ and $\chi_0(q)=\pm1$.
+
+\emph{Step 3 (the $U_q$-eigenvalue of the special representation).} In the unitary normalisation the local operator
+$U_q=\sum_{x\in\Zq/q\Zq}\pi\big(\begin{smallmatrix}q&x\\0&1\end{smallmatrix}\big)$ acts on the (one-dimensional) Iwahori-fixed new
+line of $(\chi_0\circ\det)\otimes\St$ by $\chi_0(q)$: for $\St$ itself the eigenvalue is $1$
+\lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{Prop.~2.2 and its proof, pp.~12--13 (the ordinary
+line of $\chi|\cdot|^{-1/2}\St$ has $U$-eigenvalue $\chi|\cdot|^{-1/2}$ of the uniformiser, and it is the new line)}, equivalently
+\lit{taibi\_2022\_jacquet-langlands-correspondence-for-gl2-qp\_preprint}{\S2.7, p.~32: $\St^I$ is a line on which $S=[IwI]$
+and $T=[I\tilde wI]$ both act by $-1$; p.~33: $[I\,\mathrm{diag}(p,1)I]=ST$}; twisting by the unramified $\chi_0\circ\det$ multiplies the
+operator by $\chi_0(q)$ (the double coset has determinant of valuation $1$). The classical and adelic $U_q$ differ by the
+factor $q^{k/2-1}$ \lit{hsieh\_2017\_hida-families-and-p-adic-triple-product-l-functions\_arxiv}{\S2.3, (2.7), p.~11:
+$\Phi(U_\ell f)=\ell^{k/2-1}U_\ell\Phi(f)$; the $\GL_2$-side $U_\ell$ is the classical $a_n\mapsto a_{n\ell}$, \S3.1, p.~16}. Hence
+$a_q(f)=q^{(k-2)/2}\chi_0(q)$. This also gives (i) on the $\GL_2$ side, in agreement with
+\lit{li\_1975\_newforms-and-functional-equations}{Thm.~3(iii), pp.~295--296: $a(q)^2=\varepsilon(q)q^{k-2}$ for $q\,\|\,$level and
+$\varepsilon$ defined mod level$/q$}.
+
+\emph{Step 4 (the definite side; the positive square root).} On the unitary line $\chi_0\circ\Nrd$ of $\pi'_q$ the uniformiser
+acts by $\chi_0(\Nrd\Pi_q)=\chi_0(q)$, since $\chi_0$ is unramified. The Brandt module $\Brandt{U}{\Vk}$ is the algebraic
+normalisation: the passage from $\Vk$-valued functions to unitary automorphic forms multiplies by the character
+$x\mapsto|\Nrd x|_{\A}^{(k-2)/2}$ (up to the sign convention of the exponent), which takes \emph{positive real} values. So
+$\lambda_\phi(\Pi_q)=c\,\chi_0(q)$ with $c>0$. On the other hand $\Pi_q^2\in q\,\cO_q^\times$, and $\cO_q^\times=U_q$ acts trivially
+and $\Pi_q^2=S_q=q^{k-2}$ at level $\Uzero{M'}$ (Prop.~\ref{prop:s01-relations}(a),(b); $p\nmid M'$, so the level is
+$\Uzero{M'}\cdot\GL_2(\Zp)$); this is (i) on the definite side. Hence $c^2=q^{k-2}$ and $c=q^{(k-2)/2}$, the positive root, so
+$\lambda_\phi(\Pi_q)=\chi_0(q)q^{(k-2)/2}$, which is (ii). Comparing with Step 3 gives (iii).
+\end{proof}
+
+\begin{remark}[what the proof uses, and edge cases]\label{rem:s05-signe}
+\begin{enumerate}[label=(\alph*)]
+\item \emph{No sign choice is hidden in the normalisations.} Both normalising factors ($q^{k/2-1}$ in Hsieh's (2.7) and $c$ in
+  Step 4) are positive reals; the only sign is $\chi_0(q)$, and local JL carries it unchanged from $\chi_0\circ\Nrd$ to
+  $(\chi_0\circ\det)\otimes\St$. This is the higher-weight form of the ``local reason'' in Remark~\sfref{rem:s05-hsieh}.
+\item \emph{Weight $2$.} For $k=2$ the statement is Prop.~\sfref{prop:s05-sign}(a),(b); the one-dimensional constituents
+  ($\phi$ constant on the class set, the Eisenstein line) are excluded by hypothesis, as in (a) where one works on
+  $\Z[\XBq{\Uzero{M'}}]^0$.
+\item \emph{Levels.} $M'=1$ is allowed ($U=\hat\cO^\times$). The hypothesis $q\nmid M'$ is used in Step 1 ($\pi'_q$ unramified
+  modulo $\cO_q^\times$, so a character of $\Nrd$) and $q\ne p$ in Step 4 ($\Pi_q$ does not act on $\Vk$). The proposition says
+  nothing about $\Gamma_1$-level or non-trivial character; there $\Pi_q^2=\langle q\rangle^{-1}q^{k-2}$-type relations appear and
+  the exponent question of Prop.~\sfref{prop:s05-sign}(c),(d) enters.
+\item \emph{Literature status.} The tex asked for Bushnell--Henniart, \emph{The local Langlands conjecture for $\GL(2)$}, \S56; it
+  is \emph{not} in \pathtt{literature/}. The references used instead (JL70 \S15, Ta\"\i bi, Hsieh \S2) are sufficient. The
+  identification of the classical $a_q$ with the adelic $U_q$-eigenvalue is quoted from Hsieh (2.7); its standard textbook source
+  (e.g.\ Gelbart's book) is not in \pathtt{literature/}. Bibliography: \cite{JL,Taibi22,Hs,Li75}.
+\end{enumerate}
+\end{remark}
