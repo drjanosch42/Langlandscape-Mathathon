@@ -224,8 +224,6 @@ The `\PublicCommitHash` `9f1de42` cited in the submission report (`mathematics/s
 
 **Why.** This is a precaution in light of recent AI-related security incidents. The logs had been pattern-redacted, and a scan of the full history found no credentials. Full agent transcripts nevertheless expose operational detail implicitly: infrastructure and file-system layout, account and session identifiers, and verbatim agent instructions and prompts. Such detail can help attackers profile or target agentic setups, for example through prompt injection. The logs are not required by the Mathathon rules, and the first-round judging was complete. All mathematical, formal and computational content stays public, and the process write-up remains in `docs/agentic-process/`.
 
-**Note.** The old commits may remain fetchable by their shas on GitHub until GitHub purges them.
-
 ## Acknowledgments
 
 We gratefully acknowledge support from an NVIDIA Academic Grant Program award to Fabian Januszewski (CUDA-GNFS project), which provided two NVIDIA RTX PRO 6000 Max-Q Workstation Edition GPUs used for the HACS computations, and from the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) – SFB-TRR 358/1 2023 – 491392403.
