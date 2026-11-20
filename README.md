@@ -207,7 +207,24 @@ Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team).
 - **Human contributions and responsibility** (the two team members): the list of requirements for an integral approach and the Bruhat–Tits-tree route idea (prepared before the
   event, `plan/seed/`); the design of the orchestration (details augmented by Claude); steering (by interventions, not continuous) and the critical decisions; and responsibility for the mathematics, the Lean
   code, the implementation and the submission, including final review. Details: the report's AI-use section (`mathematics/submission/report.tex`).
-- **Session transcripts**: the redacted agent session logs (formerly `supplementary/agent-logs/`) have been withdrawn from the public repository.
+- **Session transcripts**: the redacted agent session logs (formerly `supplementary/agent-logs/`) have been withdrawn from the public repository; see [Retraction of the agent logs](#retraction-of-the-agent-logs-2026-11-20).
+
+## Retraction of the agent logs (2026-11-20)
+
+**What.** `supplementary/agent-logs/` (the redacted agent session transcripts, 744 files, about 31 MB) and the `Claude-Session:` trailers in the commit messages were removed from the entire history. Everything else is unchanged: mathematics, Lean, code, talk, the submission report and `supplementary/gate-logs/`. Authors and dates are unchanged.
+
+**How.** `git filter-repo --path supplementary/agent-logs --invert-paths`, together with a commit-message callback that drops the `Claude-Session:` lines, followed by a force-push on 2026-11-20 and the README commit `af9157b`. Old and new commits:
+
+| old | new |
+|---|---|
+| `9f1de427748a0e5536a8f7163b6a7ff71e2bf8f8` | `65cb1aa9a2e60199b2bf11bae7e9a477b66e6244` |
+| `94f3bad76bc44630a6469573cde6df949066c908` | `f4696502d3efce238d3bd6a6ec6e930d57c7ae9d` |
+
+The `\PublicCommitHash` `9f1de42` cited in the submission report (`mathematics/submission/report.tex`, `src/macros.tex`) therefore corresponds to `65cb1aa`. Its tree is identical except that `supplementary/agent-logs/` is missing; with the old commit at hand this can be checked by `git diff --stat 65cb1aa <old>`. Some documents in the repository (the report, `docs/agentic-process/`, the metrics) still describe the logs as published; these references are historical.
+
+**Why.** This is a precaution in light of recent AI-related security incidents. The logs had been pattern-redacted, and a scan of the full history found no credentials. Full agent transcripts nevertheless expose operational detail implicitly: infrastructure and file-system layout, account and session identifiers, and verbatim agent instructions and prompts. Such detail can help attackers profile or target agentic setups, for example through prompt injection. The logs are not required by the Mathathon rules, and the first-round judging was complete. All mathematical, formal and computational content stays public, and the process write-up remains in `docs/agentic-process/`.
+
+**Note.** The old commits may remain fetchable by their shas on GitHub until GitHub purges them.
 
 ## Acknowledgments
 
