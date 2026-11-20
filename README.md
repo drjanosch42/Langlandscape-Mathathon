@@ -26,7 +26,6 @@ they are cited for provenance. The Lean code here is identical to the gated tree
 | [`supplementary/gate-logs/bsf-gate-1/`](supplementary/gate-logs/bsf-gate-1/) | logs of the final Lean gate (from scratch, PrintAxioms 955/955 standard) |
 | [`code/results/INDEX.md`](code/results/INDEX.md), [`code/hacs/`](code/hacs/) | computed results with provenance; the HACS snapshot and our JL module |
 | [`docs/agentic-process/agentic-process.html`](docs/agentic-process/agentic-process.html) | the agentic process (architecture, workflow, timeline, HACS, model study, lessons, metrics); Markdown sources in the same folder |
-| [`supplementary/agent-logs/`](supplementary/agent-logs/) | redacted session transcripts of all four machines (README there: counts, freeze times, redaction) |
 | [`RELEASE-NOTES.md`](RELEASE-NOTES.md) | release notes of the submission |
 
 Status words used throughout (as in `CLAUDE.md`): *proved* / *formalized* / *computed* / *conjectural* / *cited*.
@@ -208,7 +207,7 @@ Copyright (C) 2026 Fabian Januszewski, Abhijit (the Langlandscape team).
 - **Human contributions and responsibility** (the two team members): the list of requirements for an integral approach and the Bruhat–Tits-tree route idea (prepared before the
   event, `plan/seed/`); the design of the orchestration (details augmented by Claude); steering (by interventions, not continuous) and the critical decisions; and responsibility for the mathematics, the Lean
   code, the implementation and the submission, including final review. Details: the report's AI-use section (`mathematics/submission/report.tex`).
-- **Session transcripts** (redacted) are in [`supplementary/agent-logs/`](supplementary/agent-logs/).
+- **Session transcripts**: the redacted agent session logs (formerly `supplementary/agent-logs/`) have been withdrawn from the public repository.
 
 ## Acknowledgments
 
